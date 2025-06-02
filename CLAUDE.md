@@ -3,7 +3,7 @@
 ## Build Commands
 
 - **Build project**: Open `aotd.xcodeproj` in Xcode and use Cmd+B, or use `xcodebuild -project aotd.xcodeproj -scheme aotd build`
-- **Run app**: Use Xcode's Run button (Cmd+R) or iOS Simulator
+- **Run tests**: `xcodebuild test -project aotd.xcodeproj -scheme aotd -destination 'platform=iOS Simulator,name=iPhone 16'`
 
 ## Key Technical Details
 
@@ -19,3 +19,4 @@
 - Use GRDB
 - Use UIKit
 - Use the aotd.json file to analyze the data used for the learning paths
+- Run tests when you add new code
