@@ -2,7 +2,7 @@
 
 ## Build Commands
 
-- **Build project**: Open `appofthedead.xcodeproj` in Xcode and use Cmd+B, or use `xcodebuild -project appofthedead.xcodeproj -scheme appofthedead build`
+- **Build project**: Open `aotd.xcodeproj` in Xcode and use Cmd+B, or use `xcodebuild -project aotd.xcodeproj -scheme aotd build`
 - **Run app**: Use Xcode's Run button (Cmd+R) or iOS Simulator
 
 ## Key Technical Details
@@ -18,4 +18,4 @@
 - Use MVVM
 - Use GRDB
 - Use UIKit
-- Use the appofthedead.json file to analyze the data used for the learning paths
+- Use the aotd.json file to analyze the data used for the learning paths
