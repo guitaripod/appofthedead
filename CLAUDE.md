@@ -18,3 +18,4 @@
 - Use MVVM
 - Use GRDB
 - Use UIKit
+- Use the appofthedead.json file to analyze the data used for the learning paths
