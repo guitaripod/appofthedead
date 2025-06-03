@@ -45,6 +45,10 @@ struct Question: Codable, Identifiable {
 struct CorrectAnswer: Codable {
     let value: AnswerValue
     
+    init(value: AnswerValue) {
+        self.value = value
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let stringValue = try? container.decode(String.self) {
