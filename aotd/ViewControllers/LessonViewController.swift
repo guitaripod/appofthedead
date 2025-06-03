@@ -24,7 +24,22 @@ final class LessonViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupNavigationBar()
         configureWithViewModel()
+    }
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
+        
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        backButton.tintColor = .label
+        navigationItem.leftBarButtonItem = backButton
     }
     
     private func setupUI() {
@@ -162,5 +177,12 @@ final class LessonViewController: UIViewController {
     @objc private func continueButtonTapped() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         viewModel.continueToQuiz()
+    }
+    
+    @objc private func backButtonTapped() {
+        print("DEBUG: LessonViewController - Back button tapped")
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        viewModel.exitLearningPath()
+        print("DEBUG: LessonViewController - Called viewModel.exitLearningPath()")
     }
 }

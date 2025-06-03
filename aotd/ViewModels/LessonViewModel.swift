@@ -2,6 +2,7 @@ import UIKit
 
 protocol LessonViewModelDelegate: AnyObject {
     func lessonViewModelDidRequestQuiz(_ viewModel: LessonViewModel, questions: [Question])
+    func lessonViewModelDidRequestExit(_ viewModel: LessonViewModel)
 }
 
 final class LessonViewModel {
@@ -42,6 +43,12 @@ final class LessonViewModel {
     
     func continueToQuiz() {
         delegate?.lessonViewModelDidRequestQuiz(self, questions: lesson.questions)
+    }
+    
+    func exitLearningPath() {
+        print("DEBUG: LessonViewModel - exitLearningPath called, delegate: \(delegate != nil ? "exists" : "nil")")
+        delegate?.lessonViewModelDidRequestExit(self)
+        print("DEBUG: LessonViewModel - Called delegate.lessonViewModelDidRequestExit")
     }
 }
 
