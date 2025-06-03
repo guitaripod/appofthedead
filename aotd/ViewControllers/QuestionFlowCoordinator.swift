@@ -32,6 +32,8 @@ final class QuestionFlowCoordinator: NSObject {
     
     private func showNextQuestion() {
         guard currentQuestionIndex < questions.count else {
+            // Award lesson completion XP bonus
+            awardLessonCompletionXP()
             delegate?.questionFlowCoordinatorDidComplete(self, results: results)
             return
         }
@@ -92,10 +94,54 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         let result = QuestionResult(question: viewModel.question, wasCorrect: didAnswerCorrectly)
         results.append(result)
         
+        // Award XP for correct answers
+        if didAnswerCorrectly {
+            awardXPForCorrectAnswer(viewModel: viewModel)
+        }
+        
         currentQuestionIndex += 1
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.showNextQuestion()
         }
+    }
+    
+    private func awardXPForCorrectAnswer(viewModel: BaseQuestionViewModel) {
+        guard let user = DatabaseManager.shared.fetchUser() else { return }
+        
+        let baseXP = viewModel.xpReward
+        let multiplier = calculateStreakMultiplier(streakDays: user.streakDays)
+        let totalXP = Int(Double(baseXP) * multiplier)
+        
+        GamificationService.shared.awardXP(
+            to: user.id,
+            amount: totalXP,
+            reason: "Correct answer"
+        )
+    }
+    
+    private func calculateStreakMultiplier(streakDays: Int) -> Double {
+        switch streakDays {
+        case 0...2: return 1.0      // No bonus for first 3 days
+        case 3...6: return 1.1      // 10% bonus for 3-6 day streak
+        case 7...13: return 1.25    // 25% bonus for week+ streak
+        case 14...29: return 1.5    // 50% bonus for 2-4 week streak
+        default: return 2.0         // 100% bonus for month+ streak
+        }
+    }
+    
+    private func awardLessonCompletionXP() {
+        guard let user = DatabaseManager.shared.fetchUser() else { return }
+        
+        // Calculate lesson completion bonus (15 XP base from aotd.json)
+        let lessonBaseXP = 15
+        let streakMultiplier = calculateStreakMultiplier(streakDays: user.streakDays)
+        let totalXP = Int(Double(lessonBaseXP) * streakMultiplier)
+        
+        GamificationService.shared.awardXP(
+            to: user.id,
+            amount: totalXP,
+            reason: "Lesson completion"
+        )
     }
 }
