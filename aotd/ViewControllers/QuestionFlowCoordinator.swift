@@ -2,6 +2,7 @@ import UIKit
 
 protocol QuestionFlowCoordinatorDelegate: AnyObject {
     func questionFlowCoordinatorDidComplete(_ coordinator: QuestionFlowCoordinator, results: [QuestionResult])
+    func questionFlowCoordinatorDidRequestExit(_ coordinator: QuestionFlowCoordinator)
 }
 
 struct QuestionResult {
@@ -41,11 +42,7 @@ final class QuestionFlowCoordinator: NSObject {
         let question = questions[currentQuestionIndex]
         let viewController = createViewController(for: question)
         
-        if currentQuestionIndex == 0 {
-            navigationController.setViewControllers([viewController], animated: true)
-        } else {
-            navigationController.pushViewController(viewController, animated: true)
-        }
+        navigationController.pushViewController(viewController, animated: true)
     }
     
     private func createViewController(for question: Question) -> UIViewController {
@@ -83,7 +80,6 @@ final class QuestionFlowCoordinator: NSObject {
         }
         
         viewModel.delegate = self
-        viewController.navigationItem.hidesBackButton = true
         
         return viewController
     }
@@ -104,6 +100,10 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.showNextQuestion()
         }
+    }
+    
+    func questionViewModelDidRequestExit(_ viewModel: BaseQuestionViewModel) {
+        delegate?.questionFlowCoordinatorDidRequestExit(self)
     }
     
     private func awardXPForCorrectAnswer(viewModel: BaseQuestionViewModel) {

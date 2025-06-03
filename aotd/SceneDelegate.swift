@@ -4,6 +4,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private var learningPathCoordinator: LearningPathCoordinator?
+    private let databaseManager = DatabaseManager.shared
+    
+    private struct SessionState {
+        static let currentBeliefSystemKey = "currentBeliefSystemId"
+    }
 
     func scene(
         _ scene: UIScene, willConnectTo session: UISceneSession,
@@ -13,9 +18,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: windowScene)
         
-        // Initialize database and content loader
-        let databaseManager = DatabaseManager(inMemory: false)
+        // Initialize content loader
         let contentLoader = ContentLoader()
+        
+        // Set the content loader in database manager to avoid duplicates
+        databaseManager.setContentLoader(contentLoader)
         
         // Initialize Home screen
         let homeViewModel = HomeViewModel(
@@ -34,6 +41,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
+        
+        // Check if we should resume a learning path
+        resumeLearningPathIfNeeded(
+            navigationController: navigationController,
+            contentLoader: contentLoader
+        )
     }
     
     private func setupNavigationFlow(
@@ -56,6 +69,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController: UINavigationController,
         contentLoader: ContentLoader
     ) {
+        // Save current learning path session
+        UserDefaults.standard.set(beliefSystem.id, forKey: SessionState.currentBeliefSystemKey)
+        
         learningPathCoordinator = LearningPathCoordinator(
             navigationController: navigationController,
             beliefSystem: beliefSystem,
@@ -63,5 +79,57 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
         
         learningPathCoordinator?.start()
+    }
+    
+    private func resumeLearningPathIfNeeded(
+        navigationController: UINavigationController,
+        contentLoader: ContentLoader
+    ) {
+        // Check if there's an active learning path session
+        guard let beliefSystemId = UserDefaults.standard.string(forKey: SessionState.currentBeliefSystemKey),
+              let user = databaseManager.fetchUser() else { 
+            return 
+        }
+        
+        
+        do {
+            // Check if user has inProgress lessons for this belief system
+            let userProgress = try databaseManager.getUserProgress(userId: user.id)
+            let beliefSystemProgress = userProgress.filter { 
+                $0.beliefSystemId == beliefSystemId && $0.lessonId != nil 
+            }
+            
+            // Only resume if there are actually lessons in progress
+            let hasInProgressLessons = beliefSystemProgress.contains { 
+                $0.status == .inProgress || $0.status == .completed 
+            }
+            
+            guard hasInProgressLessons,
+                  let beliefSystem = databaseManager.getBeliefSystem(by: beliefSystemId) else {
+                // Clear the session if no valid progress found
+                UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
+                return
+            }
+            
+            // Resume the learning path
+            DispatchQueue.main.async { [weak self] in
+                self?.startLearningPath(
+                    beliefSystem: beliefSystem,
+                    navigationController: navigationController,
+                    contentLoader: contentLoader
+                )
+            }
+            
+        } catch {
+            UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
+        }
+    }
+    
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        // Session state is already saved when starting learning paths
+    }
+    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        // Resume functionality is handled in scene connection
     }
 }
