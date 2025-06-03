@@ -116,9 +116,14 @@ final class BaseQuestionViewModelTests: XCTestCase {
 private class MockQuestionViewModelDelegate: QuestionViewModelDelegate {
     var didAnswerCorrectlyCalled = false
     var wasCorrect: Bool?
+    var didRequestExitCalled = false
     
     func questionViewModel(_ viewModel: BaseQuestionViewModel, didAnswerCorrectly: Bool) {
         didAnswerCorrectlyCalled = true
         wasCorrect = didAnswerCorrectly
+    }
+    
+    func questionViewModelDidRequestExit(_ viewModel: BaseQuestionViewModel) {
+        didRequestExitCalled = true
     }
 }

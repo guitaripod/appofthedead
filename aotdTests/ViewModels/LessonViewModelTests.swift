@@ -109,9 +109,14 @@ final class LessonViewModelTests: XCTestCase {
 private class MockLessonViewModelDelegate: LessonViewModelDelegate {
     var didRequestQuizCalled = false
     var passedQuestions: [Question]?
+    var didRequestExitCalled = false
     
     func lessonViewModelDidRequestQuiz(_ viewModel: LessonViewModel, questions: [Question]) {
         didRequestQuizCalled = true
         passedQuestions = questions
+    }
+    
+    func lessonViewModelDidRequestExit(_ viewModel: LessonViewModel) {
+        didRequestExitCalled = true
     }
 }
