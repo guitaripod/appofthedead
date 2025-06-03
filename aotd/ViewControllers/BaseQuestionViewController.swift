@@ -23,7 +23,26 @@ class BaseQuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBaseUI()
+        setupNavigationBar()
         configureWithViewModel()
+    }
+    
+    private func setupNavigationBar() {
+        // Make sure navigation bar is visible
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.hidesBackButton = true
+        
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        backButton.tintColor = .label
+        navigationItem.leftBarButtonItem = backButton
+        
     }
     
     private func setupBaseUI() {
@@ -108,6 +127,11 @@ class BaseQuestionViewController: UIViewController {
     
     @objc func submitAnswer() {
         // To be overridden by subclasses
+    }
+    
+    @objc private func backButtonTapped() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        viewModel.exitQuiz()
     }
     
     func showFeedback(isCorrect: Bool, explanation: String, completion: @escaping () -> Void) {

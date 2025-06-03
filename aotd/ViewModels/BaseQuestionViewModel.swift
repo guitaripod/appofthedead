@@ -2,6 +2,7 @@ import UIKit
 
 protocol QuestionViewModelDelegate: AnyObject {
     func questionViewModel(_ viewModel: BaseQuestionViewModel, didAnswerCorrectly: Bool)
+    func questionViewModelDidRequestExit(_ viewModel: BaseQuestionViewModel)
 }
 
 class BaseQuestionViewModel {
@@ -46,6 +47,10 @@ class BaseQuestionViewModel {
             isCorrect = correctAnswers.contains(answer)
         }
         return (isCorrect, question.explanation)
+    }
+    
+    func exitQuiz() {
+        delegate?.questionViewModelDidRequestExit(self)
     }
 }
 
