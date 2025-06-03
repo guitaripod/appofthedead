@@ -258,4 +258,35 @@ final class DatabaseManagerTests: XCTestCase {
         XCTAssertEqual(progress?.status, .inProgress)
         XCTAssertNil(progress?.lessonId)
     }
+    
+    func testAddXPToProgress() throws {
+        // Test adding XP to belief system progress
+        try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 50)
+        
+        let progress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")
+        XCTAssertNotNil(progress)
+        XCTAssertEqual(progress?.earnedXP, 50)
+        XCTAssertEqual(progress?.currentXP, 50)
+        XCTAssertNil(progress?.lessonId) // Should be belief system level progress
+        
+        // Add more XP
+        try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 25)
+        
+        let updatedProgress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")
+        XCTAssertEqual(updatedProgress?.earnedXP, 75)
+        XCTAssertEqual(updatedProgress?.currentXP, 75)
+    }
+    
+    func testAddXPToProgressDifferentBeliefSystems() throws {
+        // Add XP to Judaism
+        try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 30)
+        // Add XP to Christianity  
+        try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "christianity", xp: 40)
+        
+        let judaismProgress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")
+        let christianityProgress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "christianity")
+        
+        XCTAssertEqual(judaismProgress?.earnedXP, 30)
+        XCTAssertEqual(christianityProgress?.earnedXP, 40)
+    }
 }

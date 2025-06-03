@@ -187,13 +187,24 @@ final class GamificationService {
     
     // MARK: - XP Award with Achievement Check
     
-    func awardXP(to userId: String, amount: Int, reason: String) {
+    func awardXP(to userId: String, amount: Int, reason: String, beliefSystemId: String? = nil) {
         do {
             // Update streak first
             updateStreakIfNeeded(for: userId)
             
-            // Award XP
+            // Award XP to user total
             try databaseManager.addXPToUser(userId: userId, xp: amount)
+            
+            // If belief system is specified, also update belief-system-specific XP
+            if let beliefSystemId = beliefSystemId {
+                try databaseManager.addXPToProgress(userId: userId, beliefSystemId: beliefSystemId, xp: amount)
+            }
+            
+            // Debug logging
+            print("📊 Awarded \(amount) XP to user \(userId) for \(reason)")
+            if let beliefSystemId = beliefSystemId {
+                print("📊 Also awarded to belief system: \(beliefSystemId)")
+            }
             
             // Check for newly unlocked achievements
             checkAchievements(for: userId)

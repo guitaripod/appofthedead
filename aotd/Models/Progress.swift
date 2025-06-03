@@ -9,6 +9,7 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
     var questionId: String?
     var status: ProgressStatus
     var score: Int?
+    var earnedXP: Int
     var totalAttempts: Int
     var completedAt: Date?
     var createdAt: Date
@@ -31,6 +32,7 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
         self.questionId = questionId
         self.status = .notStarted
         self.score = nil
+        self.earnedXP = 0
         self.totalAttempts = 0
         self.completedAt = nil
         self.createdAt = Date()
@@ -53,6 +55,11 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
         updatedAt = Date()
     }
     
+    mutating func addXP(_ xp: Int) {
+        earnedXP += xp
+        updatedAt = Date()
+    }
+    
     static func createTable(_ db: Database) throws {
         try db.create(table: databaseTableName, ifNotExists: true) { t in
             t.column("id", .text).primaryKey()
@@ -62,6 +69,7 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
             t.column("questionId", .text)
             t.column("status", .text).notNull()
             t.column("score", .integer)
+            t.column("earnedXP", .integer).notNull().defaults(to: 0)
             t.column("totalAttempts", .integer).notNull().defaults(to: 0)
             t.column("completedAt", .datetime)
             t.column("createdAt", .datetime).notNull()

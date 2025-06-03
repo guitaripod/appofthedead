@@ -32,6 +32,9 @@ class DatabaseManager {
                 try Progress.createTable(db)
                 try UserAchievement.createTable(db)
                 try UserAnswer.createTable(db)
+                
+                // Run migrations
+                try runMigrations(db)
             }
             
         } catch {
@@ -48,6 +51,9 @@ class DatabaseManager {
                 try Progress.createTable(db)
                 try UserAchievement.createTable(db)
                 try UserAnswer.createTable(db)
+                
+                // Run migrations
+                try runMigrations(db)
             }
             
         } catch {
@@ -188,6 +194,27 @@ class DatabaseManager {
         }
     }
     
+    func addXPToProgress(userId: String, beliefSystemId: String, xp: Int) throws {
+        try dbQueue.write { db in
+            // Get or create progress for belief system
+            if var existingProgress = try Progress
+                .filter(Column("userId") == userId && Column("beliefSystemId") == beliefSystemId && Column("lessonId") == nil)
+                .fetchOne(db) {
+                // Update existing progress
+                let oldXP = existingProgress.earnedXP
+                existingProgress.addXP(xp)
+                try existingProgress.update(db)
+                print("💾 Updated progress for \(beliefSystemId): \(oldXP) -> \(existingProgress.earnedXP) XP")
+            } else {
+                // Create new progress
+                var newProgress = Progress(userId: userId, beliefSystemId: beliefSystemId)
+                newProgress.addXP(xp)
+                try newProgress.insert(db)
+                print("💾 Created new progress for \(beliefSystemId) with \(newProgress.earnedXP) XP")
+            }
+        }
+    }
+    
     // MARK: - Answer Management
     
     func saveUserAnswer(_ answer: UserAnswer) throws {
@@ -266,6 +293,26 @@ class DatabaseManager {
             return []
         }
         return contentLoader.loadAchievements()
+    }
+    
+    // MARK: - Database Migrations
+    
+    private func runMigrations(_ db: Database) throws {
+        // Add earnedXP column to progress table if it doesn't exist
+        let columns = try db.columns(in: "progress")
+        if !columns.contains(where: { $0.name == "earnedXP" }) {
+            try db.alter(table: "progress") { t in
+                t.add(column: "earnedXP", .integer).notNull().defaults(to: 0)
+            }
+            
+            // Migrate existing data: calculate earnedXP from user's totalXP for each belief system
+            // This is a simple migration that sets initial values
+            try db.execute(sql: """
+                UPDATE progress 
+                SET earnedXP = 0 
+                WHERE earnedXP IS NULL
+            """)
+        }
     }
     
     func getBeliefSystem(by id: String) -> BeliefSystem? {

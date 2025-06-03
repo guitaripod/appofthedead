@@ -62,6 +62,7 @@ final class HomeViewModel {
     private func loadUser() {
         user = databaseManager.fetchUser()
         if let user = user {
+            print("🏠 HomeViewModel loaded user with \(user.totalXP) total XP")
             onUserDataUpdate?(user)
         }
     }
@@ -87,6 +88,8 @@ final class HomeViewModel {
             let currentXP = progress?.currentXP ?? 0
             let isUnlocked = checkIfUnlocked(beliefSystem)
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
+            
+            print("🏠 Path \(beliefSystem.name): \(currentXP)/\(beliefSystem.totalXP) XP")
             
             return PathItem(
                 id: beliefSystem.id,

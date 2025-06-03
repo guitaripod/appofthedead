@@ -116,7 +116,8 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         GamificationService.shared.awardXP(
             to: user.id,
             amount: totalXP,
-            reason: "Correct answer"
+            reason: "Correct answer",
+            beliefSystemId: viewModel.beliefSystem.id
         )
     }
     
@@ -141,7 +142,8 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         GamificationService.shared.awardXP(
             to: user.id,
             amount: totalXP,
-            reason: "Lesson completion"
+            reason: "Lesson completion",
+            beliefSystemId: beliefSystem.id
         )
     }
 }

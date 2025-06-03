@@ -40,6 +40,9 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        // Refresh data when returning to home screen to pick up any XP changes
+        viewModel.loadData()
     }
     
     // MARK: - Setup
@@ -65,6 +68,12 @@ final class HomeViewController: UIViewController {
         viewModel.onUserDataUpdate = { [weak self] user in
             self?.updateHeader()
         }
+    }
+    
+    private func updateHeader() {
+        // Force the header to update by invalidating the supplementary views
+        var snapshot = dataSource.snapshot()
+        dataSource.applySnapshotUsingReloadData(snapshot)
     }
     
     // MARK: - Collection View Configuration
@@ -162,11 +171,5 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController {
     enum Section {
         case main
-    }
-    
-    private func updateHeader() {
-        // Simply apply the current snapshot to trigger header update
-        // The header will automatically refresh when we apply any snapshot
-        applySnapshot()
     }
 }
