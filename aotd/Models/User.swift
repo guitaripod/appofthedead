@@ -41,6 +41,10 @@ struct User: Codable, FetchableRecord, MutablePersistableRecord {
         return max(1, xp / 100 + 1)
     }
     
+    var currentStreak: Int {
+        return streakDays
+    }
+    
     static func createTable(_ db: Database) throws {
         try db.create(table: databaseTableName, ifNotExists: true) { t in
             t.column("id", .text).primaryKey()

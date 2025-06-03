@@ -1,0 +1,148 @@
+import Foundation
+import UIKit
+
+// MARK: - PathItem
+
+struct PathItem: Hashable {
+    let id: String
+    let name: String
+    let icon: String
+    let color: UIColor
+    let totalXP: Int
+    let currentXP: Int
+    let isUnlocked: Bool
+    let progress: Float
+}
+
+// MARK: - HomeViewModel
+
+final class HomeViewModel {
+    
+    // MARK: - Properties
+    
+    private let databaseManager: DatabaseManager
+    private let contentLoader: ContentLoader
+    private var beliefSystems: [BeliefSystem] = []
+    private var user: User?
+    private var userProgress: [String: Progress] = [:]
+    
+    var onDataUpdate: (() -> Void)?
+    var onUserDataUpdate: ((User) -> Void)?
+    var onPathSelected: ((BeliefSystem) -> Void)?
+    
+    private(set) var pathItems: [PathItem] = []
+    
+    var currentUser: User? {
+        return user
+    }
+    
+    // MARK: - Initialization
+    
+    init(databaseManager: DatabaseManager, contentLoader: ContentLoader) {
+        self.databaseManager = databaseManager
+        self.contentLoader = contentLoader
+    }
+    
+    // MARK: - Public Methods
+    
+    func loadData() {
+        loadUser()
+        loadBeliefSystems()
+        loadUserProgress()
+        updatePathItems()
+    }
+    
+    func selectPath(_ item: PathItem) {
+        guard let beliefSystem = beliefSystems.first(where: { $0.id == item.id }) else { return }
+        onPathSelected?(beliefSystem)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func loadUser() {
+        user = databaseManager.fetchUser()
+        if let user = user {
+            onUserDataUpdate?(user)
+        }
+    }
+    
+    private func loadBeliefSystems() {
+        beliefSystems = contentLoader.loadBeliefSystems()
+    }
+    
+    private func loadUserProgress() {
+        guard let userId = user?.id else { return }
+        
+        let allProgress = databaseManager.fetchProgress(for: userId)
+        userProgress = Dictionary(
+            uniqueKeysWithValues: allProgress.map { ($0.beliefSystemId, $0) }
+        )
+    }
+    
+    private func updatePathItems() {
+        pathItems = beliefSystems.map { beliefSystem in
+            let progress = userProgress[beliefSystem.id]
+            let currentXP = progress?.currentXP ?? 0
+            let isUnlocked = checkIfUnlocked(beliefSystem)
+            let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
+            
+            return PathItem(
+                id: beliefSystem.id,
+                name: beliefSystem.name,
+                icon: beliefSystem.icon,
+                color: UIColor(hex: beliefSystem.color) ?? .systemGray,
+                totalXP: beliefSystem.totalXP,
+                currentXP: currentXP,
+                isUnlocked: isUnlocked,
+                progress: progressPercentage
+            )
+        }
+        
+        onDataUpdate?()
+    }
+    
+    private func checkIfUnlocked(_ beliefSystem: BeliefSystem) -> Bool {
+        // First three paths are always unlocked
+        let firstThreeIds = ["judaism", "christianity", "islam"]
+        if firstThreeIds.contains(beliefSystem.id) {
+            return true
+        }
+        
+        // Check if user has completed at least one path
+        let completedPaths = userProgress.values.filter { progress in
+            let beliefSystem = beliefSystems.first { $0.id == progress.beliefSystemId }
+            return progress.currentXP >= (beliefSystem?.totalXP ?? Int.max)
+        }
+        
+        return !completedPaths.isEmpty
+    }
+}
+
+// MARK: - UIColor Extension
+
+extension UIColor {
+    convenience init?(hex: String) {
+        let r, g, b: CGFloat
+        
+        var hexColor = hex
+        if hexColor.hasPrefix("#") {
+            hexColor = String(hexColor.dropFirst())
+        }
+        
+        if hexColor.count == 6 {
+            let scanner = Scanner(string: hexColor)
+            var hexNumber: UInt64 = 0
+            
+            if scanner.scanHexInt64(&hexNumber) {
+                r = CGFloat((hexNumber & 0xff0000) >> 16) / 255
+                g = CGFloat((hexNumber & 0x00ff00) >> 8) / 255
+                b = CGFloat(hexNumber & 0x0000ff) / 255
+                
+                self.init(red: r, green: g, blue: b, alpha: 1.0)
+                return
+            }
+        }
+        
+        return nil
+    }
+}

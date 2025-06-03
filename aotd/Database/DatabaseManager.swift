@@ -106,6 +106,26 @@ class DatabaseManager {
         }
     }
     
+    func fetchUser() -> User? {
+        do {
+            // First try to read existing user
+            if let existingUser = try dbQueue.read({ db in
+                try User.fetchOne(db)
+            }) {
+                return existingUser
+            }
+            
+            // If no user exists, create one
+            var newUser = User(name: "Learner", email: "learner@aotd.com")
+            try dbQueue.write { db in
+                try newUser.insert(db)
+            }
+            return newUser
+        } catch {
+            return nil
+        }
+    }
+    
     // MARK: - Progress Management
     
     func getProgress(userId: String, beliefSystemId: String, lessonId: String? = nil) throws -> Progress? {
@@ -157,6 +177,14 @@ class DatabaseManager {
     func getUserProgress(userId: String) throws -> [Progress] {
         return try dbQueue.read { db in
             try Progress.filter(Column("userId") == userId).fetchAll(db)
+        }
+    }
+    
+    func fetchProgress(for userId: String) -> [Progress] {
+        do {
+            return try getUserProgress(userId: userId)
+        } catch {
+            return []
         }
     }
     
