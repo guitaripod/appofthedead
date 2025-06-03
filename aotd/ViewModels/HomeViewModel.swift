@@ -74,8 +74,10 @@ final class HomeViewModel {
         guard let userId = user?.id else { return }
         
         let allProgress = databaseManager.fetchProgress(for: userId)
+        // Filter to only belief system level progress (where lessonId is nil)
+        let beliefSystemProgress = allProgress.filter { $0.lessonId == nil }
         userProgress = Dictionary(
-            uniqueKeysWithValues: allProgress.map { ($0.beliefSystemId, $0) }
+            uniqueKeysWithValues: beliefSystemProgress.map { ($0.beliefSystemId, $0) }
         )
     }
     

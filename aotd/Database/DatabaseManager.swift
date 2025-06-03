@@ -5,7 +5,7 @@ class DatabaseManager {
     static let shared = DatabaseManager()
     
     private var dbQueue: DatabaseQueue!
-    private let contentLoader = ContentLoader()
+    private var contentLoader: ContentLoader?
     
     private init() {
         setupDatabase()
@@ -248,11 +248,23 @@ class DatabaseManager {
     
     // MARK: - Content Loading
     
+    func setContentLoader(_ loader: ContentLoader) {
+        self.contentLoader = loader
+    }
+    
     func loadBeliefSystems() -> [BeliefSystem] {
+        guard let contentLoader = contentLoader else {
+            print("Warning: ContentLoader not set in DatabaseManager")
+            return []
+        }
         return contentLoader.loadBeliefSystems()
     }
     
     func loadAchievements() -> [Achievement] {
+        guard let contentLoader = contentLoader else {
+            print("Warning: ContentLoader not set in DatabaseManager")
+            return []
+        }
         return contentLoader.loadAchievements()
     }
     
