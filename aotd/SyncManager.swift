@@ -12,7 +12,7 @@ final class SyncManager {
     
     weak var delegate: SyncManagerDelegate?
     
-    private let baseURL = "https://your-worker.your-subdomain.workers.dev"
+    private let baseURL = "https://aotd-worker.guitaripod.workers.dev"
     private let syncQueue = DispatchQueue(label: "com.aotd.sync", qos: .background)
     private var isSyncing = false
     
