@@ -132,4 +132,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Resume functionality is handled in scene connection
     }
+    
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        // Trigger sync when app becomes active
+        SyncManager.shared.attemptSync()
+    }
 }

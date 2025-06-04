@@ -30,18 +30,20 @@ final class SyncManager {
     }
     
     @objc func attemptSync() {
-        guard !isSyncing,
-              let userId = UserDefaults.standard.string(forKey: "appleUserId"),
-              let token = UserDefaults.standard.string(forKey: "appleIdentityToken") else {
+        guard !isSyncing else {
+            return
+        }
+        
+        guard let userId = UserDefaults.standard.string(forKey: "appleUserId") else {
             return
         }
         
         syncQueue.async { [weak self] in
-            self?.performSync(userId: userId, token: token)
+            self?.performSync(userId: userId)
         }
     }
     
-    private func performSync(userId: String, token: String) {
+    private func performSync(userId: String) {
         isSyncing = true
         
         do {
@@ -50,15 +52,17 @@ final class SyncManager {
             let progress = DatabaseManager.shared.fetchProgress(for: user?.id ?? "")
             let achievements = try DatabaseManager.shared.getUserAchievements(userId: user?.id ?? "")
             
+            let syncAchievements = achievements.map { SyncUserAchievement(from: $0) }
+            
             let syncData = SyncData(
                 user: user,
                 progress: progress,
-                achievements: achievements,
+                achievements: syncAchievements,
                 lastSyncDate: UserDefaults.standard.object(forKey: "lastSyncDate") as? Date
             )
             
             // Send to server
-            uploadSyncData(syncData, userId: userId, token: token) { [weak self] result in
+            uploadSyncData(syncData, userId: userId) { [weak self] result in
                 switch result {
                 case .success(let serverData):
                     self?.mergeServerData(serverData)
@@ -76,7 +80,7 @@ final class SyncManager {
         }
     }
     
-    private func uploadSyncData(_ data: SyncData, userId: String, token: String, completion: @escaping (Result<SyncData, Error>) -> Void) {
+    private func uploadSyncData(_ data: SyncData, userId: String, completion: @escaping (Result<SyncData, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/sync") else {
             completion(.failure(SyncError.invalidURL))
             return
@@ -85,11 +89,14 @@ final class SyncManager {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue(userId, forHTTPHeaderField: "X-Apple-User-Id")
         
         do {
-            let jsonData = try JSONEncoder().encode(data)
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let jsonData = try encoder.encode(data)
             request.httpBody = jsonData
+            
             
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
@@ -109,7 +116,40 @@ final class SyncManager {
                 }
                 
                 do {
-                    let serverData = try JSONDecoder().decode(SyncData.self, from: data)
+                    let decoder = JSONDecoder()
+                    // Custom date decoding to handle ISO8601 with fractional seconds
+                    let formatter = DateFormatter()
+                    formatter.calendar = Calendar(identifier: .iso8601)
+                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+                    
+                    decoder.dateDecodingStrategy = .custom({ decoder in
+                        let container = try decoder.singleValueContainer()
+                        let dateString = try container.decode(String.self)
+                        
+                        // Try multiple ISO8601 formats
+                        let formats = [
+                            "yyyy-MM-dd'T'HH:mm:ss.SSSZ",  // With milliseconds
+                            "yyyy-MM-dd'T'HH:mm:ssZ",      // Without milliseconds
+                            "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", // With milliseconds and literal Z
+                            "yyyy-MM-dd'T'HH:mm:ss'Z'"      // Without milliseconds and literal Z
+                        ]
+                        
+                        for format in formats {
+                            formatter.dateFormat = format
+                            if let date = formatter.date(from: dateString) {
+                                return date
+                            }
+                        }
+                        
+                        throw DecodingError.dataCorruptedError(
+                            in: container,
+                            debugDescription: "Cannot decode date string \(dateString)"
+                        )
+                    })
+                    
+                    
+                    let serverData = try decoder.decode(SyncData.self, from: data)
                     completion(.success(serverData))
                 } catch {
                     completion(.failure(error))
@@ -129,9 +169,12 @@ final class SyncManager {
               let serverUser = serverData.user else { return }
         
         do {
-            // Merge user data
+            // Merge user data - if the server has a different user ID but same Apple ID,
+            // update the local user with server data but keep the local ID
             if serverUser.updatedAt > localUser.updatedAt {
-                try DatabaseManager.shared.updateUser(serverUser)
+                var updatedUser = serverUser
+                updatedUser.id = localUser.id  // Keep local user ID
+                try DatabaseManager.shared.updateUser(updatedUser)
             }
             
             // Merge progress data
@@ -173,7 +216,7 @@ final class SyncManager {
             }
             
         } catch {
-            print("Error merging server data: \(error)")
+            // Log error for production debugging if needed
         }
     }
 }
@@ -183,8 +226,31 @@ final class SyncManager {
 struct SyncData: Codable {
     let user: User?
     let progress: [Progress]
-    let achievements: [UserAchievement]
+    let achievements: [SyncUserAchievement]
     let lastSyncDate: Date?
+}
+
+// Wrapper to convert UserAchievement for sync
+struct SyncUserAchievement: Codable {
+    let id: String
+    let userId: String
+    let achievementId: String
+    let progress: Double
+    let isCompleted: Bool
+    let completedAt: String?
+    let createdAt: String
+    let updatedAt: String
+    
+    init(from userAchievement: UserAchievement) {
+        self.id = userAchievement.id
+        self.userId = userAchievement.userId
+        self.achievementId = userAchievement.achievementId
+        self.progress = userAchievement.progress
+        self.isCompleted = userAchievement.isCompleted
+        self.completedAt = userAchievement.isCompleted ? ISO8601DateFormatter().string(from: userAchievement.unlockedAt) : nil
+        self.createdAt = ISO8601DateFormatter().string(from: userAchievement.unlockedAt)
+        self.updatedAt = ISO8601DateFormatter().string(from: userAchievement.unlockedAt)
+    }
 }
 
 enum SyncError: LocalizedError {

@@ -121,12 +121,10 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         }
         
         guard let appleIDToken = appleIDCredential.identityToken else {
-            print("Unable to fetch identity token")
             return
         }
         
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
         
@@ -135,8 +133,23 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         let fullName = appleIDCredential.fullName
         
         UserDefaults.standard.set(userId, forKey: "appleUserId")
+        
+        var userName: String? = nil
+        var userEmail: String? = nil
+        
+        // Try to get previously stored values first
+        if let storedEmail = UserDefaults.standard.string(forKey: "appleUserEmail") {
+            userEmail = storedEmail
+        }
+        
+        if let storedName = UserDefaults.standard.string(forKey: "appleUserFullName") {
+            userName = storedName
+        }
+        
+        // Update with new values if provided
         if let email = email {
             UserDefaults.standard.set(email, forKey: "appleUserEmail")
+            userEmail = email
         }
         if let fullName = fullName {
             let name = [fullName.givenName, fullName.familyName]
@@ -144,11 +157,16 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
                 .joined(separator: " ")
             if !name.isEmpty {
                 UserDefaults.standard.set(name, forKey: "appleUserFullName")
+                userName = name
             }
         }
         UserDefaults.standard.set(idTokenString, forKey: "appleIdentityToken")
         
-        DatabaseManager.shared.updateUserAppleId(userId)
+        DatabaseManager.shared.updateUserWithAppleData(
+            appleId: userId,
+            name: userName,
+            email: userEmail
+        )
         
         delegate?.authenticationDidComplete(userId: userId)
     }

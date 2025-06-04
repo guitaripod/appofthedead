@@ -152,6 +152,26 @@ class DatabaseManager {
         }
     }
     
+    func updateUserWithAppleData(appleId: String, name: String? = nil, email: String? = nil) {
+        do {
+            try dbQueue.write { db in
+                if var user = try User.fetchOne(db) {
+                    user.appleId = appleId
+                    if let name = name, !name.isEmpty {
+                        user.name = name
+                    }
+                    if let email = email, !email.isEmpty {
+                        user.email = email
+                    }
+                    user.updatedAt = Date()
+                    try user.update(db)
+                }
+            }
+        } catch {
+            print("Failed to update user with Apple data: \(error)")
+        }
+    }
+    
     func clearUserSession() {
         do {
             try dbQueue.write { db in
