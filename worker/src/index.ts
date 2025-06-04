@@ -45,11 +45,11 @@ export default {
 };
 
 async function handleSync(request: Request, env: Env, corsHeaders: Record<string, string>): Promise<Response> {
-  // Check authorization header
-  const authHeader = request.headers.get('Authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  // Get Apple user ID from header
+  const appleUserId = request.headers.get('X-Apple-User-Id');
+  if (!appleUserId) {
     return new Response(
-      JSON.stringify({ error: 'Unauthorized' }), 
+      JSON.stringify({ error: 'Missing X-Apple-User-Id header' }), 
       { 
         status: 401, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -57,34 +57,28 @@ async function handleSync(request: Request, env: Env, corsHeaders: Record<string
     );
   }
   
-  const token = authHeader.substring(7);
-  
-  // Verify Apple identity token
-  const appleAuth = new AppleAuth(env);
-  const tokenPayload = await appleAuth.verifyIdentityToken(token);
-  
-  if (!tokenPayload) {
+  try {
+    // Get sync data from request
+    const syncData: SyncData = await request.json();
+    
+    // Perform sync
+    const syncService = new SyncService(env);
+    const syncedData = await syncService.syncData(appleUserId, syncData);
+    
     return new Response(
-      JSON.stringify({ error: 'Invalid token' }), 
+      JSON.stringify(syncedData), 
       { 
-        status: 401, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  } catch (error) {
+    console.error('Sync error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Sync failed', details: error instanceof Error ? error.message : 'Unknown error' }), 
+      { 
+        status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
   }
-  
-  // Get sync data from request
-  const syncData: SyncData = await request.json();
-  
-  // Perform sync
-  const syncService = new SyncService(env);
-  const userInfo = appleAuth.extractUserInfo(tokenPayload);
-  const syncedData = await syncService.syncData(userInfo.appleId, syncData);
-  
-  return new Response(
-    JSON.stringify(syncedData), 
-    { 
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    }
-  );
 }

@@ -23,12 +23,14 @@ export class SyncService {
       // Update user stats based on synced data
       user = await this.updateUserStats(user.id);
       
-      return {
+      const response = {
         user,
         progress: syncedProgress,
         achievements: syncedAchievements,
-        lastSyncDate: new Date().toISOString(),
+        lastSyncDate: null,
       };
+      
+      return response;
     } catch (error) {
       console.error('Sync error:', error);
       throw error;
@@ -57,12 +59,38 @@ export class SyncService {
           clientUser.totalXP,
           clientUser.currentLevel,
           clientUser.streakDays,
-          clientUser.lastActiveDate,
+          clientUser.lastActiveDate || null,
           clientUser.updatedAt,
           existingUser.id
         ).run();
         
-        return { ...existingUser, ...clientUser };
+        const updatedUser = { ...existingUser, ...clientUser };
+        // Ensure dates are properly formatted
+        updatedUser.createdAt = new Date(updatedUser.createdAt).toISOString();
+        updatedUser.updatedAt = new Date(updatedUser.updatedAt).toISOString();
+        if (updatedUser.lastActiveDate) {
+          updatedUser.lastActiveDate = new Date(updatedUser.lastActiveDate).toISOString();
+        }
+        return updatedUser;
+      }
+      // Helper function to ensure proper ISO8601 formatting
+      const formatDateEx = (dateStr: string) => {
+        if (!dateStr) return dateStr;
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) {
+          // If date is invalid, try adding UTC timezone
+          const dateWithZ = dateStr.endsWith('Z') ? dateStr : dateStr + 'Z';
+          const newDate = new Date(dateWithZ);
+          return isNaN(newDate.getTime()) ? dateStr : newDate.toISOString();
+        }
+        return date.toISOString();
+      };
+      
+      // Ensure dates are properly formatted for existing user
+      existingUser.createdAt = formatDateEx(existingUser.createdAt);
+      existingUser.updatedAt = formatDateEx(existingUser.updatedAt);
+      if (existingUser.lastActiveDate) {
+        existingUser.lastActiveDate = formatDateEx(existingUser.lastActiveDate);
       }
       return existingUser;
     }
@@ -81,11 +109,7 @@ export class SyncService {
       updatedAt: new Date().toISOString(),
     };
     
-    await db.prepare(`
-      INSERT INTO users (id, name, email, appleId, totalXP, currentLevel, 
-                        streakDays, lastActiveDate, createdAt, updatedAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
+    const bindValues = [
       newUser.id,
       newUser.name,
       newUser.email,
@@ -93,11 +117,16 @@ export class SyncService {
       newUser.totalXP,
       newUser.currentLevel,
       newUser.streakDays,
-      newUser.lastActiveDate,
+      newUser.lastActiveDate || null,
       newUser.createdAt,
       newUser.updatedAt
-    ).run();
+    ];
     
+    await db.prepare(`
+      INSERT INTO users (id, name, email, appleId, totalXP, currentLevel, 
+                        streakDays, lastActiveDate, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(...bindValues).run();
     return newUser;
   }
 
@@ -120,9 +149,9 @@ export class SyncService {
             WHERE id = ?
           `).bind(
             progress.status,
-            progress.score,
+            progress.score || null,
             progress.earnedXP,
-            progress.completedAt,
+            progress.completedAt || null,
             progress.updatedAt,
             existingProgress.id
           ).run();
@@ -149,11 +178,11 @@ export class SyncService {
           newProgress.id,
           newProgress.userId,
           newProgress.beliefSystemId,
-          newProgress.lessonId,
+          newProgress.lessonId || null,
           newProgress.status,
-          newProgress.score,
+          newProgress.score || null,
           newProgress.earnedXP,
-          newProgress.completedAt,
+          newProgress.completedAt || null,
           newProgress.createdAt,
           newProgress.updatedAt
         ).run();
@@ -201,7 +230,7 @@ export class SyncService {
           `).bind(
             achievement.progress,
             achievement.isCompleted ? 1 : 0,
-            achievement.completedAt,
+            achievement.completedAt || null,
             new Date().toISOString(),
             existingAchievement.id
           ).run();
@@ -230,7 +259,7 @@ export class SyncService {
           newAchievement.achievementId,
           newAchievement.progress,
           newAchievement.isCompleted ? 1 : 0,
-          newAchievement.completedAt,
+          newAchievement.completedAt || null,
           newAchievement.createdAt,
           newAchievement.updatedAt
         ).run();
@@ -267,11 +296,12 @@ export class SyncService {
     const currentLevel = Math.max(1, Math.floor(totalXP / 100) + 1);
     
     // Update user
+    const now = new Date().toISOString();
     await db.prepare(`
       UPDATE users 
       SET totalXP = ?, currentLevel = ?, updatedAt = ?
       WHERE id = ?
-    `).bind(totalXP, currentLevel, new Date().toISOString(), userId).run();
+    `).bind(totalXP, currentLevel, now, userId).run();
     
     // Return updated user
     const user = await db.prepare(
@@ -280,6 +310,25 @@ export class SyncService {
     
     if (!user) {
       throw new Error('User not found after update');
+    }
+    
+    // Helper function to ensure proper ISO8601 formatting
+    const formatDate = (dateStr: string) => {
+      if (!dateStr) return dateStr;
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) {
+        // If date is invalid, try adding UTC timezone
+        const dateWithZ = dateStr.endsWith('Z') ? dateStr : dateStr + 'Z';
+        const newDate = new Date(dateWithZ);
+        return isNaN(newDate.getTime()) ? dateStr : newDate.toISOString();
+      }
+      return date.toISOString();
+    };
+    
+    user.createdAt = formatDate(user.createdAt);
+    user.updatedAt = formatDate(user.updatedAt);
+    if (user.lastActiveDate) {
+      user.lastActiveDate = formatDate(user.lastActiveDate);
     }
     
     return user;
