@@ -5,6 +5,7 @@ struct User: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var name: String
     var email: String
+    var appleId: String?
     var totalXP: Int
     var currentLevel: Int
     var streakDays: Int
@@ -18,6 +19,7 @@ struct User: Codable, FetchableRecord, MutablePersistableRecord {
         self.id = id
         self.name = name
         self.email = email
+        self.appleId = nil
         self.totalXP = 0
         self.currentLevel = 1
         self.streakDays = 0
@@ -50,6 +52,7 @@ struct User: Codable, FetchableRecord, MutablePersistableRecord {
             t.column("id", .text).primaryKey()
             t.column("name", .text).notNull()
             t.column("email", .text).notNull().unique()
+            t.column("appleId", .text).unique()
             t.column("totalXP", .integer).notNull().defaults(to: 0)
             t.column("currentLevel", .integer).notNull().defaults(to: 1)
             t.column("streakDays", .integer).notNull().defaults(to: 0)

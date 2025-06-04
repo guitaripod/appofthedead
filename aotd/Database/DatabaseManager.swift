@@ -83,6 +83,12 @@ class DatabaseManager {
         }
     }
     
+    func getUserByAppleId(_ appleId: String) throws -> User? {
+        return try dbQueue.read { db in
+            try User.filter(Column("appleId") == appleId).fetchOne(db)
+        }
+    }
+    
     func updateUser(_ user: User) throws {
         var updatedUser = user
         updatedUser.updatedAt = Date()
@@ -129,6 +135,34 @@ class DatabaseManager {
             return newUser
         } catch {
             return nil
+        }
+    }
+    
+    func updateUserAppleId(_ appleId: String) {
+        do {
+            try dbQueue.write { db in
+                if var user = try User.fetchOne(db) {
+                    user.appleId = appleId
+                    user.updatedAt = Date()
+                    try user.update(db)
+                }
+            }
+        } catch {
+            print("Failed to update user Apple ID: \(error)")
+        }
+    }
+    
+    func clearUserSession() {
+        do {
+            try dbQueue.write { db in
+                if var user = try User.fetchOne(db) {
+                    user.appleId = nil
+                    user.updatedAt = Date()
+                    try user.update(db)
+                }
+            }
+        } catch {
+            print("Failed to clear user session: \(error)")
         }
     }
     
@@ -299,8 +333,8 @@ class DatabaseManager {
     
     private func runMigrations(_ db: Database) throws {
         // Add earnedXP column to progress table if it doesn't exist
-        let columns = try db.columns(in: "progress")
-        if !columns.contains(where: { $0.name == "earnedXP" }) {
+        let progressColumns = try db.columns(in: "progress")
+        if !progressColumns.contains(where: { $0.name == "earnedXP" }) {
             try db.alter(table: "progress") { t in
                 t.add(column: "earnedXP", .integer).notNull().defaults(to: 0)
             }
@@ -312,6 +346,14 @@ class DatabaseManager {
                 SET earnedXP = 0 
                 WHERE earnedXP IS NULL
             """)
+        }
+        
+        // Add appleId column to users table if it doesn't exist
+        let userColumns = try db.columns(in: "users")
+        if !userColumns.contains(where: { $0.name == "appleId" }) {
+            try db.alter(table: "users") { t in
+                t.add(column: "appleId", .text).unique()
+            }
         }
     }
     

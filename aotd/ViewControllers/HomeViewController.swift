@@ -1,6 +1,7 @@
 import UIKit
+import AuthenticationServices
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController, ASAuthorizationControllerPresentationContextProviding {
     
     // MARK: - Properties
     
@@ -112,7 +113,9 @@ final class HomeViewController: UIViewController {
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<HomeHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
             guard let self = self, let user = self.viewModel.currentUser else { return }
-            headerView.configure(xp: user.totalXP, streak: user.currentStreak)
+            let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
+            headerView.configure(xp: user.totalXP, streak: user.currentStreak, isSignedIn: isSignedIn)
+            headerView.delegate = self
         }
         
         let dataSource = UICollectionViewDiffableDataSource<Section, PathItem>(collectionView: collectionView) { collectionView, indexPath, item in
@@ -171,5 +174,83 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController {
     enum Section {
         case main
+    }
+}
+
+// MARK: - HomeHeaderViewDelegate
+
+extension HomeViewController: HomeHeaderViewDelegate {
+    func profileButtonTapped() {
+        let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
+        
+        if isSignedIn {
+            showProfileViewController()
+        } else {
+            showSignInOptions()
+        }
+    }
+    
+    private func showProfileViewController() {
+        let profileViewModel = ProfileViewModel()
+        let profileVC = ProfileViewController(viewModel: profileViewModel)
+        let navController = UINavigationController(rootViewController: profileVC)
+        navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
+    }
+    
+    private func showSignInOptions() {
+        let alert = UIAlertController(
+            title: "Sign In",
+            message: "Sign in to sync your progress across devices",
+            preferredStyle: .alert
+        )
+        
+        let signInAction = UIAlertAction(title: "Sign in with Apple", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            AuthenticationManager.shared.delegate = self
+            AuthenticationManager.shared.signInWithApple(presentingViewController: self)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(signInAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+// MARK: - AuthenticationManagerDelegate
+
+extension HomeViewController: AuthenticationManagerDelegate {
+    func authenticationDidComplete(userId: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.loadData()
+            self?.updateHeader()
+            
+            let alert = UIAlertController(
+                title: "Success",
+                message: "You are now signed in!",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self?.present(alert, animated: true)
+        }
+    }
+    
+    func authenticationDidFail(error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            let alert = UIAlertController(
+                title: "Sign In Failed",
+                message: error.localizedDescription,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self?.present(alert, animated: true)
+        }
     }
 }

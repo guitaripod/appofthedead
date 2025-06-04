@@ -4,6 +4,8 @@ final class HomeHeaderView: UICollectionReusableView {
     
     // MARK: - Properties
     
+    weak var delegate: HomeHeaderViewDelegate?
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "App of the Dead"
@@ -26,6 +28,25 @@ final class HomeHeaderView: UICollectionReusableView {
         stack.axis = .vertical
         stack.spacing = 4
         stack.alignment = .leading
+        return stack
+    }()
+    
+    private lazy var profileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 20
+        button.tintColor = .label
+        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var topRowStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [headerStackView, profileButton])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .center
         return stack
     }()
     
@@ -121,7 +142,7 @@ final class HomeHeaderView: UICollectionReusableView {
     }()
     
     private lazy var mainStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [headerStackView, statsContainer])
+        let stack = UIStackView(arrangedSubviews: [topRowStackView, statsContainer])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 12
@@ -157,6 +178,9 @@ final class HomeHeaderView: UICollectionReusableView {
             
             statsContainer.heightAnchor.constraint(equalToConstant: 48),
             
+            profileButton.widthAnchor.constraint(equalToConstant: 40),
+            profileButton.heightAnchor.constraint(equalToConstant: 40),
+            
             statsStackView.topAnchor.constraint(equalTo: statsContainer.topAnchor),
             statsStackView.leadingAnchor.constraint(equalTo: statsContainer.leadingAnchor),
             statsStackView.trailingAnchor.constraint(equalTo: statsContainer.trailingAnchor),
@@ -166,9 +190,17 @@ final class HomeHeaderView: UICollectionReusableView {
     
     // MARK: - Configuration
     
-    func configure(xp: Int, streak: Int) {
+    func configure(xp: Int, streak: Int, isSignedIn: Bool = false, userName: String? = nil) {
         xpLabel.text = "\(xp)"
         streakLabel.text = "\(streak)"
+        
+        if isSignedIn {
+            let image = UIImage(systemName: "person.fill")
+            profileButton.setImage(image, for: .normal)
+        } else {
+            let image = UIImage(systemName: "person.badge.plus")
+            profileButton.setImage(image, for: .normal)
+        }
         
         if streak > 0 {
             UIView.animate(withDuration: 0.3) {
@@ -180,4 +212,16 @@ final class HomeHeaderView: UICollectionReusableView {
             }
         }
     }
+    
+    // MARK: - Actions
+    
+    @objc private func profileButtonTapped() {
+        delegate?.profileButtonTapped()
+    }
+}
+
+// MARK: - HomeHeaderViewDelegate
+
+protocol HomeHeaderViewDelegate: AnyObject {
+    func profileButtonTapped()
 }
