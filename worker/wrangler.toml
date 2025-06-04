@@ -1,0 +1,18 @@
+name = "aotd-worker"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+node_compat = true
+
+# Bindings
+[[d1_databases]]
+binding = "DB"
+database_name = "aotd-database"
+database_id = "YOUR_DATABASE_ID"
+
+[vars]
+APPLE_TEAM_ID = "YOUR_APPLE_TEAM_ID"
+APPLE_CLIENT_ID = "YOUR_APPLE_CLIENT_ID"
+APPLE_KEY_ID = "YOUR_APPLE_KEY_ID"
+
+# Secrets (set these with wrangler secret put)
+# APPLE_PRIVATE_KEY - Your Apple private key for Sign in with Apple
