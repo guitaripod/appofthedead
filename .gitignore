@@ -1,3 +1,7 @@
 .claude/
 DerivedData/
 coverage.xcresult/
+node_modules/
+dist/
+.wrangler/
+.dev.vars
