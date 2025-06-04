@@ -85,7 +85,7 @@ final class HomeViewModel {
     private func updatePathItems() {
         pathItems = beliefSystems.map { beliefSystem in
             let progress = userProgress[beliefSystem.id]
-            let currentXP = progress?.currentXP ?? 0
+            let currentXP = progress?.earnedXP ?? 0
             let isUnlocked = checkIfUnlocked(beliefSystem)
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
             

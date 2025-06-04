@@ -12,6 +12,7 @@ final class HomeViewModelTests: XCTestCase {
         super.setUp()
         mockDatabaseManager = DatabaseManager(inMemory: true)
         mockContentLoader = ContentLoader()
+        mockDatabaseManager.setContentLoader(mockContentLoader)
         sut = HomeViewModel(databaseManager: mockDatabaseManager, contentLoader: mockContentLoader)
     }
     
@@ -133,12 +134,11 @@ final class HomeViewModelTests: XCTestCase {
         sut.loadData()
         let user = mockDatabaseManager.fetchUser()!
         
-        // When - Add progress for Judaism
-        try mockDatabaseManager.createOrUpdateProgress(
+        // When - Add XP for Judaism
+        try mockDatabaseManager.addXPToProgress(
             userId: user.id,
             beliefSystemId: "judaism",
-            status: .inProgress,
-            score: 50
+            xp: 50
         )
         
         // Reload data
@@ -156,7 +156,12 @@ final class HomeViewModelTests: XCTestCase {
         sut.loadData()
         let user = mockDatabaseManager.fetchUser()!
         
-        // When - Complete Judaism path
+        // When - Complete Judaism path with full XP
+        try mockDatabaseManager.addXPToProgress(
+            userId: user.id,
+            beliefSystemId: "judaism",
+            xp: 160
+        )
         try mockDatabaseManager.createOrUpdateProgress(
             userId: user.id,
             beliefSystemId: "judaism",

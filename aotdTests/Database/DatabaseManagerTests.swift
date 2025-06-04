@@ -10,6 +10,10 @@ final class DatabaseManagerTests: XCTestCase {
         // Create a test database manager with in-memory database
         databaseManager = DatabaseManager(inMemory: true)
         
+        // Set up content loader
+        let contentLoader = ContentLoader()
+        databaseManager.setContentLoader(contentLoader)
+        
         // Create a test user
         testUser = try databaseManager.createUser(name: "Test User", email: "test@example.com")
     }

@@ -13,6 +13,10 @@ final class ProfileViewModelTests: XCTestCase {
         // Use in-memory database for testing
         databaseManager = DatabaseManager(inMemory: true)
         
+        // Set up content loader
+        let contentLoader = ContentLoader()
+        databaseManager.setContentLoader(contentLoader)
+        
         // Create test user
         do {
             testUser = try databaseManager.createUser(name: "Test User", email: "test@profile.com")
