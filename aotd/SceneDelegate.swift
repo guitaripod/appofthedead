@@ -37,6 +37,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
         
+        // Initialize Settings screen
+        let settingsViewController = SettingsViewController()
+        let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
+        
         // Create Tab Bar Controller
         let tabBarController = UITabBarController()
         
@@ -53,8 +57,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectedImage: UIImage(systemName: "person.circle.fill")
         )
         
+        settingsNavigationController.tabBarItem = UITabBarItem(
+            title: "Settings",
+            image: UIImage(systemName: "gearshape.fill"),
+            selectedImage: UIImage(systemName: "gearshape.fill")
+        )
+        
         // Set view controllers
-        tabBarController.viewControllers = [homeNavigationController, profileNavigationController]
+        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, settingsNavigationController]
         
         // Configure tab bar appearance
         tabBarController.tabBar.tintColor = UIColor(hex: "#6200EE")

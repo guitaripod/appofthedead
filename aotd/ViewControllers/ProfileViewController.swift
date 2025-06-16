@@ -23,8 +23,6 @@ final class ProfileViewController: UIViewController {
     private let achievementsHeaderLabel = UILabel()
     private lazy var achievementsCollectionView = createAchievementsCollectionView()
     
-    // Settings section
-    private let settingsButton = UIButton(type: .system)
     
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
@@ -68,7 +66,6 @@ final class ProfileViewController: UIViewController {
         setupProfileHeader()
         setupStatsSection()
         setupAchievementsSection()
-        setupSettingsSection()
     }
     
     private func setupScrollView() {
@@ -206,19 +203,6 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    private func setupSettingsSection() {
-        settingsButton.setTitle("Settings", for: .normal)
-        settingsButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        settingsButton.backgroundColor = .systemGray5
-        settingsButton.setTitleColor(.label, for: .normal)
-        settingsButton.layer.cornerRadius = 12
-        settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        contentStackView.addArrangedSubview(settingsButton)
-        
-        NSLayoutConstraint.activate([
-            settingsButton.heightAnchor.constraint(equalToConstant: 56)
-        ])
-    }
     
     private func createAchievementsCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
@@ -319,12 +303,6 @@ final class ProfileViewController: UIViewController {
         return containerView
     }
     
-    @objc private func settingsButtonTapped() {
-        // TODO: Implement settings screen
-        let alert = UIAlertController(title: "Settings", message: "Settings screen coming soon!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
     
     @objc private func handleDataUpdate() {
         viewModel.loadData()
