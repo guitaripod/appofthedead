@@ -40,12 +40,23 @@ final class ProfileViewController: UIViewController {
         setupUI()
         bindViewModel()
         viewModel.loadData()
+        
+        // Listen for data changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleDataUpdate),
+            name: Notification.Name("UserDataDidUpdate"),
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
         title = "Profile"
+        
+        // Reload data every time the view appears to ensure fresh stats
+        viewModel.loadData()
     }
     
     // MARK: - Setup
@@ -313,6 +324,14 @@ final class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: "Settings", message: "Settings screen coming soon!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    @objc private func handleDataUpdate() {
+        viewModel.loadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

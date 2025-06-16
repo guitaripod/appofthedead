@@ -209,6 +209,9 @@ final class GamificationService {
             // Check for newly unlocked achievements
             checkAchievements(for: userId)
             
+            // Notify UI about data changes
+            NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
+            
         } catch {
             print("Failed to award XP (\(reason)): \(error)")
         }
