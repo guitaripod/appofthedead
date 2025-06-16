@@ -41,6 +41,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let settingsViewController = SettingsViewController()
         let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
         
+        // Initialize Oracle screen
+        let oracleViewController = OracleViewController()
+        let oracleNavigationController = UINavigationController(rootViewController: oracleViewController)
+        
         // Create Tab Bar Controller
         let tabBarController = UITabBarController()
         
@@ -57,6 +61,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectedImage: UIImage(systemName: "person.circle.fill")
         )
         
+        oracleNavigationController.tabBarItem = UITabBarItem(
+            title: "Oracle",
+            image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"),
+            selectedImage: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill")
+        )
+        
         settingsNavigationController.tabBarItem = UITabBarItem(
             title: "Settings",
             image: UIImage(systemName: "gearshape.fill"),
@@ -64,7 +74,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
         
         // Set view controllers
-        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, settingsNavigationController]
+        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, settingsNavigationController]
         
         // Configure tab bar appearance
         tabBarController.tabBar.tintColor = UIColor(hex: "#6200EE")
