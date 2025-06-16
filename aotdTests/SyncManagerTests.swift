@@ -34,11 +34,12 @@ class SyncManagerTests: XCTestCase {
         let user = User(name: "Test User", email: "test@example.com")
         let progress = Progress(userId: user.id, beliefSystemId: "judaism")
         let achievement = UserAchievement(userId: user.id, achievementId: "first_lesson")
+        let syncAchievement = SyncUserAchievement(from: achievement)
         
         let syncData = SyncData(
             user: user,
             progress: [progress],
-            achievements: [achievement],
+            achievements: [syncAchievement],
             lastSyncDate: Date()
         )
         
