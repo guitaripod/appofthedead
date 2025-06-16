@@ -30,23 +30,47 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             contentLoader: contentLoader
         )
         let homeViewController = HomeViewController(viewModel: homeViewModel)
-        let navigationController = UINavigationController(rootViewController: homeViewController)
+        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
+        
+        // Initialize Profile screen
+        let profileViewModel = ProfileViewModel(databaseManager: databaseManager)
+        let profileViewController = ProfileViewController(viewModel: profileViewModel)
+        let profileNavigationController = UINavigationController(rootViewController: profileViewController)
+        
+        // Create Tab Bar Controller
+        let tabBarController = UITabBarController()
+        
+        // Configure tab bar items
+        homeNavigationController.tabBarItem = UITabBarItem(
+            title: "Learn",
+            image: UIImage(systemName: "book.fill"),
+            selectedImage: UIImage(systemName: "book.fill")
+        )
+        
+        profileNavigationController.tabBarItem = UITabBarItem(
+            title: "Profile",
+            image: UIImage(systemName: "person.circle.fill"),
+            selectedImage: UIImage(systemName: "person.circle.fill")
+        )
+        
+        // Set view controllers
+        tabBarController.viewControllers = [homeNavigationController, profileNavigationController]
+        
+        // Configure tab bar appearance
+        tabBarController.tabBar.tintColor = UIColor(hex: "#6200EE")
         
         // Set up navigation flow
         setupNavigationFlow(
             homeViewModel: homeViewModel,
-            navigationController: navigationController,
+            navigationController: homeNavigationController,
             contentLoader: contentLoader
         )
         
-        self.window?.rootViewController = navigationController
+        self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
         
-        // Check if we should resume a learning path
-        resumeLearningPathIfNeeded(
-            navigationController: navigationController,
-            contentLoader: contentLoader
-        )
+        // Clear any stored session to prevent auto-navigation
+        UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
     }
     
     private func setupNavigationFlow(
@@ -79,50 +103,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
         
         learningPathCoordinator?.start()
-    }
-    
-    private func resumeLearningPathIfNeeded(
-        navigationController: UINavigationController,
-        contentLoader: ContentLoader
-    ) {
-        // Check if there's an active learning path session
-        guard let beliefSystemId = UserDefaults.standard.string(forKey: SessionState.currentBeliefSystemKey),
-              let user = databaseManager.fetchUser() else { 
-            return 
-        }
-        
-        
-        do {
-            // Check if user has inProgress lessons for this belief system
-            let userProgress = try databaseManager.getUserProgress(userId: user.id)
-            let beliefSystemProgress = userProgress.filter { 
-                $0.beliefSystemId == beliefSystemId && $0.lessonId != nil 
-            }
-            
-            // Only resume if there are actually lessons in progress
-            let hasInProgressLessons = beliefSystemProgress.contains { 
-                $0.status == .inProgress || $0.status == .completed 
-            }
-            
-            guard hasInProgressLessons,
-                  let beliefSystem = databaseManager.getBeliefSystem(by: beliefSystemId) else {
-                // Clear the session if no valid progress found
-                UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
-                return
-            }
-            
-            // Resume the learning path
-            DispatchQueue.main.async { [weak self] in
-                self?.startLearningPath(
-                    beliefSystem: beliefSystem,
-                    navigationController: navigationController,
-                    contentLoader: contentLoader
-                )
-            }
-            
-        } catch {
-            UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
-        }
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
