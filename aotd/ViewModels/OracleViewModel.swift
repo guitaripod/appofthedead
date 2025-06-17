@@ -129,6 +129,8 @@ final class OracleViewModel: ObservableObject {
     func selectDeity(_ deity: Deity) {
         print("[OracleViewModel] Selecting deity: \(deity.name)")
         selectedDeity = deity
+        // Clear chat history when switching deities
+        messages.removeAll()
         addDeityGreeting(deity)
     }
     
