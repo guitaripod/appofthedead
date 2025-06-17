@@ -358,12 +358,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     private func showAchievementDetail(achievement: Achievement, userAchievement: UserAchievement) {
         let progressText = userAchievement.isCompleted ? "Completed!" : "Progress: \(Int(userAchievement.progress * 100))%"
         
-        let alert = UIAlertController(
+        PapyrusAlert.showSimpleAlert(
             title: achievement.name,
             message: "\(achievement.description)\n\n\(progressText)",
-            preferredStyle: .alert
+            from: self
         )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 }

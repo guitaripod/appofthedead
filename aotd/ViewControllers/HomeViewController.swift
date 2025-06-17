@@ -159,13 +159,11 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     private func showLockedPathAlert(for item: PathItem) {
-        let alert = UIAlertController(
+        PapyrusAlert.showSimpleAlert(
             title: "Path Locked",
             message: "Complete other paths to unlock \(item.name)",
-            preferredStyle: .alert
+            from: self
         )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 }
 
@@ -199,24 +197,14 @@ extension HomeViewController: HomeHeaderViewDelegate {
     }
     
     private func showSignInOptions() {
-        let alert = UIAlertController(
-            title: "Sign In",
-            message: "Sign in to sync your progress across devices",
-            preferredStyle: .alert
-        )
-        
-        let signInAction = UIAlertAction(title: "Sign in with Apple", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            AuthenticationManager.shared.delegate = self
-            AuthenticationManager.shared.signInWithApple(presentingViewController: self)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(signInAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
+        PapyrusAlert(title: "Sign In", message: "Sign in to sync your progress across devices")
+            .addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
+            .addAction(PapyrusAlert.Action(title: "Sign in with Apple") { [weak self] in
+                guard let self = self else { return }
+                AuthenticationManager.shared.delegate = self
+                AuthenticationManager.shared.signInWithApple(presentingViewController: self)
+            })
+            .present(from: self)
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -229,28 +217,26 @@ extension HomeViewController: HomeHeaderViewDelegate {
 extension HomeViewController: AuthenticationManagerDelegate {
     func authenticationDidComplete(userId: String) {
         DispatchQueue.main.async { [weak self] in
-            self?.viewModel.loadData()
-            self?.updateHeader()
+            guard let self = self else { return }
+            self.viewModel.loadData()
+            self.updateHeader()
             
-            let alert = UIAlertController(
+            PapyrusAlert.showSimpleAlert(
                 title: "Success",
                 message: "You are now signed in!",
-                preferredStyle: .alert
+                from: self
             )
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self?.present(alert, animated: true)
         }
     }
     
     func authenticationDidFail(error: Error) {
         DispatchQueue.main.async { [weak self] in
-            let alert = UIAlertController(
+            guard let self = self else { return }
+            PapyrusAlert.showSimpleAlert(
                 title: "Sign In Failed",
                 message: error.localizedDescription,
-                preferredStyle: .alert
+                from: self
             )
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self?.present(alert, animated: true)
         }
     }
 }

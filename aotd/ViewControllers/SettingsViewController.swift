@@ -87,38 +87,33 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func handleSignOut() {
-        let alert = UIAlertController(
+        PapyrusAlert.showConfirmationAlert(
             title: "Sign Out",
             message: "Are you sure you want to sign out?",
-            preferredStyle: .alert
+            confirmTitle: "Sign Out",
+            confirmStyle: .destructive,
+            from: self,
+            onConfirm: { [weak self] in
+                guard let self = self else { return }
+                // Clear user session
+                DatabaseManager.shared.clearUserSession()
+                
+                // TODO: Navigate to sign in screen
+                PapyrusAlert.showSimpleAlert(
+                    title: "Signed Out",
+                    message: "You have been signed out successfully.",
+                    from: self
+                )
+            }
         )
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Sign Out", style: .destructive) { [weak self] _ in
-            // Clear user session
-            DatabaseManager.shared.clearUserSession()
-            
-            // TODO: Navigate to sign in screen
-            let signOutAlert = UIAlertController(
-                title: "Signed Out",
-                message: "You have been signed out successfully.",
-                preferredStyle: .alert
-            )
-            signOutAlert.addAction(UIAlertAction(title: "OK", style: .default))
-            self?.present(signOutAlert, animated: true)
-        })
-        
-        present(alert, animated: true)
     }
     
     private func showComingSoon(feature: String) {
-        let alert = UIAlertController(
+        PapyrusAlert.showSimpleAlert(
             title: feature,
             message: "This feature is coming soon!",
-            preferredStyle: .alert
+            from: self
         )
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 }
 

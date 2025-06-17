@@ -203,25 +203,19 @@ final class OracleViewController: UIViewController {
     }
     
     @objc private func selectDeity() {
-        let actionSheet = UIAlertController(title: "Choose Your Oracle", message: nil, preferredStyle: .actionSheet)
+        let alert = PapyrusAlert(title: "Choose Your Oracle", message: nil, style: .actionSheet)
+            .setSourceView(deitySelectionButton)
         
         for deity in availableDeities {
-            let action = UIAlertAction(title: "\(deity.name) - \(deity.tradition)", style: .default) { [weak self] _ in
+            alert.addAction(PapyrusAlert.Action(title: "\(deity.name) - \(deity.tradition)") { [weak self] in
                 self?.selectedDeity = deity
                 self?.updateDeityButton()
                 self?.addDeityGreeting(deity)
-            }
-            actionSheet.addAction(action)
+            })
         }
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        if let popover = actionSheet.popoverPresentationController {
-            popover.sourceView = deitySelectionButton
-            popover.sourceRect = deitySelectionButton.bounds
-        }
-        
-        present(actionSheet, animated: true)
+        alert.addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
+        alert.present(from: self)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
