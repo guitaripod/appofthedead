@@ -194,81 +194,28 @@ final class OracleViewModel: ObservableObject {
     private func generateResponse(to userMessage: String, deity: Deity) async {
         print("[OracleViewModel] Generating response for: \(userMessage)")
         print("[OracleViewModel] Using deity: \(deity.name)")
-        print("[OracleViewModel] Model loaded: \(isModelLoaded)")
-        
-        guard isModelLoaded else {
-            print("[OracleViewModel] Model not loaded, using fallback response")
-            // Fallback response if model not loaded
-            let fallbackResponse = "The divine connection is not yet established. Please wait while I prepare the sacred channels..."
-            let message = ChatMessage(
-                text: fallbackResponse,
-                isUser: false,
-                deity: deity,
-                timestamp: Date()
-            )
-            await MainActor.run {
-                messages.append(message)
-            }
-            return
-        }
         
         await MainActor.run {
             isGenerating = true
         }
         
-        do {
-            var responseText = ""
-            let messageId = UUID()
-            let responseMessage = ChatMessage(
-                id: messageId,
-                text: "",
-                isUser: false,
-                deity: deity,
-                timestamp: Date()
-            )
-            
-            await MainActor.run {
-                messages.append(responseMessage)
-            }
-            
-            print("[OracleViewModel] Starting model generation")
-            
-            // Generate response with streaming
-            _ = try await modelManager.generate(
-                prompt: userMessage,
-                systemPrompt: deity.systemPrompt,
-                maxTokens: 256,
-                temperature: 0.8
-            ) { [weak self] token in
-                Task { @MainActor in
-                    guard let self = self else { return }
-                    responseText += token
-                    
-                    // Find the message by ID and update it
-                    if let index = self.messages.firstIndex(where: { $0.id == messageId }) {
-                        self.messages[index] = ChatMessage(
-                            id: messageId,
-                            text: responseText,
-                            isUser: false,
-                            deity: deity,
-                            timestamp: responseMessage.timestamp
-                        )
-                    }
-                }
-            }
-            
-            print("[OracleViewModel] Response generation completed")
-            
-            await MainActor.run {
-                isGenerating = false
-            }
-            
-        } catch {
-            print("[OracleViewModel] Error generating response: \(error)")
-            await MainActor.run {
-                isGenerating = false
-                modelError = error.localizedDescription
-            }
+        // TODO: Implement actual LLM integration
+        // TODO: Use MLXModelManager to generate deity-specific responses
+        // TODO: Handle streaming responses and update messages in real-time
+        // TODO: Apply deity.systemPrompt to customize responses
+        // TODO: Handle errors and edge cases (model not loaded, generation failures)
+        
+        // Temporary placeholder until LLM is integrated
+        let placeholderMessage = ChatMessage(
+            text: "Oracle responses coming soon...",
+            isUser: false,
+            deity: deity,
+            timestamp: Date()
+        )
+        
+        await MainActor.run {
+            messages.append(placeholderMessage)
+            isGenerating = false
         }
     }
     
