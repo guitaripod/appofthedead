@@ -18,6 +18,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: windowScene)
         
+        // Initialize custom icons
+        IconProvider.createCustomIcons()
+        
         // Initialize content loader
         let contentLoader = ContentLoader()
         

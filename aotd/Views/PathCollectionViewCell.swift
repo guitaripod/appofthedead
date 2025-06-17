@@ -17,15 +17,13 @@ final class PathCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var iconLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 48)
-        label.textAlignment = .center
-        label.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        label.widthAnchor.constraint(equalToConstant: 56).isActive = true
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.7
-        return label
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor.Papyrus.primaryText
+        imageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        return imageView
     }()
     
     private lazy var nameLabel: UILabel = {
@@ -62,7 +60,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var contentStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [iconLabel, nameLabel, progressView, xpLabel])
+        let stack = UIStackView(arrangedSubviews: [iconImageView, nameLabel, progressView, xpLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .center
@@ -84,13 +82,15 @@ final class PathCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var lockIconLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "🔒"
-        label.font = .systemFont(ofSize: 32)
-        label.textAlignment = .center
-        return label
+    private lazy var lockIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "lock.fill")
+        imageView.tintColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return imageView
     }()
     
     // MARK: - Initialization
@@ -110,7 +110,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(contentStackView)
         containerView.addSubview(lockOverlay)
-        lockOverlay.addSubview(lockIconLabel)
+        lockOverlay.addSubview(lockIconImageView)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -128,18 +128,16 @@ final class PathCollectionViewCell: UICollectionViewCell {
             lockOverlay.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             lockOverlay.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
-            lockIconLabel.centerXAnchor.constraint(equalTo: lockOverlay.centerXAnchor),
-            lockIconLabel.centerYAnchor.constraint(equalTo: lockOverlay.centerYAnchor)
+            lockIconImageView.centerXAnchor.constraint(equalTo: lockOverlay.centerXAnchor),
+            lockIconImageView.centerYAnchor.constraint(equalTo: lockOverlay.centerYAnchor)
         ])
     }
     
     // MARK: - Configuration
     
     func configure(with item: PathItem) {
-        // Set icon with proper rendering
-        let emoji = getEmoji(for: item.icon)
-        iconLabel.text = emoji
-        iconLabel.font = .systemFont(ofSize: 48)
+        // Set icon using IconProvider
+        iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: item.color)
         
         nameLabel.text = item.name
         
@@ -149,12 +147,14 @@ final class PathCollectionViewCell: UICollectionViewCell {
             containerView.layer.borderWidth = 2
             nameLabel.textColor = UIColor.Papyrus.primaryText
             progressView.progressTintColor = item.color
+            iconImageView.tintColor = item.color
         } else {
             containerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
             containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
             containerView.layer.borderWidth = 1.5
             nameLabel.textColor = UIColor.Papyrus.tertiaryText
             progressView.progressTintColor = UIColor.Papyrus.aged
+            iconImageView.tintColor = UIColor.Papyrus.aged
         }
         
         progressView.progress = item.progress
@@ -173,38 +173,13 @@ final class PathCollectionViewCell: UICollectionViewCell {
         layoutIfNeeded()
     }
     
-    private func getEmoji(for icon: String) -> String {
-        let iconMap: [String: String] = [
-            "star_of_david": "✡️",
-            "cross": "✝️",
-            "star_and_crescent": "☪️",
-            "om": "🕉️",
-            "dharma_wheel": "☸️",
-            "khanda": "🪯",
-            "ankh": "☥",
-            "owl": "🦉",
-            "skull": "💀",
-            "faravahar": "🦅",
-            "torii_gate": "⛩️",
-            "yin_yang": "☯️",
-            "triple_goddess": "🌙",
-            "nine_pointed_star": "✴️",
-            "sacred_fan": "🪭",
-            "boomerang": "🪃",
-            "dreamcatcher": "🕸️",
-            "flower_of_life": "🌸",
-            "seal_of_theosophy": "🔯",
-            "eye": "👁️"
-        ]
-        
-        return iconMap[icon] ?? "❓"
-    }
     
     // MARK: - Reuse
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        iconLabel.text = nil
+        iconImageView.image = nil
+        iconImageView.tintColor = UIColor.Papyrus.primaryText
         nameLabel.text = nil
         nameLabel.textColor = UIColor.Papyrus.primaryText
         progressView.progress = 0
