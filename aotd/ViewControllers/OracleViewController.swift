@@ -339,18 +339,15 @@ final class OracleViewController: UIViewController {
         print("[OracleViewController] Select deity button tapped")
         print("[OracleViewController] Available deities: \(viewModel.availableDeities.count)")
         
-        let alert = PapyrusAlert(title: "Choose Your Oracle", message: nil, style: .actionSheet)
-            .setSourceView(deitySelectionButton)
-        
-        for deity in viewModel.availableDeities {
-            alert.addAction(PapyrusAlert.Action(title: "\(deity.name) - \(deity.tradition)") { [weak self] in
-                print("[OracleViewController] Selected deity: \(deity.name)")
-                self?.viewModel.selectDeity(deity)
-            })
+        let deitySelector = DeitySelectionViewController(
+            deities: viewModel.availableDeities,
+            currentDeity: viewModel.selectedDeity
+        ) { [weak self] selectedDeity in
+            print("[OracleViewController] Selected deity: \(selectedDeity.name)")
+            self?.viewModel.selectDeity(selectedDeity)
         }
         
-        alert.addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
-        alert.present(from: self)
+        present(deitySelector, animated: true)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
