@@ -34,8 +34,8 @@ final class MLXModelManager {
     /// Returns true if the currently loaded model supports system prompts well
     var supportsSystemPrompts: Bool {
         // SmolLM models have known issues with system prompts
-        // Qwen models generally handle them better
-        return false // For now, always return false since we're using SmolLM by default
+        // Qwen and Mistral models generally handle them better
+        return true // Qwen2.5 and newer models support system prompts well
     }
     
     // MARK: - Download Progress

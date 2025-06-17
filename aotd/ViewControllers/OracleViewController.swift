@@ -87,6 +87,16 @@ final class OracleViewController: UIViewController {
         return label
     }()
     
+    private lazy var stageLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = UIColor.Papyrus.secondaryText.withAlphaComponent(0.8)
+        label.textAlignment = .center
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var downloadButton: UIButton = {
         let button = UIButton(type: .system)
         
@@ -128,7 +138,20 @@ final class OracleViewController: UIViewController {
         setupKeyboardObservers()
         setupBindings()
         checkModelStatus()
+        
+        // Listen for memory warnings
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleMemoryWarning),
+            name: UIApplication.didReceiveMemoryWarningNotification,
+            object: nil
+        )
+        
         print("[OracleViewController] viewDidLoad completed")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -248,6 +271,7 @@ final class OracleViewController: UIViewController {
         downloadContainerView.addSubview(downloadButton)
         downloadContainerView.addSubview(progressView)
         downloadContainerView.addSubview(progressLabel)
+        downloadContainerView.addSubview(stageLabel)
         downloadContainerView.addSubview(loadingIndicator)
         
         NSLayoutConstraint.activate([
@@ -279,7 +303,11 @@ final class OracleViewController: UIViewController {
             progressLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             progressLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
             
-            downloadButton.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 20),
+            stageLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 4),
+            stageLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            stageLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            
+            downloadButton.topAnchor.constraint(equalTo: stageLabel.bottomAnchor, constant: 20),
             downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -32),
             
@@ -315,11 +343,13 @@ final class OracleViewController: UIViewController {
                     self?.downloadButton.isHidden = true
                     self?.progressView.isHidden = false
                     self?.progressLabel.isHidden = false
+                    self?.stageLabel.isHidden = false
                 } else {
                     self?.loadingIndicator.stopAnimating()
                     self?.downloadButton.isHidden = false
                     self?.progressView.isHidden = true
                     self?.progressLabel.isHidden = true
+                    self?.stageLabel.isHidden = true
                 }
             }
             .store(in: &cancellables)
@@ -348,8 +378,16 @@ final class OracleViewController: UIViewController {
                 } else if status.isEmpty {
                     // Reset to default state
                     self?.downloadLabel.text = "Oracle requires divine knowledge to be downloaded"
-                    self?.downloadDescriptionLabel.text = "Download the Qwen3 model (1.7B parameters, ~1GB) to enable on-device AI conversations with ancient deities."
+                    self?.downloadDescriptionLabel.text = "Download the Llama 3.2 model (~1.8GB) to enable on-device AI conversations with ancient deities."
                 }
+            }
+            .store(in: &cancellables)
+        
+        // Bind download stage
+        viewModel.$downloadStage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] stage in
+                self?.stageLabel.text = stage
             }
             .store(in: &cancellables)
         
@@ -505,6 +543,23 @@ final class OracleViewController: UIViewController {
         }
     }
     
+    @objc private func handleMemoryWarning() {
+        print("[OracleViewController] Received memory warning")
+        
+        // Clear image caches if any
+        URLCache.shared.removeAllCachedResponses()
+        
+        // Clear any cached table view cells
+        tableView.reloadData()
+        
+        // If we're not actively generating, we could consider unloading the model
+        if !viewModel.isGenerating && viewModel.isModelLoaded {
+            print("[OracleViewController] Considering model unload due to memory pressure")
+            // For now, just log - we don't want to unload mid-session
+            // In a production app, you might want to unload after a period of inactivity
+        }
+    }
+    
     // MARK: - Helpers
     
     private func updateDeityButton() {
@@ -534,10 +589,6 @@ final class OracleViewController: UIViewController {
         
         let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 

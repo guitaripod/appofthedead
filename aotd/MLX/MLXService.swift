@@ -22,12 +22,17 @@ final class MLXService {
     static let availableModels: [(name: String, config: ModelConfiguration)] = [
         ("SmolLM-135M", LLMRegistry.smolLM_135M_4bit),
         ("Qwen3-0.6B", LLMRegistry.qwen3_0_6b_4bit),
-        ("Qwen3-1.7B", LLMRegistry.qwen3_1_7b_4bit)
+        ("Qwen3-1.7B", LLMRegistry.qwen3_1_7b_4bit),
+        ("Llama3.2-1B", LLMRegistry.llama3_2_1B_4bit),
+        ("Llama3.2-3B", LLMRegistry.llama3_2_3B_4bit),
+        ("Qwen2.5-7B", LLMRegistry.qwen2_5_7b),
+        ("Mistral-Nemo", LLMRegistry.mistralNeMo4bit),
+        ("Gemma2-9B", LLMRegistry.gemma_2_9b_it_4bit)
     ]
     
     // Default model for Oracle
-    // Using Qwen3-1.7B for best quality responses without thinking tags
-    static let defaultModel = LLMRegistry.qwen3_1_7b_4bit
+    // Using Llama3.2-3B for good quality with mobile-friendly memory usage
+    static let defaultModel = LLMRegistry.llama3_2_3B_4bit
     
     var isModelLoaded: Bool {
         modelContainer != nil
@@ -40,7 +45,7 @@ final class MLXService {
         progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
     ) async throws {
         // Set GPU memory limit for iOS
-        MLX.GPU.set(cacheLimit: 20 * 1024 * 1024) // 20MB cache
+        MLX.GPU.set(cacheLimit: 512 * 1024 * 1024) // 512MB cache for Llama3.2-3B
         
         // Check cache first
         let cacheKey = configuration.name as NSString
@@ -67,6 +72,9 @@ final class MLXService {
         modelContainer = nil
         currentModel = nil
         MLX.GPU.set(cacheLimit: 0)
+        
+        // Force memory cleanup
+        MLX.GPU.clearCache()
     }
     
     // MARK: - Text Generation

@@ -15,6 +15,7 @@ final class OracleViewModel: ObservableObject {
     @Published var modelError: String?
     @Published var downloadProgress: Float = 0.0
     @Published var downloadStatus: String = ""
+    @Published var downloadStage: String = "" // Track current stage
     
     // MARK: - Properties
     
@@ -90,33 +91,93 @@ final class OracleViewModel: ObservableObject {
             let isDownloaded = await modelManager.isModelDownloaded
             if !isDownloaded {
                 print("[OracleViewModel] Model not downloaded, starting download")
+                // Estimate total size for Llama3.2-3B model (overestimate to ~1.8GB)
+                let estimatedTotalSize: Int64 = 1_932_735_283 // ~1.8GB in bytes
+                
                 await MainActor.run {
-                    self.downloadStatus = "Downloading model..."
+                    self.downloadStatus = "Preparing divine connection..."
+                    self.downloadStage = "Downloading Llama 3.2 (3B) model"
                     self.downloadProgress = 0.0
                 }
                 
+                // Add a small initial progress to show something is happening
+                await MainActor.run {
+                    self.downloadProgress = 0.02
+                }
+                
+                var lastProgress: Float = 0.0
+                let startTime = Date()
+                var lastBytesDownloaded: Int64 = 0
+                
                 try await modelManager.downloadModel { progress in
-                    let percentage = progress.progress * 100
-                    print("[OracleViewModel] Download progress: \(percentage)%")
+                    // The progress object provides a fraction (0-1), not actual bytes
+                    // Calculate estimated bytes based on progress
+                    let actualProgress = progress.progress
+                    let totalBytes = estimatedTotalSize
+                    
+                    let percentage = actualProgress * 100
+                    
+                    print("[OracleViewModel] Download progress: \(actualProgress) (\(percentage)%)")
                     
                     Task { @MainActor in
-                        self.downloadProgress = Float(progress.progress)
-                        self.downloadStatus = String(format: "Downloading... %.0f%%", percentage)
+                        // Smooth out progress updates
+                        let smoothedProgress = self.smoothProgress(current: actualProgress, last: lastProgress)
+                        self.downloadProgress = smoothedProgress
+                        lastProgress = smoothedProgress
+                        
+                        // Format download size
+                        let downloadedMB = Double(smoothedProgress) * Double(totalBytes) / (1024 * 1024)
+                        let totalMB = Double(totalBytes) / (1024 * 1024)
+                        
+                        // Update status with more descriptive messages
+                        let elapsedTime = Date().timeIntervalSince(startTime)
+                        if smoothedProgress < 0.3 {
+                            self.downloadStatus = String(format: "Gathering sacred texts... %.0f MB / %.0f MB", downloadedMB, totalMB)
+                        } else if smoothedProgress < 0.6 {
+                            self.downloadStatus = String(format: "Channeling divine wisdom... %.0f MB / %.0f MB", downloadedMB, totalMB)
+                        } else if smoothedProgress < 0.9 {
+                            self.downloadStatus = String(format: "Establishing connection... %.0f MB / %.0f MB", downloadedMB, totalMB)
+                        } else {
+                            self.downloadStatus = String(format: "Finalizing oracle preparations... %.0f MB / %.0f MB", downloadedMB, totalMB)
+                        }
+                        
+                        // Calculate download speed and time estimate
+                        let estimatedBytesDownloaded = Int64(smoothedProgress * Float(totalBytes))
+                        if elapsedTime > 3 && estimatedBytesDownloaded > lastBytesDownloaded {
+                            let bytesPerSecond = Double(estimatedBytesDownloaded) / elapsedTime
+                            let remainingBytes = totalBytes - estimatedBytesDownloaded
+                            let remainingSeconds = Double(remainingBytes) / bytesPerSecond
+                            
+                            if remainingSeconds > 5 && remainingSeconds < 3600 { // Between 5 seconds and 1 hour
+                                let speedMBps = bytesPerSecond / (1024 * 1024)
+                                self.downloadStage = String(format: "%.1f MB/s • %@", speedMBps, self.formatTime(remainingSeconds))
+                            }
+                        }
+                        
+                        lastBytesDownloaded = estimatedBytesDownloaded
                     }
                 }
                 
                 await MainActor.run {
-                    self.downloadStatus = "Download complete! Loading model..."
+                    self.downloadProgress = 1.0
+                    self.downloadStatus = "Download complete! Awakening the oracle..."
+                    self.downloadStage = ""
                 }
             }
             
             // Then load the model
             print("[OracleViewModel] Loading model into memory")
+            await MainActor.run {
+                self.downloadStatus = "Oracle awakening..."
+            }
+            
             try await modelManager.loadModel()
             
             await MainActor.run {
                 isModelLoaded = true
                 isModelLoading = false
+                self.downloadStatus = ""
+                self.downloadStage = ""
                 print("[OracleViewModel] Model loaded successfully")
             }
         } catch {
@@ -380,6 +441,39 @@ final class OracleViewModel: ObservableObject {
         }
         
         return text
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func smoothProgress(current: Float, last: Float) -> Float {
+        // If progress jumped backwards or stayed the same, keep incrementing slowly
+        if current <= last {
+            return min(last + 0.001, 0.99) // Never reach 100% until actually done
+        }
+        
+        // For normal progress, smooth out large jumps
+        let maxJump: Float = 0.05 // Maximum 5% jump at a time
+        let diff = current - last
+        
+        if diff > maxJump {
+            return last + maxJump
+        }
+        
+        return current
+    }
+    
+    private func formatTime(_ seconds: TimeInterval) -> String {
+        if seconds < 60 {
+            return "\(Int(seconds))s"
+        } else if seconds < 3600 {
+            let minutes = Int(seconds / 60)
+            let secs = Int(seconds.truncatingRemainder(dividingBy: 60))
+            return secs > 0 ? "\(minutes)m \(secs)s" : "\(minutes)m"
+        } else {
+            let hours = Int(seconds / 3600)
+            let minutes = Int((seconds.truncatingRemainder(dividingBy: 3600)) / 60)
+            return minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+        }
     }
     
     // MARK: - Supporting Types
