@@ -159,6 +159,48 @@ final class MLXModelManager {
     func unloadModel() {
         mlxService.unloadModel()
     }
+    
+    // MARK: - Memory Management
+    
+    /// Handle memory pressure by clearing caches but keeping model loaded if possible
+    func handleMemoryPressure() {
+        print("[MLXModelManager] Handling memory pressure")
+        
+        // Clear any caches or temporary data
+        // The MLX framework should handle its own memory management
+        // We don't want to unload the model unless absolutely necessary
+        // as reloading is expensive
+        
+        // Force garbage collection in MLX
+        // This is a placeholder - MLX should handle this internally
+    }
+    
+    /// Check available memory to decide if we should preemptively manage resources
+    func checkMemoryStatus() -> (availableMemory: Int64, totalMemory: Int64) {
+        var info = mach_task_basic_info()
+        var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+        
+        let result = withUnsafeMutablePointer(to: &info) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+                task_info(mach_task_self_,
+                         task_flavor_t(MACH_TASK_BASIC_INFO),
+                         $0,
+                         &count)
+            }
+        }
+        
+        if result == KERN_SUCCESS {
+            let usedMemory = Int64(info.resident_size)
+            let totalMemory = Int64(ProcessInfo.processInfo.physicalMemory)
+            let availableMemory = totalMemory - usedMemory
+            
+            print("[MLXModelManager] Memory status - Used: \(usedMemory / 1024 / 1024)MB, Available: \(availableMemory / 1024 / 1024)MB")
+            
+            return (availableMemory, totalMemory)
+        }
+        
+        return (0, 0)
+    }
 }
 
 // MARK: - Supporting Types

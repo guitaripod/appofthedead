@@ -73,7 +73,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     
     private func updateHeader() {
         // Force the header to update by invalidating the supplementary views
-        var snapshot = dataSource.snapshot()
+        let snapshot = dataSource.snapshot()
         dataSource.applySnapshotUsingReloadData(snapshot)
     }
     
@@ -189,11 +189,10 @@ extension HomeViewController: HomeHeaderViewDelegate {
     }
     
     private func showProfileViewController() {
-        let profileViewModel = ProfileViewModel()
-        let profileVC = ProfileViewController(viewModel: profileViewModel)
-        let navController = UINavigationController(rootViewController: profileVC)
-        navController.modalPresentationStyle = .fullScreen
-        present(navController, animated: true)
+        // Switch to the Profile tab instead of presenting modally
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1 // Profile is the second tab
+        }
     }
     
     private func showSignInOptions() {

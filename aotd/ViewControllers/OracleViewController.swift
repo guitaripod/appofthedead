@@ -163,6 +163,20 @@ final class OracleViewController: UIViewController {
         checkModelStatus()
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        // Update shadow colors for dark mode
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            inputContainerView.layer.shadowColor = traitCollection.userInterfaceStyle == .dark ?
+                UIColor.white.cgColor : UIColor.black.cgColor
+            inputContainerView.layer.shadowOpacity = traitCollection.userInterfaceStyle == .dark ? 0.05 : 0.1
+            
+            // Update text view border color
+            messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
+        }
+    }
+    
     // MARK: - Setup
     
     private func setupUI() {
@@ -190,9 +204,10 @@ final class OracleViewController: UIViewController {
     private func setupInputContainer() {
         inputContainerView.backgroundColor = UIColor.Papyrus.cardBackground
         inputContainerView.layer.borderWidth = 1
-        inputContainerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
-        inputContainerView.layer.shadowColor = UIColor.black.cgColor
-        inputContainerView.layer.shadowOpacity = 0.1
+        inputContainerView.layer.borderColor = UIColor.Papyrus.separator.cgColor
+        inputContainerView.layer.shadowColor = UITraitCollection.current.userInterfaceStyle == .dark ?
+            UIColor.white.cgColor : UIColor.black.cgColor
+        inputContainerView.layer.shadowOpacity = UITraitCollection.current.userInterfaceStyle == .dark ? 0.05 : 0.1
         inputContainerView.layer.shadowOffset = CGSize(width: 0, height: -2)
         inputContainerView.layer.shadowRadius = 4
         inputContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -207,12 +222,18 @@ final class OracleViewController: UIViewController {
         // Message text view
         messageTextView.font = .systemFont(ofSize: 16)
         messageTextView.layer.cornerRadius = 18
-        messageTextView.layer.borderColor = UIColor.Papyrus.aged.cgColor
-        messageTextView.backgroundColor = UIColor.Papyrus.beige
+        messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
+        messageTextView.backgroundColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ?
+                UIColor(red: 48/255, green: 44/255, blue: 40/255, alpha: 1.0) :
+                UIColor.Papyrus.beige
+        }
+        messageTextView.textColor = UIColor.Papyrus.primaryText
         messageTextView.layer.borderWidth = 1
         messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         messageTextView.isScrollEnabled = false
         messageTextView.delegate = self
+        messageTextView.keyboardAppearance = .dark // Better for dark mode
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(messageTextView)
         
@@ -552,11 +573,22 @@ final class OracleViewController: UIViewController {
         // Clear any cached table view cells
         tableView.reloadData()
         
-        // If we're not actively generating, we could consider unloading the model
+        // Check memory status
+        let memoryStatus = MLXModelManager.shared.checkMemoryStatus()
+        let availableMB = memoryStatus.availableMemory / 1024 / 1024
+        
+        print("[OracleViewController] Available memory: \(availableMB)MB")
+        
+        // If we're not actively generating, handle memory pressure
         if !viewModel.isGenerating && viewModel.isModelLoaded {
-            print("[OracleViewController] Considering model unload due to memory pressure")
-            // For now, just log - we don't want to unload mid-session
-            // In a production app, you might want to unload after a period of inactivity
+            MLXModelManager.shared.handleMemoryPressure()
+            
+            // Only unload model if critically low on memory (less than 500MB available)
+            if availableMB < 500 {
+                print("[OracleViewController] Critical memory pressure - considering model unload")
+                // Still don't unload automatically - let iOS handle it
+                // The model will be reloaded next time if needed
+            }
         }
     }
     
@@ -641,6 +673,7 @@ private class ChatMessageCell: UITableViewCell {
     private let messageLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let nameLabel = UILabel()
+    private let typingIndicator = UIActivityIndicatorView(style: .medium)
     
     // Constraints that will change based on message type
     private var bubbleTopConstraint: NSLayoutConstraint?
@@ -667,6 +700,7 @@ private class ChatMessageCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(messageLabel)
+        bubbleView.addSubview(typingIndicator)
         
         // Setup views
         bubbleView.layer.cornerRadius = 16
@@ -682,6 +716,10 @@ private class ChatMessageCell: UITableViewCell {
         
         nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        typingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        typingIndicator.hidesWhenStopped = true
+        typingIndicator.color = UIColor.Papyrus.aged
         
         // Setup initial constraints
         setupConstraints()
@@ -706,8 +744,12 @@ private class ChatMessageCell: UITableViewCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: 32),
             avatarImageView.heightAnchor.constraint(equalToConstant: 32),
             
-            // Width constraints
-            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280)
+            // Width constraints - Make bubbles wider for better readability
+            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 0.85),
+            
+            // Typing indicator constraints
+            typingIndicator.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor),
+            typingIndicator.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor)
         ])
         
         // Activate initial bubble constraints with lower priority
@@ -721,7 +763,23 @@ private class ChatMessageCell: UITableViewCell {
     }
     
     func configure(with message: OracleViewModel.ChatMessage) {
-        messageLabel.text = message.text
+        // Handle typing indicator for deity messages
+        if !message.isUser && message.text.isEmpty {
+            // Show typing indicator for empty deity messages
+            messageLabel.text = " "  // Add space to maintain minimum bubble size
+            messageLabel.isHidden = true
+            typingIndicator.startAnimating()
+            
+            // Set minimum size for typing bubble
+            NSLayoutConstraint.activate([
+                bubbleView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
+                bubbleView.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
+            ])
+        } else {
+            messageLabel.text = message.text
+            messageLabel.isHidden = false
+            typingIndicator.stopAnimating()
+        }
         
         // Deactivate existing dynamic constraints
         bubbleLeadingConstraint?.isActive = false
@@ -741,7 +799,7 @@ private class ChatMessageCell: UITableViewCell {
             
             // Right-aligned bubble
             bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 80)
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 40)
             
             bubbleTrailingConstraint?.isActive = true
             bubbleLeadingConstraint?.isActive = true
@@ -782,7 +840,7 @@ private class ChatMessageCell: UITableViewCell {
                 
                 // Left-aligned bubble with space for avatar
                 bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 56)
-                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80)
+                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
             } else {
                 avatarImageView.isHidden = true
                 nameLabel.isHidden = true
@@ -793,7 +851,7 @@ private class ChatMessageCell: UITableViewCell {
                 
                 // Left-aligned bubble
                 bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80)
+                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
             }
             
             bubbleLeadingConstraint?.isActive = true
@@ -812,5 +870,12 @@ private class ChatMessageCell: UITableViewCell {
             (constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView) &&
             constraint.firstAttribute == .top
         })
+        NSLayoutConstraint.deactivate(bubbleView.constraints.filter { constraint in
+            (constraint.firstAttribute == .height || constraint.firstAttribute == .width) &&
+            (constraint.firstItem === bubbleView || constraint.secondItem === bubbleView)
+        })
+        
+        typingIndicator.stopAnimating()
+        messageLabel.isHidden = false
     }
 }
