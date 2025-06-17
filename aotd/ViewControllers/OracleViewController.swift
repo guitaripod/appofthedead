@@ -276,10 +276,12 @@ final class OracleViewController: UIViewController {
     
     private func checkModelStatus() {
         print("[OracleViewController] Checking model status")
-        print("[OracleViewController] Model loaded: \(MLXModelManager.shared.isModelLoaded)")
-        print("[OracleViewController] Model downloaded: \(MLXModelManager.shared.isModelDownloaded)")
+        print("[OracleViewController] ViewModel isModelLoaded: \(viewModel.isModelLoaded)")
+        print("[OracleViewController] MLXModelManager isModelLoaded: \(MLXModelManager.shared.isModelLoaded)")
+        print("[OracleViewController] MLXModelManager isModelDownloaded: \(MLXModelManager.shared.isModelDownloaded)")
         
-        if MLXModelManager.shared.isModelLoaded {
+        // Trust the view model's state which is properly synchronized
+        if viewModel.isModelLoaded {
             downloadContainerView.isHidden = true
             inputContainerView.isHidden = false
             tableView.isHidden = false
@@ -463,6 +465,12 @@ private class ChatMessageCell: UITableViewCell {
     private let avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     
+    // Constraints that will change based on message type
+    private var bubbleTopConstraint: NSLayoutConstraint?
+    private var bubbleLeadingConstraint: NSLayoutConstraint?
+    private var bubbleTrailingConstraint: NSLayoutConstraint?
+    private var bubbleBottomConstraint: NSLayoutConstraint?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -475,28 +483,72 @@ private class ChatMessageCell: UITableViewCell {
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
+        contentView.backgroundColor = .clear
         
+        // Add all subviews
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(bubbleView)
+        bubbleView.addSubview(messageLabel)
+        
+        // Setup views
         bubbleView.layer.cornerRadius = 16
         bubbleView.layer.borderWidth = 1
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(bubbleView)
         
         messageLabel.numberOfLines = 0
         messageLabel.font = .systemFont(ofSize: 16)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        bubbleView.addSubview(messageLabel)
         
         avatarImageView.contentMode = .scaleAspectFit
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(avatarImageView)
         
         nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(nameLabel)
+        
+        // Setup initial constraints
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        // Create flexible constraints
+        bubbleTopConstraint = bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+        bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+        bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        bubbleBottomConstraint = bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        
+        // Message label constraints (fixed)
+        NSLayoutConstraint.activate([
+            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
+            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
+            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
+            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8),
+            
+            // Avatar constraints (will be shown/hidden)
+            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 32),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 32),
+            
+            // Width constraints
+            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280)
+        ])
+        
+        // Activate initial bubble constraints with lower priority
+        bubbleTopConstraint?.priority = UILayoutPriority(999)
+        bubbleBottomConstraint?.priority = UILayoutPriority(999)
+        
+        NSLayoutConstraint.activate([
+            bubbleTopConstraint!,
+            bubbleBottomConstraint!
+        ])
     }
     
     func configure(with message: OracleViewModel.ChatMessage) {
         messageLabel.text = message.text
+        
+        // Deactivate existing dynamic constraints
+        bubbleLeadingConstraint?.isActive = false
+        bubbleTrailingConstraint?.isActive = false
         
         if message.isUser {
             // User message styling
@@ -506,28 +558,16 @@ private class ChatMessageCell: UITableViewCell {
             avatarImageView.isHidden = true
             nameLabel.isHidden = true
             
-            // Remove all existing constraints
-            contentView.constraints.forEach { constraint in
-                if constraint.firstItem === bubbleView || constraint.secondItem === bubbleView ||
-                   constraint.firstItem === messageLabel || constraint.secondItem === messageLabel ||
-                   constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView ||
-                   constraint.firstItem === nameLabel || constraint.secondItem === nameLabel {
-                    constraint.isActive = false
-                }
-            }
+            // Update constraints for right-aligned user message
+            bubbleTopConstraint?.constant = 8
+            bubbleBottomConstraint?.constant = -8
             
-            NSLayoutConstraint.activate([
-                bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-                bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-                bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-                bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280),
-                bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 80),
-                
-                messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
-                messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
-                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
-                messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8)
-            ])
+            // Right-aligned bubble
+            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 80)
+            
+            bubbleTrailingConstraint?.isActive = true
+            bubbleLeadingConstraint?.isActive = true
         } else {
             // Deity/system message styling
             bubbleView.backgroundColor = UIColor.Papyrus.cardBackground
@@ -551,47 +591,49 @@ private class ChatMessageCell: UITableViewCell {
                 
                 nameLabel.text = deity.name
                 nameLabel.textColor = deity.uiColor
+                
+                // Update constraints for deity message with avatar
+                bubbleTopConstraint?.constant = 28
+                bubbleBottomConstraint?.constant = -8
+                
+                // Position avatar
+                avatarImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
+                
+                // Position name label
+                nameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true
+                nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4).isActive = true
+                
+                // Left-aligned bubble with space for avatar
+                bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 56)
+                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80)
             } else {
                 avatarImageView.isHidden = true
                 nameLabel.isHidden = true
-            }
-            
-            // Remove all existing constraints
-            contentView.constraints.forEach { constraint in
-                if constraint.firstItem === bubbleView || constraint.secondItem === bubbleView ||
-                   constraint.firstItem === messageLabel || constraint.secondItem === messageLabel ||
-                   constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView ||
-                   constraint.firstItem === nameLabel || constraint.secondItem === nameLabel {
-                    constraint.isActive = false
-                }
-            }
-            
-            var constraints = [
-                bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: message.deity != nil ? 28 : 8),
-                bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: message.deity != nil ? 56 : 16),
-                bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-                bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280),
-                bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80),
                 
-                messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
-                messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
-                messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
-                messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8)
-            ]
-            
-            if message.deity != nil {
-                constraints.append(contentsOf: [
-                    avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-                    avatarImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor),
-                    avatarImageView.widthAnchor.constraint(equalToConstant: 32),
-                    avatarImageView.heightAnchor.constraint(equalToConstant: 32),
-                    
-                    nameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor),
-                    nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4)
-                ])
+                // Update constraints for system message without avatar
+                bubbleTopConstraint?.constant = 8
+                bubbleBottomConstraint?.constant = -8
+                
+                // Left-aligned bubble
+                bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80)
             }
             
-            NSLayoutConstraint.activate(constraints)
+            bubbleLeadingConstraint?.isActive = true
+            bubbleTrailingConstraint?.isActive = true
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // Clean up constraints that might have been added dynamically
+        NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
+            (constraint.firstItem === nameLabel || constraint.secondItem === nameLabel) &&
+            (constraint.firstAttribute == .bottom || constraint.firstAttribute == .leading)
+        })
+        NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
+            (constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView) &&
+            constraint.firstAttribute == .top
+        })
     }
 }
