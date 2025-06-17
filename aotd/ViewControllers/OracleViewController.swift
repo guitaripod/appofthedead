@@ -26,6 +26,10 @@ final class OracleViewController: UIViewController {
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowRadius = 8
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.isHidden = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -34,7 +38,7 @@ final class OracleViewController: UIViewController {
     private lazy var downloadLabel: UILabel = {
         let label = UILabel()
         label.text = "Oracle requires divine knowledge to be downloaded"
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.textColor = UIColor.Papyrus.primaryText
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -42,13 +46,66 @@ final class OracleViewController: UIViewController {
         return label
     }()
     
+    private lazy var oracleIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "sparkles.rectangle.stack.fill")
+        imageView.tintColor = UIColor.Papyrus.gold
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var downloadDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Download the Qwen3 model (1.7B parameters, ~1GB) to enable on-device AI conversations with ancient deities."
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = UIColor.Papyrus.secondaryText
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var progressView: UIProgressView = {
+        let progress = UIProgressView(progressViewStyle: .default)
+        progress.progressTintColor = UIColor.Papyrus.gold
+        progress.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
+        progress.layer.cornerRadius = 2
+        progress.clipsToBounds = true
+        progress.isHidden = true
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        return progress
+    }()
+    
+    private lazy var progressLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = UIColor.Papyrus.secondaryText
+        label.textAlignment = .center
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var downloadButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Download Oracle Model", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.backgroundColor = UIColor.Papyrus.gold
-        button.setTitleColor(UIColor.Papyrus.ink, for: .normal)
-        button.layer.cornerRadius = 8
+        
+        var config = UIButton.Configuration.filled()
+        config.title = "Download Oracle Model"
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var updated = incoming
+            updated.font = .systemFont(ofSize: 16, weight: .semibold)
+            return updated
+        }
+        config.image = UIImage(systemName: "arrow.down.circle.fill")
+        config.imagePadding = 8
+        config.imagePlacement = .leading
+        config.baseBackgroundColor = UIColor.Papyrus.gold
+        config.baseForegroundColor = UIColor.Papyrus.ink
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+        
+        button.configuration = config
         button.addTarget(self, action: #selector(downloadModel), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -78,6 +135,9 @@ final class OracleViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
         title = "Oracle"
+        
+        // Re-check model status when view appears
+        checkModelStatus()
     }
     
     // MARK: - Setup
@@ -182,8 +242,12 @@ final class OracleViewController: UIViewController {
     
     private func setupDownloadUI() {
         view.addSubview(downloadContainerView)
+        downloadContainerView.addSubview(oracleIcon)
         downloadContainerView.addSubview(downloadLabel)
+        downloadContainerView.addSubview(downloadDescriptionLabel)
         downloadContainerView.addSubview(downloadButton)
+        downloadContainerView.addSubview(progressView)
+        downloadContainerView.addSubview(progressLabel)
         downloadContainerView.addSubview(loadingIndicator)
         
         NSLayoutConstraint.activate([
@@ -191,16 +255,33 @@ final class OracleViewController: UIViewController {
             downloadContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             downloadContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 32),
             downloadContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -32),
+            downloadContainerView.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             
-            downloadLabel.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: 24),
+            oracleIcon.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: 32),
+            oracleIcon.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
+            oracleIcon.widthAnchor.constraint(equalToConstant: 60),
+            oracleIcon.heightAnchor.constraint(equalToConstant: 60),
+            
+            downloadLabel.topAnchor.constraint(equalTo: oracleIcon.bottomAnchor, constant: 16),
             downloadLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             downloadLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
             
-            downloadButton.topAnchor.constraint(equalTo: downloadLabel.bottomAnchor, constant: 16),
-            downloadButton.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            downloadButton.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            downloadButton.heightAnchor.constraint(equalToConstant: 44),
-            downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -24),
+            downloadDescriptionLabel.topAnchor.constraint(equalTo: downloadLabel.bottomAnchor, constant: 12),
+            downloadDescriptionLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            downloadDescriptionLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            
+            progressView.topAnchor.constraint(equalTo: downloadDescriptionLabel.bottomAnchor, constant: 24),
+            progressView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            progressView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            progressView.heightAnchor.constraint(equalToConstant: 4),
+            
+            progressLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8),
+            progressLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            progressLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            
+            downloadButton.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 20),
+            downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
+            downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -32),
             
             loadingIndicator.centerXAnchor.constraint(equalTo: downloadButton.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: downloadButton.centerYAnchor)
@@ -232,9 +313,42 @@ final class OracleViewController: UIViewController {
                 if isLoading {
                     self?.loadingIndicator.startAnimating()
                     self?.downloadButton.isHidden = true
+                    self?.progressView.isHidden = false
+                    self?.progressLabel.isHidden = false
                 } else {
                     self?.loadingIndicator.stopAnimating()
                     self?.downloadButton.isHidden = false
+                    self?.progressView.isHidden = true
+                    self?.progressLabel.isHidden = true
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Bind download progress
+        viewModel.$downloadProgress
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] progress in
+                self?.progressView.setProgress(progress, animated: true)
+            }
+            .store(in: &cancellables)
+        
+        // Bind download status
+        viewModel.$downloadStatus
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                self?.progressLabel.text = status
+                
+                // Update UI based on status
+                if status.contains("Loading Oracle model") {
+                    // Auto-loading state
+                    self?.downloadLabel.text = "Loading Oracle..."
+                    self?.downloadDescriptionLabel.text = "Please wait while we restore the divine connection."
+                    self?.downloadButton.isHidden = true
+                    self?.progressView.isHidden = true
+                } else if status.isEmpty {
+                    // Reset to default state
+                    self?.downloadLabel.text = "Oracle requires divine knowledge to be downloaded"
+                    self?.downloadDescriptionLabel.text = "Download the Qwen3 model (1.7B parameters, ~1GB) to enable on-device AI conversations with ancient deities."
                 }
             }
             .store(in: &cancellables)
@@ -282,6 +396,14 @@ final class OracleViewController: UIViewController {
         Task {
             let isDownloaded = await MLXModelManager.shared.isModelDownloaded
             print("[OracleViewController] MLXModelManager isModelDownloaded: \(isDownloaded)")
+            
+            // If model is already loaded in MLXModelManager but not in ViewModel, sync the state
+            if MLXModelManager.shared.isModelLoaded && !viewModel.isModelLoaded {
+                print("[OracleViewController] Syncing model loaded state from MLXModelManager")
+                await MainActor.run {
+                    viewModel.syncModelLoadedState()
+                }
+            }
         }
         
         // Trust the view model's state which is properly synchronized

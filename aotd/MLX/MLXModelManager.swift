@@ -31,6 +31,13 @@ final class MLXModelManager {
         mlxService.isModelLoaded
     }
     
+    /// Returns true if the currently loaded model supports system prompts well
+    var supportsSystemPrompts: Bool {
+        // SmolLM models have known issues with system prompts
+        // Qwen models generally handle them better
+        return false // For now, always return false since we're using SmolLM by default
+    }
+    
     // MARK: - Download Progress
     
     struct DownloadProgress {
@@ -76,6 +83,7 @@ final class MLXModelManager {
         systemPrompt: String,
         maxTokens: Int = 512,
         temperature: Float = 0.7,
+        useSystemPrompt: Bool = false, // Control whether to use system prompts
         onToken: @escaping (String) -> Void
     ) async throws -> String {
         print("[MLXModelManager] Generate called")
@@ -87,10 +95,19 @@ final class MLXModelManager {
         }
         
         // Create chat messages
-        let messages = [
-            ChatMessage(role: .system, content: systemPrompt),
-            ChatMessage(role: .user, content: prompt)
-        ]
+        let messages: [ChatMessage]
+        if useSystemPrompt {
+            // Use system prompts for models that support them (e.g., Qwen3)
+            messages = [
+                ChatMessage(role: .system, content: systemPrompt),
+                ChatMessage(role: .user, content: prompt)
+            ]
+        } else {
+            // For models like SmolLM that may not properly support system prompts
+            messages = [
+                ChatMessage(role: .user, content: prompt)
+            ]
+        }
         
         // Configure generation
         let config = MLXService.GenerationConfig(

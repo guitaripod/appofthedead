@@ -26,7 +26,8 @@ final class MLXService {
     ]
     
     // Default model for Oracle
-    static let defaultModel = LLMRegistry.smolLM_135M_4bit
+    // Using Qwen3-1.7B for best quality responses without thinking tags
+    static let defaultModel = LLMRegistry.qwen3_1_7b_4bit
     
     var isModelLoaded: Bool {
         modelContainer != nil
@@ -113,11 +114,21 @@ final class MLXService {
             return Chat.Message(role: role, content: message.content)
         }
         
+        #if DEBUG
+        print("🤖 MLX Chat Messages:")
+        for (index, msg) in chatMessages.enumerated() {
+            print("  [\(index)] Role: \(msg.role), Content: \(msg.content)")
+        }
+        print("🤖 MLX Temperature: \(config.temperature)")
+        print("🤖 MLX Max Tokens: \(config.maxTokens)")
+        #endif
+        
         // Create user input
         let userInput = UserInput(chat: chatMessages)
         
         // Generate parameters
         let parameters = MLXLMCommon.GenerateParameters(
+            maxTokens: config.maxTokens,
             temperature: config.temperature
         )
         
@@ -135,17 +146,34 @@ final class MLXService {
                     }
                     
                     // Stream the tokens
+                    #if DEBUG
+                    var tokenCount = 0
+                    var totalText = ""
+                    #endif
+                    
                     for try await generation in stream {
                         switch generation {
                         case .chunk(let text):
                             if !text.isEmpty {
+                                #if DEBUG
+                                tokenCount += 1
+                                totalText += text
+                                print("🤖 MLX Token #\(tokenCount): '\(text)'")
+                                #endif
                                 continuation.yield(text)
                             }
-                        case .info:
-                            // Ignore completion info for now
+                        case .info(let info):
+                            #if DEBUG
+                            print("🤖 MLX Generation Info: \(info)")
+                            #endif
                             break
                         }
                     }
+                    
+                    #if DEBUG
+                    print("🤖 MLX Generation Complete - Total tokens: \(tokenCount)")
+                    print("🤖 MLX Total generated text: \(totalText)")
+                    #endif
                     
                     continuation.finish()
                 } catch {

@@ -13,6 +13,8 @@ final class OracleViewModel: ObservableObject {
     @Published var isModelLoaded = false
     @Published var isGenerating = false
     @Published var modelError: String?
+    @Published var downloadProgress: Float = 0.0
+    @Published var downloadStatus: String = ""
     
     // MARK: - Properties
     
@@ -61,9 +63,19 @@ final class OracleViewModel: ObservableObject {
         // Check initial model status
         isModelLoaded = modelManager.isModelLoaded
         print("[OracleViewModel] Initial model loaded status: \(isModelLoaded)")
+        
+        // Auto-load model if it was previously downloaded
+        Task {
+            await checkAndAutoLoadModel()
+        }
     }
     
     // MARK: - Public Methods
+    
+    func syncModelLoadedState() {
+        isModelLoaded = modelManager.isModelLoaded
+        print("[OracleViewModel] Synced model loaded state: \(isModelLoaded)")
+    }
     
     func loadModel() async {
         print("[OracleViewModel] Starting model load")
@@ -78,8 +90,23 @@ final class OracleViewModel: ObservableObject {
             let isDownloaded = await modelManager.isModelDownloaded
             if !isDownloaded {
                 print("[OracleViewModel] Model not downloaded, starting download")
+                await MainActor.run {
+                    self.downloadStatus = "Downloading model..."
+                    self.downloadProgress = 0.0
+                }
+                
                 try await modelManager.downloadModel { progress in
-                    print("[OracleViewModel] Download progress: \(progress.progress * 100)%")
+                    let percentage = progress.progress * 100
+                    print("[OracleViewModel] Download progress: \(percentage)%")
+                    
+                    Task { @MainActor in
+                        self.downloadProgress = Float(progress.progress)
+                        self.downloadStatus = String(format: "Downloading... %.0f%%", percentage)
+                    }
+                }
+                
+                await MainActor.run {
+                    self.downloadStatus = "Download complete! Loading model..."
                 }
             }
             
@@ -136,6 +163,49 @@ final class OracleViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
+    
+    private func checkAndAutoLoadModel() async {
+        print("[OracleViewModel] Checking for auto-load")
+        
+        // Check if model was previously loaded
+        let wasLoadedBefore = UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce")
+        print("[OracleViewModel] Model was loaded before: \(wasLoadedBefore)")
+        
+        // Check if model is already loaded in memory
+        if isModelLoaded {
+            print("[OracleViewModel] Model already loaded in memory")
+            return
+        }
+        
+        // Check if model files exist and auto-load if they do
+        let isDownloaded = await modelManager.isModelDownloaded
+        if wasLoadedBefore && isDownloaded {
+            print("[OracleViewModel] Auto-loading previously downloaded model")
+            
+            await MainActor.run {
+                isModelLoading = true
+                downloadStatus = "Loading Oracle model..."
+            }
+            
+            do {
+                try await modelManager.loadModel()
+                
+                await MainActor.run {
+                    isModelLoaded = true
+                    isModelLoading = false
+                    downloadStatus = ""
+                    print("[OracleViewModel] Model auto-loaded successfully")
+                }
+            } catch {
+                print("[OracleViewModel] Auto-load error: \(error)")
+                await MainActor.run {
+                    modelError = "Failed to auto-load model: \(error.localizedDescription)"
+                    isModelLoading = false
+                    downloadStatus = ""
+                }
+            }
+        }
+    }
     
     private func loadDeities() {
         print("[OracleViewModel] Loading deities from JSON")
@@ -217,30 +287,68 @@ final class OracleViewModel: ObservableObject {
             var fullResponse = ""
             
             // Generate response with streaming
+            #if DEBUG
+            print("🔮 Oracle System Prompt: \(deity.systemPrompt)")
+            print("🔮 Oracle User Message: \(userMessage)")
+            print("🔮 Oracle Starting response generation...")
+            #endif
+            
+            // Qwen3 should handle system prompts properly
             _ = try await modelManager.generate(
                 prompt: userMessage,
                 systemPrompt: deity.systemPrompt,
-                maxTokens: 300,
-                temperature: 0.8
+                maxTokens: 800,  // Increased to allow complete responses
+                temperature: 0.7,
+                useSystemPrompt: true // Enable system prompts for Qwen3
             ) { token in
                 // Update message with each token
                 Task { @MainActor in
                     fullResponse += token
-                    if messageIndex < self.messages.count {
-                        self.messages[messageIndex] = ChatMessage(
-                            id: responseMessage.id,
-                            text: fullResponse,
-                            isUser: false,
-                            deity: deity,
-                            timestamp: responseMessage.timestamp
-                        )
+                    
+                    #if DEBUG
+                    print("🔮 Oracle Token: \(token)")
+                    #endif
+                    
+                    // Only update UI if we're not inside think tags
+                    if !fullResponse.contains("<think>") || fullResponse.contains("</think>") {
+                        let cleanedResponse = self.removeThinkTags(from: fullResponse)
+                        if messageIndex < self.messages.count && !cleanedResponse.isEmpty {
+                            self.messages[messageIndex] = ChatMessage(
+                                id: responseMessage.id,
+                                text: cleanedResponse,
+                                isUser: false,
+                                deity: deity,
+                                timestamp: responseMessage.timestamp
+                            )
+                        }
                     }
                 }
             }
             
+            // Final cleanup and update
+            let cleanedResponse = removeThinkTags(from: fullResponse)
+            
+            // Ensure final message is updated with complete cleaned response
             await MainActor.run {
+                if messageIndex < messages.count {
+                    messages[messageIndex] = ChatMessage(
+                        id: responseMessage.id,
+                        text: cleanedResponse.trimmingCharacters(in: .whitespacesAndNewlines),
+                        isUser: false,
+                        deity: deity,
+                        timestamp: responseMessage.timestamp
+                    )
+                }
                 isGenerating = false
             }
+            
+            #if DEBUG
+            print("🔮 Oracle Complete Response: \(cleanedResponse)")
+            print("🔮 Oracle Response length: \(cleanedResponse.count) characters")
+            if cleanedResponse != fullResponse {
+                print("🔮 Oracle Filtered out think tags")
+            }
+            #endif
             
         } catch {
             print("[OracleViewModel] Generation error: \(error)")
@@ -258,6 +366,20 @@ final class OracleViewModel: ObservableObject {
                 isGenerating = false
             }
         }
+    }
+    
+    private func removeThinkTags(from text: String) -> String {
+        // Simple regex to remove think tags
+        let pattern = "<think>.*?</think>"
+        let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators])
+        let range = NSRange(location: 0, length: text.utf16.count)
+        
+        if let regex = regex {
+            return regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        return text
     }
     
     // MARK: - Supporting Types
