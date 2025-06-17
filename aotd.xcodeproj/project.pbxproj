@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C86AE3D2E015FB9000A71E2 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE3C2E015FB9000A71E2 /* MLX */; };
+		2C86AE3F2E015FB9000A71E2 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE3E2E015FB9000A71E2 /* MLXFFT */; };
+		2C86AE412E015FB9000A71E2 /* MLXLinalg in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE402E015FB9000A71E2 /* MLXLinalg */; };
+		2C86AE432E015FB9000A71E2 /* MLXNN in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE422E015FB9000A71E2 /* MLXNN */; };
 		2CA5C5B12DEE412F002AD8E9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 2CA5C5B02DEE412F002AD8E9 /* GRDB */; };
 /* End PBXBuildFile section */
 
@@ -71,7 +75,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C86AE3D2E015FB9000A71E2 /* MLX in Frameworks */,
+				2C86AE412E015FB9000A71E2 /* MLXLinalg in Frameworks */,
 				2CA5C5B12DEE412F002AD8E9 /* GRDB in Frameworks */,
+				2C86AE432E015FB9000A71E2 /* MLXNN in Frameworks */,
+				2C86AE3F2E015FB9000A71E2 /* MLXFFT in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +148,10 @@
 			name = aotd;
 			packageProductDependencies = (
 				2CA5C5B02DEE412F002AD8E9 /* GRDB */,
+				2C86AE3C2E015FB9000A71E2 /* MLX */,
+				2C86AE3E2E015FB9000A71E2 /* MLXFFT */,
+				2C86AE402E015FB9000A71E2 /* MLXLinalg */,
+				2C86AE422E015FB9000A71E2 /* MLXNN */,
 			);
 			productName = aotd;
 			productReference = 2C9B040E2DEE3F3000085429 /* aotd.app */;
@@ -175,6 +187,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2CA5C5AF2DEE412F002AD8E9 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+				2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C9B040F2DEE3F3000085429 /* Products */;
@@ -490,6 +503,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.25.4;
+			};
+		};
 		2CA5C5AF2DEE412F002AD8E9 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
@@ -501,6 +522,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2C86AE3C2E015FB9000A71E2 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		2C86AE3E2E015FB9000A71E2 /* MLXFFT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFFT;
+		};
+		2C86AE402E015FB9000A71E2 /* MLXLinalg */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXLinalg;
+		};
+		2C86AE422E015FB9000A71E2 /* MLXNN */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXNN;
+		};
 		2CA5C5B02DEE412F002AD8E9 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2CA5C5AF2DEE412F002AD8E9 /* XCRemoteSwiftPackageReference "GRDB.swift" */;

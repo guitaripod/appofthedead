@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 final class OracleViewController: UIViewController {
     
@@ -12,41 +13,54 @@ final class OracleViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var messages: [ChatMessage] = []
-    private var selectedDeity: Deity?
+    private let viewModel = OracleViewModel()
+    private var cancellables = Set<AnyCancellable>()
     private var inputContainerBottomConstraint: NSLayoutConstraint?
+    private var typingIndicator: UIActivityIndicatorView?
     
-    // MARK: - Types
+    // MARK: - Model Download UI
     
-    struct ChatMessage {
-        let text: String
-        let isUser: Bool
-        let deity: Deity?
-        let timestamp: Date
-    }
+    private lazy var downloadContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.Papyrus.cardBackground
+        view.layer.cornerRadius = 16
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    struct Deity {
-        let id: String
-        let name: String
-        let tradition: String
-        let role: String
-        let avatar: String // SF Symbol name
-        let color: UIColor
-    }
+    private lazy var downloadLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Oracle requires divine knowledge to be downloaded"
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = UIColor.Papyrus.primaryText
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
-    // Available deities for conversation
-    private let availableDeities: [Deity] = [
-        Deity(id: "anubis", name: "Anubis", tradition: "Egyptian", role: "Guide of Souls", 
-              avatar: "figure.stand", color: UIColor.Papyrus.gold),
-        Deity(id: "hermes", name: "Hermes", tradition: "Greek", role: "Messenger of Gods", 
-              avatar: "wind", color: UIColor.Papyrus.hieroglyphBlue),
-        Deity(id: "gabriel", name: "Gabriel", tradition: "Abrahamic", role: "Archangel", 
-              avatar: "sparkles", color: UIColor.Papyrus.mysticPurple),
-        Deity(id: "yama", name: "Yama", tradition: "Hindu/Buddhist", role: "Lord of Death", 
-              avatar: "flame", color: UIColor.Papyrus.tombRed),
-        Deity(id: "mictlantecuhtli", name: "Mictlantecuhtli", tradition: "Aztec", role: "Lord of Mictlan", 
-              avatar: "moon.stars", color: UIColor.Papyrus.burnishedGold)
-    ]
+    private lazy var downloadButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Download Oracle Model", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.backgroundColor = UIColor.Papyrus.gold
+        button.setTitleColor(UIColor.Papyrus.ink, for: .normal)
+        button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(downloadModel), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = UIColor.Papyrus.gold
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     // MARK: - Lifecycle
     
@@ -54,7 +68,8 @@ final class OracleViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupKeyboardObservers()
-        addWelcomeMessage()
+        setupBindings()
+        checkModelStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,8 +87,7 @@ final class OracleViewController: UIViewController {
         setupInputContainer()
         setupConstraints()
         
-        // Set default deity
-        selectedDeity = availableDeities.first
+        setupDownloadUI()
         updateDeityButton()
     }
     
@@ -164,6 +178,110 @@ final class OracleViewController: UIViewController {
         ])
     }
     
+    private func setupDownloadUI() {
+        view.addSubview(downloadContainerView)
+        downloadContainerView.addSubview(downloadLabel)
+        downloadContainerView.addSubview(downloadButton)
+        downloadContainerView.addSubview(loadingIndicator)
+        
+        NSLayoutConstraint.activate([
+            downloadContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            downloadContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            downloadContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 32),
+            downloadContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -32),
+            
+            downloadLabel.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: 24),
+            downloadLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            downloadLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            
+            downloadButton.topAnchor.constraint(equalTo: downloadLabel.bottomAnchor, constant: 16),
+            downloadButton.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
+            downloadButton.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
+            downloadButton.heightAnchor.constraint(equalToConstant: 44),
+            downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -24),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: downloadButton.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: downloadButton.centerYAnchor)
+        ])
+    }
+    
+    private func setupBindings() {
+        // Bind messages
+        viewModel.$messages
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+                self?.scrollToBottom()
+            }
+            .store(in: &cancellables)
+        
+        // Bind selected deity
+        viewModel.$selectedDeity
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateDeityButton()
+            }
+            .store(in: &cancellables)
+        
+        // Bind model loading state
+        viewModel.$isModelLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.loadingIndicator.startAnimating()
+                    self?.downloadButton.isHidden = true
+                } else {
+                    self?.loadingIndicator.stopAnimating()
+                    self?.downloadButton.isHidden = false
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Bind model loaded state
+        viewModel.$isModelLoaded
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoaded in
+                self?.downloadContainerView.isHidden = isLoaded
+                self?.inputContainerView.isHidden = !isLoaded
+                self?.tableView.isHidden = !isLoaded
+            }
+            .store(in: &cancellables)
+        
+        // Bind generating state
+        viewModel.$isGenerating
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isGenerating in
+                self?.sendButton.isEnabled = !isGenerating
+                self?.messageTextView.isEditable = !isGenerating
+            }
+            .store(in: &cancellables)
+        
+        // Bind errors
+        viewModel.$modelError
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                let alert = PapyrusAlert(
+                    title: "Oracle Error",
+                    message: error,
+                    style: .alert
+                )
+                alert.addAction(PapyrusAlert.Action(title: "OK", style: .default))
+                alert.present(from: self!)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func checkModelStatus() {
+        if MLXModelManager.shared.isModelLoaded {
+            downloadContainerView.isHidden = true
+        } else {
+            downloadContainerView.isHidden = false
+            inputContainerView.isHidden = true
+            tableView.isHidden = true
+        }
+    }
+    
     private func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(
             self,
@@ -186,31 +304,29 @@ final class OracleViewController: UIViewController {
         guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty else { return }
         
-        // Add user message
-        let userMessage = ChatMessage(text: text, isUser: true, deity: nil, timestamp: Date())
-        messages.append(userMessage)
-        
         // Clear input
         messageTextView.text = ""
         textViewDidChange(messageTextView)
         
-        // Reload table
-        tableView.reloadData()
-        scrollToBottom()
-        
-        // Simulate deity response (will be replaced with MLX integration)
-        simulateDeityResponse(to: text)
+        // Send message through view model
+        Task {
+            await viewModel.sendMessage(text)
+        }
+    }
+    
+    @objc private func downloadModel() {
+        Task {
+            await viewModel.loadModel()
+        }
     }
     
     @objc private func selectDeity() {
         let alert = PapyrusAlert(title: "Choose Your Oracle", message: nil, style: .actionSheet)
             .setSourceView(deitySelectionButton)
         
-        for deity in availableDeities {
+        for deity in viewModel.availableDeities {
             alert.addAction(PapyrusAlert.Action(title: "\(deity.name) - \(deity.tradition)") { [weak self] in
-                self?.selectedDeity = deity
-                self?.updateDeityButton()
-                self?.addDeityGreeting(deity)
+                self?.viewModel.selectDeity(deity)
             })
         }
         
@@ -248,56 +364,22 @@ final class OracleViewController: UIViewController {
     // MARK: - Helpers
     
     private func updateDeityButton() {
-        guard let deity = selectedDeity else { return }
+        guard let deity = viewModel.selectedDeity else { return }
         
-        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
-        deitySelectionButton.setImage(UIImage(systemName: deity.avatar, withConfiguration: config), for: .normal)
-        deitySelectionButton.tintColor = deity.color
+        let iconImage = IconProvider.beliefSystemIcon(
+            for: deity.avatar,
+            color: deity.uiColor,
+            size: 24
+        )
+        deitySelectionButton.setImage(iconImage, for: .normal)
+        deitySelectionButton.tintColor = deity.uiColor
     }
     
-    private func addWelcomeMessage() {
-        let welcomeText = "Welcome to the Oracle! Here you can converse with divine beings from various traditions. Select a deity to begin your dialogue."
-        let welcomeMessage = ChatMessage(text: welcomeText, isUser: false, deity: nil, timestamp: Date())
-        messages.append(welcomeMessage)
-        tableView.reloadData()
-    }
-    
-    private func addDeityGreeting(_ deity: Deity) {
-        let greetings: [String: String] = [
-            "anubis": "I am Anubis, Guardian of the Scales. I have witnessed countless souls on their journey through the afterlife. What wisdom do you seek?",
-            "hermes": "Greetings, mortal! I am Hermes, swift messenger between realms. I traverse both the world of the living and the dead. How may I guide you?",
-            "gabriel": "Peace be upon you. I am Gabriel, herald of divine messages. I bring tidings from the celestial realm. What questions weigh upon your heart?",
-            "yama": "I am Yama, the first to die and thus the guide for all who follow. I maintain the cosmic order between life and death. Speak, and I shall answer.",
-            "mictlantecuhtli": "I am Mictlantecuhtli, Lord of the Bone Palace. In Mictlan, all souls find their rest. What do you wish to know about the journey ahead?"
-        ]
-        
-        if let greeting = greetings[deity.id] {
-            let message = ChatMessage(text: greeting, isUser: false, deity: deity, timestamp: Date())
-            messages.append(message)
-            tableView.reloadData()
-            scrollToBottom()
-        }
-    }
-    
-    private func simulateDeityResponse(to userMessage: String) {
-        guard let deity = selectedDeity else { return }
-        
-        // Show typing indicator
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            // Placeholder response - will be replaced with MLX integration
-            let response = "This is where the MLX-powered response from \(deity.name) would appear. The AI would respond in character, drawing from the knowledge of \(deity.tradition) traditions about the afterlife."
-            
-            let message = ChatMessage(text: response, isUser: false, deity: deity, timestamp: Date())
-            self?.messages.append(message)
-            self?.tableView.reloadData()
-            self?.scrollToBottom()
-        }
-    }
     
     private func scrollToBottom() {
-        guard messages.count > 0 else { return }
+        guard viewModel.messages.count > 0 else { return }
         
-        let indexPath = IndexPath(row: messages.count - 1, section: 0)
+        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
@@ -311,12 +393,12 @@ final class OracleViewController: UIViewController {
 extension OracleViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return viewModel.messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatMessageCell", for: indexPath) as! ChatMessageCell
-        let message = messages[indexPath.row]
+        let message = viewModel.messages[indexPath.row]
         cell.configure(with: message)
         return cell
     }
@@ -388,7 +470,7 @@ private class ChatMessageCell: UITableViewCell {
         contentView.addSubview(nameLabel)
     }
     
-    func configure(with message: OracleViewController.ChatMessage) {
+    func configure(with message: OracleViewModel.ChatMessage) {
         messageLabel.text = message.text
         
         if message.isUser {
@@ -421,12 +503,15 @@ private class ChatMessageCell: UITableViewCell {
                 avatarImageView.isHidden = false
                 nameLabel.isHidden = false
                 
-                let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
-                avatarImageView.image = UIImage(systemName: deity.avatar, withConfiguration: config)
-                avatarImageView.tintColor = deity.color
+                avatarImageView.image = IconProvider.beliefSystemIcon(
+                    for: deity.avatar,
+                    color: deity.uiColor,
+                    size: 24
+                )
+                avatarImageView.tintColor = deity.uiColor
                 
                 nameLabel.text = deity.name
-                nameLabel.textColor = deity.color
+                nameLabel.textColor = deity.uiColor
             } else {
                 avatarImageView.isHidden = true
                 nameLabel.isHidden = true
