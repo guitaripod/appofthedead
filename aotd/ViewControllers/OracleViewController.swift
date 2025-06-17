@@ -278,7 +278,11 @@ final class OracleViewController: UIViewController {
         print("[OracleViewController] Checking model status")
         print("[OracleViewController] ViewModel isModelLoaded: \(viewModel.isModelLoaded)")
         print("[OracleViewController] MLXModelManager isModelLoaded: \(MLXModelManager.shared.isModelLoaded)")
-        print("[OracleViewController] MLXModelManager isModelDownloaded: \(MLXModelManager.shared.isModelDownloaded)")
+        
+        Task {
+            let isDownloaded = await MLXModelManager.shared.isModelDownloaded
+            print("[OracleViewController] MLXModelManager isModelDownloaded: \(isDownloaded)")
+        }
         
         // Trust the view model's state which is properly synchronized
         if viewModel.isModelLoaded {

@@ -75,7 +75,8 @@ final class OracleViewModel: ObservableObject {
         
         do {
             // First download if needed
-            if !modelManager.isModelDownloaded {
+            let isDownloaded = await modelManager.isModelDownloaded
+            if !isDownloaded {
                 print("[OracleViewModel] Model not downloaded, starting download")
                 try await modelManager.downloadModel { progress in
                     print("[OracleViewModel] Download progress: \(progress.progress * 100)%")
@@ -199,23 +200,63 @@ final class OracleViewModel: ObservableObject {
             isGenerating = true
         }
         
-        // TODO: Implement actual LLM integration
-        // TODO: Use MLXModelManager to generate deity-specific responses
-        // TODO: Handle streaming responses and update messages in real-time
-        // TODO: Apply deity.systemPrompt to customize responses
-        // TODO: Handle errors and edge cases (model not loaded, generation failures)
-        
-        // Temporary placeholder until LLM is integrated
-        let placeholderMessage = ChatMessage(
-            text: "Oracle responses coming soon...",
-            isUser: false,
-            deity: deity,
-            timestamp: Date()
-        )
-        
-        await MainActor.run {
-            messages.append(placeholderMessage)
-            isGenerating = false
+        do {
+            // Create a message that will be updated with streaming tokens
+            let responseMessage = ChatMessage(
+                text: "",
+                isUser: false,
+                deity: deity,
+                timestamp: Date()
+            )
+            
+            await MainActor.run {
+                messages.append(responseMessage)
+            }
+            
+            let messageIndex = messages.count - 1
+            var fullResponse = ""
+            
+            // Generate response with streaming
+            _ = try await modelManager.generate(
+                prompt: userMessage,
+                systemPrompt: deity.systemPrompt,
+                maxTokens: 300,
+                temperature: 0.8
+            ) { token in
+                // Update message with each token
+                Task { @MainActor in
+                    fullResponse += token
+                    if messageIndex < self.messages.count {
+                        self.messages[messageIndex] = ChatMessage(
+                            id: responseMessage.id,
+                            text: fullResponse,
+                            isUser: false,
+                            deity: deity,
+                            timestamp: responseMessage.timestamp
+                        )
+                    }
+                }
+            }
+            
+            await MainActor.run {
+                isGenerating = false
+            }
+            
+        } catch {
+            print("[OracleViewModel] Generation error: \(error)")
+            
+            let errorMessage = ChatMessage(
+                text: "I apologize, but I'm having trouble connecting to the divine realm. Please try again.",
+                isUser: false,
+                deity: deity,
+                timestamp: Date()
+            )
+            
+            await MainActor.run {
+                messages.append(errorMessage)
+                modelError = error.localizedDescription
+                isGenerating = false
+            }
         }
     }
     

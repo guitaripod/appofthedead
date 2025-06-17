@@ -1,7 +1,5 @@
 import Foundation
 import MLX
-import MLXNN
-import MLXLinalg
 
 final class MLXModelManager {
     
@@ -21,21 +19,16 @@ final class MLXModelManager {
     
     // MARK: - Properties
     
-    private var model: LLMModel?
-    private var tokenizer: Tokenizer?
-    private let modelName = "HuggingFaceTB/SmolLM2-1.7B-Instruct-Q8-mlx"
-    private let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    
-    private var modelURL: URL {
-        documentsURL.appendingPathComponent("SmolLM2-1.7B-Instruct-Q8-mlx")
-    }
+    private let mlxService = MLXService.shared
     
     var isModelDownloaded: Bool {
-        FileManager.default.fileExists(atPath: modelURL.path)
+        get async {
+            await mlxService.checkModelDownloaded()
+        }
     }
     
     var isModelLoaded: Bool {
-        model != nil && tokenizer != nil
+        mlxService.isModelLoaded
     }
     
     // MARK: - Download Progress
@@ -59,47 +52,21 @@ final class MLXModelManager {
     func loadModel() async throws {
         print("[MLXModelManager] Starting model load")
         
-        // Set memory limit for iOS
-        MLX.GPU.set(cacheLimit: 20 * 1024 * 1024) // 20MB buffer cache
-        
-        // For demonstration, create a mock configuration
-        // In production, this would load from the actual model files
-        let config = LLMModelConfiguration(
-            modelType: "smollm2",
-            vocabSize: 49152,
-            hiddenSize: 1536,
-            numHiddenLayers: 28,
-            numAttentionHeads: 24,
-            intermediateSize: 8960,
-            maxPositionEmbeddings: 2048,
-            rmsNormEps: 1e-5,
-            ropeTheta: 10000.0,
-            tieWordEmbeddings: true
-        )
-        
-        print("[MLXModelManager] Creating LLM model")
-        // Create model (for demo purposes)
-        let llmModel = try LLMModel(configuration: config)
-        
-        print("[MLXModelManager] Creating tokenizer")
-        // Create tokenizer
-        let tokenizerConfig = TokenizerConfig(
-            modelMaxLength: 2048,
-            padTokenId: 3,
-            eosTokenId: 2,
-            bosTokenId: 0
-        )
-        let llmTokenizer = try Tokenizer(config: tokenizerConfig)
-        
-        // Set the properties
-        self.model = llmModel
-        self.tokenizer = llmTokenizer
-        
-        // Persist that we've loaded the model at least once
-        UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
-        
-        print("[MLXModelManager] Model loaded successfully")
-        print("[MLXModelManager] isModelLoaded: \(isModelLoaded)")
+        do {
+            try await mlxService.loadModel { (progress: Foundation.Progress) in
+                let fractionCompleted = progress.totalUnitCount > 0 ? Double(progress.completedUnitCount) / Double(progress.totalUnitCount) : 0
+                print("[MLXModelManager] Load progress: \(fractionCompleted * 100)%")
+            }
+            
+            // Persist that we've loaded the model at least once
+            UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
+            
+            print("[MLXModelManager] Model loaded successfully")
+            print("[MLXModelManager] isModelLoaded: \(isModelLoaded)")
+        } catch {
+            print("[MLXModelManager] Model load error: \(error)")
+            throw error
+        }
     }
     
     // MARK: - Text Generation
@@ -112,19 +79,21 @@ final class MLXModelManager {
         onToken: @escaping (String) -> Void
     ) async throws -> String {
         print("[MLXModelManager] Generate called")
-        print("[MLXModelManager] Model loaded: \(model != nil), Tokenizer loaded: \(tokenizer != nil)")
+        print("[MLXModelManager] Model loaded: \(isModelLoaded)")
         
-        guard let model = model, let tokenizer = tokenizer else {
-            print("[MLXModelManager] Error: Model or tokenizer not loaded")
+        guard isModelLoaded else {
+            print("[MLXModelManager] Error: Model not loaded")
             throw MLXError.modelNotLoaded
         }
         
-        // Format prompt with system message
-        let fullPrompt = formatPrompt(system: systemPrompt, user: prompt)
-        print("[MLXModelManager] Full prompt length: \(fullPrompt.count) characters")
+        // Create chat messages
+        let messages = [
+            ChatMessage(role: .system, content: systemPrompt),
+            ChatMessage(role: .user, content: prompt)
+        ]
         
-        // Create the generate parameters
-        let generateParams = GenerateParameters(
+        // Configure generation
+        let config = MLXService.GenerationConfig(
             temperature: temperature,
             maxTokens: maxTokens
         )
@@ -135,10 +104,12 @@ final class MLXModelManager {
         
         print("[MLXModelManager] Starting generation stream")
         
-        for try await token in model.generate(
-            prompt: fullPrompt,
-            parameters: generateParams
-        ) {
+        let stream = try await mlxService.generate(
+            messages: messages,
+            config: config
+        )
+        
+        for try await token in stream {
             generatedText += token
             tokenCount += 1
             onToken(token)
@@ -149,61 +120,27 @@ final class MLXModelManager {
         return generatedText
     }
     
-    // MARK: - Helpers
-    
-    private func formatPrompt(system: String, user: String) -> String {
-        return """
-        <|im_start|>system
-        \(system)<|im_end|>
-        <|im_start|>user
-        \(user)<|im_end|>
-        <|im_start|>assistant
-        """
-    }
-    
     // MARK: - Model Download
     
     func downloadModel(onProgress: @escaping (DownloadProgress) -> Void) async throws {
-        print("[MLXModelManager] Starting model download (simulated)")
+        print("[MLXModelManager] Starting model download")
         
-        // For demonstration purposes, we'll simulate model availability
-        // In production, this would download from Hugging Face Hub
-        
-        // Create model directory
-        try FileManager.default.createDirectory(
-            at: modelURL,
-            withIntermediateDirectories: true
-        )
-        
-        // Simulate download progress
-        for i in 0...10 {
-            let progress = DownloadProgress(
-                bytesDownloaded: Int64(i * 100_000_000),
-                totalBytes: 1_000_000_000
+        // The MLXService will handle the actual download through Hub
+        try await mlxService.loadModel { (progress: Foundation.Progress) in
+            let downloadProgress = DownloadProgress(
+                bytesDownloaded: progress.completedUnitCount,
+                totalBytes: progress.totalUnitCount
             )
-            onProgress(progress)
-            
-            // Call on main thread
-            await MainActor.run {
-                print("[MLXModelManager] Download progress: \(Int(progress.progress * 100))%")
-            }
-            
-            try await Task.sleep(nanoseconds: 100_000_000) // 0.1s
+            onProgress(downloadProgress)
         }
         
-        print("[MLXModelManager] Model download complete (simulated)")
-        
-        // Create a marker file to indicate download complete
-        let markerURL = modelURL.appendingPathComponent(".downloaded")
-        try "downloaded".write(to: markerURL, atomically: true, encoding: .utf8)
+        print("[MLXModelManager] Model download complete")
     }
     
     // MARK: - Clean Up
     
     func unloadModel() {
-        model = nil
-        tokenizer = nil
-        MLX.GPU.set(cacheLimit: 0)
+        mlxService.unloadModel()
     }
 }
 
@@ -226,11 +163,3 @@ enum MLXError: LocalizedError {
     }
 }
 
-// MARK: - Generate Parameters
-
-struct GenerateParameters {
-    let temperature: Float
-    let maxTokens: Int
-    let topP: Float = 0.95
-    let repetitionPenalty: Float = 1.1
-}
