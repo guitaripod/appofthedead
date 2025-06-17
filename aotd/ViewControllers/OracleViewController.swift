@@ -66,10 +66,12 @@ final class OracleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("[OracleViewController] viewDidLoad started")
         setupUI()
         setupKeyboardObservers()
         setupBindings()
         checkModelStatus()
+        print("[OracleViewController] viewDidLoad completed")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -273,8 +275,14 @@ final class OracleViewController: UIViewController {
     }
     
     private func checkModelStatus() {
+        print("[OracleViewController] Checking model status")
+        print("[OracleViewController] Model loaded: \(MLXModelManager.shared.isModelLoaded)")
+        print("[OracleViewController] Model downloaded: \(MLXModelManager.shared.isModelDownloaded)")
+        
         if MLXModelManager.shared.isModelLoaded {
             downloadContainerView.isHidden = true
+            inputContainerView.isHidden = false
+            tableView.isHidden = false
         } else {
             downloadContainerView.isHidden = false
             inputContainerView.isHidden = true
@@ -302,7 +310,13 @@ final class OracleViewController: UIViewController {
     
     @objc private func sendMessage() {
         guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !text.isEmpty else { return }
+              !text.isEmpty else {
+            print("[OracleViewController] Send message attempted with empty text")
+            return
+        }
+        
+        print("[OracleViewController] Sending message: \(text)")
+        print("[OracleViewController] Selected deity: \(viewModel.selectedDeity?.name ?? "none")")
         
         // Clear input
         messageTextView.text = ""
@@ -315,17 +329,22 @@ final class OracleViewController: UIViewController {
     }
     
     @objc private func downloadModel() {
+        print("[OracleViewController] Download model button tapped")
         Task {
             await viewModel.loadModel()
         }
     }
     
     @objc private func selectDeity() {
+        print("[OracleViewController] Select deity button tapped")
+        print("[OracleViewController] Available deities: \(viewModel.availableDeities.count)")
+        
         let alert = PapyrusAlert(title: "Choose Your Oracle", message: nil, style: .actionSheet)
             .setSourceView(deitySelectionButton)
         
         for deity in viewModel.availableDeities {
             alert.addAction(PapyrusAlert.Action(title: "\(deity.name) - \(deity.tradition)") { [weak self] in
+                print("[OracleViewController] Selected deity: \(deity.name)")
                 self?.viewModel.selectDeity(deity)
             })
         }
@@ -364,15 +383,24 @@ final class OracleViewController: UIViewController {
     // MARK: - Helpers
     
     private func updateDeityButton() {
-        guard let deity = viewModel.selectedDeity else { return }
+        guard let deity = viewModel.selectedDeity else {
+            print("[OracleViewController] updateDeityButton - no deity selected")
+            return
+        }
         
-        let iconImage = IconProvider.beliefSystemIcon(
-            for: deity.avatar,
-            color: deity.uiColor,
-            size: 24
-        )
-        deitySelectionButton.setImage(iconImage, for: .normal)
-        deitySelectionButton.tintColor = deity.uiColor
+        print("[OracleViewController] Updating deity button for: \(deity.name)")
+        
+        // Use SF Symbol directly since deity.avatar contains SF Symbol names
+        if let iconImage = UIImage(systemName: deity.avatar) {
+            let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
+            deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
+            deitySelectionButton.tintColor = deity.uiColor
+        } else {
+            print("[OracleViewController] Warning: Could not load icon \(deity.avatar)")
+            // Fallback icon
+            deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
+            deitySelectionButton.tintColor = deity.uiColor
+        }
     }
     
     
@@ -481,12 +509,22 @@ private class ChatMessageCell: UITableViewCell {
             avatarImageView.isHidden = true
             nameLabel.isHidden = true
             
-            NSLayoutConstraint.deactivate(contentView.constraints)
+            // Remove all existing constraints
+            contentView.constraints.forEach { constraint in
+                if constraint.firstItem === bubbleView || constraint.secondItem === bubbleView ||
+                   constraint.firstItem === messageLabel || constraint.secondItem === messageLabel ||
+                   constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView ||
+                   constraint.firstItem === nameLabel || constraint.secondItem === nameLabel {
+                    constraint.isActive = false
+                }
+            }
+            
             NSLayoutConstraint.activate([
                 bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
                 bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
                 bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
                 bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280),
+                bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 80),
                 
                 messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
                 messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
@@ -503,12 +541,16 @@ private class ChatMessageCell: UITableViewCell {
                 avatarImageView.isHidden = false
                 nameLabel.isHidden = false
                 
-                avatarImageView.image = IconProvider.beliefSystemIcon(
-                    for: deity.avatar,
-                    color: deity.uiColor,
-                    size: 24
-                )
-                avatarImageView.tintColor = deity.uiColor
+                // Use SF Symbol directly
+                if let image = UIImage(systemName: deity.avatar) {
+                    let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
+                    avatarImageView.image = image.withConfiguration(config)
+                    avatarImageView.tintColor = deity.uiColor
+                } else {
+                    // Fallback
+                    avatarImageView.image = UIImage(systemName: "person.circle.fill")
+                    avatarImageView.tintColor = deity.uiColor
+                }
                 
                 nameLabel.text = deity.name
                 nameLabel.textColor = deity.uiColor
@@ -517,13 +559,22 @@ private class ChatMessageCell: UITableViewCell {
                 nameLabel.isHidden = true
             }
             
-            NSLayoutConstraint.deactivate(contentView.constraints)
+            // Remove all existing constraints
+            contentView.constraints.forEach { constraint in
+                if constraint.firstItem === bubbleView || constraint.secondItem === bubbleView ||
+                   constraint.firstItem === messageLabel || constraint.secondItem === messageLabel ||
+                   constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView ||
+                   constraint.firstItem === nameLabel || constraint.secondItem === nameLabel {
+                    constraint.isActive = false
+                }
+            }
             
             var constraints = [
-                bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+                bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: message.deity != nil ? 28 : 8),
                 bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: message.deity != nil ? 56 : 16),
                 bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
                 bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 280),
+                bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -80),
                 
                 messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
                 messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),

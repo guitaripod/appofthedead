@@ -22,11 +22,19 @@ final class OracleViewModel: ObservableObject {
     // MARK: - Types
     
     struct ChatMessage {
-        let id = UUID()
+        let id: UUID
         let text: String
         let isUser: Bool
         let deity: Deity?
         let timestamp: Date
+        
+        init(id: UUID = UUID(), text: String, isUser: Bool, deity: Deity?, timestamp: Date) {
+            self.id = id
+            self.text = text
+            self.isUser = isUser
+            self.deity = deity
+            self.timestamp = timestamp
+        }
     }
     
     struct Deity: Codable {
@@ -46,33 +54,61 @@ final class OracleViewModel: ObservableObject {
     // MARK: - Initialization
     
     init() {
+        print("[OracleViewModel] Initializing")
         loadDeities()
         addWelcomeMessage()
+        
+        // Check initial model status
+        isModelLoaded = modelManager.isModelLoaded
+        print("[OracleViewModel] Initial model loaded status: \(isModelLoaded)")
     }
     
     // MARK: - Public Methods
     
     func loadModel() async {
-        isModelLoading = true
-        modelError = nil
+        print("[OracleViewModel] Starting model load")
+        
+        await MainActor.run {
+            isModelLoading = true
+            modelError = nil
+        }
         
         do {
+            // First download if needed
+            if !modelManager.isModelDownloaded {
+                print("[OracleViewModel] Model not downloaded, starting download")
+                try await modelManager.downloadModel { progress in
+                    print("[OracleViewModel] Download progress: \(progress.progress * 100)%")
+                }
+            }
+            
+            // Then load the model
+            print("[OracleViewModel] Loading model into memory")
             try await modelManager.loadModel()
+            
             await MainActor.run {
                 isModelLoaded = true
                 isModelLoading = false
+                print("[OracleViewModel] Model loaded successfully")
             }
         } catch {
+            print("[OracleViewModel] Model load error: \(error)")
             await MainActor.run {
                 modelError = error.localizedDescription
                 isModelLoading = false
+                isModelLoaded = false
             }
         }
     }
     
     func sendMessage(_ text: String) async {
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              let deity = selectedDeity else { return }
+              let deity = selectedDeity else {
+            print("[OracleViewModel] Cannot send message - empty text or no deity selected")
+            return
+        }
+        
+        print("[OracleViewModel] Sending message: \(text) to deity: \(deity.name)")
         
         // Add user message
         let userMessage = ChatMessage(
@@ -91,6 +127,7 @@ final class OracleViewModel: ObservableObject {
     }
     
     func selectDeity(_ deity: Deity) {
+        print("[OracleViewModel] Selecting deity: \(deity.name)")
         selectedDeity = deity
         addDeityGreeting(deity)
     }
@@ -98,14 +135,24 @@ final class OracleViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func loadDeities() {
-        guard let url = Bundle.main.url(forResource: "deity_prompts", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let deitiesData = try? JSONDecoder().decode(DeitiesData.self, from: data) else {
+        print("[OracleViewModel] Loading deities from JSON")
+        
+        guard let url = Bundle.main.url(forResource: "deity_prompts", withExtension: "json") else {
+            print("[OracleViewModel] Error: Could not find deity_prompts.json")
             return
         }
         
-        availableDeities = Array(deitiesData.deities.values).sorted { $0.name < $1.name }
-        selectedDeity = availableDeities.first
+        do {
+            let data = try Data(contentsOf: url)
+            let deitiesData = try JSONDecoder().decode(DeitiesData.self, from: data)
+            availableDeities = Array(deitiesData.deities.values).sorted { $0.name < $1.name }
+            selectedDeity = availableDeities.first
+            
+            print("[OracleViewModel] Loaded \(availableDeities.count) deities")
+            print("[OracleViewModel] Selected deity: \(selectedDeity?.name ?? "none")")
+        } catch {
+            print("[OracleViewModel] Error loading deities: \(error)")
+        }
     }
     
     private func addWelcomeMessage() {
@@ -143,7 +190,12 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func generateResponse(to userMessage: String, deity: Deity) async {
+        print("[OracleViewModel] Generating response for: \(userMessage)")
+        print("[OracleViewModel] Using deity: \(deity.name)")
+        print("[OracleViewModel] Model loaded: \(isModelLoaded)")
+        
         guard isModelLoaded else {
+            print("[OracleViewModel] Model not loaded, using fallback response")
             // Fallback response if model not loaded
             let fallbackResponse = "The divine connection is not yet established. Please wait while I prepare the sacred channels..."
             let message = ChatMessage(
@@ -164,7 +216,9 @@ final class OracleViewModel: ObservableObject {
         
         do {
             var responseText = ""
+            let messageId = UUID()
             let responseMessage = ChatMessage(
+                id: messageId,
                 text: "",
                 isUser: false,
                 deity: deity,
@@ -175,8 +229,10 @@ final class OracleViewModel: ObservableObject {
                 messages.append(responseMessage)
             }
             
+            print("[OracleViewModel] Starting model generation")
+            
             // Generate response with streaming
-            let response = try await modelManager.generate(
+            _ = try await modelManager.generate(
                 prompt: userMessage,
                 systemPrompt: deity.systemPrompt,
                 maxTokens: 256,
@@ -185,8 +241,11 @@ final class OracleViewModel: ObservableObject {
                 Task { @MainActor in
                     guard let self = self else { return }
                     responseText += token
-                    if let index = self.messages.lastIndex(where: { $0.id == responseMessage.id }) {
+                    
+                    // Find the message by ID and update it
+                    if let index = self.messages.firstIndex(where: { $0.id == messageId }) {
                         self.messages[index] = ChatMessage(
+                            id: messageId,
                             text: responseText,
                             isUser: false,
                             deity: deity,
@@ -196,11 +255,14 @@ final class OracleViewModel: ObservableObject {
                 }
             }
             
+            print("[OracleViewModel] Response generation completed")
+            
             await MainActor.run {
                 isGenerating = false
             }
             
         } catch {
+            print("[OracleViewModel] Error generating response: \(error)")
             await MainActor.run {
                 isGenerating = false
                 modelError = error.localizedDescription

@@ -43,6 +43,8 @@ final class MLXModelManager {
     // MARK: - Model Loading
     
     func loadModel() async throws {
+        print("[MLXModelManager] Starting model load")
+        
         // Set memory limit for iOS
         MLX.GPU.set(cacheLimit: 20 * 1024 * 1024) // 20MB buffer cache
         
@@ -61,9 +63,11 @@ final class MLXModelManager {
             tieWordEmbeddings: true
         )
         
+        print("[MLXModelManager] Creating LLM model")
         // Create model (for demo purposes)
-        model = try LLMModel(configuration: config)
+        let llmModel = try LLMModel(configuration: config)
         
+        print("[MLXModelManager] Creating tokenizer")
         // Create tokenizer
         let tokenizerConfig = TokenizerConfig(
             modelMaxLength: 2048,
@@ -71,13 +75,14 @@ final class MLXModelManager {
             eosTokenId: 2,
             bosTokenId: 0
         )
-        tokenizer = try Tokenizer(config: tokenizerConfig)
+        let llmTokenizer = try Tokenizer(config: tokenizerConfig)
         
-        // Mark as loaded
-        await MainActor.run {
-            self.model = model
-            self.tokenizer = tokenizer
-        }
+        // Set the properties
+        self.model = llmModel
+        self.tokenizer = llmTokenizer
+        
+        print("[MLXModelManager] Model loaded successfully")
+        print("[MLXModelManager] isModelLoaded: \(isModelLoaded)")
     }
     
     // MARK: - Text Generation
@@ -89,12 +94,17 @@ final class MLXModelManager {
         temperature: Float = 0.7,
         onToken: @escaping (String) -> Void
     ) async throws -> String {
+        print("[MLXModelManager] Generate called")
+        print("[MLXModelManager] Model loaded: \(model != nil), Tokenizer loaded: \(tokenizer != nil)")
+        
         guard let model = model, let tokenizer = tokenizer else {
+            print("[MLXModelManager] Error: Model or tokenizer not loaded")
             throw MLXError.modelNotLoaded
         }
         
         // Format prompt with system message
         let fullPrompt = formatPrompt(system: systemPrompt, user: prompt)
+        print("[MLXModelManager] Full prompt length: \(fullPrompt.count) characters")
         
         // Create the generate parameters
         let generateParams = GenerateParameters(
@@ -104,14 +114,20 @@ final class MLXModelManager {
         
         // Generate with streaming
         var generatedText = ""
+        var tokenCount = 0
+        
+        print("[MLXModelManager] Starting generation stream")
         
         for try await token in model.generate(
             prompt: fullPrompt,
             parameters: generateParams
         ) {
             generatedText += token
+            tokenCount += 1
             onToken(token)
         }
+        
+        print("[MLXModelManager] Generation complete. Generated \(tokenCount) tokens")
         
         return generatedText
     }
@@ -131,6 +147,8 @@ final class MLXModelManager {
     // MARK: - Model Download
     
     func downloadModel(onProgress: @escaping (DownloadProgress) -> Void) async throws {
+        print("[MLXModelManager] Starting model download (simulated)")
+        
         // For demonstration purposes, we'll simulate model availability
         // In production, this would download from Hugging Face Hub
         
@@ -147,8 +165,20 @@ final class MLXModelManager {
                 totalBytes: 1_000_000_000
             )
             onProgress(progress)
+            
+            // Call on main thread
+            await MainActor.run {
+                print("[MLXModelManager] Download progress: \(Int(progress.progress * 100))%")
+            }
+            
             try await Task.sleep(nanoseconds: 100_000_000) // 0.1s
         }
+        
+        print("[MLXModelManager] Model download complete (simulated)")
+        
+        // Create a marker file to indicate download complete
+        let markerURL = modelURL.appendingPathComponent(".downloaded")
+        try "downloaded".write(to: markerURL, atomically: true, encoding: .utf8)
     }
     
     // MARK: - Clean Up
