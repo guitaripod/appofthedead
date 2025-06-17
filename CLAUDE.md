@@ -26,6 +26,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 
 ## Development Patterns
 - Follow the existing programmatic UI approach - no Interface Builder
+- Use the PapyrusDesignSystem for all user interfaces
 - Use UIStackView's heavily to simplify the layout code. UIStackView's are very configurable and performant.
 - Use MVVM architecture for all screens
 - Always unit test new view models.
