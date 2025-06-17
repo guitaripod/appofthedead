@@ -132,21 +132,88 @@ class LLMModel {
     }
     
     private func generateDemoResponse(for prompt: String) -> [String] {
-        // Generate contextual demo responses based on keywords
+        // Generate contextual demo responses based on the full prompt including system message
+        print("[LLMModel] Generating demo response for prompt: \(prompt.prefix(100))...")
+        
         let lowercasedPrompt = prompt.lowercased()
         
-        if lowercasedPrompt.contains("hello") || lowercasedPrompt.contains("hi") {
-            return tokenize("Greetings, mortal soul. Your presence here speaks of questions that weigh upon your heart. What mysteries of the eternal realm do you seek to understand?")
-        } else if lowercasedPrompt.contains("afterlife") || lowercasedPrompt.contains("death") {
-            return tokenize("The veil between life and death is but a threshold, not an ending. Each tradition holds its own sacred truths about what awaits beyond. The journey of the soul continues in ways both mysterious and profound.")
-        } else if lowercasedPrompt.contains("fear") || lowercasedPrompt.contains("afraid") {
-            return tokenize("Fear is the shadow cast by the unknown. Yet know this - death is not your enemy, but a transformation. Like the caterpillar entering the chrysalis, what seems like an ending is but the beginning of a new form of existence.")
-        } else if lowercasedPrompt.contains("purpose") || lowercasedPrompt.contains("meaning") {
-            return tokenize("Every soul carries a divine spark, a purpose that transcends mortal understanding. Your journey through life shapes your eternal essence. The meaning you seek is written in the very fabric of your being.")
-        } else if lowercasedPrompt.contains("loved ones") || lowercasedPrompt.contains("family") {
-            return tokenize("Love transcends the boundaries of mortality. Those who have passed before you are not lost - they await in realms beyond the veil. The bonds of the heart are eternal, unbroken by death's transition.")
+        // Parse deity from system prompt to customize response
+        var responseStyle = "general"
+        if lowercasedPrompt.contains("anubis") {
+            responseStyle = "egyptian"
+        } else if lowercasedPrompt.contains("hermes") {
+            responseStyle = "greek"
+        } else if lowercasedPrompt.contains("gabriel") {
+            responseStyle = "abrahamic"
+        } else if lowercasedPrompt.contains("yama") {
+            responseStyle = "hindu"
+        } else if lowercasedPrompt.contains("baron samedi") {
+            responseStyle = "vodou"
+        } else if lowercasedPrompt.contains("odin") {
+            responseStyle = "norse"
+        }
+        
+        // Extract user message (after "<|im_start|>user")
+        let userPart = prompt.components(separatedBy: "<|im_start|>user").last ?? prompt
+        let userMessage = userPart.components(separatedBy: "<|im_end|>").first ?? userPart
+        let userLower = userMessage.lowercased()
+        
+        print("[LLMModel] User message: \(userMessage)")
+        print("[LLMModel] Response style: \(responseStyle)")
+        
+        // Generate contextual responses
+        if userLower.contains("hello") || userLower.contains("hi") || userLower.contains("greetings") {
+            switch responseStyle {
+            case "egyptian":
+                return tokenize("Welcome, living one. I am the guardian who weighs hearts against the feather of Ma'at. Your ka has guided you well to seek wisdom here. What questions about the journey through the Duat trouble your ba?")
+            case "greek":
+                return tokenize("Ah, a living soul seeks the messenger! Swift as thought, I travel between Olympus and Hades. I've guided countless souls across the river Styx. What news from the mortal realm do you bring, or what mysteries of the underworld intrigue you?")
+            case "vodou":
+                return tokenize("*laughs deeply* Well, well! Another soul finds their way to Baron Samedi! You smell of life, child - that's good rum and cigars to me! The crossroads brought you here for a reason. What's on your mind about the other side, hmm?")
+            default:
+                return tokenize("Greetings, seeker. The veil between worlds grows thin when mortals seek divine wisdom. I sense questions within your heart about the mysteries beyond. Share what weighs upon your soul.")
+            }
+        } else if userLower.contains("afterlife") || userLower.contains("death") || userLower.contains("die") {
+            switch responseStyle {
+            case "egyptian":
+                return tokenize("The afterlife is not a single destination but a journey through the Duat. Your heart will be weighed, your deeds measured. Those who lived in accordance with Ma'at find their way to the Field of Reeds, where eternal peace awaits. The journey requires passwords, spells from the Book of the Dead, and courage to face the trials.")
+            case "hindu":
+                return tokenize("Death is but a door, not a wall. The atman - your eternal soul - sheds the body like worn clothing. Based on your karma, you may ascend to higher lokas, return to earthly form, or achieve moksha - liberation from the cycle entirely. Each life is a classroom, each death a graduation.")
+            case "norse":
+                return tokenize("The afterlife depends on how you meet your end. Warriors who die bravely in battle are chosen by my Valkyries for Valhalla, where they feast and fight until Ragnarok. Those who die of age or illness go to Helheim - not a place of punishment, but of rest. The manner of death matters as much as the manner of life.")
+            default:
+                return tokenize("Death is transformation, not termination. Each tradition sees it differently - some as judgment, others as liberation, many as continuation. The soul's journey beyond depends on beliefs held, deeds done, and the love shared. What aspect of this transition concerns you most?")
+            }
+        } else if userLower.contains("fear") || userLower.contains("afraid") || userLower.contains("scared") {
+            switch responseStyle {
+            case "egyptian":
+                return tokenize("Fear of death is fear of judgment, but remember - I do not judge alone. Your own heart testifies for or against you. Live with Ma'at - truth, justice, harmony - and you need not fear the scales. The truly terrifying fate is to be devoured by Ammit and cease to exist. But this befalls only those whose hearts are heavy with unrepented evil.")
+            case "vodou":
+                return tokenize("*chuckles* Afraid of old Baron? That's wise and foolish both! Death is my realm, yes, but I'm also the life of the party! Fear keeps you respectful, but too much fear makes you forget to live. The dead I watch over - they're not suffering. They dance with the Gede, they guide their families. Death is just moving to a different neighborhood, child.")
+            default:
+                return tokenize("Fear serves as a teacher, pointing to what we value most. The fear of death often masks the fear of an unlived life. In my eternal perspective, I see that those who embrace mortality's lessons live most fully. What specifically about the transition frightens you? Let us examine it together.")
+            }
+        } else if userLower.contains("loved one") || userLower.contains("family") || userLower.contains("miss") || userLower.contains("grief") {
+            switch responseStyle {
+            case "egyptian":
+                return tokenize("Those who have crossed into the West are not lost. In the Field of Reeds, they exist in perfection, their ka sustained by offerings and remembrance. When you speak their names, they live. When you leave offerings, they receive them. The bond between the living and the justified dead remains strong across the veil.")
+            case "abrahamic":
+                return tokenize("I have carried many messages between the grieving and the departed. Know that love is eternal - it exists beyond physical presence. Those who rest in divine grace watch over you still. Your prayers reach them, and their love surrounds you like light. Reunion awaits in the fullness of time, when all tears shall be wiped away.")
+            default:
+                return tokenize("Grief is love with nowhere to go, but the departed are closer than you think. They exist in memories shared, in values passed down, in the love that continues to shape your life. Different traditions promise different reunions, but all agree - the bonds of love transcend death's boundary.")
+            }
         } else {
-            return tokenize("Your question touches upon mysteries that have captivated souls throughout the ages. The divine wisdom speaks differently to each seeker. Tell me more of what troubles your spirit, and I shall illuminate the path.")
+            // Default responses for other topics
+            switch responseStyle {
+            case "egyptian":
+                return tokenize("Speak freely, living one. I have stood at the threshold between life and death since time immemorial. Whether you seek to understand the weighing of hearts, the journey through the Duat, or the mysteries of eternal existence, I shall guide you with the wisdom of ancient Kemet.")
+            case "greek":
+                return tokenize("Interesting question! As one who flies between all realms, I've seen much. The gods have their secrets, the dead their stories, and mortals their concerns. I'm here to bridge these worlds. Tell me more about what you seek to understand.")
+            case "hindu":
+                return tokenize("Your question opens many paths of understanding. As the first to die and thus lord over all who follow, I've witnessed the great wheel of samsara turn countless times. Share more of your thoughts, and I shall illuminate the dharmic wisdom you seek.")
+            default:
+                return tokenize("Your words carry the weight of genuine seeking. In my realm beyond mortal time, I've gathered wisdom from countless souls and traditions. Please, elaborate on your thoughts, and I shall share what insights the eternal perspective can offer.")
+            }
         }
     }
     
