@@ -60,7 +60,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Setup
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         setupScrollView()
         setupProfileHeader()
@@ -93,35 +93,45 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupProfileHeader() {
-        profileHeaderView.backgroundColor = .secondarySystemBackground
+        profileHeaderView.backgroundColor = UIColor.Papyrus.cardBackground
         profileHeaderView.layer.cornerRadius = 16
+        profileHeaderView.layer.borderWidth = 1.5
+        profileHeaderView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        profileHeaderView.layer.shadowColor = UIColor.black.cgColor
+        profileHeaderView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        profileHeaderView.layer.shadowOpacity = 0.1
+        profileHeaderView.layer.shadowRadius = 4
         contentStackView.addArrangedSubview(profileHeaderView)
         
         // Avatar
-        avatarImageView.backgroundColor = .systemBlue
+        avatarImageView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
         avatarImageView.layer.cornerRadius = 40
         avatarImageView.clipsToBounds = true
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.image = UIImage(systemName: "person.fill")
-        avatarImageView.tintColor = .white
+        avatarImageView.tintColor = UIColor.Papyrus.beige
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(avatarImageView)
         
         // Name
-        nameLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        nameLabel.textColor = .label
+        if let papyrusFont = UIFont(name: "Papyrus", size: 26) {
+            nameLabel.font = papyrusFont
+        } else {
+            nameLabel.font = .systemFont(ofSize: 26, weight: .bold)
+        }
+        nameLabel.textColor = UIColor.Papyrus.ink
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(nameLabel)
         
         // Level
-        levelLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-        levelLabel.textColor = .systemBlue
+        levelLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        levelLabel.textColor = UIColor.Papyrus.gold
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(levelLabel)
         
         // XP Progress
-        xpProgressView.progressTintColor = .systemBlue
-        xpProgressView.trackTintColor = .systemGray5
+        xpProgressView.progressTintColor = UIColor.Papyrus.gold
+        xpProgressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         xpProgressView.layer.cornerRadius = 4
         xpProgressView.clipsToBounds = true
         xpProgressView.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +139,7 @@ final class ProfileViewController: UIViewController {
         
         // XP Label
         xpLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        xpLabel.textColor = .secondaryLabel
+        xpLabel.textColor = UIColor.Papyrus.secondaryText
         xpLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(xpLabel)
         
@@ -162,14 +172,20 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupStatsSection() {
-        statsContainerView.backgroundColor = .secondarySystemBackground
+        statsContainerView.backgroundColor = UIColor.Papyrus.cardBackground
         statsContainerView.layer.cornerRadius = 16
+        statsContainerView.layer.borderWidth = 1.5
+        statsContainerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        statsContainerView.layer.shadowColor = UIColor.black.cgColor
+        statsContainerView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        statsContainerView.layer.shadowOpacity = 0.1
+        statsContainerView.layer.shadowRadius = 4
         contentStackView.addArrangedSubview(statsContainerView)
         
         let titleLabel = UILabel()
         titleLabel.text = "Statistics"
         titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        titleLabel.textColor = .label
+        titleLabel.textColor = UIColor.Papyrus.ink
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         statsContainerView.addSubview(titleLabel)
         
@@ -193,7 +209,7 @@ final class ProfileViewController: UIViewController {
     private func setupAchievementsSection() {
         achievementsHeaderLabel.text = "Achievements"
         achievementsHeaderLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        achievementsHeaderLabel.textColor = .label
+        achievementsHeaderLabel.textColor = UIColor.Papyrus.ink
         contentStackView.addArrangedSubview(achievementsHeaderLabel)
         
         contentStackView.addArrangedSubview(achievementsCollectionView)
@@ -212,7 +228,7 @@ final class ProfileViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor.Papyrus.background
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -276,13 +292,13 @@ final class ProfileViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textColor = .secondaryLabel
+        titleLabel.textColor = UIColor.Papyrus.secondaryText
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let valueLabel = UILabel()
         valueLabel.text = value
         valueLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        valueLabel.textColor = .systemBlue
+        valueLabel.textColor = UIColor.Papyrus.gold
         valueLabel.textAlignment = .right
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
         

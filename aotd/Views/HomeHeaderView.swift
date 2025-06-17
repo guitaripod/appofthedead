@@ -9,16 +9,25 @@ final class HomeHeaderView: UICollectionReusableView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "App of the Dead"
-        label.font = .systemFont(ofSize: 32, weight: .bold)
-        label.textColor = .label
+        // Try to use Papyrus font if available, otherwise use system font
+        if let papyrusFont = UIFont(name: "Papyrus", size: 34) {
+            label.font = papyrusFont
+        } else {
+            label.font = .systemFont(ofSize: 34, weight: .bold)
+        }
+        label.textColor = UIColor.Papyrus.ink
+        label.layer.shadowColor = UIColor.Papyrus.gold.cgColor
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowRadius = 2
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Explore afterlife beliefs across cultures"
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = UIColor.Papyrus.secondaryText
         return label
     }()
     
@@ -34,9 +43,11 @@ final class HomeHeaderView: UICollectionReusableView {
     private lazy var profileButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = UIColor.Papyrus.aged
         button.layer.cornerRadius = 20
-        button.tintColor = .label
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = UIColor.Papyrus.gold.cgColor
+        button.tintColor = UIColor.Papyrus.ink
         button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -53,8 +64,14 @@ final class HomeHeaderView: UICollectionReusableView {
     private lazy var statsContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray6
-        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor.Papyrus.cardBackground
+        view.layer.cornerRadius = 16
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowRadius = 4
         return view
     }()
     
@@ -67,8 +84,8 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var xpLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = .label
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor.Papyrus.gold
         label.text = "0"
         return label
     }()
@@ -76,8 +93,8 @@ final class HomeHeaderView: UICollectionReusableView {
     private lazy var xpDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "XP"
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = UIColor.Papyrus.secondaryText
         return label
     }()
     
@@ -92,8 +109,8 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var divider: UIView = {
         let view = UIView()
-        view.backgroundColor = .separator
-        view.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        view.backgroundColor = UIColor.Papyrus.separator
+        view.widthAnchor.constraint(equalToConstant: 1.5).isActive = true
         view.heightAnchor.constraint(equalToConstant: 24).isActive = true
         return view
     }()
@@ -107,8 +124,8 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var streakLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = .label
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor.Papyrus.tombRed
         label.text = "0"
         return label
     }()
@@ -116,8 +133,8 @@ final class HomeHeaderView: UICollectionReusableView {
     private lazy var streakDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "Day Streak"
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = UIColor.Papyrus.secondaryText
         return label
     }()
     
@@ -165,7 +182,7 @@ final class HomeHeaderView: UICollectionReusableView {
     // MARK: - Setup
     
     private func setupUI() {
-        backgroundColor = .systemBackground
+        backgroundColor = UIColor.Papyrus.background
         
         addSubview(mainStackView)
         statsContainer.addSubview(statsStackView)
@@ -176,7 +193,7 @@ final class HomeHeaderView: UICollectionReusableView {
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            statsContainer.heightAnchor.constraint(equalToConstant: 48),
+            statsContainer.heightAnchor.constraint(equalToConstant: 56),
             
             profileButton.widthAnchor.constraint(equalToConstant: 40),
             profileButton.heightAnchor.constraint(equalToConstant: 40),

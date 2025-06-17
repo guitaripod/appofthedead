@@ -2,7 +2,11 @@ import UIKit
 
 final class SettingsViewController: UIViewController {
     
-    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .insetGrouped)
+        table.backgroundColor = UIColor.Papyrus.background
+        return table
+    }()
     
     private enum Section: Int, CaseIterable {
         case account
@@ -66,7 +70,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -153,7 +157,7 @@ extension SettingsViewController: UITableViewDataSource {
         case .account:
             if let row = AccountRow(rawValue: indexPath.row) {
                 cell.textLabel?.text = row.title
-                cell.textLabel?.textColor = .systemRed
+                cell.textLabel?.textColor = UIColor.Papyrus.tombRed
             }
             
         case .learning:

@@ -33,8 +33,8 @@ final class TrueFalseViewController: BaseQuestionViewController {
         let configuration = UIButton.Configuration.filled()
         var updatedConfiguration = configuration
         updatedConfiguration.title = title
-        updatedConfiguration.baseBackgroundColor = .secondarySystemFill
-        updatedConfiguration.baseForegroundColor = .label
+        updatedConfiguration.baseBackgroundColor = UIColor.Papyrus.cardBackground
+        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.ink
         updatedConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 24, trailing: 0)
         updatedConfiguration.cornerStyle = .large
         
@@ -58,13 +58,13 @@ final class TrueFalseViewController: BaseQuestionViewController {
         let otherButton = sender == trueButton ? falseButton : trueButton
         
         var selectedConfig = selectedButton.configuration
-        selectedConfig?.baseBackgroundColor = viewModel.beliefSystemColor?.withAlphaComponent(0.2)
-        selectedConfig?.baseForegroundColor = viewModel.beliefSystemColor
+        selectedConfig?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
+        selectedConfig?.baseForegroundColor = UIColor.Papyrus.ink
         selectedButton.configuration = selectedConfig
         
         var otherConfig = otherButton?.configuration
-        otherConfig?.baseBackgroundColor = .secondarySystemFill
-        otherConfig?.baseForegroundColor = .label
+        otherConfig?.baseBackgroundColor = UIColor.Papyrus.cardBackground
+        otherConfig?.baseForegroundColor = UIColor.Papyrus.ink
         otherButton?.configuration = otherConfig
         
         enableSubmitButton(true)
@@ -100,11 +100,15 @@ final class TrueFalseViewController: BaseQuestionViewController {
             var config = button.configuration
             
             if buttonAnswer == correctAnswer {
-                config?.baseBackgroundColor = UIColor.systemGreen.withAlphaComponent(0.3)
-                config?.baseForegroundColor = .systemGreen
+                config?.baseBackgroundColor = UIColor.Papyrus.scarabGreen.withAlphaComponent(0.3)
+                config?.baseForegroundColor = UIColor.Papyrus.beige
+                config?.image = UIImage(systemName: "checkmark.circle.fill")
+                config?.imagePlacement = .trailing
             } else if buttonAnswer == selectedAnswer && !isCorrect {
-                config?.baseBackgroundColor = UIColor.systemRed.withAlphaComponent(0.3)
-                config?.baseForegroundColor = .systemRed
+                config?.baseBackgroundColor = UIColor.Papyrus.tombRed.withAlphaComponent(0.3)
+                config?.baseForegroundColor = UIColor.Papyrus.beige
+                config?.image = UIImage(systemName: "xmark.circle.fill")
+                config?.imagePlacement = .trailing
             }
             
             button.configuration = config

@@ -5,7 +5,7 @@ final class AchievementNotificationView: UIView {
     private let achievementImageView = UIImageView()
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
-    private let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+    private let backgroundView = UIView()
     
     init(achievement: Achievement) {
         super.init(frame: .zero)
@@ -25,23 +25,26 @@ final class AchievementNotificationView: UIView {
         layer.shadowOpacity = 0.3
         clipsToBounds = false
         
-        addSubview(backgroundBlurView)
-        backgroundBlurView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundBlurView.layer.cornerRadius = 16
-        backgroundBlurView.clipsToBounds = true
+        backgroundView.backgroundColor = UIColor.Papyrus.cardBackground
+        backgroundView.layer.cornerRadius = 16
+        backgroundView.layer.borderWidth = 2
+        backgroundView.layer.borderColor = UIColor.Papyrus.gold.cgColor
+        backgroundView.clipsToBounds = true
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(backgroundView)
         
-        let contentView = backgroundBlurView.contentView
+        let contentView = backgroundView
         
         // Setup achievement image
         achievementImageView.contentMode = .scaleAspectFit
         achievementImageView.image = UIImage(systemName: "star.fill")
-        achievementImageView.tintColor = .systemYellow
+        achievementImageView.tintColor = UIColor.Papyrus.gold
         achievementImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(achievementImageView)
         
         // Setup title
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
-        titleLabel.textColor = .label
+        titleLabel.textColor = UIColor.Papyrus.ink
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 1
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -49,17 +52,17 @@ final class AchievementNotificationView: UIView {
         
         // Setup description
         descriptionLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        descriptionLabel.textColor = .secondaryLabel
+        descriptionLabel.textColor = UIColor.Papyrus.secondaryText
         descriptionLabel.textAlignment = .left
         descriptionLabel.numberOfLines = 2
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(descriptionLabel)
         
         NSLayoutConstraint.activate([
-            backgroundBlurView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundBlurView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundBlurView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundBlurView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             achievementImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             achievementImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

@@ -9,9 +9,11 @@ final class PathCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOpacity = 0.15
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 8
+        view.layer.shadowRadius = 12
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
         return view
     }()
     
@@ -28,7 +30,11 @@ final class PathCollectionViewCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        if let papyrusFont = UIFont(name: "Papyrus", size: 17) {
+            label.font = papyrusFont
+        } else {
+            label.font = .systemFont(ofSize: 17, weight: .semibold)
+        }
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
@@ -41,7 +47,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         let view = UIProgressView(progressViewStyle: .default)
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
-        view.trackTintColor = UIColor.systemGray5
+        view.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         view.heightAnchor.constraint(equalToConstant: 8).isActive = true
         view.widthAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
         return view
@@ -49,9 +55,9 @@ final class PathCollectionViewCell: UICollectionViewCell {
     
     private lazy var xpLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textAlignment = .center
-        label.textColor = .secondaryLabel
+        label.textColor = UIColor.Papyrus.secondaryText
         return label
     }()
     
@@ -72,7 +78,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
     private lazy var lockOverlay: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.backgroundColor = UIColor.Papyrus.ink.withAlphaComponent(0.7)
         view.layer.cornerRadius = 16
         view.isHidden = true
         return view
@@ -137,9 +143,19 @@ final class PathCollectionViewCell: UICollectionViewCell {
         
         nameLabel.text = item.name
         
-        containerView.backgroundColor = item.isUnlocked ? item.color.withAlphaComponent(0.15) : UIColor.systemGray5
-        nameLabel.textColor = item.isUnlocked ? item.color : .systemGray
-        progressView.progressTintColor = item.color
+        if item.isUnlocked {
+            containerView.backgroundColor = UIColor.Papyrus.cardBackground
+            containerView.layer.borderColor = item.color.cgColor
+            containerView.layer.borderWidth = 2
+            nameLabel.textColor = UIColor.Papyrus.ink
+            progressView.progressTintColor = item.color
+        } else {
+            containerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
+            containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+            containerView.layer.borderWidth = 1.5
+            nameLabel.textColor = UIColor.Papyrus.tertiaryText
+            progressView.progressTintColor = UIColor.Papyrus.aged
+        }
         
         progressView.progress = item.progress
         xpLabel.text = "\(item.currentXP) / \(item.totalXP) XP"
@@ -147,9 +163,9 @@ final class PathCollectionViewCell: UICollectionViewCell {
         lockOverlay.isHidden = item.isUnlocked
         
         if !item.isUnlocked {
-            containerView.layer.shadowOpacity = 0.05
+            containerView.layer.shadowOpacity = 0.08
         } else {
-            containerView.layer.shadowOpacity = 0.1
+            containerView.layer.shadowOpacity = 0.15
         }
         
         // Force layout update to ensure proper alignment
@@ -190,12 +206,14 @@ final class PathCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         iconLabel.text = nil
         nameLabel.text = nil
-        nameLabel.textColor = .label
+        nameLabel.textColor = UIColor.Papyrus.ink
         progressView.progress = 0
-        progressView.progressTintColor = .systemBlue
+        progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
         xpLabel.text = nil
         lockOverlay.isHidden = true
-        containerView.backgroundColor = .systemGray5
-        containerView.layer.shadowOpacity = 0.1
+        containerView.backgroundColor = UIColor.Papyrus.cardBackground
+        containerView.layer.shadowOpacity = 0.15
+        containerView.layer.borderWidth = 1.5
+        containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
     }
 }

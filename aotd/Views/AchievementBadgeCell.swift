@@ -21,38 +21,42 @@ final class AchievementBadgeCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
         
         // Container
-        containerView.backgroundColor = .secondarySystemBackground
-        containerView.layer.cornerRadius = 12
+        containerView.backgroundColor = UIColor.Papyrus.cardBackground
+        containerView.layer.cornerRadius = 16
         containerView.layer.borderWidth = 2
-        containerView.layer.borderColor = UIColor.clear.cgColor
+        containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        containerView.layer.shadowOpacity = 0.1
+        containerView.layer.shadowRadius = 4
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
         
         // Icon
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = .systemBlue
+        iconImageView.tintColor = UIColor.Papyrus.hieroglyphBlue
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(iconImageView)
         
         // Title
-        titleLabel.font = .systemFont(ofSize: 12, weight: .semibold)
-        titleLabel.textColor = .label
+        titleLabel.font = .systemFont(ofSize: 12, weight: .bold)
+        titleLabel.textColor = UIColor.Papyrus.ink
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
         
         // Progress
-        progressView.progressTintColor = .systemBlue
-        progressView.trackTintColor = .systemGray5
+        progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
+        progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         progressView.layer.cornerRadius = 2
         progressView.clipsToBounds = true
         progressView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(progressView)
         
         // Overlay for locked achievements
-        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        overlayView.layer.cornerRadius = 12
+        overlayView.backgroundColor = UIColor.Papyrus.ink.withAlphaComponent(0.7)
+        overlayView.layer.cornerRadius = 16
         overlayView.isHidden = true
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(overlayView)
@@ -110,30 +114,33 @@ final class AchievementBadgeCell: UICollectionViewCell {
         // Update appearance based on completion status
         if userAchievement.isCompleted {
             // Completed achievement
-            containerView.layer.borderColor = UIColor.systemYellow.cgColor
-            iconImageView.tintColor = .systemYellow
-            progressView.progressTintColor = .systemYellow
-            titleLabel.textColor = .label
+            containerView.layer.borderColor = UIColor.Papyrus.gold.cgColor
+            containerView.layer.borderWidth = 2.5
+            iconImageView.tintColor = UIColor.Papyrus.gold
+            progressView.progressTintColor = UIColor.Papyrus.gold
+            titleLabel.textColor = UIColor.Papyrus.ink
             overlayView.isHidden = true
             
             // Add shine effect for completed achievements
-            containerView.backgroundColor = .systemYellow.withAlphaComponent(0.1)
+            containerView.backgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.15)
+            containerView.layer.shadowColor = UIColor.Papyrus.gold.cgColor
+            containerView.layer.shadowOpacity = 0.3
         } else if userAchievement.progress > 0 {
             // In progress achievement
-            containerView.layer.borderColor = UIColor.systemBlue.cgColor
-            iconImageView.tintColor = .systemBlue
-            progressView.progressTintColor = .systemBlue
-            titleLabel.textColor = .label
+            containerView.layer.borderColor = UIColor.Papyrus.hieroglyphBlue.cgColor
+            iconImageView.tintColor = UIColor.Papyrus.hieroglyphBlue
+            progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
+            titleLabel.textColor = UIColor.Papyrus.ink
             overlayView.isHidden = true
-            containerView.backgroundColor = .secondarySystemBackground
+            containerView.backgroundColor = UIColor.Papyrus.cardBackground
         } else {
             // Locked achievement
-            containerView.layer.borderColor = UIColor.systemGray4.cgColor
-            iconImageView.tintColor = .systemGray3
-            progressView.progressTintColor = .systemGray4
-            titleLabel.textColor = .secondaryLabel
+            containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+            iconImageView.tintColor = UIColor.Papyrus.tertiaryText
+            progressView.progressTintColor = UIColor.Papyrus.aged
+            titleLabel.textColor = UIColor.Papyrus.tertiaryText
             overlayView.isHidden = false
-            containerView.backgroundColor = .secondarySystemBackground
+            containerView.backgroundColor = UIColor.Papyrus.cardBackground
         }
     }
     
@@ -143,7 +150,9 @@ final class AchievementBadgeCell: UICollectionViewCell {
         titleLabel.text = nil
         progressView.progress = 0
         overlayView.isHidden = true
-        containerView.layer.borderColor = UIColor.clear.cgColor
-        containerView.backgroundColor = .secondarySystemBackground
+        containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        containerView.backgroundColor = UIColor.Papyrus.cardBackground
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOpacity = 0.1
     }
 }

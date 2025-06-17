@@ -37,15 +37,15 @@ final class OracleViewController: UIViewController {
     // Available deities for conversation
     private let availableDeities: [Deity] = [
         Deity(id: "anubis", name: "Anubis", tradition: "Egyptian", role: "Guide of Souls", 
-              avatar: "figure.stand", color: UIColor(hex: "#FFD700") ?? .systemYellow),
+              avatar: "figure.stand", color: UIColor.Papyrus.gold),
         Deity(id: "hermes", name: "Hermes", tradition: "Greek", role: "Messenger of Gods", 
-              avatar: "wind", color: UIColor(hex: "#87CEEB") ?? .systemBlue),
+              avatar: "wind", color: UIColor.Papyrus.hieroglyphBlue),
         Deity(id: "gabriel", name: "Gabriel", tradition: "Abrahamic", role: "Archangel", 
-              avatar: "sparkles", color: UIColor(hex: "#E6E6FA") ?? .systemPurple),
+              avatar: "sparkles", color: UIColor.Papyrus.mysticPurple),
         Deity(id: "yama", name: "Yama", tradition: "Hindu/Buddhist", role: "Lord of Death", 
-              avatar: "flame", color: UIColor(hex: "#FF6347") ?? .systemOrange),
+              avatar: "flame", color: UIColor.Papyrus.tombRed),
         Deity(id: "mictlantecuhtli", name: "Mictlantecuhtli", tradition: "Aztec", role: "Lord of Mictlan", 
-              avatar: "moon.stars", color: UIColor(hex: "#8B008B") ?? .systemIndigo)
+              avatar: "moon.stars", color: UIColor.Papyrus.burnishedGold)
     ]
     
     // MARK: - Lifecycle
@@ -66,7 +66,7 @@ final class OracleViewController: UIViewController {
     // MARK: - Setup
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         setupTableView()
         setupInputContainer()
@@ -81,7 +81,7 @@ final class OracleViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .systemBackground
+        tableView.backgroundColor = UIColor.Papyrus.background
         tableView.keyboardDismissMode = .interactive
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: "ChatMessageCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,9 @@ final class OracleViewController: UIViewController {
     }
     
     private func setupInputContainer() {
-        inputContainerView.backgroundColor = .systemBackground
+        inputContainerView.backgroundColor = UIColor.Papyrus.cardBackground
+        inputContainerView.layer.borderWidth = 1
+        inputContainerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
         inputContainerView.layer.shadowColor = UIColor.black.cgColor
         inputContainerView.layer.shadowOpacity = 0.1
         inputContainerView.layer.shadowOffset = CGSize(width: 0, height: -2)
@@ -98,7 +100,7 @@ final class OracleViewController: UIViewController {
         view.addSubview(inputContainerView)
         
         // Deity selection button
-        deitySelectionButton.tintColor = .systemBlue
+        deitySelectionButton.tintColor = UIColor.Papyrus.gold
         deitySelectionButton.addTarget(self, action: #selector(selectDeity), for: .touchUpInside)
         deitySelectionButton.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(deitySelectionButton)
@@ -106,7 +108,8 @@ final class OracleViewController: UIViewController {
         // Message text view
         messageTextView.font = .systemFont(ofSize: 16)
         messageTextView.layer.cornerRadius = 18
-        messageTextView.layer.borderColor = UIColor.systemGray3.cgColor
+        messageTextView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        messageTextView.backgroundColor = UIColor.Papyrus.beige
         messageTextView.layer.borderWidth = 1
         messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         messageTextView.isScrollEnabled = false
@@ -116,7 +119,7 @@ final class OracleViewController: UIViewController {
         
         // Send button
         sendButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
-        sendButton.tintColor = .systemBlue
+        sendButton.tintColor = UIColor.Papyrus.gold
         sendButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(sendButton)
@@ -373,6 +376,7 @@ private class ChatMessageCell: UITableViewCell {
         backgroundColor = .clear
         
         bubbleView.layer.cornerRadius = 16
+        bubbleView.layer.borderWidth = 1
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bubbleView)
         
@@ -385,7 +389,7 @@ private class ChatMessageCell: UITableViewCell {
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(avatarImageView)
         
-        nameLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(nameLabel)
     }
@@ -395,8 +399,9 @@ private class ChatMessageCell: UITableViewCell {
         
         if message.isUser {
             // User message styling
-            bubbleView.backgroundColor = .systemBlue
-            messageLabel.textColor = .white
+            bubbleView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
+            bubbleView.layer.borderColor = UIColor.Papyrus.gold.cgColor
+            messageLabel.textColor = UIColor.Papyrus.beige
             avatarImageView.isHidden = true
             nameLabel.isHidden = true
             
@@ -414,8 +419,9 @@ private class ChatMessageCell: UITableViewCell {
             ])
         } else {
             // Deity/system message styling
-            bubbleView.backgroundColor = .secondarySystemBackground
-            messageLabel.textColor = .label
+            bubbleView.backgroundColor = UIColor.Papyrus.cardBackground
+            bubbleView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+            messageLabel.textColor = UIColor.Papyrus.ink
             
             if let deity = message.deity {
                 avatarImageView.isHidden = false

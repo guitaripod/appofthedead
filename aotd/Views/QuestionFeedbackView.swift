@@ -19,31 +19,33 @@ final class QuestionFeedbackView: UIView {
     
     private func setupUI(isCorrect: Bool, explanation: String, xpReward: Int) {
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = isCorrect ? UIColor.systemGreen.withAlphaComponent(0.95) : UIColor.systemRed.withAlphaComponent(0.95)
+        containerView.backgroundColor = isCorrect ? UIColor.Papyrus.scarabGreen : UIColor.Papyrus.tombRed
         containerView.layer.cornerRadius = 16
         containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.2
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        containerView.layer.shadowRadius = 8
+        containerView.layer.shadowOpacity = 0.25
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 6)
+        containerView.layer.shadowRadius = 12
+        containerView.layer.borderWidth = 2
+        containerView.layer.borderColor = isCorrect ? UIColor.Papyrus.gold.cgColor : UIColor.Papyrus.aged.cgColor
         
         addSubview(containerView)
         
         iconLabel.translatesAutoresizingMaskIntoConstraints = false
         iconLabel.text = isCorrect ? "✓" : "✗"
         iconLabel.font = .systemFont(ofSize: 48, weight: .bold)
-        iconLabel.textColor = .white
+        iconLabel.textColor = UIColor.Papyrus.beige
         iconLabel.textAlignment = .center
         
         resultLabel.translatesAutoresizingMaskIntoConstraints = false
         resultLabel.text = isCorrect ? "Correct!" : "Not quite right"
         resultLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        resultLabel.textColor = .white
+        resultLabel.textColor = UIColor.Papyrus.beige
         resultLabel.textAlignment = .center
         
         explanationLabel.translatesAutoresizingMaskIntoConstraints = false
         explanationLabel.text = explanation
         explanationLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        explanationLabel.textColor = .white
+        explanationLabel.textColor = UIColor.Papyrus.beige
         explanationLabel.textAlignment = .center
         explanationLabel.numberOfLines = 0
         
@@ -56,8 +58,12 @@ final class QuestionFeedbackView: UIView {
         if isCorrect && xpReward > 0 {
             xpLabel.translatesAutoresizingMaskIntoConstraints = false
             xpLabel.text = "+\(xpReward) XP"
-            xpLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-            xpLabel.textColor = .white
+            xpLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            xpLabel.textColor = UIColor.Papyrus.gold
+            xpLabel.layer.shadowColor = UIColor.black.cgColor
+            xpLabel.layer.shadowOffset = CGSize(width: 0, height: 1)
+            xpLabel.layer.shadowOpacity = 0.3
+            xpLabel.layer.shadowRadius = 2
             xpLabel.textAlignment = .center
             stackView.addArrangedSubview(xpLabel)
         }

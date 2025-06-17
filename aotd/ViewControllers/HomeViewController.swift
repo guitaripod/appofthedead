@@ -11,7 +11,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         let layout = createCompositionalLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = UIColor.Papyrus.background
         collectionView.delegate = self
         return collectionView
     }()
@@ -49,7 +49,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     // MARK: - Setup
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         view.addSubview(collectionView)
         

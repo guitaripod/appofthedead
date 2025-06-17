@@ -40,10 +40,10 @@ final class MultipleChoiceViewController: BaseQuestionViewController {
         let configuration = UIButton.Configuration.filled()
         var updatedConfiguration = configuration
         updatedConfiguration.title = option
-        updatedConfiguration.baseBackgroundColor = .secondarySystemFill
-        updatedConfiguration.baseForegroundColor = .label
+        updatedConfiguration.baseBackgroundColor = UIColor.Papyrus.cardBackground
+        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.ink
         updatedConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
-        updatedConfiguration.cornerStyle = .medium
+        updatedConfiguration.cornerStyle = .large
         
         button.configuration = updatedConfiguration
         button.addTarget(self, action: #selector(optionSelected(_:)), for: .touchUpInside)
@@ -59,11 +59,12 @@ final class MultipleChoiceViewController: BaseQuestionViewController {
         for (index, button) in optionButtons.enumerated() {
             var config = button.configuration
             if index == sender.tag {
-                config?.baseBackgroundColor = viewModel.beliefSystemColor?.withAlphaComponent(0.2)
-                config?.baseForegroundColor = viewModel.beliefSystemColor
+                config?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
+                config?.baseForegroundColor = UIColor.Papyrus.ink
+                config?.attributedTitle = AttributedString(multipleChoiceViewModel.options[index], attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 17, weight: .semibold)]))
             } else {
-                config?.baseBackgroundColor = .secondarySystemFill
-                config?.baseForegroundColor = .label
+                config?.baseBackgroundColor = UIColor.Papyrus.cardBackground
+                config?.baseForegroundColor = UIColor.Papyrus.ink
             }
             button.configuration = config
         }
@@ -100,11 +101,15 @@ final class MultipleChoiceViewController: BaseQuestionViewController {
             var config = button.configuration
             
             if option == correctAnswer {
-                config?.baseBackgroundColor = UIColor.systemGreen.withAlphaComponent(0.3)
-                config?.baseForegroundColor = .systemGreen
+                config?.baseBackgroundColor = UIColor.Papyrus.scarabGreen.withAlphaComponent(0.3)
+                config?.baseForegroundColor = UIColor.Papyrus.beige
+                config?.image = UIImage(systemName: "checkmark.circle.fill")
+                config?.imagePlacement = .trailing
             } else if option == selectedAnswer && !isCorrect {
-                config?.baseBackgroundColor = UIColor.systemRed.withAlphaComponent(0.3)
-                config?.baseForegroundColor = .systemRed
+                config?.baseBackgroundColor = UIColor.Papyrus.tombRed.withAlphaComponent(0.3)
+                config?.baseForegroundColor = UIColor.Papyrus.beige
+                config?.image = UIImage(systemName: "xmark.circle.fill")
+                config?.imagePlacement = .trailing
             }
             
             button.configuration = config

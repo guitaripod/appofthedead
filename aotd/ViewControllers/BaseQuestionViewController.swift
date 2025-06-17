@@ -40,13 +40,13 @@ class BaseQuestionViewController: UIViewController {
             target: self,
             action: #selector(backButtonTapped)
         )
-        backButton.tintColor = .label
+        backButton.tintColor = UIColor.Papyrus.ink
         navigationItem.leftBarButtonItem = backButton
         
     }
     
     private func setupBaseUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
@@ -75,14 +75,18 @@ class BaseQuestionViewController: UIViewController {
     }
     
     private func setupQuestionNumberLabel() {
-        questionNumberLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        questionNumberLabel.textColor = .secondaryLabel
+        questionNumberLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        questionNumberLabel.textColor = UIColor.Papyrus.secondaryText
         contentStackView.addArrangedSubview(questionNumberLabel)
     }
     
     private func setupQuestionLabel() {
-        questionLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        questionLabel.textColor = .label
+        if let papyrusFont = UIFont(name: "Papyrus", size: 22) {
+            questionLabel.font = papyrusFont
+        } else {
+            questionLabel.font = .systemFont(ofSize: 22, weight: .semibold)
+        }
+        questionLabel.textColor = UIColor.Papyrus.ink
         questionLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(questionLabel)
     }
@@ -91,9 +95,13 @@ class BaseQuestionViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Check Answer", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = .systemGray3
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
+        button.backgroundColor = UIColor.Papyrus.aged
+        button.setTitleColor(UIColor.Papyrus.beige, for: .normal)
+        button.layer.cornerRadius = 16
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.layer.shadowOpacity = 0.15
+        button.layer.shadowRadius = 4
         button.isEnabled = false
         button.addTarget(self, action: #selector(submitAnswer), for: .touchUpInside)
         
@@ -114,6 +122,7 @@ class BaseQuestionViewController: UIViewController {
         questionNumberLabel.text = "Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.totalQuestions)"
         questionLabel.text = viewModel.questionText
         progressView.progress = viewModel.progress
+        progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         
         if let color = viewModel.beliefSystemColor {
             progressView.progressTintColor = color
@@ -122,7 +131,8 @@ class BaseQuestionViewController: UIViewController {
     
     func enableSubmitButton(_ enabled: Bool) {
         submitButton?.isEnabled = enabled
-        submitButton?.backgroundColor = enabled ? viewModel.beliefSystemColor : .systemGray3
+        submitButton?.backgroundColor = enabled ? UIColor.Papyrus.gold : UIColor.Papyrus.aged
+        submitButton?.setTitleColor(enabled ? UIColor.Papyrus.ink : UIColor.Papyrus.beige, for: .normal)
     }
     
     @objc func submitAnswer() {

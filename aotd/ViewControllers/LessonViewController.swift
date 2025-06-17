@@ -43,7 +43,7 @@ final class LessonViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.Papyrus.background
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -84,7 +84,12 @@ final class LessonViewController: UIViewController {
     }
     
     private func setupTitleLabel() {
-        lessonTitleLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        if let papyrusFont = UIFont(name: "Papyrus", size: 30) {
+            lessonTitleLabel.font = papyrusFont
+        } else {
+            lessonTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        }
+        lessonTitleLabel.textColor = UIColor.Papyrus.ink
         lessonTitleLabel.textAlignment = .left
         lessonTitleLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(lessonTitleLabel)
@@ -94,7 +99,7 @@ final class LessonViewController: UIViewController {
         contentTextView.isEditable = false
         contentTextView.isScrollEnabled = false
         contentTextView.font = .systemFont(ofSize: 17)
-        contentTextView.textColor = .label
+        contentTextView.textColor = UIColor.Papyrus.ink
         contentTextView.backgroundColor = .clear
         contentTextView.textContainerInset = .zero
         contentTextView.textContainer.lineFragmentPadding = 0
@@ -104,8 +109,8 @@ final class LessonViewController: UIViewController {
     private func setupKeyTermsSection() {
         let keyTermsLabel = UILabel()
         keyTermsLabel.text = "Key Terms"
-        keyTermsLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        keyTermsLabel.textColor = .label
+        keyTermsLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        keyTermsLabel.textColor = UIColor.Papyrus.ink
         
         keyTermsStackView.axis = .vertical
         keyTermsStackView.spacing = 8
@@ -121,9 +126,13 @@ final class LessonViewController: UIViewController {
     private func setupContinueButton() {
         continueButton.setTitle("Continue to Quiz", for: .normal)
         continueButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        continueButton.backgroundColor = .systemBlue
-        continueButton.setTitleColor(.white, for: .normal)
-        continueButton.layer.cornerRadius = 12
+        continueButton.backgroundColor = UIColor.Papyrus.gold
+        continueButton.setTitleColor(UIColor.Papyrus.ink, for: .normal)
+        continueButton.layer.cornerRadius = 16
+        continueButton.layer.shadowColor = UIColor.black.cgColor
+        continueButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        continueButton.layer.shadowOpacity = 0.15
+        continueButton.layer.shadowRadius = 4
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
         contentStackView.addArrangedSubview(continueButton)
@@ -137,10 +146,12 @@ final class LessonViewController: UIViewController {
         lessonTitleLabel.text = viewModel.lessonTitle
         contentTextView.text = viewModel.lessonContent
         progressView.progress = viewModel.progress
+        progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         
         if let beliefColor = viewModel.beliefSystemColor {
             progressView.progressTintColor = beliefColor
-            continueButton.backgroundColor = beliefColor
+            // Keep gold for the continue button as it's more prominent
+            continueButton.backgroundColor = UIColor.Papyrus.gold
         }
         
         keyTermsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -153,13 +164,15 @@ final class LessonViewController: UIViewController {
     
     private func createKeyTermView(term: String) -> UIView {
         let container = UIView()
-        container.backgroundColor = .secondarySystemFill
-        container.layer.cornerRadius = 8
+        container.backgroundColor = UIColor.Papyrus.cardBackground
+        container.layer.cornerRadius = 12
+        container.layer.borderWidth = 1
+        container.layer.borderColor = UIColor.Papyrus.aged.cgColor
         
         let label = UILabel()
         label.text = term
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .label
+        label.textColor = UIColor.Papyrus.ink
         label.translatesAutoresizingMaskIntoConstraints = false
         
         container.addSubview(label)

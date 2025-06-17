@@ -76,8 +76,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Set view controllers
         tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, settingsNavigationController]
         
-        // Configure tab bar appearance
-        tabBarController.tabBar.tintColor = UIColor(hex: "#6200EE")
+        // Configure tab bar appearance with Papyrus theme
+        configureTabBarAppearance(tabBarController.tabBar)
         
         // Set up navigation flow
         setupNavigationFlow(
@@ -136,5 +136,49 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Trigger sync when app becomes active
         SyncManager.shared.attemptSync()
+    }
+    
+    private func configureTabBarAppearance(_ tabBar: UITabBar) {
+        // Configure tab bar with Papyrus theme
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        
+        // Background color
+        appearance.backgroundColor = UIColor.Papyrus.cardBackground
+        
+        // Shadow
+        appearance.shadowColor = UIColor.Papyrus.aged
+        appearance.shadowImage = UIImage()
+        
+        // Item appearance
+        let itemAppearance = UITabBarItemAppearance()
+        
+        // Normal state
+        itemAppearance.normal.iconColor = UIColor.Papyrus.tertiaryText
+        itemAppearance.normal.titleTextAttributes = [
+            .foregroundColor: UIColor.Papyrus.tertiaryText,
+            .font: UIFont.systemFont(ofSize: 10, weight: .medium)
+        ]
+        
+        // Selected state
+        itemAppearance.selected.iconColor = UIColor.Papyrus.gold
+        itemAppearance.selected.titleTextAttributes = [
+            .foregroundColor: UIColor.Papyrus.gold,
+            .font: UIFont.systemFont(ofSize: 10, weight: .bold)
+        ]
+        
+        appearance.stackedLayoutAppearance = itemAppearance
+        appearance.inlineLayoutAppearance = itemAppearance
+        appearance.compactInlineLayoutAppearance = itemAppearance
+        
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
+        
+        // Tint color for selected items
+        tabBar.tintColor = UIColor.Papyrus.gold
+        
+        // Add subtle border
+        tabBar.layer.borderWidth = 0.5
+        tabBar.layer.borderColor = UIColor.Papyrus.aged.cgColor
     }
 }
