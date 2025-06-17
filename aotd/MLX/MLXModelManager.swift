@@ -8,7 +8,16 @@ final class MLXModelManager {
     // MARK: - Singleton
     
     static let shared = MLXModelManager()
-    private init() {}
+    
+    private init() {
+        // Check if model was previously loaded
+        if UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce") {
+            // The model was loaded before, we can auto-load it
+            Task {
+                try? await loadModelIfNeeded()
+            }
+        }
+    }
     
     // MARK: - Properties
     
@@ -41,6 +50,11 @@ final class MLXModelManager {
     }
     
     // MARK: - Model Loading
+    
+    func loadModelIfNeeded() async throws {
+        guard !isModelLoaded else { return }
+        try await loadModel()
+    }
     
     func loadModel() async throws {
         print("[MLXModelManager] Starting model load")
@@ -80,6 +94,9 @@ final class MLXModelManager {
         // Set the properties
         self.model = llmModel
         self.tokenizer = llmTokenizer
+        
+        // Persist that we've loaded the model at least once
+        UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
         
         print("[MLXModelManager] Model loaded successfully")
         print("[MLXModelManager] isModelLoaded: \(isModelLoaded)")
