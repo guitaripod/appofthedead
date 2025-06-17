@@ -41,7 +41,7 @@ final class MultipleChoiceViewController: BaseQuestionViewController {
         var updatedConfiguration = configuration
         updatedConfiguration.title = option
         updatedConfiguration.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.ink
+        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.primaryText
         updatedConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         updatedConfiguration.cornerStyle = .large
         
@@ -60,11 +60,11 @@ final class MultipleChoiceViewController: BaseQuestionViewController {
             var config = button.configuration
             if index == sender.tag {
                 config?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
-                config?.baseForegroundColor = UIColor.Papyrus.ink
+                config?.baseForegroundColor = UIColor.Papyrus.primaryText
                 config?.attributedTitle = AttributedString(multipleChoiceViewModel.options[index], attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 17, weight: .semibold)]))
             } else {
                 config?.baseBackgroundColor = UIColor.Papyrus.cardBackground
-                config?.baseForegroundColor = UIColor.Papyrus.ink
+                config?.baseForegroundColor = UIColor.Papyrus.primaryText
             }
             button.configuration = config
         }

@@ -34,7 +34,7 @@ final class TrueFalseViewController: BaseQuestionViewController {
         var updatedConfiguration = configuration
         updatedConfiguration.title = title
         updatedConfiguration.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.ink
+        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.primaryText
         updatedConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 24, trailing: 0)
         updatedConfiguration.cornerStyle = .large
         
@@ -59,12 +59,12 @@ final class TrueFalseViewController: BaseQuestionViewController {
         
         var selectedConfig = selectedButton.configuration
         selectedConfig?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
-        selectedConfig?.baseForegroundColor = UIColor.Papyrus.ink
+        selectedConfig?.baseForegroundColor = UIColor.Papyrus.primaryText
         selectedButton.configuration = selectedConfig
         
         var otherConfig = otherButton?.configuration
         otherConfig?.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        otherConfig?.baseForegroundColor = UIColor.Papyrus.ink
+        otherConfig?.baseForegroundColor = UIColor.Papyrus.primaryText
         otherButton?.configuration = otherConfig
         
         enableSubmitButton(true)

@@ -41,10 +41,28 @@ extension UIColor {
         static let mysticPurple = UIColor(red: 102/255, green: 51/255, blue: 153/255, alpha: 1.0)
         static let scarabGreen = UIColor(red: 60/255, green: 110/255, blue: 60/255, alpha: 1.0)
         
-        // Text Colors
-        static let primaryText = ink
-        static let secondaryText = UIColor(red: 92/255, green: 72/255, blue: 54/255, alpha: 1.0)
-        static let tertiaryText = UIColor(red: 142/255, green: 122/255, blue: 104/255, alpha: 1.0)
+        // Text Colors with better dark mode support
+        static var primaryText: UIColor {
+            UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark ? beige : ink
+            }
+        }
+        
+        static var secondaryText: UIColor {
+            UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark ?
+                    UIColor(red: 209/255, green: 196/255, blue: 162/255, alpha: 1.0) :
+                    UIColor(red: 92/255, green: 72/255, blue: 54/255, alpha: 1.0)
+            }
+        }
+        
+        static var tertiaryText: UIColor {
+            UIColor { traitCollection in
+                traitCollection.userInterfaceStyle == .dark ?
+                    UIColor(red: 162/255, green: 152/255, blue: 134/255, alpha: 1.0) :
+                    UIColor(red: 142/255, green: 122/255, blue: 104/255, alpha: 1.0)
+            }
+        }
         
         // Dynamic Colors
         static var background: UIColor {

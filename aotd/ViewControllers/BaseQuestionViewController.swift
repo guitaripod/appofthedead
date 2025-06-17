@@ -40,7 +40,7 @@ class BaseQuestionViewController: UIViewController {
             target: self,
             action: #selector(backButtonTapped)
         )
-        backButton.tintColor = UIColor.Papyrus.ink
+        backButton.tintColor = UIColor.Papyrus.primaryText
         navigationItem.leftBarButtonItem = backButton
         
     }
@@ -86,7 +86,7 @@ class BaseQuestionViewController: UIViewController {
         } else {
             questionLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         }
-        questionLabel.textColor = UIColor.Papyrus.ink
+        questionLabel.textColor = UIColor.Papyrus.primaryText
         questionLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(questionLabel)
     }

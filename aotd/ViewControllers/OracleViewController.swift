@@ -421,7 +421,7 @@ private class ChatMessageCell: UITableViewCell {
             // Deity/system message styling
             bubbleView.backgroundColor = UIColor.Papyrus.cardBackground
             bubbleView.layer.borderColor = UIColor.Papyrus.aged.cgColor
-            messageLabel.textColor = UIColor.Papyrus.ink
+            messageLabel.textColor = UIColor.Papyrus.primaryText
             
             if let deity = message.deity {
                 avatarImageView.isHidden = false

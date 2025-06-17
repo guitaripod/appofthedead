@@ -147,7 +147,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
             containerView.backgroundColor = UIColor.Papyrus.cardBackground
             containerView.layer.borderColor = item.color.cgColor
             containerView.layer.borderWidth = 2
-            nameLabel.textColor = UIColor.Papyrus.ink
+            nameLabel.textColor = UIColor.Papyrus.primaryText
             progressView.progressTintColor = item.color
         } else {
             containerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
@@ -206,7 +206,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         iconLabel.text = nil
         nameLabel.text = nil
-        nameLabel.textColor = UIColor.Papyrus.ink
+        nameLabel.textColor = UIColor.Papyrus.primaryText
         progressView.progress = 0
         progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
         xpLabel.text = nil

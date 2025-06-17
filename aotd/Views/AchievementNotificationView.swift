@@ -44,7 +44,7 @@ final class AchievementNotificationView: UIView {
         
         // Setup title
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
-        titleLabel.textColor = UIColor.Papyrus.ink
+        titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 1
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

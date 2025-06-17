@@ -89,7 +89,7 @@ final class LessonViewController: UIViewController {
         } else {
             lessonTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
         }
-        lessonTitleLabel.textColor = UIColor.Papyrus.ink
+        lessonTitleLabel.textColor = UIColor.Papyrus.primaryText
         lessonTitleLabel.textAlignment = .left
         lessonTitleLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(lessonTitleLabel)
@@ -99,7 +99,7 @@ final class LessonViewController: UIViewController {
         contentTextView.isEditable = false
         contentTextView.isScrollEnabled = false
         contentTextView.font = .systemFont(ofSize: 17)
-        contentTextView.textColor = UIColor.Papyrus.ink
+        contentTextView.textColor = UIColor.Papyrus.primaryText
         contentTextView.backgroundColor = .clear
         contentTextView.textContainerInset = .zero
         contentTextView.textContainer.lineFragmentPadding = 0
@@ -110,7 +110,7 @@ final class LessonViewController: UIViewController {
         let keyTermsLabel = UILabel()
         keyTermsLabel.text = "Key Terms"
         keyTermsLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        keyTermsLabel.textColor = UIColor.Papyrus.ink
+        keyTermsLabel.textColor = UIColor.Papyrus.primaryText
         
         keyTermsStackView.axis = .vertical
         keyTermsStackView.spacing = 8
@@ -172,7 +172,7 @@ final class LessonViewController: UIViewController {
         let label = UILabel()
         label.text = term
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = UIColor.Papyrus.ink
+        label.textColor = UIColor.Papyrus.primaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         
         container.addSubview(label)

@@ -76,7 +76,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Set view controllers
         tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, settingsNavigationController]
         
-        // Configure tab bar appearance with Papyrus theme
+        // Configure appearance with Papyrus theme
+        configureNavigationBarAppearance()
         configureTabBarAppearance(tabBarController.tabBar)
         
         // Set up navigation flow
@@ -136,6 +137,38 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Trigger sync when app becomes active
         SyncManager.shared.attemptSync()
+    }
+    
+    private func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        
+        // Background
+        appearance.backgroundColor = UIColor.Papyrus.cardBackground
+        
+        // Title attributes
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.Papyrus.primaryText,
+            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
+        ]
+        
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.Papyrus.primaryText,
+            .font: UIFont.systemFont(ofSize: 34, weight: .bold)
+        ]
+        
+        // Button attributes
+        let buttonAppearance = UIBarButtonItemAppearance()
+        buttonAppearance.normal.titleTextAttributes = [
+            .foregroundColor: UIColor.Papyrus.gold
+        ]
+        appearance.buttonAppearance = buttonAppearance
+        
+        // Apply to all navigation bars
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = UIColor.Papyrus.gold
     }
     
     private func configureTabBarAppearance(_ tabBar: UITabBar) {

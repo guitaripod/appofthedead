@@ -15,7 +15,7 @@ final class HomeHeaderView: UICollectionReusableView {
         } else {
             label.font = .systemFont(ofSize: 34, weight: .bold)
         }
-        label.textColor = UIColor.Papyrus.ink
+        label.textColor = UIColor.Papyrus.primaryText
         label.layer.shadowColor = UIColor.Papyrus.gold.cgColor
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
         label.layer.shadowOpacity = 0.3
@@ -47,7 +47,7 @@ final class HomeHeaderView: UICollectionReusableView {
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 1.5
         button.layer.borderColor = UIColor.Papyrus.gold.cgColor
-        button.tintColor = UIColor.Papyrus.ink
+        button.tintColor = UIColor.Papyrus.primaryText
         button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
         return button
     }()

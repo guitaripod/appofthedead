@@ -119,7 +119,7 @@ final class ProfileViewController: UIViewController {
         } else {
             nameLabel.font = .systemFont(ofSize: 26, weight: .bold)
         }
-        nameLabel.textColor = UIColor.Papyrus.ink
+        nameLabel.textColor = UIColor.Papyrus.primaryText
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(nameLabel)
         
@@ -185,7 +185,7 @@ final class ProfileViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = "Statistics"
         titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        titleLabel.textColor = UIColor.Papyrus.ink
+        titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         statsContainerView.addSubview(titleLabel)
         
@@ -209,7 +209,7 @@ final class ProfileViewController: UIViewController {
     private func setupAchievementsSection() {
         achievementsHeaderLabel.text = "Achievements"
         achievementsHeaderLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        achievementsHeaderLabel.textColor = UIColor.Papyrus.ink
+        achievementsHeaderLabel.textColor = UIColor.Papyrus.primaryText
         contentStackView.addArrangedSubview(achievementsHeaderLabel)
         
         contentStackView.addArrangedSubview(achievementsCollectionView)

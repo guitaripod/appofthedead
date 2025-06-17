@@ -40,7 +40,7 @@ final class AchievementBadgeCell: UICollectionViewCell {
         
         // Title
         titleLabel.font = .systemFont(ofSize: 12, weight: .bold)
-        titleLabel.textColor = UIColor.Papyrus.ink
+        titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -118,7 +118,7 @@ final class AchievementBadgeCell: UICollectionViewCell {
             containerView.layer.borderWidth = 2.5
             iconImageView.tintColor = UIColor.Papyrus.gold
             progressView.progressTintColor = UIColor.Papyrus.gold
-            titleLabel.textColor = UIColor.Papyrus.ink
+            titleLabel.textColor = UIColor.Papyrus.primaryText
             overlayView.isHidden = true
             
             // Add shine effect for completed achievements
@@ -130,7 +130,7 @@ final class AchievementBadgeCell: UICollectionViewCell {
             containerView.layer.borderColor = UIColor.Papyrus.hieroglyphBlue.cgColor
             iconImageView.tintColor = UIColor.Papyrus.hieroglyphBlue
             progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
-            titleLabel.textColor = UIColor.Papyrus.ink
+            titleLabel.textColor = UIColor.Papyrus.primaryText
             overlayView.isHidden = true
             containerView.backgroundColor = UIColor.Papyrus.cardBackground
         } else {
