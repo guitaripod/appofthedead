@@ -118,8 +118,13 @@ final class MLXModelManager {
         // Generate with streaming
         var generatedText = ""
         var tokenCount = 0
+        let startTime = Date()
+        var firstTokenTime: Date?
+        var tokenTimings: [TimeInterval] = []
+        var lastTokenTime = startTime
         
-        print("[MLXModelManager] Starting generation stream")
+        print("[MLXModelManager] 🚀 Starting generation stream")
+        print("[MLXModelManager] 📊 Max tokens: \(maxTokens), Temperature: \(temperature)")
         
         let stream = try await mlxService.generate(
             messages: messages,
@@ -127,12 +132,53 @@ final class MLXModelManager {
         )
         
         for try await token in stream {
+            let tokenTime = Date()
+            
+            // Track first token latency
+            if firstTokenTime == nil {
+                firstTokenTime = tokenTime
+                let firstTokenLatency = tokenTime.timeIntervalSince(startTime)
+                print("[MLXModelManager] ⏱️ First token latency: \(String(format: "%.3f", firstTokenLatency))s")
+            }
+            
+            // Track inter-token timing
+            let tokenInterval = tokenTime.timeIntervalSince(lastTokenTime)
+            tokenTimings.append(tokenInterval)
+            lastTokenTime = tokenTime
+            
             generatedText += token
             tokenCount += 1
             onToken(token)
         }
         
-        print("[MLXModelManager] Generation complete. Generated \(tokenCount) tokens")
+        // Calculate statistics
+        let totalTime = Date().timeIntervalSince(startTime)
+        let generationTime = firstTokenTime != nil ? Date().timeIntervalSince(firstTokenTime!) : totalTime
+        let tokensPerSecond = tokenCount > 0 ? Double(tokenCount) / generationTime : 0
+        
+        // Calculate average and median inter-token time
+        let avgTokenInterval = tokenTimings.isEmpty ? 0 : tokenTimings.reduce(0, +) / Double(tokenTimings.count)
+        let sortedTimings = tokenTimings.sorted()
+        let medianTokenInterval = sortedTimings.isEmpty ? 0 : sortedTimings[sortedTimings.count / 2]
+        
+        print("[MLXModelManager] ✅ Generation complete")
+        print("[MLXModelManager] 📊 === Generation Statistics ===")
+        print("[MLXModelManager] 📊 Total tokens: \(tokenCount)")
+        print("[MLXModelManager] 📊 Total time: \(String(format: "%.3f", totalTime))s")
+        print("[MLXModelManager] 📊 Generation time: \(String(format: "%.3f", generationTime))s")
+        print("[MLXModelManager] 📊 Tokens/second: \(String(format: "%.2f", tokensPerSecond))")
+        print("[MLXModelManager] 📊 Avg token interval: \(String(format: "%.3f", avgTokenInterval))s")
+        print("[MLXModelManager] 📊 Median token interval: \(String(format: "%.3f", medianTokenInterval))s")
+        print("[MLXModelManager] 📊 Characters generated: \(generatedText.count)")
+        print("[MLXModelManager] 📊 Avg chars/token: \(String(format: "%.2f", Double(generatedText.count) / Double(max(tokenCount, 1))))")
+        
+        // Add memory usage stats
+        let memoryStatus = checkMemoryStatus()
+        let totalMemoryMB = Int64(ProcessInfo.processInfo.physicalMemory) / 1024 / 1024
+        let availableMB = memoryStatus.availableMemory / 1024 / 1024
+        let usedMB = totalMemoryMB - availableMB
+        print("[MLXModelManager] 💾 Memory - Used: \(usedMB)MB, Available: \(availableMB)MB")
+        print("[MLXModelManager] 📊 ==============================")
         
         return generatedText
     }
