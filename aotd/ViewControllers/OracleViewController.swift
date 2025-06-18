@@ -10,6 +10,7 @@ final class OracleViewController: UIViewController {
     private let messageTextView = UITextView()
     private let sendButton = UIButton(type: .system)
     private let deitySelectionButton = UIButton(type: .system)
+    private let promptSuggestionsView = UIView()
     
     // MARK: - Properties
     
@@ -184,6 +185,7 @@ final class OracleViewController: UIViewController {
         
         setupTableView()
         setupInputContainer()
+        setupPromptSuggestions()
         setupConstraints()
         
         setupDownloadUI()
@@ -199,6 +201,11 @@ final class OracleViewController: UIViewController {
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: "ChatMessageCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
+        
+        // Add tap gesture to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false // Allow touches to pass through to table view cells
+        tableView.addGestureRecognizer(tapGesture)
     }
     
     private func setupInputContainer() {
@@ -245,6 +252,17 @@ final class OracleViewController: UIViewController {
         inputContainerView.addSubview(sendButton)
     }
     
+    private func setupPromptSuggestions() {
+        promptSuggestionsView.backgroundColor = UIColor.Papyrus.background
+        promptSuggestionsView.translatesAutoresizingMaskIntoConstraints = false
+        promptSuggestionsView.isHidden = true
+        view.addSubview(promptSuggestionsView)
+        
+        // Add tap gesture to promptSuggestionsView
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        promptSuggestionsView.addGestureRecognizer(tapGesture)
+    }
+    
     private func setupConstraints() {
         inputContainerBottomConstraint = inputContainerView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor
@@ -280,12 +298,19 @@ final class OracleViewController: UIViewController {
             sendButton.trailingAnchor.constraint(equalTo: inputContainerView.trailingAnchor, constant: -12),
             sendButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
             sendButton.widthAnchor.constraint(equalToConstant: 36),
-            sendButton.heightAnchor.constraint(equalToConstant: 36)
+            sendButton.heightAnchor.constraint(equalToConstant: 36),
+            
+            // Prompt suggestions view
+            promptSuggestionsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            promptSuggestionsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            promptSuggestionsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            promptSuggestionsView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor)
         ])
     }
     
     private func setupDownloadUI() {
-        view.addSubview(downloadContainerView)
+        // Add download container later to ensure it's above prompt suggestions
+        view.insertSubview(downloadContainerView, aboveSubview: promptSuggestionsView)
         downloadContainerView.addSubview(oracleIcon)
         downloadContainerView.addSubview(downloadLabel)
         downloadContainerView.addSubview(downloadDescriptionLabel)
@@ -344,6 +369,7 @@ final class OracleViewController: UIViewController {
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
                 self?.scrollToBottom()
+                self?.updatePromptSuggestions()
             }
             .store(in: &cancellables)
         
@@ -419,6 +445,8 @@ final class OracleViewController: UIViewController {
                 self?.downloadContainerView.isHidden = isLoaded
                 self?.inputContainerView.isHidden = !isLoaded
                 self?.tableView.isHidden = !isLoaded
+                // Update prompt suggestions visibility
+                self?.updatePromptSuggestions()
             }
             .store(in: &cancellables)
         
@@ -483,6 +511,9 @@ final class OracleViewController: UIViewController {
             inputContainerView.isHidden = true
             tableView.isHidden = true
         }
+        
+        // Update prompt suggestions
+        updatePromptSuggestions()
     }
     
     private func setupKeyboardObservers() {
@@ -550,7 +581,8 @@ final class OracleViewController: UIViewController {
                 role: deity.role,
                 avatar: deity.avatar,
                 color: deity.color,
-                systemPrompt: deity.systemPrompt
+                systemPrompt: deity.systemPrompt,
+                suggestedPrompts: deity.suggestedPrompts
             )
         }
         
@@ -571,7 +603,10 @@ final class OracleViewController: UIViewController {
             
             // Find the original deity in the view model's array
             if let originalDeity = self.viewModel.availableDeities.first(where: { $0.id == selectedDeity.id }) {
-                self.viewModel.selectDeity(originalDeity)
+                // Animate deity change
+                self.animateDeityTransition {
+                    self.viewModel.selectDeity(originalDeity)
+                }
             }
         }
         
@@ -643,6 +678,10 @@ final class OracleViewController: UIViewController {
         }
     }
     
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     // MARK: - Helpers
     
     private func updateDeityButton() {
@@ -664,6 +703,236 @@ final class OracleViewController: UIViewController {
             deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
             deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         }
+        
+        // Update prompt suggestions
+        updatePromptSuggestions()
+    }
+    
+    private func updatePromptSuggestions() {
+        // Remove existing subviews
+        promptSuggestionsView.subviews.forEach { $0.removeFromSuperview() }
+        
+        // Check if we should show prompts
+        let hasRealMessages = viewModel.messages.filter { !$0.text.isEmpty && $0.isUser }.count > 0
+        let shouldShowPrompts = !hasRealMessages && viewModel.selectedDeity != nil
+        
+        // Show prompt suggestions when:
+        // 1. Model is not loaded (below download UI)
+        // 2. Model is loaded and no real messages yet
+        promptSuggestionsView.isHidden = !shouldShowPrompts
+        
+        // Hide table view only when showing prompts AND model is loaded
+        if viewModel.isModelLoaded {
+            tableView.isHidden = shouldShowPrompts
+        }
+        
+        guard shouldShowPrompts, let deity = viewModel.selectedDeity else { return }
+        
+        // Create container with styling
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        promptSuggestionsView.addSubview(containerView)
+        
+        // Compact deity header
+        let headerView = UIView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(headerView)
+        
+        // Small deity icon
+        let iconSize: CGFloat = 32
+        let iconContainerView = UIView()
+        iconContainerView.backgroundColor = UIColor(hex: deity.color)?.withAlphaComponent(0.15) ?? UIColor.Papyrus.gold.withAlphaComponent(0.15)
+        iconContainerView.layer.cornerRadius = iconSize / 2
+        iconContainerView.layer.borderWidth = 1
+        iconContainerView.layer.borderColor = (UIColor(hex: deity.color) ?? UIColor.Papyrus.gold).withAlphaComponent(0.3).cgColor
+        iconContainerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(iconContainerView)
+        
+        let iconImageView = UIImageView()
+        if let iconImage = UIImage(systemName: deity.avatar) {
+            let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+            iconImageView.image = iconImage.withConfiguration(config)
+        }
+        iconImageView.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconContainerView.addSubview(iconImageView)
+        
+        // Deity name - smaller and inline
+        let nameLabel = UILabel()
+        nameLabel.text = deity.name
+        nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.textColor = UIColor.Papyrus.primaryText
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(nameLabel)
+        
+        // Prompt grid container
+        let gridContainer = UIView()
+        gridContainer.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(gridContainer)
+        
+        // Create 2x2 grid for prompts
+        if let prompts = deity.suggestedPrompts {
+            let columns = 2
+            let spacing: CGFloat = 8
+            let buttonHeight: CGFloat = 48
+            
+            for (index, prompt) in prompts.prefix(4).enumerated() {
+                let row = index / columns
+                let col = index % columns
+                
+                let button = createCompactPromptButton(with: prompt, color: deity.color)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                gridContainer.addSubview(button)
+                
+                // Calculate position
+                let isLeftColumn = col == 0
+                let isTopRow = row == 0
+                let isBottomRow = row == 1
+                
+                var constraints: [NSLayoutConstraint] = [
+                    button.heightAnchor.constraint(equalToConstant: buttonHeight)
+                ]
+                
+                // Horizontal constraints
+                if isLeftColumn {
+                    constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.leadingAnchor))
+                    constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: -spacing/2))
+                } else {
+                    constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: spacing/2))
+                    constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.trailingAnchor))
+                }
+                
+                // Vertical constraints
+                if isTopRow {
+                    constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor))
+                } else {
+                    constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor, constant: buttonHeight + spacing))
+                }
+                
+                if isBottomRow {
+                    constraints.append(button.bottomAnchor.constraint(equalTo: gridContainer.bottomAnchor))
+                }
+                
+                NSLayoutConstraint.activate(constraints)
+            }
+        }
+        
+        // Adjust container position based on model loaded state
+        let centerYOffset: CGFloat = viewModel.isModelLoaded ? 0 : 140
+        
+        // Constraints
+        NSLayoutConstraint.activate([
+            // Container
+            containerView.leadingAnchor.constraint(equalTo: promptSuggestionsView.leadingAnchor, constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: promptSuggestionsView.trailingAnchor, constant: -16),
+            containerView.centerYAnchor.constraint(equalTo: promptSuggestionsView.centerYAnchor, constant: centerYOffset),
+            
+            // Header
+            headerView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            headerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: iconSize),
+            
+            // Icon
+            iconContainerView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            iconContainerView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            iconContainerView.widthAnchor.constraint(equalToConstant: iconSize),
+            iconContainerView.heightAnchor.constraint(equalToConstant: iconSize),
+            
+            iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
+            iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
+            
+            // Name
+            nameLabel.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 8),
+            nameLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+            
+            // Grid
+            gridContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
+            gridContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            gridContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            gridContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            gridContainer.heightAnchor.constraint(equalToConstant: 104) // 2 rows of 48pt + 8pt spacing
+        ])
+    }
+    
+    private func createPromptButton(with text: String, color: String, isCompact: Bool = false) -> UIButton {
+        let button = UIButton(type: .system)
+        
+        var config = UIButton.Configuration.filled()
+        config.title = text
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var updated = incoming
+            updated.font = .systemFont(ofSize: isCompact ? 14 : 16, weight: .medium)
+            return updated
+        }
+        config.baseBackgroundColor = UIColor(hex: color)?.withAlphaComponent(0.15)
+        config.baseForegroundColor = UIColor(hex: color) ?? UIColor.Papyrus.primaryText
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: isCompact ? 12 : 16,
+            leading: isCompact ? 16 : 20,
+            bottom: isCompact ? 12 : 16,
+            trailing: isCompact ? 16 : 20
+        )
+        
+        button.configuration = config
+        button.layer.borderWidth = 1
+        button.layer.borderColor = (UIColor(hex: color) ?? UIColor.Papyrus.aged).cgColor
+        button.layer.cornerRadius = isCompact ? 10 : 12
+        
+        button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }
+    
+    private func createCompactPromptButton(with text: String, color: String) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.clipsToBounds = true
+        button.backgroundColor = UIColor(hex: color)?.withAlphaComponent(0.08)
+        button.layer.cornerRadius = 8
+        
+        // Create a custom view for the shimmer effect
+        let shimmerView = ShimmerBorderView(color: UIColor(hex: color) ?? UIColor.Papyrus.gold)
+        shimmerView.translatesAutoresizingMaskIntoConstraints = false
+        shimmerView.isUserInteractionEnabled = false
+        button.addSubview(shimmerView)
+        
+        // Set button title with multi-line support
+        button.setTitle(text, for: .normal)
+        button.setTitleColor(UIColor(hex: color)?.withAlphaComponent(0.8) ?? UIColor.Papyrus.primaryText.withAlphaComponent(0.8), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.9
+        
+        // Add shimmer view constraints
+        NSLayoutConstraint.activate([
+            shimmerView.topAnchor.constraint(equalTo: button.topAnchor),
+            shimmerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+            shimmerView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
+            shimmerView.bottomAnchor.constraint(equalTo: button.bottomAnchor)
+        ])
+        
+        button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }
+    
+    @objc private func promptButtonTapped(_ sender: UIButton) {
+        guard let prompt = sender.titleLabel?.text else { return }
+        
+        // Haptic feedback
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        
+        // Set the prompt in the text view
+        messageTextView.text = prompt
+        textViewDidChange(messageTextView)
+        
+        // Send the message
+        sendMessage()
     }
     
     
@@ -672,6 +941,63 @@ final class OracleViewController: UIViewController {
         
         let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+    }
+    
+    private func animateDeityTransition(completion: @escaping () -> Void) {
+        // Create a smooth transition effect
+        let transitionView = UIView(frame: view.bounds)
+        transitionView.backgroundColor = UIColor.Papyrus.background
+        transitionView.alpha = 0
+        view.addSubview(transitionView)
+        
+        // If we have a selected deity, add a deity-themed transition
+        if let deity = viewModel.selectedDeity {
+            let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+            
+            // Create a circular reveal effect from the deity button
+            let circleView = UIView()
+            circleView.backgroundColor = deityColor.withAlphaComponent(0.3)
+            circleView.layer.cornerRadius = 30
+            circleView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+            // Convert deity button center to view coordinates
+            let buttonCenter = view.convert(deitySelectionButton.center, from: deitySelectionButton.superview)
+            circleView.center = buttonCenter
+            transitionView.addSubview(circleView)
+            
+            // Animate the circle expanding
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut], animations: {
+                circleView.transform = CGAffineTransform(scaleX: 20, y: 20)
+                circleView.alpha = 0.1
+            })
+        }
+        
+        // Fade out current content
+        UIView.animate(withDuration: 0.2, animations: {
+            transitionView.alpha = 1.0
+            self.tableView.alpha = 0.3
+            self.promptSuggestionsView.alpha = 0.3
+        }) { _ in
+            // Execute the completion (deity change)
+            completion()
+            
+            // Fade in new content
+            UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseInOut], animations: {
+                transitionView.alpha = 0
+                self.tableView.alpha = 1.0
+                self.promptSuggestionsView.alpha = 1.0
+            }) { _ in
+                transitionView.removeFromSuperview()
+                
+                // Add a subtle bounce to the deity button
+                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {
+                    self.deitySelectionButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                }) { _ in
+                    UIView.animate(withDuration: 0.2) {
+                        self.deitySelectionButton.transform = .identity
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -896,5 +1222,85 @@ private class ChatMessageCell: UITableViewCell {
         
         typingIndicator.stopAnimating()
         messageLabel.isHidden = false
+    }
+}
+
+// MARK: - ShimmerBorderView
+
+private class ShimmerBorderView: UIView {
+    private let borderLayer = CAShapeLayer()
+    private let shimmerLayer = CAShapeLayer()
+    private let animationDuration: TimeInterval = 3.0
+    private let deityColor: UIColor
+    
+    init(color: UIColor) {
+        self.deityColor = color
+        super.init(frame: .zero)
+        setupLayers()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updatePaths()
+        startAnimation()
+    }
+    
+    private func setupLayers() {
+        // Static border layer
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = deityColor.withAlphaComponent(0.15).cgColor
+        borderLayer.lineWidth = 1
+        layer.addSublayer(borderLayer)
+        
+        // Shimmer layer that will animate
+        shimmerLayer.fillColor = UIColor.clear.cgColor
+        shimmerLayer.strokeColor = deityColor.cgColor
+        shimmerLayer.lineWidth = 1.5
+        shimmerLayer.lineCap = .round
+        shimmerLayer.strokeEnd = 0.0
+        layer.addSublayer(shimmerLayer)
+    }
+    
+    private func updatePaths() {
+        let rect = bounds
+        let cornerRadius: CGFloat = 8
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+        
+        // Update both layers with the same path
+        borderLayer.path = path.cgPath
+        shimmerLayer.path = path.cgPath
+        
+        borderLayer.frame = rect
+        shimmerLayer.frame = rect
+    }
+    
+    private func startAnimation() {
+        // Remove existing animations
+        shimmerLayer.removeAllAnimations()
+        
+        // Create the shimmer effect by animating strokeStart and strokeEnd
+        let strokeEndAnimation = CAKeyframeAnimation(keyPath: "strokeEnd")
+        strokeEndAnimation.values = [0.0, 0.3, 1.0, 1.0]
+        strokeEndAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
+        
+        let strokeStartAnimation = CAKeyframeAnimation(keyPath: "strokeStart")
+        strokeStartAnimation.values = [0.0, 0.0, 0.7, 1.0]
+        strokeStartAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
+        
+        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
+        opacityAnimation.values = [0.0, 1.0, 1.0, 0.0]
+        opacityAnimation.keyTimes = [0.0, 0.2, 0.8, 1.0]
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.animations = [strokeEndAnimation, strokeStartAnimation, opacityAnimation]
+        animationGroup.duration = animationDuration
+        animationGroup.repeatCount = .infinity
+        animationGroup.isRemovedOnCompletion = false
+        
+        shimmerLayer.add(animationGroup, forKey: "shimmerAnimation")
     }
 }
