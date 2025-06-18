@@ -103,6 +103,11 @@ final class DeitySelectionViewController: UIViewController {
         // Use dynamic color for background
         view.backgroundColor = UIColor.Papyrus.background
         
+        // Add tap gesture to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+        
         // Header container
         headerView.backgroundColor = UIColor.Papyrus.background
         headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -215,6 +220,10 @@ final class DeitySelectionViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
