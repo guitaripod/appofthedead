@@ -249,6 +249,38 @@ final class MLXService {
         }
     }
     
+    // MARK: - Convenience Methods
+    
+    func generateResponse(
+        prompt: String,
+        systemPrompt: String? = nil,
+        maxTokens: Int = 300
+    ) async throws -> String {
+        var messages: [ChatMessage] = []
+        
+        if let systemPrompt = systemPrompt {
+            messages.append(ChatMessage(role: .system, content: systemPrompt))
+        }
+        
+        messages.append(ChatMessage(role: .user, content: prompt))
+        
+        let config = GenerationConfig(
+            temperature: 0.7,
+            maxTokens: maxTokens,
+            topP: 0.95,
+            repetitionPenalty: 1.1
+        )
+        
+        var response = ""
+        let stream = try await generate(messages: messages, config: config)
+        
+        for try await chunk in stream {
+            response += chunk
+        }
+        
+        return response.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
     // MARK: - Model Information
     
     func checkModelDownloaded(configuration: ModelConfiguration = defaultModel) async -> Bool {

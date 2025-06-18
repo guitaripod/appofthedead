@@ -34,6 +34,10 @@ final class LessonViewModel {
         UIColor(hex: beliefSystem.color)
     }
     
+    var beliefSystemId: String {
+        beliefSystem.id
+    }
+    
     init(lesson: Lesson, beliefSystem: BeliefSystem, currentLessonIndex: Int, totalLessons: Int) {
         self.lesson = lesson
         self.beliefSystem = beliefSystem

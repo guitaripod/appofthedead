@@ -1,8 +1,53 @@
 import UIKit
 
+// MARK: - TappableKeyTermView
+
+private class TappableKeyTermView: UIView {
+    let term: String
+    var onTap: (() -> Void)?
+    
+    init(term: String) {
+        self.term = term
+        super.init(frame: .zero)
+        isUserInteractionEnabled = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        UIView.animate(withDuration: 0.1) {
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            self.alpha = 0.8
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        UIView.animate(withDuration: 0.1) {
+            self.transform = .identity
+            self.alpha = 1.0
+        }
+        onTap?()
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        UIView.animate(withDuration: 0.1) {
+            self.transform = .identity
+            self.alpha = 1.0
+        }
+    }
+}
+
 final class LessonViewController: UIViewController {
     
     private let viewModel: LessonViewModel
+    private let contentLoader = ContentLoader()
+    private let mlxService = MLXService.shared
+    private var deity: Deity?
     
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -26,6 +71,7 @@ final class LessonViewController: UIViewController {
         setupUI()
         setupNavigationBar()
         configureWithViewModel()
+        loadDeity()
     }
     
     private func setupNavigationBar() {
@@ -163,26 +209,49 @@ final class LessonViewController: UIViewController {
     }
     
     private func createKeyTermView(term: String) -> UIView {
-        let container = UIView()
+        let container = TappableKeyTermView(term: term)
         container.backgroundColor = UIColor.Papyrus.cardBackground
         container.layer.cornerRadius = 12
         container.layer.borderWidth = 1
         container.layer.borderColor = UIColor.Papyrus.aged.cgColor
         
+        // Stack view for icon and label
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.isUserInteractionEnabled = false
+        
         let label = UILabel()
         label.text = term
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.Papyrus.primaryText
-        label.translatesAutoresizingMaskIntoConstraints = false
         
-        container.addSubview(label)
+        // Add info icon to indicate tappable
+        let infoIcon = UIImageView(image: UIImage(systemName: "info.circle"))
+        infoIcon.tintColor = viewModel.beliefSystemColor ?? UIColor.Papyrus.primaryText
+        infoIcon.contentMode = .scaleAspectFit
+        infoIcon.translatesAutoresizingMaskIntoConstraints = false
+        
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(infoIcon)
+        
+        container.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 12),
-            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
-            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -12)
+            stackView.topAnchor.constraint(equalTo: container.topAnchor, constant: 12),
+            stackView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -12),
+            
+            infoIcon.widthAnchor.constraint(equalToConstant: 20),
+            infoIcon.heightAnchor.constraint(equalToConstant: 20)
         ])
+        
+        container.onTap = { [weak self] in
+            self?.handleKeyTermTap(term)
+        }
         
         return container
     }
@@ -197,5 +266,24 @@ final class LessonViewController: UIViewController {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         viewModel.exitLearningPath()
         print("DEBUG: LessonViewController - Called viewModel.exitLearningPath()")
+    }
+    
+    // MARK: - Key Term Handling
+    
+    private func handleKeyTermTap(_ term: String) {
+        guard let deity = deity else { return }
+        
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        
+        let modal = PapyrusModal(deity: deity, keyword: term, mlxService: mlxService)
+        present(modal, animated: true)
+    }
+    
+    
+    // MARK: - Deity Loading
+    
+    private func loadDeity() {
+        // Get deity for the current belief system
+        deity = contentLoader.getDeityForBeliefSystem(viewModel.beliefSystemId)
     }
 }
