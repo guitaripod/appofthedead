@@ -35,7 +35,10 @@ final class MLXService {
     static let defaultModel = LLMRegistry.llama3_2_3B_4bit
     
     var isModelLoaded: Bool {
-        modelContainer != nil
+        if DeviceUtility.isSimulator {
+            return currentModel != nil
+        }
+        return modelContainer != nil
     }
     
     // MARK: - Model Management
@@ -44,6 +47,21 @@ final class MLXService {
         configuration: ModelConfiguration = defaultModel,
         progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
     ) async throws {
+        // Check if running in simulator
+        if DeviceUtility.isSimulator {
+            print("🤖 MLX: Running in simulator - using mock mode")
+            // Simulate loading progress
+            let progress = Foundation.Progress(totalUnitCount: 100)
+            for i in 0...100 {
+                progress.completedUnitCount = Int64(i)
+                progressHandler(progress)
+                try await Task.sleep(nanoseconds: 10_000_000) // 10ms delay
+            }
+            // Mark as loaded without actually loading
+            self.currentModel = configuration
+            return
+        }
+        
         // Set GPU memory limit for iOS
         MLX.GPU.set(cacheLimit: 512 * 1024 * 1024) // 512MB cache for Llama3.2-3B
         
@@ -102,6 +120,11 @@ final class MLXService {
         messages: [ChatMessage],
         config: GenerationConfig = GenerationConfig()
     ) async throws -> AsyncThrowingStream<String, Error> {
+        // Handle simulator mode
+        if DeviceUtility.isSimulator {
+            return createSimulatorResponse(for: messages, config: config)
+        }
+        
         guard let container = modelContainer else {
             throw MLXServiceError.modelNotLoaded
         }
@@ -191,9 +214,48 @@ final class MLXService {
         }
     }
     
+    // MARK: - Simulator Support
+    
+    private func createSimulatorResponse(
+        for messages: [ChatMessage],
+        config: GenerationConfig
+    ) -> AsyncThrowingStream<String, Error> {
+        return AsyncThrowingStream { continuation in
+            Task {
+                // Get the last user message
+                let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
+                
+                // Generate a mock response based on the context
+                let mockResponses = [
+                    "🔮 [Simulator Mode] The ancient spirits whisper through the digital void...",
+                    "📱 [Simulator Mode] In the realm of simulation, all prophecies converge...",
+                    "✨ [Simulator Mode] The oracle's wisdom transcends physical hardware...",
+                    "🌟 [Simulator Mode] Even in this ethereal plane, guidance can be found..."
+                ]
+                
+                // Pick a response and add context
+                let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
+                let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
+                
+                // Simulate streaming response
+                let words = contextualResponse.split(separator: " ")
+                for word in words {
+                    continuation.yield(String(word) + " ")
+                    try? await Task.sleep(nanoseconds: 50_000_000) // 50ms delay
+                }
+                
+                continuation.finish()
+            }
+        }
+    }
+    
     // MARK: - Model Information
     
     func checkModelDownloaded(configuration: ModelConfiguration = defaultModel) async -> Bool {
+        if DeviceUtility.isSimulator {
+            // Always return true for simulator
+            return true
+        }
         // For now, check if the model is in cache
         // In production, you'd check the actual file system
         return modelCache.object(forKey: configuration.name as NSString) != nil

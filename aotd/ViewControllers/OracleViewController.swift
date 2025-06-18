@@ -465,6 +465,14 @@ final class OracleViewController: UIViewController {
             }
         }
         
+        // Update UI for simulator mode
+        if DeviceUtility.isSimulator {
+            downloadLabel.text = "Oracle Simulator Mode"
+            downloadDescriptionLabel.text = "You're running in the iOS Simulator. The Oracle will provide mock responses for testing the UI. Deploy to a physical device to experience real AI-powered conversations."
+            downloadButton.configuration?.title = "Enable Simulator Oracle"
+            oracleIcon.image = UIImage(systemName: "desktopcomputer")
+        }
+        
         // Trust the view model's state which is properly synchronized
         if viewModel.isModelLoaded {
             downloadContainerView.isHidden = true
