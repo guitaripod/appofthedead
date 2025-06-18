@@ -40,7 +40,7 @@ final class OracleViewModel: ObservableObject {
         }
     }
     
-    struct Deity: Codable {
+    struct Deity: Codable, Hashable {
         let id: String
         let name: String
         let tradition: String
@@ -49,8 +49,18 @@ final class OracleViewModel: ObservableObject {
         let color: String
         let systemPrompt: String
         
-        var uiColor: UIColor {
-            UIColor(hex: color) ?? UIColor.Papyrus.gold
+        // Implement Hashable
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+        
+        static func == (lhs: Deity, rhs: Deity) -> Bool {
+            lhs.id == rhs.id
+        }
+        
+        // Debug description
+        var debugDescription: String {
+            return "Deity(id: \(id), name: \(name), tradition: \(tradition))"
         }
     }
     
@@ -274,14 +284,57 @@ final class OracleViewModel: ObservableObject {
         
         do {
             let data = try Data(contentsOf: url)
+            print("[OracleViewModel] Loaded data size: \(data.count) bytes")
+            
+            // Validate JSON structure
+            if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                print("[OracleViewModel] JSON validation passed. Root keys: \(jsonObject.keys)")
+            }
+            
             let deitiesData = try JSONDecoder().decode(DeitiesData.self, from: data)
-            availableDeities = Array(deitiesData.deities.values).sorted { $0.name < $1.name }
+            print("[OracleViewModel] Decoded deities dictionary with \(deitiesData.deities.count) entries")
+            
+            // Create array and validate each deity
+            let deityArray = Array(deitiesData.deities.values)
+            var validDeities: [Deity] = []
+            
+            for deity in deityArray {
+                // Validate critical fields
+                if !deity.id.isEmpty && !deity.name.isEmpty && !deity.color.isEmpty {
+                    validDeities.append(deity)
+                    print("[OracleViewModel] Valid deity: \(deity.name) with color: \(deity.color)")
+                } else {
+                    print("[OracleViewModel] Invalid deity skipped: \(deity.debugDescription)")
+                }
+            }
+            
+            availableDeities = validDeities.sorted { $0.name < $1.name }
             selectedDeity = availableDeities.first
             
-            print("[OracleViewModel] Loaded \(availableDeities.count) deities")
+            print("[OracleViewModel] Loaded \(availableDeities.count) valid deities")
             print("[OracleViewModel] Selected deity: \(selectedDeity?.name ?? "none")")
+            
+            // Print first few deities for debugging
+            for (index, deity) in availableDeities.prefix(3).enumerated() {
+                print("[OracleViewModel] Deity \(index): \(deity.name) - \(deity.tradition) - Color: \(deity.color)")
+            }
+        } catch let decodingError as DecodingError {
+            print("[OracleViewModel] Decoding error: \(decodingError)")
+            switch decodingError {
+            case .dataCorrupted(let context):
+                print("[OracleViewModel] Data corrupted: \(context.debugDescription)")
+            case .keyNotFound(let key, let context):
+                print("[OracleViewModel] Key not found: \(key.stringValue) - \(context.debugDescription)")
+            case .typeMismatch(let type, let context):
+                print("[OracleViewModel] Type mismatch: \(type) - \(context.debugDescription)")
+            case .valueNotFound(let type, let context):
+                print("[OracleViewModel] Value not found: \(type) - \(context.debugDescription)")
+            @unknown default:
+                print("[OracleViewModel] Unknown decoding error")
+            }
         } catch {
             print("[OracleViewModel] Error loading deities: \(error)")
+            print("[OracleViewModel] Error details: \(error.localizedDescription)")
         }
     }
     

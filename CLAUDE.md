@@ -28,6 +28,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Follow the existing programmatic UI approach - no Interface Builder
 - Use the PapyrusDesignSystem for all user interfaces
 - Use UIStackView's heavily to simplify the layout code. UIStackView's are very configurable and performant.
+- Always use the latest UIKit APIs like diffable datasource
 - Use MVVM architecture for all screens
 - Always unit test new view models.
 - GRDB for all data persistence (models: User, Progress, Achievement, CompletedLesson)
@@ -47,4 +48,11 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Offline-first: all content available without internet
 
 When implementing new features, always check `aotd.json` for the expected data structure and maintain consistency with existing MVVM patterns.
+
+## Recent Updates
+- **Deity Selection UI**: Reverted to simple modal presentation without navigation bar or search functionality
+- Using diffable data source for deity collection view
+- Added grabber handle for dismissal with pan gesture support
+- Fixed dark mode colors to match app's design system
+- Expanded deity list from 9 to 21 deities in `deity_prompts.json`
 

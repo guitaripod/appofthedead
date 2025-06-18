@@ -534,15 +534,58 @@ final class OracleViewController: UIViewController {
         print("[OracleViewController] Select deity button tapped")
         print("[OracleViewController] Available deities: \(viewModel.availableDeities.count)")
         
-        let deitySelector = DeitySelectionViewController(
-            deities: viewModel.availableDeities,
-            currentDeity: viewModel.selectedDeity
-        ) { [weak self] selectedDeity in
-            print("[OracleViewController] Selected deity: \(selectedDeity.name)")
-            self?.viewModel.selectDeity(selectedDeity)
+        // Ensure we have deities before presenting
+        guard !viewModel.availableDeities.isEmpty else {
+            print("[OracleViewController] Error: No deities available")
+            return
         }
         
-        present(deitySelector, animated: true)
+        // Create a new array to ensure proper memory management
+        let deitiesArray = viewModel.availableDeities.map { deity in
+            // Create a fresh copy of each deity
+            return OracleViewModel.Deity(
+                id: deity.id,
+                name: deity.name,
+                tradition: deity.tradition,
+                role: deity.role,
+                avatar: deity.avatar,
+                color: deity.color,
+                systemPrompt: deity.systemPrompt
+            )
+        }
+        
+        // Find the current deity copy in our new array
+        let currentDeityCopy = deitiesArray.first { $0.id == viewModel.selectedDeity?.id }
+        
+        print("[OracleViewController] Creating deity selector...")
+        print("[OracleViewController] Deities array count: \(deitiesArray.count)")
+        print("[OracleViewController] Current deity: \(currentDeityCopy?.name ?? "none")")
+        
+        // Create the view controller with the enhanced UI
+        let deitySelector = DeitySelectionViewController(
+            deities: deitiesArray,
+            currentDeity: currentDeityCopy
+        ) { [weak self] selectedDeity in
+            guard let self = self else { return }
+            print("[OracleViewController] Selected deity: \(selectedDeity.name)")
+            
+            // Find the original deity in the view model's array
+            if let originalDeity = self.viewModel.availableDeities.first(where: { $0.id == selectedDeity.id }) {
+                self.viewModel.selectDeity(originalDeity)
+            }
+        }
+        
+        print("[OracleViewController] Deity selector created successfully")
+        
+        // Present as normal modal
+        if self.presentedViewController == nil {
+            print("[OracleViewController] About to present deity selector")
+            self.present(deitySelector, animated: true) {
+                print("[OracleViewController] Deity selector presented successfully")
+            }
+        } else {
+            print("[OracleViewController] Warning: Already presenting a view controller")
+        }
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -614,12 +657,12 @@ final class OracleViewController: UIViewController {
         if let iconImage = UIImage(systemName: deity.avatar) {
             let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
             deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
-            deitySelectionButton.tintColor = deity.uiColor
+            deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         } else {
             print("[OracleViewController] Warning: Could not load icon \(deity.avatar)")
             // Fallback icon
             deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
-            deitySelectionButton.tintColor = deity.uiColor
+            deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         }
     }
     
@@ -812,7 +855,7 @@ private class ChatMessageCell: UITableViewCell {
             if let deity = message.deity {
                 nameLabel.isHidden = false
                 nameLabel.text = deity.name
-                nameLabel.textColor = deity.uiColor
+                nameLabel.textColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
                 
                 // Update constraints for deity message with name label
                 bubbleTopConstraint?.constant = 28
