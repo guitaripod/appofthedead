@@ -1,6 +1,6 @@
 import UIKit
 
-class PapyrusModal: UIViewController {
+class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     // MARK: - Properties
     
@@ -46,17 +46,24 @@ class PapyrusModal: UIViewController {
         super.viewDidLoad()
         setupUI()
         startStreamingExplanation()
+        
+        // Set presentation controller delegate to detect actual dismissal
+        presentationController?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Cancel streaming task immediately
-        streamingTask?.cancel()
-        streamingTask = nil
+        // Don't cancel here anymore - wait for actual dismissal
+        #if DEBUG
+        print("🔮 PapyrusModal: viewWillDisappear - modal is being dismissed")
+        #endif
     }
     
     deinit {
         // Ensure task is cancelled if view controller is deallocated
+        #if DEBUG
+        print("🔮 PapyrusModal: deinit - ensuring task is cancelled")
+        #endif
         streamingTask?.cancel()
     }
     
@@ -374,6 +381,29 @@ class PapyrusModal: UIViewController {
         } else {
             view.backgroundColor = PapyrusDesignSystem.Colors.background
         }
+    }
+    
+    // MARK: - UIAdaptivePresentationControllerDelegate
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        // Modal has been fully dismissed
+        #if DEBUG
+        print("🔮 PapyrusModal: presentationControllerDidDismiss - modal fully dismissed, cancelling task")
+        #endif
+        streamingTask?.cancel()
+        streamingTask = nil
+    }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        // Allow dismissal at any time
+        return true
+    }
+    
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        // Modal is about to be dismissed but user can still cancel the gesture
+        #if DEBUG
+        print("🔮 PapyrusModal: presentationControllerWillDismiss - dismissal gesture started")
+        #endif
     }
 }
 

@@ -164,7 +164,7 @@ final class MLXService {
         )
         
         return AsyncThrowingStream { continuation in
-            Task {
+            let generationTask = Task {
                 do {
                     // Use the model container to generate
                     let stream = try await container.perform { context in
@@ -183,6 +183,9 @@ final class MLXService {
                     #endif
                     
                     for try await generation in stream {
+                        // Check for cancellation before processing each token
+                        try Task.checkCancellation()
+                        
                         switch generation {
                         case .chunk(let text):
                             if !text.isEmpty {
@@ -208,7 +211,27 @@ final class MLXService {
                     
                     continuation.finish()
                 } catch {
-                    continuation.finish(throwing: error)
+                    if error is CancellationError {
+                        #if DEBUG
+                        print("🤖 MLX Generation cancelled")
+                        #endif
+                        continuation.finish(throwing: CancellationError())
+                    } else {
+                        continuation.finish(throwing: error)
+                    }
+                }
+            }
+            
+            // Handle stream termination on cancellation
+            continuation.onTermination = { @Sendable termination in
+                switch termination {
+                case .cancelled:
+                    generationTask.cancel()
+                    #if DEBUG
+                    print("🤖 MLX Stream terminated - cancelling generation task")
+                    #endif
+                default:
+                    break
                 }
             }
         }
@@ -221,30 +244,57 @@ final class MLXService {
         config: GenerationConfig
     ) -> AsyncThrowingStream<String, Error> {
         return AsyncThrowingStream { continuation in
-            Task {
-                // Get the last user message
-                let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
-                
-                // Generate a mock response based on the context
-                let mockResponses = [
-                    "🔮 [Simulator Mode] The ancient spirits whisper through the digital void...",
-                    "📱 [Simulator Mode] In the realm of simulation, all prophecies converge...",
-                    "✨ [Simulator Mode] The oracle's wisdom transcends physical hardware...",
-                    "🌟 [Simulator Mode] Even in this ethereal plane, guidance can be found..."
-                ]
-                
-                // Pick a response and add context
-                let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
-                let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
-                
-                // Simulate streaming response
-                let words = contextualResponse.split(separator: " ")
-                for word in words {
-                    continuation.yield(String(word) + " ")
-                    try? await Task.sleep(nanoseconds: 50_000_000) // 50ms delay
+            let simulationTask = Task {
+                do {
+                    // Get the last user message
+                    let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
+                    
+                    // Generate a mock response based on the context
+                    let mockResponses = [
+                        "🔮 [Simulator Mode] The ancient spirits whisper through the digital void...",
+                        "📱 [Simulator Mode] In the realm of simulation, all prophecies converge...",
+                        "✨ [Simulator Mode] The oracle's wisdom transcends physical hardware...",
+                        "🌟 [Simulator Mode] Even in this ethereal plane, guidance can be found..."
+                    ]
+                    
+                    // Pick a response and add context
+                    let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
+                    let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
+                    
+                    // Simulate streaming response
+                    let words = contextualResponse.split(separator: " ")
+                    for word in words {
+                        // Check for cancellation before each word
+                        try Task.checkCancellation()
+                        
+                        continuation.yield(String(word) + " ")
+                        try await Task.sleep(nanoseconds: 50_000_000) // 50ms delay
+                    }
+                    
+                    continuation.finish()
+                } catch {
+                    if error is CancellationError {
+                        #if DEBUG
+                        print("🤖 Simulator generation cancelled")
+                        #endif
+                        continuation.finish(throwing: CancellationError())
+                    } else {
+                        continuation.finish(throwing: error)
+                    }
                 }
-                
-                continuation.finish()
+            }
+            
+            // Handle stream termination on cancellation
+            continuation.onTermination = { @Sendable termination in
+                switch termination {
+                case .cancelled:
+                    simulationTask.cancel()
+                    #if DEBUG
+                    print("🤖 Simulator stream terminated - cancelling simulation task")
+                    #endif
+                default:
+                    break
+                }
             }
         }
     }
