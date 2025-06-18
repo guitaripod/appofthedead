@@ -196,14 +196,14 @@ extension HomeViewController: HomeHeaderViewDelegate {
     }
     
     private func showSignInOptions() {
-        PapyrusAlert(title: "Sign In", message: "Sign in to sync your progress across devices")
-            .addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
-            .addAction(PapyrusAlert.Action(title: "Sign in with Apple") { [weak self] in
-                guard let self = self else { return }
-                AuthenticationManager.shared.delegate = self
-                AuthenticationManager.shared.signInWithApple(presentingViewController: self)
-            })
-            .present(from: self)
+        let signInVC = SignInViewController()
+        signInVC.delegate = self
+        signInVC.modalPresentationStyle = .pageSheet
+        if let sheet = signInVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        present(signInVC, animated: true)
     }
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -237,5 +237,24 @@ extension HomeViewController: AuthenticationManagerDelegate {
                 from: self
             )
         }
+    }
+}
+
+// MARK: - SignInViewControllerDelegate
+
+extension HomeViewController: SignInViewControllerDelegate {
+    func signInDidComplete() {
+        viewModel.loadData()
+        updateHeader()
+        
+        PapyrusAlert.showSimpleAlert(
+            title: "Success",
+            message: "You are now signed in!",
+            from: self
+        )
+    }
+    
+    func signInDidCancel() {
+        // No action needed
     }
 }
