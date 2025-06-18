@@ -14,7 +14,8 @@ final class DeitySelectionViewControllerAnimationTests: XCTestCase {
                 role: "Guide of Souls",
                 avatar: "figure.stand",
                 color: "#D4A574",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             ),
             OracleViewModel.Deity(
                 id: "hermes",
@@ -23,7 +24,8 @@ final class DeitySelectionViewControllerAnimationTests: XCTestCase {
                 role: "Messenger of Gods",
                 avatar: "wind",
                 color: "#4A90E2",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             ),
             OracleViewModel.Deity(
                 id: "gabriel",
@@ -32,7 +34,8 @@ final class DeitySelectionViewControllerAnimationTests: XCTestCase {
                 role: "Archangel",
                 avatar: "sparkles",
                 color: "#8B5CF6",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             )
         ]
     }

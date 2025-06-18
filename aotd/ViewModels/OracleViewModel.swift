@@ -48,6 +48,7 @@ final class OracleViewModel: ObservableObject {
         let avatar: String
         let color: String
         let systemPrompt: String
+        let suggestedPrompts: [String]?
         
         // Implement Hashable
         func hash(into hasher: inout Hasher) {
@@ -223,6 +224,10 @@ final class OracleViewModel: ObservableObject {
     
     func selectDeity(_ deity: Deity) {
         print("[OracleViewModel] Selecting deity: \(deity.name)")
+        
+        // Only proceed if actually changing deity
+        guard deity.id != selectedDeity?.id else { return }
+        
         selectedDeity = deity
         // Clear chat history when switching deities
         messages.removeAll()
@@ -358,18 +363,32 @@ final class OracleViewModel: ObservableObject {
             "mictlantecuhtli": "I am Mictlantecuhtli, Lord of the Bone Palace. In Mictlan, all souls find their rest. What do you wish to know about the journey ahead?",
             "baron_samedi": "Ah, another soul comes to Baron Samedi! I stand at the crossroads between life and death. What brings you to my domain, child?",
             "odin": "I am Odin, All-Father, who sacrificed an eye for wisdom. I know the fate of all things. What knowledge do you seek from the halls of Asgard?",
-            "kali": "I am Kali, dancer upon the cremation grounds, destroyer of illusion. Through destruction comes liberation. What veils would you have me tear away?"
+            "kali": "I am Kali, dancer upon the cremation grounds, destroyer of illusion. Through destruction comes liberation. What veils would you have me tear away?",
+            "azrael": "In the name of the Most Merciful, I am Azrael, the Angel of Death. I separate souls with gentleness and grace. How may I ease your heart?",
+            "meng_po": "Welcome, traveler. I am Meng Po, keeper of the Tea of Oblivion. I have watched countless souls cross the bridge of rebirth. What would you know?",
+            "izanami": "From the shadows of Yomi, I am Izanami. Once I created life, now I rule the realm of death. What brings you to seek the Mother of Shadows?",
+            "waheguru": "Waheguru's light shines through all. I speak with the voice of eternal wisdom. The cycle of birth and death is but illusion. What truth do you seek?",
+            "ahura_mazda": "I am Ahura Mazda, Lord of Wisdom and Light. The battle between truth and lie shapes all destinies. Choose your thoughts, words, and deeds wisely.",
+            "pachamama": "I am Pachamama, the Earth Mother. All that lives returns to me. Death is but transformation in the eternal dance of existence. What do you wish to understand?",
+            "raven": "Caw! I am Raven, the trickster who stole the light. Death? Life? They're all part of the great joke! What riddle shall we unravel together?",
+            "hecate": "By torch-light and moonbeam, I am Hecate of the Crossroads. I hold the keys to all mysteries. Which threshold do you wish to cross?",
+            "michael": "I am Michael, Archangel of this age. I guide souls through the planetary spheres toward spiritual consciousness. What aspect of your journey concerns you?",
+            "sophia": "I am Sophia, Divine Wisdom incarnate. I illuminate the path through all planes of existence. What knowledge of the eternal realms do you seek?",
+            "emanuel": "Welcome to the spiritual world! I am your guide in Swedenborg's vision. Here, your inner state creates your reality. What would you discover?",
+            "oyasama": "With a mother's love, I am Oyasama. Death is but a joyous return home. Let us speak of the Joyous Life and God's loving providence.",
+            "the_eternal": "I AM THAT I AM. Known by countless names, I am the thread connecting all beliefs. In Me, all paths converge. What universal truth calls to you?"
         ]
         
-        if let greeting = greetings[deity.id] {
-            let message = ChatMessage(
-                text: greeting,
-                isUser: false,
-                deity: deity,
-                timestamp: Date()
-            )
-            messages.append(message)
-        }
+        // Use custom greeting if available, otherwise generate one
+        let greetingText = greetings[deity.id] ?? "I am \(deity.name), \(deity.role) of the \(deity.tradition) tradition. I am here to guide you. What would you like to know?"
+        
+        let message = ChatMessage(
+            text: greetingText,
+            isUser: false,
+            deity: deity,
+            timestamp: Date()
+        )
+        messages.append(message)
     }
     
     private func generateResponse(to userMessage: String, deity: Deity) async {

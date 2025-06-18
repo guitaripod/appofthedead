@@ -20,7 +20,8 @@ final class DeitySelectionViewControllerTests: XCTestCase {
                 role: "Guide of Souls",
                 avatar: "figure.stand",
                 color: "#D4A574",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             ),
             OracleViewModel.Deity(
                 id: "hermes",
@@ -29,7 +30,8 @@ final class DeitySelectionViewControllerTests: XCTestCase {
                 role: "Messenger of Gods",
                 avatar: "wind",
                 color: "#4A90E2",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             ),
             OracleViewModel.Deity(
                 id: "gabriel",
@@ -38,7 +40,8 @@ final class DeitySelectionViewControllerTests: XCTestCase {
                 role: "Archangel",
                 avatar: "sparkles",
                 color: "#8B5CF6",
-                systemPrompt: "Test prompt"
+                systemPrompt: "Test prompt",
+                suggestedPrompts: nil
             )
         ]
         
@@ -215,7 +218,8 @@ final class DeityCellTests: XCTestCase {
             role: "Test Role",
             avatar: "star.fill",
             color: "#FF0000",
-            systemPrompt: "Test"
+            systemPrompt: "Test",
+            suggestedPrompts: nil
         )
         
         cell.configure(with: deity, isSelected: false)
@@ -242,7 +246,8 @@ final class DeityCellTests: XCTestCase {
             role: "Test Role",
             avatar: "star.fill",
             color: "#FF0000",
-            systemPrompt: "Test"
+            systemPrompt: "Test",
+            suggestedPrompts: nil
         )
         
         // Configure as selected
