@@ -70,7 +70,7 @@ final class OracleViewModel: ObservableObject {
     init() {
         print("[OracleViewModel] Initializing")
         loadDeities()
-        addWelcomeMessage()
+        // Don't add welcome message - let the conversation start with user
         
         // Check initial model status
         isModelLoaded = modelManager.isModelLoaded
@@ -231,7 +231,7 @@ final class OracleViewModel: ObservableObject {
         selectedDeity = deity
         // Clear chat history when switching deities
         messages.removeAll()
-        addDeityGreeting(deity)
+        // Don't add deity greeting - let the user start the conversation
     }
     
     // MARK: - Private Methods
