@@ -162,8 +162,8 @@ final class HomeHeaderView: UICollectionReusableView {
         let stack = UIStackView(arrangedSubviews: [topRowStackView, statsContainer])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.spacing = 12
-        stack.layoutMargins = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        stack.spacing = 10
+        stack.layoutMargins = UIEdgeInsets(top: 6, left: 20, bottom: 8, right: 20)
         stack.isLayoutMarginsRelativeArrangement = true
         return stack
     }()
