@@ -116,10 +116,6 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
             return
         }
         
-        guard let nonce = currentNonce else {
-            fatalError("Invalid state: A login callback was received, but no login request was sent.")
-        }
-        
         guard let appleIDToken = appleIDCredential.identityToken else {
             return
         }

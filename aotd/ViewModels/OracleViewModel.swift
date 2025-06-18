@@ -115,10 +115,6 @@ final class OracleViewModel: ObservableObject {
                     let actualProgress = progress.progress
                     let totalBytes = estimatedTotalSize
                     
-                    let percentage = actualProgress * 100
-                    
-                    print("[OracleViewModel] Download progress: \(actualProgress) (\(percentage)%)")
-                    
                     Task { @MainActor in
                         // Smooth out progress updates
                         let smoothedProgress = self.smoothProgress(current: actualProgress, last: lastProgress)

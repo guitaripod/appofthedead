@@ -89,8 +89,6 @@ final class HomeViewModel {
             let isUnlocked = checkIfUnlocked(beliefSystem)
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
             
-            print("🏠 Path \(beliefSystem.name): \(currentXP)/\(beliefSystem.totalXP) XP")
-            
             return PathItem(
                 id: beliefSystem.id,
                 name: beliefSystem.name,

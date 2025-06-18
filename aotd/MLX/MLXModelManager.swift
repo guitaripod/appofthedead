@@ -61,8 +61,6 @@ final class MLXModelManager {
         
         do {
             try await mlxService.loadModel { (progress: Foundation.Progress) in
-                let fractionCompleted = progress.totalUnitCount > 0 ? Double(progress.completedUnitCount) / Double(progress.totalUnitCount) : 0
-                print("[MLXModelManager] Load progress: \(fractionCompleted * 100)%")
             }
             
             // Persist that we've loaded the model at least once
