@@ -679,7 +679,6 @@ private class ChatMessageCell: UITableViewCell {
     
     private let bubbleView = UIView()
     private let messageLabel = UILabel()
-    private let avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let typingIndicator = UIActivityIndicatorView(style: .medium)
     
@@ -704,7 +703,6 @@ private class ChatMessageCell: UITableViewCell {
         contentView.backgroundColor = .clear
         
         // Add all subviews
-        contentView.addSubview(avatarImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(messageLabel)
@@ -718,9 +716,6 @@ private class ChatMessageCell: UITableViewCell {
         messageLabel.numberOfLines = 0
         messageLabel.font = .systemFont(ofSize: 16)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        avatarImageView.contentMode = .scaleAspectFit
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
         nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -747,12 +742,10 @@ private class ChatMessageCell: UITableViewCell {
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8),
             
-            // Avatar constraints (will be shown/hidden)
-            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 32),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 32),
+            // Name label constraints (will be shown/hidden)
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
-            // Width constraints - Make bubbles wider for better readability
+            // Width constraints - Make bubbles wider for better readability (85% of screen width)
             bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 0.85),
             
             // Typing indicator constraints
@@ -798,7 +791,6 @@ private class ChatMessageCell: UITableViewCell {
             bubbleView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
             bubbleView.layer.borderColor = UIColor.Papyrus.gold.cgColor
             messageLabel.textColor = UIColor.Papyrus.beige
-            avatarImageView.isHidden = true
             nameLabel.isHidden = true
             
             // Update constraints for right-aligned user message
@@ -807,7 +799,7 @@ private class ChatMessageCell: UITableViewCell {
             
             // Right-aligned bubble
             bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 40)
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 60)
             
             bubbleTrailingConstraint?.isActive = true
             bubbleLeadingConstraint?.isActive = true
@@ -818,49 +810,29 @@ private class ChatMessageCell: UITableViewCell {
             messageLabel.textColor = UIColor.Papyrus.primaryText
             
             if let deity = message.deity {
-                avatarImageView.isHidden = false
                 nameLabel.isHidden = false
-                
-                // Use SF Symbol directly
-                if let image = UIImage(systemName: deity.avatar) {
-                    let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
-                    avatarImageView.image = image.withConfiguration(config)
-                    avatarImageView.tintColor = deity.uiColor
-                } else {
-                    // Fallback
-                    avatarImageView.image = UIImage(systemName: "person.circle.fill")
-                    avatarImageView.tintColor = deity.uiColor
-                }
-                
                 nameLabel.text = deity.name
                 nameLabel.textColor = deity.uiColor
                 
-                // Update constraints for deity message with avatar
+                // Update constraints for deity message with name label
                 bubbleTopConstraint?.constant = 28
                 bubbleBottomConstraint?.constant = -8
                 
-                // Position avatar
-                avatarImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
-                
-                // Position name label
-                nameLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor).isActive = true
-                nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4).isActive = true
-                
-                // Left-aligned bubble with space for avatar
-                bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 56)
-                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
+                // Position name label above bubble
+                NSLayoutConstraint.activate([
+                    nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4)
+                ])
             } else {
-                avatarImageView.isHidden = true
                 nameLabel.isHidden = true
                 
-                // Update constraints for system message without avatar
+                // Update constraints for system message without name
                 bubbleTopConstraint?.constant = 8
                 bubbleBottomConstraint?.constant = -8
-                
-                // Left-aligned bubble
-                bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-                bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
             }
+            
+            // Left-aligned bubble that takes more horizontal space
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -60)
             
             bubbleLeadingConstraint?.isActive = true
             bubbleTrailingConstraint?.isActive = true
@@ -872,11 +844,7 @@ private class ChatMessageCell: UITableViewCell {
         // Clean up constraints that might have been added dynamically
         NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
             (constraint.firstItem === nameLabel || constraint.secondItem === nameLabel) &&
-            (constraint.firstAttribute == .bottom || constraint.firstAttribute == .leading)
-        })
-        NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
-            (constraint.firstItem === avatarImageView || constraint.secondItem === avatarImageView) &&
-            constraint.firstAttribute == .top
+            constraint.firstAttribute == .bottom
         })
         NSLayoutConstraint.deactivate(bubbleView.constraints.filter { constraint in
             (constraint.firstAttribute == .height || constraint.firstAttribute == .width) &&
