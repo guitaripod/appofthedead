@@ -41,6 +41,11 @@ final class HomeViewModel {
     init(databaseManager: DatabaseManager, contentLoader: ContentLoader) {
         self.databaseManager = databaseManager
         self.contentLoader = contentLoader
+        setupNotifications()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Public Methods
@@ -59,10 +64,35 @@ final class HomeViewModel {
     
     // MARK: - Private Methods
     
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handlePurchaseCompleted),
+            name: StoreManager.purchaseCompletedNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleEntitlementsUpdated),
+            name: StoreManager.entitlementsUpdatedNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func handlePurchaseCompleted() {
+        // Reload data to reflect new purchases
+        loadData()
+    }
+    
+    @objc private func handleEntitlementsUpdated() {
+        // Reload data to reflect updated entitlements
+        loadData()
+    }
+    
     private func loadUser() {
         user = databaseManager.fetchUser()
         if let user = user {
-            print("🏠 HomeViewModel loaded user with \(user.totalXP) total XP")
             onUserDataUpdate?(user)
         }
     }
@@ -105,19 +135,14 @@ final class HomeViewModel {
     }
     
     private func checkIfUnlocked(_ beliefSystem: BeliefSystem) -> Bool {
-        // First three paths are always unlocked
-        let firstThreeIds = ["judaism", "christianity", "islam"]
-        if firstThreeIds.contains(beliefSystem.id) {
+        // Check RevenueCat for access first, then fall back to local database
+        if StoreManager.shared.hasPathAccess(beliefSystem.id) {
             return true
         }
         
-        // Check if user has completed at least one path
-        let completedPaths = userProgress.values.filter { progress in
-            let beliefSystem = beliefSystems.first { $0.id == progress.beliefSystemId }
-            return progress.currentXP >= (beliefSystem?.totalXP ?? Int.max)
-        }
-        
-        return !completedPaths.isEmpty
+        // Fall back to local database check
+        guard let user = user else { return false }
+        return user.hasPathAccess(beliefSystemId: beliefSystem.id)
     }
 }
 

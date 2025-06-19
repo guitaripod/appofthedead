@@ -159,11 +159,8 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     private func showLockedPathAlert(for item: PathItem) {
-        PapyrusAlert.showSimpleAlert(
-            title: "Path Locked",
-            message: "Complete other paths to unlock \(item.name)",
-            from: self
-        )
+        let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: item.id))
+        present(paywall, animated: true)
     }
 }
 
