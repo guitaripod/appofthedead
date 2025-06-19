@@ -11,12 +11,14 @@ final class SettingsViewController: UIViewController {
     private enum Section: Int, CaseIterable {
         case account
         case learning
+        case experience
         case about
         
         var title: String {
             switch self {
             case .account: return "Account"
             case .learning: return "Learning"
+            case .experience: return "Experience"
             case .about: return "About"
             }
         }
@@ -40,6 +42,16 @@ final class SettingsViewController: UIViewController {
             switch self {
             case .notifications: return "Notifications"
             case .dailyReminder: return "Daily Reminder"
+            }
+        }
+    }
+    
+    private enum ExperienceRow: Int, CaseIterable {
+        case streamingHaptics
+        
+        var title: String {
+            switch self {
+            case .streamingHaptics: return "AI Streaming Haptics"
             }
         }
     }
@@ -75,6 +87,7 @@ final class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(SwitchTableViewCell.self, forCellReuseIdentifier: "SwitchCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
@@ -139,6 +152,8 @@ extension SettingsViewController: UITableViewDataSource {
             return AccountRow.allCases.count
         case .learning:
             return LearningRow.allCases.count
+        case .experience:
+            return ExperienceRow.allCases.count
         case .about:
             return AboutRow.allCases.count
         }
@@ -150,24 +165,43 @@ extension SettingsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        guard let sectionType = Section(rawValue: indexPath.section) else { return cell }
+        guard let sectionType = Section(rawValue: indexPath.section) else { 
+            return tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) 
+        }
         
         switch sectionType {
         case .account:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             if let row = AccountRow(rawValue: indexPath.row) {
                 cell.textLabel?.text = row.title
                 cell.textLabel?.textColor = UIColor.Papyrus.tombRed
             }
+            return cell
             
         case .learning:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             if let row = LearningRow(rawValue: indexPath.row) {
                 cell.textLabel?.text = row.title
                 cell.accessoryType = .disclosureIndicator
             }
+            return cell
+            
+        case .experience:
+            if let row = ExperienceRow(rawValue: indexPath.row) {
+                switch row {
+                case .streamingHaptics:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchTableViewCell
+                    cell.textLabel?.text = row.title
+                    cell.switchControl.isOn = UserDefaults.standard.object(forKey: "StreamingHapticsEnabled") as? Bool ?? true
+                    cell.onSwitchToggled = { isOn in
+                        UserDefaults.standard.set(isOn, forKey: "StreamingHapticsEnabled")
+                    }
+                    return cell
+                }
+            }
             
         case .about:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             if let row = AboutRow(rawValue: indexPath.row) {
                 cell.textLabel?.text = row.title
                 
@@ -180,9 +214,10 @@ extension SettingsViewController: UITableViewDataSource {
                     cell.accessoryType = .disclosureIndicator
                 }
             }
+            return cell
         }
         
-        return cell
+        return tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
     }
 }
 
@@ -209,6 +244,10 @@ extension SettingsViewController: UITableViewDelegate {
                 showComingSoon(feature: row.title)
             }
             
+        case .experience:
+            // No action needed for switch cells
+            break
+            
         case .about:
             if let row = AboutRow(rawValue: indexPath.row) {
                 switch row {
@@ -219,5 +258,35 @@ extension SettingsViewController: UITableViewDelegate {
                 }
             }
         }
+    }
+}
+
+// MARK: - SwitchTableViewCell
+
+private class SwitchTableViewCell: UITableViewCell {
+    
+    let switchControl = UISwitch()
+    
+    var onSwitchToggled: ((Bool) -> Void)?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        selectionStyle = .none
+        
+        switchControl.addTarget(self, action: #selector(switchToggled), for: .valueChanged)
+        switchControl.onTintColor = UIColor.Papyrus.gold
+        accessoryView = switchControl
+    }
+    
+    @objc private func switchToggled() {
+        onSwitchToggled?(switchControl.isOn)
     }
 }

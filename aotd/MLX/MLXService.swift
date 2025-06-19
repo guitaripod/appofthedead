@@ -3,6 +3,7 @@ import MLX
 import MLXLLM
 import MLXLMCommon
 import Hub
+import UIKit
 
 final class MLXService {
     
@@ -11,6 +12,20 @@ final class MLXService {
     static let shared = MLXService()
     
     private init() {}
+    
+    // MARK: - Haptic Configuration
+    
+    private struct HapticConfig {
+        static let tokenInterval = 3 // Haptic every 3rd token
+        static let impactIntensity: CGFloat = 0.4 // Medium-subtle intensity
+        static let impactStyle: UIImpactFeedbackGenerator.FeedbackStyle = .light
+        static let userDefaultsKey = "StreamingHapticsEnabled"
+        
+        static var isStreamingHapticsEnabled: Bool {
+            // Default to true if not set
+            return UserDefaults.standard.object(forKey: userDefaultsKey) as? Bool ?? true
+        }
+    }
     
     // MARK: - Properties
     
@@ -166,6 +181,19 @@ final class MLXService {
         return AsyncThrowingStream { continuation in
             let generationTask = Task {
                 do {
+                    // Prepare haptic generators
+                    let impactGenerator = await MainActor.run {
+                        let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
+                        generator.prepare()
+                        return generator
+                    }
+                    
+                    let notificationGenerator = await MainActor.run {
+                        let generator = UINotificationFeedbackGenerator()
+                        generator.prepare()
+                        return generator
+                    }
+                    
                     // Use the model container to generate
                     let stream = try await container.perform { context in
                         let input = try await context.processor.prepare(input: userInput)
@@ -194,6 +222,14 @@ final class MLXService {
                                 totalText += text
                                 print("🤖 MLX Token #\(tokenCount): '\(text)'")
                                 #endif
+                                
+                                // Subtle impact haptic feedback at configured interval
+                                if HapticConfig.isStreamingHapticsEnabled && tokenCount % HapticConfig.tokenInterval == 0 {
+                                    await MainActor.run {
+                                        impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
+                                    }
+                                }
+                                
                                 continuation.yield(text)
                             }
                         case .info(let info):
@@ -208,6 +244,11 @@ final class MLXService {
                     print("🤖 MLX Generation Complete - Total tokens: \(tokenCount)")
                     print("🤖 MLX Total generated text: \(totalText)")
                     #endif
+                    
+                    // Success haptic on completion
+                    await MainActor.run {
+                        notificationGenerator.notificationOccurred(.success)
+                    }
                     
                     continuation.finish()
                 } catch {
@@ -246,6 +287,19 @@ final class MLXService {
         return AsyncThrowingStream { continuation in
             let simulationTask = Task {
                 do {
+                    // Prepare haptic generators for simulator mode too
+                    let impactGenerator = await MainActor.run {
+                        let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
+                        generator.prepare()
+                        return generator
+                    }
+                    
+                    let notificationGenerator = await MainActor.run {
+                        let generator = UINotificationFeedbackGenerator()
+                        generator.prepare()
+                        return generator
+                    }
+                    
                     // Get the last user message
                     let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
                     
@@ -261,14 +315,30 @@ final class MLXService {
                     let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
                     let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
                     
-                    // Simulate streaming response
+                    // Simulate streaming response with haptics
                     let words = contextualResponse.split(separator: " ")
+                    var wordCount = 0
+                    
                     for word in words {
                         // Check for cancellation before each word
                         try Task.checkCancellation()
                         
+                        wordCount += 1
+                        
+                        // Subtle impact haptic feedback at configured interval
+                        if HapticConfig.isStreamingHapticsEnabled && wordCount % HapticConfig.tokenInterval == 0 {
+                            await MainActor.run {
+                                impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
+                            }
+                        }
+                        
                         continuation.yield(String(word) + " ")
                         try await Task.sleep(nanoseconds: 50_000_000) // 50ms delay
+                    }
+                    
+                    // Success haptic on completion
+                    await MainActor.run {
+                        notificationGenerator.notificationOccurred(.success)
                     }
                     
                     continuation.finish()
