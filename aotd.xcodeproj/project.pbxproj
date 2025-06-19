@@ -33,6 +33,36 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2C7C87B82E04C9AE006A9728 /* Exceptions for "aotd" folder in "aotdTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/achievements.json,
+				"Resources/belief_systems/aboriginal-dreamtime.json",
+				Resources/belief_systems/anthroposophy.json,
+				"Resources/belief_systems/aztec-mictlan.json",
+				Resources/belief_systems/bahai.json,
+				Resources/belief_systems/buddhism.json,
+				Resources/belief_systems/christianity.json,
+				"Resources/belief_systems/egyptian-afterlife.json",
+				"Resources/belief_systems/greek-underworld.json",
+				Resources/belief_systems/hinduism.json,
+				Resources/belief_systems/islam.json,
+				Resources/belief_systems/judaism.json,
+				Resources/belief_systems/mandaeism.json,
+				"Resources/belief_systems/native-american-visions.json",
+				Resources/belief_systems/norse.json,
+				Resources/belief_systems/shinto.json,
+				Resources/belief_systems/sikhism.json,
+				"Resources/belief_systems/swedenborgian-visions.json",
+				Resources/belief_systems/taoism.json,
+				Resources/belief_systems/tenrikyo.json,
+				Resources/belief_systems/theosophy.json,
+				Resources/belief_systems/wicca.json,
+				Resources/belief_systems/zoroastrianism.json,
+				Resources/deity_prompts.json,
+			);
+			target = 2C559F5F2DEE4BA600CE07A5 /* aotdTests */;
+		};
 		2CA5C5D62DEE42EC002AD8E9 /* Exceptions for "aotd" folder in "aotd" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -52,6 +82,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				2CA5C5D62DEE42EC002AD8E9 /* Exceptions for "aotd" folder in "aotd" target */,
+				2C7C87B82E04C9AE006A9728 /* Exceptions for "aotd" folder in "aotdTests" target */,
 			);
 			path = aotd;
 			sourceTree = "<group>";
