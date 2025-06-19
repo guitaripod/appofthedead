@@ -65,6 +65,7 @@ final class ProfileViewController: UIViewController {
         setupScrollView()
         setupProfileHeader()
         setupStatsSection()
+        setupUpgradeSection()
         setupAchievementsSection()
     }
     
@@ -204,6 +205,107 @@ final class ProfileViewController: UIViewController {
             statsStackView.trailingAnchor.constraint(equalTo: statsContainerView.trailingAnchor, constant: -20),
             statsStackView.bottomAnchor.constraint(equalTo: statsContainerView.bottomAnchor, constant: -20)
         ])
+    }
+    
+    private func setupUpgradeSection() {
+        // Only show if user doesn't have ultimate access
+        guard let user = viewModel.user, !user.hasUltimateAccess() else { return }
+        
+        let upgradeContainer = UIView()
+        upgradeContainer.backgroundColor = UIColor.Papyrus.cardBackground
+        upgradeContainer.layer.cornerRadius = 16
+        upgradeContainer.layer.borderWidth = 2
+        upgradeContainer.layer.borderColor = UIColor.systemOrange.cgColor
+        
+        let upgradeStack = UIStackView()
+        upgradeStack.axis = .vertical
+        upgradeStack.spacing = 12
+        upgradeStack.alignment = .fill
+        upgradeStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        let crownIcon = UIImageView(image: UIImage(systemName: "crown.fill"))
+        crownIcon.tintColor = .systemOrange
+        crownIcon.contentMode = .scaleAspectFit
+        crownIcon.translatesAutoresizingMaskIntoConstraints = false
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "Unlock Ultimate Enlightenment"
+        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        titleLabel.textAlignment = .center
+        
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = "Access all paths, unlimited Oracle, cloud sync, and exclusive features"
+        descriptionLabel.font = .systemFont(ofSize: 14)
+        descriptionLabel.textColor = .secondaryLabel
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.numberOfLines = 0
+        
+        let upgradeButton = UIButton(type: .system)
+        upgradeButton.setTitle("View Options", for: .normal)
+        upgradeButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        upgradeButton.backgroundColor = .systemOrange
+        upgradeButton.setTitleColor(.white, for: .normal)
+        upgradeButton.layer.cornerRadius = 8
+        upgradeButton.addTarget(self, action: #selector(showPaywall), for: .touchUpInside)
+        
+        upgradeStack.addArrangedSubview(crownIcon)
+        upgradeStack.addArrangedSubview(titleLabel)
+        upgradeStack.addArrangedSubview(descriptionLabel)
+        upgradeStack.addArrangedSubview(upgradeButton)
+        
+        upgradeContainer.addSubview(upgradeStack)
+        
+        NSLayoutConstraint.activate([
+            crownIcon.heightAnchor.constraint(equalToConstant: 40),
+            upgradeButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            upgradeStack.topAnchor.constraint(equalTo: upgradeContainer.topAnchor, constant: 20),
+            upgradeStack.leadingAnchor.constraint(equalTo: upgradeContainer.leadingAnchor, constant: 20),
+            upgradeStack.trailingAnchor.constraint(equalTo: upgradeContainer.trailingAnchor, constant: -20),
+            upgradeStack.bottomAnchor.constraint(equalTo: upgradeContainer.bottomAnchor, constant: -20)
+        ])
+        
+        contentStackView.addArrangedSubview(upgradeContainer)
+        
+        // Add XP boost indicator if active
+        if user.hasActiveXPBoost() {
+            let boostContainer = UIView()
+            boostContainer.backgroundColor = UIColor.Papyrus.cardBackground
+            boostContainer.layer.cornerRadius = 12
+            
+            let boostStack = UIStackView()
+            boostStack.axis = .horizontal
+            boostStack.spacing = 8
+            boostStack.alignment = .center
+            boostStack.translatesAutoresizingMaskIntoConstraints = false
+            
+            let boostIndicator = XPBoostIndicator()
+            boostIndicator.translatesAutoresizingMaskIntoConstraints = false
+            
+            let boostLabel = UILabel()
+            boostLabel.text = "XP Boost Active!"
+            boostLabel.font = .systemFont(ofSize: 16, weight: .medium)
+            
+            boostStack.addArrangedSubview(boostIndicator)
+            boostStack.addArrangedSubview(boostLabel)
+            boostStack.addArrangedSubview(UIView()) // Spacer
+            
+            boostContainer.addSubview(boostStack)
+            
+            NSLayoutConstraint.activate([
+                boostStack.topAnchor.constraint(equalTo: boostContainer.topAnchor, constant: 12),
+                boostStack.leadingAnchor.constraint(equalTo: boostContainer.leadingAnchor, constant: 16),
+                boostStack.trailingAnchor.constraint(equalTo: boostContainer.trailingAnchor, constant: -16),
+                boostStack.bottomAnchor.constraint(equalTo: boostContainer.bottomAnchor, constant: -12)
+            ])
+            
+            contentStackView.addArrangedSubview(boostContainer)
+        }
+    }
+    
+    @objc private func showPaywall() {
+        let paywall = PaywallViewController(reason: .generalUpgrade)
+        present(paywall, animated: true)
     }
     
     private func setupAchievementsSection() {

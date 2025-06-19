@@ -98,12 +98,18 @@ final class SettingsViewController: UIViewController {
                 // Clear user session
                 DatabaseManager.shared.clearUserSession()
                 
-                // TODO: Navigate to sign in screen
-                PapyrusAlert.showSimpleAlert(
-                    title: "Signed Out",
-                    message: "You have been signed out successfully.",
-                    from: self
-                )
+                // Navigate to sign in screen
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    let signInVC = SignInViewController()
+                    let navigationController = UINavigationController(rootViewController: signInVC)
+                    navigationController.modalPresentationStyle = .fullScreen
+                    
+                    window.rootViewController = navigationController
+                    window.makeKeyAndVisible()
+                    
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+                }
             }
         )
     }
