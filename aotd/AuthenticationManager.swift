@@ -14,6 +14,10 @@ final class AuthenticationManager: NSObject {
     weak var delegate: AuthenticationManagerDelegate?
     private var currentNonce: String?
     
+    var currentUser: User? {
+        return DatabaseManager.shared.fetchUser()
+    }
+    
     private override init() {
         super.init()
     }
@@ -65,6 +69,9 @@ final class AuthenticationManager: NSObject {
         UserDefaults.standard.removeObject(forKey: "appleIdentityToken")
         
         DatabaseManager.shared.clearUserSession()
+        
+        // Logout from RevenueCat
+        StoreManager.shared.logout()
     }
     
     private func randomNonceString(length: Int = 32) -> String {
@@ -163,6 +170,9 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
             name: userName,
             email: userEmail
         )
+        
+        // Login to RevenueCat with the Apple user ID
+        StoreManager.shared.login(userId: userId)
         
         delegate?.authenticationDidComplete(userId: userId)
     }
