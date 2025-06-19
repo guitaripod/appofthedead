@@ -7,6 +7,10 @@ class DatabaseManager {
     private var dbQueue: DatabaseQueue!
     private var contentLoader: ContentLoader?
     
+    var database: Database? {
+        try? dbQueue.read { $0 }
+    }
+    
     private init() {
         setupDatabase()
     }
@@ -32,6 +36,8 @@ class DatabaseManager {
                 try Progress.createTable(db)
                 try UserAchievement.createTable(db)
                 try UserAnswer.createTable(db)
+                try Purchase.createTable(db)
+                try OracleConsultation.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -51,6 +57,8 @@ class DatabaseManager {
                 try Progress.createTable(db)
                 try UserAchievement.createTable(db)
                 try UserAnswer.createTable(db)
+                try Purchase.createTable(db)
+                try OracleConsultation.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -100,7 +108,17 @@ class DatabaseManager {
     func addXPToUser(userId: String, xp: Int) throws {
         try dbQueue.write { db in
             if var user = try User.fetchOne(db, key: userId) {
-                user.addXP(xp)
+                // Check for active XP boost
+                let hasBoost = try Purchase
+                    .filter(Column("userId") == userId)
+                    .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
+                    .filter(Column("isActive") == true)
+                    .filter(Column("expirationDate") > Date())
+                    .fetchOne(db) != nil
+                
+                let multiplier = hasBoost ? 2 : 1
+                let finalXP = xp * multiplier
+                user.addXP(finalXP)
                 try user.update(db)
             }
         }
@@ -112,6 +130,8 @@ class DatabaseManager {
             try UserAnswer.filter(Column("userId") == userId).deleteAll(db)
             try UserAchievement.filter(Column("userId") == userId).deleteAll(db)
             try Progress.filter(Column("userId") == userId).deleteAll(db)
+            try Purchase.filter(Column("userId") == userId).deleteAll(db)
+            try OracleConsultation.filter(Column("userId") == userId).deleteAll(db)
             
             // Delete the user
             try User.deleteOne(db, key: userId)
@@ -379,6 +399,74 @@ class DatabaseManager {
     
     func getBeliefSystem(by id: String) -> BeliefSystem? {
         return loadBeliefSystems().first { $0.id == id }
+    }
+    
+    // MARK: - Oracle Consultation Management
+    
+    func saveOracleConsultation(_ consultation: OracleConsultation) throws {
+        var mutableConsultation = consultation
+        try dbQueue.write { db in
+            try mutableConsultation.insert(db)
+        }
+    }
+    
+    // MARK: - Purchase Management
+    
+    func hasAccess(userId: String, to productId: ProductIdentifier) -> Bool {
+        do {
+            return try dbQueue.read { db in
+                let purchase = try Purchase
+                    .filter(Column("userId") == userId)
+                    .filter(Column("productId") == productId.rawValue)
+                    .filter(Column("isActive") == true)
+                    .fetchOne(db)
+                
+                return purchase != nil
+            }
+        } catch {
+            print("Error checking purchase access: \(error)")
+            return false
+        }
+    }
+    
+    func hasActiveXPBoost(userId: String) -> Bool {
+        do {
+            return try dbQueue.read { db in
+                let purchase = try Purchase
+                    .filter(Column("userId") == userId)
+                    .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
+                    .filter(Column("isActive") == true)
+                    .filter(Column("expirationDate") > Date())
+                    .fetchOne(db)
+                
+                return purchase != nil
+            }
+        } catch {
+            print("Error checking XP boost: \(error)")
+            return false
+        }
+    }
+    
+    func getOracleConsultationCount(userId: String, deityId: String) -> Int {
+        do {
+            return try dbQueue.read { db in
+                try OracleConsultation.getConsultationCount(for: userId, deityId: deityId, in: db)
+            }
+        } catch {
+            print("Error getting consultation count: \(error)")
+            return 0
+        }
+    }
+    
+    func canConsultOracleForFree(userId: String, deityId: String) -> Bool {
+        do {
+            return try dbQueue.read { db in
+                try OracleConsultation.canConsultForFree(userId: userId, deityId: deityId, in: db)
+            }
+        } catch {
+            print("Error checking oracle consultation: \(error)")
+            return false
+        }
     }
     
     // MARK: - Statistics
