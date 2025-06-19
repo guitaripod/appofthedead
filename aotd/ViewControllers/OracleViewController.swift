@@ -541,12 +541,29 @@ final class OracleViewController: UIViewController {
             return
         }
         
+        // Check oracle consultation limits
+        guard let user = AuthenticationManager.shared.currentUser,
+              let deity = viewModel.selectedDeity else {
+            print("[OracleViewController] No user or deity selected")
+            return
+        }
+        
+        if !user.canConsultOracle(deityId: deity.id) {
+            // Show paywall
+            let paywall = PaywallViewController(reason: .oracleLimit(deityId: deity.id, deityName: deity.name))
+            present(paywall, animated: true)
+            return
+        }
+        
         print("[OracleViewController] Sending message: \(text)")
         print("[OracleViewController] Selected deity: \(viewModel.selectedDeity?.name ?? "none")")
         
         // Clear input
         messageTextView.text = ""
         textViewDidChange(messageTextView)
+        
+        // Record consultation
+        user.recordOracleConsultation(deityId: deity.id)
         
         // Send message through view model
         Task {

@@ -75,9 +75,6 @@ final class DeitySelectionViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // TODO: Re-enable animations after fixing sheet presentation
-        // Temporarily disabled to prevent visual glitches
     }
     
     override func viewWillLayoutSubviews() {
