@@ -1,0 +1,241 @@
+{
+  "id": "bahai",
+  "name": "Bah\u00e1'\u00ed",
+  "description": "Discover the Bah\u00e1'\u00ed Faith's perspective on death as a birth into a greater existence, an infinite progression through spiritual worlds, and the existence of Heaven and Hell as states of nearness or distance from God.",
+  "icon": "nine_pointed_star",
+  "color": "#FFC0CB",
+  "totalXP": 120,
+  "lessons": [
+    {
+      "id": "bahai-intro",
+      "title": "Bah\u00e1'\u00ed: Infinite Progression",
+      "order": 1,
+      "content": "The Bah\u00e1'\u00ed Faith presents death as a birth into a greater existence, likening earthly life to a womb that serves as necessary preparation for what comes next. Death liberates the soul from physical limitations. Bah\u00e1'u'll\u00e1h, the founder, wrote: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?' The soul, created at conception, uses earthly life to develop spiritual qualities such as love, justice, and compassion, which are essential in the next world. [cite: 621, 622, 623]",
+      "keyTerms": [
+        "Bah\u00e1'u'll\u00e1h",
+        "Infinite progression",
+        "Spiritual qualities",
+        "Heaven as state",
+        "Hell as state"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "bahai-q1-1",
+          "type": "multipleChoice",
+          "question": "How does the Bah\u00e1'\u00ed Faith compare earthly life to the womb?",
+          "options": [
+            "As a place of punishment",
+            "As a necessary preparation for the next world",
+            "As a temporary illusion",
+            "As a place of eternal rest"
+          ],
+          "correctAnswer": "As a necessary preparation for the next world",
+          "explanation": "The Bah\u00e1'\u00ed Faith presents death as birth into a greater existence, comparing earthly life to the womb\u2014necessary preparation for what comes next. [cite: 621]"
+        },
+        {
+          "id": "bahai-q1-2",
+          "type": "trueFalse",
+          "question": "Death in Bah\u00e1'\u00ed belief is seen as a source of great sorrow and grief.",
+          "correctAnswer": "false",
+          "explanation": "Bah\u00e1'u'll\u00e1h wrote: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?' [cite: 622]"
+        }
+      ]
+    },
+    {
+      "id": "bahai-progression",
+      "title": "Infinite Spiritual Worlds",
+      "order": 2,
+      "content": "The afterlife in the Bah\u00e1'\u00ed Faith unfolds as an infinite progression through countless spiritual worlds, each more glorious than the last. Souls advance based on their spiritual development and God's grace, continually approaching but never fully comprehending the Divine. This journey is one of perpetual growth and deepening understanding. [cite: 624, 625]",
+      "keyTerms": [
+        "Spiritual worlds",
+        "Divine grace",
+        "Perpetual growth",
+        "Divine comprehension"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "bahai-q2-1",
+          "type": "multipleChoice",
+          "question": "How do souls advance in the Bah\u00e1'\u00ed afterlife?",
+          "options": [
+            "By accumulating wealth",
+            "Based on their spiritual development and God's grace",
+            "By reincarnation into higher forms",
+            "Through external rituals only"
+          ],
+          "correctAnswer": "Based on their spiritual development and God's grace",
+          "explanation": "Souls advance based on their spiritual development and God's grace, forever approaching but never fully comprehending the Divine. [cite: 625]"
+        },
+        {
+          "id": "bahai-q2-2",
+          "type": "trueFalse",
+          "question": "Souls can fully comprehend the Divine in the Bah\u00e1'\u00ed afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Souls advance... forever approaching but never fully comprehending the Divine. [cite: 625]"
+        }
+      ]
+    },
+    {
+      "id": "bahai-heaven-hell-states",
+      "title": "Heaven and Hell as States",
+      "order": 3,
+      "content": "In Bah\u00e1'\u00ed belief, Heaven and Hell exist as states of being, rather than literal places. Heaven is defined as nearness to God, while hell signifies distance from God. A soul lacking spiritual development experiences the afterlife as torment, akin to a bird with broken wings, unable to soar. Conversely, a spiritually prepared soul soars through divine worlds, experiencing joy and fulfillment. Souls maintain consciousness and identity, capable of communing with others at similar development levels and continuing to serve humanity's advancement. [cite: 626, 627, 628, 629]",
+      "keyTerms": [
+        "Heaven as state",
+        "Hell as state",
+        "Nearness to God",
+        "Distance from God",
+        "Consciousness",
+        "Spiritual development"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "bahai-q3-1",
+          "type": "multipleChoice",
+          "question": "What do Heaven and Hell represent in Bah\u00e1'\u00ed belief?",
+          "options": [
+            "Physical locations",
+            "States of mind",
+            "States of nearness or distance from God",
+            "Dreams and illusions"
+          ],
+          "correctAnswer": "States of nearness or distance from God",
+          "explanation": "Heaven and hell exist as states, not places\u2014nearness or distance from God. [cite: 626]"
+        },
+        {
+          "id": "bahai-q3-2",
+          "type": "trueFalse",
+          "question": "Souls lose their consciousness and identity in the Bah\u00e1'\u00ed afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Souls maintain consciousness and identity while transcending physical needs. [cite: 629]"
+        },
+        {
+          "id": "bahai-q3-3",
+          "type": "multipleChoice",
+          "question": "How does a soul lacking spiritual development experience the afterlife?",
+          "options": [
+            "As a state of eternal bliss",
+            "As a state of torment",
+            "As a peaceful sleep",
+            "As an opportunity for rebirth"
+          ],
+          "correctAnswer": "As a state of torment",
+          "explanation": "A soul lacking spiritual development experiences the afterlife as torment, like a bird with broken wings. [cite: 627]"
+        }
+      ]
+    },
+    {
+      "id": "bahai-prayers-intercession",
+      "title": "Prayers and Intercession",
+      "order": 4,
+      "content": "Prayers from the living are believed to aid the dead's progression in the spiritual worlds. Similarly, spiritually advanced souls in the afterlife can intercede for those on earth, fostering a continuous connection and mutual support between the two realms. This emphasizes a dynamic relationship between the living and the dead, where spiritual progress is a shared endeavor. [cite: 630]",
+      "keyTerms": [
+        "Prayers for the dead",
+        "Intercession",
+        "Spiritual progress",
+        "Living and dead connection"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "bahai-q4-1",
+          "type": "multipleChoice",
+          "question": "What is the purpose of prayers from the living for the dead in Bah\u00e1'\u00ed belief?",
+          "options": [
+            "To bring them back to life",
+            "To aid their spiritual progression",
+            "To punish them",
+            "To prevent them from advancing"
+          ],
+          "correctAnswer": "To aid their spiritual progression",
+          "explanation": "Prayers from the living aid the dead's progression. [cite: 630]"
+        },
+        {
+          "id": "bahai-q4-2",
+          "type": "trueFalse",
+          "question": "Spiritually advanced souls in the afterlife cannot intercede for those on earth.",
+          "correctAnswer": "false",
+          "explanation": "Spiritually advanced souls intercede for those on earth. [cite: 630]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "bahai-mastery",
+    "title": "Bah\u00e1'\u00ed Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "bahai-mt-q1",
+        "type": "multipleChoice",
+        "question": "According to Bah\u00e1'\u00ed belief, what does death liberate the soul from?",
+        "options": [
+          "Spiritual limitations",
+          "The need for prayers",
+          "Physical limitations",
+          "The cycle of rebirth"
+        ],
+        "correctAnswer": "Physical limitations",
+        "explanation": "Death liberates the soul from physical limitations. [cite: 622]"
+      },
+      {
+        "id": "bahai-mt-q2",
+        "type": "trueFalse",
+        "question": "Heaven and Hell in Bah\u00e1'\u00ed belief are literal physical places.",
+        "correctAnswer": "false",
+        "explanation": "Heaven and hell exist as states, not places\u2014nearness or distance from God. [cite: 626]"
+      },
+      {
+        "id": "bahai-mt-q3",
+        "type": "multipleChoice",
+        "question": "How do souls advance in the Bah\u00e1'\u00ed afterlife?",
+        "options": [
+          "Through reincarnation",
+          "By performing rituals in the afterlife",
+          "Based on spiritual development and God's grace",
+          "By being judged by angels"
+        ],
+        "correctAnswer": "Based on spiritual development and God's grace",
+        "explanation": "Souls advance based on their spiritual development and God's grace. [cite: 625]"
+      },
+      {
+        "id": "bahai-mt-q4",
+        "type": "matching",
+        "question": "Match the Bah\u00e1'\u00ed concept with its description:",
+        "pairs": [
+          {
+            "left": "Earthly life",
+            "right": "Preparation for the next world"
+          },
+          {
+            "left": "Death",
+            "right": "Messenger of joy, liberating the soul"
+          },
+          {
+            "left": "Heaven",
+            "right": "State of nearness to God"
+          },
+          {
+            "left": "Hell",
+            "right": "State of distance from God"
+          }
+        ],
+        "correctAnswer": [
+          "Earthly life",
+          "Preparation for the next world",
+          "Death",
+          "Messenger of joy, liberating the soul",
+          "Heaven",
+          "State of nearness to God",
+          "Hell",
+          "State of distance from God"
+        ],
+        "explanation": "These are core tenets of Bah\u00e1'\u00ed afterlife understanding. [cite: 621, 622, 626]"
+      }
+    ]
+  }
+}

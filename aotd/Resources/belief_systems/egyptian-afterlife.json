@@ -1,0 +1,258 @@
+{
+  "id": "egyptian-afterlife",
+  "name": "Egyptian Afterlife",
+  "description": "Delve into ancient Egypt's elaborate spiritual technology for the afterlife, from the perilous journey through Duat to the Hall of Two Truths and the ultimate Field of Reeds.",
+  "icon": "ankh",
+  "color": "#C19A6B",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "egyptian-intro",
+      "title": "Ancient Egypt: Journey Through Duat",
+      "order": 1,
+      "content": "Ancient Egypt was renowned for its detailed obsession with death and the afterlife, developing an elaborate spiritual technology over three thousand years. Death initiated a perilous journey through the Duat, the hidden realm beneath the earth where Ra's sun barque sailed each night. The deceased, equipped with spells from the Book of the Dead, navigated twelve hours of darkness corresponding to the night hours. Each hour presented unique challenges and guardians. [cite: 478, 479, 480, 481]",
+      "keyTerms": [
+        "Duat",
+        "Book of the Dead",
+        "Ra",
+        "Spiritual technology"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "egyptian-q1-1",
+          "type": "multipleChoice",
+          "question": "What was the 'Duat' in ancient Egyptian belief?",
+          "options": [
+            "A type of tomb",
+            "The hidden realm beneath the earth",
+            "A sacred temple",
+            "A form of burial ritual"
+          ],
+          "correctAnswer": "The hidden realm beneath the earth",
+          "explanation": "Death initiated a perilous journey through the Duat, the hidden realm beneath the earth. [cite: 480]"
+        },
+        {
+          "id": "egyptian-q1-2",
+          "type": "trueFalse",
+          "question": "The Book of the Dead contained spells for navigating the Duat.",
+          "correctAnswer": "true",
+          "explanation": "The deceased, armed with spells from the Book of the Dead, navigated twelve hours of darkness. [cite: 481]"
+        }
+      ]
+    },
+    {
+      "id": "egyptian-duat-challenges",
+      "title": "Challenges in the Duat",
+      "order": 2,
+      "content": "The journey through the Duat was fraught with specific challenges at each hour. In the first hour, souls encountered the 'Watchers of the Desert,' snake-guardians passable only by knowing their secret names. The second hour brought the 'Field of Ra' with its giant wheat ears and terrifying deities. By the fifth hour, the realm of Sokar appeared, a desert of absolute darkness where even Ra's light dimmed, requiring transformation into a serpent to proceed. [cite: 482, 483, 484]",
+      "keyTerms": [
+        "Watchers of the Desert",
+        "Field of Ra",
+        "Sokar",
+        "Transformation"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "egyptian-q2-1",
+          "type": "multipleChoice",
+          "question": "What guarded the 'Field of Ra'?",
+          "options": [
+            "Giant scorpions",
+            "Terrifying deities",
+            "Friendly spirits",
+            "Giant ears of wheat"
+          ],
+          "correctAnswer": "Terrifying deities",
+          "explanation": "The second hour brought the 'Field of Ra,' where giant ears of wheat grew, guarded by terrifying deities. [cite: 483]"
+        },
+        {
+          "id": "egyptian-q2-2",
+          "type": "trueFalse",
+          "question": "The realm of Sokar in the Duat was a place of radiant light.",
+          "correctAnswer": "false",
+          "explanation": "The realm of Sokar appeared as a desert of absolute darkness where even Ra's light dimmed. [cite: 484]"
+        }
+      ]
+    },
+    {
+      "id": "egyptian-hall-of-two-truths",
+      "title": "The Hall of Two Truths",
+      "order": 3,
+      "content": "The journey's climax was the Hall of Two Truths. Forty-two divine judges, representing different nomes of Egypt, listened as the deceased recited the 'Negative Confession,' denying specific sins ('I have not stolen. I have not killed. I have not made anyone weep.'). This was a magical formula, demonstrating knowledge of divine law. Anubis, the jackal-headed guide, then placed the heart on golden scales opposite Ma'at's feather of truth. Thoth recorded the result; the heart had to balance perfectly. [cite: 485, 486, 487, 488, 489]",
+      "keyTerms": [
+        "Hall of Two Truths",
+        "Negative Confession",
+        "Ma'at's feather",
+        "Anubis",
+        "Thoth",
+        "Weighing of the Heart"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "egyptian-q3-1",
+          "type": "multipleChoice",
+          "question": "What was the purpose of the 'Negative Confession'?",
+          "options": [
+            "To confess all sins",
+            "To deny specific sins as a magical formula",
+            "To plead for mercy",
+            "To offer prayers"
+          ],
+          "correctAnswer": "To deny specific sins as a magical formula",
+          "explanation": "The deceased recited the 'Negative Confession'\u2014denying specific sins: 'I have not stolen. I have not killed. I have not made anyone weep.' This wasn't mere moral testimony but magical formula. [cite: 486, 487]"
+        },
+        {
+          "id": "egyptian-q3-2",
+          "type": "trueFalse",
+          "question": "The heart was weighed against a golden statue of Ra.",
+          "correctAnswer": "false",
+          "explanation": "Anubis placed the heart on golden scales opposite Ma'at's feather of truth. [cite: 488]"
+        }
+      ]
+    },
+    {
+      "id": "egyptian-ammit-field-of-reeds",
+      "title": "Ammit and the Field of Reeds",
+      "order": 4,
+      "content": "Ammit, a creature part crocodile, leopard, and hippopotamus, waited beside the scales. Those who failed the weighing faced immediate annihilation, their souls consumed in what was feared as the 'second death.' Those who passed entered the Field of Reeds (Aaru), an eternal, perfected Egypt. Here, the Nile always flooded, crops grew easily (or shabti figurines did the work), and the deceased lived in houses of eternity. They could assume any form and journey freely. Pharaohs expected grander fates, joining Ra's solar barque or transforming into 'Imperishable Ones' (stars) in the northern sky. [cite: 490, 491, 492, 493, 494, 495, 496]",
+      "keyTerms": [
+        "Ammit",
+        "Second death",
+        "Field of Reeds (Aaru)",
+        "Shabti",
+        "Imperishable Ones"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "egyptian-q4-1",
+          "type": "multipleChoice",
+          "question": "What was the 'second death' in ancient Egyptian belief?",
+          "options": [
+            "Reincarnation",
+            "Eternal sleep",
+            "Annihilation of the soul by Ammit",
+            "Becoming a ghost"
+          ],
+          "correctAnswer": "Annihilation of the soul by Ammit",
+          "explanation": "Those who failed the weighing faced immediate annihilation, their souls consumed, erasing them from existence entirely. Egyptians feared this 'second death' more than any torment. [cite: 491, 492]"
+        },
+        {
+          "id": "egyptian-q4-2",
+          "type": "trueFalse",
+          "question": "The Field of Reeds was a temporary paradise for the righteous.",
+          "correctAnswer": "false",
+          "explanation": "The Field of Reeds (Aaru) was an eternal Egypt perfected. [cite: 493]"
+        }
+      ]
+    },
+    {
+      "id": "egyptian-mummification",
+      "title": "Mummification and the Soul's Parts",
+      "order": 5,
+      "content": "Mummification served practical spiritual purposes. The soul was believed to comprise multiple parts: the ka (life force), ba (personality), akh (transfigured spirit), shadow, and name. These elements required the physical body as an anchor. Destroying the body was thought to scatter the soul, hence the elaborate preservation techniques and hidden tombs. [cite: 497, 498, 499]",
+      "keyTerms": [
+        "Mummification",
+        "Ka",
+        "Ba",
+        "Akh",
+        "Soul parts"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "egyptian-q5-1",
+          "type": "multipleChoice",
+          "question": "What was the purpose of mummification in ancient Egypt?",
+          "options": [
+            "To punish the dead",
+            "To store riches",
+            "To provide an anchor for the soul's parts",
+            "To ward off evil spirits"
+          ],
+          "correctAnswer": "To provide an anchor for the soul's parts",
+          "explanation": "Mummification served practical spiritual purposes. The soul comprised multiple parts, which required the physical body as an anchor. [cite: 497, 498]"
+        },
+        {
+          "id": "egyptian-q5-2",
+          "type": "trueFalse",
+          "question": "The 'ka' represented the personality of the deceased.",
+          "correctAnswer": "false",
+          "explanation": "The 'ka' was the life force, while the 'ba' represented personality. [cite: 497]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "egyptian-mastery",
+    "title": "Egyptian Afterlife Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "egyptian-mt-q1",
+        "type": "multipleChoice",
+        "question": "What was the name of the devourer who waited beside the scales in the Hall of Two Truths?",
+        "options": [
+          "Thoth",
+          "Anubis",
+          "Ammit",
+          "Osiris"
+        ],
+        "correctAnswer": "Ammit",
+        "explanation": "Ammit waited beside the scales\u2014part crocodile, part leopard, part hippopotamus, combining the most feared animals of Egypt into one devourer. [cite: 490]"
+      },
+      {
+        "id": "egyptian-mt-q2",
+        "type": "trueFalse",
+        "question": "The Field of Reeds was a place of endless labor for the deceased.",
+        "correctAnswer": "false",
+        "explanation": "In the Field of Reeds, crops grew without labor (or shabti figurines performed the work). [cite: 493]"
+      },
+      {
+        "id": "egyptian-mt-q3",
+        "type": "multipleChoice",
+        "question": "What was the purpose of the 'Negative Confession'?",
+        "options": [
+          "To confess all sins",
+          "To demonstrate knowledge of divine law by denying sins",
+          "To communicate with gods",
+          "To prepare for mummification"
+        ],
+        "correctAnswer": "To demonstrate knowledge of divine law by denying sins",
+        "explanation": "Knowing what to deny meant understanding divine law itself. [cite: 487]"
+      },
+      {
+        "id": "egyptian-mt-q4",
+        "type": "matching",
+        "question": "Match the Egyptian soul part with its description:",
+        "pairs": [
+          {
+            "left": "Ka",
+            "right": "Life force"
+          },
+          {
+            "left": "Ba",
+            "right": "Personality"
+          },
+          {
+            "left": "Akh",
+            "right": "Transfigured spirit"
+          }
+        ],
+        "correctAnswer": [
+          "Ka",
+          "Life force",
+          "Ba",
+          "Personality",
+          "Akh",
+          "Transfigured spirit"
+        ],
+        "explanation": "The soul comprised multiple parts: the ka (life force), ba (personality), akh (transfigured spirit). [cite: 497]"
+      }
+    ]
+  }
+}

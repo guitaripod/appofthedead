@@ -1,0 +1,230 @@
+{
+  "id": "theosophy",
+  "name": "Theosophy",
+  "description": "Explore Theosophical teachings on death as the shedding of vehicles of consciousness, the soul's journey through astral and mental planes, and the ultimate goal of liberation from rebirth.",
+  "icon": "seal_of_theosophy",
+  "color": "#800000",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "theosophy-intro",
+      "title": "Theosophy: The Seven Planes",
+      "order": 1,
+      "content": "Theosophical teaching describes death as a process of shedding vehicles of consciousness, much like removing layers of clothing. The physical body dies first, followed by the etheric double within hours or days. The soul then comes to inhabit the astral body on the astral plane, where it experiences desires and emotions without physical means of satisfaction. [cite: 668, 669, 670]",
+      "keyTerms": [
+        "Astral plane",
+        "Mental plane",
+        "Devachan",
+        "Etheric double",
+        "Vehicles of consciousness"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "theosophy-q1-1",
+          "type": "multipleChoice",
+          "question": "What is death described as in Theosophy?",
+          "options": [
+            "A final judgment",
+            "Shedding vehicles of consciousness",
+            "Reincarnation into a lower form",
+            "A physical transformation only"
+          ],
+          "correctAnswer": "Shedding vehicles of consciousness",
+          "explanation": "Theosophical teaching describes death as shedding vehicles of consciousness like removing layers of clothing. [cite: 668]"
+        },
+        {
+          "id": "theosophy-q1-2",
+          "type": "trueFalse",
+          "question": "The soul experiences desires and emotions on the astral plane with physical means of satisfaction.",
+          "correctAnswer": "false",
+          "explanation": "The soul then inhabits the astral body on the astral plane, experiencing desires and emotions without physical means of satisfaction. [cite: 670]"
+        }
+      ]
+    },
+    {
+      "id": "theosophy-astral-plane",
+      "title": "The Astral Plane",
+      "order": 2,
+      "content": "The astral plane is said to contain seven subplanes, ranging from dense regions where crude desires burn out to more refined levels associated with artistic and emotional appreciation. Most souls spend centuries here, gradually exhausting their desires until the astral body itself dies\u2014a process known as the 'second death.' This period allows for the dissipation of lower emotional attachments. [cite: 671, 672]",
+      "keyTerms": [
+        "Astral plane",
+        "Subplanes",
+        "Crude desires",
+        "Second death",
+        "Emotional attachments"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "theosophy-q2-1",
+          "type": "multipleChoice",
+          "question": "How many subplanes does the astral plane contain?",
+          "options": [
+            "Three",
+            "Five",
+            "Seven",
+            "Nine"
+          ],
+          "correctAnswer": "Seven",
+          "explanation": "The astral plane contains seven subplanes. [cite: 671]"
+        },
+        {
+          "id": "theosophy-q2-2",
+          "type": "trueFalse",
+          "question": "Souls spend only a few days on the astral plane.",
+          "correctAnswer": "false",
+          "explanation": "Most souls spend centuries here, gradually exhausting desires until the astral body itself dies. [cite: 672]"
+        }
+      ]
+    },
+    {
+      "id": "theosophy-mental-plane-devachan",
+      "title": "The Mental Plane and Devachan",
+      "order": 3,
+      "content": "After the 'second death' on the astral plane, consciousness focuses in the mental body on the mental plane. Here, the soul experiences a 'heaven' of its own making, known as Devachan. Every aspiration finds fulfillment, and every intellectual interest is pursued to completion. This mental heaven lasts proportionally to the soul's spiritual development, potentially for millennia for evolved souls, providing a period of intense intellectual and spiritual gratification. [cite: 673, 674, 675]",
+      "keyTerms": [
+        "Mental body",
+        "Mental plane",
+        "Devachan",
+        "Heaven of its own making",
+        "Spiritual development"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "theosophy-q3-1",
+          "type": "multipleChoice",
+          "question": "What is the 'heaven' experienced on the mental plane called?",
+          "options": [
+            "Nirvana",
+            "Devachan",
+            "Summerland",
+            "Gan Eden"
+          ],
+          "correctAnswer": "Devachan",
+          "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. Devachan, this mental heaven. [cite: 674, 675]"
+        },
+        {
+          "id": "theosophy-q3-2",
+          "type": "trueFalse",
+          "question": "Devachan is a place of suffering and torment.",
+          "correctAnswer": "false",
+          "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. [cite: 674]"
+        }
+      ]
+    },
+    {
+      "id": "theosophy-higher-planes-liberation",
+      "title": "Higher Planes and Liberation",
+      "order": 4,
+      "content": "Eventually, even the mental matter of Devachan exhausts. The soul then experiences a brief touch of its true nature on higher planes\u2014the causal, buddhic, and atmic planes\u2014before karma draws it back to incarnation. The cycle of rebirth continues until the soul achieves liberation from this wheel. This constant process of shedding vehicles, purification, spiritual growth, and eventual return to incarnation is the Theosophical understanding of the soul's long journey towards ultimate freedom. [cite: 676, 677]",
+      "keyTerms": [
+        "Causal plane",
+        "Buddhic plane",
+        "Atmic plane",
+        "Karma",
+        "Liberation",
+        "Wheel of rebirth"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "theosophy-q4-1",
+          "type": "multipleChoice",
+          "question": "What draws the soul back to incarnation after experiencing higher planes?",
+          "options": [
+            "Divine will",
+            "Its own desires",
+            "Karma",
+            "The pull of gravity"
+          ],
+          "correctAnswer": "Karma",
+          "explanation": "The soul experiences a brief touch of its true nature on higher planes... before karma draws it back to incarnation. [cite: 676]"
+        },
+        {
+          "id": "theosophy-q4-2",
+          "type": "trueFalse",
+          "question": "Liberation from the wheel of rebirth is not possible in Theosophy.",
+          "correctAnswer": "false",
+          "explanation": "The cycle repeats until achieving liberation from the wheel of rebirth. [cite: 677]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "theosophy-mastery",
+    "title": "Theosophy Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "theosophy-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is the 'second death' in Theosophy?",
+        "options": [
+          "The death of the physical body",
+          "The death of the etheric double",
+          "The death of the astral body",
+          "The death of the mental body"
+        ],
+        "correctAnswer": "The death of the astral body",
+        "explanation": "Most souls spend centuries here, gradually exhausting desires until the astral body itself dies\u2014the 'second death.' [cite: 672]"
+      },
+      {
+        "id": "theosophy-mt-q2",
+        "type": "trueFalse",
+        "question": "Devachan is a place where every aspiration is fulfilled.",
+        "correctAnswer": "true",
+        "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. [cite: 674]"
+      },
+      {
+        "id": "theosophy-mt-q3",
+        "type": "multipleChoice",
+        "question": "Which body is shed first after physical death?",
+        "options": [
+          "Astral body",
+          "Mental body",
+          "Causal body",
+          "Etheric double"
+        ],
+        "correctAnswer": "Etheric double",
+        "explanation": "The physical body dies first, followed by the etheric double within hours or days. [cite: 669]"
+      },
+      {
+        "id": "theosophy-mt-q4",
+        "type": "matching",
+        "question": "Match the Theosophical concept with its description:",
+        "pairs": [
+          {
+            "left": "Astral plane",
+            "right": "Realm of desires and emotions"
+          },
+          {
+            "left": "Mental plane",
+            "right": "Realm of intellectual and spiritual gratification (Devachan)"
+          },
+          {
+            "left": "Causal plane",
+            "right": "One of the higher planes where soul touches true nature"
+          },
+          {
+            "left": "Liberation",
+            "right": "Escape from the wheel of rebirth"
+          }
+        ],
+        "correctAnswer": [
+          "Astral plane",
+          "Realm of desires and emotions",
+          "Mental plane",
+          "Realm of intellectual and spiritual gratification (Devachan)",
+          "Causal plane",
+          "One of the higher planes where soul touches true nature",
+          "Liberation",
+          "Escape from the wheel of rebirth"
+        ],
+        "explanation": "These are key elements of Theosophical afterlife teachings. [cite: 670, 673, 676, 677]"
+      }
+    ]
+  }
+}

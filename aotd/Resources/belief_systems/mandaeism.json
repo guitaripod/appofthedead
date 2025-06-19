@@ -1,0 +1,207 @@
+{
+  "id": "mandaeism",
+  "name": "Mandaeism",
+  "description": "Explore the unique Gnostic vision of Mandaeism, mapping the soul's perilous journey through cosmic darkness and watchhouses, back to the World of Light, and the challenges of demonic archons.",
+  "icon": "star_of_david",
+  "color": "#4B0082",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "mandaeism-intro",
+      "title": "Mandaeism: The Light's Journey",
+      "order": 1,
+      "content": "Mandaeism, a unique Gnostic tradition, maps the soul's perilous journey through cosmic darkness back to the World of Light. Death marks the liberation of the soul ('nishimta') from the material prison. The soul must then navigate through the 'mataratas'\u2014watchhouses between earth and the Light World. At each station, demonic archons demand passwords and attempt to trap ascending souls, highlighting the dangerous nature of this spiritual ascent. [cite: 580, 581, 582]",
+      "keyTerms": [
+        "Mandaeism",
+        "Gnosticism",
+        "Nishimta",
+        "Mataratas",
+        "Archons",
+        "World of Light"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "mandaeism-q1-1",
+          "type": "multipleChoice",
+          "question": "What does death begin for the soul in Mandaeism?",
+          "options": [
+            "Eternal suffering",
+            "Reincarnation",
+            "Liberation from the material prison",
+            "A new physical life"
+          ],
+          "correctAnswer": "Liberation from the material prison",
+          "explanation": "Death begins liberation from the material prison. [cite: 581]"
+        },
+        {
+          "id": "mandaeism-q1-2",
+          "type": "trueFalse",
+          "question": "The 'mataratas' are safe havens for ascending souls.",
+          "correctAnswer": "false",
+          "explanation": "At each station, demonic archons demand passwords and attempt to trap ascending souls. [cite: 582]"
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-dangers",
+      "title": "Dangers of the Journey",
+      "order": 2,
+      "content": "The journey through the mataratas presents several dangers. The Seven Planets are each ruled by a demonic power that claims ownership of souls; only through secret knowledge ('gnosis') and ritual purity can one pass. The Twelve Constellations contain zodiacal demons who attempt to bind souls to fate and reincarnation. Furthermore, Ruha and Her Sons, an evil mother spirit and her demonic offspring, patrol the boundaries, actively seeking to drag souls into their dark realm. [cite: 583, 584, 585, 586]",
+      "keyTerms": [
+        "Seven Planets",
+        "Twelve Constellations",
+        "Ruha and Her Sons",
+        "Gnosis",
+        "Ritual purity"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "mandaeism-q2-1",
+          "type": "multipleChoice",
+          "question": "What is required to pass the Seven Planets in Mandaeism?",
+          "options": [
+            "Physical strength",
+            "Wealth",
+            "Secret knowledge and ritual purity",
+            "Offering sacrifices"
+          ],
+          "correctAnswer": "Secret knowledge and ritual purity",
+          "explanation": "Only through secret knowledge (gnosis) and ritual purity can one pass. [cite: 584]"
+        },
+        {
+          "id": "mandaeism-q2-2",
+          "type": "trueFalse",
+          "question": "The Twelve Constellations are benign guides for souls.",
+          "correctAnswer": "false",
+          "explanation": "Zodiacal demons (Twelve Constellations) attempt to bind souls to fate and reincarnation. [cite: 585]"
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-preparation",
+      "title": "Preparation and Destination",
+      "order": 3,
+      "content": "Success on this perilous journey requires lifetime preparation. Frequent baptism ('masbuta') in flowing water purifies the soul. Secret passwords learned through initiation are essential to unlock cosmic gates. The dying receive final rites to ensure they remember this crucial information. Those who succeed reach Alma d-Nhura (World of Light), reuniting with the Great Life (Hayyi Rabbi). Here, dressed in radiant garments, they dwell in eternal light beyond all darkness. Failed souls face reincarnation or, worse, eternal bondage in the House of Darkness, serving evil powers until cosmic redemption at time's end. [cite: 587, 588, 589, 590, 591]",
+      "keyTerms": [
+        "Masbuta",
+        "Secret passwords",
+        "Alma d-Nhura",
+        "Great Life (Hayyi Rabbi)",
+        "House of Darkness"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "mandaeism-q3-1",
+          "type": "multipleChoice",
+          "question": "What ritual is crucial for purifying the soul in Mandaeism?",
+          "options": [
+            "Animal sacrifice",
+            "Frequent baptism (masbuta)",
+            "Fasting for a year",
+            "Burning incense"
+          ],
+          "correctAnswer": "Frequent baptism (masbuta)",
+          "explanation": "Frequent baptism (masbuta) in flowing water purifies the soul. [cite: 587]"
+        },
+        {
+          "id": "mandaeism-q3-2",
+          "type": "trueFalse",
+          "question": "Failed souls in Mandaeism always achieve liberation through reincarnation.",
+          "correctAnswer": "false",
+          "explanation": "Failed souls face reincarnation or worse\u2014eternal bondage in the House of Darkness. [cite: 591]"
+        },
+        {
+          "id": "mandaeism-q3-3",
+          "type": "multipleChoice",
+          "question": "What is the ultimate destination for successful souls in Mandaeism?",
+          "options": [
+            "House of Darkness",
+            "Seven Planets",
+            "Alma d-Nhura (World of Light)",
+            "Twelve Constellations"
+          ],
+          "correctAnswer": "Alma d-Nhura (World of Light)",
+          "explanation": "Those who succeed reach Alma d-Nhura (World of Light). [cite: 589]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "mandaeism-mastery",
+    "title": "Mandaeism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "mandaeism-mt-q1",
+        "type": "multipleChoice",
+        "question": "What are the 'mataratas' in Mandaean belief?",
+        "options": [
+          "Ritual purification baths",
+          "Demonic archons",
+          "Watchhouses between earth and the Light World",
+          "Secret passwords"
+        ],
+        "correctAnswer": "Watchhouses between earth and the Light World",
+        "explanation": "The soul (nishimta) must navigate through the mataratas\u2014watchhouses between earth and the Light World. [cite: 581]"
+      },
+      {
+        "id": "mandaeism-mt-q2",
+        "type": "trueFalse",
+        "question": "In Mandaeism, death is viewed as the final end of the soul.",
+        "correctAnswer": "false",
+        "explanation": "Death begins liberation from the material prison. [cite: 581]"
+      },
+      {
+        "id": "mandaeism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is 'gnosis' in Mandaeism?",
+        "options": [
+          "Physical strength",
+          "Secret knowledge",
+          "A type of ritual offering",
+          "A demonic power"
+        ],
+        "correctAnswer": "Secret knowledge",
+        "explanation": "Only through secret knowledge (gnosis) and ritual purity can one pass. [cite: 584]"
+      },
+      {
+        "id": "mandaeism-mt-q4",
+        "type": "matching",
+        "question": "Match the Mandaean concept with its description:",
+        "pairs": [
+          {
+            "left": "Nishimta",
+            "right": "Soul"
+          },
+          {
+            "left": "Masbuta",
+            "right": "Frequent baptism in flowing water"
+          },
+          {
+            "left": "Alma d-Nhura",
+            "right": "World of Light"
+          },
+          {
+            "left": "Ruha and Her Sons",
+            "right": "Evil mother spirit and her demonic offspring"
+          }
+        ],
+        "correctAnswer": [
+          "Nishimta",
+          "Soul",
+          "Masbuta",
+          "Frequent baptism in flowing water",
+          "Alma d-Nhura",
+          "World of Light",
+          "Ruha and Her Sons",
+          "Evil mother spirit and her demonic offspring"
+        ],
+        "explanation": "These are key terms in Mandaean eschatology. [cite: 581, 586, 587, 589]"
+      }
+    ]
+  }
+}

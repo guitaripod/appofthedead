@@ -1,0 +1,232 @@
+{
+  "id": "anthroposophy",
+  "name": "Anthroposophy",
+  "description": "Discover Rudolf Steiner's spiritual scientific investigation of death, mapping the soul's conscious evolution through planetary spheres, life reviews, and karmic weaving in preparation for future incarnations.",
+  "icon": "flower_of_life",
+  "color": "#4682B4",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "anthroposophy-intro",
+      "title": "Anthroposophy: Conscious Evolution",
+      "order": 1,
+      "content": "Rudolf Steiner's Anthroposophy investigates death's journey through spiritual science, describing the soul's systematic transformation through various planetary spheres. Each stage is believed to develop different aspects of cosmic consciousness. After death, the etheric body (life force) separates over three days, during which a complete life panorama is experienced from others' perspectives. This process generates profound moral understanding as one feels all pain given and joy shared. [cite: 656, 657, 658, 659]",
+      "keyTerms": [
+        "Anthroposophy",
+        "Rudolf Steiner",
+        "Etheric body",
+        "Life panorama",
+        "Cosmic consciousness"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "anthroposophy-q1-1",
+          "type": "multipleChoice",
+          "question": "Who founded Anthroposophy?",
+          "options": [
+            "Carl Jung",
+            "Helena Blavatsky",
+            "Rudolf Steiner",
+            "Emanuel Swedenborg"
+          ],
+          "correctAnswer": "Rudolf Steiner",
+          "explanation": "Rudolf Steiner's Anthroposophy maps death's journey through spiritual scientific investigation. [cite: 656]"
+        },
+        {
+          "id": "anthroposophy-q1-2",
+          "type": "trueFalse",
+          "question": "The life panorama after death is experienced only from one's own perspective.",
+          "correctAnswer": "false",
+          "explanation": "The life panorama is experienced from others' perspectives. [cite: 659]"
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-astral-purification",
+      "title": "Astral Body and Purification",
+      "order": 2,
+      "content": "Following the etheric body's separation, the astral body (desires/emotions) undergoes purification in the soul world. During this period, often called 'kamaloca,' lower desires burn away as the soul experiences their futility without a physical body. This purification phase lasts roughly one-third the length of the earthly life, preparing the soul for higher spiritual experiences. [cite: 660, 661, 662]",
+      "keyTerms": [
+        "Astral body",
+        "Soul world",
+        "Kamaloca",
+        "Purification",
+        "Lower desires"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "anthroposophy-q2-1",
+          "type": "multipleChoice",
+          "question": "What is the 'kamaloca' period for?",
+          "options": [
+            "Eternal suffering",
+            "Accumulating new karma",
+            "Purification of lower desires",
+            "Physical recreation"
+          ],
+          "correctAnswer": "Purification of lower desires",
+          "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life. [cite: 661, 662]"
+        },
+        {
+          "id": "anthroposophy-q2-2",
+          "type": "trueFalse",
+          "question": "The astral body is the physical body.",
+          "correctAnswer": "false",
+          "explanation": "The astral body relates to desires/emotions. [cite: 660]"
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-planetary-spheres",
+      "title": "Ascension Through Planetary Spheres",
+      "order": 3,
+      "content": "The purified soul then ascends through a series of planetary spheres, each with its own purpose: the Moon sphere for releasing earthly attachments, Mercury for developing moral techniques, Venus for experiencing cosmic love, and the Sun for meeting the Christ Being and reviewing life's spiritual significance. Further ascension leads to Mars for spiritual courage, Jupiter for cosmic wisdom, and Saturn, reaching the boundary between the solar system and the zodiac. [cite: 663]",
+      "keyTerms": [
+        "Planetary spheres",
+        "Moon sphere",
+        "Mercury sphere",
+        "Venus sphere",
+        "Sun sphere",
+        "Mars sphere",
+        "Jupiter sphere",
+        "Saturn sphere",
+        "Christ Being"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "anthroposophy-q3-1",
+          "type": "multipleChoice",
+          "question": "Which planetary sphere is associated with releasing earthly attachments?",
+          "options": [
+            "Sun sphere",
+            "Moon sphere",
+            "Mars sphere",
+            "Jupiter sphere"
+          ],
+          "correctAnswer": "Moon sphere",
+          "explanation": "Moon sphere: Releasing earthly attachments. [cite: 663]"
+        },
+        {
+          "id": "anthroposophy-q3-2",
+          "type": "trueFalse",
+          "question": "The soul reviews its life's spiritual significance in the Mars sphere.",
+          "correctAnswer": "false",
+          "explanation": "The soul meets the Christ Being and reviews life's spiritual significance in the Sun sphere. [cite: 663]"
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-zodiac-incarnation",
+      "title": "Zodiacal Realms and Next Incarnation",
+      "order": 4,
+      "content": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation. Here, the soul weaves karma with others, carefully choosing circumstances that balance past actions and enable future evolution. The 'midnight hour of existence' occurs in these cosmic realms, marking the soul's furthest point from earth before beginning the return journey. Gradually descending through the planetary spheres, it gathers the necessary forces for its next physical body, initiating a new cycle of earthly life. [cite: 664, 665, 666, 667]",
+      "keyTerms": [
+        "Zodiacal realms",
+        "Karmic weaving",
+        "Next incarnation",
+        "Midnight hour of existence"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "anthroposophy-q4-1",
+          "type": "multipleChoice",
+          "question": "What does the soul do in the zodiacal realms?",
+          "options": [
+            "Rests eternally",
+            "Chooses its next incarnation and weaves karma",
+            "Experiences eternal suffering",
+            "Battles demons"
+          ],
+          "correctAnswer": "Chooses its next incarnation and weaves karma",
+          "explanation": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation... choosing circumstances that balance past actions and enable future evolution. [cite: 664, 665]"
+        },
+        {
+          "id": "anthroposophy-q4-2",
+          "type": "trueFalse",
+          "question": "The soul's return journey to earth begins after the 'midnight hour of existence'.",
+          "correctAnswer": "true",
+          "explanation": "The midnight hour of existence occurs in cosmic realms, where the soul experiences its furthest point from earth before beginning the return journey. [cite: 666]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "anthroposophy-mastery",
+    "title": "Anthroposophy Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "anthroposophy-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is the 'life panorama' experienced after death in Anthroposophy?",
+        "options": [
+          "A vision of future lives",
+          "A complete review of the past life from others' perspectives",
+          "A dream-like state of consciousness",
+          "A spiritual battle"
+        ],
+        "correctAnswer": "A complete review of the past life from others' perspectives",
+        "explanation": "The etheric body (life force) separates over three days, creating the life panorama\u2014a complete review of the past life experienced from others' perspectives. [cite: 658, 659]"
+      },
+      {
+        "id": "anthroposophy-mt-q2",
+        "type": "trueFalse",
+        "question": "The 'kamaloca' period in Anthroposophy is a place of eternal suffering.",
+        "correctAnswer": "false",
+        "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life. [cite: 661, 662]"
+      },
+      {
+        "id": "anthroposophy-mt-q3",
+        "type": "multipleChoice",
+        "question": "Which planetary sphere is associated with developing cosmic love?",
+        "options": [
+          "Moon sphere",
+          "Mercury sphere",
+          "Venus sphere",
+          "Sun sphere"
+        ],
+        "correctAnswer": "Venus sphere",
+        "explanation": "Venus: Experiencing cosmic love. [cite: 663]"
+      },
+      {
+        "id": "anthroposophy-mt-q4",
+        "type": "matching",
+        "question": "Match the Anthroposophical concept with its description:",
+        "pairs": [
+          {
+            "left": "Etheric body",
+            "right": "Life force"
+          },
+          {
+            "left": "Astral body",
+            "right": "Desires/emotions"
+          },
+          {
+            "left": "Kamaloca",
+            "right": "Purification period in soul world"
+          },
+          {
+            "left": "Zodiacal realms",
+            "right": "Preparation for next incarnation"
+          }
+        ],
+        "correctAnswer": [
+          "Etheric body",
+          "Life force",
+          "Astral body",
+          "Desires/emotions",
+          "Kamaloca",
+          "Purification period in soul world",
+          "Zodiacal realms",
+          "Preparation for next incarnation"
+        ],
+        "explanation": "These are key concepts in Anthroposophical spiritual science. [cite: 658, 660, 661, 664]"
+      }
+    ]
+  }
+}

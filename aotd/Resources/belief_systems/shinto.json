@@ -1,0 +1,243 @@
+{
+  "id": "shinto",
+  "name": "Shinto",
+  "description": "Explore Shinto's perception of death as pollution and transformation, from the journey to Yomi-no-kuni to the purification of the spirit into a protective kami and the ongoing connection with ancestral spirits.",
+  "icon": "torii_gate",
+  "color": "#8B0000",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "shinto-intro",
+      "title": "Shinto: The Kami Transformation",
+      "order": 1,
+      "content": "Shinto views death as the ultimate pollution ('kegare') while simultaneously recognizing it as a transformation that turns the deceased into protective kami. This paradox defines the Japanese approach to mortality. At death, the 'tamashii' (soul/spirit) separates from the body, beginning its transformation into a kami, a process that requires time and proper rituals. [cite: 550, 551, 552]",
+      "keyTerms": [
+        "Kami",
+        "Kegare",
+        "Tamashii",
+        "Onry\u014d",
+        "Yomi-no-kuni"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "shinto-q1-1",
+          "type": "multipleChoice",
+          "question": "How does Shinto primarily view death?",
+          "options": [
+            "As a joyous reunion",
+            "As the ultimate pollution and transformation",
+            "As a punishment for sins",
+            "As a complete end to existence"
+          ],
+          "correctAnswer": "As the ultimate pollution and transformation",
+          "explanation": "Shinto perceives death as the ultimate pollution (kegare) while simultaneously transforming the deceased into protective kami. [cite: 550]"
+        },
+        {
+          "id": "shinto-q1-2",
+          "type": "trueFalse",
+          "question": "The transformation of the tamashii into a kami is instantaneous at death.",
+          "correctAnswer": "false",
+          "explanation": "At the moment of death, it fully detaches, beginning transformation into a kami\u2014though this process takes time and proper rituals. [cite: 552]"
+        }
+      ]
+    },
+    {
+      "id": "shinto-souls-onryo",
+      "title": "Multiple Souls and Onry\u014d",
+      "order": 2,
+      "content": "Traditional Shinto belief holds that individuals possess multiple souls: the 'aramitama' (rough spirit) and 'nigimitama' (gentle spirit). Without proper rites, the aramitama might become a vengeful 'onry\u014d,' haunting the living. Proper ceremonies are crucial to pacify it, allowing the nigimitama to emerge as a protective ancestor. This emphasizes the importance of human actions in influencing the state of the departed spirit. [cite: 553, 554, 555]",
+      "keyTerms": [
+        "Aramitama",
+        "Nigimitama",
+        "Onry\u014d",
+        "Vengeful spirit",
+        "Protective ancestor"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "shinto-q2-1",
+          "type": "multipleChoice",
+          "question": "Which spirit might become a vengeful 'onry\u014d' without proper rites?",
+          "options": [
+            "Nigimitama",
+            "Tamashii",
+            "Aramitama",
+            "Kami"
+          ],
+          "correctAnswer": "Aramitama",
+          "explanation": "Without proper rites, the aramitama might become a vengeful onry\u014d, haunting the living. [cite: 554]"
+        },
+        {
+          "id": "shinto-q2-2",
+          "type": "trueFalse",
+          "question": "The nigimitama is the rough spirit that needs to be pacified.",
+          "correctAnswer": "false",
+          "explanation": "The aramitama is the rough spirit, while the nigimitama is the gentle spirit. [cite: 553, 555]"
+        }
+      ]
+    },
+    {
+      "id": "shinto-yomi-and-other-realms",
+      "title": "Yomi and Other Realms",
+      "order": 3,
+      "content": "The newly dead typically travel to Yomi-no-kuni, the shadowy netherworld. Ancient texts describe it as a polluted realm of decay, maggots, and darkness. The creator god Izanagi's visit to retrieve his dead wife Izanami, only to find her transformed into a rotting horror, cemented the separation of life and death. However, Shinto evolved, and the dead might also journey to Takamagahara (High Plain of Heaven, for virtuous spirits), Tokoyo-no-kuni (Eternal Land beyond the sea, for peace), or Ne-no-kuni (Land of Roots). [cite: 556, 557, 558, 559, 560]",
+      "keyTerms": [
+        "Yomi-no-kuni",
+        "Izanagi",
+        "Izanami",
+        "Takamagahara",
+        "Tokoyo-no-kuni",
+        "Ne-no-kuni"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "shinto-q3-1",
+          "type": "multipleChoice",
+          "question": "What is Yomi-no-kuni described as in ancient texts?",
+          "options": [
+            "A radiant paradise",
+            "A polluted realm of decay and darkness",
+            "A land of eternal spring",
+            "A place of reincarnation"
+          ],
+          "correctAnswer": "A polluted realm of decay and darkness",
+          "explanation": "Ancient texts describe it as a polluted realm of decay, maggots, and darkness. [cite: 556]"
+        },
+        {
+          "id": "shinto-q3-2",
+          "type": "trueFalse",
+          "question": "Takamagahara is the destination for all spirits in Shinto.",
+          "correctAnswer": "false",
+          "explanation": "Only the most virtuous or powerful spirits ascend to Takamagahara. [cite: 559]"
+        }
+      ]
+    },
+    {
+      "id": "shinto-ancestral-kami",
+      "title": "Ancestral Kami and Obon",
+      "order": 4,
+      "content": "More commonly, the dead remain near their homes and families. Through memorial services at specific intervals (7, 49, 100 days, then annually), the spirit gradually purifies and strengthens. After 33 or 50 years, it completes its transformation into a full kami, joining the collective ancestors. These ancestral kami don't dwell in a distant paradise but remain intimately connected with descendants. Family shrines ('kamidana') provide dwelling places. During the Obon festival, families welcome ancestors home with lanterns, dances, and offerings, recognizing that the dead have simply changed state and require different etiquette. [cite: 561, 562, 563, 564, 565]",
+      "keyTerms": [
+        "Ancestral kami",
+        "Kamidana",
+        "Obon festival",
+        "Purification",
+        "Memorial services"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "shinto-q4-1",
+          "type": "multipleChoice",
+          "question": "How long does it typically take for a spirit to become a full kami?",
+          "options": [
+            "Seven days",
+            "Forty-nine days",
+            "One year",
+            "33 or 50 years"
+          ],
+          "correctAnswer": "33 or 50 years",
+          "explanation": "After 33 or 50 years (depending on tradition), it completes transformation into a full kami. [cite: 563]"
+        },
+        {
+          "id": "shinto-q4-2",
+          "type": "trueFalse",
+          "question": "Ancestral kami reside in distant, inaccessible paradises.",
+          "correctAnswer": "false",
+          "explanation": "These ancestral kami don't dwell in distant paradise but remain intimately connected with descendants. [cite: 564]"
+        },
+        {
+          "id": "shinto-q4-3",
+          "type": "multipleChoice",
+          "question": "What is the purpose of the Obon festival?",
+          "options": [
+            "To celebrate a new year",
+            "To welcome ancestors home",
+            "To mourn the dead eternally",
+            "To perform purification rituals for the living"
+          ],
+          "correctAnswer": "To welcome ancestors home",
+          "explanation": "During Obon festival, families welcome ancestors home with lanterns, dances, and offerings. [cite: 565]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "shinto-mastery",
+    "title": "Shinto Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "shinto-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is 'kegare' in Shinto?",
+        "options": [
+          "A sacred offering",
+          "A protective spirit",
+          "The ultimate pollution",
+          "A type of shrine"
+        ],
+        "correctAnswer": "The ultimate pollution",
+        "explanation": "Shinto perceives death as the ultimate pollution (kegare). [cite: 550]"
+      },
+      {
+        "id": "shinto-mt-q2",
+        "type": "trueFalse",
+        "question": "The aramitama is the gentle spirit that becomes a protective ancestor.",
+        "correctAnswer": "false",
+        "explanation": "The aramitama is the rough spirit, and if not pacified, it might become a vengeful onry\u014d. The nigimitama emerges as a protective ancestor. [cite: 553, 554, 555]"
+      },
+      {
+        "id": "shinto-mt-q3",
+        "type": "multipleChoice",
+        "question": "Where do the newly dead typically travel in Shinto belief?",
+        "options": [
+          "Takamagahara",
+          "Tokoyo-no-kuni",
+          "Yomi-no-kuni",
+          "Ne-no-kuni"
+        ],
+        "correctAnswer": "Yomi-no-kuni",
+        "explanation": "The newly dead travel to Yomi-no-kuni, the shadowy netherworld. [cite: 556]"
+      },
+      {
+        "id": "shinto-mt-q4",
+        "type": "matching",
+        "question": "Match the Shinto concept with its description:",
+        "pairs": [
+          {
+            "left": "Tamashii",
+            "right": "Soul/spirit"
+          },
+          {
+            "left": "Onry\u014d",
+            "right": "Vengeful spirit"
+          },
+          {
+            "left": "Kamidana",
+            "right": "Family shrines"
+          },
+          {
+            "left": "Obon",
+            "right": "Festival to welcome ancestors home"
+          }
+        ],
+        "correctAnswer": [
+          "Tamashii",
+          "Soul/spirit",
+          "Onry\u014d",
+          "Vengeful spirit",
+          "Kamidana",
+          "Family shrines",
+          "Obon",
+          "Festival to welcome ancestors home"
+        ],
+        "explanation": "These are key terms in Shinto beliefs and practices. [cite: 552, 554, 564, 565]"
+      }
+    ]
+  }
+}

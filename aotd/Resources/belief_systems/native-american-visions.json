@@ -1,0 +1,192 @@
+{
+  "id": "native-american-visions",
+  "name": "Native American Visions",
+  "description": "Explore the diverse afterlife concepts across Native American traditions, common themes of journey and transformation, and the continued connection between the living and the dead.",
+  "icon": "dreamcatcher",
+  "color": "#8B4513",
+  "totalXP": 120,
+  "lessons": [
+    {
+      "id": "native-american-intro",
+      "title": "Native American Visions: Journey and Transformation",
+      "order": 1,
+      "content": "Native American traditions present diverse afterlife concepts, yet many share common themes of journey and transformation. Many Plains tribes describe the Spirit Trail (Milky Way) leading to the Land of Many Lodges, where ancestors dwell in abundance. This journey might take four days, involving trials that test the soul's worthiness. [cite: 647, 648, 649]",
+      "keyTerms": [
+        "Spirit Trail (Milky Way)",
+        "Land of Many Lodges",
+        "Sipapuni",
+        "Kachinas",
+        "Nightland"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "native-american-q1-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Spirit Trail' often identified with?",
+          "options": [
+            "A river",
+            "A mountain path",
+            "The Milky Way",
+            "A hidden cave"
+          ],
+          "correctAnswer": "The Milky Way",
+          "explanation": "Many Plains tribes describe the Spirit Trail (Milky Way) leading to the Land of Many Lodges. [cite: 648]"
+        },
+        {
+          "id": "native-american-q1-2",
+          "type": "trueFalse",
+          "question": "All Native American tribes share identical afterlife beliefs.",
+          "correctAnswer": "false",
+          "explanation": "Native American traditions present diverse afterlife concepts, but many share common themes. [cite: 647]"
+        }
+      ]
+    },
+    {
+      "id": "native-american-pueblo-northwest",
+      "title": "Pueblo and Northwest Coast",
+      "order": 2,
+      "content": "Pueblo peoples speak of returning to the 'Sipapuni'\u2014the emergence place where humanity first entered this world. Spirits become 'kachinas,' cloud beings who bring rain and blessings to the living, signifying their continued active role. Some Northwest Coast peoples describe souls traveling to villages beneath the sea or beyond the sunset. For them, properly conducted 'potlatches' ensure the deceased's status in the afterlife aligns with their earthly rank. [cite: 650, 651, 652, 653]",
+      "keyTerms": [
+        "Sipapuni",
+        "Kachinas",
+        "Potlatches",
+        "Villages beneath the sea"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "native-american-q2-1",
+          "type": "multipleChoice",
+          "question": "What do spirits become for Pueblo peoples?",
+          "options": [
+            "Animals",
+            "Ghosts",
+            "Kachinas (cloud beings)",
+            "Stars"
+          ],
+          "correctAnswer": "Kachinas (cloud beings)",
+          "explanation": "Spirits become kachinas, cloud beings who bring rain and blessings to the living. [cite: 651]"
+        },
+        {
+          "id": "native-american-q2-2",
+          "type": "trueFalse",
+          "question": "Potlatches are only performed to celebrate life, not to ensure afterlife status.",
+          "correctAnswer": "false",
+          "explanation": "Properly conducted potlatches ensure the deceased's status in the afterlife matches their earthly rank. [cite: 653]"
+        }
+      ]
+    },
+    {
+      "id": "native-american-cherokee-common-themes",
+      "title": "Cherokee and Common Themes",
+      "order": 3,
+      "content": "The Cherokee know the 'Nightland,' where souls exist in shadow form until returning in new bodies. Some souls become stars, others merge with natural forces. Common across many Native American traditions are the beliefs that the dead remain connected to the living, that death is a transformation rather than an ending, and that proper ceremonies ensure beneficial relationships between the worlds. This highlights a holistic view of existence, where life and death are interconnected. [cite: 654, 655]",
+      "keyTerms": [
+        "Nightland",
+        "Stars",
+        "Natural forces",
+        "Transformation",
+        "Connectedness"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "native-american-q3-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Nightland' for the Cherokee?",
+          "options": [
+            "A place of eternal darkness",
+            "Where souls exist in shadow form until returning in new bodies",
+            "A realm of fire",
+            "A place for warriors only"
+          ],
+          "correctAnswer": "Where souls exist in shadow form until returning in new bodies",
+          "explanation": "The Cherokee know the Nightland, where souls exist in shadow form until returning in new bodies. [cite: 654]"
+        },
+        {
+          "id": "native-american-q3-2",
+          "type": "trueFalse",
+          "question": "In Native American traditions, the dead are always completely separated from the living.",
+          "correctAnswer": "false",
+          "explanation": "Common across traditions: the dead remain connected to the living. [cite: 655]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "native-american-mastery",
+    "title": "Native American Visions Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "native-american-mt-q1",
+        "type": "multipleChoice",
+        "question": "Which of the following is a common theme across Native American afterlife traditions?",
+        "options": [
+          "Strict hierarchy of heaven and hell",
+          "Complete annihilation of the soul",
+          "Death as transformation and continued connection to the living",
+          "Soul returning to a physical body immediately"
+        ],
+        "correctAnswer": "Death as transformation and continued connection to the living",
+        "explanation": "Common across traditions: the dead remain connected to the living, death is transformation rather than ending. [cite: 655]"
+      },
+      {
+        "id": "native-american-mt-q2",
+        "type": "trueFalse",
+        "question": "The 'Spirit Trail' for Plains tribes leads to a place of punishment.",
+        "correctAnswer": "false",
+        "explanation": "Many Plains tribes describe the Spirit Trail (Milky Way) leading to the Land of Many Lodges, where ancestors dwell in abundance. [cite: 648]"
+      },
+      {
+        "id": "native-american-mt-q3",
+        "type": "multipleChoice",
+        "question": "What are 'kachinas' for Pueblo peoples?",
+        "options": [
+          "Vengeful spirits",
+          "Demonic entities",
+          "Cloud beings who bring rain and blessings",
+          "Animal totems"
+        ],
+        "correctAnswer": "Cloud beings who bring rain and blessings",
+        "explanation": "Spirits become kachinas, cloud beings who bring rain and blessings to the living. [cite: 651]"
+      },
+      {
+        "id": "native-american-mt-q4",
+        "type": "matching",
+        "question": "Match the Native American concept with its associated tribe:",
+        "pairs": [
+          {
+            "left": "Spirit Trail (Milky Way)",
+            "right": "Plains tribes"
+          },
+          {
+            "left": "Sipapuni",
+            "right": "Pueblo peoples"
+          },
+          {
+            "left": "Nightland",
+            "right": "Cherokee"
+          },
+          {
+            "left": "Potlatches",
+            "right": "Northwest Coast peoples"
+          }
+        ],
+        "correctAnswer": [
+          "Spirit Trail (Milky Way)",
+          "Plains tribes",
+          "Sipapuni",
+          "Pueblo peoples",
+          "Nightland",
+          "Cherokee",
+          "Potlatches",
+          "Northwest Coast peoples"
+        ],
+        "explanation": "These concepts are tied to specific Native American tribal traditions. [cite: 648, 650, 653, 654]"
+      }
+    ]
+  }
+}

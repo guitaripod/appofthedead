@@ -33,13 +33,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2C559F8A2DEE520600CE07A5 /* Exceptions for "aotd" folder in "aotdTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				aotd.json,
-			);
-			target = 2C559F5F2DEE4BA600CE07A5 /* aotdTests */;
-		};
 		2CA5C5D62DEE42EC002AD8E9 /* Exceptions for "aotd" folder in "aotd" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -59,7 +52,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				2CA5C5D62DEE42EC002AD8E9 /* Exceptions for "aotd" folder in "aotd" target */,
-				2C559F8A2DEE520600CE07A5 /* Exceptions for "aotd" folder in "aotdTests" target */,
 			);
 			path = aotd;
 			sourceTree = "<group>";

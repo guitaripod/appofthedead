@@ -1,0 +1,289 @@
+{
+  "id": "islam",
+  "name": "Islam",
+  "description": "Discover the precise and detailed cartography of death's journey in Islam, from the Angel of Death to the grave, the Final Hour, and the crossing of As-Sirat to Jannah or Jahannam.",
+  "icon": "star_and_crescent",
+  "color": "#009000",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "islam-intro",
+      "title": "Islam: The Precise Cartography of the Unseen",
+      "order": 1,
+      "content": "Islamic eschatology provides a highly detailed map of the journey after death, with each stage described in the Quran and Hadith. As death approaches, the dying person glimpses their fate. Azrael, the Angel of Death, appears in a form reflecting their spiritual state, either beautiful to the righteous or terrifying to the wicked. He extracts the soul gently from the righteous, or violently from the wicked. [cite: 393, 394, 395]",
+      "keyTerms": [
+        "Azrael",
+        "Quran",
+        "Hadith",
+        "Eschatology",
+        "Barzakh"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "islam-q1-1",
+          "type": "multipleChoice",
+          "question": "What is Azrael's role in Islamic belief?",
+          "options": [
+            "Angel of creation",
+            "Angel of death",
+            "Angel of mercy",
+            "Angel of judgment"
+          ],
+          "correctAnswer": "Angel of death",
+          "explanation": "Azrael is known as the Angel of Death in Islamic tradition. [cite: 394]"
+        },
+        {
+          "id": "islam-q1-2",
+          "type": "trueFalse",
+          "question": "Islamic eschatology lacks detailed descriptions of the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Islamic eschatology presents perhaps the most detailed map of death's journey, precisely described in Quran and Hadith. [cite: 393]"
+        }
+      ]
+    },
+    {
+      "id": "islam-ascension",
+      "title": "Ascension and the Grave",
+      "order": 2,
+      "content": "After extraction, the soul ascends through seven heavens. Righteous souls find gates opening readily, while wicked souls are hurled back to earth, denied entry. In the grave, Barzakh, the partition between death and resurrection, begins. The deceased hear mourners' departing footsteps before Munkar and Nakir, terrible angels, arrive. They ask three crucial questions: 'Who is your Lord? What is your religion? Who is your prophet?' The answers determine immediate fate: graves expand for the righteous, filled with light and breezes, while wicked graves crush inward, filled with darkness and heat. [cite: 396, 397, 398, 399, 400, 401, 402, 403]",
+      "keyTerms": [
+        "Seven Heavens",
+        "Barzakh",
+        "Munkar and Nakir",
+        "Grave torment"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "islam-q2-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Barzakh' in Islamic belief?",
+          "options": [
+            "A bridge over Hell",
+            "The Angel of Death",
+            "The partition between death and resurrection",
+            "A paradise for souls"
+          ],
+          "correctAnswer": "The partition between death and resurrection",
+          "explanation": "In the grave begins Barzakh, the partition between death and resurrection. [cite: 398]"
+        },
+        {
+          "id": "islam-q2-2",
+          "type": "trueFalse",
+          "question": "Munkar and Nakir are angels who defend the righteous in the grave.",
+          "correctAnswer": "false",
+          "explanation": "Munkar and Nakir are terrible angels who ask three questions to determine immediate fate. [cite: 399, 400]"
+        },
+        {
+          "id": "islam-q2-3",
+          "type": "multipleChoice",
+          "question": "Which of the following is NOT one of the three questions asked by Munkar and Nakir?",
+          "options": [
+            "Who is your Lord?",
+            "What is your prophet?",
+            "What is your religion?",
+            "What was your favorite food?"
+          ],
+          "correctAnswer": "What was your favorite food?",
+          "explanation": "The three questions are: 'Who is your Lord? What is your religion? Who is your prophet?' [cite: 400]"
+        }
+      ]
+    },
+    {
+      "id": "islam-final-hour",
+      "title": "The Final Hour and Gathering",
+      "order": 3,
+      "content": "The Final Hour is preceded by cosmic signs like the sun rising from the west. Israfil sounds the Trumpet, causing all creation to die, then live again. Humanity rises from graves naked and uncircumcised, racing towards the Plain of Gathering. The sun descends to a mile overhead, causing people to drown in sweat according to their sins, while the righteous find shade under Allah's Throne. The waiting can extend for 50,000 years until intercession begins. [cite: 404, 405, 406, 407]",
+      "keyTerms": [
+        "Final Hour",
+        "Israfil",
+        "Trumpet",
+        "Plain of Gathering",
+        "Allah's Throne"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "islam-q3-1",
+          "type": "multipleChoice",
+          "question": "What celestial event precedes the Final Hour in Islam?",
+          "options": [
+            "The moon turning blue",
+            "The sun rising from the west",
+            "A new star appearing",
+            "A comet striking Earth"
+          ],
+          "correctAnswer": "The sun rising from the west",
+          "explanation": "The Final Hour is preceded by cosmic signs including the sun rising from the west. [cite: 404]"
+        },
+        {
+          "id": "islam-q3-2",
+          "type": "trueFalse",
+          "question": "The waiting period on the Plain of Gathering is short for everyone.",
+          "correctAnswer": "false",
+          "explanation": "The waiting on the Plain of Gathering extends\u2014some hadith suggest 50,000 years. [cite: 407]"
+        }
+      ]
+    },
+    {
+      "id": "islam-as-sirat",
+      "title": "As-Sirat and the Crossing",
+      "order": 4,
+      "content": "After the gathering, souls face the terrible crossing of As-Sirat, the bridge over Hell. For the righteous, it broadens, allowing them to cross like lightning. For the wicked, it narrows to a blade's edge, and hooks drag sinners into the abyss. Even believers may fall, though Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers attempt passage. [cite: 408, 409, 410]",
+      "keyTerms": [
+        "As-Sirat",
+        "Bridge over Hell",
+        "Prophet Muhammad",
+        "Ummah"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "islam-q4-1",
+          "type": "multipleChoice",
+          "question": "What happens to the bridge of As-Sirat for the wicked?",
+          "options": [
+            "It broadens",
+            "It disappears",
+            "It narrows to a blade's edge",
+            "It becomes a soft path"
+          ],
+          "correctAnswer": "It narrows to a blade's edge",
+          "explanation": "For the wicked, the bridge of As-Sirat narrows to a blade's edge. [cite: 409]"
+        },
+        {
+          "id": "islam-q4-2",
+          "type": "trueFalse",
+          "question": "Prophet Muhammad cries out for the wicked as they cross As-Sirat.",
+          "correctAnswer": "false",
+          "explanation": "Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers (believers) attempt passage. [cite: 410]"
+        }
+      ]
+    },
+    {
+      "id": "islam-jannah-jahannam",
+      "title": "Jannah and Jahannam",
+      "order": 5,
+      "content": "Jannah, Paradise, unfolds in eight levels, each vaster than the last. It features rivers of milk, honey, wine, and pure water, flowing beneath palaces of gold and silver. Believers receive unimaginable rewards, including seventy-two houris and eternal youth. The greatest reward is the Beatific Vision\u2014gazing upon Allah's face. Jahannam, Hell, descends through seven gates for specific sins. Its flames burn seventy times hotter than earthly fire. The damned wear garments of liquid copper, their skin regenerates for eternal suffering, and they eat from the tree of Zaqqum and drink boiling water. They beg for annihilation but are told, 'You shall neither die nor live.' [cite: 411, 412, 413, 414, 415, 416, 417, 418]",
+      "keyTerms": [
+        "Jannah",
+        "Jahannam",
+        "Beatific Vision",
+        "Houris",
+        "Zaqqum"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "islam-q5-1",
+          "type": "multipleChoice",
+          "question": "What is considered the greatest reward in Jannah?",
+          "options": [
+            "Palaces of gold and silver",
+            "Rivers of milk and honey",
+            "Seventy-two houris",
+            "Gazing upon Allah's face"
+          ],
+          "correctAnswer": "Gazing upon Allah's face",
+          "explanation": "The greatest reward remains the Beatific Vision\u2014gazing upon Allah's face. [cite: 414]"
+        },
+        {
+          "id": "islam-q5-2",
+          "type": "trueFalse",
+          "question": "In Jahannam, the skin of the damned does not regenerate, ensuring a quick end to suffering.",
+          "correctAnswer": "false",
+          "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering. [cite: 416]"
+        },
+        {
+          "id": "islam-q5-3",
+          "type": "multipleChoice",
+          "question": "How many levels does Jannah unfold in?",
+          "options": [
+            "Five",
+            "Seven",
+            "Eight",
+            "Ten"
+          ],
+          "correctAnswer": "Eight",
+          "explanation": "Jannah unfolds in eight levels. [cite: 411]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "islam-mastery",
+    "title": "Islam Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "islam-mt-q1",
+        "type": "multipleChoice",
+        "question": "Who are Munkar and Nakir?",
+        "options": [
+          "Angels who guide souls to Jannah",
+          "Angels who question the deceased in the grave",
+          "Angels who guard the gates of Hell",
+          "Angels who deliver rewards in Paradise"
+        ],
+        "correctAnswer": "Angels who question the deceased in the grave",
+        "explanation": "Munkar and Nakir are terrible angels who arrive in the grave to question the deceased. [cite: 399, 400]"
+      },
+      {
+        "id": "islam-mt-q2",
+        "type": "trueFalse",
+        "question": "The crossing of As-Sirat is easy for everyone.",
+        "correctAnswer": "false",
+        "explanation": "For the wicked, the bridge narrows to a blade's edge, and hooks drag sinners into the abyss. [cite: 409]"
+      },
+      {
+        "id": "islam-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is the name of the Angel of Death in Islamic belief?",
+        "options": [
+          "Israfil",
+          "Jibreel",
+          "Azrael",
+          "Mika'il"
+        ],
+        "correctAnswer": "Azrael",
+        "explanation": "Azrael is the Angel of Death in Islamic tradition. [cite: 394]"
+      },
+      {
+        "id": "islam-mt-q4",
+        "type": "matching",
+        "question": "Match the Islamic concept with its description:",
+        "pairs": [
+          {
+            "left": "Barzakh",
+            "right": "Partition between death and resurrection"
+          },
+          {
+            "left": "As-Sirat",
+            "right": "Bridge over Hell"
+          },
+          {
+            "left": "Jannah",
+            "right": "Paradise"
+          },
+          {
+            "left": "Jahannam",
+            "right": "Hell"
+          }
+        ],
+        "correctAnswer": [
+          "Barzakh",
+          "Partition between death and resurrection",
+          "As-Sirat",
+          "Bridge over Hell",
+          "Jannah",
+          "Paradise",
+          "Jahannam",
+          "Hell"
+        ],
+        "explanation": "These are key concepts in Islamic eschatology. [cite: 398, 408, 411, 415]"
+      }
+    ]
+  }
+}

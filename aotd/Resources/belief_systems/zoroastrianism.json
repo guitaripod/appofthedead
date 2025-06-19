@@ -1,0 +1,244 @@
+{
+  "id": "zoroastrianism",
+  "name": "Zoroastrianism",
+  "description": "Discover Zoroastrianism's vision of death as a battle between Light and Darkness, focusing on the three days post-death, the Chinvat Bridge, and the ultimate universal salvation.",
+  "icon": "faravahar",
+  "color": "#FF4500",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "zoroastrianism-intro",
+      "title": "Zoroastrianism: The Battle's End",
+      "order": 1,
+      "content": "Zoroastrianism presents death as a critical battle in the cosmic war between Light and Darkness, Truth and Lie. For three days after death, the soul remains earthbound near the body. During this time, the righteous soul sits at the head of the body, chanting sacred Gathas and experiencing foretastes of paradise. Conversely, the wicked soul cowers at the feet, wailing verses from the Yasna, tormented by glimpses of coming punishment. [cite: 592, 593, 594, 595]",
+      "keyTerms": [
+        "Chinvat Bridge",
+        "Daena",
+        "Ahura Mazda",
+        "Saoshyant",
+        "Gathas",
+        "Yasna"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "zoroastrianism-q1-1",
+          "type": "multipleChoice",
+          "question": "How long does the soul remain earthbound after death in Zoroastrianism?",
+          "options": [
+            "One day",
+            "Three days",
+            "Seven days",
+            "Twelve months"
+          ],
+          "correctAnswer": "Three days",
+          "explanation": "For three days post-death, the soul remains earthbound near the body. [cite: 593]"
+        },
+        {
+          "id": "zoroastrianism-q1-2",
+          "type": "trueFalse",
+          "question": "The wicked soul experiences foretastes of paradise after death.",
+          "correctAnswer": "false",
+          "explanation": "The wicked soul cowers at the feet, wailing verses from the Yasna, tormented by glimpses of coming punishment. [cite: 595]"
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-chinvat-bridge",
+      "title": "The Chinvat Bridge and Daena",
+      "order": 2,
+      "content": "At the dawn of the fourth day, judgment occurs at the Chinvat Bridge\u2014the 'Separator Bridge' spanning the abyss between earth and the spiritual realms. This bridge transforms based on the soul's nature: for the righteous, it broadens to a comfortable width, while for the wicked, it narrows to a razor's edge. Daena, the soul's own religion/conscience personified, appears. For the righteous, she is a beautiful maiden, fragrant as spring; for the wicked, a hideous, foul-smelling hag. [cite: 596, 597, 598]",
+      "keyTerms": [
+        "Chinvat Bridge",
+        "Separator Bridge",
+        "Daena",
+        "Razor's edge",
+        "Conscience personified"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "zoroastrianism-q2-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Chinvat Bridge' also known as?",
+          "options": [
+            "The Bridge of Forgetting",
+            "The Bridge of Stars",
+            "The Separator Bridge",
+            "The Bridge of Sorrows"
+          ],
+          "correctAnswer": "The Separator Bridge",
+          "explanation": "Dawn of the fourth day brings judgment at Chinvat Bridge\u2014the 'Separator Bridge' spanning the abyss. [cite: 596]"
+        },
+        {
+          "id": "zoroastrianism-q2-2",
+          "type": "trueFalse",
+          "question": "Daena appears as a hideous hag for the righteous soul.",
+          "correctAnswer": "false",
+          "explanation": "For the righteous: A beautiful maiden of fifteen, fragrant as spring winds...For the wicked: A hideous hag, naked and foul-smelling. [cite: 598]"
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-judges-destinations",
+      "title": "Divine Judges and Destinations",
+      "order": 3,
+      "content": "Three judges preside over the Chinvat Bridge: Mithra (contracts), Sraosha (obedience), and Rashnu (justice), who weighs deeds on cosmic scales. Even thoughts carry weight, with good ones being light as feathers and evil ones heavy as mountains. Destinations unfold in gradations. The House of Song (Garo Demana) is Paradise, with four levels culminating in the direct presence of Ahura Mazda. The House of Lies is Hell, with multiple levels of specific torments matching earthly sins. [cite: 599, 600, 601, 602]",
+      "keyTerms": [
+        "Mithra",
+        "Sraosha",
+        "Rashnu",
+        "Cosmic scales",
+        "House of Song (Garo Demana)",
+        "House of Lies"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "zoroastrianism-q3-1",
+          "type": "multipleChoice",
+          "question": "Which judge weighs deeds on cosmic scales?",
+          "options": [
+            "Mithra",
+            "Sraosha",
+            "Rashnu",
+            "Ahura Mazda"
+          ],
+          "correctAnswer": "Rashnu",
+          "explanation": "Three judges preside: Mithra (contracts), Sraosha (obedience), and Rashnu (justice), who weighs deeds on cosmic scales. [cite: 599]"
+        },
+        {
+          "id": "zoroastrianism-q3-2",
+          "type": "trueFalse",
+          "question": "Only physical actions are weighed at judgment; thoughts do not carry weight.",
+          "correctAnswer": "false",
+          "explanation": "Even thoughts carry weight\u2014good ones light as feathers, evil ones heavy as mountains. [cite: 599]"
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-misvan-universal-salvation",
+      "title": "Misvan Gatu and Universal Salvation",
+      "order": 4,
+      "content": "Zoroastrian hell, unlike some other traditions, is not eternal; all souls will be purified at the cosmos' end. Misvan Gatu, the 'Place of Mixed Ones,' is for souls whose deeds balance perfectly, offering a grey existence without joy or sorrow, awaiting final renovation. Zoroastrianism uniquely promises universal salvation. At history's end, a savior (Saoshyant) will raise all dead. Molten metal will flood the earth, feeling like warm milk to the righteous but purifying fire to the wicked. All evil will be destroyed, all souls redeemed, and creation renewed in eternal perfection. [cite: 602, 603, 604, 605, 606]",
+      "keyTerms": [
+        "Misvan Gatu",
+        "Universal salvation",
+        "Saoshyant",
+        "Renovation",
+        "Purifying fire"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "zoroastrianism-q4-1",
+          "type": "multipleChoice",
+          "question": "What is unique about Zoroastrian hell?",
+          "options": [
+            "It is a place of eternal damnation",
+            "It is for animals only",
+            "It is not eternal, all souls will be purified",
+            "It is a place of joyful reunion"
+          ],
+          "correctAnswer": "It is not eternal, all souls will be purified",
+          "explanation": "Zoroastrian hell isn't eternal\u2014at cosmos' end, all souls will be purified. [cite: 602]"
+        },
+        {
+          "id": "zoroastrianism-q4-2",
+          "type": "trueFalse",
+          "question": "Misvan Gatu is a place of intense joy for souls.",
+          "correctAnswer": "false",
+          "explanation": "Misvan Gatu is a place of mixed ones\u2014neither joy nor sorrow, a grey existence. [cite: 603]"
+        },
+        {
+          "id": "zoroastrianism-q4-3",
+          "type": "multipleChoice",
+          "question": "Who is expected to raise all the dead at history's end in Zoroastrianism?",
+          "options": [
+            "Ahura Mazda",
+            "Mithra",
+            "Saoshyant",
+            "Rashnu"
+          ],
+          "correctAnswer": "Saoshyant",
+          "explanation": "At history's end, a savior (Saoshyant) will raise all dead. [cite: 604]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "zoroastrianism-mastery",
+    "title": "Zoroastrianism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "zoroastrianism-mt-q1",
+        "type": "multipleChoice",
+        "question": "Which of the following is NOT one of the judges presiding at the Chinvat Bridge?",
+        "options": [
+          "Mithra",
+          "Sraosha",
+          "Zarathushtra",
+          "Rashnu"
+        ],
+        "correctAnswer": "Zarathushtra",
+        "explanation": "The three judges are Mithra, Sraosha, and Rashnu. Zarathushtra is the prophet. [cite: 599]"
+      },
+      {
+        "id": "zoroastrianism-mt-q2",
+        "type": "trueFalse",
+        "question": "In Zoroastrianism, the soul's own conscience, Daena, appears to judge it.",
+        "correctAnswer": "true",
+        "explanation": "Daena, the soul's own religion/conscience personified, appears. [cite: 598]"
+      },
+      {
+        "id": "zoroastrianism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is the name of the paradise in Zoroastrianism?",
+        "options": [
+          "House of Lies",
+          "Misvan Gatu",
+          "House of Song (Garo Demana)",
+          "Chinvat Bridge"
+        ],
+        "correctAnswer": "House of Song (Garo Demana)",
+        "explanation": "House of Song (Garo Demana): Paradise presents four levels. [cite: 601]"
+      },
+      {
+        "id": "zoroastrianism-mt-q4",
+        "type": "matching",
+        "question": "Match the Zoroastrian concept with its description:",
+        "pairs": [
+          {
+            "left": "Chinvat Bridge",
+            "right": "Separator Bridge spanning the abyss"
+          },
+          {
+            "left": "Daena",
+            "right": "Soul's religion/conscience personified"
+          },
+          {
+            "left": "Saoshyant",
+            "right": "Savior who raises all dead at history's end"
+          },
+          {
+            "left": "Misvan Gatu",
+            "right": "Place of Mixed Ones, awaiting final renovation"
+          }
+        ],
+        "correctAnswer": [
+          "Chinvat Bridge",
+          "Separator Bridge spanning the abyss",
+          "Daena",
+          "Soul's religion/conscience personified",
+          "Saoshyant",
+          "Savior who raises all dead at history's end",
+          "Misvan Gatu",
+          "Place of Mixed Ones, awaiting final renovation"
+        ],
+        "explanation": "These are central concepts in Zoroastrian eschatology. [cite: 596, 598, 603, 604]"
+      }
+    ]
+  }
+}

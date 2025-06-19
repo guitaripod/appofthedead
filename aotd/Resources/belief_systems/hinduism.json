@@ -1,0 +1,294 @@
+{
+  "id": "hinduism",
+  "name": "Hinduism",
+  "description": "Explore the eternal return in Hinduism, understanding the cycle of Samsara, the role of Karma, the journey through different realms, and the ultimate liberation of Moksha.",
+  "icon": "om",
+  "color": "#FF9933",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "hinduism-intro",
+      "title": "Hinduism: The Eternal Return",
+      "order": 1,
+      "content": "Hindu cosmology sees existence as an infinite ocean of consciousness, with individual souls as temporary waves. At death, the soul's journey is shaped by karma accumulated across lifetimes, consciousness at death, and rituals performed by survivors. The Garuda Purana describes a thirteen-day transition during which the soul builds a subtle body from relatives' offerings. [cite: 419, 420, 421]",
+      "keyTerms": [
+        "Samsara",
+        "Karma",
+        "Moksha",
+        "Garuda Purana",
+        "Subtle body"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "hinduism-q1-1",
+          "type": "multipleChoice",
+          "question": "What determines a soul's journey after death in Hinduism?",
+          "options": [
+            "Only karma",
+            "Only rituals",
+            "Karma, consciousness at death, and rituals",
+            "The wealth of the family"
+          ],
+          "correctAnswer": "Karma, consciousness at death, and rituals",
+          "explanation": "At death, the soul's journey depends on multiple factors: karma accumulated across lifetimes, consciousness at the moment of death, and rituals performed by survivors. [cite: 420]"
+        },
+        {
+          "id": "hinduism-q1-2",
+          "type": "trueFalse",
+          "question": "In Hindu cosmology, individual souls are permanent, unchanging entities.",
+          "correctAnswer": "false",
+          "explanation": "Hindu cosmology presents individual souls as waves temporarily arising before merging back into the whole. [cite: 419]"
+        }
+      ]
+    },
+    {
+      "id": "hinduism-yamas-court",
+      "title": "Yama's Court and Judgment",
+      "order": 2,
+      "content": "Yama, the first mortal to discover the path to the afterlife, presides over the dead with his accountant Chitragupta, who keeps perfect cosmic records. The soul travels to Yamaloka, crossing the Vaitarani River; the virtuous cross easily, while the sinful struggle through blood and pus. In Yama's court, the soul witnesses its entire life in the mirror of truth, where every thought and secret desire is revealed. Destinations are then determined based on this cosmic audit. [cite: 422, 423, 424, 425]",
+      "keyTerms": [
+        "Yama",
+        "Chitragupta",
+        "Yamaloka",
+        "Vaitarani River",
+        "Mirror of truth"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "hinduism-q2-1",
+          "type": "multipleChoice",
+          "question": "Who keeps the cosmic records in Yama's court?",
+          "options": [
+            "Yama himself",
+            "Chitragupta",
+            "Indra",
+            "Brahma"
+          ],
+          "correctAnswer": "Chitragupta",
+          "explanation": "Yama presides over the dead with his accountant Chitragupta, who maintains perfect records in the cosmic ledger. [cite: 422]"
+        },
+        {
+          "id": "hinduism-q2-2",
+          "type": "trueFalse",
+          "question": "The Vaitarani River is easy to cross for all souls, regardless of virtue.",
+          "correctAnswer": "false",
+          "explanation": "Souls cross the Vaitarani River easily if virtuous, but struggle through blood and pus if sinful. [cite: 423]"
+        }
+      ]
+    },
+    {
+      "id": "hinduism-svarga-naraka",
+      "title": "Svarga and Naraka",
+      "order": 3,
+      "content": "Svarga offers temporary paradise across multiple levels. Indra's heaven provides sensual pleasures, while higher realms offer increasingly refined experiences, culminating in Brahmaloka, where souls dwell with the Creator. However, even these blessed states end when merit is exhausted. Naraka contains twenty-eight hells, precisely tailored to specific sins, such as Kumbhipaka for those who cooked animals alive. Though intense, these hells are also temporary, lasting only until karmic debts are paid. [cite: 426, 427, 428, 429, 430]",
+      "keyTerms": [
+        "Svarga",
+        "Naraka",
+        "Indra's heaven",
+        "Brahmaloka",
+        "Kumbhipaka",
+        "Temporary hells"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "hinduism-q3-1",
+          "type": "multipleChoice",
+          "question": "Are the paradises of Svarga eternal?",
+          "options": [
+            "Yes, always",
+            "No, they end when merit exhausts",
+            "Only for the most virtuous",
+            "Only in Brahmaloka"
+          ],
+          "correctAnswer": "No, they end when merit exhausts",
+          "explanation": "Even these blessed states (Svarga) end when merit exhausts. [cite: 428]"
+        },
+        {
+          "id": "hinduism-q3-2",
+          "type": "trueFalse",
+          "question": "Hindu hells (Naraka) are eternal places of damnation.",
+          "correctAnswer": "false",
+          "explanation": "Naraka hells are temporary, lasting only until karmic debts are paid. [cite: 430]"
+        }
+      ]
+    },
+    {
+      "id": "hinduism-reincarnation",
+      "title": "Reincarnation and Pretas",
+      "order": 4,
+      "content": "Most souls reincarnate immediately, with consciousness at death determining rebirth. Thinking of God leads to divine realms, while earthly attachments result in similar circumstances. The hierarchy of rebirth includes 8.4 million species; human birth is precious as it's the only form where liberation (Moksha) is possible. Humans can fall to animal or plant incarnations through ignorance or lethargy, or rise to divine status through virtue. Pretas, or hungry ghosts, are a special torment, perpetually famished due to greed or improper rites. [cite: 431, 432, 433, 434, 435, 436, 437]",
+      "keyTerms": [
+        "Reincarnation",
+        "Bhagavad Gita",
+        "Human birth",
+        "Pretas",
+        "Karma"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "hinduism-q4-1",
+          "type": "multipleChoice",
+          "question": "What determines a dying person's rebirth according to the Bhagavad Gita?",
+          "options": [
+            "Their wealth",
+            "Their social status",
+            "The state of being they remember when they quit their body",
+            "Their physical strength"
+          ],
+          "correctAnswer": "The state of being they remember when they quit their body",
+          "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth: 'Whatever state of being one remembers when he quits his body, that state he will attain without fail.' [cite: 431]"
+        },
+        {
+          "id": "hinduism-q4-2",
+          "type": "trueFalse",
+          "question": "Human birth is not considered particularly precious in Hinduism.",
+          "correctAnswer": "false",
+          "explanation": "Human birth is precious\u2014only in human form can one achieve liberation. [cite: 433]"
+        },
+        {
+          "id": "hinduism-q4-3",
+          "type": "multipleChoice",
+          "question": "What causes a soul to become a 'Preta' or hungry ghost?",
+          "options": [
+            "Extreme generosity",
+            "Extreme greed or improper rites",
+            "Performing good deeds",
+            "Achieving liberation"
+          ],
+          "correctAnswer": "Extreme greed or improper rites",
+          "explanation": "Pretas result from extreme greed, false speech, or relatives' failure to perform proper rites. [cite: 437]"
+        }
+      ]
+    },
+    {
+      "id": "hinduism-moksha",
+      "title": "Moksha: Liberation and Paths",
+      "order": 5,
+      "content": "Beyond all cycles of rebirth waits Moksha, liberation itself. This is when the individual soul realizes its true nature as identical with Brahman, the universal consciousness. It's not annihilation but expansion, where the drop discovers it was always the ocean. Various paths lead to Moksha: knowledge (jnana), devotion (bhakti), action (karma), or meditation (raja). Once achieved, the soul escapes rebirth forever, existing in sat-chit-ananda \u2013 being, consciousness, bliss. [cite: 438, 439, 440, 441]",
+      "keyTerms": [
+        "Moksha",
+        "Brahman",
+        "Jnana Yoga",
+        "Bhakti Yoga",
+        "Karma Yoga",
+        "Raja Yoga",
+        "Sat-chit-ananda"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "hinduism-q5-1",
+          "type": "multipleChoice",
+          "question": "What is Moksha in Hinduism?",
+          "options": [
+            "Eternal suffering",
+            "Liberation from rebirth",
+            "Temporary paradise",
+            "Reincarnation into a higher form"
+          ],
+          "correctAnswer": "Liberation from rebirth",
+          "explanation": "Beyond all cycles waits Moksha\u2014liberation itself. [cite: 438]"
+        },
+        {
+          "id": "hinduism-q5-2",
+          "type": "trueFalse",
+          "question": "Moksha is considered the annihilation of the individual soul.",
+          "correctAnswer": "false",
+          "explanation": "Moksha isn't annihilation but expansion\u2014the drop discovering it was always the ocean. [cite: 439]"
+        },
+        {
+          "id": "hinduism-q5-3",
+          "type": "multipleChoice",
+          "question": "Which of the following is NOT a path to Moksha?",
+          "options": [
+            "Knowledge (jnana)",
+            "Devotion (bhakti)",
+            "Selfishness",
+            "Meditation (raja)"
+          ],
+          "correctAnswer": "Selfishness",
+          "explanation": "Various paths lead to Moksha: knowledge (jnana), devotion (bhakti), action (karma), or meditation (raja). [cite: 440]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "hinduism-mastery",
+    "title": "Hinduism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "hinduism-mt-q1",
+        "type": "multipleChoice",
+        "question": "Who presides over the dead with his accountant Chitragupta in Hinduism?",
+        "options": [
+          "Indra",
+          "Brahma",
+          "Yama",
+          "Vishnu"
+        ],
+        "correctAnswer": "Yama",
+        "explanation": "Yama, the first mortal who discovered the path to the afterlife, presides over the dead with his accountant Chitragupta. [cite: 422]"
+      },
+      {
+        "id": "hinduism-mt-q2",
+        "type": "trueFalse",
+        "question": "Hindu hells (Naraka) are eternal and never ending.",
+        "correctAnswer": "false",
+        "explanation": "Hindu hells are temporary, lasting only until karmic debts are paid. [cite: 430]"
+      },
+      {
+        "id": "hinduism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is the primary factor that determines rebirth in Hinduism?",
+        "options": [
+          "Physical beauty",
+          "Social status",
+          "Consciousness at the moment of death",
+          "The amount of wealth accumulated"
+        ],
+        "correctAnswer": "Consciousness at the moment of death",
+        "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth. [cite: 431]"
+      },
+      {
+        "id": "hinduism-mt-q4",
+        "type": "matching",
+        "question": "Match the Hindu concept with its description:",
+        "pairs": [
+          {
+            "left": "Samsara",
+            "right": "Cycle of death and rebirth"
+          },
+          {
+            "left": "Moksha",
+            "right": "Liberation from rebirth"
+          },
+          {
+            "left": "Svarga",
+            "right": "Temporary paradise"
+          },
+          {
+            "left": "Naraka",
+            "right": "Temporary hells"
+          }
+        ],
+        "correctAnswer": [
+          "Samsara",
+          "Cycle of death and rebirth",
+          "Moksha",
+          "Liberation from rebirth",
+          "Svarga",
+          "Temporary paradise",
+          "Naraka",
+          "Temporary hells"
+        ],
+        "explanation": "These are core concepts in Hindu afterlife beliefs. [cite: 420, 426, 429, 438]"
+      }
+    ]
+  }
+}

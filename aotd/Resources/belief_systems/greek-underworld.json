@@ -1,0 +1,315 @@
+{
+  "id": "greek-underworld",
+  "name": "Greek Underworld",
+  "description": "Journey through the shadowy Greek Underworld, ruled by Hades, crossing the Styx, encountering Cerberus, and discovering the various realms from the Asphodel Meadows to Elysium and Tartarus.",
+  "icon": "owl",
+  "color": "#6A0DAD",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "greek-intro",
+      "title": "Greek Underworld: Democracy of Death",
+      "order": 1,
+      "content": "Greek mythology portrayed the afterlife as a shadowy realm where all souls, heroes and commoners alike, became pale shades of their former selves. Death began with Thanatos, the gentle brother of Sleep, severing the soul's silver cord. For warriors, violent death might attract the Keres, dark spirits who fed on blood and dragged souls to Hades. Hermes Psychopompos then guided the deceased to the banks of the River Styx, the boundary between the living and dead worlds. [cite: 500, 501, 502, 503]",
+      "keyTerms": [
+        "Hades",
+        "Thanatos",
+        "Keres",
+        "Hermes Psychopompos",
+        "River Styx"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q1-1",
+          "type": "multipleChoice",
+          "question": "What was the role of Thanatos?",
+          "options": [
+            "To guide souls",
+            "To sever the soul's silver cord",
+            "To torment the dead",
+            "To guard the gates of Hades"
+          ],
+          "correctAnswer": "To sever the soul's silver cord",
+          "explanation": "Death began with Thanatos, gentle brother of Sleep, severing the soul's silver cord. [cite: 501]"
+        },
+        {
+          "id": "greek-q1-2",
+          "type": "trueFalse",
+          "question": "The Greek afterlife was a vibrant and colorful realm.",
+          "correctAnswer": "false",
+          "explanation": "Greek mythology painted the afterlife in shades of grey, a shadowy realm where heroes and cowards alike became pale shades of their former selves. [cite: 500]"
+        }
+      ]
+    },
+    {
+      "id": "greek-rivers-charon",
+      "title": "The Five Rivers and Charon",
+      "order": 2,
+      "content": "Five rivers carved the underworld's geography: Styx (hatred, by which gods swore unbreakable oaths), Acheron (woe, across which Charon ferried souls), Lethe (forgetfulness, erasing mortal memories), Phlegethon (fire, flowing to Tartarus), and Cocytus (lamentation, formed from the tears of the damned). Charon, the grim ferryman, demanded an 'obol'\u2014a coin for passage. Those without payment wandered the shores for a hundred years, which is why Greeks placed coins on the eyes or in the mouths of their dead. [cite: 504, 505, 506, 507]",
+      "keyTerms": [
+        "Styx",
+        "Acheron",
+        "Lethe",
+        "Phlegethon",
+        "Cocytus",
+        "Charon",
+        "Obol"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q2-1",
+          "type": "multipleChoice",
+          "question": "What was the purpose of the River Lethe?",
+          "options": [
+            "To burn souls",
+            "To erase mortal memories",
+            "To ferry souls across",
+            "To provide healing waters"
+          ],
+          "correctAnswer": "To erase mortal memories",
+          "explanation": "Lethe is the River of forgetfulness, erasing mortal memories. [cite: 504]"
+        },
+        {
+          "id": "greek-q2-2",
+          "type": "trueFalse",
+          "question": "Charon accepted any form of payment for passage.",
+          "correctAnswer": "false",
+          "explanation": "Charon demanded his obol\u2014a coin for passage. [cite: 505]"
+        }
+      ]
+    },
+    {
+      "id": "greek-cerberus",
+      "title": "Cerberus and the Gates",
+      "order": 3,
+      "content": "Cerberus, the three-headed hound, guarded the gates of the Underworld, not to keep souls out but to prevent escape. Each head saw past, present, and future, making deception impossible. Only a few heroes, such as Orpheus with his music or Heracles with his strength, ever managed to pass him while living. [cite: 508, 509, 510]",
+      "keyTerms": [
+        "Cerberus",
+        "Three-headed hound",
+        "Orpheus",
+        "Heracles"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q3-1",
+          "type": "multipleChoice",
+          "question": "What was Cerberus's main purpose?",
+          "options": [
+            "To guide souls to Hades",
+            "To prevent souls from escaping the Underworld",
+            "To judge the dead",
+            "To ferry souls across the river"
+          ],
+          "correctAnswer": "To prevent souls from escaping the Underworld",
+          "explanation": "Cerberus, the three-headed hound, guarded the gates\u2014not to keep souls out but to prevent escape. [cite: 508]"
+        },
+        {
+          "id": "greek-q3-2",
+          "type": "trueFalse",
+          "question": "Cerberus was easily deceived by mortals.",
+          "correctAnswer": "false",
+          "explanation": "Each head saw past, present, and future, making deception impossible for Cerberus. [cite: 509]"
+        }
+      ]
+    },
+    {
+      "id": "greek-erebus-asphodel",
+      "title": "Erebus and Asphodel Meadows",
+      "order": 4,
+      "content": "The Underworld was divided into distinct regions. Erebus served as the entry court where souls waited for judgment. Here dwelled those who died prematurely (infants, suicides, unjustly executed), lingering in a twilight state. The Asphodel Meadows stretched endlessly, filled with ghostly flowers, where ordinary souls wandered as weak echoes in grey monotony. When Odysseus visited, these shades desperately drank sacrificial blood to briefly remember life's sensations. [cite: 511, 512, 513, 514, 515, 516]",
+      "keyTerms": [
+        "Erebus",
+        "Asphodel Meadows",
+        "Odysseus",
+        "Shades"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q4-1",
+          "type": "multipleChoice",
+          "question": "Who lingered in Erebus?",
+          "options": [
+            "Only heroes",
+            "Only the wicked",
+            "Those who died before their time",
+            "The gods"
+          ],
+          "correctAnswer": "Those who died before their time",
+          "explanation": "Here dwelt those who died before their time\u2014infants, suicides, those executed unjustly. [cite: 512]"
+        },
+        {
+          "id": "greek-q4-2",
+          "type": "trueFalse",
+          "question": "The Asphodel Meadows were a vibrant paradise.",
+          "correctAnswer": "false",
+          "explanation": "Souls here existed as weak echoes, spending eternity in grey monotony. [cite: 515]"
+        }
+      ]
+    },
+    {
+      "id": "greek-elysium-tartarus",
+      "title": "Elysium and Tartarus",
+      "order": 5,
+      "content": "Elysium (or the Elysian Fields) welcomed heroes and the virtuous, a place of eternal spring with games, feasts, and music. Some versions placed it at earth's western edge, others deep in Hades. The truly blessed might reach the Isles of the Blessed, ruling their own paradise islands. Tartarus plunged deeper than Hades, serving as a prison for Titans and the wickedest souls. Classical torments like Tantalus's hunger, Sisyphus's rock, and Ixion's wheel were eternal, reflecting cosmic irony where crimes matched punishments. [cite: 517, 518, 519, 520, 521, 522]",
+      "keyTerms": [
+        "Elysium",
+        "Isles of the Blessed",
+        "Tartarus",
+        "Tantalus",
+        "Sisyphus",
+        "Ixion"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q5-1",
+          "type": "multipleChoice",
+          "question": "Who was welcomed in Elysium?",
+          "options": [
+            "Only the wicked",
+            "Ordinary souls",
+            "Heroes and the virtuous",
+            "Titans"
+          ],
+          "correctAnswer": "Heroes and the virtuous",
+          "explanation": "Elysium (or the Elysian Fields) welcomed heroes and the virtuous. [cite: 517]"
+        },
+        {
+          "id": "greek-q5-2",
+          "type": "trueFalse",
+          "question": "Tartarus was a place of temporary purification.",
+          "correctAnswer": "false",
+          "explanation": "Tartarus was a prison for Titans and the wickedest souls, with eternal torments. [cite: 520, 521]"
+        },
+        {
+          "id": "greek-q5-3",
+          "type": "multipleChoice",
+          "question": "Which figure was condemned to eternally push a boulder uphill in Tartarus?",
+          "options": [
+            "Tantalus",
+            "Ixion",
+            "Sisyphus",
+            "Orpheus"
+          ],
+          "correctAnswer": "Sisyphus",
+          "explanation": "Sisyphus was condemned to push his boulder eternally. [cite: 521]"
+        }
+      ]
+    },
+    {
+      "id": "greek-return",
+      "title": "Stories of Return",
+      "order": 6,
+      "content": "The Greeks also had stories of mortals returning from the Underworld. Orpheus descended for Eurydice, charming Hades and Persephone with his music. They agreed to release her on one condition: he mustn't look back while ascending. His doubt at the threshold doomed his bride to remain among shadows forever. This tale warned that death's laws, once invoked, could not be fully undone. [cite: 523, 524, 525, 526]",
+      "keyTerms": [
+        "Orpheus",
+        "Eurydice",
+        "Hades",
+        "Persephone",
+        "Underworld laws"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "greek-q6-1",
+          "type": "multipleChoice",
+          "question": "What was the condition for Eurydice's release from the Underworld?",
+          "options": [
+            "Orpheus must never speak again",
+            "Orpheus must not look back while ascending",
+            "Orpheus must sacrifice a god",
+            "Orpheus must defeat Hades in combat"
+          ],
+          "correctAnswer": "Orpheus must not look back while ascending",
+          "explanation": "They agreed to release her on one condition\u2014he mustn't look back while ascending. [cite: 524]"
+        },
+        {
+          "id": "greek-q6-2",
+          "type": "trueFalse",
+          "question": "Orpheus successfully brought Eurydice back from the Underworld.",
+          "correctAnswer": "false",
+          "explanation": "His doubt at the threshold doomed his bride to remain among shadows forever. [cite: 525]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "greek-mastery",
+    "title": "Greek Underworld Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "greek-mt-q1",
+        "type": "multipleChoice",
+        "question": "Which river in the Greek Underworld was associated with forgetfulness?",
+        "options": [
+          "Styx",
+          "Acheron",
+          "Lethe",
+          "Phlegethon"
+        ],
+        "correctAnswer": "Lethe",
+        "explanation": "Lethe is the River of forgetfulness, erasing mortal memories. [cite: 504]"
+      },
+      {
+        "id": "greek-mt-q2",
+        "type": "trueFalse",
+        "question": "Cerberus guarded the gates of the Underworld to prevent souls from entering.",
+        "correctAnswer": "false",
+        "explanation": "Cerberus guarded the gates\u2014not to keep souls out but to prevent escape. [cite: 508]"
+      },
+      {
+        "id": "greek-mt-q3",
+        "type": "multipleChoice",
+        "question": "Where did ordinary souls wander in endless monotony?",
+        "options": [
+          "Elysium",
+          "Tartarus",
+          "The Asphodel Meadows",
+          "The Isles of the Blessed"
+        ],
+        "correctAnswer": "The Asphodel Meadows",
+        "explanation": "The Asphodel Meadows stretched endlessly... where ordinary souls wandered. [cite: 514, 515]"
+      },
+      {
+        "id": "greek-mt-q4",
+        "type": "matching",
+        "question": "Match the Greek Underworld figure/place with its description:",
+        "pairs": [
+          {
+            "left": "Charon",
+            "right": "Ferryman of the dead"
+          },
+          {
+            "left": "Elysium",
+            "right": "Paradise for heroes and virtuous"
+          },
+          {
+            "left": "Tartarus",
+            "right": "Prison for Titans and the wickedest souls"
+          },
+          {
+            "left": "Thanatos",
+            "right": "God of death, brother of Sleep"
+          }
+        ],
+        "correctAnswer": [
+          "Charon",
+          "Ferryman of the dead",
+          "Elysium",
+          "Paradise for heroes and virtuous",
+          "Tartarus",
+          "Prison for Titans and the wickedest souls",
+          "Thanatos",
+          "God of death, brother of Sleep"
+        ],
+        "explanation": "These are key figures and locations in the Greek Underworld. [cite: 501, 505, 517, 520]"
+      }
+    ]
+  }
+}

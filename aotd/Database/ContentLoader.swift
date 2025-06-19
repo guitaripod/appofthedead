@@ -1,73 +1,80 @@
 import Foundation
 
 class ContentLoader {
-    private var cachedData: ContentData?
+    private var cachedBeliefSystems: [BeliefSystem]?
+    private var cachedAchievements: [Achievement]?
     private var cachedDeities: [String: Deity]?
-    
-    struct ContentData: Codable {
-        let beliefSystems: [BeliefSystem]
-        let achievements: [Achievement]
-    }
     
     struct DeityData: Codable {
         let deities: [String: Deity]
     }
     
     func loadBeliefSystems() -> [BeliefSystem] {
-        if let cached = cachedData {
-            return cached.beliefSystems
+        if let cached = cachedBeliefSystems {
+            return cached
         }
         
-        guard let data = loadContentData() else {
-            return []
+        var beliefSystems: [BeliefSystem] = []
+        
+        // Known belief system IDs
+        let beliefSystemIds = [
+            "judaism", "christianity", "islam", "hinduism", "buddhism",
+            "sikhism", "egyptian-afterlife", "greek-underworld", "norse",
+            "aztec-mictlan", "zoroastrianism", "shinto", "taoism",
+            "mandaeism", "wicca", "bahai", "tenrikyo", "aboriginal-dreamtime",
+            "native-american-visions", "anthroposophy", "theosophy", "swedenborgian-visions"
+        ]
+        
+        // Try to load each belief system file
+        let bundle = Bundle(for: type(of: self))
+        
+        for beliefSystemId in beliefSystemIds {
+            if let path = bundle.path(forResource: beliefSystemId, ofType: "json"),
+               let jsonData = NSData(contentsOfFile: path) as Data? {
+                do {
+                    let decoder = JSONDecoder()
+                    let beliefSystem = try decoder.decode(BeliefSystem.self, from: jsonData)
+                    beliefSystems.append(beliefSystem)
+                } catch {
+                    print("Error decoding \(beliefSystemId).json: \(error)")
+                }
+            }
         }
         
-        cachedData = data
-        return data.beliefSystems
+        // Sort by a consistent order (alphabetically by ID)
+        beliefSystems.sort { $0.id < $1.id }
+        
+        cachedBeliefSystems = beliefSystems
+        return beliefSystems
     }
     
     func loadAchievements() -> [Achievement] {
-        if let cached = cachedData {
-            return cached.achievements
+        if let cached = cachedAchievements {
+            return cached
         }
         
-        guard let data = loadContentData() else {
+        let bundle = Bundle(for: type(of: self))
+        
+        guard let path = bundle.path(forResource: "achievements", ofType: "json"),
+              let jsonData = NSData(contentsOfFile: path) as Data? else {
+            print("Error: Could not find achievements.json file in bundle")
             return []
-        }
-        
-        cachedData = data
-        return data.achievements
-    }
-    
-    private func loadContentData() -> ContentData? {
-        // Try main bundle first, then test bundle (for testing)
-        var bundle = Bundle.main
-        var path = bundle.path(forResource: "aotd", ofType: "json")
-        
-        if path == nil {
-            // If not found in main bundle, try the bundle containing this class
-            bundle = Bundle(for: type(of: self))
-            path = bundle.path(forResource: "aotd", ofType: "json")
-        }
-        
-        guard let validPath = path,
-              let jsonData = NSData(contentsOfFile: validPath) as Data? else {
-            print("Error: Could not find aotd.json file in any bundle")
-            return nil
         }
         
         do {
             let decoder = JSONDecoder()
-            let contentData = try decoder.decode(ContentData.self, from: jsonData)
-            return contentData
+            let achievements = try decoder.decode([Achievement].self, from: jsonData)
+            cachedAchievements = achievements
+            return achievements
         } catch {
-            print("Error decoding JSON: \(error)")
-            return nil
+            print("Error decoding achievements JSON: \(error)")
+            return []
         }
     }
     
     func reloadContent() {
-        cachedData = nil
+        cachedBeliefSystems = nil
+        cachedAchievements = nil
         cachedDeities = nil
     }
     

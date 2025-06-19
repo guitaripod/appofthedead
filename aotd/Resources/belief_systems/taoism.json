@@ -1,0 +1,229 @@
+{
+  "id": "taoism",
+  "name": "Taoism",
+  "description": "Uncover the Taoist perspective on death as a natural transformation within the eternal dance of yin and yang, the dispersion of multiple souls, and the pursuit of immortality or return to the Tao.",
+  "icon": "yin_yang",
+  "color": "#000000",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "taoism-intro",
+      "title": "Taoism: The Return to the Source",
+      "order": 1,
+      "content": "Taoism regards death as a natural transformation within the eternal dance of yin and yang. The body is believed to comprise multiple souls that disperse differently at death. The 'hun' souls (three ethereal aspects) rise toward heaven, carrying consciousness and personality. The 'po' souls (seven corporeal aspects) sink earthward, animating the corpse and potentially becoming troublesome if not properly handled. This understanding underpins elaborate funeral rites, aimed at keeping po souls peaceful while assisting hun souls' ascension. [cite: 566, 567, 568, 569]",
+      "keyTerms": [
+        "Yin and Yang",
+        "Hun souls",
+        "Po souls",
+        "Qi",
+        "The Tao"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "taoism-q1-1",
+          "type": "multipleChoice",
+          "question": "How does Taoism view death?",
+          "options": [
+            "As a punishment",
+            "As an end to existence",
+            "As a natural transformation",
+            "As a moral judgment"
+          ],
+          "correctAnswer": "As a natural transformation",
+          "explanation": "Taoism views death as natural transformation within the eternal dance of yin and yang. [cite: 566]"
+        },
+        {
+          "id": "taoism-q1-2",
+          "type": "trueFalse",
+          "question": "The 'hun' souls sink earthward after death.",
+          "correctAnswer": "false",
+          "explanation": "The hun souls (three ethereal aspects) rise toward heaven. [cite: 568]"
+        }
+      ]
+    },
+    {
+      "id": "taoism-realms",
+      "title": "Taoist Afterlife Geography",
+      "order": 2,
+      "content": "Taoist afterlife geography includes multiple destinations. The Celestial Realms consist of thirty-six heavens layered above earth, each ruled by different deities. The highest heavens transcend form, existing as pure 'qi' (energy). Souls ascend based on virtue and cultivation during life. Below these are eighteen levels of Earthly Prisons (not quite hells) where souls undergo purification before rebirth. King Yama, a figure borrowed from Buddhism but given Taoist characteristics, oversees judgment in these prisons. [cite: 570, 571, 572, 573]",
+      "keyTerms": [
+        "Celestial Realms",
+        "Earthly Prisons",
+        "King Yama",
+        "Qi",
+        "Cultivation"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "taoism-q2-1",
+          "type": "multipleChoice",
+          "question": "How many levels of Celestial Heavens are there in Taoism?",
+          "options": [
+            "Twelve",
+            "Eighteen",
+            "Thirty-six",
+            "Seventy-two"
+          ],
+          "correctAnswer": "Thirty-six",
+          "explanation": "The Celestial Realms: Thirty-six heavens layer above earth. [cite: 571]"
+        },
+        {
+          "id": "taoism-q2-2",
+          "type": "trueFalse",
+          "question": "Taoist 'Earthly Prisons' are places of eternal damnation.",
+          "correctAnswer": "false",
+          "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth. [cite: 572]"
+        }
+      ]
+    },
+    {
+      "id": "taoism-immortal-realms",
+      "title": "Immortal Realms and Alchemy",
+      "order": 3,
+      "content": "Achieved immortals transcend normal afterlife cycles, dwelling on specific locations like Penglai, a floating island in the eastern sea; Kunlun, a cosmic mountain in the west; or in hidden grottos within sacred mountains. Some might simply merge back into the Tao itself. Many Taoists pursue immortality through internal alchemy, cultivating the 'golden elixir' within through meditation, breathing exercises, and sexual practices. Historically, external alchemy sought literal immortality potions, ironically leading to many emperors' deaths from mercury poisoning. [cite: 574, 575, 576, 577]",
+      "keyTerms": [
+        "Immortal Realms",
+        "Penglai",
+        "Kunlun",
+        "Internal alchemy",
+        "Golden elixir",
+        "External alchemy"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "taoism-q3-1",
+          "type": "multipleChoice",
+          "question": "What is 'internal alchemy' in Taoism?",
+          "options": [
+            "Converting lead to gold",
+            "Cultivating the 'golden elixir' within",
+            "Brewing immortality potions",
+            "Studying ancient texts"
+          ],
+          "correctAnswer": "Cultivating the 'golden elixir' within",
+          "explanation": "Internal alchemy cultivates the 'golden elixir' within through meditation, breathing exercises, and sexual practices. [cite: 576]"
+        },
+        {
+          "id": "taoism-q3-2",
+          "type": "trueFalse",
+          "question": "External alchemy for immortality was always successful.",
+          "correctAnswer": "false",
+          "explanation": "External alchemy sought literal immortality potions\u2014ironically killing many emperors with mercury poisoning. [cite: 577]"
+        }
+      ]
+    },
+    {
+      "id": "taoism-return-to-tao",
+      "title": "The Highest Ideal: Returning to the Tao",
+      "order": 4,
+      "content": "The highest ideal in Taoism remains returning to the Tao\u2014not personal survival, but the recognition that individual existence was always illusory. Like waves realizing they were always part of the ocean, accomplished Taoists face death knowing they simply return to the source from which they never truly separated. This ultimate state signifies liberation from the cycle of individual existence and a complete merging with the universal flow. [cite: 578, 579]",
+      "keyTerms": [
+        "Return to the Tao",
+        "Illusory existence",
+        "Universal flow",
+        "Liberation"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "taoism-q4-1",
+          "type": "multipleChoice",
+          "question": "What does 'returning to the Tao' signify?",
+          "options": [
+            "Personal survival after death",
+            "Reincarnation into a higher form",
+            "Recognition that individual existence was always illusory and merging with the source",
+            "Achieving a specific heaven"
+          ],
+          "correctAnswer": "Recognition that individual existence was always illusory and merging with the source",
+          "explanation": "The highest ideal remains returning to the Tao\u2014not personal survival but recognition that individual existence was always illusory. [cite: 578]"
+        },
+        {
+          "id": "taoism-q4-2",
+          "type": "trueFalse",
+          "question": "The ultimate goal in Taoism is to achieve personal immortality in a celestial realm.",
+          "correctAnswer": "false",
+          "explanation": "The highest ideal remains returning to the Tao\u2014not personal survival. [cite: 578]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "taoism-mastery",
+    "title": "Taoism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "taoism-mt-q1",
+        "type": "multipleChoice",
+        "question": "Which aspect of the soul is believed to sink earthward after death in Taoism?",
+        "options": [
+          "Hun souls",
+          "Qi",
+          "Po souls",
+          "The Tao"
+        ],
+        "correctAnswer": "Po souls",
+        "explanation": "The po souls (seven corporeal aspects) sink earthward. [cite: 569]"
+      },
+      {
+        "id": "taoism-mt-q2",
+        "type": "trueFalse",
+        "question": "Taoist Earthly Prisons are places of eternal damnation.",
+        "correctAnswer": "false",
+        "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth. [cite: 572]"
+      },
+      {
+        "id": "taoism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is the ultimate ideal for an accomplished Taoist?",
+        "options": [
+          "Achieving external immortality",
+          "Dwelling on Penglai",
+          "Returning to the Tao",
+          "Becoming King Yama"
+        ],
+        "correctAnswer": "Returning to the Tao",
+        "explanation": "The highest ideal remains returning to the Tao. [cite: 578]"
+      },
+      {
+        "id": "taoism-mt-q4",
+        "type": "matching",
+        "question": "Match the Taoist concept with its description:",
+        "pairs": [
+          {
+            "left": "Hun souls",
+            "right": "Ethereal aspects rising to heaven"
+          },
+          {
+            "left": "Po souls",
+            "right": "Corporeal aspects sinking earthward"
+          },
+          {
+            "left": "Penglai",
+            "right": "Floating immortal island"
+          },
+          {
+            "left": "Internal alchemy",
+            "right": "Cultivating 'golden elixir' within"
+          }
+        ],
+        "correctAnswer": [
+          "Hun souls",
+          "Ethereal aspects rising to heaven",
+          "Po souls",
+          "Corporeal aspects sinking earthward",
+          "Penglai",
+          "Floating immortal island",
+          "Internal alchemy",
+          "Cultivating 'golden elixir' within"
+        ],
+        "explanation": "These are key concepts in Taoist afterlife beliefs. [cite: 568, 569, 574, 576]"
+      }
+    ]
+  }
+}

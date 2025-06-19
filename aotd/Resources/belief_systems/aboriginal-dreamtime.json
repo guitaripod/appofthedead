@@ -1,0 +1,192 @@
+{
+  "id": "aboriginal-dreamtime",
+  "name": "Aboriginal Australian Dreamtime",
+  "description": "Explore the Aboriginal Australian understanding of death as a return to the Dreaming, the timeless realm where individual spirits merge with ancestral beings and the land itself, emphasizing the importance of proper ceremonies.",
+  "icon": "boomerang",
+  "color": "#800000",
+  "totalXP": 120,
+  "lessons": [
+    {
+      "id": "aboriginal-intro",
+      "title": "Aboriginal Dreamtime: Return to the Dreaming",
+      "order": 1,
+      "content": "Aboriginal Australian peoples understand death as a return to the Dreaming\u2014the timeless realm where all existence originates and remains. The Dreaming is not a past event, but an eternal 'now.' Creation ancestors continue to walk there, their journeys forming and sustaining the landscape. When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself. [cite: 639, 640, 641, 642]",
+      "keyTerms": [
+        "Dreaming",
+        "Eternal now",
+        "Creation ancestors",
+        "Mokoi",
+        "Jarnpa"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "aboriginal-q1-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Dreaming' in Aboriginal Australian belief?",
+          "options": [
+            "A future paradise",
+            "A past historical period",
+            "A timeless realm where all existence originates and remains",
+            "A form of punishment after death"
+          ],
+          "correctAnswer": "A timeless realm where all existence originates and remains",
+          "explanation": "Aboriginal Australian peoples understand death as returning to the Dreaming\u2014the timeless realm where all existence originates and remains. [cite: 639]"
+        },
+        {
+          "id": "aboriginal-q1-2",
+          "type": "trueFalse",
+          "question": "The Dreaming is considered a historical event that concluded long ago.",
+          "correctAnswer": "false",
+          "explanation": "The Dreaming isn't past, present, or future but eternal now. [cite: 640]"
+        }
+      ]
+    },
+    {
+      "id": "aboriginal-ceremonies-ghosts",
+      "title": "Ceremonies and Spirits",
+      "order": 2,
+      "content": "Proper ceremonies are essential to ensure a safe passage for spirits back to the Dreaming. Without them, spirits might become 'mokoi' or 'jarnpa'\u2014dangerous ghosts capable of bringing illness and misfortune to the living. Funeral rites vary significantly among the hundreds of Aboriginal groups but commonly include smoking ceremonies to guide spirits, avoidance taboos around names and possessions, and eventual resolutions that allow the dead full integration into the Dreaming. [cite: 643, 644]",
+      "keyTerms": [
+        "Mokoi",
+        "Jarnpa",
+        "Smoking ceremonies",
+        "Avoidance taboos",
+        "Funeral rites"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "aboriginal-q2-1",
+          "type": "multipleChoice",
+          "question": "What might spirits become without proper ceremonies?",
+          "options": [
+            "Creation ancestors",
+            "Protective kami",
+            "Mokoi or jarnpa (dangerous ghosts)",
+            "Stars"
+          ],
+          "correctAnswer": "Mokoi or jarnpa (dangerous ghosts)",
+          "explanation": "Without them, spirits become mokoi or jarnpa\u2014dangerous ghosts bringing illness and misfortune. [cite: 643]"
+        },
+        {
+          "id": "aboriginal-q2-2",
+          "type": "trueFalse",
+          "question": "Funeral rites are identical across all Aboriginal Australian groups.",
+          "correctAnswer": "false",
+          "explanation": "Funeral rites vary among hundreds of groups but share common elements. [cite: 644]"
+        }
+      ]
+    },
+    {
+      "id": "aboriginal-integration",
+      "title": "Integration into the Land and Ancestors",
+      "order": 3,
+      "content": "Once fully integrated, some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species. Other spirits join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. This profound connection underscores that death is not an ending but a transformation, where the individual becomes part of the larger, timeless fabric of the Dreaming and the land itself. [cite: 645, 646]",
+      "keyTerms": [
+        "Increase sites",
+        "Totem species",
+        "Archetypal powers",
+        "Transformation"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "aboriginal-q3-1",
+          "type": "multipleChoice",
+          "question": "What are 'increase sites'?",
+          "options": [
+            "Places where spirits are punished",
+            "Sites where spirits' essence strengthens totem species",
+            "Temporary resting places for spirits",
+            "Areas where rituals are forbidden"
+          ],
+          "correctAnswer": "Sites where spirits' essence strengthens totem species",
+          "explanation": "Some spirits enter specific landscape features\u2014rocks, trees, waterholes\u2014becoming increase sites where their essence strengthens their totem species. [cite: 645]"
+        },
+        {
+          "id": "aboriginal-q3-2",
+          "type": "trueFalse",
+          "question": "Individual identity is always maintained separately from ancestral beings in the Dreaming.",
+          "correctAnswer": "false",
+          "explanation": "Others join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. [cite: 646]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "aboriginal-mastery",
+    "title": "Aboriginal Australian Dreamtime Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "aboriginal-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is the 'Dreaming' often referred to as?",
+        "options": [
+          "A historical period",
+          "A future utopia",
+          "An eternal 'now'",
+          "A mythical dream sequence"
+        ],
+        "correctAnswer": "An eternal 'now'",
+        "explanation": "The Dreaming isn't past, present, or future but eternal now. [cite: 640]"
+      },
+      {
+        "id": "aboriginal-mt-q2",
+        "type": "trueFalse",
+        "question": "Proper ceremonies are unimportant for a spirit's safe passage to the Dreaming.",
+        "correctAnswer": "false",
+        "explanation": "Proper ceremonies ensure safe passage. Without them, spirits become mokoi or jarnpa\u2014dangerous ghosts. [cite: 643]"
+      },
+      {
+        "id": "aboriginal-mt-q3",
+        "type": "multipleChoice",
+        "question": "What happens to the spirits of individuals who die in Aboriginal belief?",
+        "options": [
+          "They are reincarnated as humans",
+          "They are judged for their actions",
+          "They return to the Dreaming and merge with ancestral beings and land",
+          "They are annihilated"
+        ],
+        "correctAnswer": "They return to the Dreaming and merge with ancestral beings and land",
+        "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and land itself. [cite: 642]"
+      },
+      {
+        "id": "aboriginal-mt-q4",
+        "type": "matching",
+        "question": "Match the Aboriginal concept with its description:",
+        "pairs": [
+          {
+            "left": "Dreaming",
+            "right": "Timeless realm of existence"
+          },
+          {
+            "left": "Mokoi/Jarnpa",
+            "right": "Dangerous ghosts"
+          },
+          {
+            "left": "Increase sites",
+            "right": "Landscape features where spirits strengthen totem species"
+          },
+          {
+            "left": "Smoking ceremonies",
+            "right": "Rituals to guide spirits"
+          }
+        ],
+        "correctAnswer": [
+          "Dreaming",
+          "Timeless realm of existence",
+          "Mokoi/Jarnpa",
+          "Dangerous ghosts",
+          "Increase sites",
+          "Landscape features where spirits strengthen totem species",
+          "Smoking ceremonies",
+          "Rituals to guide spirits"
+        ],
+        "explanation": "These are key elements of Aboriginal Australian beliefs. [cite: 639, 643, 644, 645]"
+      }
+    ]
+  }
+}

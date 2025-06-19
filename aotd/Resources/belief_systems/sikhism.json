@@ -1,0 +1,227 @@
+{
+  "id": "sikhism",
+  "name": "Sikhism",
+  "description": "Explore Sikhism's unique path through Indic cosmology, emphasizing divine grace, the role of Nam Simran, the Dharam Raj, and the ultimate destination of Sachkhand.",
+  "icon": "khanda",
+  "color": "#DDA0DD",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "sikhism-intro",
+      "title": "Sikhism: The Sovereign Path",
+      "order": 1,
+      "content": "Sikhism offers a distinct path through Indic cosmology, placing strong emphasis on divine grace over mechanical karma. The soul journeys through 8.4 million life forms before achieving human birth, which is the only form capable of 'nam simran' (remembrance of God). Death is understood as divine will ('hukam'), a natural transition rather than inherently good or evil. Guru Nanak stated, 'The dawn of a new day is the herald of a sunset. Earth is not your permanent home.' [cite: 467, 468, 469, 470]",
+      "keyTerms": [
+        "Nam Simran",
+        "Hukam",
+        "Dharam Raj",
+        "Sachkhand",
+        "Guru Nanak"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "sikhism-q1-1",
+          "type": "multipleChoice",
+          "question": "What is 'nam simran' in Sikhism?",
+          "options": [
+            "A type of meditation",
+            "A form of punishment",
+            "Remembrance of God",
+            "A ritual offering"
+          ],
+          "correctAnswer": "Remembrance of God",
+          "explanation": "Nam Simran is the remembrance of God. [cite: 468]"
+        },
+        {
+          "id": "sikhism-q1-2",
+          "type": "trueFalse",
+          "question": "Sikhism emphasizes mechanical karma over divine grace.",
+          "correctAnswer": "false",
+          "explanation": "Sikhism carves its own route through Indic cosmology, emphasizing divine grace over mechanical karma. [cite: 467]"
+        }
+      ]
+    },
+    {
+      "id": "sikhism-dharam-raj",
+      "title": "The Dharam Raj and Guru's Advocacy",
+      "order": 2,
+      "content": "At death, the soul faces the Dharam Raj (divine justice) in Yama's court, a concept borrowed from Hindu-Buddhist cosmology. However, Guru's Sikhs need not fear this judgment. Those who meditated on the True Name find Guru Nanak himself arguing their case, and his advocacy is believed to outweigh lifetimes of karma. This highlights the importance of devotion and divine grace in Sikh belief. [cite: 471, 472]",
+      "keyTerms": [
+        "Dharam Raj",
+        "Yama's court",
+        "Guru Nanak",
+        "Divine grace",
+        "True Name"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "sikhism-q2-1",
+          "type": "multipleChoice",
+          "question": "Who argues the case for Guru's Sikhs in Yama's court?",
+          "options": [
+            "Yama himself",
+            "Chitragupta",
+            "Guru Nanak",
+            "Any holy person"
+          ],
+          "correctAnswer": "Guru Nanak",
+          "explanation": "Those who meditated on the True Name find Guru Nanak himself arguing their case. [cite: 472]"
+        },
+        {
+          "id": "sikhism-q2-2",
+          "type": "trueFalse",
+          "question": "In Sikhism, meditation on the True Name has no bearing on judgment in the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Those who meditated on the True Name find Guru Nanak himself arguing their case, his advocacy outweighing lifetimes of karma. [cite: 472]"
+        }
+      ]
+    },
+    {
+      "id": "sikhism-sachkhand",
+      "title": "Sachkhand and Temporary States",
+      "order": 3,
+      "content": "The destinations in Sikhism mirror Hindu-Buddhist cosmology but with crucial differences. Sachkhand (Realm of Truth) replaces Moksha, representing not dissolution but eternal existence in God's presence while maintaining individual identity. Hell and heaven are viewed as temporary states created by one's own actions and consciousness, not permanent destinations of torment or bliss. [cite: 473, 474]",
+      "keyTerms": [
+        "Sachkhand",
+        "Moksha",
+        "Eternal existence",
+        "Temporary hell/heaven"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "sikhism-q3-1",
+          "type": "multipleChoice",
+          "question": "What is Sachkhand in Sikhism?",
+          "options": [
+            "A realm of dissolution",
+            "Eternal existence in God's presence while maintaining identity",
+            "A temporary hell",
+            "A place for reincarnation"
+          ],
+          "correctAnswer": "Eternal existence in God's presence while maintaining identity",
+          "explanation": "Sachkhand (Realm of Truth) replaces moksha\u2014not dissolution but eternal existence in God's presence while maintaining identity. [cite: 473]"
+        },
+        {
+          "id": "sikhism-q3-2",
+          "type": "trueFalse",
+          "question": "In Sikhism, hell is an eternal punishment.",
+          "correctAnswer": "false",
+          "explanation": "Hell and heaven are temporary states created by one's own actions and consciousness. [cite: 474]"
+        }
+      ]
+    },
+    {
+      "id": "sikhism-rituals",
+      "title": "Sikh Death Rituals",
+      "order": 4,
+      "content": "Sikhs practice unique death rituals. The dying person sips 'amrit' (consecrated water) while prayers resound. No wailing typically accompanies death; instead, 'kirtan' (devotional singing) celebrates the soul's journey home. Cremation is common, returning elements to elements, while the soul, a divine spark, continues its journey through divine will. [cite: 475, 476, 477]",
+      "keyTerms": [
+        "Amrit",
+        "Kirtan",
+        "Cremation",
+        "Divine spark"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "sikhism-q4-1",
+          "type": "multipleChoice",
+          "question": "What is 'amrit' in Sikh death rituals?",
+          "options": [
+            "A type of food",
+            "A sacred chant",
+            "Consecrated water",
+            "A funeral garment"
+          ],
+          "correctAnswer": "Consecrated water",
+          "explanation": "The dying person sips amrit (consecrated water) while prayers resound. [cite: 475]"
+        },
+        {
+          "id": "sikhism-q4-2",
+          "type": "trueFalse",
+          "question": "Wailing is a common practice during Sikh funerals.",
+          "correctAnswer": "false",
+          "explanation": "No wailing accompanies death\u2014only kirtan (devotional singing) celebrating the soul's journey home. [cite: 476]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "sikhism-mastery",
+    "title": "Sikhism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "sikhism-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is the human birth considered capable of in Sikhism?",
+        "options": [
+          "Achieving moksha",
+          "Performing elaborate rituals",
+          "Nam simran (remembrance of God)",
+          "Amassing great wealth"
+        ],
+        "correctAnswer": "Nam simran (remembrance of God)",
+        "explanation": "The soul journeys through 8.4 million life forms before achieving human birth\u2014the only form capable of nam simran (remembrance of God). [cite: 468]"
+      },
+      {
+        "id": "sikhism-mt-q2",
+        "type": "trueFalse",
+        "question": "Sikhism views death as an evil event.",
+        "correctAnswer": "false",
+        "explanation": "Death arrives as divine will (hukam), neither good nor evil but simply transition. [cite: 469]"
+      },
+      {
+        "id": "sikhism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What does Sachkhand represent in Sikhism?",
+        "options": [
+          "Dissolution of the soul",
+          "Eternal existence in God's presence while maintaining identity",
+          "A temporary hell for purification",
+          "A realm of reincarnation"
+        ],
+        "correctAnswer": "Eternal existence in God's presence while maintaining identity",
+        "explanation": "Sachkhand (Realm of Truth) replaces moksha\u2014not dissolution but eternal existence in God's presence while maintaining identity. [cite: 473]"
+      },
+      {
+        "id": "sikhism-mt-q4",
+        "type": "matching",
+        "question": "Match the Sikh concept with its description:",
+        "pairs": [
+          {
+            "left": "Hukam",
+            "right": "Divine will"
+          },
+          {
+            "left": "Dharam Raj",
+            "right": "Divine justice"
+          },
+          {
+            "left": "Kirtan",
+            "right": "Devotional singing"
+          },
+          {
+            "left": "Amrit",
+            "right": "Consecrated water"
+          }
+        ],
+        "correctAnswer": [
+          "Hukam",
+          "Divine will",
+          "Dharam Raj",
+          "Divine justice",
+          "Kirtan",
+          "Devotional singing",
+          "Amrit",
+          "Consecrated water"
+        ],
+        "explanation": "These are key terms in Sikh beliefs and practices. [cite: 469, 471, 476, 475]"
+      }
+    ]
+  }
+}

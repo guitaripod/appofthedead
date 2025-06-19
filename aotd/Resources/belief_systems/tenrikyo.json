@@ -1,0 +1,192 @@
+{
+  "id": "tenrikyo",
+  "name": "Tenrikyo",
+  "description": "Explore Tenrikyo's unique perspective on death as returning a borrowed body to God the Parent, leading to rebirth for another attempt at the 'Joyous Life', and the focus on collective spiritual evolution.",
+  "icon": "sacred_fan",
+  "color": "#DC143C",
+  "totalXP": 120,
+  "lessons": [
+    {
+      "id": "tenrikyo-intro",
+      "title": "Tenrikyo: The Joyous Return",
+      "order": 1,
+      "content": "Tenrikyo presents death as the act of returning a 'borrowed body' to God the Parent, who loans human forms for precisely 115 years. Early death is attributed to the accumulation of 'dust' in the mind\u2014negative thoughts and attitudes that corrupt this divine gift. This perspective reframes death not as an end, but as a temporary return and preparation for a new beginning. [cite: 631, 632]",
+      "keyTerms": [
+        "God the Parent",
+        "Borrowed body",
+        "Dust in the mind",
+        "Joyous Life",
+        "Collective spiritual evolution"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "tenrikyo-q1-1",
+          "type": "multipleChoice",
+          "question": "How does Tenrikyo view death?",
+          "options": [
+            "As a final judgment",
+            "As returning a borrowed body to God the Parent",
+            "As eternal sleep",
+            "As a random event"
+          ],
+          "correctAnswer": "As returning a borrowed body to God the Parent",
+          "explanation": "Tenrikyo presents death as returning a borrowed body to God the Parent. [cite: 631]"
+        },
+        {
+          "id": "tenrikyo-q1-2",
+          "type": "trueFalse",
+          "question": "Early death in Tenrikyo is a random occurrence with no specific cause.",
+          "correctAnswer": "false",
+          "explanation": "Early death results from 'dust' accumulating in the mind\u2014negative thoughts and attitudes that corrupt the divine gift. [cite: 632]"
+        }
+      ]
+    },
+    {
+      "id": "tenrikyo-rebirth-karma",
+      "title": "Passing Away for Rebirth and Karma",
+      "order": 2,
+      "content": "In Tenrikyo, death means 'passing away for rebirth'\u2014the soul returns to God's embrace, awaiting a new body. This is not an escape, but a preparation for another attempt at living the 'Joyous Life,' where humanity lives in harmony as God intended. While karma operates, it is tempered by God's parental love and compassion. Suffering is seen as guidance toward spiritual maturity, rather than a punitive punishment. Even tragic deaths are believed to contain lessons for spiritual growth. [cite: 633, 634, 635, 636]",
+      "keyTerms": [
+        "Passing away for rebirth",
+        "Joyous Life",
+        "God's parental love",
+        "Karma tempered",
+        "Spiritual maturity"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "tenrikyo-q2-1",
+          "type": "multipleChoice",
+          "question": "What is the purpose of 'passing away for rebirth' in Tenrikyo?",
+          "options": [
+            "To escape suffering",
+            "To receive eternal rest",
+            "To prepare for another attempt at the 'Joyous Life'",
+            "To be judged for past sins"
+          ],
+          "correctAnswer": "To prepare for another attempt at the 'Joyous Life'",
+          "explanation": "Death means 'passing away for rebirth'\u2014the soul returns to God's embrace, waiting for a new body. This isn't escape but preparation for another attempt at the 'Joyous Life'. [cite: 633, 634]"
+        },
+        {
+          "id": "tenrikyo-q2-2",
+          "type": "trueFalse",
+          "question": "In Tenrikyo, suffering is seen as solely a punishment for bad deeds.",
+          "correctAnswer": "false",
+          "explanation": "Suffering serves as guidance toward spiritual maturity, not punishment. [cite: 635]"
+        }
+      ]
+    },
+    {
+      "id": "tenrikyo-collective-salvation",
+      "title": "Collective Spiritual Evolution",
+      "order": 3,
+      "content": "The ultimate goal in Tenrikyo transcends individual afterlife concerns. The faith aims to transform this world into the divine kingdom through collective spiritual evolution. Personal salvation is considered secondary, or even meaningless, without universal salvation; all humanity must achieve the Joyous Life together. This emphasizes a shared destiny and a communal effort towards a perfected world. [cite: 637, 638]",
+      "keyTerms": [
+        "Divine kingdom",
+        "Collective spiritual evolution",
+        "Universal salvation",
+        "Shared destiny"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "tenrikyo-q3-1",
+          "type": "multipleChoice",
+          "question": "What is the ultimate goal in Tenrikyo?",
+          "options": [
+            "Individual enlightenment",
+            "Personal salvation",
+            "Transforming this world into the divine kingdom through collective spiritual evolution",
+            "Achieving a private heaven"
+          ],
+          "correctAnswer": "Transforming this world into the divine kingdom through collective spiritual evolution",
+          "explanation": "The ultimate goal transcends individual afterlife concerns... Tenrikyo seeks to transform this world into the divine kingdom through collective spiritual evolution. [cite: 637]"
+        },
+        {
+          "id": "tenrikyo-q3-2",
+          "type": "trueFalse",
+          "question": "In Tenrikyo, personal salvation is prioritized over universal salvation.",
+          "correctAnswer": "false",
+          "explanation": "Personal salvation means little without universal salvation\u2014all humanity must achieve the Joyous Life together. [cite: 638]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "tenrikyo-mastery",
+    "title": "Tenrikyo Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "tenrikyo-mt-q1",
+        "type": "multipleChoice",
+        "question": "How long does God the Parent loan human forms for, according to Tenrikyo?",
+        "options": [
+          "70 years",
+          "90 years",
+          "100 years",
+          "115 years"
+        ],
+        "correctAnswer": "115 years",
+        "explanation": "God the Parent, who loans human forms for exactly 115 years. [cite: 631]"
+      },
+      {
+        "id": "tenrikyo-mt-q2",
+        "type": "trueFalse",
+        "question": "In Tenrikyo, karma operates mechanically without any tempering by divine love.",
+        "correctAnswer": "false",
+        "explanation": "Karma operates, but God's parental love tempers justice with compassion. [cite: 635]"
+      },
+      {
+        "id": "tenrikyo-mt-q3",
+        "type": "multipleChoice",
+        "question": "What causes 'early death' in Tenrikyo?",
+        "options": [
+          "Bad luck",
+          "Accumulation of 'dust' in the mind",
+          "Random chance",
+          "Predestination"
+        ],
+        "correctAnswer": "Accumulation of 'dust' in the mind",
+        "explanation": "Early death results from 'dust' accumulating in the mind\u2014negative thoughts and attitudes that corrupt the divine gift. [cite: 632]"
+      },
+      {
+        "id": "tenrikyo-mt-q4",
+        "type": "matching",
+        "question": "Match the Tenrikyo concept with its description:",
+        "pairs": [
+          {
+            "left": "Borrowed body",
+            "right": "Human form loaned by God the Parent"
+          },
+          {
+            "left": "Dust in the mind",
+            "right": "Negative thoughts causing early death"
+          },
+          {
+            "left": "Joyous Life",
+            "right": "Humanity living in harmony as God intended"
+          },
+          {
+            "left": "Passing away for rebirth",
+            "right": "Soul returning to God's embrace for a new body"
+          }
+        ],
+        "correctAnswer": [
+          "Borrowed body",
+          "Human form loaned by God the Parent",
+          "Dust in the mind",
+          "Negative thoughts causing early death",
+          "Joyous Life",
+          "Humanity living in harmony as God intended",
+          "Passing away for rebirth",
+          "Soul returning to God's embrace for a new body"
+        ],
+        "explanation": "These are key terms in Tenrikyo's understanding of life and death. [cite: 631, 632, 633, 634]"
+      }
+    ]
+  }
+}

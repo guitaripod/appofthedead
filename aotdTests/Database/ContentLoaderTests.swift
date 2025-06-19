@@ -12,6 +12,34 @@ final class ContentLoaderTests: XCTestCase {
         contentLoader = nil
     }
     
+    // MARK: - File Structure Tests
+    
+    func testBeliefSystemFilesExist() throws {
+        // Test that we have the expected number of belief system files
+        let expectedBeliefSystems = [
+            "judaism", "christianity", "islam", "hinduism", "buddhism",
+            "sikhism", "egyptian-afterlife", "greek-underworld", "norse",
+            "aztec-mictlan", "zoroastrianism", "shinto", "taoism",
+            "mandaeism", "wicca", "bahai", "tenrikyo", "aboriginal-dreamtime",
+            "native-american-visions", "anthroposophy", "theosophy", "swedenborgian-visions"
+        ]
+        
+        let beliefSystems = contentLoader.loadBeliefSystems()
+        let loadedIds = beliefSystems.map { $0.id }
+        
+        XCTAssertEqual(beliefSystems.count, 22, "Should load exactly 22 belief systems")
+        
+        // Check that all expected belief systems are present
+        for expectedId in expectedBeliefSystems {
+            XCTAssertTrue(loadedIds.contains(expectedId), "Missing belief system: \(expectedId)")
+        }
+    }
+    
+    func testAchievementsFileExists() throws {
+        let achievements = contentLoader.loadAchievements()
+        XCTAssertGreaterThan(achievements.count, 0, "Should load at least one achievement")
+    }
+    
     func testLoadBeliefSystems() throws {
         let beliefSystems = contentLoader.loadBeliefSystems()
         
@@ -184,6 +212,53 @@ final class ContentLoaderTests: XCTestCase {
         contentLoader.reloadContent()
         let beliefSystems3 = contentLoader.loadBeliefSystems()
         XCTAssertEqual(beliefSystems1.count, beliefSystems3.count)
+    }
+    
+    // MARK: - Split Files Tests
+    
+    func testEachBeliefSystemFileIsValid() throws {
+        let beliefSystems = contentLoader.loadBeliefSystems()
+        
+        for beliefSystem in beliefSystems {
+            // Verify essential properties
+            XCTAssertFalse(beliefSystem.id.isEmpty, "Belief system \(beliefSystem.id) has empty ID")
+            XCTAssertFalse(beliefSystem.name.isEmpty, "Belief system \(beliefSystem.id) has empty name")
+            XCTAssertFalse(beliefSystem.description.isEmpty, "Belief system \(beliefSystem.id) has empty description")
+            XCTAssertFalse(beliefSystem.icon.isEmpty, "Belief system \(beliefSystem.id) has empty icon")
+            XCTAssertFalse(beliefSystem.color.isEmpty, "Belief system \(beliefSystem.id) has empty color")
+            XCTAssertGreaterThan(beliefSystem.totalXP, 0, "Belief system \(beliefSystem.id) has zero or negative XP")
+            XCTAssertGreaterThan(beliefSystem.lessons.count, 0, "Belief system \(beliefSystem.id) has no lessons")
+            XCTAssertNotNil(beliefSystem.masteryTest, "Belief system \(beliefSystem.id) has no mastery test")
+        }
+    }
+    
+    func testBeliefSystemsAreSortedConsistently() throws {
+        // Load multiple times to ensure consistent ordering
+        let firstLoad = contentLoader.loadBeliefSystems().map { $0.id }
+        
+        contentLoader.reloadContent()
+        let secondLoad = contentLoader.loadBeliefSystems().map { $0.id }
+        
+        XCTAssertEqual(firstLoad, secondLoad, "Belief systems should load in consistent order")
+    }
+    
+    func testSplitFilesContentIntegrity() throws {
+        let beliefSystems = contentLoader.loadBeliefSystems()
+        
+        // Ensure we're loading the same content as before
+        let judaism = beliefSystems.first { $0.id == "judaism" }
+        XCTAssertNotNil(judaism)
+        XCTAssertEqual(judaism?.name, "Judaism")
+        XCTAssertEqual(judaism?.totalXP, 160)
+        
+        // Check a few other belief systems
+        let christianity = beliefSystems.first { $0.id == "christianity" }
+        XCTAssertNotNil(christianity)
+        XCTAssertEqual(christianity?.name, "Christianity")
+        
+        let buddhism = beliefSystems.first { $0.id == "buddhism" }
+        XCTAssertNotNil(buddhism)
+        XCTAssertEqual(buddhism?.name, "Buddhism")
     }
     
     func testLessonOrder() throws {

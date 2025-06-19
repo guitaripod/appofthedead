@@ -1,0 +1,192 @@
+{
+  "id": "wicca",
+  "name": "Wicca",
+  "description": "Explore the gentler vision of death in contemporary Paganism, where death is seen as another turn of the Wheel of the Year, leading to the Summerland for rest, reflection, and preparation for new incarnations.",
+  "icon": "triple_goddess",
+  "color": "#800080",
+  "totalXP": 120,
+  "lessons": [
+    {
+      "id": "wicca-intro",
+      "title": "Wicca: The Summerland",
+      "order": 1,
+      "content": "Contemporary Paganism, including Wicca, offers gentler visions of death, emphasizing natural cycles over judgment. Wiccans see death as simply another turn of the Wheel of the Year. The soul journeys to the Summerland\u2014not a literal place, but a state of being between incarnations. Here, in eternal summer twilight, souls find rest and reflect without judgment or punishment. [cite: 607, 608, 609, 610]",
+      "keyTerms": [
+        "Summerland",
+        "Wheel of the Year",
+        "Reincarnation",
+        "Reflection"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "wicca-q1-1",
+          "type": "multipleChoice",
+          "question": "How do Wiccans view death?",
+          "options": [
+            "As a punishment",
+            "As eternal damnation",
+            "As another turn of the Wheel of the Year",
+            "As a final end to existence"
+          ],
+          "correctAnswer": "As another turn of the Wheel of the Year",
+          "explanation": "Wiccans see death as simply another turn of the Wheel of the Year. [cite: 608]"
+        },
+        {
+          "id": "wicca-q1-2",
+          "type": "trueFalse",
+          "question": "The Summerland is a place of eternal judgment.",
+          "correctAnswer": "false",
+          "explanation": "In the Summerland, souls rest and reflect without judgment or punishment. [cite: 610]"
+        }
+      ]
+    },
+    {
+      "id": "wicca-summerland-experience",
+      "title": "The Summerland Experience",
+      "order": 2,
+      "content": "The Summerland is depicted as idealized nature\u2014ancient forests, meadow streams, and standing stones marking sacred sites. It is a place where beloved animals, friends, and family from across lifetimes await. This realm is a place of healing where traumatic memories fade and wisdom crystallizes. Time flows differently here; a day might equal a century on earth, or vice versa. Souls review their past life like a movie, gaining understanding of consequences, relationships, and lessons learned, all as preparation for the next incarnation. [cite: 611, 612, 613, 614, 615, 616]",
+      "keyTerms": [
+        "Idealized nature",
+        "Healing",
+        "Time flow",
+        "Life review",
+        "Karma"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "wicca-q2-1",
+          "type": "multipleChoice",
+          "question": "What happens to traumatic memories in the Summerland?",
+          "options": [
+            "They are intensified",
+            "They are eternally relived",
+            "They fade and wisdom crystallizes",
+            "They are forgotten entirely"
+          ],
+          "correctAnswer": "They fade and wisdom crystallizes",
+          "explanation": "It's a place of healing where traumatic memories fade and wisdom crystallizes. [cite: 613]"
+        },
+        {
+          "id": "wicca-q2-2",
+          "type": "trueFalse",
+          "question": "Time in the Summerland flows at the same rate as on Earth.",
+          "correctAnswer": "false",
+          "explanation": "Time flows differently\u2014a day might equal a century on earth, or vice versa. [cite: 614]"
+        }
+      ]
+    },
+    {
+      "id": "wicca-next-life-samhain",
+      "title": "Choosing the Next Life and Samhain",
+      "order": 3,
+      "content": "When ready, souls choose their next life. Some traditions describe a ceremony where souls select their challenges, relationships, and lessons for the upcoming incarnation. Advanced souls might even volunteer for difficult lives to rapidly burn off karma or assist others in their evolution. Between lives, souls can serve as guides, inspiring artists or watching over loved ones. The veil between worlds thins at Samhain, allowing for easier communication. This connection is seen not as fearful haunting but as a loving bond across death's boundary. [cite: 616, 617, 618, 619, 620]",
+      "keyTerms": [
+        "Next incarnation",
+        "Life choice",
+        "Karma burning",
+        "Spirit guides",
+        "Samhain"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "wicca-q3-1",
+          "type": "multipleChoice",
+          "question": "What happens to souls in the Summerland when they are ready for their next incarnation?",
+          "options": [
+            "They are assigned a new life randomly",
+            "They choose their next life and its challenges",
+            "They are forced into a difficult life",
+            "They are forgotten by the living"
+          ],
+          "correctAnswer": "They choose their next life and its challenges",
+          "explanation": "When ready, souls choose their next life. Some traditions describe a ceremony where souls select their challenges, relationships, and lessons. [cite: 616, 617]"
+        },
+        {
+          "id": "wicca-q3-2",
+          "type": "trueFalse",
+          "question": "The veil between worlds is always thick, preventing communication between the living and the dead.",
+          "correctAnswer": "false",
+          "explanation": "The veil between worlds thins at Samhain, allowing easier communication. [cite: 620]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "wicca-mastery",
+    "title": "Wicca Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "wicca-mt-q1",
+        "type": "multipleChoice",
+        "question": "What is the Summerland in Wiccan belief?",
+        "options": [
+          "A place of eternal punishment",
+          "A physical location of paradise",
+          "A state of being between incarnations",
+          "A realm of darkness"
+        ],
+        "correctAnswer": "A state of being between incarnations",
+        "explanation": "The soul journeys to the Summerland\u2014not a place but a state of being between incarnations. [cite: 609]"
+      },
+      {
+        "id": "wicca-mt-q2",
+        "type": "trueFalse",
+        "question": "Wicca emphasizes judgment and punishment in the afterlife.",
+        "correctAnswer": "false",
+        "explanation": "Wiccans see death as simply another turn of the Wheel of the Year... without judgment or punishment. [cite: 608, 610]"
+      },
+      {
+        "id": "wicca-mt-q3",
+        "type": "multipleChoice",
+        "question": "When does the veil between worlds thin, allowing easier communication?",
+        "options": [
+          "At Yule",
+          "At Beltane",
+          "At Samhain",
+          "At Litha"
+        ],
+        "correctAnswer": "At Samhain",
+        "explanation": "The veil between worlds thins at Samhain, allowing easier communication. [cite: 620]"
+      },
+      {
+        "id": "wicca-mt-q4",
+        "type": "matching",
+        "question": "Match the Wiccan concept with its description:",
+        "pairs": [
+          {
+            "left": "Summerland",
+            "right": "Rest and reflection between incarnations"
+          },
+          {
+            "left": "Wheel of the Year",
+            "right": "Natural cycles of life, death, and rebirth"
+          },
+          {
+            "left": "Life review",
+            "right": "Understanding past actions and consequences"
+          },
+          {
+            "left": "Samhain",
+            "right": "Time when veil between worlds thins"
+          }
+        ],
+        "correctAnswer": [
+          "Summerland",
+          "Rest and reflection between incarnations",
+          "Wheel of the Year",
+          "Natural cycles of life, death, and rebirth",
+          "Life review",
+          "Understanding past actions and consequences",
+          "Samhain",
+          "Time when veil between worlds thins"
+        ],
+        "explanation": "These are key elements of Wiccan afterlife beliefs. [cite: 608, 609, 615, 620]"
+      }
+    ]
+  }
+}

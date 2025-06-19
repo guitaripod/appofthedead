@@ -1,0 +1,241 @@
+{
+  "id": "swedenborgian-visions",
+  "name": "Swedenborgian Visions",
+  "description": "Explore Emanuel Swedenborg's claimed direct experiences of the afterlife, detailing the soul's awakening in the world of spirits, the revelation of inner nature, and the self-chosen societies of heaven and hell.",
+  "icon": "eye",
+  "color": "#8A2BE2",
+  "totalXP": 160,
+  "lessons": [
+    {
+      "id": "swedenborgian-intro",
+      "title": "Swedenborgian Visions: Direct Experience",
+      "order": 1,
+      "content": "Emanuel Swedenborg claimed direct experience of the afterlife through spiritual sight, describing a world even more vivid than earth. At death, angels attend the dying, ensuring a peaceful transition. The soul then awakens in the 'world of spirits'\u2014an intermediate realm between heaven and hell. Here, external facades drop away, revealing the soul's true inner nature. [cite: 678, 679, 680]",
+      "keyTerms": [
+        "Emanuel Swedenborg",
+        "World of spirits",
+        "True inner nature",
+        "Intermediate realm"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "swedenborgian-q1-1",
+          "type": "multipleChoice",
+          "question": "Who claimed direct experience of the afterlife through spiritual sight?",
+          "options": [
+            "Carl Jung",
+            "Rudolf Steiner",
+            "Emanuel Swedenborg",
+            "Helena Blavatsky"
+          ],
+          "correctAnswer": "Emanuel Swedenborg",
+          "explanation": "Emanuel Swedenborg claimed direct experience of the afterlife through spiritual sight. [cite: 678]"
+        },
+        {
+          "id": "swedenborgian-q1-2",
+          "type": "trueFalse",
+          "question": "The 'world of spirits' is the final destination for all souls.",
+          "correctAnswer": "false",
+          "explanation": "The 'world of spirits' is an intermediate realm between heaven and hell. [cite: 680]"
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-first-state",
+      "title": "The First State: Earthly Resemblance",
+      "order": 2,
+      "content": "This first state in the world of spirits closely resembles earthly life. Spirits meet deceased friends and relatives and explore familiar-seeming landscapes. Gradually, they come to realize they have died. Notably, some spirits, especially materialists who denied the existence of an afterlife, may initially refuse to believe they have died. This reflects the impact of earthly beliefs on immediate post-mortem experiences. [cite: 681, 682]",
+      "keyTerms": [
+        "First state",
+        "Earthly resemblance",
+        "Meeting deceased",
+        "Materialists"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "swedenborgian-q2-1",
+          "type": "multipleChoice",
+          "question": "What characterizes the first state in the world of spirits?",
+          "options": [
+            "Extreme torment",
+            "A complete void",
+            "Resemblance to earthly life",
+            "Instant union with God"
+          ],
+          "correctAnswer": "Resemblance to earthly life",
+          "explanation": "This first state resembles earthly life. [cite: 681]"
+        },
+        {
+          "id": "swedenborgian-q2-2",
+          "type": "trueFalse",
+          "question": "All spirits immediately accept they have died in the world of spirits.",
+          "correctAnswer": "false",
+          "explanation": "Some refuse to believe it, especially materialists who denied afterlife existence. [cite: 682]"
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-second-state-sorting",
+      "title": "The Second State and Natural Sorting",
+      "order": 3,
+      "content": "The second state strips away all pretense. Secret thoughts become visible, and hidden desires manifest. This process creates a natural sorting: those who love goodness and truth gravitate toward heaven, while those preferring selfishness and falsity drift toward hell. This sorting is a consequence of their deepest affections and inner states, rather than an external judgment. [cite: 683, 684]",
+      "keyTerms": [
+        "Second state",
+        "Hidden desires",
+        "Natural sorting",
+        "Goodness and truth",
+        "Selfishness and falsity"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "swedenborgian-q3-1",
+          "type": "multipleChoice",
+          "question": "What happens in the second state of the afterlife?",
+          "options": [
+            "Souls forget their past lives",
+            "Secret thoughts and hidden desires manifest",
+            "Souls are physically reincarnated",
+            "Souls merge into a collective consciousness"
+          ],
+          "correctAnswer": "Secret thoughts and hidden desires manifest",
+          "explanation": "The second state strips away all pretense. Secret thoughts become visible, hidden desires manifest. [cite: 683]"
+        },
+        {
+          "id": "swedenborgian-q3-2",
+          "type": "trueFalse",
+          "question": "The sorting into heaven or hell is arbitrary.",
+          "correctAnswer": "false",
+          "explanation": "This creates natural sorting\u2014those who love goodness and truth gravitate toward heaven, while those preferring selfishness and falsity drift toward hell. [cite: 684]"
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-heaven-hell-choice",
+      "title": "Heaven and Hell: Societies of Choice",
+      "order": 4,
+      "content": "Heaven in Swedenborg's vision arranges into countless societies based on mutual love and use. Each society manifests as a beautiful landscape reflecting its inhabitants' states. Angels engage in meaningful work, study, and relationships, experiencing ever-deepening joy and wisdom. Hell likewise contains societies, but these are based on mutual hatred and evil. Inhabitants choose hell, finding heavenly light and warmth unbearable, preferring their darkness, even though it brings continual conflict and suffering. Swedenborg emphasized that God condemns no one; each soul gravitates to its proper place through free choice, finding the environment matching its deepest loves. [cite: 685, 686, 687, 688, 689, 690]",
+      "keyTerms": [
+        "Heavenly societies",
+        "Mutual love and use",
+        "Meaningful work",
+        "Hellish societies",
+        "Mutual hatred",
+        "Free choice"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "swedenborgian-q4-1",
+          "type": "multipleChoice",
+          "question": "What is the basis for societies in Heaven?",
+          "options": [
+            "Random assignment",
+            "Social status",
+            "Mutual love and use",
+            "Intellectual ability"
+          ],
+          "correctAnswer": "Mutual love and use",
+          "explanation": "Heaven arranges in countless societies based on mutual love and use. [cite: 685]"
+        },
+        {
+          "id": "swedenborgian-q4-2",
+          "type": "trueFalse",
+          "question": "God directly condemns souls to hell in Swedenborgian belief.",
+          "correctAnswer": "false",
+          "explanation": "Swedenborg emphasized that God condemns no one. Each soul gravitates to its proper place through free choice. [cite: 690]"
+        },
+        {
+          "id": "swedenborgian-q4-3",
+          "type": "multipleChoice",
+          "question": "Why do inhabitants of hell prefer their darkness?",
+          "options": [
+            "It is more comfortable",
+            "They find heavenly light and warmth unbearable",
+            "It allows them to plot evil",
+            "It is where they can find peace"
+          ],
+          "correctAnswer": "They find heavenly light and warmth unbearable",
+          "explanation": "They prefer their darkness, though it brings continual conflict and suffering\u2014not imposed punishment but natural consequence of their chosen states. [cite: 689]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "swedenborgian-mastery",
+    "title": "Swedenborgian Visions Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "swedenborgian-mt-q1",
+        "type": "multipleChoice",
+        "question": "What happens to external facades in the 'world of spirits'?",
+        "options": [
+          "They become permanent",
+          "They are transformed into light",
+          "They drop away, revealing true inner nature",
+          "They multiply"
+        ],
+        "correctAnswer": "They drop away, revealing true inner nature",
+        "explanation": "Here, external facades drop away, revealing true inner nature. [cite: 680]"
+      },
+      {
+        "id": "swedenborgian-mt-q2",
+        "type": "trueFalse",
+        "question": "Swedenborgian hell is a place of imposed punishment by God.",
+        "correctAnswer": "false",
+        "explanation": "Swedenborg emphasized that God condemns no one... suffering\u2014not imposed punishment but natural consequence of their chosen states. [cite: 690]"
+      },
+      {
+        "id": "swedenborgian-mt-q3",
+        "type": "multipleChoice",
+        "question": "Who assists the dying in their peaceful transition in Swedenborgian belief?",
+        "options": [
+          "Demons",
+          "Angels",
+          "Other spirits",
+          "No one"
+        ],
+        "correctAnswer": "Angels",
+        "explanation": "At death, angels attend the dying, ensuring peaceful transition. [cite: 679]"
+      },
+      {
+        "id": "swedenborgian-mt-q4",
+        "type": "matching",
+        "question": "Match the Swedenborgian concept with its description:",
+        "pairs": [
+          {
+            "left": "World of spirits",
+            "right": "Intermediate realm between heaven and hell"
+          },
+          {
+            "left": "First state",
+            "right": "Resembles earthly life"
+          },
+          {
+            "left": "Second state",
+            "right": "Secret thoughts and hidden desires manifest"
+          },
+          {
+            "left": "Heavenly societies",
+            "right": "Based on mutual love and use"
+          }
+        ],
+        "correctAnswer": [
+          "World of spirits",
+          "Intermediate realm between heaven and hell",
+          "First state",
+          "Resembles earthly life",
+          "Second state",
+          "Secret thoughts and hidden desires manifest",
+          "Heavenly societies",
+          "Based on mutual love and use"
+        ],
+        "explanation": "These are key elements of Swedenborg's visions of the afterlife. [cite: 680, 681, 683, 685]"
+      }
+    ]
+  }
+}

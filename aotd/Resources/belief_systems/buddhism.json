@@ -1,0 +1,279 @@
+{
+  "id": "buddhism",
+  "name": "Buddhism",
+  "description": "Uncover the mechanics of suffering and liberation in Buddhism, focusing on the cycle of Samsara, the dissolution of elements, the Six Realms, and the ultimate goal of Nirvana.",
+  "icon": "dharma_wheel",
+  "color": "#FF8C00",
+  "totalXP": 240,
+  "lessons": [
+    {
+      "id": "buddhism-intro",
+      "title": "Buddhism: The Architecture of Suffering",
+      "order": 1,
+      "content": "Buddhism, unlike some other traditions, focuses on the mechanics of suffering and liberation, rather than cosmic dramas. Death is merely another transition in the beginningless wandering through Samsara, the cycle of existence. The Buddha described death's moment with clinical precision, involving the dissolution of elements in stages: earth into water, water into fire, fire into air, air into consciousness, and consciousness into space. Each stage brings specific visions. [cite: 442, 443, 444, 445]",
+      "keyTerms": [
+        "Samsara",
+        "Nirvana",
+        "Dissolution of elements",
+        "Six Realms"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "buddhism-q1-1",
+          "type": "multipleChoice",
+          "question": "What does death primarily mark in Buddhism?",
+          "options": [
+            "The end of existence",
+            "The beginning of eternal bliss",
+            "Another transition in Samsara",
+            "A direct path to Nirvana"
+          ],
+          "correctAnswer": "Another transition in Samsara",
+          "explanation": "Death merely marks another transition in beginningless wandering through Samsara. [cite: 443]"
+        },
+        {
+          "id": "buddhism-q1-2",
+          "type": "trueFalse",
+          "question": "The Buddha did not describe the moment of death in detail.",
+          "correctAnswer": "false",
+          "explanation": "The Buddha described death's moment with clinical precision, detailing the dissolution of elements. [cite: 444]"
+        }
+      ]
+    },
+    {
+      "id": "buddhism-god-asura",
+      "title": "The God and Asura Realms",
+      "order": 2,
+      "content": "The Six Realms of existence represent states of consciousness as much as literal destinations. The God Realms shimmer with inconceivable pleasure, where Devas live millions of years in bodies of light with every desire fulfilled. However, spiritual progress is impossible in such comfort, and when merit exhausts, they experience a devastating fall towards lower births. Asuras (demigods) possess near-divine power but burn with jealousy, waging eternal war against the gods, wasting their magnificent powers in conflict. [cite: 446, 447, 448, 449, 450]",
+      "keyTerms": [
+        "Six Realms",
+        "God Realms",
+        "Devas",
+        "Asuras",
+        "Spiritual progress"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "buddhism-q2-1",
+          "type": "multipleChoice",
+          "question": "Why is spiritual progress difficult in the God Realms?",
+          "options": [
+            "Too much suffering",
+            "Too much comfort",
+            "Lack of desire",
+            "Lack of knowledge"
+          ],
+          "correctAnswer": "Too much comfort",
+          "explanation": "Spiritual progress proves impossible amid such comfort in the God Realms. [cite: 448]"
+        },
+        {
+          "id": "buddhism-q2-2",
+          "type": "trueFalse",
+          "question": "Asuras are known for their peaceful and cooperative nature.",
+          "correctAnswer": "false",
+          "explanation": "Asuras burn with jealousy and wage eternal war against the gods. [cite: 449]"
+        }
+      ]
+    },
+    {
+      "id": "buddhism-human-animal",
+      "title": "The Human and Animal Realms",
+      "order": 3,
+      "content": "The Human Realm uniquely balances suffering and happiness, making it optimally suited for spiritual development. It is the only realm where enlightenment is possible, making human birth precious and not to be wasted. Animals experience consciousness clouded by ignorance, driven by instinct, enduring predation and exploitation, and unable to understand dharma. Tibetan texts detail karmic causes, such as sexual misconduct leading to worm births. [cite: 451, 452, 453]",
+      "keyTerms": [
+        "Human Realm",
+        "Enlightenment",
+        "Precious human birth",
+        "Animal Realm",
+        "Karma"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "buddhism-q3-1",
+          "type": "multipleChoice",
+          "question": "Which realm is considered optimal for spiritual development and enlightenment in Buddhism?",
+          "options": [
+            "God Realm",
+            "Animal Realm",
+            "Human Realm",
+            "Hell Realm"
+          ],
+          "correctAnswer": "Human Realm",
+          "explanation": "The Human Realm balances suffering and happiness optimally for spiritual development, making enlightenment possible here. [cite: 451]"
+        },
+        {
+          "id": "buddhism-q3-2",
+          "type": "trueFalse",
+          "question": "Animals in the Animal Realm are capable of understanding dharma.",
+          "correctAnswer": "false",
+          "explanation": "Animals experience consciousness clouded by ignorance and an inability to understand dharma. [cite: 452]"
+        }
+      ]
+    },
+    {
+      "id": "buddhism-hungry-ghosts-hell",
+      "title": "Hungry Ghosts and Hell Realms",
+      "order": 4,
+      "content": "Hungry Ghosts inhabit a twilight realm, overlapping our world, characterized by needle-thin throats and mountain-sized bellies, constantly famished. Their suffering results from extreme greed, miserliness, and wrong livelihood. The Hell Realms are elaborately detailed, with eight hot hells of increasing intensity (like Sanjiva where beings die and resurrect repeatedly, and Avici where suffering never ceases) and eight cold hells. Peripheral hells also exist. Unlike eternal damnation, these states last precisely as long as karma dictates, though it can be eons, they are finite. [cite: 454, 455, 456, 457, 458, 459]",
+      "keyTerms": [
+        "Hungry Ghosts",
+        "Hell Realms",
+        "Sanjiva",
+        "Avici",
+        "Karmic debt",
+        "Finite suffering"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "buddhism-q4-1",
+          "type": "multipleChoice",
+          "question": "What is a primary characteristic of a Hungry Ghost?",
+          "options": [
+            "Perfect wisdom",
+            "Eternal joy",
+            "Needle-thin throats and mountain-sized bellies",
+            "Exceptional strength"
+          ],
+          "correctAnswer": "Needle-thin throats and mountain-sized bellies",
+          "explanation": "Hungry ghosts are described with needle-thin throats and mountain-sized bellies, perpetually famished. [cite: 436, 454]"
+        },
+        {
+          "id": "buddhism-q4-2",
+          "type": "trueFalse",
+          "question": "Buddhist hells are considered eternal damnation.",
+          "correctAnswer": "false",
+          "explanation": "Unlike eternal damnation, these states last precisely as long as karma dictates\u2014eons perhaps, but finite. [cite: 459]"
+        }
+      ]
+    },
+    {
+      "id": "buddhism-bardo-nirvana",
+      "title": "The Bardo and Nirvana",
+      "order": 5,
+      "content": "In Tibetan tradition, the Bardo is the intermediate state after death, lasting up to forty-nine days. Consciousness experiences three phases: the clear light of reality at the moment of death (a chance for instant liberation if recognized), followed by peaceful and wrathful deities (projections of one's mind), finally driving consciousness towards rebirth by karmic winds. Nirvana transcends all realms, being neither existence nor non-existence. The Buddha refused to answer whether enlightened beings exist after death, comparing it to an extinguished flame. Some schools describe it as cessation, others as unconditioned bliss, but all agree it ends the weary cycle of rebirth. [cite: 460, 461, 462, 463, 464, 465, 466]",
+      "keyTerms": [
+        "Bardo",
+        "Clear light of reality",
+        "Peaceful and wrathful deities",
+        "Nirvana",
+        "Cessation",
+        "Unconditioned bliss"
+      ],
+      "xpReward": 15,
+      "questions": [
+        {
+          "id": "buddhism-q5-1",
+          "type": "multipleChoice",
+          "question": "How long can the Bardo state last?",
+          "options": [
+            "Seven days",
+            "Twenty-one days",
+            "Forty-nine days",
+            "Eternally"
+          ],
+          "correctAnswer": "Forty-nine days",
+          "explanation": "The Bardo (Tibetan tradition) presents death's intermediate state lasting up to forty-nine days. [cite: 460]"
+        },
+        {
+          "id": "buddhism-q5-2",
+          "type": "trueFalse",
+          "question": "Nirvana is considered a literal realm of existence, like a paradise.",
+          "correctAnswer": "false",
+          "explanation": "Nirvana transcends all realms\u2014neither existence nor non-existence, beyond all categories. [cite: 464]"
+        },
+        {
+          "id": "buddhism-q5-3",
+          "type": "multipleChoice",
+          "question": "What is the 'clear light of reality' in the Bardo?",
+          "options": [
+            "A hallucination",
+            "A chance for instant liberation",
+            "A vision of hell",
+            "A sign of rebirth"
+          ],
+          "correctAnswer": "A chance for instant liberation",
+          "explanation": "The moment of death brings the clear light of reality\u2014a chance for instant liberation if recognized. [cite: 461]"
+        }
+      ]
+    }
+  ],
+  "masteryTest": {
+    "id": "buddhism-mastery",
+    "title": "Buddhism Mastery Test",
+    "requiredScore": 80,
+    "xpReward": 100,
+    "questions": [
+      {
+        "id": "buddhism-mt-q1",
+        "type": "multipleChoice",
+        "question": "Which of the following realms is considered optimal for spiritual development in Buddhism?",
+        "options": [
+          "God Realm",
+          "Animal Realm",
+          "Human Realm",
+          "Hungry Ghost Realm"
+        ],
+        "correctAnswer": "Human Realm",
+        "explanation": "The Human Realm balances suffering and happiness optimally for spiritual development. [cite: 451]"
+      },
+      {
+        "id": "buddhism-mt-q2",
+        "type": "trueFalse",
+        "question": "Buddhist Hell Realms are eternal.",
+        "correctAnswer": "false",
+        "explanation": "Buddhist Hell Realms last precisely as long as karma dictates\u2014eons perhaps, but finite. [cite: 459]"
+      },
+      {
+        "id": "buddhism-mt-q3",
+        "type": "multipleChoice",
+        "question": "What is the 'Bardo' in Tibetan Buddhism?",
+        "options": [
+          "A state of eternal bliss",
+          "The cycle of rebirth",
+          "An intermediate state after death",
+          "A type of meditation"
+        ],
+        "correctAnswer": "An intermediate state after death",
+        "explanation": "The Bardo is death's intermediate state lasting up to forty-nine days. [cite: 460]"
+      },
+      {
+        "id": "buddhism-mt-q4",
+        "type": "matching",
+        "question": "Match the Buddhist concept with its description:",
+        "pairs": [
+          {
+            "left": "Samsara",
+            "right": "Cycle of death and rebirth"
+          },
+          {
+            "left": "Nirvana",
+            "right": "Transcendence of all realms, end of rebirth"
+          },
+          {
+            "left": "Devas",
+            "right": "Beings in God Realms"
+          },
+          {
+            "left": "Pretas",
+            "right": "Hungry ghosts"
+          }
+        ],
+        "correctAnswer": [
+          "Samsara",
+          "Cycle of death and rebirth",
+          "Nirvana",
+          "Transcendence of all realms, end of rebirth",
+          "Devas",
+          "Beings in God Realms",
+          "Pretas",
+          "Hungry ghosts"
+        ],
+        "explanation": "These are key concepts in Buddhist afterlife beliefs. [cite: 443, 454, 464, 447]"
+      }
+    ]
+  }
+}
