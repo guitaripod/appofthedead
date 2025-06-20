@@ -1,19 +1,28 @@
 import UIKit
 
-final class DeitySelectionViewController: UIViewController {
+final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurable {
     
     // MARK: - UI Components
     
     private let headerView = UIView()
     private let grabberView = UIView()
     private let titleLabel = UILabel()
-    private let collectionView: UICollectionView
+    private lazy var collectionView: UICollectionView = {
+        let layout = createCompositionalLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.backgroundColor = .clear
+        collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
     // MARK: - Properties
     
     private let deities: [OracleViewModel.Deity]
     private let onSelection: ((OracleViewModel.Deity) -> Void)?
     private let currentDeity: OracleViewModel.Deity?
+    var currentLayoutPreference: ViewLayoutPreference = UserDefaults.standard.viewLayoutPreference
     
     // MARK: - Diffable Data Source
     
@@ -21,7 +30,7 @@ final class DeitySelectionViewController: UIViewController {
         case main
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, OracleViewModel.Deity>!
+    private lazy var dataSource = createDataSource()
     
     // MARK: - Initialization
     
@@ -31,12 +40,6 @@ final class DeitySelectionViewController: UIViewController {
         self.deities = deities
         self.currentDeity = currentDeity
         self.onSelection = onSelection
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 16
-        layout.minimumLineSpacing = 20
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 20, bottom: 32, right: 20)
-        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -50,13 +53,18 @@ final class DeitySelectionViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        setupDataSource()
+        setupLayout(for: currentLayoutPreference)
+        setupNotifications()
         applySnapshot(animatingDifferences: false)
     }
     
@@ -88,7 +96,9 @@ final class DeitySelectionViewController: UIViewController {
         
         // Update border colors when switching between light/dark mode
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            collectionView.reloadData()
+            // Force layout update
+            collectionView.collectionViewLayout.invalidateLayout()
+            applySnapshot(animatingDifferences: false)
         }
     }
     
@@ -133,11 +143,6 @@ final class DeitySelectionViewController: UIViewController {
         headerView.addSubview(titleLabel)
         
         // Collection view
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.register(DeityCell.self, forCellWithReuseIdentifier: "DeityCell")
-        collectionView.contentInsetAdjustmentBehavior = .automatic
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
     }
     
@@ -168,16 +173,67 @@ final class DeitySelectionViewController: UIViewController {
         ])
     }
     
+    // MARK: - Compositional Layout
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionViewCompositionalLayoutConfiguration()
+        configuration.interSectionSpacing = 0
+        
+        return UICollectionViewCompositionalLayout(sectionProvider: { [weak self] sectionIndex, layoutEnvironment in
+            guard let self = self else { return nil }
+            
+            if self.currentLayoutPreference == .grid {
+                // Grid layout
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(190))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8)
+                section.interGroupSpacing = 8
+                
+                return section
+            } else {
+                // List layout
+                var listConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+                listConfig.backgroundColor = .clear
+                listConfig.showsSeparators = false
+                
+                let section = NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 20, trailing: 0)
+                
+                return section
+            }
+        }, configuration: configuration)
+    }
+    
     // MARK: - Diffable Data Source Setup
     
-    private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, OracleViewModel.Deity>(
-            collectionView: collectionView
-        ) { [weak self] collectionView, indexPath, deity in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DeityCell", for: indexPath) as! DeityCell
+    private func createDataSource() -> UICollectionViewDiffableDataSource<Section, OracleViewModel.Deity> {
+        // Grid cell registration
+        let gridCellRegistration = UICollectionView.CellRegistration<DeityCell, OracleViewModel.Deity> { [weak self] cell, indexPath, deity in
             cell.configure(with: deity, isSelected: deity.id == self?.currentDeity?.id)
-            return cell
         }
+        
+        // List cell registration
+        let listCellRegistration = UICollectionView.CellRegistration<DeityCollectionListCell, OracleViewModel.Deity> { [weak self] cell, indexPath, deity in
+            cell.configure(with: deity, isSelected: deity.id == self?.currentDeity?.id)
+        }
+        
+        let dataSource = UICollectionViewDiffableDataSource<Section, OracleViewModel.Deity>(collectionView: collectionView) { [weak self] collectionView, indexPath, deity in
+            guard let self = self else { return nil }
+            
+            if self.currentLayoutPreference == .grid {
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: deity)
+            } else {
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: deity)
+            }
+        }
+        
+        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
@@ -185,6 +241,49 @@ final class DeitySelectionViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(deities)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    // MARK: - Layout Management
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleLayoutPreferenceChanged(_:)),
+            name: .viewLayoutPreferenceChanged,
+            object: nil
+        )
+    }
+    
+    @objc private func handleLayoutPreferenceChanged(_ notification: Notification) {
+        if let layout = notification.userInfo?["layout"] as? ViewLayoutPreference {
+            switchToLayout(layout)
+        }
+    }
+    
+    // MARK: - ViewLayoutConfigurable
+    
+    func switchToLayout(_ layout: ViewLayoutPreference) {
+        currentLayoutPreference = layout
+        setupLayout(for: layout)
+        
+        // Force layout update
+        collectionView.collectionViewLayout.invalidateLayout()
+        applySnapshot(animatingDifferences: false)
+        
+        // Re-select current deity if needed
+        if let currentDeity = currentDeity {
+            let snapshot = dataSource.snapshot()
+            if let index = snapshot.itemIdentifiers.firstIndex(where: { $0.id == currentDeity.id }) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            }
+        }
+    }
+    
+    func setupLayout(for preference: ViewLayoutPreference) {
+        // Layout will be handled by compositional layout
+        // Just update the current preference which the layout uses
+        currentLayoutPreference = preference
     }
     
     // MARK: - Actions
@@ -240,19 +339,6 @@ extension DeitySelectionViewController: UICollectionViewDelegate {
         dismiss(animated: true) { [weak self] in
             self?.onSelection?(selectedDeity)
         }
-    }
-}
-
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension DeitySelectionViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 40 + 16 // Section insets + spacing
-        let availableWidth = collectionView.bounds.width - padding
-        let itemWidth = availableWidth / 2
-        return CGSize(width: itemWidth, height: 190)
     }
 }
 

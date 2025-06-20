@@ -1,11 +1,12 @@
 import UIKit
 import AuthenticationServices
 
-final class HomeViewController: UIViewController, ASAuthorizationControllerPresentationContextProviding {
+final class HomeViewController: UIViewController, ASAuthorizationControllerPresentationContextProviding, ViewLayoutConfigurable {
     
     // MARK: - Properties
     
     private let viewModel: HomeViewModel
+    var currentLayoutPreference: ViewLayoutPreference = UserDefaults.standard.viewLayoutPreference
     
     private lazy var collectionView: UICollectionView = {
         let layout = createCompositionalLayout()
@@ -16,7 +17,9 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         return collectionView
     }()
     
-    private lazy var dataSource = createDataSource()
+    // Removed tableView and tableHeaderView - now using single collectionView with compositional layout
+    
+    private lazy var collectionDataSource = createCollectionDataSource()
     
     // MARK: - Initialization
     
@@ -29,12 +32,18 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        setupLayout(for: currentLayoutPreference)
+        setupNotifications()
         viewModel.loadData()
     }
     
@@ -61,6 +70,21 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         ])
     }
     
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleLayoutPreferenceChanged(_:)),
+            name: .viewLayoutPreferenceChanged,
+            object: nil
+        )
+    }
+    
+    @objc private func handleLayoutPreferenceChanged(_ notification: Notification) {
+        if let layout = notification.userInfo?["layout"] as? ViewLayoutPreference {
+            switchToLayout(layout)
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.onDataUpdate = { [weak self] in
             self?.applySnapshot()
@@ -72,42 +96,80 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     }
     
     private func updateHeader() {
-        // Force the header to update by invalidating the supplementary views
-        let snapshot = dataSource.snapshot()
-        dataSource.applySnapshotUsingReloadData(snapshot)
+        guard let user = viewModel.currentUser else { return }
+        let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
+        
+        // Force the collection view header to update
+        let snapshot = collectionDataSource.snapshot()
+        collectionDataSource.applySnapshotUsingReloadData(snapshot)
     }
     
     // MARK: - Collection View Configuration
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let configuration = UICollectionViewCompositionalLayoutConfiguration()
+        configuration.interSectionSpacing = 0
+        
+        return UICollectionViewCompositionalLayout(sectionProvider: { [weak self] sectionIndex, layoutEnvironment in
+            guard let self = self else { return nil }
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(190))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8)
-            section.interGroupSpacing = 8
-            
-            // Add header
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))
-            let header = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: UICollectionView.elementKindSectionHeader,
-                alignment: .top
-            )
-            header.pinToVisibleBounds = false
-            section.boundarySupplementaryItems = [header]
-            
-            return section
-        }
+            if self.currentLayoutPreference == .grid {
+                // Grid layout
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(190))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8)
+                section.interGroupSpacing = 8
+                
+                // Add header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+                header.pinToVisibleBounds = false
+                section.boundarySupplementaryItems = [header]
+                
+                return section
+            } else {
+                // List layout
+                var listConfig = UICollectionLayoutListConfiguration(appearance: .plain)
+                listConfig.backgroundColor = .clear
+                listConfig.showsSeparators = false
+                listConfig.headerMode = .supplementary
+                
+                let section = NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
+                
+                // Add header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+                header.pinToVisibleBounds = false
+                section.boundarySupplementaryItems = [header]
+                
+                return section
+            }
+        }, configuration: configuration)
     }
     
-    private func createDataSource() -> UICollectionViewDiffableDataSource<Section, PathItem> {
-        let cellRegistration = UICollectionView.CellRegistration<PathCollectionViewCell, PathItem> { cell, indexPath, item in
+    private func createCollectionDataSource() -> UICollectionViewDiffableDataSource<Section, PathItem> {
+        // Grid cell registration
+        let gridCellRegistration = UICollectionView.CellRegistration<PathCollectionViewCell, PathItem> { cell, indexPath, item in
+            cell.configure(with: item)
+        }
+        
+        // List cell registration
+        let listCellRegistration = UICollectionView.CellRegistration<PathListCell, PathItem> { cell, indexPath, item in
             cell.configure(with: item)
         }
         
@@ -118,8 +180,14 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
             headerView.delegate = self
         }
         
-        let dataSource = UICollectionViewDiffableDataSource<Section, PathItem>(collectionView: collectionView) { collectionView, indexPath, item in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        let dataSource = UICollectionViewDiffableDataSource<Section, PathItem>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+            guard let self = self else { return nil }
+            
+            if self.currentLayoutPreference == .grid {
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: item)
+            } else {
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: item)
+            }
         }
         
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
@@ -133,7 +201,25 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         var snapshot = NSDiffableDataSourceSnapshot<Section, PathItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pathItems)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        collectionDataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    
+    // MARK: - ViewLayoutConfigurable
+    
+    func switchToLayout(_ layout: ViewLayoutPreference) {
+        currentLayoutPreference = layout
+        setupLayout(for: layout)
+        
+        // Force layout update
+        collectionView.collectionViewLayout.invalidateLayout()
+        applySnapshot()
+    }
+    
+    func setupLayout(for preference: ViewLayoutPreference) {
+        // Layout will be handled by compositional layout
+        // Just update the current preference which the layout uses
+        currentLayoutPreference = preference
     }
 }
 
@@ -141,7 +227,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let item = collectionDataSource.itemIdentifier(for: indexPath) else { return }
         
         if item.isUnlocked {
             let generator = UIImpactFeedbackGenerator(style: .light)
@@ -162,7 +248,11 @@ extension HomeViewController: UICollectionViewDelegate {
             showLockedPathAlert(for: item)
         }
     }
-    
+}
+
+// MARK: - Helper Methods
+
+extension HomeViewController {
     private func showLockedPathAlert(for item: PathItem) {
         let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: item.id))
         present(paywall, animated: true)

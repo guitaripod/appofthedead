@@ -1,0 +1,322 @@
+import UIKit
+
+final class PathListCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 12
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        return view
+    }()
+    
+    private lazy var iconContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        if let papyrusFont = UIFont(name: "Papyrus", size: 17) {
+            label.font = papyrusFont
+        } else {
+            label.font = .systemFont(ofSize: 17, weight: .semibold)
+        }
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
+        return label
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textColor = UIColor.Papyrus.secondaryText
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private lazy var progressView: UIProgressView = {
+        let view = UIProgressView(progressViewStyle: .default)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 3
+        view.clipsToBounds = true
+        view.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
+        view.heightAnchor.constraint(equalToConstant: 6).isActive = true
+        return view
+    }()
+    
+    private lazy var xpLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textAlignment = .right
+        label.textColor = UIColor.Papyrus.secondaryText
+        return label
+    }()
+    
+    private lazy var statusBadge: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor.systemGreen
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var statusIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
+    }()
+    
+    private lazy var lockIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "lock.fill")
+        imageView.tintColor = UIColor.Papyrus.aged
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    private lazy var chevronImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.tintColor = UIColor.Papyrus.tertiaryText
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    // MARK: - Stack Views
+    
+    private lazy var textStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 2
+        stack.alignment = .leading
+        return stack
+    }()
+    
+    private lazy var progressStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [progressView, xpLabel])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.alignment = .fill
+        return stack
+    }()
+    
+    // MARK: - Initialization
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Setup
+    
+    private func setupUI() {
+        backgroundColor = .clear
+        
+        contentView.addSubview(containerView)
+        
+        iconContainerView.addSubview(iconImageView)
+        
+        containerView.addSubview(iconContainerView)
+        containerView.addSubview(textStackView)
+        containerView.addSubview(progressStackView)
+        containerView.addSubview(statusBadge)
+        containerView.addSubview(lockIconImageView)
+        containerView.addSubview(chevronImageView)
+        
+        statusBadge.addSubview(statusIcon)
+        
+        NSLayoutConstraint.activate([
+            // Container
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
+            
+            // Icon container
+            iconContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            iconContainerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            iconContainerView.widthAnchor.constraint(equalToConstant: 40),
+            iconContainerView.heightAnchor.constraint(equalToConstant: 40),
+            
+            // Icon
+            iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
+            iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
+            iconImageView.widthAnchor.constraint(equalToConstant: 24),
+            iconImageView.heightAnchor.constraint(equalToConstant: 24),
+            
+            // Text stack
+            textStackView.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 12),
+            textStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            textStackView.trailingAnchor.constraint(lessThanOrEqualTo: statusBadge.leadingAnchor, constant: -8),
+            
+            // Progress stack
+            progressStackView.leadingAnchor.constraint(equalTo: textStackView.leadingAnchor),
+            progressStackView.topAnchor.constraint(equalTo: textStackView.bottomAnchor, constant: 8),
+            progressStackView.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
+            progressStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
+            
+            // Status badge
+            statusBadge.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
+            statusBadge.centerYAnchor.constraint(equalTo: textStackView.centerYAnchor),
+            statusBadge.widthAnchor.constraint(equalToConstant: 24),
+            statusBadge.heightAnchor.constraint(equalToConstant: 24),
+            
+            // Status icon
+            statusIcon.centerXAnchor.constraint(equalTo: statusBadge.centerXAnchor),
+            statusIcon.centerYAnchor.constraint(equalTo: statusBadge.centerYAnchor),
+            statusIcon.widthAnchor.constraint(equalToConstant: 16),
+            statusIcon.heightAnchor.constraint(equalToConstant: 16),
+            
+            // Lock icon
+            lockIconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
+            lockIconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
+            lockIconImageView.widthAnchor.constraint(equalToConstant: 20),
+            lockIconImageView.heightAnchor.constraint(equalToConstant: 20),
+            
+            // Chevron
+            chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            chevronImageView.widthAnchor.constraint(equalToConstant: 12),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    // MARK: - Configuration
+    
+    func configure(with item: PathItem) {
+        nameLabel.text = item.name
+        
+        // Set description based on status
+        switch item.status {
+        case .notStarted:
+            descriptionLabel.text = "Ready to begin your journey"
+        case .inProgress:
+            let percentage = Int(item.progress * 100)
+            descriptionLabel.text = "\(percentage)% complete"
+        case .completed:
+            descriptionLabel.text = "Path completed"
+        case .mastered:
+            descriptionLabel.text = "Path mastered"
+        }
+        
+        if item.isUnlocked {
+            containerView.backgroundColor = UIColor.Papyrus.cardBackground
+            containerView.layer.borderColor = item.color.withAlphaComponent(0.5).cgColor
+            containerView.layer.borderWidth = 1.5
+            nameLabel.textColor = UIColor.Papyrus.primaryText
+            progressView.progressTintColor = item.color
+            chevronImageView.tintColor = UIColor.Papyrus.secondaryText
+            
+            // Set icon with color background
+            iconContainerView.backgroundColor = item.color.withAlphaComponent(0.9)
+            iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: .white)
+            iconImageView.tintColor = .white
+            iconImageView.isHidden = false
+            lockIconImageView.isHidden = true
+        } else {
+            containerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.2)
+            containerView.layer.borderColor = UIColor.Papyrus.aged.withAlphaComponent(0.5).cgColor
+            containerView.layer.borderWidth = 1
+            nameLabel.textColor = UIColor.Papyrus.tertiaryText
+            descriptionLabel.text = "Locked"
+            progressView.progressTintColor = UIColor.Papyrus.aged
+            chevronImageView.tintColor = UIColor.Papyrus.aged
+            
+            // Show lock icon
+            iconContainerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
+            iconImageView.isHidden = true
+            lockIconImageView.isHidden = false
+        }
+        
+        progressView.progress = item.progress
+        xpLabel.text = "\(item.currentXP) / \(item.totalXP) XP"
+        
+        // Configure status badge
+        switch item.status {
+        case .completed:
+            statusBadge.isHidden = false
+            statusBadge.backgroundColor = item.color
+            statusIcon.image = UIImage(systemName: "checkmark")
+        case .mastered:
+            statusBadge.isHidden = false
+            statusBadge.backgroundColor = UIColor.systemYellow
+            statusIcon.image = UIImage(systemName: "crown.fill")
+        default:
+            statusBadge.isHidden = true
+        }
+        
+        // Adjust shadow opacity
+        containerView.layer.shadowOpacity = item.isUnlocked ? 0.1 : 0.05
+    }
+    
+    // MARK: - Reuse
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        iconImageView.image = nil
+        iconImageView.isHidden = false
+        lockIconImageView.isHidden = true
+        nameLabel.text = nil
+        descriptionLabel.text = nil
+        progressView.progress = 0
+        xpLabel.text = nil
+        statusBadge.isHidden = true
+        statusIcon.image = nil
+        containerView.backgroundColor = UIColor.Papyrus.cardBackground
+        containerView.layer.shadowOpacity = 0.1
+        containerView.layer.borderWidth = 1
+    }
+    
+    // MARK: - Touch Feedback
+    
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                UIView.animate(withDuration: 0.1) {
+                    self.containerView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+                    self.containerView.layer.shadowOpacity = 0.15
+                }
+            } else {
+                UIView.animate(withDuration: 0.1) {
+                    self.containerView.transform = .identity
+                    self.containerView.layer.shadowOpacity = 0.1
+                }
+            }
+        }
+    }
+}
