@@ -21,23 +21,25 @@ final class PathCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = UIColor.Papyrus.primaryText
-        imageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
         return imageView
     }()
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        if let papyrusFont = UIFont(name: "Papyrus", size: 17) {
+        if let papyrusFont = UIFont(name: "Papyrus", size: 16) {
             label.font = papyrusFont
         } else {
-            label.font = .systemFont(ofSize: 17, weight: .semibold)
+            label.font = .systemFont(ofSize: 16, weight: .semibold)
         }
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
-        label.widthAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
+        label.minimumScaleFactor = 0.75
+        label.lineBreakMode = .byTruncatingTail
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -46,17 +48,35 @@ final class PathCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
         view.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
-        view.heightAnchor.constraint(equalToConstant: 8).isActive = true
-        view.widthAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return view
     }()
     
     private lazy var xpLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
         label.textColor = UIColor.Papyrus.secondaryText
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
+    }()
+    
+    private lazy var statusBadge: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor.systemGreen
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var statusIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
     }()
     
     private lazy var contentStackView: UIStackView = {
@@ -66,10 +86,8 @@ final class PathCollectionViewCell: UICollectionViewCell {
         stack.alignment = .center
         stack.distribution = .fill
         stack.spacing = 8
-        stack.setCustomSpacing(12, after: nameLabel)
+        stack.setCustomSpacing(10, after: nameLabel)
         stack.setCustomSpacing(4, after: progressView)
-        stack.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 8, right: 16)
-        stack.isLayoutMarginsRelativeArrangement = true
         return stack
     }()
     
@@ -111,6 +129,8 @@ final class PathCollectionViewCell: UICollectionViewCell {
         containerView.addSubview(contentStackView)
         containerView.addSubview(lockOverlay)
         lockOverlay.addSubview(lockIconImageView)
+        containerView.addSubview(statusBadge)
+        statusBadge.addSubview(statusIcon)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -118,10 +138,19 @@ final class PathCollectionViewCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            contentStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            // Center the stack view vertically, but allow it to move up if needed
+            contentStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            contentStackView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
+            contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
             contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
+            // Ensure progress view and name label use available width
+            progressView.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 16),
+            progressView.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -16),
+            
+            nameLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 8),
+            nameLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -8),
             
             lockOverlay.topAnchor.constraint(equalTo: containerView.topAnchor),
             lockOverlay.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -129,7 +158,17 @@ final class PathCollectionViewCell: UICollectionViewCell {
             lockOverlay.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
             lockIconImageView.centerXAnchor.constraint(equalTo: lockOverlay.centerXAnchor),
-            lockIconImageView.centerYAnchor.constraint(equalTo: lockOverlay.centerYAnchor)
+            lockIconImageView.centerYAnchor.constraint(equalTo: lockOverlay.centerYAnchor),
+            
+            statusBadge.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            statusBadge.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            statusBadge.widthAnchor.constraint(equalToConstant: 24),
+            statusBadge.heightAnchor.constraint(equalToConstant: 24),
+            
+            statusIcon.centerXAnchor.constraint(equalTo: statusBadge.centerXAnchor),
+            statusIcon.centerYAnchor.constraint(equalTo: statusBadge.centerYAnchor),
+            statusIcon.widthAnchor.constraint(equalToConstant: 16),
+            statusIcon.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
     
@@ -162,6 +201,20 @@ final class PathCollectionViewCell: UICollectionViewCell {
         
         lockOverlay.isHidden = item.isUnlocked
         
+        // Configure status badge based on progress status
+        switch item.status {
+        case .completed:
+            statusBadge.isHidden = false
+            statusBadge.backgroundColor = item.color
+            statusIcon.image = UIImage(systemName: "checkmark")
+        case .mastered:
+            statusBadge.isHidden = false
+            statusBadge.backgroundColor = UIColor.systemYellow
+            statusIcon.image = UIImage(systemName: "crown.fill")
+        default:
+            statusBadge.isHidden = true
+        }
+        
         if !item.isUnlocked {
             containerView.layer.shadowOpacity = 0.08
         } else {
@@ -186,6 +239,8 @@ final class PathCollectionViewCell: UICollectionViewCell {
         progressView.progressTintColor = UIColor.Papyrus.hieroglyphBlue
         xpLabel.text = nil
         lockOverlay.isHidden = true
+        statusBadge.isHidden = true
+        statusIcon.image = nil
         containerView.backgroundColor = UIColor.Papyrus.cardBackground
         containerView.layer.shadowOpacity = 0.15
         containerView.layer.borderWidth = 1.5

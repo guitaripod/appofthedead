@@ -85,7 +85,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(180))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(190))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -148,7 +148,12 @@ extension HomeViewController: UICollectionViewDelegate {
             generator.prepare()
             generator.impactOccurred()
             
-            viewModel.selectPath(item)
+            // Check if path is completed and show options
+            if item.status == Progress.ProgressStatus.completed || item.status == Progress.ProgressStatus.mastered {
+                showCompletionOptions(for: item)
+            } else {
+                viewModel.selectPath(item)
+            }
         } else {
             let generator = UINotificationFeedbackGenerator()
             generator.prepare()
@@ -161,6 +166,33 @@ extension HomeViewController: UICollectionViewDelegate {
     private func showLockedPathAlert(for item: PathItem) {
         let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: item.id))
         present(paywall, animated: true)
+    }
+    
+    private func showCompletionOptions(for item: PathItem) {
+        // Find the corresponding belief system
+        guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }),
+              let progress = viewModel.userProgress[item.id] else { return }
+        
+        // Get the coordinator from SceneDelegate
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = scene.delegate as? SceneDelegate else { return }
+        
+        let coordinator = sceneDelegate.learningPathCoordinator ?? {
+            let newCoordinator = LearningPathCoordinator(
+                navigationController: self.navigationController ?? UINavigationController(),
+                beliefSystem: beliefSystem,
+                contentLoader: viewModel.contentLoader
+            )
+            sceneDelegate.learningPathCoordinator = newCoordinator
+            return newCoordinator
+        }()
+        
+        let completionVC = PathCompletionOptionsViewController(
+            beliefSystem: beliefSystem,
+            progress: progress,
+            coordinator: coordinator
+        )
+        present(completionVC, animated: true)
     }
 }
 

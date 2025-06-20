@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import GRDB
 
 // MARK: - PathItem
 
@@ -12,6 +13,7 @@ struct PathItem: Hashable {
     let currentXP: Int
     let isUnlocked: Bool
     let progress: Float
+    let status: Progress.ProgressStatus
 }
 
 // MARK: - HomeViewModel
@@ -21,10 +23,10 @@ final class HomeViewModel {
     // MARK: - Properties
     
     private let databaseManager: DatabaseManager
-    private let contentLoader: ContentLoader
-    private var beliefSystems: [BeliefSystem] = []
+    let contentLoader: ContentLoader
+    private(set) var beliefSystems: [BeliefSystem] = []
     private var user: User?
-    private var userProgress: [String: Progress] = [:]
+    private(set) var userProgress: [String: Progress] = [:]
     
     var onDataUpdate: (() -> Void)?
     var onUserDataUpdate: ((User) -> Void)?
@@ -118,6 +120,7 @@ final class HomeViewModel {
             let currentXP = progress?.earnedXP ?? 0
             let isUnlocked = checkIfUnlocked(beliefSystem)
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
+            let status = progress?.status ?? .notStarted
             
             return PathItem(
                 id: beliefSystem.id,
@@ -127,8 +130,22 @@ final class HomeViewModel {
                 totalXP: beliefSystem.totalXP,
                 currentXP: currentXP,
                 isUnlocked: isUnlocked,
-                progress: progressPercentage
+                progress: progressPercentage,
+                status: status
             )
+        }
+        
+        // Sort paths: unlocked first, then by original order
+        pathItems.sort { item1, item2 in
+            // If both have same unlock status, maintain original order
+            if item1.isUnlocked == item2.isUnlocked {
+                // Find original indices
+                let index1 = beliefSystems.firstIndex { $0.id == item1.id } ?? Int.max
+                let index2 = beliefSystems.firstIndex { $0.id == item2.id } ?? Int.max
+                return index1 < index2
+            }
+            // Otherwise, unlocked paths come first
+            return item1.isUnlocked && !item2.isUnlocked
         }
         
         onDataUpdate?()
