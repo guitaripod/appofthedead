@@ -1,220 +1,314 @@
 {
   "id": "bahai",
-  "name": "Bah\u00e1'\u00ed",
-  "description": "Discover the Bah\u00e1'\u00ed Faith's perspective on death as a birth into a greater existence, an infinite progression through spiritual worlds, and the existence of Heaven and Hell as states of nearness or distance from God.",
+  "name": "Baháʼí",
+  "description": "Discover the Baháʼí Faith's perspective on death as a birth into a greater existence, an infinite progression through spiritual worlds, and the existence of Heaven and Hell as states of nearness or distance from God.",
   "icon": "nine_pointed_star",
   "color": "#FFC0CB",
-  "totalXP": 120,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "bahai-intro",
-      "title": "Bah\u00e1'\u00ed: Infinite Progression",
+      "title": "Baháʼí: Death as a Messenger of Joy and Spiritual Birth",
       "order": 1,
-      "content": "The Bah\u00e1'\u00ed Faith presents death as a birth into a greater existence, likening earthly life to a womb that serves as necessary preparation for what comes next. Death liberates the soul from physical limitations. Bah\u00e1'u'll\u00e1h, the founder, wrote: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?' The soul, created at conception, uses earthly life to develop spiritual qualities such as love, justice, and compassion, which are essential in the next world. [cite: 621, 622, 623]",
+      "content": "The Baháʼí Faith presents a unique and profound understanding of death, viewing it not as an end, but as a birth into a greater and eternal existence. Earthly life is likened to a womb, serving as a necessary period of preparation and development for the soul before its transition to the next world. Just as a fetus develops organs and capacities in the womb that are essential for its life in the physical world, the human soul in this earthly existence is meant to cultivate and refine spiritual qualities. These virtues—such as love, justice, compassion, honesty, truthfulness, trustworthiness, and detachment from material things—are not merely ethical guidelines but are considered essential spiritual 'tools' or capacities. They are the true 'wealth' of the soul, directly impacting its ability to thrive and progress in the purely spiritual realms after death. Death is seen as a liberation of the soul from the limitations and constraints of the physical body, a transition from the world of form to the world of spirit. Baháʼuʼlláh, the Prophet-Founder of the Baháʼí Faith, eloquently expressed this perspective, stating: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?' This emphasizes that while natural grief for the departed is acknowledged, it should be tempered by the understanding of their spiritual liberation and the beginning of a magnificent, infinite journey. From the moment of conception, the soul is created and begins its journey, using earthly life to cultivate and refine these spiritual attributes, which are crucial for its advancement and flourishing in the next, purely spiritual realm. The physical body is merely the instrument through which the soul expresses itself in this world, and its cessation allows the soul to continue its journey unencumbered.",
       "keyTerms": [
-        "Bah\u00e1'u'll\u00e1h",
-        "Infinite progression",
+        "Spiritual birth",
+        "Womb analogy",
         "Spiritual qualities",
-        "Heaven as state",
-        "Hell as state"
+        "Liberation of the soul",
+        "Baháʼuʼlláh",
+        "Messenger of joy",
+        "Spiritual tools"
       ],
-      "xpReward": 15,
+      "xpReward": 75,
       "questions": [
         {
           "id": "bahai-q1-1",
           "type": "multipleChoice",
-          "question": "How does the Bah\u00e1'\u00ed Faith compare earthly life to the womb?",
+          "question": "How does the Baháʼí Faith primarily view death?",
           "options": [
-            "As a place of punishment",
-            "As a necessary preparation for the next world",
-            "As a temporary illusion",
-            "As a place of eternal rest"
+            "As an end to existence",
+            "As a punishment for sins",
+            "As a birth into a greater existence",
+            "As a deep sleep"
           ],
-          "correctAnswer": "As a necessary preparation for the next world",
-          "explanation": "The Bah\u00e1'\u00ed Faith presents death as birth into a greater existence, comparing earthly life to the womb\u2014necessary preparation for what comes next. [cite: 621]"
+          "correctAnswer": "As a birth into a greater existence",
+          "explanation": "The Baháʼí Faith views death as a birth into a greater and eternal existence, a liberation of the soul from the limitations of the physical body."
         },
         {
           "id": "bahai-q1-2",
           "type": "trueFalse",
-          "question": "Death in Bah\u00e1'\u00ed belief is seen as a source of great sorrow and grief.",
+          "question": "Earthly life is seen as a period of punishment in the Baháʼí Faith.",
           "correctAnswer": "false",
-          "explanation": "Bah\u00e1'u'll\u00e1h wrote: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?' [cite: 622]"
+          "explanation": "Earthly life is likened to a womb, serving as a necessary period of preparation and development for the soul before its transition to the next world."
+        },
+        {
+          "id": "bahai-q1-3",
+          "type": "multipleChoice",
+          "question": "What are considered the 'true wealth' of the soul for its journey in the next world?",
+          "options": [
+            "Material possessions",
+            "Spiritual qualities cultivated in this life",
+            "Physical beauty",
+            "Social status"
+          ],
+          "correctAnswer": "Spiritual qualities cultivated in this life",
+          "explanation": "Spiritual qualities such as love, justice, compassion, honesty, and truthfulness are considered essential spiritual 'tools' or capacities that are the true 'wealth' of the soul."
         }
       ]
     },
     {
-      "id": "bahai-progression",
-      "title": "Infinite Spiritual Worlds",
+      "id": "bahai-spiritual-worlds",
+      "title": "The Spiritual Worlds: Infinite Progress and Unveiling Mysteries",
       "order": 2,
-      "content": "The afterlife in the Bah\u00e1'\u00ed Faith unfolds as an infinite progression through countless spiritual worlds, each more glorious than the last. Souls advance based on their spiritual development and God's grace, continually approaching but never fully comprehending the Divine. This journey is one of perpetual growth and deepening understanding. [cite: 624, 625]",
+      "content": "The Baháʼí teachings describe the afterlife as an infinite progression through various spiritual worlds, rather than a single, static destination. This journey is one of continuous growth and ever-increasing nearness to God. There is no ultimate limit to the soul's advancement; it continues to unfold its latent spiritual capacities and deepen its understanding of divine mysteries throughout eternity. After death, the soul sheds the limitations of time and space, which are characteristics of the material world. It enters a realm where understanding is no longer dependent on sensory perception but on spiritual insight and illumination. The spiritual worlds are not physical locations in the way we understand them in the material universe; rather, they are realms of consciousness, knowledge, and divine attributes. The station of the soul in the next world is determined by the spiritual development it achieved during its earthly life. The more virtues cultivated and the closer one lived to God's will, the greater the capacity for progress and joy in the spiritual realms. Conversely, a soul that failed to develop these spiritual capacities on Earth will find itself unable to fully appreciate or participate in the spiritual realities of the next world, experiencing a state of deprivation relative to its potential. While the journey is infinite, each soul progresses at its own pace and according to its own spiritual preparation. The Baháʼí writings emphasize that the spiritual worlds are beyond human comprehension in their current state, but they are realms of unimaginable beauty, light, and joy for those souls prepared to enter them. They are realms of pure spirit, where the soul finds true freedom and limitless opportunities for knowledge and spiritual communion.",
       "keyTerms": [
+        "Infinite progression",
         "Spiritual worlds",
-        "Divine grace",
-        "Perpetual growth",
-        "Divine comprehension"
+        "Nearness to God",
+        "Latent spiritual capacities",
+        "Shed limitations of time and space",
+        "Realms of consciousness",
+        "Divine attributes"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "bahai-q2-1",
           "type": "multipleChoice",
-          "question": "How do souls advance in the Bah\u00e1'\u00ed afterlife?",
+          "question": "What is the nature of the soul's journey in the afterlife according to Baháʼí teachings?",
           "options": [
-            "By accumulating wealth",
-            "Based on their spiritual development and God's grace",
-            "By reincarnation into higher forms",
-            "Through external rituals only"
+            "A static destination",
+            "An infinite progression through spiritual worlds",
+            "A return to nothingness",
+            "A reincarnation into another physical body"
           ],
-          "correctAnswer": "Based on their spiritual development and God's grace",
-          "explanation": "Souls advance based on their spiritual development and God's grace, forever approaching but never fully comprehending the Divine. [cite: 625]"
+          "correctAnswer": "An infinite progression through spiritual worlds",
+          "explanation": "The Baháʼí teachings describe the afterlife as an infinite progression through various spiritual worlds, with no ultimate limit to the soul's advancement."
         },
         {
           "id": "bahai-q2-2",
           "type": "trueFalse",
-          "question": "Souls can fully comprehend the Divine in the Bah\u00e1'\u00ed afterlife.",
+          "question": "The spiritual worlds are physical locations that can be pinpointed in space.",
           "correctAnswer": "false",
-          "explanation": "Souls advance... forever approaching but never fully comprehending the Divine. [cite: 625]"
+          "explanation": "The spiritual worlds are not physical locations but realms of consciousness, knowledge, and divine attributes, where understanding relies on spiritual insight."
+        },
+        {
+          "id": "bahai-q2-3",
+          "type": "multipleChoice",
+          "question": "What determines the soul's station in the next world?",
+          "options": [
+            "Wealth accumulated on Earth",
+            "Physical beauty",
+            "Spiritual development achieved during earthly life",
+            "Social status"
+          ],
+          "correctAnswer": "Spiritual development achieved during earthly life",
+          "explanation": "The station of the soul in the next world is determined by the spiritual development it achieved during its earthly life."
         }
       ]
     },
     {
-      "id": "bahai-heaven-hell-states",
-      "title": "Heaven and Hell as States",
+      "id": "bahai-heaven-hell",
+      "title": "Heaven and Hell: States of Nearness or Distance from God",
       "order": 3,
-      "content": "In Bah\u00e1'\u00ed belief, Heaven and Hell exist as states of being, rather than literal places. Heaven is defined as nearness to God, while hell signifies distance from God. A soul lacking spiritual development experiences the afterlife as torment, akin to a bird with broken wings, unable to soar. Conversely, a spiritually prepared soul soars through divine worlds, experiencing joy and fulfillment. Souls maintain consciousness and identity, capable of communing with others at similar development levels and continuing to serve humanity's advancement. [cite: 626, 627, 628, 629]",
+      "content": "In the Baháʼí Faith, Heaven and Hell are not understood as literal physical places of reward or punishment, but rather as spiritual conditions or states of being, representing the soul's relationship with God. **Heaven (Paradise)** is a state of nearness to God, characterized by joy, spiritual understanding, illumination, and flourishing. This state is experienced by souls who have cultivated divine virtues during their earthly lives, striving to live in accordance with God's will and manifesting His attributes. The 'rewards' of Heaven are thus spiritual: an ever-deepening awareness of God's love, beauty, and wisdom, and the continuous unfolding of the soul's inherent perfections. It is a state of spiritual contentment and progress, where the soul rejoices in its closeness to its Creator. Conversely, **Hell (Jahannam)** is a state of spiritual distance from God, characterized by spiritual deprivation, sorrow, ignorance, and remoteness from divine attributes. This state is experienced by souls who, in their earthly lives, neglected to develop spiritual qualities, instead focusing on material pursuits and self-centered desires, thus turning away from God. The 'punishment' of Hell is not external torment inflicted by an angry God, but the inherent suffering that arises from the soul's undeveloped state and its inability to perceive and participate in the spiritual realities that constitute true happiness. It is a state of regret for lost opportunities and the natural consequence of spiritual deficiencies. Both Heaven and Hell are thus internal states that originate in this world, and are manifested more fully in the next. The goal of Baháʼí life is to progressively draw nearer to God through prayer, meditation, service to humanity, and adherence to spiritual laws, thereby entering into a state of 'Heaven' while still on Earth and continuing that progress infinitely in the spiritual worlds.",
       "keyTerms": [
-        "Heaven as state",
-        "Hell as state",
+        "Heaven (Paradise)",
+        "Hell (Jahannam)",
+        "States of being",
         "Nearness to God",
         "Distance from God",
-        "Consciousness",
-        "Spiritual development"
+        "Spiritual deprivation",
+        "Divine virtues",
+        "Spiritual contentment"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "bahai-q3-1",
           "type": "multipleChoice",
-          "question": "What do Heaven and Hell represent in Bah\u00e1'\u00ed belief?",
+          "question": "How are Heaven and Hell understood in the Baháʼí Faith?",
           "options": [
-            "Physical locations",
-            "States of mind",
-            "States of nearness or distance from God",
-            "Dreams and illusions"
+            "As literal physical places of reward or punishment",
+            "As states of dreaming",
+            "As spiritual conditions or states of being relative to God",
+            "As temporary illusions"
           ],
-          "correctAnswer": "States of nearness or distance from God",
-          "explanation": "Heaven and hell exist as states, not places\u2014nearness or distance from God. [cite: 626]"
+          "correctAnswer": "As spiritual conditions or states of being relative to God",
+          "explanation": "Heaven and Hell are understood as spiritual conditions or states of being, representing the soul's relationship with God, not literal physical places."
         },
         {
           "id": "bahai-q3-2",
           "type": "trueFalse",
-          "question": "Souls lose their consciousness and identity in the Bah\u00e1'\u00ed afterlife.",
+          "question": "The 'punishment' of Hell in Baháʼí belief is primarily external torment inflicted by God.",
           "correctAnswer": "false",
-          "explanation": "Souls maintain consciousness and identity while transcending physical needs. [cite: 629]"
+          "explanation": "The 'punishment' of Hell is not external torment inflicted by an angry God, but the inherent suffering that arises from the soul's undeveloped state and its inability to perceive and participate in spiritual realities."
         },
         {
           "id": "bahai-q3-3",
           "type": "multipleChoice",
-          "question": "How does a soul lacking spiritual development experience the afterlife?",
+          "question": "What defines 'Heaven' in Baháʼí belief?",
           "options": [
-            "As a state of eternal bliss",
-            "As a state of torment",
-            "As a peaceful sleep",
-            "As an opportunity for rebirth"
+            "Being in a beautiful physical place",
+            "A state of complete rest and inactivity",
+            "A state of nearness to God, characterized by joy and spiritual understanding",
+            "Accumulation of material wealth"
           ],
-          "correctAnswer": "As a state of torment",
-          "explanation": "A soul lacking spiritual development experiences the afterlife as torment, like a bird with broken wings. [cite: 627]"
+          "correctAnswer": "A state of nearness to God, characterized by joy and spiritual understanding",
+          "explanation": "Heaven is a state of nearness to God, characterized by joy, spiritual understanding, illumination, and flourishing."
         }
       ]
     },
     {
-      "id": "bahai-prayers-intercession",
-      "title": "Prayers and Intercession",
+      "id": "bahai-prayers-deeds",
+      "title": "The Role of Prayers and Deeds for the Departed",
       "order": 4,
-      "content": "Prayers from the living are believed to aid the dead's progression in the spiritual worlds. Similarly, spiritually advanced souls in the afterlife can intercede for those on earth, fostering a continuous connection and mutual support between the two realms. This emphasizes a dynamic relationship between the living and the dead, where spiritual progress is a shared endeavor. [cite: 630]",
+      "content": "In the Baháʼí Faith, while the soul's station in the afterlife is primarily determined by its spiritual development during its earthly life, the living are not without means to aid the departed. The Baháʼí teachings emphasize the profound significance of **prayers offered by the living for the departed**. These prayers are believed to greatly assist the progression of the departed soul in the spiritual worlds. They are not meant to change God's decree or pull a soul out of a 'hellish' state, but rather to act as a catalyst, providing spiritual energy and light that enables the soul to continue its upward journey with greater ease and joy. Such prayers are an expression of love, remembrance, and continued spiritual connection. Baháʼuʼlláh and 'Abdu'l-Bahá, the central figures of the Faith, revealed specific prayers for the dead, emphasizing their potency and effectiveness. Furthermore, the virtues and good deeds cultivated during one's earthly life are considered spiritual 'tools' or capacities that the soul takes with it into the next world. These are not merely ethical guidelines but intrinsic spiritual attributes (like love, wisdom, compassion, justice, sincerity) that are crucial for the soul's advancement and flourishing in the purely spiritual realm. They enable the soul to comprehend spiritual realities, experience profound joy, and draw ever closer to God. Conversely, spiritual deficiencies or unaddressed negative traits from earthly life can act as hindrances, making the soul's journey more challenging until those deficiencies are overcome through divine grace and its own efforts. Therefore, the Baháʼí emphasis on righteous conduct, selfless service, and continuous spiritual growth in this life is directly linked to the soul's ability to navigate and thrive in the spiritual worlds after death, with the loving prayers of the living offering additional support.",
       "keyTerms": [
-        "Prayers for the dead",
-        "Intercession",
-        "Spiritual progress",
-        "Living and dead connection"
+        "Prayers for the departed",
+        "Spiritual progression",
+        "Baháʼuʼlláh",
+        "'Abdu'l-Bahá",
+        "Spiritual tools",
+        "Divine grace",
+        "Selfless service",
+        "Spiritual growth"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "bahai-q4-1",
           "type": "multipleChoice",
-          "question": "What is the purpose of prayers from the living for the dead in Bah\u00e1'\u00ed belief?",
+          "question": "What is the significance of prayers offered by the living for the departed in the Baháʼí Faith?",
           "options": [
-            "To bring them back to life",
-            "To aid their spiritual progression",
-            "To punish them",
-            "To prevent them from advancing"
+            "They can change God's decree for the soul",
+            "They are believed to greatly aid the soul's spiritual progression",
+            "They are purely symbolic with no real effect",
+            "They determine the soul's final destination"
           ],
-          "correctAnswer": "To aid their spiritual progression",
-          "explanation": "Prayers from the living aid the dead's progression. [cite: 630]"
+          "correctAnswer": "They are believed to greatly aid the soul's spiritual progression",
+          "explanation": "Prayers offered by the living are believed to greatly aid the progression of the departed soul in the spiritual worlds by providing spiritual energy and light."
         },
         {
           "id": "bahai-q4-2",
           "type": "trueFalse",
-          "question": "Spiritually advanced souls in the afterlife cannot intercede for those on earth.",
+          "question": "Spiritual deficiencies from earthly life have no impact on the soul's journey in the afterlife.",
           "correctAnswer": "false",
-          "explanation": "Spiritually advanced souls intercede for those on earth. [cite: 630]"
+          "explanation": "Spiritual deficiencies or unaddressed negative traits from earthly life can act as hindrances, making the soul's journey more challenging until those deficiencies are overcome."
+        },
+        {
+          "id": "bahai-q4-3",
+          "type": "multipleChoice",
+          "question": "What do good deeds and virtues cultivated in this life serve as for the soul in the next world?",
+          "options": [
+            "Temporary distractions",
+            "Physical possessions",
+            "Spiritual 'tools' or capacities for advancement",
+            "Memory enhancers"
+          ],
+          "correctAnswer": "Spiritual 'tools' or capacities for advancement",
+          "explanation": "The virtues and good deeds cultivated during one's earthly life are considered spiritual 'tools' or capacities that the soul takes with it into the next world, crucial for its advancement."
+        }
+      ]
+    },
+    {
+      "id": "bahai-interconnectedness",
+      "title": "The Interconnectedness of Worlds and the Manifestations of God",
+      "order": 5,
+      "content": "The Baháʼí Faith emphasizes a profound interconnectedness between all worlds—the material, the human, and the spiritual. These are not separate, isolated realms but different dimensions of one unified reality, all emanating from the singular Divine Source. The spiritual worlds, where the soul progresses after death, are intimately linked to our earthly existence. This link is primarily maintained through the continuous revelation of God's Will and Attributes by His chosen Messengers, known as the **Manifestations of God**. Figures like Baháʼuʼlláh, the Báb, Jesus Christ, Moses, Muhammad, Zoroaster, Buddha, Krishna, and others are seen as perfect mirrors reflecting God's light into the human world. Their teachings and examples provide the spiritual laws, principles, and guidance necessary for souls to develop the virtues that ensure their progress both in this life and the next. The Manifestations of God serve as the bridge between the human and divine realms, enabling humanity to understand God's purpose and cultivate the spiritual capacities essential for advancement in the afterlife. Their influence is not limited to the physical plane; their spiritual reality transcends death and continues to guide and inspire souls in the spiritual worlds. Through their teachings, souls in the afterlife gain a deeper understanding of the mysteries they encounter and are empowered to continue their journey of drawing closer to God. Thus, a soul's spiritual foundation laid in this world through adherence to the teachings of the Manifestations of God directly impacts its capacity for joy and understanding in the spiritual worlds. The Baháʼí vision of the afterlife is therefore one of dynamic, continuous interaction within a vast, interconnected spiritual cosmos, eternally guided and sustained by the boundless love and wisdom of God, revealed through His divine educators.",
+      "keyTerms": [
+        "Interconnectedness of worlds",
+        "Manifestations of God",
+        "Divine Source",
+        "Baháʼuʼlláh",
+        "Spiritual laws",
+        "Spiritual capacities",
+        "Divine educators",
+        "Unified reality"
+      ],
+      "xpReward": 125,
+      "questions": [
+        {
+          "id": "bahai-q5-1",
+          "type": "multipleChoice",
+          "question": "Who are the 'Manifestations of God' in the Baháʼí Faith?",
+          "options": [
+            "Only Baháʼuʼlláh",
+            "Ordinary human beings with spiritual insights",
+            "Divine Messengers who perfectly reflect God's light and guide humanity",
+            "Angels who assist souls after death"
+          ],
+          "correctAnswer": "Divine Messengers who perfectly reflect God's light and guide humanity",
+          "explanation": "Manifestations of God are divine Messengers who perfectly reflect God's light and guide humanity, like Baháʼuʼlláh, the Báb, Jesus Christ, Moses, and others."
+        },
+        {
+          "id": "bahai-q5-2",
+          "type": "trueFalse",
+          "question": "The spiritual worlds are completely separate and isolated from the material world.",
+          "correctAnswer": "false",
+          "explanation": "The Baháʼí Faith emphasizes a profound interconnectedness between all worlds—the material, the human, and the spiritual—as different dimensions of one unified reality."
+        },
+        {
+          "id": "bahai-q5-3",
+          "type": "multipleChoice",
+          "question": "What is the primary role of the Manifestations of God in relation to the afterlife?",
+          "options": [
+            "To judge souls after death",
+            "To provide spiritual laws and guidance for souls to progress in both this life and the next",
+            "To physically transport souls to heaven",
+            "To create new spiritual worlds"
+          ],
+          "correctAnswer": "To provide spiritual laws and guidance for souls to progress in both this life and the next",
+          "explanation": "Their teachings and examples provide the spiritual laws, principles, and guidance necessary for souls to develop the virtues that ensure their progress both in this life and the next."
         }
       ]
     }
   ],
   "masteryTest": {
     "id": "bahai-mastery",
-    "title": "Bah\u00e1'\u00ed Mastery Test",
+    "title": "Baháʼí Mastery Test",
     "requiredScore": 80,
     "xpReward": 100,
     "questions": [
       {
         "id": "bahai-mt-q1",
         "type": "multipleChoice",
-        "question": "According to Bah\u00e1'\u00ed belief, what does death liberate the soul from?",
+        "question": "How does the Baháʼí Faith primarily view death?",
         "options": [
-          "Spiritual limitations",
-          "The need for prayers",
-          "Physical limitations",
-          "The cycle of rebirth"
+          "As an end to existence",
+          "As a punishment for sins",
+          "As a birth into a greater existence",
+          "As a deep sleep"
         ],
-        "correctAnswer": "Physical limitations",
-        "explanation": "Death liberates the soul from physical limitations. [cite: 622]"
+        "correctAnswer": "As a birth into a greater existence",
+        "explanation": "The Baháʼí Faith views death as a birth into a greater and eternal existence, a liberation of the soul from the limitations of the physical body."
       },
       {
         "id": "bahai-mt-q2",
         "type": "trueFalse",
-        "question": "Heaven and Hell in Bah\u00e1'\u00ed belief are literal physical places.",
+        "question": "Earthly life is seen as a period of punishment in the Baháʼí Faith.",
         "correctAnswer": "false",
-        "explanation": "Heaven and hell exist as states, not places\u2014nearness or distance from God. [cite: 626]"
+        "explanation": "Earthly life is likened to a womb, serving as a necessary period of preparation and development for the soul before its transition to the next world."
       },
       {
         "id": "bahai-mt-q3",
         "type": "multipleChoice",
-        "question": "How do souls advance in the Bah\u00e1'\u00ed afterlife?",
+        "question": "What is the nature of the soul's journey in the afterlife according to Baháʼí teachings?",
         "options": [
-          "Through reincarnation",
-          "By performing rituals in the afterlife",
-          "Based on spiritual development and God's grace",
-          "By being judged by angels"
+          "A static destination",
+          "An infinite progression through spiritual worlds",
+          "A return to nothingness",
+          "A reincarnation into another physical body"
         ],
-        "correctAnswer": "Based on spiritual development and God's grace",
-        "explanation": "Souls advance based on their spiritual development and God's grace. [cite: 625]"
+        "correctAnswer": "An infinite progression through spiritual worlds",
+        "explanation": "The Baháʼí teachings describe the afterlife as an infinite progression through various spiritual worlds, with no ultimate limit to the soul's advancement."
       },
       {
         "id": "bahai-mt-q4",
         "type": "matching",
-        "question": "Match the Bah\u00e1'\u00ed concept with its description:",
+        "question": "Match the Baháʼí concept with its description:",
         "pairs": [
-          {
-            "left": "Earthly life",
-            "right": "Preparation for the next world"
-          },
-          {
-            "left": "Death",
-            "right": "Messenger of joy, liberating the soul"
-          },
           {
             "left": "Heaven",
             "right": "State of nearness to God"
@@ -222,19 +316,93 @@
           {
             "left": "Hell",
             "right": "State of distance from God"
+          },
+          {
+            "left": "Spiritual qualities",
+            "right": "Tools for progress in the next world"
+          },
+          {
+            "left": "Manifestations of God",
+            "right": "Divine Messengers who reflect God's light"
           }
         ],
         "correctAnswer": [
-          "Earthly life",
-          "Preparation for the next world",
-          "Death",
-          "Messenger of joy, liberating the soul",
           "Heaven",
           "State of nearness to God",
           "Hell",
-          "State of distance from God"
+          "State of distance from God",
+          "Spiritual qualities",
+          "Tools for progress in the next world",
+          "Manifestations of God",
+          "Divine Messengers who reflect God's light"
         ],
-        "explanation": "These are core tenets of Bah\u00e1'\u00ed afterlife understanding. [cite: 621, 622, 626]"
+        "explanation": "These are core concepts in Baháʼí afterlife beliefs."
+      },
+      {
+        "id": "bahai-mt-q5",
+        "type": "multipleChoice",
+        "question": "How are Heaven and Hell understood in the Baháʼí Faith?",
+        "options": [
+          "As literal physical places of reward or punishment",
+          "As states of dreaming",
+          "As spiritual conditions or states of being relative to God",
+          "As temporary illusions"
+        ],
+        "correctAnswer": "As spiritual conditions or states of being relative to God",
+        "explanation": "Heaven and Hell are understood as spiritual conditions or states of being, representing the soul's relationship with God, not literal physical places."
+      },
+      {
+        "id": "bahai-mt-q6",
+        "type": "trueFalse",
+        "question": "The 'punishment' of Hell in Baháʼí belief is primarily external torment inflicted by God.",
+        "correctAnswer": "false",
+        "explanation": "The 'punishment' of Hell is not external torment inflicted by an angry God, but the inherent suffering that arises from the soul's undeveloped state and its inability to perceive and participate in spiritual realities."
+      },
+      {
+        "id": "bahai-mt-q7",
+        "type": "multipleChoice",
+        "question": "What is the significance of prayers offered by the living for the departed in the Baháʼí Faith?",
+        "options": [
+          "They can change God's decree for the soul",
+          "They are believed to greatly aid the soul's spiritual progression",
+          "They are purely symbolic with no real effect",
+          "They determine the soul's final destination"
+        ],
+        "correctAnswer": "They are believed to greatly aid the soul's spiritual progression",
+        "explanation": "Prayers offered by the living are believed to greatly aid the progression of the departed soul in the spiritual worlds by providing spiritual energy and light."
+      },
+      {
+        "id": "bahai-mt-q8",
+        "type": "multipleChoice",
+        "question": "Who are the 'Manifestations of God' in the Baháʼí Faith?",
+        "options": [
+          "Only Baháʼuʼlláh",
+          "Ordinary human beings with spiritual insights",
+          "Divine Messengers who perfectly reflect God's light and guide humanity",
+          "Angels who assist souls after death"
+        ],
+        "correctAnswer": "Divine Messengers who perfectly reflect God's light and guide humanity",
+        "explanation": "Manifestations of God are divine Messengers who perfectly reflect God's light and guide humanity, like Baháʼuʼlláh, the Báb, Jesus Christ, Moses, and others."
+      },
+      {
+        "id": "bahai-mt-q9",
+        "type": "trueFalse",
+        "question": "The spiritual worlds are completely separate and isolated from the material world.",
+        "correctAnswer": "false",
+        "explanation": "The Baháʼí Faith emphasizes a profound interconnectedness between all worlds—the material, the human, and the spiritual—as different dimensions of one unified reality."
+      },
+      {
+        "id": "bahai-mt-q10",
+        "type": "multipleChoice",
+        "question": "What is the primary role of the Manifestations of God in relation to the afterlife?",
+        "options": [
+          "To judge souls after death",
+          "To provide spiritual laws and guidance for souls to progress in both this life and the next",
+          "To physically transport souls to heaven",
+          "To create new spiritual worlds"
+        ],
+        "correctAnswer": "To provide spiritual laws and guidance for souls to progress in both this life and the next",
+        "explanation": "Their teachings and examples provide the spiritual laws, principles, and guidance necessary for souls to develop the virtues that ensure their progress both in this life and the next."
       }
     ]
   }

@@ -1,24 +1,26 @@
 {
   "id": "norse",
   "name": "Norse",
-  "description": "Journey through the Norse afterlife where death in battle leads to Valhalla's eternal feast, while most souls trek to Hel's misty realm, all awaiting Ragnar\u00f6k's final transformation.",
+  "description": "Journey through the Norse afterlife where death in battle leads to Valhalla's eternal feast, while most souls trek to Hel's misty realm, all awaiting Ragnarök's final transformation.",
   "icon": "mjolnir",
   "color": "#4B0082",
-  "totalXP": 240,
+  "totalXP": 300,
   "lessons": [
     {
       "id": "norse-intro",
       "title": "Norse: The Warrior's Afterlife",
       "order": 1,
-      "content": "Norse mythology presents death not as an end but as a transition to realms reflecting how one died. The manner of death determined one's afterlife destination more than moral conduct. Warriors who died gloriously in battle were chosen by Odin's Valkyries for Valhalla, while those who drowned belonged to R\u00e1n, and most others journeyed to Hel's domain. This cosmology emphasized that a brave death brought the greatest rewards, shaping Viking culture's fearless approach to warfare and exploration. [cite: 700, 701, 702, 703]",
+      "content": "Norse mythology presents death not as an end but as a transition to realms reflecting how one died. The manner of death determined one's afterlife destination more than moral conduct. Warriors who died gloriously in battle were chosen by Odin's Valkyries for Valhalla, while those who drowned belonged to Rán, and most others journeyed to Hel's domain. This cosmology emphasized that a brave death brought the greatest rewards, shaping Viking culture's fearless approach to warfare and exploration. This perspective meant that the circumstances of one's demise were paramount, influencing not only their final resting place but also their ongoing role in the cosmic drama leading up to and beyond Ragnarök. The Norse worldview integrated death deeply into the fabric of life, seeing it as a continuation of existence, albeit in a different form, often with new duties or opportunities. The concept of 'honor in death' was central, elevating those who fell valiantly in combat or faced their end with courage, ensuring their memory would live on in sagas and songs, a form of immortality in itself.",
       "keyTerms": [
         "Valhalla",
         "Valkyries",
         "Hel",
-        "R\u00e1n",
-        "Odin"
+        "Rán",
+        "Odin",
+        "Ragnarök",
+        "Honor in death"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q1-1",
@@ -31,14 +33,14 @@
             "Religious devotion"
           ],
           "correctAnswer": "The manner of death",
-          "explanation": "The manner of death determined afterlife destination more than moral conduct. [cite: 701]"
+          "explanation": "The manner of death determined afterlife destination more than moral conduct."
         },
         {
           "id": "norse-q1-2",
           "type": "trueFalse",
           "question": "All Norse warriors automatically went to Valhalla after death.",
           "correctAnswer": "false",
-          "explanation": "Only warriors who died gloriously in battle were chosen by Valkyries for Valhalla. [cite: 702]"
+          "explanation": "Only warriors who died gloriously in battle were chosen by Valkyries for Valhalla."
         },
         {
           "id": "norse-q1-3",
@@ -51,7 +53,20 @@
             "Thor"
           ],
           "correctAnswer": "Valkyries",
-          "explanation": "Warriors who died gloriously in battle were chosen by Odin's Valkyries. [cite: 702]"
+          "explanation": "Warriors who died gloriously in battle were chosen by Odin's Valkyries."
+        },
+        {
+          "id": "norse-q1-4",
+          "type": "multipleChoice",
+          "question": "What concept was central to the Norse worldview regarding death?",
+          "options": [
+            "Punishment for sins",
+            "Eternal peace and rest",
+            "Honor in death and continuation of existence",
+            "Reincarnation into human form"
+          ],
+          "correctAnswer": "Honor in death and continuation of existence",
+          "explanation": "The Norse worldview integrated death deeply into the fabric of life, seeing it as a continuation of existence, albeit in a different form, often with new duties or opportunities. The concept of 'honor in death' was central."
         }
       ]
     },
@@ -59,15 +74,20 @@
       "id": "norse-valhalla",
       "title": "Valhalla: Hall of the Slain",
       "order": 2,
-      "content": "Valhalla, the 'Hall of the Slain,' stood as a warrior's paradise in Asgard. Its rafters were spear shafts, the roof thatched with shields, and benches strewn with mail coats. Here, the einherjar (heroic dead) spent days fighting to the death, only to resurrect at dusk for nightly feasts. They drank mead flowing endlessly from the goat Hei\u00f0r\u00fan and ate meat from the boar S\u00e6hr\u00edmnir, which regenerated each day. This eternal cycle prepared them for Ragnar\u00f6k, when they would fight alongside the gods in the final battle. Odin presided over the hall, sharing his wisdom and receiving reports from his ravens, Huginn and Muninn. [cite: 704, 705, 706, 707, 708]",
+      "content": "Valhalla, the 'Hall of the Slain,' stood as a warrior's paradise in Asgard, the realm of the Aesir gods. Its magnificent architecture reflected its martial purpose: rafters were fashioned from spear shafts, the roof intricately thatched with gleaming shields, and the vast benches inside were strewn with mail coats, ready for the warriors' use. Here, the einherjar (heroic dead) lived a glorious existence. Their days were spent in constant, exhilarating combat, fighting fiercely to the death in grand mock battles. Miraculously, at dusk, all wounds would heal, and the slain would resurrect, ready to join nightly feasts. They drank endless streams of potent mead, flowing continuously from the udders of the mystical goat Heiðrún, who fed on the leaves of the World Tree, Yggdrasil. Their sustenance also came from the perpetually regenerating flesh of the boar Sæhrímnir, cooked daily by the divine cook Andhrímnir in the cauldron Eldhrímnir. This eternal cycle of fighting, dying, and feasting was not mere revelry but a crucial training regimen. It meticulously prepared them for the inevitable and ultimate battle of Ragnarök, when they would march forth from Valhalla's 540 doors to fight alongside Odin and the other gods against the forces of chaos. Odin, the Allfather, grandly presided over the hall, sharing his profound wisdom and receiving vital intelligence from his two ravens, Huginn (Thought) and Muninn (Memory), who flew across the nine worlds each day. The presence of these ravens underscored Odin's constant oversight and his strategic preparations for the end of days. Valhalla was thus not a place of peaceful rest, but a vibrant, boisterous, and purposeful afterlife, embodying the highest ideals of Norse warrior culture.",
       "keyTerms": [
         "Einherjar",
-        "Hei\u00f0r\u00fan",
-        "S\u00e6hr\u00edmnir",
-        "Ragnar\u00f6k",
-        "Huginn and Muninn"
+        "Heiðrún",
+        "Sæhrímnir",
+        "Ragnarök",
+        "Huginn and Muninn",
+        "Asgard",
+        "Yggdrasil",
+        "Andhrímnir",
+        "Eldhrímnir",
+        "Odin"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q2-1",
@@ -80,14 +100,14 @@
             "Building fortifications"
           ],
           "correctAnswer": "Fighting by day, feasting by night",
-          "explanation": "The einherjar spent days fighting to the death, only to resurrect at dusk for nightly feasts. [cite: 705]"
+          "explanation": "The einherjar spent days fighting to the death, only to resurrect at dusk for nightly feasts."
         },
         {
           "id": "norse-q2-2",
           "type": "trueFalse",
-          "question": "The boar S\u00e6hr\u00edmnir was permanently consumed each night.",
+          "question": "The boar Sæhrímnir was permanently consumed each night.",
           "correctAnswer": "false",
-          "explanation": "They ate meat from the boar S\u00e6hr\u00edmnir, which regenerated each day. [cite: 706]"
+          "explanation": "They ate meat from the boar Sæhrímnir, which regenerated each day."
         },
         {
           "id": "norse-q2-3",
@@ -96,11 +116,24 @@
           "options": [
             "For entertainment",
             "To impress Odin",
-            "To prepare for Ragnar\u00f6k",
+            "To prepare for Ragnarök",
             "To earn better mead"
           ],
-          "correctAnswer": "To prepare for Ragnar\u00f6k",
-          "explanation": "This eternal cycle prepared them for Ragnar\u00f6k, when they would fight alongside the gods in the final battle. [cite: 707]"
+          "correctAnswer": "To prepare for Ragnarök",
+          "explanation": "This eternal cycle prepared them for Ragnarök, when they would fight alongside the gods in the final battle."
+        },
+        {
+          "id": "norse-q2-4",
+          "type": "multipleChoice",
+          "question": "From where did the mead in Valhalla flow endlessly?",
+          "options": [
+            "A magical well",
+            "The goat Heidrun",
+            "The cauldron Eldhrímnir",
+            "The river Gjöll"
+          ],
+          "correctAnswer": "The goat Heidrun",
+          "explanation": "They drank mead flowing endlessly from the goat Heiðrún."
         }
       ]
     },
@@ -108,16 +141,19 @@
       "id": "norse-hel-realm",
       "title": "Hel's Domain: The Common Fate",
       "order": 3,
-      "content": "Most Norse dead journeyed to Hel, a realm neither of punishment nor reward but of shadowy existence. The goddess Hel, daughter of Loki, ruled this domain with a body half-living, half-corpse. Her hall \u00c9lj\u00fa\u00f0nir ('Damp with Sleet') lay beyond the bridge Gjallarbr\u00fa, guarded by the maiden M\u00f3\u00f0gu\u00f0r. The journey took nine days northward and downward through dark valleys. Hel's realm contained different regions: murderers and oath-breakers dwelt in N\u00e1str\u01ebnd ('Corpse Shore'), where the dragon N\u00ed\u00f0h\u00f6ggr gnawed on the dishonored dead. Yet for most, Hel offered a quiet afterlife, reuniting with deceased kin in her vast, cold halls. [cite: 709, 710, 711, 712, 713]",
+      "content": "For the vast majority of Norse dead, those who did not die gloriously in battle or by drowning, their journey led to Hel, the eponymous realm ruled by the goddess Hel. This shadowy domain was neither a place of torment for the wicked nor a paradise for the virtuous, but rather a cold, dim existence for ordinary souls. The goddess Hel, daughter of Loki and the giantess Angrboða, ruled this domain with an unyielding grip. She was depicted with a chilling duality: one side of her face fair and living, the other decayed and corpse-like, symbolizing her dominion over both life and death. Her hall, Éljúðnir ('Damp with Sleet'), lay deep within her realm, beyond the formidable bridge Gjallarbrú, which spanned the river Gjöll. This bridge was famously guarded by the maiden Móðguðr, who allowed only the dead to pass and demanded a clear account of their journey. The arduous trek to Hel's realm typically took nine days, leading souls northward and downward through bleak, misty valleys. While for most, Hel offered a quiet afterlife, allowing for reunion with deceased kin in her vast, cold halls, certain transgressors faced a harsher fate within her domain. Murderers, oath-breakers, and those who committed particularly heinous crimes dwelt in Niflhel, or more specifically, Nastrond ('Corpse Shore'). This was a grim hall whose walls were made of woven snakes, dripping venom. Here, the dragon Níðhöggr gnawed on the corpses of the dishonored dead, perpetually consuming their remains. Hel's realm underscored the Norse belief that even in death, there were different gradations of existence, with some fates being more dismal than others, though none were eternal punishment in the Abrahamic sense.",
       "keyTerms": [
         "Hel",
-        "\u00c9lj\u00fa\u00f0nir",
-        "Gjallarbr\u00fa",
-        "M\u00f3\u00f0gu\u00f0r",
-        "N\u00e1str\u01ebnd",
-        "N\u00ed\u00f0h\u00f6ggr"
+        "Éljúðnir",
+        "Gjallarbrú",
+        "Móðguðr",
+        "Nastrond",
+        "Níðhöggr",
+        "Loki's daughter",
+        "Niflhel",
+        "River Gjöll"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q3-1",
@@ -130,43 +166,59 @@
             "As a giant serpent"
           ],
           "correctAnswer": "Half-living, half-corpse",
-          "explanation": "The goddess Hel ruled this domain with a body half-living, half-corpse. [cite: 710]"
+          "explanation": "The goddess Hel ruled this domain with a body half-living, half-corpse."
         },
         {
           "id": "norse-q3-2",
           "type": "trueFalse",
           "question": "Hel's realm was primarily a place of torment and punishment.",
           "correctAnswer": "false",
-          "explanation": "Hel was a realm neither of punishment nor reward but of shadowy existence. [cite: 709]"
+          "explanation": "Hel was a realm neither of punishment nor reward but of shadowy existence."
         },
         {
           "id": "norse-q3-3",
           "type": "multipleChoice",
           "question": "Where did murderers and oath-breakers dwell in Hel's realm?",
           "options": [
-            "\u00c9lj\u00fa\u00f0nir",
+            "Éljúðnir",
             "Valhalla",
-            "N\u00e1str\u01ebnd",
-            "Gjallarbr\u00fa"
+            "Nastrond",
+            "Gjallarbrú"
           ],
-          "correctAnswer": "N\u00e1str\u01ebnd",
-          "explanation": "Murderers and oath-breakers dwelt in N\u00e1str\u01ebnd ('Corpse Shore'). [cite: 712]"
+          "correctAnswer": "Nastrond",
+          "explanation": "Murderers and oath-breakers dwelt in Nastrond ('Corpse Shore')."
+        },
+        {
+          "id": "norse-q3-4",
+          "type": "multipleChoice",
+          "question": "Who guarded the bridge to Hel's realm?",
+          "options": [
+            "Fenrir",
+            "Jormungandr",
+            "Móðguðr",
+            "Sleipnir"
+          ],
+          "correctAnswer": "Móðguðr",
+          "explanation": "Her hall Éljúðnir lay beyond the bridge Gjallarbrú, guarded by the maiden Móðguðr."
         }
       ]
     },
     {
       "id": "norse-other-deaths",
-      "title": "Alternative Afterlives",
+      "title": "Alternative Afterlives and Divine Destinies",
       "order": 4,
-      "content": "Norse cosmology recognized multiple afterlife destinations based on death circumstances. Those who drowned were claimed by the sea goddess R\u00e1n, dwelling in her net-draped halls beneath the waves. Women who died nobly might join Freyja in F\u00f3lkvangr, where she received half of the battle-slain before Odin. Some sources mention Giml\u00e9, a hall fairer than the sun where righteous men would live after Ragnar\u00f6k. The god Baldr's death revealed another aspect: even gods could die and dwell in Hel, though prophecies promised his return after the world's rebirth. These varied destinations reflected the Norse understanding that death, like life, contained many possibilities. [cite: 714, 715, 716, 717, 718]",
+      "content": "Beyond Valhalla and Hel, Norse cosmology recognized multiple, specialized afterlife destinations, each determined by specific circumstances of death or life. Those who met their end by drowning or any other seafaring misfortune were not destined for Hel, but were instead claimed by the formidable sea goddess Rán. She, along with her nine daughters, reigned over a net-draped hall beneath the waves, where the drowned souls resided, sometimes depicted as enjoying a peaceful, watery existence within her realm. A unique and significant destination was Fólkvangr, meaning 'Field of the Host' or 'People's Field,' presided over by the goddess Freyja. This serene and beautiful hall, known as Sessrúmnir ('Seat-Room'), was where Freyja received half of the battle-slain, sharing these honored warriors with Odin. Fólkvangr was often seen as a softer, yet equally honorable, alternative to Valhalla, emphasizing Freyja's role as a deity of love, war, and fertility, and allowing for a different kind of post-mortem glory. Another important concept was Giml\u00e9, a radiant hall mentioned in some Eddic poems. Described as 'fairer than the sun' and 'shining,' Giml\u00e9 was prophesied as a haven for the righteous and good people who would survive Ragnarök. It represented a new, purified world after the destruction and rebirth of the cosmos, offering a future of eternal peace and bliss, free from the cycles of conflict. The death of the beloved god Baldr also illuminated another facet of the Norse afterlife: even gods could die and dwell in Hel's realm. Baldr's journey to the underworld, and the gods' failed attempts to retrieve him, underscored the unyielding nature of Hel's dominion. However, prophecies promised his eventual return from Hel after the world's rebirth following Ragnarök, symbolizing hope and renewal. These varied destinations reflected the intricate and nuanced Norse understanding that death, like life, contained many possibilities and served different cosmic purposes.",
       "keyTerms": [
-        "R\u00e1n",
-        "F\u00f3lkvangr",
+        "Rán",
+        "Fólkvangr",
         "Freyja",
         "Giml\u00e9",
-        "Baldr"
+        "Baldr",
+        "Sessrúmnir",
+        "Drowning deaths",
+        "Ragnarök survivors"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q4-1",
@@ -175,18 +227,18 @@
           "options": [
             "Valhalla",
             "Hel",
-            "R\u00e1n's underwater halls",
-            "F\u00f3lkvangr"
+            "Rán's underwater halls",
+            "Fólkvangr"
           ],
-          "correctAnswer": "R\u00e1n's underwater halls",
-          "explanation": "Those who drowned were claimed by the sea goddess R\u00e1n, dwelling in her halls beneath the waves. [cite: 714]"
+          "correctAnswer": "Rán's underwater halls",
+          "explanation": "Those who drowned were claimed by the sea goddess Rán, dwelling in her halls beneath the waves."
         },
         {
           "id": "norse-q4-2",
           "type": "trueFalse",
           "question": "Freyja received some of the battle-slain in her hall.",
           "correctAnswer": "true",
-          "explanation": "Women who died nobly might join Freyja in F\u00f3lkvangr, where she received half of the battle-slain. [cite: 715]"
+          "explanation": "Women who died nobly might join Freyja in Fólkvangr, where she received half of the battle-slain."
         },
         {
           "id": "norse-q4-3",
@@ -199,23 +251,40 @@
             "A battlefield"
           ],
           "correctAnswer": "A hall fairer than the sun",
-          "explanation": "Giml\u00e9, a hall fairer than the sun where righteous men would live after Ragnar\u00f6k. [cite: 716]"
+          "explanation": "Giml\u00e9, a hall fairer than the sun where righteous men would live after Ragnarök."
+        },
+        {
+          "id": "norse-q4-4",
+          "type": "multipleChoice",
+          "question": "What was the name of Freyja's hall in Fólkvangr?",
+          "options": [
+            "Éljúðnir",
+            "Sessrúmnir",
+            "Valaskjálf",
+            "Bilskirnir"
+          ],
+          "correctAnswer": "Sessrúmnir",
+          "explanation": "This serene and beautiful hall, known as Sessrúmnir ('Seat-Room'), was where Freyja received half of the battle-slain."
         }
       ]
     },
     {
       "id": "norse-funeral-rites",
-      "title": "Funeral Rites and Grave Goods",
+      "title": "Funeral Rites and Grave Goods: Preparing for the Journey",
       "order": 5,
-      "content": "Norse funeral practices reflected their afterlife beliefs through elaborate rituals. Ship burials, whether actual vessels or stone ship settings, symbolized the journey to the afterlife realms. The dead were equipped with grave goods: weapons for warriors, tools for craftsmen, jewelry for the wealthy. Thralls might be sacrificed to serve their masters in death. Burning released the soul more quickly, the smoke carrying it upward, while burial kept connections to the earth and ancestors. The practice of placing food, drink, and equipment showed practical preparation for the afterlife journey. Runestones erected afterward ensured the deceased's memory lived on, as being forgotten was considered a second, worse death. [cite: 719, 720, 721, 722, 723]",
+      "content": "Norse funeral practices were deeply intertwined with their afterlife beliefs, serving as crucial rituals to ensure the deceased's successful transition and honored status in the realms beyond. These elaborate ceremonies reflected a practical preparation for the journey ahead. Ship burials, a prominent and iconic Viking practice, whether involving actual vessels set ablaze or massive stone ship settings outlining a grave, symbolized the perilous journey to the afterlife realms, providing a metaphorical (and sometimes literal) vehicle for the deceased. The dead were meticulously equipped with a diverse array of grave goods, tailored to their earthly status and anticipated needs in the afterlife. Warriors might be buried with their weapons (swords, spears, shields), armor, and even their horses; craftsmen with their tools; and the wealthy with intricate jewelry, household items, and valuable possessions. This practice demonstrated a belief that these items would be useful or necessary in the next life. Tragically, in some high-status burials, thralls (slaves) might be sacrificed and interred with their masters, intended to continue their servitude in death, highlighting the social stratification that extended beyond life. The choice between cremation (burning) and inhumation (burial) also held significant meaning. Burning the body was believed to release the soul more quickly, the smoke carrying it upward towards the heavens or specific divine realms. Conversely, burial maintained a stronger connection to the earth and the ancestors, ensuring the deceased remained tied to their lineage and homeland. The inclusion of food, drink, and other provisions in graves further underscored the practical and continuous nature of the afterlife journey. Post-funeral, the erection of towering runestones served as enduring memorials, ensuring the deceased's name and deeds lived on amongst the living. For the Norse, being forgotten was considered a profound tragedy, a 'second death' far worse than the physical demise itself, as it meant complete erasure from collective memory and thus, from a vital aspect of eternal existence. These practices were not just acts of mourning, but active efforts to secure and honor the deceased's place in the ongoing cosmic narrative.",
       "keyTerms": [
         "Ship burials",
         "Grave goods",
         "Thralls",
         "Runestones",
-        "Second death"
+        "Second death",
+        "Cremation",
+        "Inhumation",
+        "Ancestors",
+        "Memorials"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q5-1",
@@ -228,14 +297,14 @@
             "Punishment for crimes"
           ],
           "correctAnswer": "The journey to afterlife realms",
-          "explanation": "Ship burials symbolized the journey to the afterlife realms. [cite: 719]"
+          "explanation": "Ship burials symbolized the journey to the afterlife realms."
         },
         {
           "id": "norse-q5-2",
           "type": "trueFalse",
           "question": "All Norse dead were cremated according to their beliefs.",
           "correctAnswer": "false",
-          "explanation": "Burning released the soul quickly, while burial kept connections to earth and ancestors. [cite: 721]"
+          "explanation": "Burning released the soul quickly, while burial kept connections to earth and ancestors."
         },
         {
           "id": "norse-q5-3",
@@ -248,29 +317,47 @@
             "Drowning at sea"
           ],
           "correctAnswer": "Being forgotten",
-          "explanation": "Being forgotten was considered a second, worse death. [cite: 723]"
+          "explanation": "Being forgotten was considered a second, worse death."
+        },
+        {
+          "id": "norse-q5-4",
+          "type": "multipleChoice",
+          "question": "What was the purpose of burying thralls with their masters?",
+          "options": [
+            "To punish them",
+            "To provide companionship",
+            "To serve their masters in death",
+            "As a sign of wealth"
+          ],
+          "correctAnswer": "To serve their masters in death",
+          "explanation": "Thralls might be sacrificed to serve their masters in death."
         }
       ]
     },
     {
       "id": "norse-ragnarok-renewal",
-      "title": "Ragnar\u00f6k and Renewal",
+      "title": "Ragnarök and the Cycle of Renewal",
       "order": 6,
-      "content": "Ragnar\u00f6k, the 'Twilight of the Gods,' promised not just an end but transformation. During this apocalyptic battle, the einherjar would march from Valhalla's 540 doors to fight alongside the gods against giants and monsters. Even knowing their doom, they would fight valiantly. The wolf Fenrir would devour Odin, Thor would perish killing the World Serpent, and Heimdall and Loki would slay each other. Fire would consume the World Tree Yggdrasil. Yet after destruction came renewal: the earth would rise again from the sea, green and beautiful. Baldr would return from Hel, and surviving gods would rule a purified cosmos. This cyclical vision meant death itself would ultimately die, replaced by a golden age of rebirth. [cite: 724, 725, 726, 727, 728, 729]",
+      "content": "Ragnarök, often translated as the 'Twilight of the Gods,' was not merely an apocalyptic end but a cataclysmic event leading to a profound cosmic transformation and renewal. This prophesied final battle would see the einherjar, the honored warriors of Valhalla, march forth from its 540 doors to fight alongside the Aesir gods against the formidable forces of chaos—the giants, monstrous beasts, and the legions of Hel. Even knowing their predestined doom, they would fight valiantly, embodying the ultimate Norse ideal of courage in the face of fate. Iconic figures were destined to fall: the colossal wolf Fenrir would break free and famously devour Odin, the Allfather. Thor, the thunder god, would slay the monstrous World Serpent (Jörmungandr) but succumb to its venom, taking nine steps before falling. The watchman god Heimdall and the trickster god Loki would engage in a mutually destructive combat, both perishing. The very fabric of the cosmos would be rent asunder; fire from the giant Surtr would consume the World Tree Yggdrasil, plunging the worlds into flames and then into the sea. Yet, from this utter destruction, a new world would emerge. The earth would rise again from the primordial waters, green and pristine, signaling a fresh beginning. A new generation of gods, including Baldr, the beloved god of light and purity, would return from Hel's realm, alongside a few surviving Aesir. Two human survivors, Líf and Lífþrasir, sheltered within Yggdrasil, would repopulate the renewed world. This cyclical vision underscored a fundamental Norse belief: that death, even on a cosmic scale, was not an absolute end but a necessary precursor to rebirth and a golden age of renewal. The universe, like life, was destined to endure a cycle of destruction and creation, where the lessons of the past would inform a purer future.",
       "keyTerms": [
-        "Ragnar\u00f6k",
+        "Ragnarök",
         "Fenrir",
         "World Serpent",
         "Yggdrasil",
         "Baldr's return",
-        "Renewal"
+        "Renewal",
+        "Líf and Lífþrasir",
+        "Surtr",
+        "Jörmungandr",
+        "Heimdall",
+        "Loki"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "norse-q6-1",
           "type": "multipleChoice",
-          "question": "What would the einherjar do during Ragnar\u00f6k?",
+          "question": "What would the einherjar do during Ragnarök?",
           "options": [
             "Hide in Valhalla",
             "Fight alongside the gods",
@@ -278,19 +365,19 @@
             "Flee to Midgard"
           ],
           "correctAnswer": "Fight alongside the gods",
-          "explanation": "The einherjar would march from Valhalla to fight alongside the gods against giants and monsters. [cite: 724]"
+          "explanation": "The einherjar would march from Valhalla to fight alongside the gods against giants and monsters."
         },
         {
           "id": "norse-q6-2",
           "type": "trueFalse",
-          "question": "Ragnar\u00f6k represented the permanent end of everything.",
+          "question": "Ragnarök represented the permanent end of everything.",
           "correctAnswer": "false",
-          "explanation": "After destruction came renewal: the earth would rise again from the sea. [cite: 727]"
+          "explanation": "After destruction came renewal: the earth would rise again from the sea."
         },
         {
           "id": "norse-q6-3",
           "type": "multipleChoice",
-          "question": "Which god would return from Hel after Ragnar\u00f6k?",
+          "question": "Which god would return from Hel after Ragnarök?",
           "options": [
             "Odin",
             "Thor",
@@ -298,14 +385,133 @@
             "Baldr"
           ],
           "correctAnswer": "Baldr",
-          "explanation": "Baldr would return from Hel after Ragnar\u00f6k. [cite: 728]"
+          "explanation": "Baldr would return from Hel after Ragnarök."
+        },
+        {
+          "id": "norse-q6-4",
+          "type": "multipleChoice",
+          "question": "Who would devour Odin during Ragnarök?",
+          "options": [
+            "Jörmungandr",
+            "Fenrir",
+            "Surtr",
+            "Loki"
+          ],
+          "correctAnswer": "Fenrir",
+          "explanation": "The wolf Fenrir would devour Odin."
+        }
+      ]
+    },
+    {
+      "id": "norse-soul-concepts",
+      "title": "Norse Concepts of the Soul",
+      "order": 7,
+      "content": "Unlike some other mythologies with distinct soul components like the Egyptian Ka and Ba, Norse belief often described the human essence in more fluid and interconnected terms, though certain elements were consistently present. The **Hugr** (thought, mind) was a vital spiritual component, closely tied to a person's consciousness, intellect, and memory. It was believed to be capable of independent travel during dreams or trance states, or even after death. The **Fylgja** (attendant, 'follower') was a protective spirit, often appearing as an animal corresponding to the individual's character, or as a female figure. It was closely tied to a person's luck and destiny, and sometimes seen as a manifestation of their soul. A person's **Hamingja** (luck, fortune) was also seen as an integral part of their being, a personal aura of good fortune that could be passed down through families. The **Líkami** (body) was the physical vessel, essential in life but ultimately perishable. The concept of **Önd** (breath, spirit) represented the vital life force, given by the gods, which sustained the body. Furthermore, a person's **Minni** (memory) was crucial; to be remembered was to continue to exist in a meaningful way, tying into the importance of sagas and runestones. These interwoven concepts highlight a holistic understanding of the individual, where spiritual and physical aspects were deeply connected to fate, lineage, and the enduring power of reputation. The integrity of these elements contributed to a person's vitality in life and their potential for continued existence in the afterlife, whether in the halls of the gods, in Hel, or through their enduring fame.",
+      "keyTerms": [
+        "Hugr",
+        "Fylgja",
+        "Hamingja",
+        "Líkami",
+        "Önd",
+        "Minni",
+        "Soul components",
+        "Luck",
+        "Memory"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "norse-q7-1",
+          "type": "multipleChoice",
+          "question": "Which Norse soul concept was tied to a person's consciousness and intellect?",
+          "options": [
+            "Fylgja",
+            "Hamingja",
+            "Hugr",
+            "Önd"
+          ],
+          "correctAnswer": "Hugr",
+          "explanation": "The Hugr (thought, mind) was a vital spiritual component, closely tied to a person's consciousness, intellect, and memory."
+        },
+        {
+          "id": "norse-q7-2",
+          "type": "trueFalse",
+          "question": "The Fylgja was primarily a physical aspect of a person.",
+          "correctAnswer": "false",
+          "explanation": "The Fylgja was a protective spirit, often appearing as an animal or female figure, closely tied to luck and destiny."
+        },
+        {
+          "id": "norse-q7-3",
+          "type": "multipleChoice",
+          "question": "What did the concept of 'Minni' represent?",
+          "options": [
+            "Physical strength",
+            "Emotional resilience",
+            "Memory and the importance of being remembered",
+            "Magical abilities"
+          ],
+          "correctAnswer": "Memory and the importance of being remembered",
+          "explanation": "A person's Minni (memory) was crucial; to be remembered was to continue to exist in a meaningful way."
+        }
+      ]
+    },
+    {
+      "id": "norse-ancestor-worship",
+      "title": "Ancestors, Mound Dwellers, and the Disir",
+      "order": 8,
+      "content": "The veneration of ancestors played a crucial role in Norse belief, blurring the lines between the living and the dead. Deceased family members, particularly those buried in burial mounds, were often referred to as 'mound dwellers' (haugbúar). These ancestors were not completely removed from the world of the living; they were believed to retain some influence over their descendants, offering protection, wisdom, or even causing trouble if displeased. Offerings of food, drink, and valuable objects were sometimes left at burial mounds to maintain good relations and seek their favor, especially before important undertakings. The ancestors were considered part of the larger family and community, their presence reinforcing lineage and tradition. In addition to individual ancestors, the Norse also recognized the Disir (singular: Dís), a collective term for various female deities or spirits associated with fate, fertility, and protection, often linked to ancestral lines or specific localities. These might include the Norns (who wove fate), Valkyries (who chose the slain), or other more localized protective spirits. While not strictly 'afterlife' beings in the sense of deceased humans, the Disir often held sway over the destinies of individuals and communities, and their favor was sought through rituals, especially during the Dísablót, an autumn feast dedicated to them. This belief in active, influential ancestors and protective spirits underscored the continuous cycle of life and death, where the past remained a powerful force in the present, emphasizing the interconnectedness of generations and the enduring spiritual landscape.",
+      "keyTerms": [
+        "Ancestors",
+        "Mound dwellers",
+        "Haugbúar",
+        "Disir",
+        "Norns",
+        "Valkyries",
+        "Dísablót",
+        "Veneration",
+        "Lineage"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "norse-q8-1",
+          "type": "multipleChoice",
+          "question": "What were deceased family members buried in mounds often called?",
+          "options": [
+            "Einherjar",
+            "Mound dwellers",
+            "Fylgjur",
+            "Draugr"
+          ],
+          "correctAnswer": "Mound dwellers",
+          "explanation": "Deceased family members, particularly those buried in burial mounds, were often referred to as 'mound dwellers' (haugbúar)."
+        },
+        {
+          "id": "norse-q8-2",
+          "type": "trueFalse",
+          "question": "Norse ancestors had no influence over the living.",
+          "correctAnswer": "false",
+          "explanation": "These ancestors were believed to retain some influence over their descendants, offering protection, wisdom, or even causing trouble if displeased."
+        },
+        {
+          "id": "norse-q8-3",
+          "type": "multipleChoice",
+          "question": "What were the Disir?",
+          "options": [
+            "Malevolent giants",
+            "Guardians of Hel",
+            "Collective female deities/spirits linked to fate and protection",
+            "Famous Viking warriors"
+          ],
+          "correctAnswer": "Collective female deities/spirits linked to fate and protection",
+          "explanation": "The Disir (singular: Dís), a collective term for various female deities or spirits associated with fate, fertility, and protection, often linked to ancestral lines or specific localities."
         }
       ]
     }
   ],
   "masteryTest": {
     "id": "norse-mastery",
-    "title": "Norse Mastery Test",
+    "title": "Norse Afterlife Mastery Test",
     "requiredScore": 80,
     "xpReward": 100,
     "questions": [
@@ -315,19 +521,19 @@
         "question": "Which goddess ruled over half of the battle-slain?",
         "options": [
           "Hel",
-          "R\u00e1n",
+          "Rán",
           "Freyja",
           "Frigg"
         ],
         "correctAnswer": "Freyja",
-        "explanation": "Freyja received half of the battle-slain in F\u00f3lkvangr. [cite: 715]"
+        "explanation": "Freyja received half of the battle-slain in Fólkvangr."
       },
       {
         "id": "norse-mt-q2",
         "type": "trueFalse",
         "question": "The manner of death was more important than moral conduct in determining one's afterlife.",
         "correctAnswer": "true",
-        "explanation": "The manner of death determined afterlife destination more than moral conduct. [cite: 701]"
+        "explanation": "The manner of death determined afterlife destination more than moral conduct."
       },
       {
         "id": "norse-mt-q3",
@@ -335,12 +541,12 @@
         "question": "What was the name of Hel's hall?",
         "options": [
           "Valhalla",
-          "F\u00f3lkvangr",
-          "\u00c9lj\u00fa\u00f0nir",
+          "Fólkvangr",
+          "Éljúðnir",
           "Giml\u00e9"
         ],
-        "correctAnswer": "\u00c9lj\u00fa\u00f0nir",
-        "explanation": "Her hall \u00c9lj\u00fa\u00f0nir ('Damp with Sleet') lay beyond the bridge. [cite: 710]"
+        "correctAnswer": "Éljúðnir",
+        "explanation": "Her hall Éljúðnir ('Damp with Sleet') lay beyond the bridge."
       },
       {
         "id": "norse-mt-q4",
@@ -352,29 +558,29 @@
             "right": "Hall of warriors who died in battle"
           },
           {
-            "left": "N\u00e1str\u01ebnd",
+            "left": "Nastrond",
             "right": "Corpse Shore for oath-breakers"
           },
           {
-            "left": "F\u00f3lkvangr",
+            "left": "Fólkvangr",
             "right": "Freyja's hall for noble dead"
           },
           {
             "left": "Giml\u00e9",
-            "right": "Hall fairer than the sun after Ragnar\u00f6k"
+            "right": "Hall fairer than the sun after Ragnarök"
           }
         ],
         "correctAnswer": [
           "Valhalla",
           "Hall of warriors who died in battle",
-          "N\u00e1str\u01ebnd",
+          "Nastrond",
           "Corpse Shore for oath-breakers",
-          "F\u00f3lkvangr",
+          "Fólkvangr",
           "Freyja's hall for noble dead",
           "Giml\u00e9",
-          "Hall fairer than the sun after Ragnar\u00f6k"
+          "Hall fairer than the sun after Ragnarök"
         ],
-        "explanation": "These are the main afterlife destinations in Norse mythology. [cite: 702, 712, 715, 716]"
+        "explanation": "These are the main afterlife destinations in Norse mythology."
       },
       {
         "id": "norse-mt-q5",
@@ -382,12 +588,71 @@
         "question": "What creature gnawed on the dishonored dead?",
         "options": [
           "Fenrir",
-          "J\u00f6rmungandr",
-          "N\u00ed\u00f0h\u00f6ggr",
+          "Jörmungandr",
+          "Níðhöggr",
           "Sleipnir"
         ],
-        "correctAnswer": "N\u00ed\u00f0h\u00f6ggr",
-        "explanation": "The dragon N\u00ed\u00f0h\u00f6ggr gnawed on the dishonored dead at N\u00e1str\u01ebnd. [cite: 713]"
+        "correctAnswer": "Níðhöggr",
+        "explanation": "The dragon Níðhöggr gnawed on the dishonored dead at Nastrond."
+      },
+      {
+        "id": "norse-mt-q6",
+        "type": "multipleChoice",
+        "question": "What two human survivors would repopulate the renewed world after Ragnarök?",
+        "options": [
+          "Ask and Embla",
+          "Baldr and Nanna",
+          "Líf and Lífþrasir",
+          "Odin and Frigg"
+          ],
+        "correctAnswer": "Líf and Lífþrasir",
+        "explanation": "Two human survivors, Líf and Lífþrasir, sheltered within Yggdrasil, would repopulate the renewed world."
+      },
+      {
+        "id": "norse-mt-q7",
+        "type": "trueFalse",
+        "question": "The Norse believed being forgotten was a desirable outcome after death.",
+        "correctAnswer": "false",
+        "explanation": "For the Norse, being forgotten was considered a profound tragedy, a 'second death' far worse than the physical demise itself."
+      },
+      {
+        "id": "norse-mt-q8",
+        "type": "multipleChoice",
+        "question": "Which Norse soul component was a protective spirit, often appearing as an animal?",
+        "options": [
+          "Hugr",
+          "Hamingja",
+          "Fylgja",
+          "Önd"
+        ],
+        "correctAnswer": "Fylgja",
+        "explanation": "The Fylgja (attendant, 'follower') was a protective spirit, often appearing as an animal corresponding to the individual's character."
+      },
+      {
+        "id": "norse-mt-q9",
+        "type": "multipleChoice",
+        "question": "What was the Dísablót?",
+        "options": [
+          "A major battle in Ragnarök",
+          "A type of ship burial",
+          "An autumn feast dedicated to the Disir",
+          "A magical spell for resurrection"
+        ],
+        "correctAnswer": "An autumn feast dedicated to the Disir",
+        "explanation": "Their favor was sought through rituals, especially during the Dísablót, an autumn feast dedicated to them."
+      },
+      {
+        "id": "norse-mt-q10",
+        "type": "multipleChoice",
+        "question": "What was the name of the World Serpent that Thor would battle during Ragnarök?",
+        "options": [
+            "Fenrir",
+            "Níðhöggr",
+            "Jörmungandr",
+            "Garmr"
+        ],
+        "correctAnswer": "Jörmungandr",
+        "explanation": "Thor would perish killing the World Serpent (Jörmungandr)."
       }
     ]
   }

@@ -4,20 +4,24 @@
   "description": "Explore Emanuel Swedenborg's claimed direct experiences of the afterlife, detailing the soul's awakening in the world of spirits, the revelation of inner nature, and the self-chosen societies of heaven and hell.",
   "icon": "eye",
   "color": "#8A2BE2",
-  "totalXP": 160,
+  "totalXP": 320,
   "lessons": [
     {
       "id": "swedenborgian-intro",
-      "title": "Swedenborgian Visions: Direct Experience",
+      "title": "Swedenborgian Visions: Direct Experience and the World of Spirits",
       "order": 1,
-      "content": "Emanuel Swedenborg claimed direct experience of the afterlife through spiritual sight, describing a world even more vivid than earth. At death, angels attend the dying, ensuring a peaceful transition. The soul then awakens in the 'world of spirits'\u2014an intermediate realm between heaven and hell. Here, external facades drop away, revealing the soul's true inner nature. [cite: 678, 679, 680]",
+      "content": "Emanuel Swedenborg, an 18th-century Swedish scientist, philosopher, theologian, and mystic, claimed direct and conscious experience of the spiritual world for nearly three decades. His unique insight into the afterlife was not based on revelation or scripture alone, but on what he described as empirical observation through his 'spiritual sight.' According to Swedenborg, death is merely a continuation of life, a peaceful transition from the natural world to the spiritual. At the moment of death, angels attend the dying, ensuring a gentle and conscious awakening. The soul then finds itself in the 'world of spirits'—an intermediate realm situated between heaven and hell. This world of spirits is not a purgatory, but a place where individuals spend a relatively short period, clarifying their internal states and affections. Here, the external facades and hypocrisies of earthly life gradually fall away, revealing the soul's true inner nature and ruling love. This process allows each individual to freely gravitate towards their ultimate spiritual destination, whether heaven or hell, based on their deepest desires and life choices. The World of Spirits serves as a sort of spiritual 'melting pot' where every soul, regardless of their earthly religion or beliefs, undergoes a process of self-discovery and alignment with their true spiritual character. Communication is instant and universal, not relying on spoken languages but on shared thought, emphasizing the direct connection of spirits.",
       "keyTerms": [
         "Emanuel Swedenborg",
         "World of spirits",
+        "Spiritual sight",
+        "Peaceful transition",
         "True inner nature",
-        "Intermediate realm"
+        "Intermediate realm",
+        "Free gravitation",
+        "Communication of thoughts"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "swedenborgian-q1-1",
@@ -30,135 +34,488 @@
             "Helena Blavatsky"
           ],
           "correctAnswer": "Emanuel Swedenborg",
-          "explanation": "Emanuel Swedenborg claimed direct experience of the afterlife through spiritual sight. [cite: 678]"
+          "explanation": "Emanuel Swedenborg claimed direct experience of the afterlife through spiritual sight."
         },
         {
           "id": "swedenborgian-q1-2",
           "type": "trueFalse",
-          "question": "The 'world of spirits' is the final destination for all souls.",
+          "question": "The world of spirits is a place of eternal punishment.",
           "correctAnswer": "false",
-          "explanation": "The 'world of spirits' is an intermediate realm between heaven and hell. [cite: 680]"
+          "explanation": "The world of spirits is an intermediate realm where external facades drop away, revealing the soul's true inner nature, not a place of eternal punishment."
+        },
+        {
+          "id": "swedenborgian-q1-3",
+          "type": "multipleChoice",
+          "question": "What happens to a soul's external facades in the world of spirits?",
+          "options": [
+            "They become more pronounced",
+            "They are reinforced",
+            "They gradually fall away",
+            "They transform into new forms"
+          ],
+          "correctAnswer": "They gradually fall away",
+          "explanation": "In the 'world of spirits,' external facades drop away, revealing the soul's true inner nature."
+        },
+        {
+          "id": "swedenborgian-q1-4",
+          "type": "multipleChoice",
+          "question": "How long did Swedenborg claim to have conscious experience of the spiritual world?",
+          "options": [
+            "A few months",
+            "One year",
+            "Nearly three decades",
+            "His entire life"
+          ],
+          "correctAnswer": "Nearly three decades",
+          "explanation": "Emanuel Swedenborg claimed direct and conscious experience of the spiritual world for nearly three decades."
         }
       ]
     },
     {
-      "id": "swedenborgian-first-state",
-      "title": "The First State: Earthly Resemblance",
+      "id": "swedenborgian-states",
+      "title": "The First and Second States: Revelation of Affections",
       "order": 2,
-      "content": "This first state in the world of spirits closely resembles earthly life. Spirits meet deceased friends and relatives and explore familiar-seeming landscapes. Gradually, they come to realize they have died. Notably, some spirits, especially materialists who denied the existence of an afterlife, may initially refuse to believe they have died. This reflects the impact of earthly beliefs on immediate post-mortem experiences. [cite: 681, 682]",
+      "content": "Upon entering the world of spirits, the newly deceased soul first experiences what Swedenborg termed the 'First State.' This initial phase closely resembles earthly life, but with heightened sensory perception and an immediate awareness of spiritual realities. Spirits often find themselves in familiar environments, meeting deceased friends and relatives, and may even be unaware for a time that they have died, believing they are still on Earth. This state serves as a gentle transition, allowing them to adjust to their new reality. For many, it's a period of joy and reunion. However, as the soul progresses, it enters the 'Second State,' a more profound and revelatory phase. Here, the external and often feigned behaviors adopted during earthly life begin to dissipate, and the individual's deepest, most interior affections—their ruling loves and true character—are revealed and come to the forefront. Those who lived a life of genuine love for God and neighbor find their inner goodness and truth shining forth. Conversely, those whose lives were dominated by self-love, greed, and falsity find their hidden evils and deceptive intentions exposed. This revelation is not a judgment imposed by an external force, but a natural consequence of their inner state becoming transparent. It is in this state that spirits begin to naturally gravitate towards others who share their ruling loves, forming initial associations that foreshadow their ultimate destination. Swedenborg emphasizes that every individual, by divine providence, is given the opportunity to explore their true nature and freely choose their eternal abode based on their deepest affections. They either embrace goodness and truth, or they cling to self-love and falsity, moving towards their chosen path.",
       "keyTerms": [
-        "First state",
-        "Earthly resemblance",
-        "Meeting deceased",
-        "Materialists"
+        "First State",
+        "Second State",
+        "Ruling loves",
+        "Inner nature",
+        "Revelation of affections",
+        "Free choice",
+        "Goodness and truth",
+        "Self-love and falsity"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "swedenborgian-q2-1",
           "type": "multipleChoice",
-          "question": "What characterizes the first state in the world of spirits?",
+          "question": "What characterizes the 'First State' in the world of spirits?",
           "options": [
-            "Extreme torment",
-            "A complete void",
-            "Resemblance to earthly life",
-            "Instant union with God"
+            "Immediate punishment",
+            "Complete transformation",
+            "Resemblance to earthly life and reunion with friends",
+            "A state of unconsciousness"
           ],
-          "correctAnswer": "Resemblance to earthly life",
-          "explanation": "This first state resembles earthly life. [cite: 681]"
+          "correctAnswer": "Resemblance to earthly life and reunion with friends",
+          "explanation": "The 'First State' closely resembles earthly life, where spirits meet deceased friends and relatives and gradually realize they have died."
         },
         {
           "id": "swedenborgian-q2-2",
           "type": "trueFalse",
-          "question": "All spirits immediately accept they have died in the world of spirits.",
+          "question": "In the 'Second State,' individuals can still hide their true inner nature.",
           "correctAnswer": "false",
-          "explanation": "Some refuse to believe it, especially materialists who denied afterlife existence. [cite: 682]"
+          "explanation": "In the 'Second State,' external facades dissipate, and the individual's deepest affections and true character are revealed."
+        },
+        {
+          "id": "swedenborgian-q2-3",
+          "type": "multipleChoice",
+          "question": "What primarily guides a soul's ultimate destination in Swedenborg's vision?",
+          "options": [
+            "Divine judgment",
+            "Ritual adherence",
+            "Their deepest desires and ruling loves",
+            "The prayers of the living"
+          ],
+          "correctAnswer": "Their deepest desires and ruling loves",
+          "explanation": "Each individual freely gravitates towards their ultimate spiritual destination... based on their deepest desires and life choices."
+        },
+        {
+          "id": "swedenborgian-q2-4",
+          "type": "multipleChoice",
+          "question": "How is the revelation of inner nature described in the Second State?",
+          "options": [
+            "An external judgment",
+            "A forced transformation",
+            "A natural consequence of their inner state becoming transparent",
+            "A test from higher beings"
+          ],
+          "correctAnswer": "A natural consequence of their inner state becoming transparent",
+          "explanation": "This revelation is not a judgment imposed by an external force, but a natural consequence of their inner state becoming transparent."
         }
       ]
     },
     {
-      "id": "swedenborgian-second-state-sorting",
-      "title": "The Second State and Natural Sorting",
+      "id": "swedenborgian-heaven-hell",
+      "title": "Heaven and Hell: Societies of Affection",
       "order": 3,
-      "content": "The second state strips away all pretense. Secret thoughts become visible, and hidden desires manifest. This process creates a natural sorting: those who love goodness and truth gravitate toward heaven, while those preferring selfishness and falsity drift toward hell. This sorting is a consequence of their deepest affections and inner states, rather than an external judgment. [cite: 683, 684]",
+      "content": "For Swedenborg, Heaven and Hell are not places of arbitrary reward or punishment, but states of being, self-chosen destinations that are a natural extension of an individual's ruling love, cultivated during their earthly life and fully revealed in the world of spirits. Heaven consists of countless societies, each formed by individuals who share similar loves for goodness, truth, and mutual service (use). These heavenly societies are organized into three main heavens—the lowest, middle, and highest—corresponding to celestial, spiritual, and natural angels, who are distinguished by their degrees of love and wisdom. In heaven, angels live in perfect harmony, experiencing unimaginable joy, wisdom, and peace. Their 'work' is a form of service to others, a loving contribution that brings them profound fulfillment. They live in beautiful homes, surrounded by landscapes that are living manifestations of their inner states of peace and charity. Conversely, Hell also consists of countless societies, formed by those whose ruling love is for self, for domination, and for falsity. Swedenborg witnessed that these hellish societies are the opposite of heavenly ones, characterized by conflict, misery, and discord. Individuals in hell choose to be there because the light and warmth of heaven are unbearable to them, as these represent the very truths and loves they rejected in life. They prefer their chosen 'darkness,' which, to them, feels like light. Despite their torment, which is self-inflicted and a consequence of their ruling evils, God's divine mercy still provides a structure to hell that prevents its inhabitants from utterly destroying themselves. No one is ever cast into hell by God; rather, individuals freely gravitate to the societies that perfectly correspond to their inner states and affections, finding their true 'home' among those who share their deepest desires. This profound freedom of choice, even in the afterlife, is a central tenet of Swedenborg's theology.",
       "keyTerms": [
-        "Second state",
-        "Hidden desires",
-        "Natural sorting",
-        "Goodness and truth",
-        "Selfishness and falsity"
+        "Heavenly societies",
+        "Hellish societies",
+        "Ruling love",
+        "Self-chosen destination",
+        "Use (service)",
+        "Freedom of choice",
+        "Degrees of heaven",
+        "Divine mercy",
+        "Inner states"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "swedenborgian-q3-1",
           "type": "multipleChoice",
-          "question": "What happens in the second state of the afterlife?",
+          "question": "What is the basis for heavenly societies?",
           "options": [
-            "Souls forget their past lives",
-            "Secret thoughts and hidden desires manifest",
-            "Souls are physically reincarnated",
-            "Souls merge into a collective consciousness"
+            "Shared wealth",
+            "Mutual love and service",
+            "Intellectual prowess",
+            "Social status"
           ],
-          "correctAnswer": "Secret thoughts and hidden desires manifest",
-          "explanation": "The second state strips away all pretense. Secret thoughts become visible, hidden desires manifest. [cite: 683]"
+          "correctAnswer": "Mutual love and service",
+          "explanation": "Heaven consists of societies based on mutual love for goodness, truth, and mutual service (use)."
         },
         {
           "id": "swedenborgian-q3-2",
           "type": "trueFalse",
-          "question": "The sorting into heaven or hell is arbitrary.",
+          "question": "God casts individuals into hell as punishment.",
           "correctAnswer": "false",
-          "explanation": "This creates natural sorting\u2014those who love goodness and truth gravitate toward heaven, while those preferring selfishness and falsity drift toward hell. [cite: 684]"
+          "explanation": "No one is ever cast into hell by God; rather, individuals freely gravitate to the societies that perfectly correspond to their inner states and affections."
+        },
+        {
+          "id": "swedenborgian-q3-3",
+          "type": "multipleChoice",
+          "question": "Why do individuals in hell choose to be there?",
+          "options": [
+            "Because they enjoy suffering",
+            "They are forced by demons",
+            "Heavenly light and warmth are unbearable to them",
+            "They are unaware of heaven"
+          ],
+          "correctAnswer": "Heavenly light and warmth are unbearable to them",
+          "explanation": "Individuals in hell choose to be there because the light and warmth of heaven are unbearable to them."
+        },
+        {
+          "id": "swedenborgian-q3-4",
+          "type": "multipleChoice",
+          "question": "How many main heavens are there according to Swedenborg?",
+          "options": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+          ],
+          "correctAnswer": "Three",
+          "explanation": "These heavenly societies are organized into three main heavens—the lowest, middle, and highest."
         }
       ]
     },
     {
-      "id": "swedenborgian-heaven-hell-choice",
-      "title": "Heaven and Hell: Societies of Choice",
+      "id": "swedenborgian-correspondences",
+      "title": "The Doctrine of Correspondences: Link Between Worlds",
       "order": 4,
-      "content": "Heaven in Swedenborg's vision arranges into countless societies based on mutual love and use. Each society manifests as a beautiful landscape reflecting its inhabitants' states. Angels engage in meaningful work, study, and relationships, experiencing ever-deepening joy and wisdom. Hell likewise contains societies, but these are based on mutual hatred and evil. Inhabitants choose hell, finding heavenly light and warmth unbearable, preferring their darkness, even though it brings continual conflict and suffering. Swedenborg emphasized that God condemns no one; each soul gravitates to its proper place through free choice, finding the environment matching its deepest loves. [cite: 685, 686, 687, 688, 689, 690]",
+      "content": "A cornerstone of Swedenborg's spiritual philosophy is the 'Doctrine of Correspondences.' This doctrine asserts that there is a direct and inherent relationship between all levels of existence—the natural world, the spiritual world, and the divine. Everything in the natural world (minerals, plants, animals, human body parts, natural phenomena) is a 'correspondence' of something spiritual, and everything spiritual is a correspondence of something divine. Essentially, the natural world is a reflection, an outworking, or an effect of the spiritual world, which in turn is an effect of the divine. For example, light in the natural world corresponds to truth in the spiritual world; warmth corresponds to love; a heart corresponds to love and will; a lung corresponds to understanding and faith. This means that the entire universe is filled with spiritual meaning and purpose, and by understanding correspondences, one can interpret the 'internal sense' of scripture and the spiritual meaning behind natural phenomena. In the afterlife, this doctrine becomes profoundly evident. The environment of a spirit—their dwelling, the landscapes, the objects they interact with—are not merely external surroundings but are living, dynamic manifestations of their internal spiritual state, their ruling affections. A person in heaven sees beautiful gardens, flowing rivers, and magnificent houses because their inner state is one of peace, charity, and love for truth. Conversely, a spirit in hell experiences desolate landscapes, squalid dwellings, and tormenting environments because these outwardly reflect their inner state of hatred, falsity, and disorder. This doctrine explains why the spiritual world can appear so vividly real yet also so deeply symbolic and fluid, constantly changing to reflect the inner realities of its inhabitants. It implies that every aspect of the afterlife experience is a perfect manifestation of the soul's true nature.",
       "keyTerms": [
-        "Heavenly societies",
-        "Mutual love and use",
-        "Meaningful work",
-        "Hellish societies",
-        "Mutual hatred",
-        "Free choice"
+        "Doctrine of Correspondences",
+        "Natural world",
+        "Spiritual world",
+        "Divine",
+        "Internal sense of scripture",
+        "Reflection",
+        "Manifestation of inner state",
+        "Symbolism",
+        "Love and truth"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "swedenborgian-q4-1",
           "type": "multipleChoice",
-          "question": "What is the basis for societies in Heaven?",
+          "question": "What does the Doctrine of Correspondences explain?",
           "options": [
-            "Random assignment",
-            "Social status",
-            "Mutual love and use",
-            "Intellectual ability"
+            "How planets move",
+            "The direct relationship between all levels of existence",
+            "The history of the universe",
+            "The nature of physical laws"
           ],
-          "correctAnswer": "Mutual love and use",
-          "explanation": "Heaven arranges in countless societies based on mutual love and use. [cite: 685]"
+          "correctAnswer": "The direct relationship between all levels of existence",
+          "explanation": "This doctrine asserts that there is a direct and inherent relationship between all levels of existence—the natural world, the spiritual world, and the divine."
         },
         {
           "id": "swedenborgian-q4-2",
           "type": "trueFalse",
-          "question": "God directly condemns souls to hell in Swedenborgian belief.",
+          "question": "According to Swedenborg, the environment in the afterlife is purely random.",
           "correctAnswer": "false",
-          "explanation": "Swedenborg emphasized that God condemns no one. Each soul gravitates to its proper place through free choice. [cite: 690]"
+          "explanation": "The environment of a spirit—their dwelling, the landscapes, the objects they interact with—are living, dynamic manifestations of their internal spiritual state."
         },
         {
           "id": "swedenborgian-q4-3",
           "type": "multipleChoice",
-          "question": "Why do inhabitants of hell prefer their darkness?",
+          "question": "What does light in the natural world correspond to in the spiritual world?",
           "options": [
-            "It is more comfortable",
-            "They find heavenly light and warmth unbearable",
-            "It allows them to plot evil",
-            "It is where they can find peace"
+            "Darkness",
+            "Knowledge",
+            "Truth",
+            "Power"
           ],
-          "correctAnswer": "They find heavenly light and warmth unbearable",
-          "explanation": "They prefer their darkness, though it brings continual conflict and suffering\u2014not imposed punishment but natural consequence of their chosen states. [cite: 689]"
+          "correctAnswer": "Truth",
+          "explanation": "Light in the natural world corresponds to truth in the spiritual world."
+        },
+        {
+          "id": "swedenborgian-q4-4",
+          "type": "multipleChoice",
+          "question": "What is considered an 'effect' in the Doctrine of Correspondences?",
+          "options": [
+            "The natural world from the spiritual world",
+            "The spiritual world from the natural world",
+            "The divine from the spiritual world",
+            "The spiritual world from the divine only"
+          ],
+          "correctAnswer": "The natural world from the spiritual world",
+          "explanation": "Everything in the natural world is a 'correspondence' of something spiritual... Essentially, the natural world is a reflection, an outworking, or an effect of the spiritual world."
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-divine-providence",
+      "title": "Divine Providence and Human Freedom: The Path to Eternity",
+      "order": 5,
+      "content": "Swedenborg's understanding of the afterlife is deeply rooted in his concept of Divine Providence and human freedom. He posited that God's Providence is a universal, loving, and infinitely wise order that governs all things, always with the ultimate goal of leading every human being to heaven. However, this divine desire is never coercive. Central to Swedenborg's theology is the absolute freedom of the human will. God respects this freedom above all else, because true love and wisdom cannot exist without it. Therefore, while Divine Providence constantly guides and influences, it never forces. Every individual freely chooses their path, both in life and in the afterlife, based on their dominant love. This means that if a person consistently chooses evil and self-love during their earthly life, even Divine Providence cannot compel them to enter heaven, because heaven, being a state of love for others and truth, would be intrinsically hellish to them. This explains why hell is a self-chosen destination. Those who enter hell do so because they love their evils and falsities more than any heavenly good. God's Providence in hell is not about punishment, but about maintaining order and preventing its inhabitants from destroying themselves completely. Even in hell, there is a degree of mercy, ensuring that their suffering is a natural consequence of their chosen state and not an arbitrary infliction. This emphasis on freedom means that salvation is not about predestination or external decree, but about a life lived in accordance with heavenly principles, chosen freely by the individual. The afterlife, then, is a perfect manifestation of that freedom, where every soul finds its eternal dwelling corresponding precisely to its deepest, most fundamental affections and choices made during its time on earth. It is a system designed to ensure that everyone finds their perfect 'home,' whether that be in the joyous order of heaven or the self-imposed chaos of hell.",
+      "keyTerms": [
+        "Divine Providence",
+        "Human freedom",
+        "Freedom of the will",
+        "Non-coercive love",
+        "Self-chosen hell",
+        "Dominant love",
+        "Salvation",
+        "Natural consequence",
+        "Mercy in hell"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "swedenborgian-q5-1",
+          "type": "multipleChoice",
+          "question": "What is the ultimate goal of Divine Providence?",
+          "options": [
+            "To punish sinners",
+            "To test humanity",
+            "To lead every human being to heaven",
+            "To control all actions"
+          ],
+          "correctAnswer": "To lead every human being to heaven",
+          "explanation": "God's Providence is a universal, loving... order that governs all things, always with the ultimate goal of leading every human being to heaven."
+        },
+        {
+          "id": "swedenborgian-q5-2",
+          "type": "trueFalse",
+          "question": "Divine Providence forces individuals to choose goodness.",
+          "correctAnswer": "false",
+          "explanation": "While Divine Providence constantly guides and influences, it never forces. Central to Swedenborg's theology is the absolute freedom of the human will."
+        },
+        {
+          "id": "swedenborgian-q5-3",
+          "type": "multipleChoice",
+          "question": "Why can't Divine Providence compel someone who loves evil to enter heaven?",
+          "options": [
+            "Because God is limited",
+            "Heaven would be intrinsically hellish to them",
+            "It goes against cosmic law",
+            "They are already predestined for hell"
+          ],
+          "correctAnswer": "Heaven would be intrinsically hellish to them",
+          "explanation": "If a person consistently chooses evil and self-love... even Divine Providence cannot compel them to enter heaven, because heaven... would be intrinsically hellish to them."
+        },
+        {
+          "id": "swedenborgian-q5-4",
+          "type": "multipleChoice",
+          "question": "How is suffering in hell described?",
+          "options": [
+            "Arbitrary infliction by God",
+            "A natural consequence of their chosen state",
+            "A temporary trial",
+            "A means of purification"
+          ],
+          "correctAnswer": "A natural consequence of their chosen state",
+          "explanation": "Even in hell, there is a degree of mercy, ensuring that their suffering is a natural consequence of their chosen state and not an arbitrary infliction."
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-marriage-love",
+      "title": "Conjugial Love: Heaven's Essential Joy",
+      "order": 6,
+      "content": "Swedenborg places profound emphasis on 'conjugial love'—a unique form of spiritual and eternal marriage love—as the very essence and heaven of all joys. This is distinct from mere earthly marriage based on fleeting affections or social contracts. True conjugial love is a union of two souls, a husband and wife, who are each the embodiment of good (love) and truth (wisdom) respectively, and who become progressively united into one angel. This union is not merely physical or emotional, but an intellectual and volitional joining of minds and hearts, mirroring the divine union of God's love and wisdom. In heaven, this love is perfected, becoming a source of boundless delight, harmony, and wisdom. Angels who were truly conjugially united on earth continue and deepen their union in the heavens, progressing into ever greater states of happiness and wisdom. For those who did not find such a partner on earth, or whose earthly marriage lacked this spiritual depth, if they are receptive to it, they can find their true conjugial partner in heaven, as all marriages in heaven are formed by divine providence. This love is seen as the foundation of all heavenly societies, as it mirrors the divine love of the Lord for His church and for humanity. It is from this unitive love that all other loves and joys in heaven flow, including the love of children, friendship, and communal life. Swedenborg asserted that this love is so central to heavenly life that without it, one cannot fully experience the bliss of heaven. It is a love that continually grows deeper and more beautiful through eternity, producing profound spiritual offspring in the form of wisdom and understanding. Conversely, in hell, there is no true conjugial love, but rather adulterous and destructive affections that lead to discord and misery, reflecting the absence of genuine love and truth.",
+      "keyTerms": [
+        "Conjugial love",
+        "Spiritual marriage",
+        "Union of good and truth",
+        "One angel",
+        "Essence of joy",
+        "Divine union",
+        "Heavenly societies",
+        "Spiritual offspring",
+        "Adulterous affections"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "swedenborgian-q6-1",
+          "type": "multipleChoice",
+          "question": "What is 'conjugial love' in Swedenborg's theology?",
+          "options": [
+            "Love for one's family only",
+            "A unique spiritual and eternal marriage love",
+            "Love for all humanity",
+            "Romantic love on earth"
+          ],
+          "correctAnswer": "A unique spiritual and eternal marriage love",
+          "explanation": "Conjugial love is a unique form of spiritual and eternal marriage love—as the very essence and heaven of all joys."
+        },
+        {
+          "id": "swedenborgian-q6-2",
+          "type": "trueFalse",
+          "question": "Conjugial love is primarily a physical union.",
+          "correctAnswer": "false",
+          "explanation": "This union is not merely physical or emotional, but an intellectual and volitional joining of minds and hearts."
+        },
+        {
+          "id": "swedenborgian-q6-3",
+          "type": "multipleChoice",
+          "question": "What does true conjugial love mirror?",
+          "options": [
+            "Earthly societal norms",
+            "The divine union of God's love and wisdom",
+            "The cycle of reincarnation",
+            "The passage of time"
+          ],
+          "correctAnswer": "The divine union of God's love and wisdom",
+          "explanation": "This union... mirroring the divine union of God's love and wisdom."
+        },
+        {
+          "id": "swedenborgian-q6-4",
+          "type": "multipleChoice",
+          "question": "What is the consequence of adulterous affections in hell?",
+          "options": [
+            "Harmony and wisdom",
+            "Peace and delight",
+            "Discord and misery",
+            "Spiritual offspring"
+          ],
+          "correctAnswer": "Discord and misery",
+          "explanation": "In hell, there is no true conjugial love, but rather adulterous and destructive affections that lead to discord and misery."
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-angelic-life",
+      "title": "Life in Heaven: Purpose, Wisdom, and Community",
+      "order": 7,
+      "content": "Life in heaven, as described by Swedenborg, is far from a static existence of idle praise. It is a dynamic, purposeful, and immensely joyful reality centered on love, wisdom, and use (service to others). Angels, who are simply human beings who have lived according to heavenly principles on earth, retain their individuality and continue to grow in wisdom and love throughout eternity. Their 'work' is not laborious but a delightful expression of their deepest affections, contributing to the well-being of their heavenly society and ultimately, to the divine order. This 'use' takes countless forms, from teaching and guiding new spirits, to managing the spiritual forces that influence the natural world, to creating beautiful forms and landscapes through their spiritual essence. Heaven is also a realm of profound wisdom. Angels are constantly learning and deepening their understanding of divine truths, which unfolds infinitely. Their spiritual senses are exquisitely refined, allowing them to perceive beauty, harmony, and truths with clarity far beyond anything experienced on earth. Communication between angels is not through words but through the immediate transference of thoughts and affections, making their interactions profoundly intimate and transparent. Heavenly societies are vast and diverse, yet perfectly ordered, resembling magnificent cities, gardens, and palaces, all of which are living correspondences of the collective good and truth of their inhabitants. There is no jealousy or envy; instead, angels find joy in the good of others, recognizing that the Lord's love is infinite and there is abundance for all. The highest heaven is characterized by celestial love, the middle by spiritual love, and the lowest by natural spiritual love, each with its own unique glories and forms of understanding. The entire heavenly realm acts as a Grand Man (Maximus Homo), with each society and individual contributing to the whole, mirroring the divine order of the universe and the human form itself. This life is a continuous progression into deeper states of happiness, wisdom, and usefulness, embodying the eternal purpose of human existence.",
+      "keyTerms": [
+        "Use (service)",
+        "Angelic work",
+        "Growth in wisdom",
+        "Spiritual senses",
+        "Communication of thoughts",
+        "Heavenly societies",
+        "Grand Man",
+        "Eternal purpose",
+        "Love and wisdom"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "swedenborgian-q7-1",
+          "type": "multipleChoice",
+          "question": "What is the primary focus of 'work' for angels in heaven?",
+          "options": [
+            "Leisure and relaxation",
+            "Idle praise",
+            "Service to others (use)",
+            "Personal enrichment only"
+          ],
+          "correctAnswer": "Service to others (use)",
+          "explanation": "Their 'work' is a delightful expression of their deepest affections, contributing to the well-being of their heavenly society and ultimately, to the divine order."
+        },
+        {
+          "id": "swedenborgian-q7-2",
+          "type": "trueFalse",
+          "question": "Angels in heaven cease to grow in wisdom.",
+          "correctAnswer": "false",
+          "explanation": "Angels... continue to grow in wisdom and love throughout eternity."
+        },
+        {
+          "id": "swedenborgian-q7-3",
+          "type": "multipleChoice",
+          "question": "How do angels primarily communicate in heaven?",
+          "options": [
+            "Through spoken words",
+            "Through singing",
+            "Through immediate transference of thoughts and affections",
+            "Through written messages"
+          ],
+          "correctAnswer": "Through immediate transference of thoughts and affections",
+          "explanation": "Communication between angels is not through words but through the immediate transference of thoughts and affections."
+        }
+      ]
+    },
+    {
+      "id": "swedenborgian-hellish-reality",
+      "title": "Life in Hell: Self-Inflicted Chaos and Mercy's Bounds",
+      "order": 8,
+      "content": "Contrary to traditional depictions of hell as a place of arbitrary torment inflicted by an angry God, Swedenborg's hell is a reality of self-inflicted misery, a natural consequence of lives lived in opposition to divine order. In hell, individuals (who are referred to as 'devils' or 'infernal spirits') are not tortured by external forces but by their own ruling loves of self, domination, and falsity. These loves, when fully unleashed in the spiritual world, lead to constant conflict, hatred, and anguish. Their environments are direct correspondences of their inner states: desolate, squalid, dark, and filled with tormenting sights and sounds. Unlike heaven, where communication is open and transparent due to shared good intentions, in hell, spirits often disguise their thoughts and affections, leading to pervasive deceit and suspicion. They associate with others who share their specific evils, forming societies based on mutual antagonism and a desire to control. While it may seem paradoxical, Swedenborg asserts that hell also serves a 'use' in the grand divine order, albeit an inverted one. Divine Providence governs hell to prevent its inhabitants from utterly destroying themselves and to maintain a semblance of order amidst the chaos. The 'punishments' experienced in hell are not God's vengeance but the inevitable outcomes of their chosen evils, serving to curb their destructive tendencies for the sake of the collective order of hellish societies. This is a form of divine mercy, ensuring that even in the lowest depths, there is a degree of constraint and regulation, preventing total dissolution. Spirits in hell perceive their darkness as light and their torments as pleasures because their perverted loves distort their perception. They cling to their evils, finding a perverse satisfaction in dominating others or indulging in false reasoning. Swedenborg's account highlights the sobering truth that humanity's freedom extends even to choosing eternal suffering, a choice made not by divine decree, but by the persistent rejection of love and truth throughout life.",
+      "keyTerms": [
+        "Self-inflicted misery",
+        "Ruling loves of self",
+        "Devils/infernal spirits",
+        "Correspondences of inner states",
+        "Mutual antagonism",
+        "Divine Providence in hell",
+        "Natural consequence of evils",
+        "Perverted perceptions",
+        "Freedom to choose suffering"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "swedenborgian-q8-1",
+          "type": "multipleChoice",
+          "question": "What is the primary cause of misery in Swedenborg's hell?",
+          "options": [
+            "Arbitrary torture by God",
+            "External demonic forces",
+            "Self-inflicted misery from ruling loves of self and falsity",
+            "Lack of knowledge"
+          ],
+          "correctAnswer": "Self-inflicted misery from ruling loves of self and falsity",
+          "explanation": "Hell is a reality of self-inflicted misery, a natural consequence of lives lived in opposition to divine order... by their own ruling loves of self, domination, and falsity."
+        },
+        {
+          "id": "swedenborgian-q8-2",
+          "type": "trueFalse",
+          "question": "Spirits in hell communicate transparently and openly.",
+          "correctAnswer": "false",
+          "explanation": "In hell, spirits often disguise their thoughts and affections, leading to pervasive deceit and suspicion."
+        },
+        {
+          "id": "swedenborgian-q8-3",
+          "type": "multipleChoice",
+          "question": "How do spirits in hell perceive their darkness and torments?",
+          "options": [
+            "As unbearable suffering",
+            "As sources of light and pleasure",
+            "As temporary illusions",
+            "As a path to purification"
+          ],
+          "correctAnswer": "As sources of light and pleasure",
+          "explanation": "Spirits in hell perceive their darkness as light and their torments as pleasures because their perverted loves distort their perception."
+        },
+        {
+          "id": "swedenborgian-q8-4",
+          "type": "multipleChoice",
+          "question": "What is the role of Divine Providence in hell?",
+          "options": [
+            "To increase suffering",
+            "To offer a chance for redemption",
+            "To maintain order and prevent self-destruction",
+            "To observe without intervention"
+          ],
+          "correctAnswer": "To maintain order and prevent self-destruction",
+          "explanation": "Divine Providence governs hell to prevent its inhabitants from utterly destroying themselves and to maintain a semblance of order amidst the chaos."
         }
       ]
     }
@@ -172,35 +529,35 @@
       {
         "id": "swedenborgian-mt-q1",
         "type": "multipleChoice",
-        "question": "What happens to external facades in the 'world of spirits'?",
+        "question": "What is the primary purpose of the 'world of spirits'?",
         "options": [
-          "They become permanent",
-          "They are transformed into light",
-          "They drop away, revealing true inner nature",
-          "They multiply"
+          "Eternal dwelling for all souls",
+          "A place of immediate judgment",
+          "An intermediate realm for clarifying inner states",
+          "A place for reincarnation"
         ],
-        "correctAnswer": "They drop away, revealing true inner nature",
-        "explanation": "Here, external facades drop away, revealing true inner nature. [cite: 680]"
+        "correctAnswer": "An intermediate realm for clarifying inner states",
+        "explanation": "The 'world of spirits' is an intermediate realm where external facades drop away, revealing the soul's true inner nature, allowing them to clarify their internal states."
       },
       {
         "id": "swedenborgian-mt-q2",
         "type": "trueFalse",
-        "question": "Swedenborgian hell is a place of imposed punishment by God.",
+        "question": "Swedenborg believed that God casts individuals into hell as punishment.",
         "correctAnswer": "false",
-        "explanation": "Swedenborg emphasized that God condemns no one... suffering\u2014not imposed punishment but natural consequence of their chosen states. [cite: 690]"
+        "explanation": "No one is ever cast into hell by God; rather, individuals freely gravitate to the societies that perfectly correspond to their inner states and affections."
       },
       {
         "id": "swedenborgian-mt-q3",
         "type": "multipleChoice",
-        "question": "Who assists the dying in their peaceful transition in Swedenborgian belief?",
+        "question": "What happens to a soul's 'ruling love' in the 'Second State'?",
         "options": [
-          "Demons",
-          "Angels",
-          "Other spirits",
-          "No one"
+          "It is suppressed",
+          "It becomes hidden",
+          "It is fully revealed and comes to the forefront",
+          "It changes dramatically"
         ],
-        "correctAnswer": "Angels",
-        "explanation": "At death, angels attend the dying, ensuring peaceful transition. [cite: 679]"
+        "correctAnswer": "It is fully revealed and comes to the forefront",
+        "explanation": "In the 'Second State,' the individual's deepest, most interior affections—their ruling loves and true character—are revealed and come to the forefront."
       },
       {
         "id": "swedenborgian-mt-q4",
@@ -222,6 +579,10 @@
           {
             "left": "Heavenly societies",
             "right": "Based on mutual love and use"
+          },
+          {
+            "left": "Conjugial love",
+            "right": "Unique spiritual and eternal marriage love"
           }
         ],
         "correctAnswer": [
@@ -232,9 +593,83 @@
           "Second state",
           "Secret thoughts and hidden desires manifest",
           "Heavenly societies",
-          "Based on mutual love and use"
+          "Based on mutual love and use",
+          "Conjugial love",
+          "Unique spiritual and eternal marriage love"
         ],
-        "explanation": "These are key elements of Swedenborg's visions of the afterlife. [cite: 680, 681, 683, 685]"
+        "explanation": "These are key elements of Swedenborg's visions of the afterlife."
+      },
+      {
+        "id": "swedenborgian-mt-q5",
+        "type": "multipleChoice",
+        "question": "What is the Doctrine of Correspondences?",
+        "options": [
+          "A moral code for living",
+          "A method of predicting the future",
+          "The direct and inherent relationship between all levels of existence",
+          "A set of rules for angelic communication"
+        ],
+        "correctAnswer": "The direct and inherent relationship between all levels of existence",
+        "explanation": "The 'Doctrine of Correspondences' asserts that there is a direct and inherent relationship between all levels of existence—the natural world, the spiritual world, and the divine."
+      },
+      {
+        "id": "swedenborgian-mt-q6",
+        "type": "trueFalse",
+        "question": "In heaven, angels primarily communicate through spoken languages.",
+        "correctAnswer": "false",
+        "explanation": "Communication between angels is not through words but through the immediate transference of thoughts and affections."
+      },
+      {
+        "id": "swedenborgian-mt-q7",
+        "type": "multipleChoice",
+        "question": "What does light in the natural world correspond to in the spiritual world?",
+        "options": [
+          "Darkness",
+          "Knowledge",
+          "Truth",
+          "Power"
+        ],
+        "correctAnswer": "Truth",
+        "explanation": "Light in the natural world corresponds to truth in the spiritual world."
+      },
+      {
+        "id": "swedenborgian-mt-q8",
+        "type": "multipleChoice",
+        "question": "Why do those in hell perceive their darkness as light?",
+        "options": [
+          "They are blind",
+          "Their perverted loves distort their perception",
+          "It is a form of divine punishment",
+          "They have no other choice"
+        ],
+        "correctAnswer": "Their perverted loves distort their perception",
+        "explanation": "Spirits in hell perceive their darkness as light and their torments as pleasures because their perverted loves distort their perception."
+      },
+      {
+        "id": "swedenborgian-mt-q9",
+        "type": "multipleChoice",
+        "question": "What is considered the foundation of all heavenly societies?",
+        "options": [
+          "Friendship",
+          "Communal life",
+          "Conjugial love",
+          "Shared intellectual pursuits"
+        ],
+        "correctAnswer": "Conjugial love",
+        "explanation": "This love is seen as the foundation of all heavenly societies, as it mirrors the divine love of the Lord for His church and for humanity."
+      },
+      {
+        "id": "swedenborgian-mt-q10",
+        "type": "multipleChoice",
+        "question": "What is the ultimate goal of Divine Providence according to Swedenborg?",
+        "options": [
+          "To control all human actions",
+          "To test human faith",
+          "To lead every human being to heaven",
+          "To establish a single world religion"
+        ],
+        "correctAnswer": "To lead every human being to heaven",
+        "explanation": "God's Providence is a universal, loving, and infinitely wise order that governs all things, always with the ultimate goal of leading every human being to heaven."
       }
     ]
   }

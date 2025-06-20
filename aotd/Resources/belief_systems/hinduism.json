@@ -4,62 +4,83 @@
   "description": "Explore the eternal return in Hinduism, understanding the cycle of Samsara, the role of Karma, the journey through different realms, and the ultimate liberation of Moksha.",
   "icon": "om",
   "color": "#FF9933",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "hinduism-intro",
-      "title": "Hinduism: The Eternal Return",
+      "title": "Hinduism: The Eternal Return and the Cosmic Dance",
       "order": 1,
-      "content": "Hindu cosmology sees existence as an infinite ocean of consciousness, with individual souls as temporary waves. At death, the soul's journey is shaped by karma accumulated across lifetimes, consciousness at death, and rituals performed by survivors. The Garuda Purana describes a thirteen-day transition during which the soul builds a subtle body from relatives' offerings. [cite: 419, 420, 421]",
+      "content": "Hindu cosmology perceives existence as an infinite, boundless ocean of consciousness (Brahman), from which individual souls (Atman) emerge as temporary, distinct waves, destined to eventually merge back into the vast ocean. Death, in this context, is not an annihilation but a fundamental transition, a shedding of the physical body, allowing the soul to continue its journey. The trajectory of this journey is intricately shaped by a triad of crucial factors: the accumulated karma across countless past lifetimes, the prevailing state of consciousness at the precise moment of death, and the efficacy of various rituals performed by surviving family members. The ancient text, the Garuda Purana, a foundational scripture in Hindu eschatology, vividly describes a thirteen-day transitional period following death. During this critical time, the disembodied soul, often referred to as a 'preta' or ghost, actively constructs a new subtle body (linga sharira) from the offerings, such as pindas (rice balls) and water, provided by its living relatives. These offerings are believed to nourish the departing soul and facilitate its journey through the ethereal realms, allowing it to move towards a new incarnation. The quality and sincerity of these post-mortem rites are considered vital for ensuring a smoother and more favorable passage for the deceased. This intricate system underscores the deep interconnectedness between the living and the dead, and the profound impact of actions and intentions, both in life and after it, on the soul's continuous journey.",
       "keyTerms": [
         "Samsara",
         "Karma",
         "Moksha",
         "Garuda Purana",
-        "Subtle body"
+        "Subtle body",
+        "Atman",
+        "Brahman",
+        "Preta",
+        "Linga Sharira",
+        "Pindas"
       ],
-      "xpReward": 15,
+      "xpReward": 75,
       "questions": [
         {
           "id": "hinduism-q1-1",
           "type": "multipleChoice",
-          "question": "What determines a soul's journey after death in Hinduism?",
+          "question": "What primarily determines a soul's journey after death in Hinduism?",
           "options": [
             "Only karma",
-            "Only rituals",
-            "Karma, consciousness at death, and rituals",
-            "The wealth of the family"
+            "Only rituals performed by survivors",
+            "Karma, consciousness at death, and rituals performed by survivors",
+            "The wealth accumulated during life"
           ],
-          "correctAnswer": "Karma, consciousness at death, and rituals",
-          "explanation": "At death, the soul's journey depends on multiple factors: karma accumulated across lifetimes, consciousness at the moment of death, and rituals performed by survivors. [cite: 420]"
+          "correctAnswer": "Karma, consciousness at death, and rituals performed by survivors",
+          "explanation": "At death, the soul's journey depends on multiple factors: karma accumulated across lifetimes, consciousness at the moment of death, and rituals performed by survivors."
         },
         {
           "id": "hinduism-q1-2",
           "type": "trueFalse",
-          "question": "In Hindu cosmology, individual souls are permanent, unchanging entities.",
+          "question": "In Hindu cosmology, individual souls are permanent, unchanging entities separate from Brahman.",
           "correctAnswer": "false",
-          "explanation": "Hindu cosmology presents individual souls as waves temporarily arising before merging back into the whole. [cite: 419]"
+          "explanation": "Hindu cosmology presents individual souls as waves temporarily arising before merging back into the whole, indicating their non-permanent, interconnected nature with Brahman."
+        },
+        {
+          "id": "hinduism-q1-3",
+          "type": "multipleChoice",
+          "question": "According to the Garuda Purana, what is the purpose of the thirteen-day transitional period after death?",
+          "options": [
+            "For the soul to achieve instant Moksha",
+            "For the soul to build a subtle body from offerings",
+            "For the soul to be judged immediately by Yama",
+            "For the soul to enter an eternal paradise"
+          ],
+          "correctAnswer": "For the soul to build a subtle body from offerings",
+          "explanation": "The Garuda Purana describes a thirteen-day transition during which the soul builds a subtle body from relatives' offerings, facilitating its journey."
         }
       ]
     },
     {
       "id": "hinduism-yamas-court",
-      "title": "Yama's Court and Judgment",
+      "title": "Yama's Court and the Cosmic Audit of Dharma",
       "order": 2,
-      "content": "Yama, the first mortal to discover the path to the afterlife, presides over the dead with his accountant Chitragupta, who keeps perfect cosmic records. The soul travels to Yamaloka, crossing the Vaitarani River; the virtuous cross easily, while the sinful struggle through blood and pus. In Yama's court, the soul witnesses its entire life in the mirror of truth, where every thought and secret desire is revealed. Destinations are then determined based on this cosmic audit. [cite: 422, 423, 424, 425]",
+      "content": "Yama, revered as Vaivasvata, the son of Surya (the Sun God), holds the distinguished and formidable title of the first mortal being to traverse the path to the afterlife. This unique journey bestowed upon him the profound knowledge of death and rebirth, making him the rightful presiding deity over the deceased. In his austere court within Yamaloka, the abode of the dead, Yama is assisted by his meticulous accountant, Chitragupta. Chitragupta is entrusted with the colossal responsibility of maintaining perfect cosmic records, known as the 'Akashic Records' or 'Chitragupta's Ledger,' detailing every single action, thought, and word (karma) of every sentient being throughout their existence. Upon death, the soul embarks on a perilous journey to Yamaloka, often depicted as fraught with challenges. One of the most iconic obstacles is the Vaitarani River, a formidable and terrifying river of blood, pus, and filth, swarming with predatory creatures. Virtuous souls, whose karmic ledger is clean, are said to cross this river with remarkable ease, often aided by divine guides or even transforming into birds to fly over. Conversely, the sinful struggle immensely, often drowning or being tormented by the river's inhabitants, their journey a direct reflection of their accumulated misdeeds. Once in Yama's court, the soul faces an impartial judgment. Here, it is presented with the 'Mirror of Truth' (Dharma-darshana), a mystical artifact that flawlessly reflects the entirety of the soul's past life, revealing every thought, every secret desire, and every action, stripping away all self-deception. This cosmic audit is performed with absolute fairness, devoid of prejudice or emotion. Based on this comprehensive and unalterable record, and the self-realization prompted by the mirror, the soul's subsequent destination within the intricate tapestry of Samsara is meticulously determined. This destination could range from a temporary sojourn in Svarga (heavenly realms) or Naraka (hellish realms) to immediate rebirth into a new earthly form, all dictated by the precise balance of karmic merit and demerit.",
       "keyTerms": [
         "Yama",
         "Chitragupta",
         "Yamaloka",
         "Vaitarani River",
-        "Mirror of truth"
+        "Mirror of Truth (Dharma-darshana)",
+        "Akashic Records",
+        "Karma",
+        "Dharma"
       ],
-      "xpReward": 15,
+      "xpReward": 75,
       "questions": [
         {
           "id": "hinduism-q2-1",
           "type": "multipleChoice",
-          "question": "Who keeps the cosmic records in Yama's court?",
+          "question": "Who is the meticulous accountant who keeps perfect cosmic records in Yama's court?",
           "options": [
             "Yama himself",
             "Chitragupta",
@@ -67,72 +88,130 @@
             "Brahma"
           ],
           "correctAnswer": "Chitragupta",
-          "explanation": "Yama presides over the dead with his accountant Chitragupta, who maintains perfect records in the cosmic ledger. [cite: 422]"
+          "explanation": "Yama presides over the dead with his accountant Chitragupta, who maintains perfect records in the cosmic ledger."
         },
         {
           "id": "hinduism-q2-2",
           "type": "trueFalse",
-          "question": "The Vaitarani River is easy to cross for all souls, regardless of virtue.",
+          "question": "The Vaitarani River is easy to cross for all souls, regardless of their past actions.",
           "correctAnswer": "false",
-          "explanation": "Souls cross the Vaitarani River easily if virtuous, but struggle through blood and pus if sinful. [cite: 423]"
+          "explanation": "Souls cross the Vaitarani River easily if virtuous, but struggle through blood and pus if sinful, illustrating the direct karmic consequence."
+        },
+        {
+          "id": "hinduism-q2-3",
+          "type": "multipleChoice",
+          "question": "What is the 'Mirror of Truth' (Dharma-darshana) used for in Yama's court?",
+          "options": [
+            "To reflect future lives",
+            "To show the soul its past life and every thought and secret desire",
+            "To grant wishes to the deceased",
+            "To determine who is worthy of eternal life"
+          ],
+          "correctAnswer": "To show the soul its past life and every thought and secret desire",
+          "explanation": "In Yama's court, the soul witnesses its entire life in the mirror of truth, where every thought and secret desire is revealed."
         }
       ]
     },
     {
       "id": "hinduism-svarga-naraka",
-      "title": "Svarga and Naraka",
+      "title": "Svarga and Naraka: Temporary Realms of Karmic Reciprocity",
       "order": 3,
-      "content": "Svarga offers temporary paradise across multiple levels. Indra's heaven provides sensual pleasures, while higher realms offer increasingly refined experiences, culminating in Brahmaloka, where souls dwell with the Creator. However, even these blessed states end when merit is exhausted. Naraka contains twenty-eight hells, precisely tailored to specific sins, such as Kumbhipaka for those who cooked animals alive. Though intense, these hells are also temporary, lasting only until karmic debts are paid. [cite: 426, 427, 428, 429, 430]",
+      "content": "In Hinduism, Svarga (heavenly realms) and Naraka (hellish realms) are not eternal destinations but temporary abodes, akin to cosmic waiting rooms or purification centers, where souls experience the proportionate results of their good or bad karma. Svarga encompasses multiple levels of paradise, each offering increasingly refined and sublime experiences commensurate with the accumulated spiritual merit. The most widely known is Indra's Heaven (Indraloka or Svargaloka), a realm of boundless sensual pleasures, divine music, celestial nymphs (Apsaras), and abundant delights, enjoyed by those who performed good deeds, acts of charity, and followed dharma. Higher realms, such as Mahar-loka, Jana-loka, Tapo-loka, and ultimately Brahmaloka (the abode of Lord Brahma), offer increasingly subtle and intellectual pleasures, culminating in the opportunity to dwell in proximity to the Creator, experiencing immense peace and knowledge. However, a crucial aspect of Hindu eschatology is that even these blessed states are impermanent. Souls remain in Svarga only until their accrued positive merit (punya) is completely exhausted. Once the karmic balance tips, they descend, often to be reborn on Earth or even in lower realms, reflecting the cyclical nature of existence. Conversely, Naraka comprises twenty-eight distinct hells, each meticulously tailored to specific sins, ensuring a precise and just consequence for various transgressions. For instance, Kumbhipaka is a dreaded hell reserved for those who committed acts of extreme cruelty, such as cooking animals alive, where the souls themselves are boiled in oil. Other Narakas include Raurava for liars, Maharaurava for selfish individuals, Tamisra for those who stole others' wealth, and Andhatamisra for deceitful individuals. These hells are not places of eternal damnation in the Abrahamic sense, but rather correctional facilities where souls undergo intense suffering to purify themselves of negative karmic debts. The duration and intensity of suffering in each Naraka are directly proportional to the severity of the misdeeds committed. Once the negative karma (papa) is expiated, the soul is released from Naraka and typically reborn into a new earthly existence, often in less fortunate circumstances, to continue its karmic journey. Both Svarga and Naraka serve as powerful deterrents against unrighteous conduct and motivators for virtuous living, emphasizing the inescapable law of karma.",
       "keyTerms": [
         "Svarga",
         "Naraka",
-        "Indra's heaven",
+        "Indra's Heaven (Indraloka)",
         "Brahmaloka",
         "Kumbhipaka",
-        "Temporary hells"
+        "Temporary hells",
+        "Karmic debt",
+        "Punya",
+        "Papa",
+        "Apsaras",
+        "Mahar-loka",
+        "Jana-loka",
+        "Tapo-loka",
+        "Raurava",
+        "Maharaurava",
+        "Tamisra",
+        "Andhatamisra"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "hinduism-q3-1",
           "type": "multipleChoice",
-          "question": "Are the paradises of Svarga eternal?",
+          "question": "Are the paradises of Svarga eternal destinations in Hinduism?",
           "options": [
             "Yes, always",
-            "No, they end when merit exhausts",
-            "Only for the most virtuous",
+            "No, they end when accumulated merit exhausts",
+            "Only for the most virtuous souls",
             "Only in Brahmaloka"
           ],
-          "correctAnswer": "No, they end when merit exhausts",
-          "explanation": "Even these blessed states (Svarga) end when merit exhausts. [cite: 428]"
+          "correctAnswer": "No, they end when accumulated merit exhausts",
+          "explanation": "Even these blessed states (Svarga) end when merit exhausts, underscoring their temporary nature."
         },
         {
           "id": "hinduism-q3-2",
           "type": "trueFalse",
-          "question": "Hindu hells (Naraka) are eternal places of damnation.",
+          "question": "Hindu hells (Naraka) are eternal places of damnation where souls remain forever.",
           "correctAnswer": "false",
-          "explanation": "Naraka hells are temporary, lasting only until karmic debts are paid. [cite: 430]"
+          "explanation": "Naraka hells are temporary, lasting only until karmic debts are paid, serving as purification centers rather than eternal damnation."
+        },
+        {
+          "id": "hinduism-q3-3",
+          "type": "multipleChoice",
+          "question": "For what specific sin is the Naraka known as Kumbhipaka reserved?",
+          "options": [
+            "Lying",
+            "Stealing",
+            "Cooking animals alive",
+            "Being selfish"
+          ],
+          "correctAnswer": "Cooking animals alive",
+          "explanation": "Naraka contains twenty-eight hells, precisely tailored to specific sins, such as Kumbhipaka for those who cooked animals alive."
+        },
+        {
+          "id": "hinduism-q3-4",
+          "type": "multipleChoice",
+          "question": "What happens to a soul after its negative karma is expiated in Naraka?",
+          "options": [
+            "It achieves Moksha immediately",
+            "It is reborn into a new earthly existence",
+            "It stays in Naraka forever",
+            "It becomes a deity"
+          ],
+          "correctAnswer": "It is reborn into a new earthly existence",
+          "explanation": "Once the negative karma (papa) is expiated, the soul is released from Naraka and typically reborn into a new earthly existence."
         }
       ]
     },
     {
       "id": "hinduism-reincarnation",
-      "title": "Reincarnation and Pretas",
+      "title": "Reincarnation and Pretas: The Wheel of Birth and the Hungry Ghosts",
       "order": 4,
-      "content": "Most souls reincarnate immediately, with consciousness at death determining rebirth. Thinking of God leads to divine realms, while earthly attachments result in similar circumstances. The hierarchy of rebirth includes 8.4 million species; human birth is precious as it's the only form where liberation (Moksha) is possible. Humans can fall to animal or plant incarnations through ignorance or lethargy, or rise to divine status through virtue. Pretas, or hungry ghosts, are a special torment, perpetually famished due to greed or improper rites. [cite: 431, 432, 433, 434, 435, 436, 437]",
+      "content": "The vast majority of souls in Hinduism do not linger long in intermediate realms but reincarnate almost immediately, a process governed by the profound influence of karma and, crucially, the state of consciousness at the very moment of death. As articulated in the Bhagavad Gita (Chapter 8, Verse 6), the ultimate determining factor for one's next birth is the prevailing thought or state of being one remembers when quitting the body: 'Whatever state of being one remembers when he quits his body, that state he will attain without fail.' This means that deeply ingrained desires, attachments, and the dominant mental disposition at life's end directly shape the conditions of the next incarnation. For example, if a dying person's mind is absorbed in thoughts of God or spiritual liberation, they are likely to achieve divine realms or a more spiritually conducive birth. Conversely, strong earthly attachments, unfulfilled desires, or negative emotions can lead to rebirth in similar, often challenging, circumstances. The cycle of rebirth encompasses a staggering diversity of forms, often cited as 8.4 million species (yoni), ranging from inanimate objects and plants to animals, humans, and various divine beings. Within this immense hierarchy, human birth is considered exceptionally rare and supremely precious. This is because, unlike any other form, only a human body possesses the unique capacity for self-awareness, ethical discrimination (viveka), and the intellectual and spiritual faculties necessary to comprehend dharma (righteous conduct), engage in spiritual practices (sadhana), and ultimately achieve Moksha (liberation). To squander a human birth on purely materialistic or base pursuits is seen as a profound tragedy. Souls can ascend to divine status through sustained virtue, selfless actions, and spiritual devotion, or they can unfortunately fall to lower incarnations, such as animals or even plants, due to extreme ignorance (avidya), lethargy, or repeated acts of adharma (unrighteousness). A particularly poignant and challenging state of rebirth is that of the Pretas, or hungry ghosts. These beings inhabit a twilight realm, perpetually afflicted by agonizing hunger and thirst. They are often depicted with grotesque physical forms: needle-thin throats that prevent swallowing and immense, distended bellies that can never be filled, symbolizing their insatiable desires and unending frustration. The karmic causes for rebirth as a Preta typically stem from extreme greed, miserliness, stinginess, and the failure to perform proper funeral rites or offer sustenance to the deceased. Their suffering serves as a stark reminder of the consequences of excessive attachment and selfishness. However, the suffering of Pretas can sometimes be alleviated through specific rituals performed by the living, such as the offering of water, food, or charitable acts, which can transfer merit and help these distressed souls find release from their torment.",
       "keyTerms": [
         "Reincarnation",
         "Bhagavad Gita",
         "Human birth",
         "Pretas",
-        "Karma"
+        "Karma",
+        "Moksha",
+        "Yoni",
+        "Viveka",
+        "Dharma",
+        "Adharma",
+        "Avidya",
+        "Sadhana",
+        "Subtle body"
       ],
-      "xpReward": 15,
+      "xpReward": 125,
       "questions": [
         {
           "id": "hinduism-q4-1",
           "type": "multipleChoice",
-          "question": "What determines a dying person's rebirth according to the Bhagavad Gita?",
+          "question": "According to the Bhagavad Gita, what is the primary factor that determines a dying person's rebirth?",
           "options": [
             "Their wealth",
             "Their social status",
@@ -140,45 +219,62 @@
             "Their physical strength"
           ],
           "correctAnswer": "The state of being they remember when they quit their body",
-          "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth: 'Whatever state of being one remembers when he quits his body, that state he will attain without fail.' [cite: 431]"
+          "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth: 'Whatever state of being one remembers when he quits his body, that state he will attain without fail.'"
         },
         {
           "id": "hinduism-q4-2",
           "type": "trueFalse",
-          "question": "Human birth is not considered particularly precious in Hinduism.",
+          "question": "Human birth is not considered particularly precious in Hinduism, as liberation is possible in any form.",
           "correctAnswer": "false",
-          "explanation": "Human birth is precious\u2014only in human form can one achieve liberation. [cite: 433]"
+          "explanation": "Human birth is precious—only in human form can one achieve liberation due to its unique capacity for spiritual understanding."
         },
         {
           "id": "hinduism-q4-3",
           "type": "multipleChoice",
-          "question": "What causes a soul to become a 'Preta' or hungry ghost?",
+          "question": "What is a common karmic cause for a soul to become a 'Preta' or hungry ghost?",
           "options": [
-            "Extreme generosity",
-            "Extreme greed or improper rites",
-            "Performing good deeds",
-            "Achieving liberation"
+            "Extreme generosity and selflessness",
+            "Extreme greed, miserliness, or improper rites performed by relatives",
+            "Performing good deeds and devotion",
+            "Achieving a high level of spiritual enlightenment"
           ],
-          "correctAnswer": "Extreme greed or improper rites",
-          "explanation": "Pretas result from extreme greed, false speech, or relatives' failure to perform proper rites. [cite: 437]"
+          "correctAnswer": "Extreme greed, miserliness, or improper rites performed by relatives",
+          "explanation": "Pretas result from extreme greed, false speech, or relatives' failure to perform proper rites, leading to perpetual hunger and thirst."
+        },
+        {
+          "id": "hinduism-q4-4",
+          "type": "trueFalse",
+          "question": "The suffering of Pretas is eternal and cannot be alleviated by any means.",
+          "correctAnswer": "false",
+          "explanation": "The suffering of Pretas can sometimes be alleviated through specific rituals performed by the living, such as the offering of water, food, or charitable acts."
         }
       ]
     },
     {
       "id": "hinduism-moksha",
-      "title": "Moksha: Liberation and Paths",
+      "title": "Moksha: The Ultimate Liberation and Paths to Oneness",
       "order": 5,
-      "content": "Beyond all cycles of rebirth waits Moksha, liberation itself. This is when the individual soul realizes its true nature as identical with Brahman, the universal consciousness. It's not annihilation but expansion, where the drop discovers it was always the ocean. Various paths lead to Moksha: knowledge (jnana), devotion (bhakti), action (karma), or meditation (raja). Once achieved, the soul escapes rebirth forever, existing in sat-chit-ananda \u2013 being, consciousness, bliss. [cite: 438, 439, 440, 441]",
+      "content": "Beyond the ceaseless cycles of birth, death, and rebirth—the relentless wheel of Samsara—awaits Moksha, the ultimate liberation in Hinduism. Moksha is not merely a cessation of suffering or a temporary escape from the lower realms; it is a profound and absolute freedom from the very mechanism of reincarnation, signifying the soul's permanent release from the material world. At its core, Moksha represents the individual soul's (Atman's) full realization of its true, eternal nature as identical with Brahman, the universal consciousness or ultimate reality. This realization is often beautifully articulated through metaphors: it is not the annihilation of the individual 'drop' of consciousness, but rather its expansion and rediscovery that it was, in essence, always the infinite 'ocean' of Brahman. It is the shedding of all illusions (maya) and the transcendence of dualities. Various spiritual disciplines and philosophical schools within Hinduism offer distinct, yet interconnected, paths (Yogas) to achieve this supreme state of liberation. The four primary paths are: \n\n1.  **Jnana Yoga (The Path of Knowledge):** This path emphasizes intellectual discernment and the rigorous study of sacred texts (Vedas, Upanishads) to acquire spiritual wisdom (jnana) and realize the non-dual nature of reality. It involves deep introspection, meditation, and philosophical inquiry to differentiate the eternal (Atman/Brahman) from the ephemeral (maya).\n2.  **Bhakti Yoga (The Path of Devotion):** For those inclined towards emotional and devotional expression, Bhakti Yoga involves cultivating intense love, surrender, and unwavering devotion to a personal deity (Ishta-Devata) in any of its forms (e.g., Vishnu, Shiva, Devi). Through selfless service, chanting (kirtan), prayer, and rituals, the devotee seeks to merge with the divine out of pure love.\n3.  **Karma Yoga (The Path of Action):** This path focuses on performing one's duties (dharma) and actions (karma) in the world without attachment to the fruits or outcomes. It teaches selfless service, acting with dedication and skill, and offering all actions as a sacrifice to the divine, thereby purifying the ego and breaking the cycle of karmic accumulation.\n4.  **Raja Yoga (The Royal Path of Meditation):** Often associated with Patanjali's Yoga Sutras, Raja Yoga is a systematic approach to controlling the mind and senses through Ashtanga Yoga (eight limbs), including ethical restraints (yamas), observances (niyamas), postures (asanas), breath control (pranayama), sensory withdrawal (pratyahara), concentration (dharana), meditation (dhyana), and ultimately, absorption into higher consciousness (samadhi). \n\nUpon achieving Moksha, the soul is said to exist in a state of eternal bliss, consciousness, and truth, often described as *sat-chit-ananda* (existence-consciousness-bliss). This unconditioned state is characterized by perfect peace, freedom from all suffering, and a profound sense of unity with the Absolute, signifying the ultimate cessation of the weary journey through Samsara and a return to the soul's intrinsic divine nature.",
       "keyTerms": [
         "Moksha",
         "Brahman",
+        "Atman",
         "Jnana Yoga",
         "Bhakti Yoga",
         "Karma Yoga",
         "Raja Yoga",
-        "Sat-chit-ananda"
+        "Sat-chit-ananda",
+        "Samsara",
+        "Maya",
+        "Vedas",
+        "Upanishads",
+        "Ishta-Devata",
+        "Dharma",
+        "Patanjali's Yoga Sutras",
+        "Ashtanga Yoga",
+        "Samadhi"
       ],
-      "xpReward": 15,
+      "xpReward": 150,
       "questions": [
         {
           "id": "hinduism-q5-1",
@@ -186,32 +282,153 @@
           "question": "What is Moksha in Hinduism?",
           "options": [
             "Eternal suffering",
-            "Liberation from rebirth",
-            "Temporary paradise",
-            "Reincarnation into a higher form"
+            "Liberation from rebirth and realization of oneness with Brahman",
+            "Temporary paradise for good deeds",
+            "Reincarnation into a higher animal form"
           ],
-          "correctAnswer": "Liberation from rebirth",
-          "explanation": "Beyond all cycles waits Moksha\u2014liberation itself. [cite: 438]"
+          "correctAnswer": "Liberation from rebirth and realization of oneness with Brahman",
+          "explanation": "Beyond all cycles waits Moksha—liberation itself, where the individual soul realizes its true nature as identical with Brahman."
         },
         {
           "id": "hinduism-q5-2",
           "type": "trueFalse",
           "question": "Moksha is considered the annihilation of the individual soul.",
           "correctAnswer": "false",
-          "explanation": "Moksha isn't annihilation but expansion\u2014the drop discovering it was always the ocean. [cite: 439]"
+          "explanation": "Moksha isn't annihilation but expansion—the drop discovering it was always the ocean."
         },
         {
           "id": "hinduism-q5-3",
           "type": "multipleChoice",
-          "question": "Which of the following is NOT a path to Moksha?",
+          "question": "Which of the following is NOT one of the primary paths (Yogas) to Moksha?",
           "options": [
-            "Knowledge (jnana)",
-            "Devotion (bhakti)",
-            "Selfishness",
-            "Meditation (raja)"
+            "Jnana Yoga (Path of Knowledge)",
+            "Bhakti Yoga (Path of Devotion)",
+            "Loka Yoga (Path of Material Accumulation)",
+            "Karma Yoga (Path of Action)"
           ],
-          "correctAnswer": "Selfishness",
-          "explanation": "Various paths lead to Moksha: knowledge (jnana), devotion (bhakti), action (karma), or meditation (raja). [cite: 440]"
+          "correctAnswer": "Loka Yoga (Path of Material Accumulation)",
+          "explanation": "Various paths lead to Moksha: knowledge (jnana), devotion (bhakti), action (karma), or meditation (raja)."
+        },
+        {
+          "id": "hinduism-q5-4",
+          "type": "multipleChoice",
+          "question": "What state of being is achieved upon attaining Moksha, described as 'existence-consciousness-bliss'?",
+          "options": [
+            "Dukkha",
+            "Samsara",
+            "Sat-chit-ananda",
+            "Nirvana"
+          ],
+          "correctAnswer": "Sat-chit-ananda",
+          "explanation": "Once achieved, the soul escapes rebirth forever, existing in sat-chit-ananda – being, consciousness, bliss."
+        }
+      ]
+    },
+    {
+      "id": "hinduism-death-rituals",
+      "title": "Hindu Death Rituals: Guiding the Soul's Transition",
+      "order": 6,
+      "content": "Hindu death rituals (Antyesti) are elaborate and deeply significant ceremonies designed to assist the departed soul in its transition from the earthly realm to its next destination, and to provide comfort and closure for the grieving family. These rites are rooted in ancient scriptures like the Vedas and Purana, with regional variations across India. The primary ritual involves cremation (agnisanskara), as fire is considered a purifier and a messenger to the gods. The body is placed on a pyre, usually near a river, and the eldest son typically lights the pyre. Offerings such as ghee (clarified butter), sandalwood, and other aromatic substances are made during the cremation. The belief is that cremation frees the soul from its physical ties, preventing it from lingering as a ghost (preta) and facilitating its journey. Following cremation, ashes are collected and often immersed in sacred rivers, most notably the Ganges, believed to cleanse sins and ensure a favorable afterlife. A crucial aspect of post-cremation rituals is the performance of Shraddha ceremonies. These are rites performed periodically (e.g., on the 10th, 13th day, monthly, and annually) by surviving family members, especially male descendants. During Shraddha, pindas (rice balls mixed with sesame seeds and other ingredients) are offered to the ancestors (pitrs). These offerings are believed to nourish the subtle body of the deceased during its transition through the preta state and to help it attain a higher, more evolved state as an ancestor in Pitru Loka (the realm of ancestors) or to facilitate its rebirth. The correct performance of these rituals is considered vital, as their absence or improper execution can lead to the soul becoming a restless preta, unable to move on. These rituals not only fulfill familial duties but also reflect the Hindu understanding of the interconnectedness of all life and the continuous cycle of cause and effect, even after death.",
+      "keyTerms": [
+        "Antyesti",
+        "Agnisanskara",
+        "Cremation",
+        "Shraddha",
+        "Pindas",
+        "Pitrs",
+        "Pitru Loka",
+        "Preta",
+        "Ganges",
+        "Vedas",
+        "Purana"
+      ],
+      "xpReward": 100,
+      "questions": [
+        {
+          "id": "hinduism-q6-1",
+          "type": "multipleChoice",
+          "question": "What is the primary method of disposing of the body in Hindu death rituals?",
+          "options": [
+            "Burial",
+            "Embalming",
+            "Cremation",
+            "Mummification"
+          ],
+          "correctAnswer": "Cremation",
+          "explanation": "The primary ritual involves cremation (agnisanskara), as fire is considered a purifier and a messenger to the gods."
+        },
+        {
+          "id": "hinduism-q6-2",
+          "type": "trueFalse",
+          "question": "Hindu death rituals are solely for mourning the deceased and have no impact on the soul's journey.",
+          "correctAnswer": "false",
+          "explanation": "Hindu death rituals (Antyesti) are elaborate and deeply significant ceremonies designed to assist the departed soul in its transition from the earthly realm to its next destination."
+        },
+        {
+          "id": "hinduism-q6-3",
+          "type": "multipleChoice",
+          "question": "What are 'pindas' offered during Shraddha ceremonies?",
+          "options": [
+            "A type of flower",
+            "Rice balls mixed with sesame seeds and other ingredients",
+            "A form of sacred music",
+            "Garments for the deceased"
+          ],
+          "correctAnswer": "Rice balls mixed with sesame seeds and other ingredients",
+          "explanation": "During Shraddha, pindas (rice balls mixed with sesame seeds and other ingredients) are offered to the ancestors (pitrs)."
+        }
+      ]
+    },
+    {
+      "id": "hinduism-ancestors-pitru-loka",
+      "title": "Ancestors and Pitru Loka: The Realm of the Departed",
+      "order": 7,
+      "content": "In Hinduism, the relationship with ancestors, known as Pitrs, is highly venerated and forms an integral part of the afterlife cosmology. Pitrs are not merely deceased relatives but are considered deified beings residing in Pitru Loka, the ancestral realm. This realm is distinct from Svarga (heaven) and Naraka (hell) and serves as an intermediate abode for souls that have completed their earthly existence but have not yet achieved Moksha or undergone immediate rebirth. Souls typically enter Pitru Loka after the successful completion of the Antyesti (funeral rites) and the initial Shraddha ceremonies, which help them transcend the preta (hungry ghost) state. In Pitru Loka, ancestors are believed to continue their existence, often living in subtle bodies, enjoying the fruits of their earthly good deeds, and awaiting their next rebirth. They are seen as benevolent entities who can bestow blessings upon their living descendants. Conversely, neglecting the proper veneration and performance of Shraddha rituals can lead to ancestral distress, potentially causing misfortunes for the living family members. The performance of Tarpan (offering water with sesame seeds) and various Shraddha ceremonies at specific times (e.g., during Pitru Paksha, a fortnight dedicated to ancestors) is crucial. These rituals are believed to provide sustenance, peace, and spiritual upliftment to the Pitrs, facilitating their continued well-being in Pitru Loka and aiding their progression towards a higher state or eventual liberation. This continuous reciprocal relationship between the living and the dead highlights the deep-seated belief in familial continuity beyond physical death and the ongoing influence of past generations on the present.",
+      "keyTerms": [
+        "Pitrs",
+        "Pitru Loka",
+        "Ancestors",
+        "Shraddha",
+        "Antyesti",
+        "Preta",
+        "Tarpan",
+        "Pitru Paksha",
+        "Subtle body"
+      ],
+      "xpReward": 75,
+      "questions": [
+        {
+          "id": "hinduism-q7-1",
+          "type": "multipleChoice",
+          "question": "What are 'Pitrs' in Hinduism?",
+          "options": [
+            "Demonic entities",
+            "Deified ancestors residing in an ancestral realm",
+            "Newborn souls",
+            "Hindu deities"
+          ],
+          "correctAnswer": "Deified ancestors residing in an ancestral realm",
+          "explanation": "Pitrs are not merely deceased relatives but are considered deified beings residing in Pitru Loka, the ancestral realm."
+        },
+        {
+          "id": "hinduism-q7-2",
+          "type": "trueFalse",
+          "question": "Pitru Loka is considered the final destination for all souls in Hinduism.",
+          "correctAnswer": "false",
+          "explanation": "Pitru Loka is an intermediate abode for souls that have completed their earthly existence but have not yet achieved Moksha or undergone immediate rebirth."
+        },
+        {
+          "id": "hinduism-q7-3",
+          "type": "multipleChoice",
+          "question": "What is the significance of performing Shraddha ceremonies for ancestors?",
+          "options": [
+            "To punish them for past sins",
+            "To provide sustenance and spiritual upliftment, aiding their progression",
+            "To bring them back to life",
+            "To forget them completely"
+          ],
+          "correctAnswer": "To provide sustenance and spiritual upliftment, aiding their progression",
+          "explanation": "The performance of Tarpan (offering water with sesame seeds) and various Shraddha ceremonies at specific times (e.g., during Pitru Paksha, a fortnight dedicated to ancestors) is crucial. These rituals are believed to provide sustenance, peace, and spiritual upliftment to the Pitrs, facilitating their continued well-being in Pitru Loka and aiding their progression towards a higher state or eventual liberation."
         }
       ]
     }
@@ -220,7 +437,7 @@
     "id": "hinduism-mastery",
     "title": "Hinduism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 200,
     "questions": [
       {
         "id": "hinduism-mt-q1",
@@ -233,19 +450,19 @@
           "Vishnu"
         ],
         "correctAnswer": "Yama",
-        "explanation": "Yama, the first mortal who discovered the path to the afterlife, presides over the dead with his accountant Chitragupta. [cite: 422]"
+        "explanation": "Yama, the first mortal who discovered the path to the afterlife, presides over the dead with his accountant Chitragupta."
       },
       {
         "id": "hinduism-mt-q2",
         "type": "trueFalse",
         "question": "Hindu hells (Naraka) are eternal and never ending.",
         "correctAnswer": "false",
-        "explanation": "Hindu hells are temporary, lasting only until karmic debts are paid. [cite: 430]"
+        "explanation": "Hindu hells are temporary, lasting only until karmic debts are paid."
       },
       {
         "id": "hinduism-mt-q3",
         "type": "multipleChoice",
-        "question": "What is the primary factor that determines rebirth in Hinduism?",
+        "question": "What is the primary factor that determines rebirth in Hinduism, according to the Bhagavad Gita?",
         "options": [
           "Physical beauty",
           "Social status",
@@ -253,7 +470,7 @@
           "The amount of wealth accumulated"
         ],
         "correctAnswer": "Consciousness at the moment of death",
-        "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth. [cite: 431]"
+        "explanation": "The Bhagavad Gita describes how consciousness at death determines rebirth."
       },
       {
         "id": "hinduism-mt-q4",
@@ -287,7 +504,73 @@
           "Naraka",
           "Temporary hells"
         ],
-        "explanation": "These are core concepts in Hindu afterlife beliefs. [cite: 420, 426, 429, 438]"
+        "explanation": "These are core concepts in Hindu afterlife beliefs."
+      },
+      {
+        "id": "hinduism-mt-q5",
+        "type": "multipleChoice",
+        "question": "What is the purpose of the thirteen-day transitional period described in the Garuda Purana?",
+        "options": [
+          "For the soul to achieve instant Moksha",
+          "For the soul to build a subtle body from offerings",
+          "For the soul to be judged immediately by Yama",
+          "For the soul to enter an eternal paradise"
+        ],
+        "correctAnswer": "For the soul to build a subtle body from offerings",
+        "explanation": "The Garuda Purana describes a thirteen-day transition during which the soul builds a subtle body from relatives' offerings."
+      },
+      {
+        "id": "hinduism-mt-q6",
+        "type": "trueFalse",
+        "question": "The Vaitarani River is easy to cross for all souls in Yama's court.",
+        "correctAnswer": "false",
+        "explanation": "Souls cross the Vaitarani River easily if virtuous, but struggle through blood and pus if sinful."
+      },
+      {
+        "id": "hinduism-mt-q7",
+        "type": "multipleChoice",
+        "question": "Which of the following is NOT a primary path (Yoga) to Moksha?",
+        "options": [
+          "Jnana Yoga",
+          "Bhakti Yoga",
+          "Raja Yoga",
+          "Roga Yoga"
+        ],
+        "correctAnswer": "Roga Yoga",
+        "explanation": "The four main paths to Moksha are Jnana, Bhakti, Karma, and Raja Yoga."
+      },
+      {
+        "id": "hinduism-mt-q8",
+        "type": "multipleChoice",
+        "question": "What state of being is described as 'existence-consciousness-bliss' upon attaining Moksha?",
+        "options": [
+          "Dukkha",
+          "Samsara",
+          "Sat-chit-ananda",
+          "Nirvana"
+        ],
+        "correctAnswer": "Sat-chit-ananda",
+        "explanation": "Upon achieving Moksha, the soul escapes rebirth forever, existing in sat-chit-ananda – being, consciousness, bliss."
+      },
+      {
+        "id": "hinduism-mt-q9",
+        "type": "trueFalse",
+        "question": "The suffering of Pretas (hungry ghosts) cannot be alleviated by any rituals performed by the living.",
+        "correctAnswer": "false",
+        "explanation": "The suffering of Pretas can sometimes be alleviated through specific rituals performed by the living, such as the offering of water, food, or charitable acts."
+      },
+      {
+        "id": "hinduism-mt-q10",
+        "type": "multipleChoice",
+        "question": "What are 'pindas' typically offered during Shraddha ceremonies?",
+        "options": [
+          "Flowers",
+          "Rice balls",
+          "Incense sticks",
+          "Candles"
+        ],
+        "correctAnswer": "Rice balls",
+        "explanation": "During Shraddha, pindas (rice balls mixed with sesame seeds and other ingredients) are offered to the ancestors (pitrs)."
       }
     ]
   }

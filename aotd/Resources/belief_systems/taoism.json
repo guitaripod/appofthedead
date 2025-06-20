@@ -4,57 +4,77 @@
   "description": "Uncover the Taoist perspective on death as a natural transformation within the eternal dance of yin and yang, the dispersion of multiple souls, and the pursuit of immortality or return to the Tao.",
   "icon": "yin_yang",
   "color": "#000000",
-  "totalXP": 160,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "taoism-intro",
-      "title": "Taoism: The Return to the Source",
+      "title": "Taoism: The Return to the Source and Soul Dispersion",
       "order": 1,
-      "content": "Taoism regards death as a natural transformation within the eternal dance of yin and yang. The body is believed to comprise multiple souls that disperse differently at death. The 'hun' souls (three ethereal aspects) rise toward heaven, carrying consciousness and personality. The 'po' souls (seven corporeal aspects) sink earthward, animating the corpse and potentially becoming troublesome if not properly handled. This understanding underpins elaborate funeral rites, aimed at keeping po souls peaceful while assisting hun souls' ascension. [cite: 566, 567, 568, 569]",
+      "content": "Taoism regards death as a natural transformation within the eternal dance of yin and yang, a process of dissolution and re-integration rather than an abrupt end. The human body is believed to comprise a complex interplay of vital energies, particularly 'Qi', which disperses at death. More specifically, the body is believed to contain multiple souls that disperse differently. The 'hun' souls (three ethereal, yang aspects) are associated with consciousness, intellect, and personality; they are believed to rise toward heaven after death, continuing their existence in celestial realms. In contrast, the 'po' souls (seven corporeal, yin aspects) are tied to the physical body and its sensations; they are said to sink earthward, animating the corpse and potentially becoming troublesome if not properly handled through appropriate funeral rites. This intricate understanding of soul dispersion underpins elaborate Taoist funeral practices, which are meticulously designed to ensure the peaceful repose of the po souls, preventing them from becoming restless spirits, while simultaneously assisting the hun souls' ascension and smooth journey to their destined celestial abodes. The balance of yin and yang is crucial even in death, guiding the proper dissolution and transition of these soul components.",
       "keyTerms": [
         "Yin and Yang",
         "Hun souls",
         "Po souls",
         "Qi",
-        "The Tao"
+        "The Tao",
+        "Soul dispersion",
+        "Funeral rites"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "taoism-q1-1",
           "type": "multipleChoice",
-          "question": "How does Taoism view death?",
+          "question": "How does Taoism primarily view death?",
           "options": [
             "As a punishment",
             "As an end to existence",
-            "As a natural transformation",
+            "As a natural transformation within yin and yang",
             "As a moral judgment"
           ],
-          "correctAnswer": "As a natural transformation",
-          "explanation": "Taoism views death as natural transformation within the eternal dance of yin and yang. [cite: 566]"
+          "correctAnswer": "As a natural transformation within yin and yang",
+          "explanation": "Taoism views death as natural transformation within the eternal dance of yin and yang."
         },
         {
           "id": "taoism-q1-2",
           "type": "trueFalse",
-          "question": "The 'hun' souls sink earthward after death.",
+          "question": "The 'hun' souls are considered the corporeal aspects that sink earthward after death.",
           "correctAnswer": "false",
-          "explanation": "The hun souls (three ethereal aspects) rise toward heaven. [cite: 568]"
+          "explanation": "The 'hun' souls (three ethereal aspects) rise toward heaven, while 'po' souls (seven corporeal aspects) sink earthward."
+        },
+        {
+          "id": "taoism-q1-3",
+          "type": "multipleChoice",
+          "question": "What is the purpose of elaborate funeral rites in Taoism concerning the 'po' souls?",
+          "options": [
+            "To send them to a higher heaven",
+            "To ensure their peaceful repose and prevent them from becoming troublesome",
+            "To reincarnate them immediately",
+            "To allow them to merge with the 'hun' souls"
+          ],
+          "correctAnswer": "To ensure their peaceful repose and prevent them from becoming troublesome",
+          "explanation": "Funeral rites are aimed at keeping po souls peaceful while assisting hun souls' ascension."
         }
       ]
     },
     {
       "id": "taoism-realms",
-      "title": "Taoist Afterlife Geography",
+      "title": "Taoist Afterlife Geography: Heavens, Prisons, and Justice",
       "order": 2,
-      "content": "Taoist afterlife geography includes multiple destinations. The Celestial Realms consist of thirty-six heavens layered above earth, each ruled by different deities. The highest heavens transcend form, existing as pure 'qi' (energy). Souls ascend based on virtue and cultivation during life. Below these are eighteen levels of Earthly Prisons (not quite hells) where souls undergo purification before rebirth. King Yama, a figure borrowed from Buddhism but given Taoist characteristics, oversees judgment in these prisons. [cite: 570, 571, 572, 573]",
+      "content": "Taoist afterlife geography is rich and complex, encompassing a multitude of destinations for the souls. The Celestial Realms, or Thirty-Six Heavens, are layered above the earthly plane, with each level ruled by various celestial deities, including the Jade Emperor and the Three Pure Ones. These heavens are not merely physical locations but states of higher spiritual existence, where souls ascend based on their virtue, cultivation, and the spiritual merits accumulated during their earthly lives. The highest heavens transcend form, existing as realms of pure 'qi' (cosmic energy) and light, reserved for the most accomplished immortals and enlightened beings. In contrast to the ascending heavens, below the earth lie the Earthly Prisons (or Dizang Wang's Underworld), typically described as eighteen levels. These are not equivalent to Western concepts of eternal damnation but rather serve as places of purification, moral rectification, and temporary punishment for souls burdened by negative karma. Here, souls undergo various trials and lessons to cleanse their impurities before they can be reborn. King Yama, a prominent figure whose origins are traced to Buddhist mythology but is fully integrated into Taoist cosmology, presides over judgment in these earthly prisons, overseeing the meticulous accounting of merits and demerits. Souls are judged according to their actions, and their experiences in these realms are directly proportional to their karmic debt, ensuring a comprehensive system of divine justice and moral reckoning before their next transmigration.",
       "keyTerms": [
         "Celestial Realms",
+        "Thirty-Six Heavens",
         "Earthly Prisons",
         "King Yama",
+        "Jade Emperor",
+        "Three Pure Ones",
         "Qi",
-        "Cultivation"
+        "Cultivation",
+        "Purification",
+        "Karmic debt"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "taoism-q2-1",
@@ -67,31 +87,55 @@
             "Seventy-two"
           ],
           "correctAnswer": "Thirty-six",
-          "explanation": "The Celestial Realms: Thirty-six heavens layer above earth. [cite: 571]"
+          "explanation": "The Celestial Realms: Thirty-six heavens layer above earth."
         },
         {
           "id": "taoism-q2-2",
           "type": "trueFalse",
           "question": "Taoist 'Earthly Prisons' are places of eternal damnation.",
           "correctAnswer": "false",
-          "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth. [cite: 572]"
+          "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth."
+        },
+        {
+          "id": "taoism-q2-3",
+          "type": "multipleChoice",
+          "question": "Who oversees judgment in the Taoist Earthly Prisons?",
+          "options": [
+            "The Jade Emperor",
+            "King Yama",
+            "The Three Pure Ones",
+            "Penglai"
+          ],
+          "correctAnswer": "King Yama",
+          "explanation": "King Yama oversees judgment in these prisons."
+        },
+        {
+          "id": "taoism-q2-4",
+          "type": "trueFalse",
+          "question": "The highest Celestial Heavens are physical locations with solid structures.",
+          "correctAnswer": "false",
+          "explanation": "The highest heavens transcend form, existing as pure 'qi' (energy)."
         }
       ]
     },
     {
       "id": "taoism-immortal-realms",
-      "title": "Immortal Realms and Alchemy",
+      "title": "Immortal Realms, Alchemy, and the Quest for Longevity",
       "order": 3,
-      "content": "Achieved immortals transcend normal afterlife cycles, dwelling on specific locations like Penglai, a floating island in the eastern sea; Kunlun, a cosmic mountain in the west; or in hidden grottos within sacred mountains. Some might simply merge back into the Tao itself. Many Taoists pursue immortality through internal alchemy, cultivating the 'golden elixir' within through meditation, breathing exercises, and sexual practices. Historically, external alchemy sought literal immortality potions, ironically leading to many emperors' deaths from mercury poisoning. [cite: 574, 575, 576, 577]",
+      "content": "For those who achieve the rare state of immortality in Taoism, the typical afterlife cycles of rebirth and purification are transcended. These accomplished immortals (Xian) do not simply die but transform, dwelling on specific, often mythical, locations. Examples include Penglai, a legendary floating island in the eastern sea; Kunlun, a cosmic mountain in the west, home to the Queen Mother of the West; or hidden grottos and paradises within sacred mountains. Some might even achieve the ultimate spiritual transcendence, merging back into the Tao itself. The pursuit of immortality is a central theme in Taoist practice, primarily through internal alchemy (Neidan). This involves cultivating the 'golden elixir' (jindan) within the body through intricate meditation, breathing exercises (Qigong), and sometimes sexual practices. The goal is to purify and transform one's vital essence (jing), vital energy (qi), and spirit (shen) into a spiritual embryo, leading to physical and spiritual transcendence. Historically, external alchemy (Waidan) sought literal immortality potions or elixirs using minerals like mercury and cinnabar. Ironically, these dangerous concoctions often led to the untimely deaths of many emperors and practitioners due to mercury poisoning, highlighting the perils of misinterpreting spiritual goals as purely physical ones. The focus shifted over time from external to internal alchemy, recognizing that true immortality is a spiritual state of harmony with the Tao, transcending the limitations of the mortal body.",
       "keyTerms": [
         "Immortal Realms",
         "Penglai",
         "Kunlun",
         "Internal alchemy",
         "Golden elixir",
-        "External alchemy"
+        "External alchemy",
+        "Xian",
+        "Qi",
+        "Jing",
+        "Shen"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "taoism-q3-1",
@@ -99,39 +143,68 @@
           "question": "What is 'internal alchemy' in Taoism?",
           "options": [
             "Converting lead to gold",
-            "Cultivating the 'golden elixir' within",
-            "Brewing immortality potions",
-            "Studying ancient texts"
+            "Cultivating the 'golden elixir' within through meditation and breathing exercises",
+            "Brewing immortality potions using minerals",
+            "Studying ancient texts to find secrets"
           ],
-          "correctAnswer": "Cultivating the 'golden elixir' within",
-          "explanation": "Internal alchemy cultivates the 'golden elixir' within through meditation, breathing exercises, and sexual practices. [cite: 576]"
+          "correctAnswer": "Cultivating the 'golden elixir' within through meditation and breathing exercises",
+          "explanation": "Internal alchemy cultivates the 'golden elixir' within through meditation, breathing exercises, and sexual practices."
         },
         {
           "id": "taoism-q3-2",
           "type": "trueFalse",
-          "question": "External alchemy for immortality was always successful.",
+          "question": "External alchemy always led to successful physical immortality.",
           "correctAnswer": "false",
-          "explanation": "External alchemy sought literal immortality potions\u2014ironically killing many emperors with mercury poisoning. [cite: 577]"
+          "explanation": "External alchemy sought literal immortality potions—ironically killing many emperors with mercury poisoning."
+        },
+        {
+          "id": "taoism-q3-3",
+          "type": "multipleChoice",
+          "question": "Which of these is a legendary immortal realm in Taoism?",
+          "options": [
+            "Mount Everest",
+            "Penglai",
+            "Hades",
+            "Atlantis"
+          ],
+          "correctAnswer": "Penglai",
+          "explanation": "Achieved immortals transcend normal afterlife cycles, dwelling on specific locations like Penglai, a floating island in the eastern sea."
+        },
+        {
+          "id": "taoism-q3-4",
+          "type": "multipleChoice",
+          "question": "What is the primary goal of internal alchemy in Taoism?",
+          "options": [
+            "To accumulate wealth",
+            "To achieve spiritual transcendence and harmony with the Tao",
+            "To prolong life indefinitely through physical means",
+            "To control the weather"
+          ],
+          "correctAnswer": "To achieve spiritual transcendence and harmony with the Tao",
+          "explanation": "The focus shifted over time from external to internal alchemy, recognizing that true immortality is a spiritual state of harmony with the Tao, transcending the limitations of the mortal body."
         }
       ]
     },
     {
       "id": "taoism-return-to-tao",
-      "title": "The Highest Ideal: Returning to the Tao",
+      "title": "The Highest Ideal: Returning to the Tao and Liberated Existence",
       "order": 4,
-      "content": "The highest ideal in Taoism remains returning to the Tao\u2014not personal survival, but the recognition that individual existence was always illusory. Like waves realizing they were always part of the ocean, accomplished Taoists face death knowing they simply return to the source from which they never truly separated. This ultimate state signifies liberation from the cycle of individual existence and a complete merging with the universal flow. [cite: 578, 579]",
+      "content": "The highest ideal in Taoism remains returning to the Tao—a state of ultimate liberation that transcends personal survival or individualistic immortality. This profound philosophical concept signifies the recognition that individual existence, with its transient joys and sorrows, was always in some sense illusory, a temporary manifestation within the boundless and eternal Tao. Like a wave realizing it was always an inseparable part of the ocean, an accomplished Taoist faces death not as an end, but as a conscious return to the undifferentiated source from which they never truly separated. This ultimate state signifies liberation from the cycle of individual existence, the flow of karma, and the need for rebirth. It is a complete merging with the universal flow of cosmic energy and consciousness, becoming one with the fundamental principle that underlies all reality. This merging does not imply a loss of identity in the Western sense but rather an expansion of consciousness to encompass the totality of the Tao. It is the ultimate freedom from suffering and attachment, a state of perfect harmony and unity with the underlying patterns of the cosmos, signifying the culmination of spiritual cultivation.",
       "keyTerms": [
         "Return to the Tao",
         "Illusory existence",
         "Universal flow",
-        "Liberation"
+        "Liberation",
+        "Cosmic Tao",
+        "Spiritual cultivation",
+        "Merging with the source"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "taoism-q4-1",
           "type": "multipleChoice",
-          "question": "What does 'returning to the Tao' signify?",
+          "question": "What does 'returning to the Tao' primarily signify?",
           "options": [
             "Personal survival after death",
             "Reincarnation into a higher form",
@@ -139,14 +212,182 @@
             "Achieving a specific heaven"
           ],
           "correctAnswer": "Recognition that individual existence was always illusory and merging with the source",
-          "explanation": "The highest ideal remains returning to the Tao\u2014not personal survival but recognition that individual existence was always illusory. [cite: 578]"
+          "explanation": "The highest ideal remains returning to the Tao—not personal survival but recognition that individual existence was always illusory."
         },
         {
           "id": "taoism-q4-2",
           "type": "trueFalse",
-          "question": "The ultimate goal in Taoism is to achieve personal immortality in a celestial realm.",
+          "question": "The ultimate goal in Taoism is to achieve personal immortality in a celestial realm, distinct from the Tao.",
           "correctAnswer": "false",
-          "explanation": "The highest ideal remains returning to the Tao\u2014not personal survival. [cite: 578]"
+          "explanation": "The highest ideal remains returning to the Tao—not personal survival or individualistic immortality."
+        },
+        {
+          "id": "taoism-q4-3",
+          "type": "multipleChoice",
+          "question": "How is 'merging with the universal flow' understood in Taoism?",
+          "options": [
+            "As a loss of all identity",
+            "As an expansion of consciousness to encompass the totality of the Tao",
+            "As a temporary state before rebirth",
+            "As achieving a new physical body"
+          ],
+          "correctAnswer": "As an expansion of consciousness to encompass the totality of the Tao",
+          "explanation": "This merging does not imply a loss of identity in the Western sense but rather an expansion of consciousness to encompass the totality of the Tao."
+        }
+      ]
+    },
+    {
+      "id": "taoism-ancestor-veneration",
+      "title": "Ancestor Veneration and Filial Piety in the Afterlife",
+      "order": 5,
+      "content": "Ancestor veneration is a cornerstone of Taoist practice, deeply intertwined with beliefs about the afterlife and the welfare of both the living and the dead. It is an expression of filial piety (xiao), a fundamental virtue in Chinese culture. The belief is that the deceased ancestors continue to exist in a spiritual realm and can influence the fortunes of their living descendants. Proper funeral rites, regular offerings, and respectful remembrance ensure the comfort and well-being of the ancestors in the spirit world. In return, the ancestors are believed to bestow blessings, protection, and prosperity upon their living family members. If ancestors are neglected or their spirits are disturbed (e.g., due to improper burial or lack of offerings), they may become malevolent spirits, bringing misfortune upon the family. This reciprocal relationship highlights a continuous, interdependent connection between the living and the dead, where the afterlife is not a distant, disconnected realm but an active part of the familial and cosmic order. Offerings often include food, incense, paper money, and other symbolic items burned to be transmitted to the spiritual realm for the ancestors' use, ensuring their needs are met in their current existence.",
+      "keyTerms": [
+        "Ancestor veneration",
+        "Filial piety (xiao)",
+        "Offerings",
+        "Reciprocal relationship",
+        "Malevolent spirits",
+        "Spiritual realm",
+        "Funeral rites"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "taoism-q5-1",
+          "type": "multipleChoice",
+          "question": "What is 'filial piety' (xiao) primarily expressed through in Taoist afterlife practices?",
+          "options": [
+            "Ignoring ancestors after death",
+            "Ancestor veneration and proper funeral rites",
+            "Only focusing on personal immortality",
+            "Battling spirits of the deceased"
+          ],
+          "correctAnswer": "Ancestor veneration and proper funeral rites",
+          "explanation": "Ancestor veneration is a cornerstone of Taoist practice, deeply intertwined with beliefs about the afterlife and the welfare of both the living and the dead. It is an expression of filial piety (xiao)."
+        },
+        {
+          "id": "taoism-q5-2",
+          "type": "trueFalse",
+          "question": "In Taoist belief, neglected ancestors can bring good fortune to their descendants.",
+          "correctAnswer": "false",
+          "explanation": "If ancestors are neglected or their spirits are disturbed, they may become malevolent spirits, bringing misfortune upon the family."
+        },
+        {
+          "id": "taoism-q5-3",
+          "type": "multipleChoice",
+          "question": "What types of offerings are commonly made to ancestors in Taoism?",
+          "options": [
+            "Gold and jewels only",
+            "Food, incense, and paper money",
+            "Live animals",
+            "Rare books"
+          ],
+          "correctAnswer": "Food, incense, and paper money",
+          "explanation": "Offerings often include food, incense, paper money, and other symbolic items burned to be transmitted to the spiritual realm for the ancestors' use."
+        }
+      ]
+    },
+    {
+      "id": "taoism-reincarnation-karma",
+      "title": "Reincarnation and Karmic Cycles in Taoist Thought",
+      "order": 6,
+      "content": "While not as emphasized as in Buddhism, the concept of reincarnation and karmic retribution exists within various Taoist schools, particularly those influenced by Buddhist thought. In these traditions, the journey of the soul after death is not always a direct path to the heavens or a merge with the Tao; for many, it involves a cycle of rebirth (samsara). The quality of one's actions, thoughts, and deeds in life—their karma—determines the nature of their next incarnation. Positive karma can lead to rebirth into a more favorable existence, perhaps in a wealthier family, with good health, or even in a celestial realm. Negative karma, conversely, can result in rebirth into less desirable circumstances, or even into one of the Earthly Prisons for purification before a new life. This cycle is not necessarily viewed as a punitive system but as a natural consequence of the universal balance of yin and yang, where actions inevitably lead to reactions. The ultimate goal for many Taoists remains liberation from this cycle, whether through achieving immortality or by returning to the Tao. However, for the majority of humanity, the understanding of karmic cause and effect and the possibility of rebirth serves as a moral framework, encouraging virtuous conduct and the accumulation of merit to ensure a favorable future existence and gradual spiritual progression.",
+      "keyTerms": [
+        "Reincarnation",
+        "Karma",
+        "Samsara",
+        "Karmic retribution",
+        "Cycle of rebirth",
+        "Earthly Prisons",
+        "Liberation",
+        "Spiritual progression"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "taoism-q6-1",
+          "type": "multipleChoice",
+          "question": "What determines the nature of one's next incarnation in Taoist views that incorporate karma?",
+          "options": [
+            "Random chance",
+            "The quality of one's actions, thoughts, and deeds in life",
+            "Divine decree alone",
+            "The wealth accumulated in the previous life"
+          ],
+          "correctAnswer": "The quality of one's actions, thoughts, and deeds in life",
+          "explanation": "The quality of one's actions, thoughts, and deeds in life—their karma—determines the nature of their next incarnation."
+        },
+        {
+          "id": "taoism-q6-2",
+          "type": "trueFalse",
+          "question": "Reincarnation is a central and universally accepted doctrine in all Taoist schools, on par with Buddhism.",
+          "correctAnswer": "false",
+          "explanation": "While not as emphasized as in Buddhism, the concept of reincarnation and karmic retribution exists within various Taoist schools, particularly those influenced by Buddhist thought."
+        },
+        {
+          "id": "taoism-q6-3",
+          "type": "multipleChoice",
+          "question": "What is the ultimate goal for many Taoists regarding the cycle of rebirth?",
+          "options": [
+            "To experience endless rebirths",
+            "To achieve the highest position in Earthly Prisons",
+            "To achieve liberation from the cycle, through immortality or returning to the Tao",
+            "To accumulate as much negative karma as possible"
+          ],
+          "correctAnswer": "To achieve liberation from the cycle, through immortality or returning to the Tao",
+          "explanation": "The ultimate goal for many Taoists remains liberation from this cycle, whether through achieving immortality or by returning to the Tao."
+        }
+      ]
+    },
+    {
+      "id": "taoism-funerary-practices",
+      "title": "Taoist Funerary Rites and Afterlife Transition",
+      "order": 7,
+      "content": "Taoist funerary practices are elaborate and highly ritualized, designed to facilitate a smooth transition for the deceased's soul into the afterlife and to maintain harmony between the living and the dead. These rites are crucial for managing the dispersion of the hun and po souls. For the hun souls, rituals aim to assist their upward journey to the celestial realms, often involving prayers, invocations, and burning of incense to guide and purify them for divine reception. For the po souls, which remain closer to the earthly realm and the corpse, rituals focus on pacification. This includes proper burial or cremation practices, sometimes accompanied by specific talismans or charms, to prevent the po souls from becoming restless, vengeful ghosts (gui) that could bring misfortune upon the living. Exorcisms or special ceremonies may be performed if a death is considered inauspicious or if a ghost is causing trouble. Additionally, paper offerings – such as paper money, houses, cars, and servants – are burned during funerals and subsequent remembrance days. These offerings are believed to be transmitted to the deceased in the spiritual realm, ensuring their material comfort and status in the afterlife, reflecting a continuation of worldly needs in the spirit world. The meticulous adherence to these practices underscores the Taoist belief in the interconnectedness of realms and the ongoing influence of the dead on the living.",
+      "keyTerms": [
+        "Funerary practices",
+        "Hun souls",
+        "Po souls",
+        "Ghosts (gui)",
+        "Paper offerings",
+        "Celestial realms",
+        "Pacification",
+        "Exorcisms"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "taoism-q7-1",
+          "type": "multipleChoice",
+          "question": "What is the primary purpose of Taoist funerary rites for the 'hun' souls?",
+          "options": [
+            "To keep them bound to the corpse",
+            "To assist their upward journey to celestial realms",
+            "To turn them into ghosts",
+            "To reincarnate them immediately"
+          ],
+          "correctAnswer": "To assist their upward journey to celestial realms",
+          "explanation": "For the hun souls, rituals aim to assist their upward journey to the celestial realms."
+        },
+        {
+          "id": "taoism-q7-2",
+          "type": "trueFalse",
+          "question": "Paper offerings in Taoism are purely symbolic and have no perceived effect on the deceased in the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Paper offerings are believed to be transmitted to the deceased in the spiritual realm, ensuring their material comfort and status in the afterlife."
+        },
+        {
+          "id": "taoism-q7-3",
+          "type": "multipleChoice",
+          "question": "What can 'po' souls become if not properly handled after death?",
+          "options": [
+            "Celestial Immortals",
+            "Buddhas",
+            "Restless, vengeful ghosts (gui)",
+            "Enlightened beings"
+          ],
+          "correctAnswer": "Restless, vengeful ghosts (gui)",
+          "explanation": "For the po souls... rituals focus on pacification... to prevent the po souls from becoming restless, vengeful ghosts (gui) that could bring misfortune upon the living."
         }
       ]
     }
@@ -168,14 +409,14 @@
           "The Tao"
         ],
         "correctAnswer": "Po souls",
-        "explanation": "The po souls (seven corporeal aspects) sink earthward. [cite: 569]"
+        "explanation": "The po souls (seven corporeal aspects) sink earthward."
       },
       {
         "id": "taoism-mt-q2",
         "type": "trueFalse",
         "question": "Taoist Earthly Prisons are places of eternal damnation.",
         "correctAnswer": "false",
-        "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth. [cite: 572]"
+        "explanation": "Below lie eighteen levels of earth prisons (not quite hells), where souls undergo purification before rebirth."
       },
       {
         "id": "taoism-mt-q3",
@@ -188,7 +429,7 @@
           "Becoming King Yama"
         ],
         "correctAnswer": "Returning to the Tao",
-        "explanation": "The highest ideal remains returning to the Tao. [cite: 578]"
+        "explanation": "The highest ideal remains returning to the Tao."
       },
       {
         "id": "taoism-mt-q4",
@@ -222,7 +463,74 @@
           "Internal alchemy",
           "Cultivating 'golden elixir' within"
         ],
-        "explanation": "These are key concepts in Taoist afterlife beliefs. [cite: 568, 569, 574, 576]"
+        "explanation": "These are key concepts in Taoist afterlife beliefs."
+      },
+      {
+        "id": "taoism-mt-q5",
+        "type": "multipleChoice",
+        "question": "Who oversees judgment in the Taoist Earthly Prisons?",
+        "options": [
+          "The Jade Emperor",
+          "King Yama",
+          "The Three Pure Ones",
+          "Penglai Immortals"
+        ],
+        "correctAnswer": "King Yama",
+        "explanation": "King Yama oversees judgment in these prisons."
+      },
+      {
+        "id": "taoism-mt-q6",
+        "type": "trueFalse",
+        "question": "Ancestor veneration in Taoism is believed to have no impact on the living descendants' fortunes.",
+        "correctAnswer": "false",
+        "explanation": "If ancestors are neglected or their spirits are disturbed, they may become malevolent spirits, bringing misfortune upon the family."
+      },
+      {
+        "id": "taoism-mt-q7",
+        "type": "multipleChoice",
+        "question": "What do paper offerings burned in Taoist funerals represent?",
+        "options": [
+            "Purely symbolic gestures",
+            "Material items transmitted to the deceased in the spiritual realm",
+            "Fuel for the Earthly Prisons",
+            "A form of external alchemy"
+        ],
+        "correctAnswer": "Material items transmitted to the deceased in the spiritual realm",
+        "explanation": "Paper offerings are believed to be transmitted to the deceased in the spiritual realm, ensuring their material comfort and status in the afterlife."
+      },
+      {
+        "id": "taoism-mt-q8",
+        "type": "matching",
+        "question": "Match the Taoist afterlife concept to its description:",
+        "pairs": [
+          {
+            "left": "Celestial Realms",
+            "right": "Thirty-six heavens layered above earth"
+          },
+          {
+            "left": "Karmic retribution",
+            "right": "Actions determining the nature of next incarnation"
+          },
+          {
+            "left": "Gui",
+            "right": "Restless, vengeful ghosts"
+          },
+          {
+            "left": "Neidan",
+            "right": "Internal alchemy for spiritual transcendence"
+          }
+        ],
+        "correctAnswer": [
+          "Celestial Realms",
+          "Thirty-six heavens layered above earth",
+          "Karmic retribution",
+          "Actions determining the nature of next incarnation",
+          "Gui",
+          "Restless, vengeful ghosts",
+          "Neidan",
+          "Internal alchemy for spiritual transcendence"
+        ],
+        "explanation": "These concepts highlight various aspects of Taoist afterlife beliefs and practices."
       }
     ]
   }

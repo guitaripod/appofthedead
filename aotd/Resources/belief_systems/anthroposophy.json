@@ -4,21 +4,23 @@
   "description": "Discover Rudolf Steiner's spiritual scientific investigation of death, mapping the soul's conscious evolution through planetary spheres, life reviews, and karmic weaving in preparation for future incarnations.",
   "icon": "flower_of_life",
   "color": "#4682B4",
-  "totalXP": 240,
+  "totalXP": 400,
   "lessons": [
     {
       "id": "anthroposophy-intro",
-      "title": "Anthroposophy: Conscious Evolution",
+      "title": "Anthroposophy: Conscious Evolution and the Human Constitution",
       "order": 1,
-      "content": "Rudolf Steiner's Anthroposophy investigates death's journey through spiritual science, describing the soul's systematic transformation through various planetary spheres. Each stage is believed to develop different aspects of cosmic consciousness. After death, the etheric body (life force) separates over three days, during which a complete life panorama is experienced from others' perspectives. This process generates profound moral understanding as one feels all pain given and joy shared. [cite: 656, 657, 658, 659]",
+      "content": "Rudolf Steiner's Anthroposophy offers a unique perspective on death and post-mortem existence, framed within his spiritual scientific investigation. It posits that the human being is composed of multiple bodies or principles that separate at death. This journey is not an end but a systematic transformation, leading the soul through various spiritual realms and planetary spheres, each designed to develop different aspects of cosmic consciousness. Upon physical death, the etheric body, often described as the life force or formative forces, separates from the physical body. This separation typically occurs over a period of three days. During this crucial time, the individual experiences a profound 'life panorama' or 'memory tableau.' This is not a mere recollection of events but a complete, vivid re-experience of their entire earthly life, viewed not from their own subjective perspective, but from the perspective of all beings they interacted with. This means feeling the pain they caused and the joy they shared, leading to a deep and often intense moral understanding of their past actions and their impact on others. This process is crucial for generating profound moral understanding and laying the groundwork for future karmic balancing. The etheric body itself eventually dissolves back into the universal ether, typically after these three days, leaving the 'I' and astral body to continue the journey.",
       "keyTerms": [
         "Anthroposophy",
         "Rudolf Steiner",
         "Etheric body",
         "Life panorama",
-        "Cosmic consciousness"
+        "Cosmic consciousness",
+        "Spiritual science",
+        "Human constitution"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "anthroposophy-q1-1",
@@ -31,30 +33,44 @@
             "Emanuel Swedenborg"
           ],
           "correctAnswer": "Rudolf Steiner",
-          "explanation": "Rudolf Steiner's Anthroposophy maps death's journey through spiritual scientific investigation. [cite: 656]"
+          "explanation": "Rudolf Steiner's Anthroposophy maps death's journey through spiritual scientific investigation."
         },
         {
           "id": "anthroposophy-q1-2",
           "type": "trueFalse",
           "question": "The life panorama after death is experienced only from one's own perspective.",
           "correctAnswer": "false",
-          "explanation": "The life panorama is experienced from others' perspectives. [cite: 659]"
+          "explanation": "The life panorama is experienced from others' perspectives."
+        },
+        {
+          "id": "anthroposophy-q1-3",
+          "type": "multipleChoice",
+          "question": "How long does the etheric body typically remain connected after physical death?",
+          "options": [
+            "Seven days",
+            "One day",
+            "Three days",
+            "Immediately dissolves"
+          ],
+          "correctAnswer": "Three days",
+          "explanation": "After death, the etheric body (life force) separates over three days, during which a complete life panorama is experienced."
         }
       ]
     },
     {
       "id": "anthroposophy-astral-purification",
-      "title": "Astral Body and Purification",
+      "title": "Astral Body and the Kamaloca Purification",
       "order": 2,
-      "content": "Following the etheric body's separation, the astral body (desires/emotions) undergoes purification in the soul world. During this period, often called 'kamaloca,' lower desires burn away as the soul experiences their futility without a physical body. This purification phase lasts roughly one-third the length of the earthly life, preparing the soul for higher spiritual experiences. [cite: 660, 661, 662]",
+      "content": "Following the dissolution of the etheric body, the individual's journey continues with the astral body, which is considered the bearer of desires, emotions, sympathies, and antipathies. This astral body undergoes a period of purification in what Steiner termed the 'soul world,' often referred to as 'Kamaloca,' a term borrowed from Eastern esotericism. During this intensely subjective phase, the soul is said to experience the burning away of its lower desires and attachments to earthly sensations and passions. This is not a punitive process, but rather a necessary purification where the soul confronts the futility and emptiness of these desires when they are no longer supported by a physical body. For instance, a person who was excessively greedy in life might experience an intense hunger for material possessions, but without the means to satisfy it, leading to a profound understanding of the emptiness of such desires. The length of this purification phase is proportional to the intensity of these earthly attachments, generally estimated to last approximately one-third the length of the earthly life that was just concluded. This period is crucial for cleansing the soul and preparing it for higher spiritual experiences, enabling it to shed the denser aspects of its being and become more aligned with its true spiritual nature. Without this purification, the soul would be weighed down by its earthly inclinations, hindering its ability to ascend to higher realms.",
       "keyTerms": [
         "Astral body",
         "Soul world",
         "Kamaloca",
         "Purification",
-        "Lower desires"
+        "Lower desires",
+        "Earthly attachments"
       ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "anthroposophy-q2-1",
@@ -67,22 +83,35 @@
             "Physical recreation"
           ],
           "correctAnswer": "Purification of lower desires",
-          "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life. [cite: 661, 662]"
+          "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life."
         },
         {
           "id": "anthroposophy-q2-2",
           "type": "trueFalse",
           "question": "The astral body is the physical body.",
           "correctAnswer": "false",
-          "explanation": "The astral body relates to desires/emotions. [cite: 660]"
+          "explanation": "The astral body relates to desires/emotions."
+        },
+        {
+          "id": "anthroposophy-q2-3",
+          "type": "multipleChoice",
+          "question": "What happens to a soul's lower desires during Kamaloca?",
+          "options": [
+            "They are intensified indefinitely",
+            "They are completely forgotten",
+            "They burn away as the soul experiences their futility",
+            "They are transferred to another being"
+          ],
+          "correctAnswer": "They burn away as the soul experiences their futility",
+          "explanation": "During this period, often called 'kamaloca,' lower desires burn away as the soul experiences their futility without a physical body."
         }
       ]
     },
     {
       "id": "anthroposophy-planetary-spheres",
-      "title": "Ascension Through Planetary Spheres",
+      "title": "Ascension Through Planetary Spheres and Cosmic Journeys",
       "order": 3,
-      "content": "The purified soul then ascends through a series of planetary spheres, each with its own purpose: the Moon sphere for releasing earthly attachments, Mercury for developing moral techniques, Venus for experiencing cosmic love, and the Sun for meeting the Christ Being and reviewing life's spiritual significance. Further ascension leads to Mars for spiritual courage, Jupiter for cosmic wisdom, and Saturn, reaching the boundary between the solar system and the zodiac. [cite: 663]",
+      "content": "Once the soul has undergone purification in Kamaloca, it embarks on a grand ascension through a series of planetary spheres, each representing a distinct stage of cosmic consciousness development and a specific spiritual task. These spheres are not merely physical planets but rather spiritual realms associated with the archetypal forces and qualities that these planets embody. The journey begins with the Moon sphere, where the soul works to fully release its remaining earthly attachments and impressions, particularly those related to habits and instincts. Next is the Mercury sphere, a realm where the soul develops moral techniques and strengthens its conscience, learning how to integrate spiritual truths into practical, ethical actions. The Venus sphere follows, dedicated to the experience and cultivation of cosmic love, beauty, and harmony, expanding the soul's capacity for selfless affection. The Sun sphere is a particularly pivotal stage, as it is here that the soul is said to meet the Christ Being, a central spiritual entity in Anthroposophy. In this sphere, the soul undertakes a profound review of its life's spiritual significance, understanding the higher purpose and meaning behind its earthly experiences and the karmic threads it has woven. This meeting with the Christ Being is transformative, imparting spiritual wisdom and strength. The journey continues to the Mars sphere, where the soul develops spiritual courage, willpower, and the capacity for self-assertion in service of higher ideals. The Jupiter sphere instills cosmic wisdom, generosity, and an understanding of universal laws and justice. Finally, the soul reaches the Saturn sphere, which marks the boundary between the immediate solar system and the vast, cosmic realms of the zodiac. Here, the soul contemplates destiny, time, and the overarching framework of its existence, preparing for its ultimate journey into the macrocosm. Each sphere contributes to the soul's refinement and expansion, preparing it for the weighty task of preparing for a new incarnation.",
       "keyTerms": [
         "Planetary spheres",
         "Moon sphere",
@@ -92,9 +121,10 @@
         "Mars sphere",
         "Jupiter sphere",
         "Saturn sphere",
-        "Christ Being"
+        "Christ Being",
+        "Cosmic consciousness"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "anthroposophy-q3-1",
@@ -107,29 +137,52 @@
             "Jupiter sphere"
           ],
           "correctAnswer": "Moon sphere",
-          "explanation": "Moon sphere: Releasing earthly attachments. [cite: 663]"
+          "explanation": "Moon sphere: Releasing earthly attachments."
         },
         {
           "id": "anthroposophy-q3-2",
           "type": "trueFalse",
           "question": "The soul reviews its life's spiritual significance in the Mars sphere.",
           "correctAnswer": "false",
-          "explanation": "The soul meets the Christ Being and reviews life's spiritual significance in the Sun sphere. [cite: 663]"
+          "explanation": "The soul meets the Christ Being and reviews life's spiritual significance in the Sun sphere."
+        },
+        {
+          "id": "anthroposophy-q3-3",
+          "type": "multipleChoice",
+          "question": "In which sphere does the soul meet the Christ Being?",
+          "options": [
+            "Moon sphere",
+            "Venus sphere",
+            "Sun sphere",
+            "Saturn sphere"
+          ],
+          "correctAnswer": "Sun sphere",
+          "explanation": "The Sun sphere is for meeting the Christ Being and reviewing life's spiritual significance."
+        },
+        {
+          "id": "anthroposophy-q3-4",
+          "type": "trueFalse",
+          "question": "Planetary spheres in Anthroposophy are solely physical planets.",
+          "correctAnswer": "false",
+          "explanation": "These spheres are not merely physical planets but rather spiritual realms associated with the archetypal forces and qualities that these planets embody."
         }
       ]
     },
     {
       "id": "anthroposophy-zodiac-incarnation",
-      "title": "Zodiacal Realms and Next Incarnation",
+      "title": "Zodiacal Realms, Karmic Weaving, and the New Incarnation",
       "order": 4,
-      "content": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation. Here, the soul weaves karma with others, carefully choosing circumstances that balance past actions and enable future evolution. The 'midnight hour of existence' occurs in these cosmic realms, marking the soul's furthest point from earth before beginning the return journey. Gradually descending through the planetary spheres, it gathers the necessary forces for its next physical body, initiating a new cycle of earthly life. [cite: 664, 665, 666, 667]",
+      "content": "After traversing the planetary spheres and reaching Saturn, the soul transcends the boundaries of the solar system and enters the vast expanse of the zodiacal realms. These realms are not merely constellations but are dynamic cosmic regions imbued with powerful spiritual hierarchies and formative forces. Here, the soul enters into a profound collaboration with these hierarchical beings (such as Angels, Archangels, and Archai), actively participating in the preparation of its next incarnation. This is a crucial stage of 'karmic weaving,' where the soul, in full conscious awareness, works to balance past actions and intentions with future evolutionary needs. It meticulously chooses the circumstances of its next earthly life, including its future parents, family, social environment, historical period, and even potential life challenges and opportunities. This intricate process ensures that the upcoming incarnation will provide the precise conditions necessary for the soul to address unfulfilled karmic debts, develop latent capacities, and further its spiritual evolution. The 'midnight hour of existence' is a significant concept in these cosmic realms. It marks the soul's furthest point from Earth, its deepest immersion in the spiritual macrocosm, and the zenith of its cosmic consciousness. It is a moment of profound spiritual insight and union with cosmic wisdom, before the inevitable return journey begins. Following this peak experience, the soul gradually commences its descent, retracing its steps through the planetary spheres. As it descends, it gathers the specific spiritual forces and archetypal influences associated with each sphere, which are necessary to form and imbue its new physical body. This process culminates in conception and birth, initiating a new cycle of earthly life, where the soul can manifest the results of its karmic weaving and continue its conscious evolution within the physical realm. This cyclical journey underscores Anthroposophy's emphasis on reincarnation as a fundamental principle of human development and spiritual progress.",
       "keyTerms": [
         "Zodiacal realms",
         "Karmic weaving",
         "Next incarnation",
-        "Midnight hour of existence"
+        "Midnight hour of existence",
+        "Hierarchical beings",
+        "Reincarnation",
+        "Cosmic wisdom"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "anthroposophy-q4-1",
@@ -142,14 +195,187 @@
             "Battles demons"
           ],
           "correctAnswer": "Chooses its next incarnation and weaves karma",
-          "explanation": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation... choosing circumstances that balance past actions and enable future evolution. [cite: 664, 665]"
+          "explanation": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation... choosing circumstances that balance past actions and enable future evolution."
         },
         {
           "id": "anthroposophy-q4-2",
           "type": "trueFalse",
           "question": "The soul's return journey to earth begins after the 'midnight hour of existence'.",
           "correctAnswer": "true",
-          "explanation": "The midnight hour of existence occurs in cosmic realms, where the soul experiences its furthest point from earth before beginning the return journey. [cite: 666]"
+          "explanation": "The midnight hour of existence occurs in cosmic realms, where the soul experiences its furthest point from earth before beginning the return journey."
+        },
+        {
+          "id": "anthroposophy-q4-3",
+          "type": "multipleChoice",
+          "question": "What is the 'midnight hour of existence'?",
+          "options": [
+            "The moment of death",
+            "The soul's furthest point from earth in the spiritual realms",
+            "A period of rest before reincarnation",
+            "The time when karma is erased"
+          ],
+          "correctAnswer": "The soul's furthest point from earth in the spiritual realms",
+          "explanation": "The 'midnight hour of existence' occurs in these cosmic realms, marking the soul's furthest point from earth before beginning the return journey."
+        },
+        {
+          "id": "anthroposophy-q4-4",
+          "type": "trueFalse",
+          "question": "The soul randomly selects its next incarnation without conscious input.",
+          "correctAnswer": "false",
+          "explanation": "Here, the soul weaves karma with others, carefully choosing circumstances that balance past actions and enable future evolution."
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-karmic-development",
+      "title": "Karma, Reincarnation, and Human Evolution",
+      "order": 5,
+      "content": "A cornerstone of Anthroposophy's understanding of the afterlife is the concept of karma and reincarnation. Unlike a rigid system of reward and punishment, Steiner viewed karma as a law of spiritual cause and effect, essential for the soul's ongoing evolution. Every thought, feeling, and action in one life creates a 'karmic seed' that will ripen in future incarnations. The experiences of subsequent lives, whether challenging or beneficial, are seen as opportunities for the soul to balance past imbalances, learn necessary lessons, and further develop its spiritual capacities. Reincarnation, therefore, is not an endless cycle of suffering but a progressive ascent, allowing the individual ego, or 'I,' to consciously evolve over vast periods of time. This includes developing new faculties, refining moral character, and deepening spiritual insight. The interplay between an individual's karma and the collective karma of humanity is also emphasized, suggesting that personal development is intricately linked to the broader evolution of consciousness on Earth. Death is merely a transition between these cycles of incarnation, a gateway for the soul to assimilate lessons from the past life and prepare for the opportunities of the next.",
+      "keyTerms": [
+        "Karma",
+        "Reincarnation",
+        "Spiritual cause and effect",
+        "Karmic seed",
+        "Ego (I)",
+        "Human evolution"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "anthroposophy-q5-1",
+          "type": "multipleChoice",
+          "question": "How does Anthroposophy view karma?",
+          "options": [
+            "A system of rigid punishment",
+            "A law of spiritual cause and effect for evolution",
+            "A random occurrence of events",
+            "A form of divine judgment"
+          ],
+          "correctAnswer": "A law of spiritual cause and effect for evolution",
+          "explanation": "Steiner viewed karma as a law of spiritual cause and effect, essential for the soul's ongoing evolution."
+        },
+        {
+          "id": "anthroposophy-q5-2",
+          "type": "trueFalse",
+          "question": "Reincarnation in Anthroposophy is seen as an endless cycle of suffering.",
+          "correctAnswer": "false",
+          "explanation": "Reincarnation, therefore, is not an endless cycle of suffering but a progressive ascent, allowing the individual ego, or 'I,' to consciously evolve over vast periods of time."
+        },
+        {
+          "id": "anthroposophy-q5-3",
+          "type": "multipleChoice",
+          "question": "What is the purpose of reincarnation in Anthroposophy?",
+          "options": [
+            "To escape the physical world",
+            "To develop new faculties and refine moral character",
+            "To accumulate material wealth",
+            "To avoid all challenges"
+          ],
+          "correctAnswer": "To develop new faculties and refine moral character",
+          "explanation": "Reincarnation allows the individual ego, or 'I,' to consciously evolve over vast periods of time... including developing new faculties, refining moral character, and deepening spiritual insight."
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-spiritual-beings",
+      "title": "The Role of Spiritual Beings in Post-Mortem Life",
+      "order": 6,
+      "content": "Beyond the human soul's individual journey, Anthroposophy describes a complex hierarchy of spiritual beings who play significant roles in the cosmic order and particularly in the post-mortem journey and preparation for new incarnations. These beings, far from being mere mythological figures, are active participants in the evolution of cosmos and humanity. They include, but are not limited to, the Hierarchies described in Dionysius the Areopagite's celestial hierarchy: Angels, Archangels, Archai (Primal Beginnings), Exusiai (Powers), Dynamis (Mights), Kyriotetes (Dominions), Thrones, Cherubim, and Seraphim. Angels are understood to guide individual human beings, especially during life and in the initial stages after death. Archangels guide the destinies of peoples and groups, while Archai influence epochs and civilizations. In the zodiacal realms, the soul works closely with these higher hierarchical beings to weave its karma and select the optimal conditions for its next incarnation. They are not arbitrary rulers but beings of wisdom and love who assist in the unfolding of divine plan. The sun sphere, for example, is where the soul encounters the Christ Being, a central spiritual entity whose sacrifice and presence enable humanity's spiritual evolution. These spiritual beings are essential for understanding the intricate workings of the cosmos and the soul's journey through it, providing guidance, forces, and an overarching context for human existence and reincarnation.",
+      "keyTerms": [
+        "Spiritual beings",
+        "Hierarchies",
+        "Angels",
+        "Archangels",
+        "Archai",
+        "Christ Being",
+        "Cosmic order"
+      ],
+      "xpReward": 30,
+      "questions": [
+        {
+          "id": "anthroposophy-q6-1",
+          "type": "multipleChoice",
+          "question": "Which spiritual beings are said to guide individual human beings?",
+          "options": [
+            "Archangels",
+            "Thrones",
+            "Angels",
+            "Cherubim"
+          ],
+          "correctAnswer": "Angels",
+          "explanation": "Angels are understood to guide individual human beings, especially during life and in the initial stages after death."
+        },
+        {
+          "id": "anthroposophy-q6-2",
+          "type": "trueFalse",
+          "question": "Spiritual beings in Anthroposophy have no role in the soul's journey after death.",
+          "correctAnswer": "false",
+          "explanation": "Anthroposophy describes a complex hierarchy of spiritual beings who play significant roles in the cosmic order and particularly in the post-mortem journey and preparation for new incarnations."
+        },
+        {
+          "id": "anthroposophy-q6-3",
+          "type": "multipleChoice",
+          "question": "Where does the soul work with hierarchical beings to prepare its next incarnation?",
+          "options": [
+            "Kamaloca",
+            "Moon sphere",
+            "Zodiacal realms",
+            "Sun sphere"
+          ],
+          "correctAnswer": "Zodiacal realms",
+          "explanation": "In the zodiacal realms, the soul works closely with these higher hierarchical beings to weave its karma and select the optimal conditions for its next incarnation."
+        }
+      ]
+    },
+    {
+      "id": "anthroposophy-return-to-earth",
+      "title": "The Descent and Preparation for Earthly Incarnation",
+      "order": 7,
+      "content": "After the profound experiences in the zodiacal realms and the 'midnight hour of existence,' the soul begins its long and gradual descent back towards the Earth, preparing for its next physical incarnation. This descent is not a passive fall, but an active process of gathering and weaving the necessary cosmic forces for the formation of a new physical body. As the soul descends through the planetary spheres once again, it absorbs specific archetypal qualities and forces associated with each sphere. For instance, passing through the Saturn sphere might imbue it with patience and a sense of destiny; Jupiter with wisdom and expansive vision; Mars with courage and drive; the Sun with life-giving forces and the ego's spiritual essence; Venus with the capacity for love and aesthetics; Mercury with intellectual and moral capacities; and the Moon with formative etheric forces that guide physical growth and form. Each sphere contributes specific elements that will shape the individual's physical constitution, temperament, talents, and even the challenges they will face in the upcoming life. This process is highly individualized, reflecting the specific karmic needs and evolutionary goals of the soul. The forces gathered become the blueprint for the new physical and etheric bodies. The descent culminates in the moment of conception, where the spiritual individuality merges with the physical and etheric components provided by the parents, initiating the formation of the new organism. This intricate journey highlights the deep connection between the macrocosm (the cosmic realms) and the microcosm (the human being), illustrating how spiritual forces actively shape earthly existence according to karmic laws and the overarching plan of human evolution.",
+      "keyTerms": [
+        "Descent",
+        "Earthly incarnation",
+        "Cosmic forces",
+        "New physical body",
+        "Planetary spheres (re-entry)",
+        "Conception",
+        "Macrocosm",
+        "Microcosm"
+      ],
+      "xpReward": 25,
+      "questions": [
+        {
+          "id": "anthroposophy-q7-1",
+          "type": "multipleChoice",
+          "question": "What happens as the soul descends through the planetary spheres?",
+          "options": [
+            "It loses all its memories",
+            "It absorbs specific archetypal qualities and forces",
+            "It is cleansed of all karma",
+            "It merges with other souls"
+          ],
+          "correctAnswer": "It absorbs specific archetypal qualities and forces",
+          "explanation": "Gradually descending through the planetary spheres, it gathers the necessary forces for its next physical body, initiating a new cycle of earthly life."
+        },
+        {
+          "id": "anthroposophy-q7-2",
+          "type": "trueFalse",
+          "question": "The soul's descent to Earth is a passive process.",
+          "correctAnswer": "false",
+          "explanation": "This descent is not a passive fall, but an active process of gathering and weaving the necessary cosmic forces for the formation of a new physical body."
+        },
+        {
+          "id": "anthroposophy-q7-3",
+          "type": "multipleChoice",
+          "question": "When does the spiritual individuality merge with the physical and etheric components for a new incarnation?",
+          "options": [
+            "During the 'midnight hour of existence'",
+            "At birth",
+            "At conception",
+            "During Kamaloca"
+          ],
+          "correctAnswer": "At conception",
+          "explanation": "The descent culminates in the moment of conception, where the spiritual individuality merges with the physical and etheric components provided by the parents, initiating the formation of the new organism."
         }
       ]
     }
@@ -171,14 +397,14 @@
           "A spiritual battle"
         ],
         "correctAnswer": "A complete review of the past life from others' perspectives",
-        "explanation": "The etheric body (life force) separates over three days, creating the life panorama\u2014a complete review of the past life experienced from others' perspectives. [cite: 658, 659]"
+        "explanation": "The etheric body (life force) separates over three days, creating the life panorama—a complete review of the past life experienced from others' perspectives."
       },
       {
         "id": "anthroposophy-mt-q2",
         "type": "trueFalse",
         "question": "The 'kamaloca' period in Anthroposophy is a place of eternal suffering.",
         "correctAnswer": "false",
-        "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life. [cite: 661, 662]"
+        "explanation": "Lower desires burn away through experiencing their futility without a physical body. This 'kamaloca' period lasts roughly one-third the length of earthly life."
       },
       {
         "id": "anthroposophy-mt-q3",
@@ -186,12 +412,12 @@
         "question": "Which planetary sphere is associated with developing cosmic love?",
         "options": [
           "Moon sphere",
-          "Mercury sphere",
-          "Venus sphere",
-          "Sun sphere"
+            "Mercury sphere",
+            "Venus sphere",
+            "Sun sphere"
         ],
         "correctAnswer": "Venus sphere",
-        "explanation": "Venus: Experiencing cosmic love. [cite: 663]"
+        "explanation": "Venus: Experiencing cosmic love."
       },
       {
         "id": "anthroposophy-mt-q4",
@@ -225,7 +451,40 @@
           "Zodiacal realms",
           "Preparation for next incarnation"
         ],
-        "explanation": "These are key concepts in Anthroposophical spiritual science. [cite: 658, 660, 661, 664]"
+        "explanation": "These are key concepts in Anthroposophical spiritual science."
+      },
+      {
+        "id": "anthroposophy-mt-q5",
+        "type": "multipleChoice",
+        "question": "According to Anthroposophy, what is the 'midnight hour of existence'?",
+        "options": [
+          "The moment of physical death",
+          "The soul's furthest point from Earth in the spiritual realms",
+          "The beginning of Kamaloca",
+          "The point where karma is completely resolved"
+        ],
+        "correctAnswer": "The soul's furthest point from Earth in the spiritual realms",
+        "explanation": "The 'midnight hour of existence' occurs in these cosmic realms, marking the soul's furthest point from earth before beginning the return journey."
+      },
+      {
+        "id": "anthroposophy-mt-q6",
+        "type": "trueFalse",
+        "question": "The soul chooses its next incarnation and weaves karma with the assistance of hierarchical beings in the zodiacal realms.",
+        "correctAnswer": "true",
+        "explanation": "Beyond Saturn, the soul enters zodiacal realms, working with hierarchical beings to prepare its next incarnation... choosing circumstances that balance past actions and enable future evolution."
+      },
+      {
+        "id": "anthroposophy-mt-q7",
+        "type": "multipleChoice",
+        "question": "What is the primary purpose of the soul's journey through reincarnation in Anthroposophy?",
+        "options": [
+          "To experience endless pleasure",
+          "To escape all suffering",
+          "To consciously evolve and develop spiritual capacities",
+          "To serve as a slave to higher beings"
+        ],
+        "correctAnswer": "To consciously evolve and develop spiritual capacities",
+        "explanation": "Reincarnation, therefore, is not an endless cycle of suffering but a progressive ascent, allowing the individual ego, or 'I,' to consciously evolve over vast periods of time... including developing new faculties, refining moral character, and deepening spiritual insight."
       }
     ]
   }

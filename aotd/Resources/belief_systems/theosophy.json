@@ -4,21 +4,24 @@
   "description": "Explore Theosophical teachings on death as the shedding of vehicles of consciousness, the soul's journey through astral and mental planes, and the ultimate goal of liberation from rebirth.",
   "icon": "seal_of_theosophy",
   "color": "#800000",
-  "totalXP": 160,
+  "totalXP": 240,
   "lessons": [
     {
       "id": "theosophy-intro",
-      "title": "Theosophy: The Seven Planes",
+      "title": "Theosophy: The Seven Principles and the Veil of Death",
       "order": 1,
-      "content": "Theosophical teaching describes death as a process of shedding vehicles of consciousness, much like removing layers of clothing. The physical body dies first, followed by the etheric double within hours or days. The soul then comes to inhabit the astral body on the astral plane, where it experiences desires and emotions without physical means of satisfaction. [cite: 668, 669, 670]",
+      "content": "Theosophical teaching describes death not as an end, but as a systematic process of shedding 'vehicles of consciousness,' akin to removing layers of clothing. This intricate understanding is based on the concept of seven interpenetrating 'principles' or 'bodies' that constitute a human being, each corresponding to a different plane of existence. At physical death, the densest body, the 'Sthula Sharira' (physical body), ceases to function. This is followed, within a matter of hours or days, by the dissolution of the 'Linga Sharira' (etheric double or vital body), which acts as the blueprint and energizer for the physical form. As these lower principles disintegrate, the conscious entity, the true 'soul,' comes to inhabit the 'Kama Rupa' (astral body) on the 'Kama Loka' (astral plane). Here, the newly deceased experiences desires and emotions without the physical means of satisfaction, which can be a period of cleansing and purification of earthly attachments. This initial phase of the afterlife is crucial for detaching from lower passions and preparing the soul for its journey to higher, more refined states of consciousness. The process is not one of judgment in a conventional sense, but a natural unfoldment where the soul gravitates to the plane corresponding to its spiritual development, emphasizing a highly personalized and self-directed evolution.",
       "keyTerms": [
-        "Astral plane",
-        "Mental plane",
-        "Devachan",
-        "Etheric double",
-        "Vehicles of consciousness"
+        "Vehicles of consciousness",
+        "Sthula Sharira",
+        "Linga Sharira (Etheric Double)",
+        "Kama Rupa (Astral Body)",
+        "Kama Loka (Astral Plane)",
+        "Seven Principles",
+        "Purification",
+        "Self-directed evolution"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "theosophy-q1-1",
@@ -31,123 +34,210 @@
             "A physical transformation only"
           ],
           "correctAnswer": "Shedding vehicles of consciousness",
-          "explanation": "Theosophical teaching describes death as shedding vehicles of consciousness like removing layers of clothing. [cite: 668]"
+          "explanation": "Theosophical teaching describes death as a process of shedding vehicles of consciousness, much like removing layers of clothing."
         },
         {
           "id": "theosophy-q1-2",
           "type": "trueFalse",
-          "question": "The soul experiences desires and emotions on the astral plane with physical means of satisfaction.",
+          "question": "The etheric double dissipates immediately upon physical death.",
           "correctAnswer": "false",
-          "explanation": "The soul then inhabits the astral body on the astral plane, experiencing desires and emotions without physical means of satisfaction. [cite: 670]"
+          "explanation": "The physical body dies first, followed by the etheric double within hours or days."
+        },
+        {
+          "id": "theosophy-q1-3",
+          "type": "multipleChoice",
+          "question": "Which body does the soul inhabit on the astral plane?",
+          "options": [
+            "Mental body",
+            "Causal body",
+            "Astral body (Kama Rupa)",
+            "Physical body"
+          ],
+          "correctAnswer": "Astral body (Kama Rupa)",
+          "explanation": "The soul then comes to inhabit the astral body (Kama Rupa) on the astral plane (Kama Loka)."
+        },
+        {
+          "id": "theosophy-q1-4",
+          "type": "trueFalse",
+          "question": "The astral plane experience is primarily for physical gratification.",
+          "correctAnswer": "false",
+          "explanation": "On the astral plane, the soul experiences desires and emotions without physical means of satisfaction."
         }
       ]
     },
     {
-      "id": "theosophy-astral-plane",
-      "title": "The Astral Plane",
+      "id": "theosophy-devachan-higher-planes",
+      "title": "Devachan: The Mental Plane and Spiritual Gratification",
       "order": 2,
-      "content": "The astral plane is said to contain seven subplanes, ranging from dense regions where crude desires burn out to more refined levels associated with artistic and emotional appreciation. Most souls spend centuries here, gradually exhausting their desires until the astral body itself dies\u2014a process known as the 'second death.' This period allows for the dissipation of lower emotional attachments. [cite: 671, 672]",
+      "content": "After the soul has purged itself of lower desires and emotional attachments on the Kama Loka (astral plane), it ascends to the 'Devachan'—a Sanskrit term meaning 'dwelling of the gods' or 'bright land.' This corresponds to the 'Manasic' (mental) plane of consciousness. Devachan is a blissful, dream-like state of intellectual and spiritual gratification, where the soul experiences the fulfillment of all its highest aspirations, noble thoughts, and purest affections from its earthly life. It is a period of intense subjective experience, where the unfulfilled spiritual longings and intellectual pursuits of the past incarnation are perfectly realized. For instance, a struggling artist might experience the completion of their masterpieces, or a scholar might fully grasp profound universal truths. The duration of a soul's stay in Devachan varies immensely, depending on the accumulated spiritual merit and the intensity of its higher aspirations during life. It can last for centuries, even millennia, in earthly time. This realm allows the soul to assimilate the spiritual essence of its past experiences and prepare for its next incarnation, ensuring that no truly positive thought or action from the earthly life goes unfulfilled or unrewarded. Beyond Devachan lie the even higher, more rarefied planes, such as the 'Buddhi' (spiritual intuition) and 'Atma' (divine spirit) planes, where the soul approaches its true divine nature and unity with the Universal Spirit, representing increasingly profound stages of spiritual evolution and unity.",
       "keyTerms": [
-        "Astral plane",
-        "Subplanes",
-        "Crude desires",
-        "Second death",
-        "Emotional attachments"
+        "Devachan",
+        "Mental plane (Manasic)",
+        "Intellectual and spiritual gratification",
+        "Subjective experience",
+        "Duration of Devachan",
+        "Buddhi plane",
+        "Atma plane",
+        "Spiritual evolution"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "theosophy-q2-1",
           "type": "multipleChoice",
-          "question": "How many subplanes does the astral plane contain?",
+          "question": "What is 'Devachan' primarily a realm of?",
           "options": [
-            "Three",
-            "Five",
-            "Seven",
-            "Nine"
+            "Physical torture",
+            "Intellectual and spiritual gratification",
+            "Reincarnation",
+            "Material abundance"
           ],
-          "correctAnswer": "Seven",
-          "explanation": "The astral plane contains seven subplanes. [cite: 671]"
+          "correctAnswer": "Intellectual and spiritual gratification",
+          "explanation": "Devachan is a blissful state of intellectual and spiritual gratification, where the soul experiences the fulfillment of its highest aspirations."
         },
         {
           "id": "theosophy-q2-2",
           "type": "trueFalse",
-          "question": "Souls spend only a few days on the astral plane.",
+          "question": "The duration of a soul's stay in Devachan is fixed for all souls.",
           "correctAnswer": "false",
-          "explanation": "Most souls spend centuries here, gradually exhausting desires until the astral body itself dies. [cite: 672]"
+          "explanation": "The duration of a soul's stay in Devachan varies immensely, depending on the accumulated spiritual merit."
+        },
+        {
+          "id": "theosophy-q2-3",
+          "type": "multipleChoice",
+          "question": "What happens to unfulfilled spiritual longings from earthly life in Devachan?",
+          "options": [
+            "They are forgotten",
+            "They are punished",
+            "They are perfectly realized",
+            "They lead to immediate reincarnation"
+          ],
+          "correctAnswer": "They are perfectly realized",
+          "explanation": "In Devachan, unfulfilled spiritual longings and intellectual pursuits of the past incarnation are perfectly realized."
+        },
+        {
+          "id": "theosophy-q2-4",
+          "type": "trueFalse",
+          "question": "Devachan is considered the highest possible plane of existence in Theosophy.",
+          "correctAnswer": "false",
+          "explanation": "Beyond Devachan lie even higher, more rarefied planes, such as the 'Buddhi' and 'Atma' planes."
         }
       ]
     },
     {
-      "id": "theosophy-mental-plane-devachan",
-      "title": "The Mental Plane and Devachan",
+      "id": "theosophy-reincarnation-karma",
+      "title": "Reincarnation, Karma, and the Purpose of Evolution",
       "order": 3,
-      "content": "After the 'second death' on the astral plane, consciousness focuses in the mental body on the mental plane. Here, the soul experiences a 'heaven' of its own making, known as Devachan. Every aspiration finds fulfillment, and every intellectual interest is pursued to completion. This mental heaven lasts proportionally to the soul's spiritual development, potentially for millennia for evolved souls, providing a period of intense intellectual and spiritual gratification. [cite: 673, 674, 675]",
+      "content": "After the soul's blissful period in Devachan concludes, or when its accumulated spiritual energy from the previous life is fully assimilated, it begins its descent back towards rebirth into a new physical body. This is a crucial aspect of Theosophical afterlife teachings: reincarnation is not a punishment but a necessary evolutionary process. Each new life offers further opportunities for the soul to gain experience, learn lessons, and develop higher spiritual qualities that could not be fully cultivated in previous incarnations. The entire process of rebirth is governed by the universal law of 'Karma,' which in Theosophy is understood as a fundamental law of cause and effect, where every thought, word, and action, whether good or bad, inevitably brings about corresponding reactions. Karma is not a system of divine retribution, but a natural, impersonal force that ensures justice and facilitates the soul's learning and growth across multiple lifetimes. Positive karma leads to more favorable conditions for spiritual advancement in future lives, while negative karma presents challenges and lessons that must be overcome. The ultimate goal of this grand cycle of reincarnation and evolutionary development is 'Moksha' or 'Liberation'—the escape from the 'wheel of rebirth.' This liberation is achieved when the soul has fully learned all its earthly lessons, perfected its spiritual nature, and merged its individual consciousness with the Universal Consciousness, thereby transcending the need for further physical embodiment. This state is not an annihilation of individuality but an expansion into universal awareness, a return to the source.",
       "keyTerms": [
-        "Mental body",
-        "Mental plane",
-        "Devachan",
-        "Heaven of its own making",
-        "Spiritual development"
+        "Reincarnation (evolutionary)",
+        "Karma (cause and effect)",
+        "Moksha (Liberation)",
+        "Wheel of rebirth",
+        "Universal Consciousness",
+        "Soul's learning and growth",
+        "Divine retribution (not)"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "theosophy-q3-1",
           "type": "multipleChoice",
-          "question": "What is the 'heaven' experienced on the mental plane called?",
+          "question": "What is reincarnation primarily considered in Theosophy?",
           "options": [
-            "Nirvana",
-            "Devachan",
-            "Summerland",
-            "Gan Eden"
+            "A form of punishment",
+            "A necessary evolutionary process",
+            "A random occurrence",
+            "A curse"
           ],
-          "correctAnswer": "Devachan",
-          "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. Devachan, this mental heaven. [cite: 674, 675]"
+          "correctAnswer": "A necessary evolutionary process",
+          "explanation": "Reincarnation is a necessary evolutionary process, not a punishment, offering opportunities for learning and development."
         },
         {
           "id": "theosophy-q3-2",
           "type": "trueFalse",
-          "question": "Devachan is a place of suffering and torment.",
+          "question": "Karma in Theosophy is understood as divine retribution.",
           "correctAnswer": "false",
-          "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. [cite: 674]"
+          "explanation": "Karma is a natural, impersonal law of cause and effect, not divine retribution."
+        },
+        {
+          "id": "theosophy-q3-3",
+          "type": "multipleChoice",
+          "question": "What is the ultimate goal of the cycle of reincarnation in Theosophy?",
+          "options": [
+            "To accumulate vast material wealth",
+            "To achieve Moksha (Liberation) from rebirth",
+            "To become a spiritual guide in the astral plane",
+            "To eternally wander the Devachan"
+          ],
+          "correctAnswer": "To achieve Moksha (Liberation) from rebirth",
+          "explanation": "The ultimate goal is 'Moksha' or 'Liberation'—the escape from the 'wheel of rebirth,' achieved by merging with Universal Consciousness."
+        },
+        {
+          "id": "theosophy-q3-4",
+          "type": "trueFalse",
+          "question": "The liberation from rebirth results in the annihilation of individual consciousness.",
+          "correctAnswer": "false",
+          "explanation": "This state is not an annihilation of individuality but an expansion into universal awareness, a return to the source."
         }
       ]
     },
     {
-      "id": "theosophy-higher-planes-liberation",
-      "title": "Higher Planes and Liberation",
+      "id": "theosophy-after-liberation-adepts",
+      "title": "Beyond Liberation: Adepts and Service to Humanity",
       "order": 4,
-      "content": "Eventually, even the mental matter of Devachan exhausts. The soul then experiences a brief touch of its true nature on higher planes\u2014the causal, buddhic, and atmic planes\u2014before karma draws it back to incarnation. The cycle of rebirth continues until the soul achieves liberation from this wheel. This constant process of shedding vehicles, purification, spiritual growth, and eventual return to incarnation is the Theosophical understanding of the soul's long journey towards ultimate freedom. [cite: 676, 677]",
+      "content": "For those rare individuals who achieve liberation (Moksha) and escape the wheel of rebirth, their journey does not necessarily end in a static state of blissful absorption. Many highly evolved souls, known as 'Adepts' or 'Mahatmas' (Great Souls), choose to remain connected to humanity, working from higher planes of existence to guide and assist the spiritual evolution of the less advanced. These Adepts are often described as the 'Elder Brothers' of humanity, forming a 'Great White Brotherhood' (a symbolic term for their spiritual purity and universal compassion, transcending racial or gender distinctions) who oversee the spiritual progress of the world. They do not directly interfere with human free will but inspire, enlighten, and provide subtle guidance through various channels, including inspiring spiritual movements, individuals, and disseminating knowledge through their chosen disciples. Their primary purpose is to accelerate humanity's collective spiritual evolution and help individuals achieve their own liberation. This concept underscores the selfless aspect of spiritual attainment in Theosophy, where advanced souls, instead of seeking only their own ultimate peace, dedicate themselves to the betterment of all sentient beings. This highlights a profound altruism at the core of advanced spiritual life, emphasizing that true enlightenment brings with it an even greater capacity and desire for universal service.",
       "keyTerms": [
-        "Causal plane",
-        "Buddhic plane",
-        "Atmic plane",
-        "Karma",
-        "Liberation",
-        "Wheel of rebirth"
+        "Moksha (Liberation)",
+        "Adepts (Mahatmas)",
+        "Great White Brotherhood",
+        "Spiritual evolution (collective)",
+        "Service to humanity",
+        "Altruism",
+        "Higher planes of existence",
+        "Subtle guidance"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
           "id": "theosophy-q4-1",
           "type": "multipleChoice",
-          "question": "What draws the soul back to incarnation after experiencing higher planes?",
+          "question": "What do many liberated souls (Adepts) choose to do?",
           "options": [
-            "Divine will",
-            "Its own desires",
-            "Karma",
-            "The pull of gravity"
+            "Enter a static state of absorption",
+            "Reincarnate immediately into new physical bodies",
+            "Remain connected to humanity to guide its spiritual evolution",
+            "Forget all past experiences"
           ],
-          "correctAnswer": "Karma",
-          "explanation": "The soul experiences a brief touch of its true nature on higher planes... before karma draws it back to incarnation. [cite: 676]"
+          "correctAnswer": "Remain connected to humanity to guide its spiritual evolution",
+          "explanation": "Many Adepts choose to remain connected to humanity, working from higher planes to guide its spiritual evolution."
         },
         {
           "id": "theosophy-q4-2",
           "type": "trueFalse",
-          "question": "Liberation from the wheel of rebirth is not possible in Theosophy.",
+          "question": "Adepts directly interfere with human free will.",
           "correctAnswer": "false",
-          "explanation": "The cycle repeats until achieving liberation from the wheel of rebirth. [cite: 677]"
+          "explanation": "They do not directly interfere with human free will but inspire and provide subtle guidance."
+        },
+        {
+          "id": "theosophy-q4-3",
+          "type": "multipleChoice",
+          "question": "What is the primary purpose of the 'Great White Brotherhood'?",
+          "options": [
+            "To rule the physical world",
+            "To accelerate humanity's collective spiritual evolution",
+            "To punish wicked souls",
+            "To gather material wealth"
+          ],
+          "correctAnswer": "To accelerate humanity's collective spiritual evolution",
+          "explanation": "Their primary purpose is to accelerate humanity's collective spiritual evolution and help individuals achieve their own liberation."
+        },
+        {
+          "id": "theosophy-q4-4",
+          "type": "trueFalse",
+          "question": "True enlightenment in Theosophy leads to a desire for isolation from humanity.",
+          "correctAnswer": "false",
+          "explanation": "This highlights a profound altruism at the core of advanced spiritual life, emphasizing that true enlightenment brings with it an even greater capacity and desire for universal service."
         }
       ]
     }
@@ -161,35 +251,35 @@
       {
         "id": "theosophy-mt-q1",
         "type": "multipleChoice",
-        "question": "What is the 'second death' in Theosophy?",
+        "question": "What is the order of bodily dissolution in Theosophical death?",
         "options": [
-          "The death of the physical body",
-          "The death of the etheric double",
-          "The death of the astral body",
-          "The death of the mental body"
+          "Etheric double, then physical body",
+          "Physical body, then etheric double",
+          "Astral body, then physical body",
+          "Mental body, then etheric double"
         ],
-        "correctAnswer": "The death of the astral body",
-        "explanation": "Most souls spend centuries here, gradually exhausting desires until the astral body itself dies\u2014the 'second death.' [cite: 672]"
+        "correctAnswer": "Physical body, then etheric double",
+        "explanation": "The physical body dies first, followed by the etheric double within hours or days."
       },
       {
         "id": "theosophy-mt-q2",
         "type": "trueFalse",
-        "question": "Devachan is a place where every aspiration is fulfilled.",
-        "correctAnswer": "true",
-        "explanation": "Here, every aspiration finds fulfillment, every intellectual interest is pursued to completion. [cite: 674]"
+        "question": "The 'Kama Loka' (astral plane) is a realm of immediate spiritual enlightenment.",
+        "correctAnswer": "false",
+        "explanation": "On the Kama Loka (astral plane), the soul experiences desires and emotions without physical means of satisfaction, which can be a period of cleansing and purification of earthly attachments."
       },
       {
         "id": "theosophy-mt-q3",
         "type": "multipleChoice",
-        "question": "Which body is shed first after physical death?",
+        "question": "What is 'Devachan' in Theosophy?",
         "options": [
-          "Astral body",
-          "Mental body",
-          "Causal body",
-          "Etheric double"
+          "A place of physical suffering",
+          "A realm of intellectual and spiritual gratification",
+          "The plane of reincarnation",
+          "The lowest astral sub-plane"
         ],
-        "correctAnswer": "Etheric double",
-        "explanation": "The physical body dies first, followed by the etheric double within hours or days. [cite: 669]"
+        "correctAnswer": "A realm of intellectual and spiritual gratification",
+        "explanation": "Devachan is a blissful, dream-like state of intellectual and spiritual gratification, where the soul experiences the fulfillment of all its highest aspirations."
       },
       {
         "id": "theosophy-mt-q4",
@@ -197,33 +287,100 @@
         "question": "Match the Theosophical concept with its description:",
         "pairs": [
           {
-            "left": "Astral plane",
-            "right": "Realm of desires and emotions"
+            "left": "Kama Rupa",
+            "right": "Astral body"
           },
           {
-            "left": "Mental plane",
-            "right": "Realm of intellectual and spiritual gratification (Devachan)"
+            "left": "Kama Loka",
+            "right": "Astral plane"
           },
           {
-            "left": "Causal plane",
-            "right": "One of the higher planes where soul touches true nature"
+            "left": "Devachan",
+            "right": "Mental plane/realm of spiritual gratification"
           },
           {
-            "left": "Liberation",
-            "right": "Escape from the wheel of rebirth"
+            "left": "Moksha",
+            "right": "Liberation from rebirth"
           }
         ],
         "correctAnswer": [
+          "Kama Rupa",
+          "Astral body",
+          "Kama Loka",
           "Astral plane",
-          "Realm of desires and emotions",
-          "Mental plane",
-          "Realm of intellectual and spiritual gratification (Devachan)",
-          "Causal plane",
-          "One of the higher planes where soul touches true nature",
-          "Liberation",
-          "Escape from the wheel of rebirth"
+          "Devachan",
+          "Mental plane/realm of spiritual gratification",
+          "Moksha",
+          "Liberation from rebirth"
         ],
-        "explanation": "These are key elements of Theosophical afterlife teachings. [cite: 670, 673, 676, 677]"
+        "explanation": "These are key elements of Theosophical afterlife teachings."
+      },
+      {
+        "id": "theosophy-mt-q5",
+        "type": "multipleChoice",
+        "question": "How is Karma understood in Theosophy?",
+        "options": [
+          "As divine punishment for sins",
+          "As a random force in the universe",
+          "As an impersonal law of cause and effect",
+          "As a fixed destiny determined at birth"
+        ],
+        "correctAnswer": "As an impersonal law of cause and effect",
+        "explanation": "Karma is understood as a fundamental law of cause and effect, where every thought, word, and action, whether good or bad, inevitably brings about corresponding reactions."
+      },
+      {
+        "id": "theosophy-mt-q6",
+        "type": "trueFalse",
+        "question": "Reincarnation in Theosophy is solely a punishment for past misdeeds.",
+        "correctAnswer": "false",
+        "explanation": "Reincarnation is not a punishment but a necessary evolutionary process. Each new life offers further opportunities for the soul to gain experience, learn lessons, and develop higher spiritual qualities."
+      },
+      {
+        "id": "theosophy-mt-q7",
+        "type": "multipleChoice",
+        "question": "What is the term for highly evolved souls who choose to remain connected to humanity after liberation?",
+        "options": [
+            "Specters",
+            "Ghosts",
+            "Adepts or Mahatmas",
+            "Astral projections"
+        ],
+        "correctAnswer": "Adepts or Mahatmas",
+        "explanation": "Many highly evolved souls, known as 'Adepts' or 'Mahatmas' (Great Souls), choose to remain connected to humanity."
+      },
+      {
+        "id": "theosophy-mt-q8",
+        "type": "matching",
+        "question": "Match the Theosophical body/plane with its corresponding principle:",
+        "pairs": [
+          {
+            "left": "Sthula Sharira",
+            "right": "Physical body"
+          },
+          {
+            "left": "Linga Sharira",
+            "right": "Etheric double"
+          },
+          {
+            "left": "Kama Rupa",
+            "right": "Astral body"
+          },
+          {
+            "left": "Manasic Plane",
+            "right": "Mental plane (Devachan)"
+          }
+        ],
+        "correctAnswer": [
+          "Sthula Sharira",
+          "Physical body",
+          "Linga Sharira",
+          "Etheric double",
+          "Kama Rupa",
+          "Astral body",
+          "Manasic Plane",
+          "Mental plane (Devachan)"
+        ],
+        "explanation": "These are the Theosophical 'principles' or 'bodies' and their corresponding planes of existence."
       }
     ]
   }

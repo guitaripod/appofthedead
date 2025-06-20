@@ -4,25 +4,27 @@
   "description": "Explore the gentler vision of death in contemporary Paganism, where death is seen as another turn of the Wheel of the Year, leading to the Summerland for rest, reflection, and preparation for new incarnations.",
   "icon": "triple_goddess",
   "color": "#800080",
-  "totalXP": 120,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "wicca-intro",
-      "title": "Wicca: The Summerland",
+      "title": "Wicca: The Summerland - A Cyclical Journey Beyond Death",
       "order": 1,
-      "content": "Contemporary Paganism, including Wicca, offers gentler visions of death, emphasizing natural cycles over judgment. Wiccans see death as simply another turn of the Wheel of the Year. The soul journeys to the Summerland\u2014not a literal place, but a state of being between incarnations. Here, in eternal summer twilight, souls find rest and reflect without judgment or punishment. [cite: 607, 608, 609, 610]",
+      "content": "Contemporary Paganism, including Wicca, offers gentler and more cyclical visions of death, emphasizing natural processes and continuity over rigid judgment. Wiccans perceive death not as an abrupt end or a final judgment, but as simply another turn of the 'Wheel of the Year' – the natural cycle of birth, life, death, and rebirth observed in nature. The soul's journey after physical death is to the 'Summerland', a realm often described less as a literal, fixed place and more as a blissful, ethereal state of being or a dimension between incarnations. Here, souls find profound rest, healing, and opportunity for reflection without the burdens of earthly judgment, punishment, or retribution. It is a period of recuperation and assimilation of the past life's experiences, a tranquil 'eternal summer twilight' before the soul prepares for its return to the physical plane. This understanding removes the fear often associated with death, recasting it as a necessary and harmonious part of an ongoing spiritual evolution.",
       "keyTerms": [
         "Summerland",
         "Wheel of the Year",
         "Reincarnation",
-        "Reflection"
+        "Reflection",
+        "Natural cycles",
+        "Spiritual evolution"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "wicca-q1-1",
           "type": "multipleChoice",
-          "question": "How do Wiccans view death?",
+          "question": "How do Wiccans primarily view death?",
           "options": [
             "As a punishment",
             "As eternal damnation",
@@ -30,30 +32,44 @@
             "As a final end to existence"
           ],
           "correctAnswer": "As another turn of the Wheel of the Year",
-          "explanation": "Wiccans see death as simply another turn of the Wheel of the Year. [cite: 608]"
+          "explanation": "Wiccans see death as simply another turn of the Wheel of the Year."
         },
         {
           "id": "wicca-q1-2",
           "type": "trueFalse",
           "question": "The Summerland is a place of eternal judgment.",
           "correctAnswer": "false",
-          "explanation": "In the Summerland, souls rest and reflect without judgment or punishment. [cite: 610]"
+          "explanation": "In the Summerland, souls rest and reflect without judgment or punishment."
+        },
+        {
+          "id": "wicca-q1-3",
+          "type": "multipleChoice",
+          "question": "What is the Summerland described as in Wiccan belief?",
+          "options": [
+            "A literal underworld",
+            "A fiery realm of purification",
+            "A state of being or dimension between incarnations",
+            "A place of endless conflict"
+          ],
+          "correctAnswer": "A state of being or dimension between incarnations",
+          "explanation": "The soul journeys to the Summerland—not a literal place, but a state of being between incarnations."
         }
       ]
     },
     {
       "id": "wicca-summerland-experience",
-      "title": "The Summerland Experience",
+      "title": "Experiencing the Summerland: Healing, Reflection, and Life Review",
       "order": 2,
-      "content": "The Summerland is depicted as idealized nature\u2014ancient forests, meadow streams, and standing stones marking sacred sites. It is a place where beloved animals, friends, and family from across lifetimes await. This realm is a place of healing where traumatic memories fade and wisdom crystallizes. Time flows differently here; a day might equal a century on earth, or vice versa. Souls review their past life like a movie, gaining understanding of consequences, relationships, and lessons learned, all as preparation for the next incarnation. [cite: 611, 612, 613, 614, 615, 616]",
+      "content": "The Summerland is often depicted as a realm of idyllic, idealized nature—lush ancient forests, clear meadow streams, sun-dappled glades, and powerful standing stones marking sacred sites. It is envisioned as a comforting and beautiful landscape that brings peace to the soul. This gentle realm is where souls are reunited with beloved animal companions, friends, and family members from across lifetimes, creating a profound sense of continuity and connection. Crucially, the Summerland is a place of deep healing where traumatic memories, emotional wounds, and the stresses of the past life gradually fade, allowing clarity and wisdom to crystallize from the experiences. Time flows differently here; it is fluid and subjective, meaning a day might feel like a century on Earth, or vice versa, allowing ample opportunity for repose and assimilation. A core aspect of the Summerland experience is the 'life review', where souls dispassionately observe their past life like a movie, gaining profound understanding of their actions, the consequences of those actions on themselves and others, their relationships, and the lessons they were meant to learn. This review is non-judgmental, purely for insight and growth, serving as vital preparation for the next incarnation.",
       "keyTerms": [
         "Idealized nature",
         "Healing",
         "Time flow",
         "Life review",
-        "Karma"
+        "Karmic understanding",
+        "Soul reunion"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "wicca-q2-1",
@@ -66,30 +82,45 @@
             "They are forgotten entirely"
           ],
           "correctAnswer": "They fade and wisdom crystallizes",
-          "explanation": "It's a place of healing where traumatic memories fade and wisdom crystallizes. [cite: 613]"
+          "explanation": "It's a place of healing where traumatic memories fade and wisdom crystallizes."
         },
         {
           "id": "wicca-q2-2",
           "type": "trueFalse",
           "question": "Time in the Summerland flows at the same rate as on Earth.",
           "correctAnswer": "false",
-          "explanation": "Time flows differently\u2014a day might equal a century on earth, or vice versa. [cite: 614]"
+          "explanation": "Time flows differently—a day might equal a century on earth, or vice versa."
+        },
+        {
+          "id": "wicca-q2-3",
+          "type": "multipleChoice",
+          "question": "What is the nature of the 'life review' in the Summerland?",
+          "options": [
+            "A judgment presided over by deities",
+            "A dispassionate observation for insight and growth",
+            "A painful re-experience of past mistakes",
+            "A process of erasing all memories"
+          ],
+          "correctAnswer": "A dispassionate observation for insight and growth",
+          "explanation": "Souls review their past life like a movie, gaining understanding of consequences... This review is non-judgmental, purely for insight and growth."
         }
       ]
     },
     {
       "id": "wicca-next-life-samhain",
-      "title": "Choosing the Next Life and Samhain",
+      "title": "Choosing the Next Life and the Significance of Samhain",
       "order": 3,
-      "content": "When ready, souls choose their next life. Some traditions describe a ceremony where souls select their challenges, relationships, and lessons for the upcoming incarnation. Advanced souls might even volunteer for difficult lives to rapidly burn off karma or assist others in their evolution. Between lives, souls can serve as guides, inspiring artists or watching over loved ones. The veil between worlds thins at Samhain, allowing for easier communication. This connection is seen not as fearful haunting but as a loving bond across death's boundary. [cite: 616, 617, 618, 619, 620]",
+      "content": "When a soul has sufficiently rested, healed, and integrated the lessons from its life review in the Summerland, it prepares for its next incarnation. In Wiccan traditions, souls are generally believed to have agency in this process, actively choosing their next life rather than being randomly assigned. Some descriptions involve a sacred ceremony where souls select the specific challenges, relationships, and lessons they wish to experience in their upcoming incarnation to further their spiritual growth and resolve karmic patterns. Highly advanced souls might even volunteer for particularly difficult or challenging lives, understanding that such experiences can rapidly 'burn off' significant karma or serve a greater purpose in assisting the collective evolution of humanity. Between lives, or even while resting in the Summerland, souls can act as benevolent spirit guides, offering inspiration to artists, providing comfort, or watching over their loved ones still on the earthly plane. A particularly significant time for connection between the living and the dead is Samhain (pronounced 'Sow-in'), the Wiccan New Year, typically observed around October 31st. During Samhain, the veil between worlds is believed to thin, allowing for easier communication and interaction between the physical and spiritual realms. This connection is viewed not as fearful haunting but as a loving, respectful bond across death's boundary, celebrating the continuous cycle of life, death, and rebirth.",
       "keyTerms": [
         "Next incarnation",
         "Life choice",
         "Karma burning",
         "Spirit guides",
-        "Samhain"
+        "Samhain",
+        "Thinning veil",
+        "Spiritual growth"
       ],
-      "xpReward": 15,
+      "xpReward": 40,
       "questions": [
         {
           "id": "wicca-q3-1",
@@ -102,14 +133,234 @@
             "They are forgotten by the living"
           ],
           "correctAnswer": "They choose their next life and its challenges",
-          "explanation": "When ready, souls choose their next life. Some traditions describe a ceremony where souls select their challenges, relationships, and lessons. [cite: 616, 617]"
+          "explanation": "When ready, souls choose their next life. Some traditions describe a ceremony where souls select their challenges, relationships, and lessons."
         },
         {
           "id": "wicca-q3-2",
           "type": "trueFalse",
           "question": "The veil between worlds is always thick, preventing communication between the living and the dead.",
           "correctAnswer": "false",
-          "explanation": "The veil between worlds thins at Samhain, allowing easier communication. [cite: 620]"
+          "explanation": "The veil between worlds thins at Samhain, allowing easier communication."
+        },
+        {
+          "id": "wicca-q3-3",
+          "type": "multipleChoice",
+          "question": "What is Samhain in Wiccan belief, regarding the afterlife?",
+          "options": [
+            "A time for final judgment",
+            "A period of strict separation between worlds",
+            "A time when the veil between worlds thins, allowing communication",
+            "A day for mourning and no interaction"
+          ],
+          "correctAnswer": "A time when the veil between worlds thins, allowing communication",
+          "explanation": "The veil between worlds thins at Samhain, allowing for easier communication and interaction between the physical and spiritual realms."
+        }
+      ]
+    },
+    {
+      "id": "wicca-divine-roles",
+      "title": "The Roles of the Goddess and God in the Afterlife",
+      "order": 4,
+      "content": "In Wiccan theology, the Divine Feminine (the Goddess) and the Divine Masculine (the God) play integral roles in the cycle of life, death, and rebirth. The Goddess, often revered in her aspects as Maiden, Mother, and Crone, is particularly associated with death and rebirth. As the Crone aspect, she is the wise old woman who guides souls through the transition of death, offering comfort and nurturing as they enter the Summerland. She is the fertile earth into which bodies return, and from which new life springs. The God, often seen as the Horned God or the Lord of Death and Rebirth, is also a guide in the underworld or the Summerland, escorting souls to their rest and overseeing the preparatory period before reincarnation. He represents the wild, untamed aspects of nature and the continuous renewal of life. Together, the Goddess and God represent the sacred balance of creation and destruction, life and death, embodying the cyclical nature of existence. They are seen not as judges but as loving, nurturing deities who facilitate the soul's journey through the various phases of its eternal existence, ensuring the lessons are learned and growth continues.",
+      "keyTerms": [
+        "Goddess",
+        "God",
+        "Crone aspect",
+        "Horned God",
+        "Divine Feminine",
+        "Divine Masculine",
+        "Cycle of rebirth",
+        "Sacred balance"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "wicca-q4-1",
+          "type": "multipleChoice",
+          "question": "Which aspect of the Goddess is particularly associated with guiding souls through death and rebirth?",
+          "options": [
+            "Maiden",
+            "Mother",
+            "Crone",
+            "Warrior"
+          ],
+          "correctAnswer": "Crone",
+          "explanation": "As the Crone aspect, she is the wise old woman who guides souls through the transition of death, offering comfort and nurturing as they enter the Summerland."
+        },
+        {
+          "id": "wicca-q4-2",
+          "type": "trueFalse",
+          "question": "The Wiccan God and Goddess are primarily seen as judgmental figures in the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "They are seen not as judges but as loving, nurturing deities who facilitate the soul's journey."
+        },
+        {
+          "id": "wicca-q4-3",
+          "type": "multipleChoice",
+          "question": "What does the Horned God represent in relation to the afterlife?",
+          "options": [
+            "Eternal punishment",
+            "A destroyer of souls",
+            "A guide in the Summerland and overseer of rebirth",
+            "A gatekeeper to hell"
+          ],
+          "correctAnswer": "A guide in the Summerland and overseer of rebirth",
+          "explanation": "The God, often seen as the Horned God or the Lord of Death and Rebirth, is also a guide in the underworld or the Summerland, escorting souls to their rest and overseeing the preparatory period before reincarnation."
+        }
+      ]
+    },
+    {
+      "id": "wicca-ancestors-spirits",
+      "title": "Connecting with Ancestors and the Spirit World",
+      "order": 5,
+      "content": "Beyond the annual observation of Samhain, Wiccans often maintain an ongoing, respectful relationship with their ancestors and the broader spirit world throughout the year. This connection is not rooted in fear but in reverence for those who came before and an understanding of the continuous flow of energy between realms. Many Wiccans establish ancestor altars in their homes, dedicated spaces where they can honor their lineage. These altars may hold photos of deceased loved ones, heirlooms, and items that remind them of their ancestors. Offerings of food (like bread or fruit), drink (water, wine, or juice), flowers, candles, and incense are commonly placed on these altars as gestures of love and remembrance, believed to nourish the spirits and strengthen the bond. Communication with ancestors or benevolent spirits can take various forms, including meditation, prayer, divination (e.g., tarot, scrying), or ritual. The intent is often to seek guidance, wisdom, comfort, or simply to acknowledge their presence and express gratitude. This continuous interaction reinforces the Wiccan belief that death is a transition, not an end, and that the spiritual connection with those who have passed remains vital and supportive for the living.",
+      "keyTerms": [
+        "Ancestor altars",
+        "Offerings",
+        "Spirit world",
+        "Reverence",
+        "Divination",
+        "Spiritual connection"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "wicca-q5-1",
+          "type": "multipleChoice",
+          "question": "What is the primary purpose of ancestor altars in Wicca?",
+          "options": [
+            "To trap spirits",
+            "To honor lineage and maintain connection with the deceased",
+            "To gain material wealth",
+            "To perform harmful magic"
+          ],
+          "correctAnswer": "To honor lineage and maintain connection with the deceased",
+          "explanation": "Many Wiccans establish ancestor altars in their homes, dedicated spaces where they can honor their lineage."
+        },
+        {
+          "id": "wicca-q5-2",
+          "type": "trueFalse",
+          "question": "Wiccan interaction with ancestors is primarily driven by fear of malevolent spirits.",
+          "correctAnswer": "false",
+          "explanation": "This connection is not rooted in fear but in reverence for those who came before."
+        },
+        {
+          "id": "wicca-q5-3",
+          "type": "multipleChoice",
+          "question": "Which of these are common offerings made at Wiccan ancestor altars?",
+          "options": [
+            "Blood sacrifices and precious gems",
+            "Food, drink, flowers, candles, and incense",
+            "Money and gold coins only",
+            "Modern electronics and gadgets"
+          ],
+          "correctAnswer": "Food, drink, flowers, candles, and incense",
+          "explanation": "Offerings of food (like bread or fruit), drink (water, wine, or juice), flowers, candles, and incense are commonly placed on these altars."
+        }
+      ]
+    },
+    {
+      "id": "wicca-karma-threefold",
+      "title": "Karma and the Law of Threefold Return",
+      "order": 6,
+      "content": "The concept of karma, or cosmic consequence, is present in Wiccan belief, though often specifically articulated through the 'Law of Threefold Return' (or 'Threefold Law'). This principle states that whatever energy a person puts out into the world, be it positive or negative, will return to them threefold. This applies not only to actions but also to thoughts and intentions, and its effects can manifest in the current lifetime or in future incarnations. Unlike some Eastern philosophies where karma is a strict debt system, in Wicca, it is often understood more as a spiritual lesson-provider and a natural energetic echo. The Law of Threefold Return serves as a strong ethical guideline, encouraging Wiccans to act with responsibility, compassion, and mindfulness, as their deeds will inevitably reverberate back to them. When considering reincarnation, the Law of Threefold Return influences the conditions and challenges a soul chooses for its next life. Difficult experiences in a current life might be understood as a direct return of negative energy put out in a past life, or as a chosen challenge to rapidly 'burn off' accumulated karmic debt and accelerate spiritual growth. Conversely, positive actions and virtuous living in one life can lead to more favorable circumstances and opportunities for growth in future incarnations, reinforcing the cyclical nature of learning and spiritual progression within the Wheel of the Year.",
+      "keyTerms": [
+        "Karma",
+        "Law of Threefold Return",
+        "Threefold Law",
+        "Cosmic consequence",
+        "Spiritual lessons",
+        "Ethical guideline",
+        "Karmic debt",
+        "Spiritual growth"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "wicca-q6-1",
+          "type": "multipleChoice",
+          "question": "What does the 'Law of Threefold Return' state?",
+          "options": [
+            "Whatever energy a person puts out returns once",
+            "Whatever energy a person puts out returns tenfold",
+            "Whatever energy a person puts out returns threefold",
+            "Karma is not a Wiccan concept"
+          ],
+          "correctAnswer": "Whatever energy a person puts out returns threefold",
+          "explanation": "This principle states that whatever energy a person puts out into the world, be it positive or negative, will return to them threefold."
+        },
+        {
+          "id": "wicca-q6-2",
+          "type": "trueFalse",
+          "question": "The effects of the Law of Threefold Return are always immediate and limited to the current lifetime.",
+          "correctAnswer": "false",
+          "explanation": "Its effects can manifest in the current lifetime or in future incarnations."
+        },
+        {
+          "id": "wicca-q6-3",
+          "type": "multipleChoice",
+          "question": "How is karma primarily understood in Wicca?",
+          "options": [
+            "As a strict punitive debt system",
+            "As a random occurrence",
+            "As a spiritual lesson-provider and natural energetic echo",
+            "As an irrelevant concept"
+          ],
+          "correctAnswer": "As a spiritual lesson-provider and natural energetic echo",
+          "explanation": "Unlike some Eastern philosophies where karma is a strict debt system, in Wicca, it is often understood more as a spiritual lesson-provider and a natural energetic echo."
+        }
+      ]
+    },
+    {
+      "id": "wicca-funerary-memorials",
+      "title": "Wiccan Funerary Rites and Memorial Practices",
+      "order": 7,
+      "content": "Wiccan funerary rites and memorial practices are often personalized, reflecting the individual's spiritual path, but they generally share common themes of honoring the deceased, celebrating their life, and facilitating their peaceful transition to the Summerland and eventual rebirth. Unlike traditions focused on judgment, Wiccan ceremonies emphasize love, acceptance, and the natural cycle of death and renewal. Services may be held outdoors in nature, or in a sacred space, often at sunset or twilight, to symbolize the transition. Key elements can include: \n\n* **Vigil/Wake:** A time for loved ones to gather, share memories, and offer comfort, often around the body or a symbolic representation. \n* **Ceremony of Release:** Rituals designed to gently aid the soul's separation from the physical body and its attachments to the earthly realm, helping it move freely towards the Summerland. \n* **Offerings:** Symbolic offerings of flowers, herbs, food, or personal items may be made to the deceased or placed on an altar to honor their journey. \n* **Honoring the Elements:** Often, the four classical elements (Earth, Air, Fire, Water) are invoked to symbolize the dissolution of the body and the enduring spirit, with specific rituals for each. \n* **Tree Planting/Memorial Garden:** A popular practice is to plant a tree or create a memorial garden in honor of the deceased, reinforcing the connection to nature and the cycle of life. \n* **Celebration of Life:** Many Wiccan funerals are more akin to 'celebrations of life', focusing on the joy the person brought, their unique spirit, and the comfort that they are simply 'between incarnations' rather than truly gone. \n\nCremation is a common choice, symbolizing the return to the elements, though natural burial is also favored. These rituals provide solace for the bereaved by reinforcing the belief in continuity and the promise of future reunion within the Wheel of the Year.",
+      "keyTerms": [
+        "Funerary rites",
+        "Memorial practices",
+        "Celebration of life",
+        "Ceremony of Release",
+        "Offerings",
+        "Elements",
+        "Cremation",
+        "Natural burial",
+        "Wheel of the Year"
+      ],
+      "xpReward": 40,
+      "questions": [
+        {
+          "id": "wicca-q7-1",
+          "type": "multipleChoice",
+          "question": "What is a common theme in Wiccan funerary rites?",
+          "options": [
+            "Strict judgment of the deceased",
+            "Emphasis on eternal damnation",
+            "Honoring the deceased and celebrating life within a cycle of renewal",
+            "Exclusion of natural elements"
+          ],
+          "correctAnswer": "Honoring the deceased and celebrating life within a cycle of renewal",
+          "explanation": "Wiccan ceremonies emphasize love, acceptance, and the natural cycle of death and renewal. Many Wiccan funerals are more akin to 'celebrations of life'."
+        },
+        {
+          "id": "wicca-q7-2",
+          "type": "trueFalse",
+          "question": "Wiccan funerary services are typically held indoors, strictly avoiding natural settings.",
+          "correctAnswer": "false",
+          "explanation": "Services may be held outdoors in nature, or in a sacred space."
+        },
+        {
+          "id": "wicca-q7-3",
+          "type": "multipleChoice",
+          "question": "What is the purpose of a 'Ceremony of Release' in Wiccan funerals?",
+          "options": [
+            "To trap the soul in the physical world",
+            "To encourage haunting",
+            "To aid the soul's separation from the physical body and attachments",
+            "To inflict punishment on the deceased"
+          ],
+          "correctAnswer": "To aid the soul's separation from the physical body and attachments",
+          "explanation": "Rituals designed to gently aid the soul's separation from the physical body and its attachments to the earthly realm, helping it move freely towards the Summerland."
         }
       ]
     }
@@ -131,14 +382,14 @@
           "A realm of darkness"
         ],
         "correctAnswer": "A state of being between incarnations",
-        "explanation": "The soul journeys to the Summerland\u2014not a place but a state of being between incarnations. [cite: 609]"
+        "explanation": "The soul journeys to the Summerland—not a place but a state of being between incarnations."
       },
       {
         "id": "wicca-mt-q2",
         "type": "trueFalse",
         "question": "Wicca emphasizes judgment and punishment in the afterlife.",
         "correctAnswer": "false",
-        "explanation": "Wiccans see death as simply another turn of the Wheel of the Year... without judgment or punishment. [cite: 608, 610]"
+        "explanation": "Wiccans see death as simply another turn of the Wheel of the Year... without judgment or punishment."
       },
       {
         "id": "wicca-mt-q3",
@@ -151,7 +402,7 @@
           "At Litha"
         ],
         "correctAnswer": "At Samhain",
-        "explanation": "The veil between worlds thins at Samhain, allowing easier communication. [cite: 620]"
+        "explanation": "The veil between worlds thins at Samhain, allowing easier communication."
       },
       {
         "id": "wicca-mt-q4",
@@ -185,7 +436,74 @@
           "Samhain",
           "Time when veil between worlds thins"
         ],
-        "explanation": "These are key elements of Wiccan afterlife beliefs. [cite: 608, 609, 615, 620]"
+        "explanation": "These are key elements of Wiccan afterlife beliefs."
+      },
+      {
+        "id": "wicca-mt-q5",
+        "type": "multipleChoice",
+        "question": "Which aspect of the Goddess is often associated with guiding souls through death and rebirth?",
+        "options": [
+          "Maiden",
+          "Mother",
+          "Crone",
+          "Warrior"
+        ],
+        "correctAnswer": "Crone",
+        "explanation": "As the Crone aspect, she is the wise old woman who guides souls through the transition of death."
+      },
+      {
+        "id": "wicca-mt-q6",
+        "type": "trueFalse",
+        "question": "The Law of Threefold Return states that negative energy returns only once to the sender.",
+        "correctAnswer": "false",
+        "explanation": "Whatever energy a person puts out into the world, be it positive or negative, will return to them threefold."
+      },
+      {
+        "id": "wicca-mt-q7",
+        "type": "multipleChoice",
+        "question": "What is the primary goal of the 'life review' in the Summerland?",
+        "options": [
+          "To assign judgment",
+          "To punish past misdeeds",
+          "To gain insight and growth for future incarnations",
+          "To relive traumatic experiences"
+        ],
+        "correctAnswer": "To gain insight and growth for future incarnations",
+        "explanation": "The life review... is purely for insight and growth, serving as vital preparation for the next incarnation."
+      },
+      {
+        "id": "wicca-mt-q8",
+        "type": "matching",
+        "question": "Match the Wiccan funerary practice/concept with its purpose:",
+        "pairs": [
+          {
+            "left": "Ancestor altars",
+            "right": "Honor lineage and maintain connection with deceased"
+          },
+          {
+            "left": "Ceremony of Release",
+            "right": "Aid soul's separation from physical body"
+          },
+          {
+            "left": "Paper offerings",
+            "right": "Material items transmitted to deceased in spiritual realm"
+          },
+          {
+            "left": "Threefold Law",
+            "right": "Ethical guideline for karmic consequence"
+          }
+        ],
+        "correctAnswer": [
+          "Ancestor altars",
+          "Honor lineage and maintain connection with deceased",
+          "Ceremony of Release",
+          "Aid soul's separation from physical body",
+          "Paper offerings",
+          "Material items transmitted to deceased in spiritual realm",
+          "Threefold Law",
+          "Ethical guideline for karmic consequence"
+        ],
+        "explanation": "These concepts relate to Wiccan practices and beliefs surrounding death and the afterlife."
       }
     ]
   }

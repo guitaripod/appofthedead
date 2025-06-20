@@ -4,21 +4,23 @@
   "description": "Discover the precise and detailed cartography of death's journey in Islam, from the Angel of Death to the grave, the Final Hour, and the crossing of As-Sirat to Jannah or Jahannam.",
   "icon": "star_and_crescent",
   "color": "#009000",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "islam-intro",
-      "title": "Islam: The Precise Cartography of the Unseen",
+      "title": "Islam: The Precise Cartography of the Unseen and the Angel of Death",
       "order": 1,
-      "content": "Islamic eschatology provides a highly detailed map of the journey after death, with each stage described in the Quran and Hadith. As death approaches, the dying person glimpses their fate. Azrael, the Angel of Death, appears in a form reflecting their spiritual state, either beautiful to the righteous or terrifying to the wicked. He extracts the soul gently from the righteous, or violently from the wicked. [cite: 393, 394, 395]",
+      "content": "Islamic eschatology, the study of the end times and the afterlife, offers an exceptionally intricate and precisely detailed map of the journey after death. Every stage, from the moment of soul separation to eternal abode, is meticulously described and elucidated within the foundational texts of Islam: the Holy Quran, the direct word of Allah, and the Hadith, the sayings and traditions of Prophet Muhammad (peace be upon him). As the final moments of earthly life approach, the dying person is granted a profound glimpse into their impending fate. At this critical juncture, Azrael, the formidable Angel of Death (also known as Malak al-Mawt), makes his appearance. The form in which Azrael manifests is a direct reflection of the dying person's spiritual state: to the righteous, he appears in a beautiful, serene, and comforting guise, while to the wicked, he takes on a terrifying and repulsive form. For the righteous believer, Azrael performs his duty with utmost gentleness, extracting the soul with ease, likening it to a drop of water slipping from a waterskin or a hair being drawn from dough. This painless departure signifies divine mercy and acceptance. Conversely, for the wicked, the extraction is depicted as violent and agonizing, like a thorny branch being pulled through wet wool, symbolizing the soul's deep reluctance and the consequences of a life spent in rebellion against divine commands. This initial encounter sets the tone for the soul's subsequent experiences in the afterlife, emphasizing the immediate and profound impact of one's earthly deeds and beliefs.",
       "keyTerms": [
-        "Azrael",
+        "Azrael (Malak al-Mawt)",
         "Quran",
         "Hadith",
         "Eschatology",
-        "Barzakh"
+        "Soul extraction",
+        "Righteous",
+        "Wicked"
       ],
-      "xpReward": 15,
+      "xpReward": 75,
       "questions": [
         {
           "id": "islam-q1-1",
@@ -31,29 +33,44 @@
             "Angel of judgment"
           ],
           "correctAnswer": "Angel of death",
-          "explanation": "Azrael is known as the Angel of Death in Islamic tradition. [cite: 394]"
+          "explanation": "Azrael is known as the Angel of Death in Islamic tradition."
         },
         {
           "id": "islam-q1-2",
           "type": "trueFalse",
           "question": "Islamic eschatology lacks detailed descriptions of the afterlife.",
           "correctAnswer": "false",
-          "explanation": "Islamic eschatology presents perhaps the most detailed map of death's journey, precisely described in Quran and Hadith. [cite: 393]"
+          "explanation": "Islamic eschatology presents perhaps the most detailed map of death's journey, precisely described in Quran and Hadith."
+        },
+        {
+          "id": "islam-q1-3",
+          "type": "multipleChoice",
+          "question": "How does Azrael appear to the righteous dying person?",
+          "options": [
+            "Terrifying and repulsive",
+            "Beautiful and serene",
+            "As a blinding light",
+            "Invisible"
+          ],
+          "correctAnswer": "Beautiful and serene",
+          "explanation": "To the righteous, Azrael appears in a beautiful, serene, and comforting guise."
         }
       ]
     },
     {
       "id": "islam-ascension",
-      "title": "Ascension and the Grave",
+      "title": "Ascension and the Trial of the Grave (Barzakh)",
       "order": 2,
-      "content": "After extraction, the soul ascends through seven heavens. Righteous souls find gates opening readily, while wicked souls are hurled back to earth, denied entry. In the grave, Barzakh, the partition between death and resurrection, begins. The deceased hear mourners' departing footsteps before Munkar and Nakir, terrible angels, arrive. They ask three crucial questions: 'Who is your Lord? What is your religion? Who is your prophet?' The answers determine immediate fate: graves expand for the righteous, filled with light and breezes, while wicked graves crush inward, filled with darkness and heat. [cite: 396, 397, 398, 399, 400, 401, 402, 403]",
+      "content": "Immediately following the soul's extraction, it embarks on a celestial journey, ascending through the layers of the seven heavens, each a distinct realm of divine creation. For the souls of the righteous, adorned with purity and good deeds, the gates of each heaven open readily, accompanied by the greetings and prayers of angels. Their journey is swift and peaceful, culminating in a temporary resting place in the highest heavens, or sometimes being returned to their graves until the Day of Judgment, but in a state of comfort. Conversely, the souls of the wicked encounter an immediate and crushing rejection; the gates of heaven remain shut, and they are hurled back to Earth, denied entry into the celestial spheres. Upon the return to Earth, a new phase of the afterlife begins in the grave, known as Barzakh. This period, often translated as 'partition' or 'interim,' serves as a transitional realm between death and the ultimate resurrection. The deceased, even while physically buried, retains a form of conscious awareness, capable of hearing the departing footsteps of their mourners. Soon after, two fearsome and formidable angels, Munkar and Nakir, with terrifying countenances and voices like thunder, arrive in the grave. They pose three crucial, fundamental questions, the answers to which immediately determine the soul's fate within Barzakh: 'Who is your Lord?', 'What is your religion?', and 'Who is your prophet?' The righteous believer, empowered by their faith and deeds, will confidently answer, 'Allah is my Lord, Islam is my religion, and Muhammad is my prophet.' Their graves will then miraculously expand, becoming spacious and filled with divine light, perfumed with heavenly breezes, serving as a tranquil garden until resurrection. For the wicked, however, who are unable to provide correct answers due to their lack of faith or hypocrisy, the grave will violently crush inward, squeezing their ribs together, filling with suffocating darkness and scorching heat, becoming a painful prelude to the greater torment of Hellfire. This trial of the grave emphasizes the immediacy of accountability and the profound significance of one's core beliefs and actions in Islam.",
       "keyTerms": [
         "Seven Heavens",
         "Barzakh",
         "Munkar and Nakir",
-        "Grave torment"
+        "Grave torment",
+        "Grave comfort",
+        "Qiyamah (Resurrection)"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q2-1",
@@ -66,14 +83,14 @@
             "A paradise for souls"
           ],
           "correctAnswer": "The partition between death and resurrection",
-          "explanation": "In the grave begins Barzakh, the partition between death and resurrection. [cite: 398]"
+          "explanation": "In the grave begins Barzakh, the partition between death and resurrection."
         },
         {
           "id": "islam-q2-2",
           "type": "trueFalse",
           "question": "Munkar and Nakir are angels who defend the righteous in the grave.",
           "correctAnswer": "false",
-          "explanation": "Munkar and Nakir are terrible angels who ask three questions to determine immediate fate. [cite: 399, 400]"
+          "explanation": "Munkar and Nakir are terrible angels who ask three questions to determine immediate fate."
         },
         {
           "id": "islam-q2-3",
@@ -86,23 +103,40 @@
             "What was your favorite food?"
           ],
           "correctAnswer": "What was your favorite food?",
-          "explanation": "The three questions are: 'Who is your Lord? What is your religion? Who is your prophet?' [cite: 400]"
+          "explanation": "The three questions are: 'Who is your Lord? What is your religion? Who is your prophet?'"
+        },
+        {
+          "id": "islam-q2-4",
+          "type": "multipleChoice",
+          "question": "What happens to the grave of the wicked after the questioning by Munkar and Nakir?",
+          "options": [
+            "It expands and fills with light",
+            "It becomes a beautiful garden",
+            "It violently crushes inward and fills with darkness and heat",
+            "It remains unchanged"
+          ],
+          "correctAnswer": "It violently crushes inward and fills with darkness and heat",
+          "explanation": "For the wicked, the grave will violently crush inward, filling with suffocating darkness and scorching heat, becoming a painful prelude to the greater torment of Hellfire."
         }
       ]
     },
     {
       "id": "islam-final-hour",
-      "title": "The Final Hour and Gathering",
+      "title": "The Final Hour: Cosmic Upheaval and Resurrection",
       "order": 3,
-      "content": "The Final Hour is preceded by cosmic signs like the sun rising from the west. Israfil sounds the Trumpet, causing all creation to die, then live again. Humanity rises from graves naked and uncircumcised, racing towards the Plain of Gathering. The sun descends to a mile overhead, causing people to drown in sweat according to their sins, while the righteous find shade under Allah's Throne. The waiting can extend for 50,000 years until intercession begins. [cite: 404, 405, 406, 407]",
+      "content": "The arrival of the Final Hour (Yawm al-Qiyamah), the Day of Resurrection, is heralded by a series of unprecedented and cataclysmic cosmic signs, as foretold in Islamic prophecies. These signs include monumental events such as the sun rising from the west, the appearance of the Dajjal (Anti-Christ), the descent of Prophet Jesus (Isa), the emergence of Gog and Magog (Ya'juj and Ma'juj), and the advent of Imam Mahdi. The ultimate trigger for the Final Hour is the sounding of the Trumpet (Sur) by the great Angel Israfil, one of the four archangels. Israfil will sound the Trumpet twice. The first blast, terrifying and deafening, will cause every living being, from humans to animals and angels, to die instantly, bringing all of creation to an end. After a period of an unknown duration, Israfil will sound the Trumpet a second time, marking the miraculous resurrection. At this moment, humanity will rise from their graves, emerging naked and uncircumcised, precisely as they were at birth, driven by an irresistible urge to race towards the Plain of Gathering (Yawm al-Hashr). This vast, flat expanse, devoid of any shelter or refuge, will be the stage for the initial assembly of all souls from Adam to the last person. The sun, having previously risen from the west, will descend to a mere mile overhead, intensifying the heat to an unimaginable degree. People will be submerged in their own sweat, the depth of which will be proportional to their accumulated sins. However, the righteous believers will find miraculous shade under Allah's majestic Throne, shielded from the searing heat. The waiting period on this plain can extend for an unfathomable duration, estimated in some narrations to be as long as 50,000 years, during which humanity will endure immense distress and anxiety, yearning for the commencement of the Reckoning and the intercession of the Prophet Muhammad (peace be upon him).",
       "keyTerms": [
-        "Final Hour",
+        "Final Hour (Yawm al-Qiyamah)",
         "Israfil",
-        "Trumpet",
-        "Plain of Gathering",
-        "Allah's Throne"
+        "Trumpet (Sur)",
+        "Plain of Gathering (Yawm al-Hashr)",
+        "Allah's Throne",
+        "Dajjal",
+        "Imam Mahdi",
+        "Gog and Magog",
+        "Intercession"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q3-1",
@@ -115,32 +149,99 @@
             "A comet striking Earth"
           ],
           "correctAnswer": "The sun rising from the west",
-          "explanation": "The Final Hour is preceded by cosmic signs including the sun rising from the west. [cite: 404]"
+          "explanation": "The Final Hour is preceded by cosmic signs including the sun rising from the west."
         },
         {
           "id": "islam-q3-2",
           "type": "trueFalse",
           "question": "The waiting period on the Plain of Gathering is short for everyone.",
           "correctAnswer": "false",
-          "explanation": "The waiting on the Plain of Gathering extends\u2014some hadith suggest 50,000 years. [cite: 407]"
+          "explanation": "The waiting on the Plain of Gathering extends—some hadith suggest 50,000 years."
+        },
+        {
+          "id": "islam-q3-3",
+          "type": "multipleChoice",
+          "question": "Who sounds the Trumpet to initiate the Final Hour and resurrection?",
+          "options": [
+            "Jibreel",
+            "Mika'il",
+            "Azrael",
+            "Israfil"
+          ],
+          "correctAnswer": "Israfil",
+          "explanation": "Israfil sounds the Trumpet, causing all creation to die, then live again."
+        }
+      ]
+    },
+    {
+      "id": "islam-judgment",
+      "title": "The Day of Judgment: Reckoning and Intercession",
+      "order": 4,
+      "content": "Following the arduous wait on the Plain of Gathering, the Day of Judgment (Yawm al-Hisab) commences, a day of meticulous reckoning where every soul will be held accountable for its deeds. The process begins with the presentation of the Book of Deeds, a complete record of every thought, word, and action performed throughout one's earthly life. The righteous will receive their book in their right hand, a sign of their success and acceptance by Allah, while the wicked will receive theirs in their left hand or from behind their back, symbolizing their condemnation and regret. Subsequently, deeds will be weighed on the mighty Scale (Mizan), a divine apparatus that precisely measures the weight of good and bad actions. Even the smallest atom's weight of good or evil will be accounted for. The balance of this scale will determine the soul's ultimate destination. Central to this process is the concept of Intercession (Shafa'ah). Though Allah is the ultimate judge, Prophet Muhammad (peace be upon him) will be granted the 'Grand Intercession' (Shafa'ah al-Kubra) on this day, interceding on behalf of his Ummah (community) to expedite the judgment process and to seek forgiveness for their sins. Other prophets, martyrs, and righteous individuals may also be granted permission to intercede for those they know, but only with Allah's explicit permission. This intercession is a testament to Allah's mercy and the high status of Prophet Muhammad. The Day of Judgment is a day of profound truth and justice, where no soul will be wronged, and every action will receive its just recompense, before the final passage to either eternal bliss or eternal torment.",
+      "keyTerms": [
+        "Day of Judgment (Yawm al-Hisab)",
+        "Book of Deeds",
+        "Scale (Mizan)",
+        "Intercession (Shafa'ah)",
+        "Shafa'ah al-Kubra",
+        "Ummah",
+        "Reckoning"
+      ],
+      "xpReward": 100,
+      "questions": [
+        {
+          "id": "islam-q4-1",
+          "type": "multipleChoice",
+          "question": "What is the 'Mizan' in Islamic belief?",
+          "options": [
+            "A type of food in Jannah",
+            "The Scale on which deeds are weighed",
+            "A level of Hell",
+            "An angel"
+          ],
+          "correctAnswer": "The Scale on which deeds are weighed",
+          "explanation": "Deeds will be weighed on the mighty Scale (Mizan), a divine apparatus that precisely measures the weight of good and bad actions."
+        },
+        {
+          "id": "islam-q4-2",
+          "type": "trueFalse",
+          "question": "Intercession is not possible on the Day of Judgment.",
+          "correctAnswer": "false",
+          "explanation": "Prophet Muhammad will be granted the 'Grand Intercession' (Shafa'ah al-Kubra) on this day, interceding on behalf of his Ummah (community)."
+        },
+        {
+          "id": "islam-q4-3",
+          "type": "multipleChoice",
+          "question": "In the Day of Judgment, how do the righteous receive their Book of Deeds?",
+          "options": [
+            "In their left hand",
+            "From behind their back",
+            "In their right hand",
+            "They do not receive a book"
+          ],
+          "correctAnswer": "In their right hand",
+          "explanation": "The righteous will receive their book in their right hand, a sign of their success and acceptance by Allah."
         }
       ]
     },
     {
       "id": "islam-as-sirat",
-      "title": "As-Sirat and the Crossing",
-      "order": 4,
-      "content": "After the gathering, souls face the terrible crossing of As-Sirat, the bridge over Hell. For the righteous, it broadens, allowing them to cross like lightning. For the wicked, it narrows to a blade's edge, and hooks drag sinners into the abyss. Even believers may fall, though Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers attempt passage. [cite: 408, 409, 410]",
+      "title": "As-Sirat: The Bridge Over Hell and Final Crossing",
+      "order": 5,
+      "content": "After the judgment and reckoning, all souls, both righteous and wicked, must face the ultimate and most perilous test: the crossing of As-Sirat, a bridge stretched over the inferno of Hell (Jahannam). This bridge is described as thinner than a strand of hair and sharper than the edge of a sword, a terrifying and unfathomable path that must be traversed to reach Paradise (Jannah). The manner of crossing directly reflects the purity of one's faith and the weight of one's good deeds. For the righteous, by the mercy and light of Allah, As-Sirat broadens and becomes an easily traversable path. They will cross with incredible speed, some like lightning, others like strong winds, like swift horses, or even like a bird in flight. Their good deeds will illuminate their way, guiding them safely across the terrifying expanse. Conversely, for the wicked and disbelievers, the bridge narrows to an impossibly fine edge, becoming treacherous and unstable. Horrific hooks and grappling irons, known as Kalaleeb, emerge from below, dragging sinners into the abyss of Hell. Even some believers, laden with minor sins, may stumble or fall, undergoing a period of purification in Hell before eventually being rescued by Allah's mercy or the intercession of Prophet Muhammad. Throughout this terrifying ordeal, Prophet Muhammad (peace be upon him) will be standing at the far end of the bridge, engaged in fervent supplication, crying out, 'My Ummah! My Ummah!' (My community! My community!), watching over his followers as they attempt passage, a testament to his profound compassion and concern for his adherents. This crossing is the final filter, ensuring that only those truly destined for eternal bliss successfully reach the gates of Jannah.",
       "keyTerms": [
         "As-Sirat",
         "Bridge over Hell",
         "Prophet Muhammad",
-        "Ummah"
+        "Ummah",
+        "Kalaleeb",
+        "Jannah",
+        "Jahannam"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
-          "id": "islam-q4-1",
+          "id": "islam-q5-1",
           "type": "multipleChoice",
           "question": "What happens to the bridge of As-Sirat for the wicked?",
           "options": [
@@ -150,33 +251,51 @@
             "It becomes a soft path"
           ],
           "correctAnswer": "It narrows to a blade's edge",
-          "explanation": "For the wicked, the bridge of As-Sirat narrows to a blade's edge. [cite: 409]"
+          "explanation": "For the wicked, the bridge of As-Sirat narrows to a blade's edge."
         },
         {
-          "id": "islam-q4-2",
+          "id": "islam-q5-2",
           "type": "trueFalse",
           "question": "Prophet Muhammad cries out for the wicked as they cross As-Sirat.",
           "correctAnswer": "false",
-          "explanation": "Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers (believers) attempt passage. [cite: 410]"
+          "explanation": "Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers (believers) attempt passage."
+        },
+        {
+          "id": "islam-q5-3",
+          "type": "multipleChoice",
+          "question": "How do the righteous cross As-Sirat?",
+          "options": [
+            "Slowly and with great difficulty",
+            "By being carried by angels",
+            "With incredible speed, like lightning or wind",
+            "They do not cross it"
+          ],
+          "correctAnswer": "With incredible speed, like lightning or wind",
+          "explanation": "For the righteous, As-Sirat broadens and they will cross with incredible speed, some like lightning, others like strong winds, like swift horses, or even like a bird in flight."
         }
       ]
     },
     {
       "id": "islam-jannah-jahannam",
-      "title": "Jannah and Jahannam",
-      "order": 5,
-      "content": "Jannah, Paradise, unfolds in eight levels, each vaster than the last. It features rivers of milk, honey, wine, and pure water, flowing beneath palaces of gold and silver. Believers receive unimaginable rewards, including seventy-two houris and eternal youth. The greatest reward is the Beatific Vision\u2014gazing upon Allah's face. Jahannam, Hell, descends through seven gates for specific sins. Its flames burn seventy times hotter than earthly fire. The damned wear garments of liquid copper, their skin regenerates for eternal suffering, and they eat from the tree of Zaqqum and drink boiling water. They beg for annihilation but are told, 'You shall neither die nor live.' [cite: 411, 412, 413, 414, 415, 416, 417, 418]",
+      "title": "Jannah and Jahannam: Eternal Abodes of Reward and Punishment",
+      "order": 6,
+      "content": "Upon successfully traversing As-Sirat, souls enter their eternal dwellings: either Jannah (Paradise) for the righteous or Jahannam (Hell) for the wicked. Jannah, the ultimate reward for believers, is a realm of unimaginable bliss and boundless beauty, unfolding in eight glorious levels, each more magnificent and vast than the last. The highest level is Firdaws, reserved for the most pious. Jannah is described as having rivers of pure water, delectable milk, intoxicating wine (that does not cause intoxication), and pure honey, flowing beneath opulent palaces crafted from gold, silver, pearls, and precious stones. Believers will receive unimaginable rewards, including eternal youth, garments of silk and brocade, and countless blessings. They will be attended by Houris, beautiful companions created specifically for Paradise, and ghilman (youthful servants). The greatest reward in Jannah, however, transcends all physical pleasures: it is the Beatific Vision—the unparalleled joy of directly gazing upon the glorious face of Allah, free from any veil or impediment. This vision is described as so sublime that all other pleasures of Paradise pale in comparison. Conversely, Jahannam, the eternal abode of punishment, is a terrifying realm of intense suffering, descending through seven distinct gates or levels, each designated for specific categories of sin. Its flames burn seventy times hotter than any earthly fire, a searing inferno designed to purify or punish. The damned wear garments of liquid tar or molten copper, which cling to their skin. Their skin, constantly burned away, miraculously regenerates instantly, ensuring an unending cycle of suffering. They are forced to eat from the tree of Zaqqum, a thorny, bitter tree whose fruit is like molten brass and boils in their bellies like oil. Their drink is scalding, boiling water (Hameem) and pus (Ghasaq), which rips their intestines. Despite their agony, they are denied the release of death; their pleas for annihilation are met with the chilling divine declaration, 'You shall neither die nor live.' This eternal torment is a direct consequence of their disbelief, rebellion, and unrepentant sins in earthly life, serving as a powerful deterrent and a manifestation of divine justice.",
       "keyTerms": [
         "Jannah",
         "Jahannam",
         "Beatific Vision",
         "Houris",
-        "Zaqqum"
+        "Zaqqum",
+        "Firdaws",
+        "Hameem",
+        "Ghasaq",
+        "Eternal reward",
+        "Eternal punishment"
       ],
-      "xpReward": 15,
+      "xpReward": 125,
       "questions": [
         {
-          "id": "islam-q5-1",
+          "id": "islam-q6-1",
           "type": "multipleChoice",
           "question": "What is considered the greatest reward in Jannah?",
           "options": [
@@ -186,17 +305,17 @@
             "Gazing upon Allah's face"
           ],
           "correctAnswer": "Gazing upon Allah's face",
-          "explanation": "The greatest reward remains the Beatific Vision\u2014gazing upon Allah's face. [cite: 414]"
+          "explanation": "The greatest reward remains the Beatific Vision—gazing upon Allah's face."
         },
         {
-          "id": "islam-q5-2",
+          "id": "islam-q6-2",
           "type": "trueFalse",
           "question": "In Jahannam, the skin of the damned does not regenerate, ensuring a quick end to suffering.",
           "correctAnswer": "false",
-          "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering. [cite: 416]"
+          "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering."
         },
         {
-          "id": "islam-q5-3",
+          "id": "islam-q6-3",
           "type": "multipleChoice",
           "question": "How many levels does Jannah unfold in?",
           "options": [
@@ -206,7 +325,20 @@
             "Ten"
           ],
           "correctAnswer": "Eight",
-          "explanation": "Jannah unfolds in eight levels. [cite: 411]"
+          "explanation": "Jannah unfolds in eight levels."
+        },
+        {
+          "id": "islam-q6-4",
+          "type": "multipleChoice",
+          "question": "What is the tree of Zaqqum found in Jahannam?",
+          "options": [
+            "A tree with sweet fruit",
+            "A thorny, bitter tree whose fruit is like molten brass",
+            "A tree that provides shade",
+            "A tree that grants wishes"
+          ],
+          "correctAnswer": "A thorny, bitter tree whose fruit is like molten brass",
+          "explanation": "They are forced to eat from the tree of Zaqqum, a thorny, bitter tree whose fruit is like molten brass and boils in their bellies like oil."
         }
       ]
     }
@@ -228,14 +360,14 @@
           "Angels who deliver rewards in Paradise"
         ],
         "correctAnswer": "Angels who question the deceased in the grave",
-        "explanation": "Munkar and Nakir are terrible angels who arrive in the grave to question the deceased. [cite: 399, 400]"
+        "explanation": "Munkar and Nakir are terrible angels who arrive in the grave to question the deceased."
       },
       {
         "id": "islam-mt-q2",
         "type": "trueFalse",
         "question": "The crossing of As-Sirat is easy for everyone.",
         "correctAnswer": "false",
-        "explanation": "For the wicked, the bridge narrows to a blade's edge, and hooks drag sinners into the abyss. [cite: 409]"
+        "explanation": "For the wicked, the bridge narrows to a blade's edge, and hooks drag sinners into the abyss."
       },
       {
         "id": "islam-mt-q3",
@@ -248,7 +380,7 @@
           "Mika'il"
         ],
         "correctAnswer": "Azrael",
-        "explanation": "Azrael is the Angel of Death in Islamic tradition. [cite: 394]"
+        "explanation": "Azrael is the Angel of Death in Islamic tradition."
       },
       {
         "id": "islam-mt-q4",
@@ -282,7 +414,73 @@
           "Jahannam",
           "Hell"
         ],
-        "explanation": "These are key concepts in Islamic eschatology. [cite: 398, 408, 411, 415]"
+        "explanation": "These are key concepts in Islamic eschatology."
+      },
+      {
+        "id": "islam-mt-q5",
+        "type": "multipleChoice",
+        "question": "Who sounds the Trumpet to initiate the Final Hour and resurrection?",
+        "options": [
+          "Jibreel",
+          "Mika'il",
+          "Azrael",
+          "Israfil"
+        ],
+        "correctAnswer": "Israfil",
+        "explanation": "Israfil sounds the Trumpet, causing all creation to die, then live again."
+      },
+      {
+        "id": "islam-mt-q6",
+        "type": "trueFalse",
+        "question": "The sun rising from the west is one of the major signs of the Final Hour in Islam.",
+        "correctAnswer": "true",
+        "explanation": "The Final Hour is preceded by cosmic signs including the sun rising from the west."
+      },
+      {
+        "id": "islam-mt-q7",
+        "type": "multipleChoice",
+        "question": "What is considered the greatest reward in Jannah?",
+        "options": [
+          "Palaces of gold and silver",
+          "Rivers of milk and honey",
+          "Seventy-two houris",
+          "Gazing upon Allah's face"
+        ],
+        "correctAnswer": "Gazing upon Allah's face",
+        "explanation": "The greatest reward remains the Beatific Vision—gazing upon Allah's face."
+      },
+      {
+        "id": "islam-mt-q8",
+        "type": "trueFalse",
+        "question": "In Jahannam, the skin of the damned does not regenerate, providing a quick end to their suffering.",
+        "correctAnswer": "false",
+        "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering."
+      },
+      {
+        "id": "islam-mt-q9",
+        "type": "multipleChoice",
+        "question": "How do the righteous receive their Book of Deeds on the Day of Judgment?",
+        "options": [
+          "In their left hand",
+          "From behind their back",
+          "In their right hand",
+          "They do not receive a book"
+        ],
+        "correctAnswer": "In their right hand",
+        "explanation": "The righteous will receive their book in their right hand, a sign of their success and acceptance by Allah."
+      },
+      {
+        "id": "islam-mt-q10",
+        "type": "multipleChoice",
+        "question": "What is the name of the thorny, bitter tree whose fruit is consumed by the damned in Jahannam?",
+        "options": [
+          "Sidr",
+          "Zaqqum",
+          "Tuba",
+          "Lote"
+        ],
+        "correctAnswer": "Zaqqum",
+        "explanation": "They are forced to eat from the tree of Zaqqum, a thorny, bitter tree whose fruit is like molten brass and boils in their bellies like oil."
       }
     ]
   }
