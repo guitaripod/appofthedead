@@ -252,7 +252,7 @@ extension DeitySelectionViewController: UICollectionViewDelegateFlowLayout {
         let padding: CGFloat = 40 + 16 // Section insets + spacing
         let availableWidth = collectionView.bounds.width - padding
         let itemWidth = availableWidth / 2
-        return CGSize(width: itemWidth, height: 180)
+        return CGSize(width: itemWidth, height: 190)
     }
 }
 
@@ -267,6 +267,7 @@ private class DeityCell: UICollectionViewCell {
     private let roleLabel = UILabel()
     private let traditionLabel = UILabel()
     private let selectionIndicator = UIImageView()
+    private let contentStackView = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -297,16 +298,16 @@ private class DeityCell: UICollectionViewCell {
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
         containerView.layer.shadowRadius = 8
-        // Don't set shadowPath here - it will be set in layoutSubviews when bounds are valid
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
         
         // Icon container with gradient background
-        iconContainerView.layer.cornerRadius = 40
+        iconContainerView.layer.cornerRadius = 32
         iconContainerView.clipsToBounds = true
         iconContainerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(iconContainerView)
+        iconContainerView.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        iconContainerView.heightAnchor.constraint(equalToConstant: 64).isActive = true
         
         // Icon
         iconImageView.contentMode = .scaleAspectFit
@@ -314,23 +315,38 @@ private class DeityCell: UICollectionViewCell {
         iconContainerView.addSubview(iconImageView)
         
         // Name
-        nameLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        nameLabel.font = .systemFont(ofSize: 16, weight: .bold)
         nameLabel.textAlignment = .center
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(nameLabel)
+        nameLabel.numberOfLines = 2
+        nameLabel.adjustsFontSizeToFitWidth = true
+        nameLabel.minimumScaleFactor = 0.8
+        nameLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
         // Role
-        roleLabel.font = .systemFont(ofSize: 13, weight: .medium)
+        roleLabel.font = .systemFont(ofSize: 12, weight: .medium)
         roleLabel.textAlignment = .center
         roleLabel.numberOfLines = 2
-        roleLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(roleLabel)
+        roleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
         // Tradition
         traditionLabel.font = .systemFont(ofSize: 11, weight: .medium)
         traditionLabel.textAlignment = .center
-        traditionLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(traditionLabel)
+        traditionLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        
+        // Setup stack view
+        contentStackView.axis = .vertical
+        contentStackView.alignment = .center
+        contentStackView.distribution = .fill
+        contentStackView.spacing = 4
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentStackView.addArrangedSubview(iconContainerView)
+        contentStackView.setCustomSpacing(8, after: iconContainerView)
+        contentStackView.addArrangedSubview(nameLabel)
+        contentStackView.addArrangedSubview(roleLabel)
+        contentStackView.addArrangedSubview(traditionLabel)
+        
+        containerView.addSubview(contentStackView)
         
         // Selection indicator
         selectionIndicator.image = UIImage(systemName: "checkmark.circle.fill")
@@ -345,32 +361,31 @@ private class DeityCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            iconContainerView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            iconContainerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            iconContainerView.widthAnchor.constraint(equalToConstant: 80),
-            iconContainerView.heightAnchor.constraint(equalToConstant: 80),
+            // Center stack view with flexible top/bottom
+            contentStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            contentStackView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
+            contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
+            contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             
             iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 48),
-            iconImageView.heightAnchor.constraint(equalToConstant: 48),
+            iconImageView.widthAnchor.constraint(equalToConstant: 40),
+            iconImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            nameLabel.topAnchor.constraint(equalTo: iconContainerView.bottomAnchor, constant: 12),
-            nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            nameLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             
-            roleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            roleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            roleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            roleLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            roleLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             
-            traditionLabel.topAnchor.constraint(equalTo: roleLabel.bottomAnchor, constant: 4),
-            traditionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            traditionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            traditionLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
+            traditionLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             
-            selectionIndicator.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
-            selectionIndicator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            selectionIndicator.widthAnchor.constraint(equalToConstant: 28),
-            selectionIndicator.heightAnchor.constraint(equalToConstant: 28)
+            selectionIndicator.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            selectionIndicator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            selectionIndicator.widthAnchor.constraint(equalToConstant: 24),
+            selectionIndicator.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     
@@ -385,7 +400,7 @@ private class DeityCell: UICollectionViewCell {
         
         // Enhanced icon with better configuration
         let iconName = deity.avatar
-        let config = UIImage.SymbolConfiguration(pointSize: 32, weight: .medium)
+        let config = UIImage.SymbolConfiguration(pointSize: 28, weight: .medium)
         
         // Try to load the icon with fallbacks
         if let image = UIImage(systemName: iconName) {
@@ -459,7 +474,7 @@ private class DeityCell: UICollectionViewCell {
         // Create gradient
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = iconContainerView.bounds
-        gradientLayer.cornerRadius = iconContainerView.bounds.width / 2
+        gradientLayer.cornerRadius = 32
         gradientLayer.colors = [
             deityColor.withAlphaComponent(0.8).cgColor,
             deityColor.cgColor
