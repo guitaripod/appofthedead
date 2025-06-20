@@ -4,7 +4,7 @@
   "description": "Explore Shinto's perception of death as pollution and transformation, from the journey to Yomi-no-kuni to the purification of the spirit into a protective kami and the ongoing connection with ancestral spirits.",
   "icon": "torii_gate",
   "color": "#8B0000",
-  "totalXP": 240,
+  "totalXP": 400,
   "lessons": [
     {
       "id": "shinto-intro",
@@ -19,7 +19,7 @@
         "Yomi-no-kuni",
         "Purification rituals"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "shinto-q1-1",
@@ -60,6 +60,26 @@
           "question": "Purification rituals are important in Shinto to address kegare.",
           "correctAnswer": "true",
           "explanation": "These impurities disrupt the harmony between humans and the kami, and must be purified through rituals to restore balance and well-being."
+        },
+        {
+          "id": "shinto-q1-5",
+          "type": "multipleChoice",
+          "question": "What is the 'tamashii' in Shinto?",
+          "options": [
+            "The physical body",
+            "The soul/spirit",
+            "A type of ritual",
+            "An evil entity"
+          ],
+          "correctAnswer": "The soul/spirit",
+          "explanation": "At death, the 'tamashii' (soul/spirit) separates from the body, beginning its transformation into a kami."
+        },
+        {
+          "id": "shinto-q1-6",
+          "type": "trueFalse",
+          "question": "Death is considered a minor form of kegare in Shinto.",
+          "correctAnswer": "false",
+          "explanation": "This is why death, as a source of extreme kegare, requires specific rituals to manage its disruptive influence."
         }
       ]
     },
@@ -77,7 +97,7 @@
         "Ancestral altars",
         "Exorcism rites"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "shinto-q2-1",
@@ -118,6 +138,26 @@
           "question": "Shinto emphasizes that human actions have no influence on the state of departed spirits.",
           "correctAnswer": "false",
           "explanation": "This emphasizes the importance of human actions in influencing the state of the departed spirit."
+        },
+        {
+          "id": "shinto-q2-5",
+          "type": "multipleChoice",
+          "question": "What allows the nigimitama to emerge as a protective ancestor?",
+          "options": [
+            "Natural decay over time",
+            "The spirit's own will",
+            "Proper ceremonies and continued offerings",
+            "Government decree"
+          ],
+          "correctAnswer": "Proper ceremonies and continued offerings",
+          "explanation": "Proper ceremonies, including elaborate funeral rites, purification rituals, and continued offerings at ancestral altars, are crucial to pacify the aramitama, allowing the nigimitama to emerge as a protective ancestor."
+        },
+        {
+          "id": "shinto-q2-6",
+          "type": "trueFalse",
+          "question": "If an onryō manifests, there is nothing that can be done to address it.",
+          "correctAnswer": "false",
+          "explanation": "If an onryō manifests, specific exorcism rites may be performed by Shinto priests to appease or banish it."
         }
       ]
     },
@@ -135,7 +175,7 @@
         "Izanami",
         "Ancestral spirit"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "shinto-q3-1",
@@ -176,6 +216,26 @@
           "question": "The myth of Izanagi and Izanami illustrates the positive, inviting nature of Yomi-no-kuni.",
           "correctAnswer": "false",
           "explanation": "The living are warned against venturing into Yomi due to its defiling nature, as exemplified by the myth of Izanagi's attempt to retrieve Izanami from Yomi, which ended in his ritual purification upon returning to the world of the living."
+        },
+        {
+          "id": "shinto-q3-5",
+          "type": "multipleChoice",
+          "question": "In which ancient text is Yomi-no-kuni described?",
+          "options": [
+            "The Tale of Genji",
+            "The Kojiki",
+            "The Nihon Shoki only",
+            "The Book of Tea"
+          ],
+          "correctAnswer": "The Kojiki",
+          "explanation": "Described in ancient Japanese myths like the Kojiki, Yomi is a desolate, polluted, and decaying place."
+        },
+        {
+          "id": "shinto-q3-6",
+          "type": "trueFalse",
+          "question": "The journey to Yomi is part of the spirit's eventual transformation into a kami.",
+          "correctAnswer": "true",
+          "explanation": "The journey to and residence in Yomi are part of the process through which a 'tamashii' gradually sheds its earthly impurities and transforms into a purified ancestral spirit or kami."
         }
       ]
     },
@@ -193,7 +253,7 @@
         "Benevolent influence",
         "Transformation into kami"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "shinto-q4-1",
@@ -234,6 +294,26 @@
           "question": "The transformation into an ancestral kami happens instantly after death.",
           "correctAnswer": "false",
           "explanation": "The transformation of a deceased individual into an honored ancestral kami typically occurs over several generations, through consistent funerary rites and veneration."
+        },
+        {
+          "id": "shinto-q4-5",
+          "type": "multipleChoice",
+          "question": "During Obon, what is used to guide the spirits?",
+          "options": [
+            "Bells and drums",
+            "Lanterns",
+            "Sacred texts",
+            "Flower petals"
+          ],
+          "correctAnswer": "Lanterns",
+          "explanation": "Lanterns are lit to guide the spirits, special foods are prepared, and family gatherings reinforce communal bonds."
+        },
+        {
+          "id": "shinto-q4-6",
+          "type": "trueFalse",
+          "question": "Ancestral kami provide protection, guidance, and blessings to their living families.",
+          "correctAnswer": "true",
+          "explanation": "This ongoing relationship ensures that ancestors provide protection, guidance, and blessings to their living families."
         }
       ]
     }

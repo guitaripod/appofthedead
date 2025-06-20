@@ -4,7 +4,7 @@
   "description": "Uncover the Taoist perspective on death as a natural transformation within the eternal dance of yin and yang, the dispersion of multiple souls, and the pursuit of immortality or return to the Tao.",
   "icon": "yin_yang",
   "color": "#000000",
-  "totalXP": 600,
+  "totalXP": 1000,
   "lessons": [
     {
       "id": "taoism-intro",
@@ -20,7 +20,7 @@
         "Soul dispersion",
         "Funeral rites"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q1-1",
@@ -54,6 +54,33 @@
           ],
           "correctAnswer": "To ensure their peaceful repose and prevent them from becoming troublesome",
           "explanation": "Funeral rites are aimed at keeping po souls peaceful while assisting hun souls' ascension."
+        },
+        {
+          "id": "taoism-q1-4",
+          "type": "trueFalse",
+          "question": "Humans have only one soul according to Taoist belief.",
+          "correctAnswer": "false",
+          "explanation": "The body is believed to contain multiple souls that disperse differently - hun souls and po souls."
+        },
+        {
+          "id": "taoism-q1-5",
+          "type": "multipleChoice",
+          "question": "How many 'hun' souls and 'po' souls does a person have?",
+          "options": [
+            "One hun and one po",
+            "Three hun and seven po",
+            "Seven hun and three po",
+            "Five of each"
+          ],
+          "correctAnswer": "Three hun and seven po",
+          "explanation": "The 'hun' souls (three ethereal, yang aspects) and the 'po' souls (seven corporeal, yin aspects)."
+        },
+        {
+          "id": "taoism-q1-6",
+          "type": "trueFalse",
+          "question": "The hun souls are associated with consciousness, intellect, and personality.",
+          "correctAnswer": "true",
+          "explanation": "The 'hun' souls are associated with consciousness, intellect, and personality; they are believed to rise toward heaven after death."
         }
       ]
     },
@@ -74,7 +101,7 @@
         "Purification",
         "Karmic debt"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q2-1",
@@ -115,6 +142,26 @@
           "question": "The highest Celestial Heavens are physical locations with solid structures.",
           "correctAnswer": "false",
           "explanation": "The highest heavens transcend form, existing as pure 'qi' (energy)."
+        },
+        {
+          "id": "taoism-q2-5",
+          "type": "multipleChoice",
+          "question": "How many levels of Earthly Prisons are typically described in Taoism?",
+          "options": [
+            "Nine",
+            "Twelve",
+            "Eighteen",
+            "Thirty-six"
+          ],
+          "correctAnswer": "Eighteen",
+          "explanation": "Below the earth lie the Earthly Prisons (or Dizang Wang's Underworld), typically described as eighteen levels."
+        },
+        {
+          "id": "taoism-q2-6",
+          "type": "trueFalse",
+          "question": "Souls ascend to higher heavens based solely on their wealth in life.",
+          "correctAnswer": "false",
+          "explanation": "Souls ascend based on their virtue, cultivation, and the spiritual merits accumulated during their earthly lives."
         }
       ]
     },
@@ -135,7 +182,7 @@
         "Jing",
         "Shen"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q3-1",
@@ -182,6 +229,26 @@
           ],
           "correctAnswer": "To achieve spiritual transcendence and harmony with the Tao",
           "explanation": "The focus shifted over time from external to internal alchemy, recognizing that true immortality is a spiritual state of harmony with the Tao, transcending the limitations of the mortal body."
+        },
+        {
+          "id": "taoism-q3-5",
+          "type": "trueFalse",
+          "question": "Xian are accomplished immortals in Taoism.",
+          "correctAnswer": "true",
+          "explanation": "These accomplished immortals (Xian) do not simply die but transform."
+        },
+        {
+          "id": "taoism-q3-6",
+          "type": "multipleChoice",
+          "question": "What are the three essences transformed in internal alchemy?",
+          "options": [
+            "Body, mind, and soul",
+            "Jing (essence), qi (energy), and shen (spirit)",
+            "Earth, water, and fire",
+            "Past, present, and future"
+          ],
+          "correctAnswer": "Jing (essence), qi (energy), and shen (spirit)",
+          "explanation": "The goal is to purify and transform one's vital essence (jing), vital energy (qi), and spirit (shen) into a spiritual embryo."
         }
       ]
     },
@@ -199,7 +266,7 @@
         "Spiritual cultivation",
         "Merging with the source"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q4-1",
@@ -233,6 +300,33 @@
           ],
           "correctAnswer": "As an expansion of consciousness to encompass the totality of the Tao",
           "explanation": "This merging does not imply a loss of identity in the Western sense but rather an expansion of consciousness to encompass the totality of the Tao."
+        },
+        {
+          "id": "taoism-q4-4",
+          "type": "trueFalse",
+          "question": "Returning to the Tao means complete annihilation of consciousness.",
+          "correctAnswer": "false",
+          "explanation": "It is a complete merging with the universal flow of cosmic energy and consciousness, becoming one with the fundamental principle that underlies all reality."
+        },
+        {
+          "id": "taoism-q4-5",
+          "type": "multipleChoice",
+          "question": "The wave and ocean metaphor in Taoism illustrates:",
+          "options": [
+            "The danger of drowning",
+            "The temporary nature of water",
+            "Individual existence as temporarily separate from the eternal Tao",
+            "The need for boats in the afterlife"
+          ],
+          "correctAnswer": "Individual existence as temporarily separate from the eternal Tao",
+          "explanation": "Like a wave realizing it was always an inseparable part of the ocean, an accomplished Taoist faces death not as an end, but as a conscious return to the undifferentiated source."
+        },
+        {
+          "id": "taoism-q4-6",
+          "type": "trueFalse",
+          "question": "Returning to the Tao represents liberation from the cycle of individual existence.",
+          "correctAnswer": "true",
+          "explanation": "This ultimate state signifies liberation from the cycle of individual existence, the flow of karma, and the need for rebirth."
         }
       ]
     },
@@ -250,7 +344,7 @@
         "Spiritual realm",
         "Funeral rites"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q5-1",
@@ -284,6 +378,33 @@
           ],
           "correctAnswer": "Food, incense, and paper money",
           "explanation": "Offerings often include food, incense, paper money, and other symbolic items burned to be transmitted to the spiritual realm for the ancestors' use."
+        },
+        {
+          "id": "taoism-q5-4",
+          "type": "trueFalse",
+          "question": "The relationship between living and dead in Taoism is one-directional.",
+          "correctAnswer": "false",
+          "explanation": "This reciprocal relationship highlights a continuous, interdependent connection between the living and the dead."
+        },
+        {
+          "id": "taoism-q5-5",
+          "type": "multipleChoice",
+          "question": "What do ancestors provide in return for proper veneration?",
+          "options": [
+            "Nothing - they are completely detached",
+            "Curses and misfortune",
+            "Blessings, protection, and prosperity",
+            "Immediate reincarnation"
+          ],
+          "correctAnswer": "Blessings, protection, and prosperity",
+          "explanation": "In return, the ancestors are believed to bestow blessings, protection, and prosperity upon their living family members."
+        },
+        {
+          "id": "taoism-q5-6",
+          "type": "trueFalse",
+          "question": "Paper offerings are burned to be transmitted to the spiritual realm.",
+          "correctAnswer": "true",
+          "explanation": "Offerings often include food, incense, paper money, and other symbolic items burned to be transmitted to the spiritual realm for the ancestors' use."
         }
       ]
     },
@@ -302,7 +423,7 @@
         "Liberation",
         "Spiritual progression"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q6-1",
@@ -336,6 +457,33 @@
           ],
           "correctAnswer": "To achieve liberation from the cycle, through immortality or returning to the Tao",
           "explanation": "The ultimate goal for many Taoists remains liberation from this cycle, whether through achieving immortality or by returning to the Tao."
+        },
+        {
+          "id": "taoism-q6-4",
+          "type": "trueFalse",
+          "question": "Negative karma always results in eternal punishment.",
+          "correctAnswer": "false",
+          "explanation": "Negative karma can result in rebirth into less desirable circumstances, or even into one of the Earthly Prisons for purification before a new life."
+        },
+        {
+          "id": "taoism-q6-5",
+          "type": "multipleChoice",
+          "question": "How is the karmic system viewed in Taoism?",
+          "options": [
+            "As a punitive system designed to torture souls",
+            "As a natural consequence of universal balance of yin and yang",
+            "As completely random and unfair",
+            "As controlled by evil demons"
+          ],
+          "correctAnswer": "As a natural consequence of universal balance of yin and yang",
+          "explanation": "This cycle is not necessarily viewed as a punitive system but as a natural consequence of the universal balance of yin and yang."
+        },
+        {
+          "id": "taoism-q6-6",
+          "type": "trueFalse",
+          "question": "The understanding of karma serves as a moral framework in Taoism.",
+          "correctAnswer": "true",
+          "explanation": "The understanding of karmic cause and effect and the possibility of rebirth serves as a moral framework, encouraging virtuous conduct."
         }
       ]
     },
@@ -354,7 +502,7 @@
         "Pacification",
         "Exorcisms"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "taoism-q7-1",
@@ -388,6 +536,33 @@
           ],
           "correctAnswer": "Restless, vengeful ghosts (gui)",
           "explanation": "For the po souls... rituals focus on pacification... to prevent the po souls from becoming restless, vengeful ghosts (gui) that could bring misfortune upon the living."
+        },
+        {
+          "id": "taoism-q7-4",
+          "type": "trueFalse",
+          "question": "Taoist funerary practices are simple and minimalistic.",
+          "correctAnswer": "false",
+          "explanation": "Taoist funerary practices are elaborate and highly ritualized, designed to facilitate a smooth transition for the deceased's soul."
+        },
+        {
+          "id": "taoism-q7-5",
+          "type": "multipleChoice",
+          "question": "What types of paper offerings might be burned during Taoist funerals?",
+          "options": [
+            "Only paper money",
+            "Religious texts and scriptures",
+            "Paper money, houses, cars, and servants",
+            "Personal letters to the deceased"
+          ],
+          "correctAnswer": "Paper money, houses, cars, and servants",
+          "explanation": "Paper offerings – such as paper money, houses, cars, and servants – are burned during funerals and subsequent remembrance days."
+        },
+        {
+          "id": "taoism-q7-6",
+          "type": "trueFalse",
+          "question": "Exorcisms may be performed if a death is considered inauspicious.",
+          "correctAnswer": "true",
+          "explanation": "Exorcisms or special ceremonies may be performed if a death is considered inauspicious or if a ghost is causing trouble."
         }
       ]
     }

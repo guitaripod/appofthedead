@@ -4,7 +4,7 @@
   "description": "Explore the profound Zoroastrian eschatology, detailing the soul's journey after death, the cosmic judgment at the Chinvat Bridge, the temporary nature of hell, and the ultimate universal salvation and renovation of the world known as Frashokereti.",
   "icon": "faravahar",
   "color": "#FF4500",
-  "totalXP": 350,
+  "totalXP": 590,
   "lessons": [
     {
       "id": "zoroastrianism-soul-nature",
@@ -18,7 +18,7 @@
         "Free Will",
         "Spiritual Guide"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q1-1",
@@ -39,6 +39,46 @@
           "question": "The Fravashi is a part of the soul that can be corrupted by evil.",
           "correctAnswer": "false",
           "explanation": "The Fravashi is a pre-existent, perfect guardian spirit that remains in the spiritual realm and acts as a protector, not descending to fight evil directly."
+        },
+        {
+          "id": "zoroastrianism-q1-3",
+          "type": "multipleChoice",
+          "question": "What is the role of the Fravashi?",
+          "options": [
+            "To judge the soul after death",
+            "To fight evil in the material world",
+            "To act as a spiritual guide and protector",
+            "To punish wrongdoers"
+          ],
+          "correctAnswer": "To act as a spiritual guide and protector",
+          "explanation": "The Fravashi acts as a spiritual guide and protector throughout life, remaining in the spiritual realm as a perfect model."
+        },
+        {
+          "id": "zoroastrianism-q1-4",
+          "type": "trueFalse",
+          "question": "The human body (tan) is considered eternal in Zoroastrian belief.",
+          "correctAnswer": "false",
+          "explanation": "The physical body (tan) is a temporary vessel for several spiritual components."
+        },
+        {
+          "id": "zoroastrianism-q1-5",
+          "type": "multipleChoice",
+          "question": "At the end of life, what happens to the righteous Urvan?",
+          "options": [
+            "It ceases to exist",
+            "It is reunited with its Fravashi",
+            "It becomes a demon",
+            "It reincarnates immediately"
+          ],
+          "correctAnswer": "It is reunited with its Fravashi",
+          "explanation": "At the end of life, the righteous Urvan is reunited with its Fravashi, achieving a state of wholeness and perfection."
+        },
+        {
+          "id": "zoroastrianism-q1-6",
+          "type": "trueFalse",
+          "question": "Free will is an essential aspect of the Urvan's nature.",
+          "correctAnswer": "true",
+          "explanation": "The Urvan is the seat of consciousness, free will, and moral responsibility."
         }
       ]
     },
@@ -55,7 +95,7 @@
         "Druj Nasu",
         "Purity"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q2-1",
@@ -76,6 +116,46 @@
           "question": "For three days after death, both the righteous and wicked souls experience peace and tranquility.",
           "correctAnswer": "false",
           "explanation": "The righteous soul experiences a foretaste of paradise, while the wicked soul is tormented by visions of its coming punishment."
+        },
+        {
+          "id": "zoroastrianism-q2-3",
+          "type": "multipleChoice",
+          "question": "How long does the soul remain earthbound after death?",
+          "options": [
+            "One day",
+            "Three days",
+            "Seven days",
+            "Forty days"
+          ],
+          "correctAnswer": "Three days",
+          "explanation": "For three days after death, the Urvan (soul) remains earthbound near the body."
+        },
+        {
+          "id": "zoroastrianism-q2-4",
+          "type": "trueFalse",
+          "question": "The righteous soul sits at the feet of the body during the three-day vigil.",
+          "correctAnswer": "false",
+          "explanation": "A righteous soul is said to sit at the head of the body, while the wicked soul cowers at the feet."
+        },
+        {
+          "id": "zoroastrianism-q2-5",
+          "type": "multipleChoice",
+          "question": "What is the 'Druj Nasu'?",
+          "options": [
+            "A sacred prayer",
+            "The corpse demon",
+            "A type of offering",
+            "The bridge to heaven"
+          ],
+          "correctAnswer": "The corpse demon",
+          "explanation": "The Druj Nasu is the corpse demon that brings pollution and must be driven away through rituals."
+        },
+        {
+          "id": "zoroastrianism-q2-6",
+          "type": "trueFalse",
+          "question": "Death in Zoroastrianism is viewed as a critical battle between Light and Darkness.",
+          "correctAnswer": "true",
+          "explanation": "Zoroastrianism presents death as a critical battle in the cosmic war between Light and Darkness."
         }
       ]
     },
@@ -91,7 +171,7 @@
         "Asha",
         "Conscience personified"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q3-1",
@@ -112,6 +192,46 @@
           "question": "Daena is an independent angel who judges the soul based on a sacred text.",
           "correctAnswer": "false",
           "explanation": "Daena is the personification of the soul's own conscience and cumulative deeds, not an external entity."
+        },
+        {
+          "id": "zoroastrianism-q3-3",
+          "type": "multipleChoice",
+          "question": "When does the soul's journey to the Chinvat Bridge begin?",
+          "options": [
+            "Immediately after death",
+            "After one day",
+            "At dawn on the fourth day",
+            "After forty days"
+          ],
+          "correctAnswer": "At dawn on the fourth day",
+          "explanation": "At dawn on the fourth day, the soul's vigil ends and it journeys to the Chinvat Bridge."
+        },
+        {
+          "id": "zoroastrianism-q3-4",
+          "type": "trueFalse",
+          "question": "The Chinvat Bridge always remains the same width regardless of the soul's righteousness.",
+          "correctAnswer": "false",
+          "explanation": "The bridge morphs according to the soul's Asha (righteousness) - widening for the righteous and narrowing for the wicked."
+        },
+        {
+          "id": "zoroastrianism-q3-5",
+          "type": "multipleChoice",
+          "question": "How does Daena appear to a righteous soul?",
+          "options": [
+            "As a fierce warrior",
+            "As a beautiful, fragrant maiden of fifteen",
+            "As a wise old sage",
+            "As a celestial judge"
+          ],
+          "correctAnswer": "As a beautiful, fragrant maiden of fifteen",
+          "explanation": "For a righteous soul, Daena appears as a beautiful, fragrant maiden of fifteen."
+        },
+        {
+          "id": "zoroastrianism-q3-6",
+          "type": "trueFalse",
+          "question": "The Chinvat Bridge is also known as the 'Separator Bridge'.",
+          "correctAnswer": "true",
+          "explanation": "The Chinvat Bridge—the 'Separator Bridge'—spans the abyss between the material and spiritual realms."
         }
       ]
     },
@@ -127,7 +247,7 @@
         "Cosmic scales",
         "Yazatas"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q4-1",
@@ -148,6 +268,46 @@
           "question": "Sraosha's role is primarily to prosecute the soul for its disobedience.",
           "correctAnswer": "false",
           "explanation": "Sraosha is the Yazata of obedience and acts as a protector, guiding the worthy soul across the Chinvat Bridge."
+        },
+        {
+          "id": "zoroastrianism-q4-3",
+          "type": "multipleChoice",
+          "question": "What is Mithra's role in the divine tribunal?",
+          "options": [
+            "Weighing the soul's deeds",
+            "Guiding souls across the bridge",
+            "Overseeing the proceedings as lord of covenants and truth",
+            "Punishing the wicked"
+          ],
+          "correctAnswer": "Overseeing the proceedings as lord of covenants and truth",
+          "explanation": "Mithra, the lord of covenants, truth, and contracts, oversees the proceedings."
+        },
+        {
+          "id": "zoroastrianism-q4-4",
+          "type": "trueFalse",
+          "question": "Good deeds are described as heavy and foul-smelling on Rashnu's scales.",
+          "correctAnswer": "false",
+          "explanation": "Good deeds are light and fragrant, while evil deeds are heavy and foul-smelling."
+        },
+        {
+          "id": "zoroastrianism-q4-5",
+          "type": "multipleChoice",
+          "question": "How many primary destinations are determined by the divine tribunal?",
+          "options": [
+            "Two",
+            "Three",
+            "Four",
+            "Seven"
+          ],
+          "correctAnswer": "Three",
+          "explanation": "There are three primary possibilities: the House of Song (Paradise), the House of Lies (Hell), or the Place of the Mixed Ones."
+        },
+        {
+          "id": "zoroastrianism-q4-6",
+          "type": "trueFalse",
+          "question": "The divine tribunal consists of three Yazatas.",
+          "correctAnswer": "true",
+          "explanation": "The tribunal consists of three great spiritual beings: Mithra, Sraosha, and Rashnu."
         }
       ]
     },
@@ -163,7 +323,7 @@
         "Anagra Raocha (Endless Light)",
         "Temporary Purification"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q5-1",
@@ -184,6 +344,46 @@
           "question": "The punishments in the Zoroastrian House of Lies are eternal.",
           "correctAnswer": "false",
           "explanation": "Zoroastrian hell is a temporary state for the purification of the wicked; it is not a place of eternal damnation."
+        },
+        {
+          "id": "zoroastrianism-q5-3",
+          "type": "multipleChoice",
+          "question": "What are the first three levels of paradise named after?",
+          "options": [
+            "The three judges",
+            "The elements of nature",
+            "Good Thoughts, Good Words, and Good Deeds",
+            "The names of ancient prophets"
+          ],
+          "correctAnswer": "Good Thoughts, Good Words, and Good Deeds",
+          "explanation": "The first three are named for the fundamental Zoroastrian creed: Humata, Hukhta, and Hvarshta."
+        },
+        {
+          "id": "zoroastrianism-q5-4",
+          "type": "trueFalse",
+          "question": "Punishments in hell are arbitrary and unrelated to earthly sins.",
+          "correctAnswer": "false",
+          "explanation": "The punishments are not arbitrary but directly relate to the sins committed on earth—the cruel experience cruelty, the liar is tormented by deceit."
+        },
+        {
+          "id": "zoroastrianism-q5-5",
+          "type": "multipleChoice",
+          "question": "What is 'Garo Demana'?",
+          "options": [
+            "The lowest level of hell",
+            "The general name for Paradise/House of Song",
+            "The judgment bridge",
+            "A specific prayer"
+          ],
+          "correctAnswer": "The general name for Paradise/House of Song",
+          "explanation": "Paradise, known as 'Garo Demana' or the House of Song, has several ascending levels."
+        },
+        {
+          "id": "zoroastrianism-q5-6",
+          "type": "trueFalse",
+          "question": "Hell in Zoroastrianism serves as a place of purification.",
+          "correctAnswer": "true",
+          "explanation": "Crucially, this hell is a temporary place of purification, not eternal damnation."
         }
       ]
     },
@@ -199,7 +399,7 @@
         "Spiritual Stasis",
         "Redemption"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q6-1",
@@ -220,6 +420,46 @@
           "question": "The concept of universal salvation means that some souls will be annihilated at the end of time.",
           "correctAnswer": "false",
           "explanation": "Universal salvation in Zoroastrianism promises that all souls will eventually be redeemed and purified, and none will be annihilated or eternally damned."
+        },
+        {
+          "id": "zoroastrianism-q6-3",
+          "type": "multipleChoice",
+          "question": "What is the nature of existence in Misvan Gatu?",
+          "options": [
+            "Extreme joy and pleasure",
+            "Terrible suffering and pain",
+            "A neutral, grey realm devoid of joy and sorrow",
+            "Constant judgment and trials"
+          ],
+          "correctAnswer": "A neutral, grey realm devoid of joy and sorrow",
+          "explanation": "It is a neutral, grey realm of shadows, devoid of both joy and sorrow."
+        },
+        {
+          "id": "zoroastrianism-q6-4",
+          "type": "trueFalse",
+          "question": "Souls in Misvan Gatu await the final renovation of the world.",
+          "correctAnswer": "true",
+          "explanation": "Souls in Misvan Gatu exist in a state of spiritual stasis, awaiting the final renovation of the world."
+        },
+        {
+          "id": "zoroastrianism-q6-5",
+          "type": "multipleChoice",
+          "question": "What is the ultimate goal of Ahura Mazda's creation?",
+          "options": [
+            "To punish the wicked eternally",
+            "To separate good and evil forever",
+            "The complete eradication of evil and redemption of every soul",
+            "To maintain balance between good and evil"
+          ],
+          "correctAnswer": "The complete eradication of evil and redemption of every soul",
+          "explanation": "The ultimate goal of Ahura Mazda's creation is the complete eradication of evil and the redemption of every single soul."
+        },
+        {
+          "id": "zoroastrianism-q6-6",
+          "type": "trueFalse",
+          "question": "The period of separation and purification is permanent in Zoroastrianism.",
+          "correctAnswer": "false",
+          "explanation": "This period of separation and purification is merely a necessary phase before the final, perfect state of being is established for all."
         }
       ]
     },
@@ -236,7 +476,7 @@
         "Molten Metal",
         "Universal Purification"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q7-1",
@@ -257,6 +497,46 @@
           "question": "In the Great Ordeal, the river of molten metal destroys the wicked forever.",
           "correctAnswer": "false",
           "explanation": "The river of molten metal serves as a final, intense purification for the wicked, not their destruction. It feels like warm milk to the righteous."
+        },
+        {
+          "id": "zoroastrianism-q7-3",
+          "type": "multipleChoice",
+          "question": "Who is the Saoshyant?",
+          "options": [
+            "The current high priest",
+            "The final savior figure born of a virgin",
+            "The lord of hell",
+            "An evil demon"
+          ],
+          "correctAnswer": "The final savior figure born of a virgin",
+          "explanation": "A final savior figure, the 'Saoshyant,' will be born of a virgin from the seed of the prophet Zoroaster."
+        },
+        {
+          "id": "zoroastrianism-q7-4",
+          "type": "trueFalse",
+          "question": "The Ristakhiz refers to the destruction of the world.",
+          "correctAnswer": "false",
+          "explanation": "The Saoshyant will usher in the 'Ristakhiz,' the resurrection of the dead."
+        },
+        {
+          "id": "zoroastrianism-q7-5",
+          "type": "multipleChoice",
+          "question": "How will the river of molten metal feel to the righteous?",
+          "options": [
+            "Like burning fire",
+            "Like cold ice",
+            "Like a pleasant bath of warm milk",
+            "They won't need to pass through it"
+          ],
+          "correctAnswer": "Like a pleasant bath of warm milk",
+          "explanation": "For the righteous, it will feel like a pleasant bath of warm milk."
+        },
+        {
+          "id": "zoroastrianism-q7-6",
+          "type": "trueFalse",
+          "question": "All the dead from all ages will rise during the Ristakhiz.",
+          "correctAnswer": "true",
+          "explanation": "All the dead, from all ages, will rise from the ground, and families will be reunited."
         }
       ]
     },
@@ -272,7 +552,7 @@
         "Renewed Earth",
         "Eternal Bliss"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "zoroastrianism-q8-1",
@@ -293,6 +573,46 @@
           "question": "In the perfected world, souls exist only as spiritual beings without bodies.",
           "correctAnswer": "false",
           "explanation": "The final state includes the resurrection of the body and the renewal of the physical earth; humanity will live as perfected beings in a perfected material world."
+        },
+        {
+          "id": "zoroastrianism-q8-3",
+          "type": "multipleChoice",
+          "question": "What renders all souls immortal in the final days?",
+          "options": [
+            "The river of molten metal",
+            "A final sacrifice offered by the Saoshyant",
+            "Ahura Mazda's direct intervention",
+            "Natural evolution"
+          ],
+          "correctAnswer": "A final sacrifice offered by the Saoshyant",
+          "explanation": "The Saoshyant, as the agent of Ahura Mazda, will offer a final sacrifice that renders all souls immortal."
+        },
+        {
+          "id": "zoroastrianism-q8-4",
+          "type": "trueFalse",
+          "question": "The renewed earth will retain its mountains and valleys.",
+          "correctAnswer": "false",
+          "explanation": "The cleansed earth will be renewed and made perfectly flat and smooth."
+        },
+        {
+          "id": "zoroastrianism-q8-5",
+          "type": "multipleChoice",
+          "question": "In the perfected world, humanity will:",
+          "options": [
+            "Be divided by different languages",
+            "Live in separate kingdoms",
+            "Speak a single language and live as one family",
+            "Return to primitive conditions"
+          ],
+          "correctAnswer": "Speak a single language and live as one family",
+          "explanation": "Humanity will speak a single language and live as one family in a state of perpetual light and goodness."
+        },
+        {
+          "id": "zoroastrianism-q8-6",
+          "type": "trueFalse",
+          "question": "Death will exist in the renewed world after Frashokereti.",
+          "correctAnswer": "false",
+          "explanation": "In this renewed world, there will be no more pain, suffering, hunger, thirst, or death."
         }
       ]
     }
