@@ -16,6 +16,9 @@ class PaywallViewController: UIViewController {
     
     private var selectedProduct: ProductIdentifier?
     private let reason: PaywallReason
+    private var pathPreviewAnimator: PathPreviewAnimator?
+    private var pathPreviews: [String: PathPreview] = [:]
+    private var beliefSystems: [BeliefSystem] = []
     
     enum PaywallReason {
         case lockedPath(beliefSystemId: String)
@@ -24,7 +27,7 @@ class PaywallViewController: UIViewController {
         
         var title: String {
             switch self {
-            case .lockedPath(let id):
+            case .lockedPath:
                 return "Unlock Your Journey"
             case .oracleLimit:
                 return "Continue the Conversation"
@@ -60,7 +63,12 @@ class PaywallViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        loadPathPreviews()
+        loadBeliefSystems()
         fetchOfferings()
+        
+        // Setup preview animator
+        pathPreviewAnimator = PathPreviewAnimator(containerView: view)
     }
     
     // MARK: - UI Setup
@@ -233,6 +241,22 @@ class PaywallViewController: UIViewController {
         productsStackView.addArrangedSubview(loadingView)
     }
     
+    // MARK: - Data Loading
+    private func loadPathPreviews() {
+        guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
+              let data = try? Data(contentsOf: url) else { return }
+        
+        do {
+            pathPreviews = try JSONDecoder().decode([String: PathPreview].self, from: data)
+        } catch {
+            print("Failed to load path previews: \(error)")
+        }
+    }
+    
+    private func loadBeliefSystems() {
+        beliefSystems = DatabaseManager.shared.loadBeliefSystems()
+    }
+    
     // MARK: - Product Cards
     private func createProductCard(for product: ProductIdentifier, price: String, recommended: Bool = false) -> UIView {
         let card = UIView()
@@ -275,7 +299,13 @@ class PaywallViewController: UIViewController {
         buyButton.setTitleColor(recommended ? .white : .label, for: .normal)
         buyButton.layer.cornerRadius = 8
         buyButton.tag = product.hashValue
-        buyButton.addTarget(self, action: #selector(productSelected(_:)), for: .touchUpInside)
+        
+        // Different action based on whether it's a path product
+        if case .lockedPath = reason, product.beliefSystemId != nil {
+            buyButton.addTarget(self, action: #selector(pathProductTapped(_:)), for: .touchUpInside)
+        } else {
+            buyButton.addTarget(self, action: #selector(productSelected(_:)), for: .touchUpInside)
+        }
         
         let stack = UIStackView(arrangedSubviews: [titleLabel, descLabel, priceLabel, buyButton])
         stack.axis = .vertical
@@ -307,6 +337,32 @@ class PaywallViewController: UIViewController {
         
         selectedProduct = product
         purchaseProduct(product)
+    }
+    
+    @objc private func pathProductTapped(_ sender: UIButton) {
+        // Find product by hash
+        guard let product = ProductIdentifier.allCases.first(where: { $0.hashValue == sender.tag }),
+              let beliefSystemId = product.beliefSystemId,
+              let preview = pathPreviews[beliefSystemId],
+              let beliefSystem = beliefSystems.first(where: { $0.id == beliefSystemId }) else {
+            // Fallback to direct purchase if preview not available
+            productSelected(sender)
+            return
+        }
+        
+        // Get price
+        let price = StoreManager.shared.formattedPrice(for: product) ?? "$--"
+        
+        // Create and show preview
+        let previewView = PathPreviewView()
+        previewView.configure(with: preview, beliefSystem: beliefSystem, price: price) { [weak self] selectedProduct in
+            self?.selectedProduct = selectedProduct
+            self?.pathPreviewAnimator?.dismiss(animated: true) {
+                self?.purchaseProduct(selectedProduct)
+            }
+        }
+        
+        pathPreviewAnimator?.present(pathPreview: previewView, from: sender, animated: true)
     }
     
     @objc private func restoreTapped() {
@@ -383,7 +439,7 @@ class PaywallViewController: UIViewController {
         }
         
         // Add product cards
-        for (index, productId) in productsToShow.enumerated() {
+        for productId in productsToShow {
             let price = StoreManager.shared.formattedPrice(for: productId) ?? "$--"
             let isRecommended = productId == .ultimateEnlightenment
             let card = createProductCard(for: productId, price: price, recommended: isRecommended)

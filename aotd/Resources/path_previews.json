@@ -1,0 +1,212 @@
+{
+  "christianity": {
+    "preview_stops": [
+      { "icon": "cross.fill", "title": "Heaven & Hell" },
+      { "icon": "book.fill", "title": "Salvation" },
+      { "icon": "crown.fill", "title": "Eternal Life" }
+    ],
+    "total_lessons": 12,
+    "unlock_count": 3,
+    "key_topics": ["Judgment Day", "Resurrection", "Divine Grace"]
+  },
+  "islam": {
+    "preview_stops": [
+      { "icon": "moon.fill", "title": "Barzakh" },
+      { "icon": "scalemass.fill", "title": "Day of Judgment" },
+      { "icon": "sparkles", "title": "Paradise" }
+    ],
+    "total_lessons": 10,
+    "unlock_count": 3,
+    "key_topics": ["Seven Heavens", "Bridge of Sirat", "Divine Mercy"]
+  },
+  "buddhism": {
+    "preview_stops": [
+      { "icon": "circle.hexagongrid.fill", "title": "Six Realms" },
+      { "icon": "arrow.triangle.2.circlepath", "title": "Rebirth Cycle" },
+      { "icon": "leaf.fill", "title": "Nirvana" }
+    ],
+    "total_lessons": 15,
+    "unlock_count": 4,
+    "key_topics": ["Bardo States", "Karma", "Liberation"]
+  },
+  "hinduism": {
+    "preview_stops": [
+      { "icon": "infinity", "title": "Samsara" },
+      { "icon": "flame.fill", "title": "Karma Yoga" },
+      { "icon": "sun.max.fill", "title": "Moksha" }
+    ],
+    "total_lessons": 14,
+    "unlock_count": 4,
+    "key_topics": ["Reincarnation", "Dharma", "Atman"]
+  },
+  "egyptian-afterlife": {
+    "preview_stops": [
+      { "icon": "pyramid.fill", "title": "Duat Journey" },
+      { "icon": "scalemass.fill", "title": "Heart Weighing" },
+      { "icon": "eye.fill", "title": "Field of Reeds" }
+    ],
+    "total_lessons": 13,
+    "unlock_count": 3,
+    "key_topics": ["Book of the Dead", "Osiris", "Afterlife Trials"]
+  },
+  "greek-underworld": {
+    "preview_stops": [
+      { "icon": "ferry.fill", "title": "River Styx" },
+      { "icon": "person.3.fill", "title": "Three Judges" },
+      { "icon": "laurel.trailing", "title": "Elysium" }
+    ],
+    "total_lessons": 11,
+    "unlock_count": 3,
+    "key_topics": ["Hades", "Tartarus", "Heroic Afterlife"]
+  },
+  "norse": {
+    "preview_stops": [
+      { "icon": "shield.fill", "title": "Valhalla" },
+      { "icon": "snowflake", "title": "Helheim" },
+      { "icon": "bolt.fill", "title": "Ragnarok" }
+    ],
+    "total_lessons": 12,
+    "unlock_count": 3,
+    "key_topics": ["Einherjar", "Nine Realms", "Warrior's Death"]
+  },
+  "shinto": {
+    "preview_stops": [
+      { "icon": "torii.fill", "title": "Spirit World" },
+      { "icon": "person.2.fill", "title": "Ancestors" },
+      { "icon": "sparkle", "title": "Kami Realm" }
+    ],
+    "total_lessons": 10,
+    "unlock_count": 3,
+    "key_topics": ["Yomi", "Purification", "Spirit Guardians"]
+  },
+  "zoroastrianism": {
+    "preview_stops": [
+      { "icon": "flame.fill", "title": "Sacred Fire" },
+      { "icon": "road.lanes", "title": "Chinvat Bridge" },
+      { "icon": "sun.min.fill", "title": "House of Song" }
+    ],
+    "total_lessons": 9,
+    "unlock_count": 2,
+    "key_topics": ["Good vs Evil", "Final Renovation", "Paradise"]
+  },
+  "sikhism": {
+    "preview_stops": [
+      { "icon": "circle.circle.fill", "title": "Divine Unity" },
+      { "icon": "arrow.clockwise", "title": "Rebirth Cycle" },
+      { "icon": "star.fill", "title": "Sachkhand" }
+    ],
+    "total_lessons": 8,
+    "unlock_count": 2,
+    "key_topics": ["Waheguru", "Liberation", "Five Thieves"]
+  },
+  "aztec-mictlan": {
+    "preview_stops": [
+      { "icon": "skull.fill", "title": "Death Journey" },
+      { "icon": "number.square.fill", "title": "Nine Levels" },
+      { "icon": "sun.dust.fill", "title": "Mictlan" }
+    ],
+    "total_lessons": 10,
+    "unlock_count": 3,
+    "key_topics": ["Four-Year Journey", "Xochitl", "Mictlantecuhtli"]
+  },
+  "taoism": {
+    "preview_stops": [
+      { "icon": "yin.yang", "title": "Balance" },
+      { "icon": "cloud.fill", "title": "Spirit Realms" },
+      { "icon": "infinity", "title": "Immortality" }
+    ],
+    "total_lessons": 9,
+    "unlock_count": 2,
+    "key_topics": ["Ten Courts", "Jade Emperor", "Wu Wei"]
+  },
+  "mandaeism": {
+    "preview_stops": [
+      { "icon": "drop.fill", "title": "Water Baptism" },
+      { "icon": "building.columns.fill", "title": "House of Life" },
+      { "icon": "light.max", "title": "World of Light" }
+    ],
+    "total_lessons": 7,
+    "unlock_count": 2,
+    "key_topics": ["Matarta", "Light Beings", "Ascension"]
+  },
+  "wicca": {
+    "preview_stops": [
+      { "icon": "moon.stars.fill", "title": "Summerland" },
+      { "icon": "arrow.triangle.2.circlepath", "title": "Rest & Rebirth" },
+      { "icon": "leaf.circle.fill", "title": "Nature's Cycle" }
+    ],
+    "total_lessons": 8,
+    "unlock_count": 2,
+    "key_topics": ["Reincarnation", "Spirit Guides", "Sacred Wheel"]
+  },
+  "bahai": {
+    "preview_stops": [
+      { "icon": "star.circle.fill", "title": "Soul's Journey" },
+      { "icon": "arrow.up.circle.fill", "title": "Spiritual Worlds" },
+      { "icon": "infinity.circle.fill", "title": "Progress Eternal" }
+    ],
+    "total_lessons": 7,
+    "unlock_count": 2,
+    "key_topics": ["Unity", "Service", "Divine Attributes"]
+  },
+  "tenrikyo": {
+    "preview_stops": [
+      { "icon": "location.circle.fill", "title": "Return to Jiba" },
+      { "icon": "arrow.counterclockwise", "title": "Rebirth" },
+      { "icon": "heart.fill", "title": "Joyous Life" }
+    ],
+    "total_lessons": 6,
+    "unlock_count": 2,
+    "key_topics": ["Parent God", "Dust of Mind", "Divine Model"]
+  },
+  "aboriginal-dreamtime": {
+    "preview_stops": [
+      { "icon": "globe.americas.fill", "title": "Spirit Country" },
+      { "icon": "person.2.circle.fill", "title": "Ancestors" },
+      { "icon": "moon.stars.circle.fill", "title": "Dreamtime" }
+    ],
+    "total_lessons": 8,
+    "unlock_count": 2,
+    "key_topics": ["Songlines", "Eternal Return", "Sacred Sites"]
+  },
+  "native-american-visions": {
+    "preview_stops": [
+      { "icon": "bird.fill", "title": "Spirit Trail" },
+      { "icon": "tree.fill", "title": "Happy Hunting" },
+      { "icon": "circle.hexagongrid.circle.fill", "title": "Spirit World" }
+    ],
+    "total_lessons": 9,
+    "unlock_count": 2,
+    "key_topics": ["Vision Quest", "Great Spirit", "Animal Guides"]
+  },
+  "anthroposophy": {
+    "preview_stops": [
+      { "icon": "moon.circle.fill", "title": "Kamaloka" },
+      { "icon": "star.circle.fill", "title": "Spirit Spheres" },
+      { "icon": "sun.max.circle.fill", "title": "Higher Worlds" }
+    ],
+    "total_lessons": 7,
+    "unlock_count": 2,
+    "key_topics": ["Life Review", "Planetary Spheres", "Spiritual Science"]
+  },
+  "theosophy": {
+    "preview_stops": [
+      { "icon": "sparkle.magnifyingglass", "title": "Astral Plane" },
+      { "icon": "cloud.sun.fill", "title": "Devachan" },
+      { "icon": "arrow.clockwise.circle.fill", "title": "Reincarnation" }
+    ],
+    "total_lessons": 8,
+    "unlock_count": 2,
+    "key_topics": ["Seven Planes", "Karma", "Spiritual Evolution"]
+  },
+  "swedenborgian-visions": {
+    "preview_stops": [
+      { "icon": "door.left.hand.open", "title": "World of Spirits" },
+      { "icon": "arrow.left.and.right", "title": "Choice" },
+      { "icon": "house.fill", "title": "Eternal Home" }
+    ],
+    "total_lessons": 7,
+    "unlock_count": 2,
+    "key_topics": ["Heaven & Hell", "Divine Love", "Correspondence"]
+  }
+}
