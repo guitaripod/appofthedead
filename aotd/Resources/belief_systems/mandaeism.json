@@ -4,7 +4,7 @@
   "description": "Explore the unique Gnostic vision of Mandaeism, mapping the soul's perilous journey through cosmic darkness and watchhouses, back to the World of Light, and the challenges of demonic archons.",
   "icon": "star_of_david",
   "color": "#4B0082",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "mandaeism-intro",
@@ -21,7 +21,7 @@
         "Pagra",
         "Ptahil"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q1-1",
@@ -38,10 +38,50 @@
         },
         {
           "id": "mandaeism-q1-2",
+          "type": "multipleChoice",
+          "question": "Who is the supreme deity in the Mandaean World of Light?",
+          "options": [
+            "Ptahil",
+            "Ur",
+            "Hayyi Rabbi (The Great Life)",
+            "Ruha"
+          ],
+          "correctAnswer": "Hayyi Rabbi (The Great Life)",
+          "explanation": "Hayyi Rabbi, meaning 'The Great Life,' is the supreme God who presides over the World of Light in Mandaean cosmology."
+        },
+        {
+          "id": "mandaeism-q1-3",
+          "type": "multipleChoice",
+          "question": "According to Mandaeism, who created the material world and physical body?",
+          "options": [
+            "Hayyi Rabbi directly",
+            "The uthras",
+            "Ptahil, working with dark powers",
+            "Hibil Ziwa"
+          ],
+          "correctAnswer": "Ptahil, working with dark powers",
+          "explanation": "The material world and physical body are seen as creations of Ptahil, a lesser, flawed deity who worked with the dark powers of Ruha and the Seven Planets."
+        },
+        {
+          "id": "mandaeism-q1-4",
           "type": "trueFalse",
           "question": "Mandaeism views the material world as a perfect creation and the ultimate home for the soul.",
           "correctAnswer": "false",
           "explanation": "The material world is seen as a flawed creation and a prison for the divine soul, which seeks to escape and return to the World of Light."
+        },
+        {
+          "id": "mandaeism-q1-5",
+          "type": "trueFalse",
+          "question": "In Mandaean belief, death is viewed as the first step toward the soul's liberation.",
+          "correctAnswer": "true",
+          "explanation": "Death is seen as the critical first step in the nishimta's potential liberation and return to its luminous origin in the World of Light."
+        },
+        {
+          "id": "mandaeism-q1-6",
+          "type": "trueFalse",
+          "question": "The physical body ('pagra') is considered sacred and divine in Mandaeism.",
+          "correctAnswer": "false",
+          "explanation": "The physical body ('pagra') is viewed as part of the material prison created by the flawed deity Ptahil, not as something sacred or divine."
         }
       ]
     },
@@ -57,7 +97,7 @@
         "Gnosis",
         "Redeemer"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q2-1",
@@ -74,10 +114,50 @@
         },
         {
           "id": "mandaeism-q2-2",
+          "type": "multipleChoice",
+          "question": "What are 'uthras' in Mandaean cosmology?",
+          "options": [
+            "Evil archons guarding the mataratas",
+            "Physical bodies of humans",
+            "Benevolent light-beings or angels from the World of Light",
+            "The seven planets"
+          ],
+          "correctAnswer": "Benevolent light-beings or angels from the World of Light",
+          "explanation": "Uthras are benevolent beings sent from the World of Light to guide and assist humanity in their spiritual journey."
+        },
+        {
+          "id": "mandaeism-q2-3",
+          "type": "multipleChoice",
+          "question": "What essential knowledge does Hibil Ziwa possess that helps souls on their journey?",
+          "options": [
+            "Material wealth",
+            "Physical strength",
+            "Secret knowledge ('gnosis') to bypass dangers",
+            "Political power"
+          ],
+          "correctAnswer": "Secret knowledge ('gnosis') to bypass dangers",
+          "explanation": "Hibil Ziwa possesses the secret knowledge (gnosis) required to bypass the dangers of the journey through the cosmic realms."
+        },
+        {
+          "id": "mandaeism-q2-4",
           "type": "trueFalse",
           "question": "The 'uthras' are demonic beings who try to trap the soul.",
           "correctAnswer": "false",
           "explanation": "'Uthras' are benevolent light-beings from the World of Light, sent to help and guide the soul on its journey."
+        },
+        {
+          "id": "mandaeism-q2-5",
+          "type": "trueFalse",
+          "question": "Ptahil is viewed as a benevolent creator god in Mandaeism.",
+          "correctAnswer": "false",
+          "explanation": "Ptahil is seen as an arrogant and ignorant demiurge whose flawed creation trapped the nishimta in the material world."
+        },
+        {
+          "id": "mandaeism-q2-6",
+          "type": "trueFalse",
+          "question": "Hibil Ziwa descended into the World of Darkness and subdued its rulers.",
+          "correctAnswer": "true",
+          "explanation": "According to Mandaean scripture, Hibil Ziwa descended into the World of Darkness, subdued its rulers, and created a path for souls to follow."
         }
       ]
     },
@@ -94,7 +174,7 @@
         "Twelve Constellations",
         "Passwords"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q3-1",
@@ -111,10 +191,50 @@
         },
         {
           "id": "mandaeism-q3-2",
+          "type": "multipleChoice",
+          "question": "How many mataratas (watchhouses) does the soul typically need to pass through?",
+          "options": [
+            "Three",
+            "Five",
+            "Seven",
+            "Twelve"
+          ],
+          "correctAnswer": "Seven",
+          "explanation": "There are typically seven mataratas, each corresponding to one of the Seven Planets, which are seen as demonic powers."
+        },
+        {
+          "id": "mandaeism-q3-3",
+          "type": "multipleChoice",
+          "question": "Who is the mother of the archons that guard the mataratas?",
+          "options": [
+            "The Great Life",
+            "Ruha",
+            "A benevolent uthra",
+            "The soul itself"
+          ],
+          "correctAnswer": "Ruha",
+          "explanation": "Ruha is the personification of the lower, material spirit and the mother of the malevolent archons who serve as guardians."
+        },
+        {
+          "id": "mandaeism-q3-4",
           "type": "trueFalse",
           "question": "The Seven Planets and Twelve Constellations are viewed as benevolent guides in Mandaeism.",
           "correctAnswer": "false",
           "explanation": "The Seven Planets and Twelve Constellations are considered demonic powers that pose a significant threat to the ascending soul in the 'mataratas'."
+        },
+        {
+          "id": "mandaeism-q3-5",
+          "type": "trueFalse",
+          "question": "A soul that fails at a matarta might be thrown back to the material world for reincarnation.",
+          "correctAnswer": "true",
+          "explanation": "Failure at a matarta can result in the soul being detained, tormented, or thrown back to the material world for another reincarnation."
+        },
+        {
+          "id": "mandaeism-q3-6",
+          "type": "trueFalse",
+          "question": "The passwords and prayers needed for the mataratas are learned during earthly life.",
+          "correctAnswer": "true",
+          "explanation": "The soul must present the correct passwords, signs, and prayers taught during life to successfully pass each matarta."
         }
       ]
     },
@@ -130,7 +250,7 @@
         "Scales",
         "Reincarnation"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q4-1",
@@ -147,10 +267,50 @@
         },
         {
           "id": "mandaeism-q4-2",
+          "type": "multipleChoice",
+          "question": "Where is Abatur's purgatorial station located?",
+          "options": [
+            "In the deepest part of the World of Darkness",
+            "On Earth",
+            "On the farthest border of the World of Light",
+            "Inside the first matarta"
+          ],
+          "correctAnswer": "On the farthest border of the World of Light",
+          "explanation": "Abatur's realm is often visualized as being on the farthest border of the World of Light, a critical purgatorial station."
+        },
+        {
+          "id": "mandaeism-q4-3",
+          "type": "multipleChoice",
+          "question": "What does Abatur weigh in his scales?",
+          "options": [
+            "The soul's wealth",
+            "The soul's physical strength",
+            "The soul's purity and good deeds against its sins",
+            "The soul's knowledge of scripture"
+          ],
+          "correctAnswer": "The soul's purity and good deeds against its sins",
+          "explanation": "Abatur weighs the soul's purity and good deeds against its sins and ties to the material world."
+        },
+        {
+          "id": "mandaeism-q4-4",
           "type": "trueFalse",
           "question": "Reaching Abatur's station guarantees entry into the World of Light.",
           "correctAnswer": "false",
           "explanation": "Even after passing the lower 'matartas', a soul can be judged unworthy by Abatur and sent back for reincarnation."
+        },
+        {
+          "id": "mandaeism-q4-5",
+          "type": "trueFalse",
+          "question": "Abatur's examination of souls is described as ruthless and impartial.",
+          "correctAnswer": "true",
+          "explanation": "Abatur's examination is ruthless and impartial, weighing souls without favoritism or mercy."
+        },
+        {
+          "id": "mandaeism-q4-6",
+          "type": "trueFalse",
+          "question": "Souls deemed unworthy by Abatur are immediately destroyed.",
+          "correctAnswer": "false",
+          "explanation": "Souls found wanting are typically sent to a place of purification or cast back into the material world for reincarnation, not destroyed."
         }
       ]
     },
@@ -167,7 +327,7 @@
         "Ritual Ascent",
         "Purification"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q5-1",
@@ -184,10 +344,50 @@
         },
         {
           "id": "mandaeism-q5-2",
+          "type": "multipleChoice",
+          "question": "What is required for the masbuta baptism ritual?",
+          "options": [
+            "Salt water from the ocean",
+            "Holy oil",
+            "Flowing, living water ('yardna')",
+            "Water blessed by priests"
+          ],
+          "correctAnswer": "Flowing, living water ('yardna')",
+          "explanation": "The masbuta must be performed in flowing, living water called 'yardna', which has purifying properties."
+        },
+        {
+          "id": "mandaeism-q5-3",
+          "type": "multipleChoice",
+          "question": "What elements are included in the masiqta death ritual?",
+          "options": [
+            "Only silent meditation",
+            "Specific prayers, meals for the dead ('lofani'), and anointing rituals",
+            "Animal sacrifice",
+            "Burning of the body"
+          ],
+          "correctAnswer": "Specific prayers, meals for the dead ('lofani'), and anointing rituals",
+          "explanation": "The masiqta involves specific prayers, ritual meals for the dead called 'lofani', and anointing rituals to guide the soul."
+        },
+        {
+          "id": "mandaeism-q5-4",
           "type": "trueFalse",
           "question": "The 'masbuta' (baptism) is a ritual performed only once in a Mandaean's life.",
           "correctAnswer": "false",
           "explanation": "'Masbuta' is a frequent ritual of purification performed throughout a Mandaean's life to prepare the soul for its eventual journey."
+        },
+        {
+          "id": "mandaeism-q5-5",
+          "type": "trueFalse",
+          "question": "Without a properly performed masiqta, the soul's journey is considered much more difficult.",
+          "correctAnswer": "true",
+          "explanation": "Without a properly performed masiqta, the soul's chances of a successful journey are considered perilously slim."
+        },
+        {
+          "id": "mandaeism-q5-6",
+          "type": "trueFalse",
+          "question": "The masbuta baptism strengthens the light within the soul.",
+          "correctAnswer": "true",
+          "explanation": "The masbuta cleanses the soul from worldly defilement and strengthens the light within, preparing it for the afterlife journey."
         }
       ]
     },
@@ -204,7 +404,7 @@
         "Garment of Light",
         "Cosmic Redemption"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "mandaeism-q6-1",
@@ -221,10 +421,50 @@
         },
         {
           "id": "mandaeism-q6-2",
+          "type": "multipleChoice",
+          "question": "What does the soul receive upon entering the World of Light?",
+          "options": [
+            "Material possessions",
+            "A garment of radiance",
+            "A new physical body",
+            "Earthly powers"
+          ],
+          "correctAnswer": "A garment of radiance",
+          "explanation": "The soul is clothed in a garment of radiance upon being welcomed into the World of Light."
+        },
+        {
+          "id": "mandaeism-q6-3",
+          "type": "multipleChoice",
+          "question": "Who rules the Bit Tumia (House of Darkness)?",
+          "options": [
+            "Ptahil",
+            "Abatur",
+            "The great dragon Ur",
+            "Ruha"
+          ],
+          "correctAnswer": "The great dragon Ur",
+          "explanation": "The Bit Tumia, or House of Darkness, is a realm of torment ruled by the great dragon Ur."
+        },
+        {
+          "id": "mandaeism-q6-4",
           "type": "trueFalse",
           "question": "In Mandaean belief, souls sent to the World of Darkness are trapped there for all eternity with absolutely no hope of escape.",
           "correctAnswer": "false",
           "explanation": "Mandaeism includes a belief in a final cosmic redemption, where even the souls in the 'Bit Tumia' will eventually be rescued and brought to the light."
+        },
+        {
+          "id": "mandaeism-q6-5",
+          "type": "trueFalse",
+          "question": "The World of Light is described as a paradise of earthly pleasures.",
+          "correctAnswer": "false",
+          "explanation": "The World of Light is not a paradise in a human sense, but a return to the origin where the soul reunites with the divine light."
+        },
+        {
+          "id": "mandaeism-q6-6",
+          "type": "trueFalse",
+          "question": "Hibil Ziwa is prophesied to eventually rescue all light sparks from darkness.",
+          "correctAnswer": "true",
+          "explanation": "At the end of the world, Hibil Ziwa is prophesied to rescue all the sparks of light from the darkness in a final cosmic redemption."
         }
       ]
     }
@@ -233,7 +473,7 @@
     "id": "mandaeism-mastery",
     "title": "Mandaeism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 120,
+    "xpReward": 300,
     "questions": [
       {
         "id": "mandaeism-mt-q1",

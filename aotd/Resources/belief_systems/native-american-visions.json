@@ -4,7 +4,7 @@
   "description": "Explore the diverse afterlife concepts across Native American traditions, common themes of journey and transformation, and the continued connection between the living and the dead.",
   "icon": "dreamcatcher",
   "color": "#8B4513",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "native-american-intro",
@@ -21,7 +21,7 @@
         "Four-day journey",
         "Spiritual purity"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "native-american-q1-1",
@@ -62,6 +62,26 @@
           "question": "The trials faced by the soul on the Spirit Trail are primarily for punishment.",
           "correctAnswer": "false",
           "explanation": "During this passage, the soul may face trials or obstacles, not as punishment, but as tests of worthiness and spiritual purity."
+        },
+        {
+          "id": "native-american-q1-5",
+          "type": "multipleChoice",
+          "question": "What is the significance of the number four in many Native American afterlife beliefs?",
+          "options": [
+            "It represents evil",
+            "It represents completion or cardinal directions",
+            "It has no special meaning",
+            "It represents the number of gods"
+          ],
+          "correctAnswer": "It represents completion or cardinal directions",
+          "explanation": "The journey is often described as taking four days, mirroring the significance of the number four in many indigenous cultures, representing completion or cardinal directions."
+        },
+        {
+          "id": "native-american-q1-6",
+          "type": "trueFalse",
+          "question": "Native American afterlife beliefs emphasize the interconnectedness of the living, the dead, and the natural world.",
+          "correctAnswer": "true",
+          "explanation": "The emphasis is on interconnectedness – the living, the dead, and the natural world are all part of a single, vibrant tapestry of existence."
         }
       ]
     },
@@ -80,7 +100,7 @@
         "Mutual dependency",
         "Status in afterlife"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "native-american-q2-1",
@@ -121,6 +141,26 @@
           "question": "Northwest Coast afterlife visions frequently involve deserts and arid lands.",
           "correctAnswer": "false",
           "explanation": "Some Northwest Coast peoples describe souls traveling to villages beneath the sea or beyond the sunset, reflecting their maritime existence."
+        },
+        {
+          "id": "native-american-q2-5",
+          "type": "multipleChoice",
+          "question": "What role do the ancestors as kachinas play in Pueblo communities?",
+          "options": [
+            "They punish wrongdoers",
+            "They bring rain, ensure harvests, and bestow blessings",
+            "They guard the underworld",
+            "They prevent communication with the living"
+          ],
+          "correctAnswer": "They bring rain, ensure harvests, and bestow blessings",
+          "explanation": "These are not merely spirits of the dead, but powerful, benevolent cloud beings who return to the living world to bring essential rain, ensure successful harvests, and bestow blessings upon the community."
+        },
+        {
+          "id": "native-american-q2-6",
+          "type": "trueFalse",
+          "question": "The cyclical understanding of life, death, and spiritual rebirth is central to Pueblo afterlife beliefs.",
+          "correctAnswer": "true",
+          "explanation": "For the Pueblo peoples, the afterlife often involves a return to the sacred 'Sipapuni'... This signifies a profound cyclical understanding of life, death, and spiritual rebirth."
         }
       ]
     },
@@ -140,7 +180,7 @@
         "Metamorphosis",
         "Inter-realm interaction"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "native-american-q3-1",
@@ -181,6 +221,26 @@
           "question": "The importance of proper ceremonies is diminished after death in Native American beliefs.",
           "correctAnswer": "false",
           "explanation": "Proper ceremonies ensure beneficial relationships between the worlds. These acts... are seen as essential for ensuring beneficial and harmonious relationships between the world of the living and the spirit worlds."
+        },
+        {
+          "id": "native-american-q3-5",
+          "type": "multipleChoice",
+          "question": "What forms of communication are used to interact with ancestors in Native American traditions?",
+          "options": [
+            "Only written texts",
+            "Dreams, visions, and ceremonial practices",
+            "Telegraph and radio",
+            "Silent meditation only"
+          ],
+          "correctAnswer": "Dreams, visions, and ceremonial practices",
+          "explanation": "Dreams, visions, and ceremonial practices often serve as conduits for this inter-realm interaction."
+        },
+        {
+          "id": "native-american-q3-6",
+          "type": "trueFalse",
+          "question": "In Cherokee belief, the essence of being can be lost when souls transform into natural forces.",
+          "correctAnswer": "false",
+          "explanation": "This highlights a deep ecological and spiritual connection, where the essence of being is never truly lost but transmuted into other forms of existence, enriching the natural world."
         }
       ]
     },
@@ -199,7 +259,7 @@
         "Great Spirit",
         "Healing and wisdom"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "native-american-q4-1",
@@ -240,6 +300,26 @@
           "question": "Communication with the dead is generally discouraged in Native American beliefs.",
           "correctAnswer": "false",
           "explanation": "The dead are not merely remembered; they are actively consulted and honored, maintaining a dynamic, reciprocal relationship with the living."
+        },
+        {
+          "id": "native-american-q4-5",
+          "type": "multipleChoice",
+          "question": "What methods do shamans and medicine people use to cross into the spirit world?",
+          "options": [
+            "Only meditation",
+            "Drumming, chanting, and vision quests",
+            "Reading sacred texts",
+            "Physical travel to distant lands"
+          ],
+          "correctAnswer": "Drumming, chanting, and vision quests",
+          "explanation": "Their journeys into the spirit world are often facilitated by drumming, chanting, and vision quests, allowing them to bring back wisdom and healing for their communities."
+        },
+        {
+          "id": "native-american-q4-6",
+          "type": "trueFalse",
+          "question": "Native American beliefs suggest that death transforms bonds between the living and dead rather than severing them.",
+          "correctAnswer": "true",
+          "explanation": "This constant communication and interaction underscore the Native American belief that death does not sever bonds but transforms them, allowing for a continued exchange of wisdom, love, and support."
         }
       ]
     }
@@ -248,7 +328,7 @@
     "id": "native-american-mastery",
     "title": "Native American Visions Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 300,
     "questions": [
       {
         "id": "native-american-mt-q1",

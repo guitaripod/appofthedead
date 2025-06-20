@@ -4,7 +4,7 @@
   "description": "Explore Theosophical teachings on death as the shedding of vehicles of consciousness, the soul's journey through astral and mental planes, and the ultimate goal of liberation from rebirth.",
   "icon": "seal_of_theosophy",
   "color": "#800000",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "theosophy-intro",
@@ -21,7 +21,7 @@
         "Purification",
         "Self-directed evolution"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "theosophy-q1-1",
@@ -38,10 +38,16 @@
         },
         {
           "id": "theosophy-q1-2",
-          "type": "trueFalse",
-          "question": "The etheric double dissipates immediately upon physical death.",
-          "correctAnswer": "false",
-          "explanation": "The physical body dies first, followed by the etheric double within hours or days."
+          "type": "multipleChoice",
+          "question": "How many principles or bodies constitute a human being in Theosophy?",
+          "options": [
+            "Three",
+            "Five",
+            "Seven",
+            "Nine"
+          ],
+          "correctAnswer": "Seven",
+          "explanation": "This understanding is based on the concept of seven interpenetrating 'principles' or 'bodies' that constitute a human being."
         },
         {
           "id": "theosophy-q1-3",
@@ -59,9 +65,23 @@
         {
           "id": "theosophy-q1-4",
           "type": "trueFalse",
+          "question": "The etheric double dissipates immediately upon physical death.",
+          "correctAnswer": "false",
+          "explanation": "The physical body dies first, followed by the etheric double within hours or days."
+        },
+        {
+          "id": "theosophy-q1-5",
+          "type": "trueFalse",
           "question": "The astral plane experience is primarily for physical gratification.",
           "correctAnswer": "false",
           "explanation": "On the astral plane, the soul experiences desires and emotions without physical means of satisfaction."
+        },
+        {
+          "id": "theosophy-q1-6",
+          "type": "trueFalse",
+          "question": "The afterlife process in Theosophy involves conventional judgment by a deity.",
+          "correctAnswer": "false",
+          "explanation": "The process is not one of judgment in a conventional sense, but a natural unfoldment where the soul gravitates to the plane corresponding to its spiritual development."
         }
       ]
     },
@@ -80,7 +100,7 @@
         "Atma plane",
         "Spiritual evolution"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "theosophy-q2-1",
@@ -97,10 +117,16 @@
         },
         {
           "id": "theosophy-q2-2",
-          "type": "trueFalse",
-          "question": "The duration of a soul's stay in Devachan is fixed for all souls.",
-          "correctAnswer": "false",
-          "explanation": "The duration of a soul's stay in Devachan varies immensely, depending on the accumulated spiritual merit."
+          "type": "multipleChoice",
+          "question": "What does 'Devachan' mean in Sanskrit?",
+          "options": [
+            "Place of suffering",
+            "Dwelling of the gods",
+            "Eternal sleep",
+            "Final judgment"
+          ],
+          "correctAnswer": "Dwelling of the gods",
+          "explanation": "Devachan is a Sanskrit term meaning 'dwelling of the gods' or 'bright land.'"
         },
         {
           "id": "theosophy-q2-3",
@@ -118,9 +144,23 @@
         {
           "id": "theosophy-q2-4",
           "type": "trueFalse",
+          "question": "The duration of a soul's stay in Devachan is fixed for all souls.",
+          "correctAnswer": "false",
+          "explanation": "The duration of a soul's stay in Devachan varies immensely, depending on the accumulated spiritual merit."
+        },
+        {
+          "id": "theosophy-q2-5",
+          "type": "trueFalse",
           "question": "Devachan is considered the highest possible plane of existence in Theosophy.",
           "correctAnswer": "false",
           "explanation": "Beyond Devachan lie even higher, more rarefied planes, such as the 'Buddhi' and 'Atma' planes."
+        },
+        {
+          "id": "theosophy-q2-6",
+          "type": "trueFalse",
+          "question": "A soul's stay in Devachan can last for centuries or even millennia in earthly time.",
+          "correctAnswer": "true",
+          "explanation": "The duration of a soul's stay in Devachan can last for centuries, even millennia, in earthly time."
         }
       ]
     },
@@ -138,7 +178,7 @@
         "Soul's learning and growth",
         "Divine retribution (not)"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "theosophy-q3-1",
@@ -155,10 +195,16 @@
         },
         {
           "id": "theosophy-q3-2",
-          "type": "trueFalse",
-          "question": "Karma in Theosophy is understood as divine retribution.",
-          "correctAnswer": "false",
-          "explanation": "Karma is a natural, impersonal law of cause and effect, not divine retribution."
+          "type": "multipleChoice",
+          "question": "What triggers the soul's descent back towards rebirth?",
+          "options": [
+            "Divine command",
+            "Random chance",
+            "When accumulated spiritual energy is fully assimilated",
+            "Punishment for sins"
+          ],
+          "correctAnswer": "When accumulated spiritual energy is fully assimilated",
+          "explanation": "After the soul's blissful period in Devachan concludes, or when its accumulated spiritual energy from the previous life is fully assimilated, it begins its descent back towards rebirth."
         },
         {
           "id": "theosophy-q3-3",
@@ -176,9 +222,23 @@
         {
           "id": "theosophy-q3-4",
           "type": "trueFalse",
+          "question": "Karma in Theosophy is understood as divine retribution.",
+          "correctAnswer": "false",
+          "explanation": "Karma is a natural, impersonal law of cause and effect, not divine retribution."
+        },
+        {
+          "id": "theosophy-q3-5",
+          "type": "trueFalse",
           "question": "The liberation from rebirth results in the annihilation of individual consciousness.",
           "correctAnswer": "false",
           "explanation": "This state is not an annihilation of individuality but an expansion into universal awareness, a return to the source."
+        },
+        {
+          "id": "theosophy-q3-6",
+          "type": "trueFalse",
+          "question": "Positive karma leads to more favorable conditions for spiritual advancement in future lives.",
+          "correctAnswer": "true",
+          "explanation": "Positive karma leads to more favorable conditions for spiritual advancement in future lives, while negative karma presents challenges and lessons that must be overcome."
         }
       ]
     },
@@ -197,7 +257,7 @@
         "Higher planes of existence",
         "Subtle guidance"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "theosophy-q4-1",
@@ -214,10 +274,16 @@
         },
         {
           "id": "theosophy-q4-2",
-          "type": "trueFalse",
-          "question": "Adepts directly interfere with human free will.",
-          "correctAnswer": "false",
-          "explanation": "They do not directly interfere with human free will but inspire and provide subtle guidance."
+          "type": "multipleChoice",
+          "question": "What term describes the liberated souls who guide humanity?",
+          "options": [
+            "Lost souls",
+            "Wanderers",
+            "Adepts or Mahatmas",
+            "Fallen angels"
+          ],
+          "correctAnswer": "Adepts or Mahatmas",
+          "explanation": "Many highly evolved souls, known as 'Adepts' or 'Mahatmas' (Great Souls), choose to remain connected to humanity."
         },
         {
           "id": "theosophy-q4-3",
@@ -235,9 +301,23 @@
         {
           "id": "theosophy-q4-4",
           "type": "trueFalse",
+          "question": "Adepts directly interfere with human free will.",
+          "correctAnswer": "false",
+          "explanation": "They do not directly interfere with human free will but inspire and provide subtle guidance."
+        },
+        {
+          "id": "theosophy-q4-5",
+          "type": "trueFalse",
           "question": "True enlightenment in Theosophy leads to a desire for isolation from humanity.",
           "correctAnswer": "false",
           "explanation": "This highlights a profound altruism at the core of advanced spiritual life, emphasizing that true enlightenment brings with it an even greater capacity and desire for universal service."
+        },
+        {
+          "id": "theosophy-q4-6",
+          "type": "trueFalse",
+          "question": "The Great White Brotherhood name refers to racial or gender distinctions.",
+          "correctAnswer": "false",
+          "explanation": "The 'Great White Brotherhood' is a symbolic term for their spiritual purity and universal compassion, transcending racial or gender distinctions."
         }
       ]
     }
@@ -246,7 +326,7 @@
     "id": "theosophy-mastery",
     "title": "Theosophy Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 250,
     "questions": [
       {
         "id": "theosophy-mt-q1",
