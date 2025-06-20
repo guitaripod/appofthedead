@@ -36,25 +36,28 @@ final class HomeViewModelTests: XCTestCase {
         // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertFalse(sut.pathItems.isEmpty)
-        XCTAssertEqual(sut.pathItems.count, 21) // Based on the belief systems in aotd.json
+        XCTAssertEqual(sut.pathItems.count, 22) // Based on the belief system JSON files
     }
     
-    func testFirstThreePathsAreUnlocked() {
+    func testOnlyJudaismIsUnlockedByDefault() {
         // When
         sut.loadData()
         
-        // Then
-        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
+        // Then - Judaism should be unlocked and appear first due to sorting
+        let firstPath = sut.pathItems.first
+        XCTAssertNotNil(firstPath)
+        XCTAssertEqual(firstPath!.id, "judaism", "Judaism should be first as it's unlocked")
+        XCTAssertTrue(firstPath!.isUnlocked, "Judaism should be unlocked")
+        
+        // Christianity and Islam should be locked
         let christianityPath = sut.pathItems.first { $0.id == "christianity" }
         let islamPath = sut.pathItems.first { $0.id == "islam" }
         
-        XCTAssertNotNil(judaismPath)
         XCTAssertNotNil(christianityPath)
         XCTAssertNotNil(islamPath)
         
-        XCTAssertTrue(judaismPath!.isUnlocked)
-        XCTAssertTrue(christianityPath!.isUnlocked)
-        XCTAssertTrue(islamPath!.isUnlocked)
+        XCTAssertFalse(christianityPath!.isUnlocked, "Christianity should be locked by default")
+        XCTAssertFalse(islamPath!.isUnlocked, "Islam should be locked by default")
     }
     
     func testOtherPathsAreLockedInitially() {
@@ -76,13 +79,14 @@ final class HomeViewModelTests: XCTestCase {
         // When
         sut.loadData()
         
-        // Then
-        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
+        // Then - Judaism should be first due to sorting
+        let judaismPath = sut.pathItems.first
         
         XCTAssertNotNil(judaismPath)
+        XCTAssertEqual(judaismPath!.id, "judaism", "First path should be Judaism")
         XCTAssertEqual(judaismPath!.name, "Judaism")
         XCTAssertEqual(judaismPath!.icon, "star_of_david")
-        XCTAssertEqual(judaismPath!.totalXP, 160)
+        XCTAssertEqual(judaismPath!.totalXP, 450)
         XCTAssertEqual(judaismPath!.currentXP, 0) // No progress initially
         XCTAssertEqual(judaismPath!.progress, 0.0)
     }
@@ -144,14 +148,15 @@ final class HomeViewModelTests: XCTestCase {
         // Reload data
         sut.loadData()
         
-        // Then
-        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
+        // Then - Judaism should still be first as it's the only unlocked path
+        let judaismPath = sut.pathItems.first
         XCTAssertNotNil(judaismPath)
+        XCTAssertEqual(judaismPath!.id, "judaism", "Judaism should still be first")
         XCTAssertEqual(judaismPath!.currentXP, 50)
-        XCTAssertEqual(judaismPath!.progress, 50.0 / 160.0)
+        XCTAssertEqual(judaismPath!.progress, 50.0 / 450.0)
     }
     
-    func testCompletingPathUnlocksOthers() throws {
+    func testCompletingPathDoesNotAutomaticallyUnlockOthers() throws {
         // Given
         sut.loadData()
         let user = mockDatabaseManager.fetchUser()!
@@ -160,27 +165,30 @@ final class HomeViewModelTests: XCTestCase {
         try mockDatabaseManager.addXPToProgress(
             userId: user.id,
             beliefSystemId: "judaism",
-            xp: 160
+            xp: 450
         )
         try mockDatabaseManager.createOrUpdateProgress(
             userId: user.id,
             beliefSystemId: "judaism",
             status: .completed,
-            score: 160
+            score: 450
         )
         
         // Reload data
         sut.loadData()
         
-        // Then - Other paths should now be unlocked
+        // Then - Other paths should still be locked (they require purchases)
         let hinduismPath = sut.pathItems.first { $0.id == "hinduism" }
         let buddhismPath = sut.pathItems.first { $0.id == "buddhism" }
         
         XCTAssertNotNil(hinduismPath)
         XCTAssertNotNil(buddhismPath)
         
-        XCTAssertTrue(hinduismPath!.isUnlocked)
-        XCTAssertTrue(buddhismPath!.isUnlocked)
+        XCTAssertFalse(hinduismPath!.isUnlocked, "Hinduism should still be locked without purchase")
+        XCTAssertFalse(buddhismPath!.isUnlocked, "Buddhism should still be locked without purchase")
+        
+        // Judaism should still be first as the only unlocked path
+        XCTAssertEqual(sut.pathItems.first?.id, "judaism", "Judaism should remain first")
     }
     
     func testPathItemColorsAreCorrect() {
