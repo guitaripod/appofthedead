@@ -78,7 +78,9 @@ class PaywallViewController: UIViewController {
         // Dismiss button
         dismissButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         dismissButton.tintColor = .secondaryLabel
-        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        dismissButton.addAction(UIAction { [weak self] _ in
+            self?.dismiss(animated: true)
+        }, for: .touchUpInside)
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dismissButton)
         
@@ -105,7 +107,9 @@ class PaywallViewController: UIViewController {
         // Restore button
         restoreButton.setTitle("Restore Purchases", for: .normal)
         restoreButton.titleLabel?.font = PapyrusDesignSystem.Typography.subheadline()
-        restoreButton.addTarget(self, action: #selector(restoreTapped), for: .touchUpInside)
+        restoreButton.addAction(UIAction { [weak self] _ in
+            self?.handleRestorePurchases()
+        }, for: .touchUpInside)
         contentStackView.addArrangedSubview(restoreButton)
         
         // Terms
@@ -298,13 +302,16 @@ class PaywallViewController: UIViewController {
         }
         buyButton.setTitleColor(recommended ? .white : .label, for: .normal)
         buyButton.layer.cornerRadius = 8
-        buyButton.tag = product.hashValue
         
         // Different action based on whether it's a path product
         if case .lockedPath = reason, product.beliefSystemId != nil {
-            buyButton.addTarget(self, action: #selector(pathProductTapped(_:)), for: .touchUpInside)
+            buyButton.addAction(UIAction { [weak self, weak buyButton] _ in
+                self?.handlePathProductTapped(product, from: buyButton)
+            }, for: .touchUpInside)
         } else {
-            buyButton.addTarget(self, action: #selector(productSelected(_:)), for: .touchUpInside)
+            buyButton.addAction(UIAction { [weak self] _ in
+                self?.handleProductSelected(product)
+            }, for: .touchUpInside)
         }
         
         let stack = UIStackView(arrangedSubviews: [titleLabel, descLabel, priceLabel, buyButton])
@@ -327,26 +334,18 @@ class PaywallViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func dismissTapped() {
-        dismiss(animated: true)
-    }
     
-    @objc private func productSelected(_ sender: UIButton) {
-        // Find product by hash
-        guard let product = ProductIdentifier.allCases.first(where: { $0.hashValue == sender.tag }) else { return }
-        
+    private func handleProductSelected(_ product: ProductIdentifier) {
         selectedProduct = product
         purchaseProduct(product)
     }
     
-    @objc private func pathProductTapped(_ sender: UIButton) {
-        // Find product by hash
-        guard let product = ProductIdentifier.allCases.first(where: { $0.hashValue == sender.tag }),
-              let beliefSystemId = product.beliefSystemId,
+    private func handlePathProductTapped(_ product: ProductIdentifier, from sourceView: UIView?) {
+        guard let beliefSystemId = product.beliefSystemId,
               let preview = pathPreviews[beliefSystemId],
               let beliefSystem = beliefSystems.first(where: { $0.id == beliefSystemId }) else {
             // Fallback to direct purchase if preview not available
-            productSelected(sender)
+            handleProductSelected(product)
             return
         }
         
@@ -362,10 +361,10 @@ class PaywallViewController: UIViewController {
             }
         }
         
-        pathPreviewAnimator?.present(pathPreview: previewView, from: sender, animated: true)
+        pathPreviewAnimator?.present(pathPreview: previewView, from: sourceView ?? view, animated: true)
     }
     
-    @objc private func restoreTapped() {
+    private func handleRestorePurchases() {
         restoreButton.isEnabled = false
         
         StoreManager.shared.restorePurchases { [weak self] result in

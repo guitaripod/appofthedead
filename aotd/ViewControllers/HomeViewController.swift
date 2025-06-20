@@ -77,11 +77,29 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
             name: .viewLayoutPreferenceChanged,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handlePurchaseCompleted(_:)),
+            name: StoreManager.purchaseCompletedNotification,
+            object: nil
+        )
     }
     
     @objc private func handleLayoutPreferenceChanged(_ notification: Notification) {
         if let layout = notification.userInfo?["layout"] as? ViewLayoutPreference {
             switchToLayout(layout)
+        }
+    }
+    
+    @objc private func handlePurchaseCompleted(_ notification: Notification) {
+        // Check if this is a path purchase (ProductIdentifier is passed as object)
+        if let productId = notification.object as? ProductIdentifier,
+           productId.beliefSystemId != nil {
+            // Scroll to top for single path purchases
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.setContentOffset(.zero, animated: true)
+            }
         }
     }
     
