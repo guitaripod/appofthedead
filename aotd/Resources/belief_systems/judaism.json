@@ -4,7 +4,7 @@
   "description": "Explore the profound yet veiled visions of death and the afterlife within Jewish tradition, from the shadowy Sheol to the radiant Gan Eden and the ultimate Olam Ha-Ba.",
   "icon": "star_of_david",
   "color": "#003F7F",
-  "totalXP": 585,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "judaism-intro",
@@ -18,7 +18,7 @@
         "Olam Ha-Ba",
         "Torah"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q1-1",
@@ -95,7 +95,7 @@
         "Chayah",
         "Yechidah"
       ],
-      "xpReward": 75,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q2-1",
@@ -171,7 +171,7 @@
         "Diminished consciousness",
         "Underworld"
       ],
-      "xpReward": 60,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q3-1",
@@ -247,7 +247,7 @@
         "Twelve months",
         "Karet"
       ],
-      "xpReward": 75,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q4-1",
@@ -323,7 +323,7 @@
         "Divine Presence",
         "Yeshiva shel ma'alah"
       ],
-      "xpReward": 75,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q5-1",
@@ -400,7 +400,7 @@
         "Ibbur",
         "Tikkun Olam"
       ],
-      "xpReward": 75,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q6-1",
@@ -477,7 +477,7 @@
         "Kaddish",
         "Messianic Age"
       ],
-      "xpReward": 75,
+      "xpReward": 100,
       "questions": [
         {
           "id": "judaism-q7-1",
