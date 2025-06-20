@@ -6,6 +6,8 @@ final class SettingsViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .plain)
         table.backgroundColor = UIColor.Papyrus.background
         table.separatorStyle = .none
+        table.rowHeight = UITableView.automaticDimension
+        table.estimatedRowHeight = 52
         return table
     }()
     
@@ -293,21 +295,19 @@ extension SettingsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let sectionType = Section(rawValue: indexPath.section),
               sectionType == .experience,
               let row = ExperienceRow(rawValue: indexPath.row),
               row == .viewLayout else {
-            return UITableView.automaticDimension
+            return 52 // Default height with padding
         }
         
-        // Check if cell is expanded
-        if let cell = tableView.cellForRow(at: indexPath) as? ExpandableLayoutCell {
-            return cell.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0), 
-                                              withHorizontalFittingPriority: .required, 
-                                              verticalFittingPriority: .fittingSizeLevel).height
-        }
-        
-        return 44
+        // Expandable cell estimated height
+        return 52
     }
 }
 

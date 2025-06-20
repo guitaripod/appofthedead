@@ -61,7 +61,6 @@ final class PathListCell: UICollectionViewCell {
         view.layer.cornerRadius = 3
         view.clipsToBounds = true
         view.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
-        view.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return view
     }()
     
@@ -165,7 +164,6 @@ final class PathListCell: UICollectionViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
-            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
             
             // Icon container
             iconContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
@@ -188,7 +186,6 @@ final class PathListCell: UICollectionViewCell {
             progressStackView.leadingAnchor.constraint(equalTo: textStackView.leadingAnchor),
             progressStackView.topAnchor.constraint(equalTo: textStackView.bottomAnchor, constant: 8),
             progressStackView.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
-            progressStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
             
             // Status badge
             statusBadge.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
@@ -214,6 +211,16 @@ final class PathListCell: UICollectionViewCell {
             chevronImageView.widthAnchor.constraint(equalToConstant: 12),
             chevronImageView.heightAnchor.constraint(equalToConstant: 20)
         ])
+        
+        // Add flexible bottom constraint with priority
+        let bottomConstraint = progressStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
+        bottomConstraint.priority = .defaultHigh
+        bottomConstraint.isActive = true
+        
+        // Add progress view height constraint with priority
+        let progressHeightConstraint = progressView.heightAnchor.constraint(equalToConstant: 6)
+        progressHeightConstraint.priority = .defaultHigh
+        progressHeightConstraint.isActive = true
     }
     
     // MARK: - Configuration

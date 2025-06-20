@@ -138,14 +138,16 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
                 
                 return section
             } else {
-                // List layout
-                var listConfig = UICollectionLayoutListConfiguration(appearance: .plain)
-                listConfig.backgroundColor = .clear
-                listConfig.showsSeparators = false
-                listConfig.headerMode = .supplementary
+                // List layout with custom item size
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let section = NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
+                section.interGroupSpacing = 0
                 
                 // Add header
                 let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))

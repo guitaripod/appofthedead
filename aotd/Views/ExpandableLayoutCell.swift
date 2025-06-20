@@ -102,7 +102,6 @@ final class ExpandableLayoutCell: UITableViewCell {
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
             
             // Title label
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
@@ -129,15 +128,22 @@ final class ExpandableLayoutCell: UITableViewCell {
             gridButton.leadingAnchor.constraint(equalTo: expandedContainer.leadingAnchor),
             gridButton.trailingAnchor.constraint(equalTo: expandedContainer.trailingAnchor),
             gridButton.topAnchor.constraint(equalTo: expandedContainer.topAnchor),
-            gridButton.heightAnchor.constraint(equalToConstant: 60),
             
             // List button
             listButton.leadingAnchor.constraint(equalTo: expandedContainer.leadingAnchor),
             listButton.trailingAnchor.constraint(equalTo: expandedContainer.trailingAnchor),
             listButton.topAnchor.constraint(equalTo: gridButton.bottomAnchor),
-            listButton.bottomAnchor.constraint(equalTo: expandedContainer.bottomAnchor),
-            listButton.heightAnchor.constraint(equalToConstant: 60)
+            listButton.bottomAnchor.constraint(equalTo: expandedContainer.bottomAnchor)
         ])
+        
+        // Add flexible height constraints for buttons
+        let gridHeightConstraint = gridButton.heightAnchor.constraint(equalToConstant: 60)
+        gridHeightConstraint.priority = .defaultHigh
+        gridHeightConstraint.isActive = true
+        
+        let listHeightConstraint = listButton.heightAnchor.constraint(equalToConstant: 60)
+        listHeightConstraint.priority = .defaultHigh
+        listHeightConstraint.isActive = true
     }
     
     private func setupButtons() {
@@ -199,6 +205,15 @@ final class ExpandableLayoutCell: UITableViewCell {
         currentValueLabel.text = currentLayout.title
         onLayoutSelected = onSelection
         updateSelection(currentLayout)
+        
+        // Ensure proper initial state
+        isExpanded = false
+        containerView.isHidden = false
+        containerView.alpha = 1
+        expandedContainer.isHidden = true
+        expandedContainer.alpha = 0
+        expandedContainer.transform = .identity
+        chevronImageView.transform = .identity
     }
     
     private func updateSelection(_ layout: ViewLayoutPreference) {
@@ -259,9 +274,15 @@ final class ExpandableLayoutCell: UITableViewCell {
         expandedContainer.isHidden = false
         expandedContainer.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        // Get the table view to update height
-        if let tableView = superview as? UITableView {
+        // Find table view and reload row height
+        var currentView: UIView? = superview
+        while currentView != nil && !(currentView is UITableView) {
+            currentView = currentView?.superview
+        }
+        
+        if let tableView = currentView as? UITableView {
             tableView.beginUpdates()
+            tableView.endUpdates()
         }
         
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
@@ -272,10 +293,6 @@ final class ExpandableLayoutCell: UITableViewCell {
         } completion: { _ in
             self.containerView.isHidden = true
         }
-        
-        if let tableView = superview as? UITableView {
-            tableView.endUpdates()
-        }
     }
     
     private func animateCollapse() {
@@ -284,9 +301,15 @@ final class ExpandableLayoutCell: UITableViewCell {
         // Prepare for animation
         containerView.isHidden = false
         
-        // Get the table view to update height
-        if let tableView = superview as? UITableView {
+        // Find table view and reload row height
+        var currentView: UIView? = superview
+        while currentView != nil && !(currentView is UITableView) {
+            currentView = currentView?.superview
+        }
+        
+        if let tableView = currentView as? UITableView {
             tableView.beginUpdates()
+            tableView.endUpdates()
         }
         
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
@@ -297,10 +320,6 @@ final class ExpandableLayoutCell: UITableViewCell {
         } completion: { _ in
             self.expandedContainer.isHidden = true
         }
-        
-        if let tableView = superview as? UITableView {
-            tableView.endUpdates()
-        }
     }
     
     // MARK: - Height
@@ -308,5 +327,20 @@ final class ExpandableLayoutCell: UITableViewCell {
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         let height: CGFloat = isExpanded ? 136 : 52 // 52 to match other cells with padding
         return CGSize(width: targetSize.width, height: height)
+    }
+    
+    // MARK: - Reuse
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // Reset to collapsed state
+        isExpanded = false
+        containerView.isHidden = false
+        containerView.alpha = 1
+        expandedContainer.isHidden = true
+        expandedContainer.alpha = 0
+        expandedContainer.transform = .identity
+        chevronImageView.transform = .identity
     }
 }

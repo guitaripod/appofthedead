@@ -35,9 +35,13 @@ class TransparentCardCell: UITableViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         ])
+        
+        // Add flexible height constraint
+        let heightConstraint = containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
+        heightConstraint.priority = .defaultHigh
+        heightConstraint.isActive = true
     }
     
     // MARK: - Configuration
