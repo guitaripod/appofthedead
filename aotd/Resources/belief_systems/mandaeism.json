@@ -4,127 +4,227 @@
   "description": "Explore the unique Gnostic vision of Mandaeism, mapping the soul's perilous journey through cosmic darkness and watchhouses, back to the World of Light, and the challenges of demonic archons.",
   "icon": "star_of_david",
   "color": "#4B0082",
-  "totalXP": 160,
+  "totalXP": 240,
   "lessons": [
     {
       "id": "mandaeism-intro",
-      "title": "Mandaeism: The Light's Journey",
+      "title": "The Gnostic Soul: Light Trapped in Darkness",
       "order": 1,
-      "content": "Mandaeism, a unique Gnostic tradition, maps the soul's perilous journey through cosmic darkness back to the World of Light. Death marks the liberation of the soul ('nishimta') from the material prison. The soul must then navigate through the 'mataratas'\u2014watchhouses between earth and the Light World. At each station, demonic archons demand passwords and attempt to trap ascending souls, highlighting the dangerous nature of this spiritual ascent. [cite: 580, 581, 582]",
+      "content": "Mandaeism is a deeply dualistic Gnostic religion, positing a stark division between the 'Alma d-Nhura' (World of Light) and the 'Bit Tumia' (World of Darkness). The supreme God, known as 'Hayyi Rabbi' (The Great Life), presides over the light, while the underworld is ruled by the King of Darkness ('Ur'). Humanity's predicament stems from this cosmic struggle. Each human being holds within them a divine spark of light, the soul or 'nishimta', which has been captured and imprisoned in the material world. This world, and the physical body ('pagra'), are seen as creations of a lesser, flawed deity known as Ptahil, who worked with the dark powers of Ruha and the Seven Planets. Therefore, life on Earth is an exile, and death is the critical first step in the 'nishimta's' potential liberation and return to its luminous origin. This journey home is the central drama of Mandaean eschatology.",
       "keyTerms": [
         "Mandaeism",
         "Gnosticism",
         "Nishimta",
-        "Mataratas",
-        "Archons",
-        "World of Light"
+        "Alma d-Nhura",
+        "Bit Tumia",
+        "Hayyi Rabbi",
+        "Pagra",
+        "Ptahil"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
           "id": "mandaeism-q1-1",
           "type": "multipleChoice",
-          "question": "What does death begin for the soul in Mandaeism?",
+          "question": "In Mandaean belief, what is the 'nishimta'?",
           "options": [
-            "Eternal suffering",
-            "Reincarnation",
-            "Liberation from the material prison",
-            "A new physical life"
+            "The physical body",
+            "The material world",
+            "A divine spark of light, the soul",
+            "A demonic entity"
           ],
-          "correctAnswer": "Liberation from the material prison",
-          "explanation": "Death begins liberation from the material prison. [cite: 581]"
+          "correctAnswer": "A divine spark of light, the soul",
+          "explanation": "The 'nishimta' is the divine soul, a spark of light from the World of Light that is trapped in the material world."
         },
         {
           "id": "mandaeism-q1-2",
           "type": "trueFalse",
-          "question": "The 'mataratas' are safe havens for ascending souls.",
+          "question": "Mandaeism views the material world as a perfect creation and the ultimate home for the soul.",
           "correctAnswer": "false",
-          "explanation": "At each station, demonic archons demand passwords and attempt to trap ascending souls. [cite: 582]"
+          "explanation": "The material world is seen as a flawed creation and a prison for the divine soul, which seeks to escape and return to the World of Light."
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-messengers",
+      "title": "The Divine Messengers: Guides to the Light",
+      "order": 2,
+      "content": "The trapped soul is not left without hope or help. The World of Light sends benevolent beings, known as 'uthras' (light-beings or angels), to guide and assist humanity. The most important of these is Hibil Ziwa, a messianic figure and redeemer. According to Mandaean scripture, Hibil Ziwa descended into the World of Darkness, subdued its rulers, and created a path for souls to follow on their own ascent. He is the archetypal guide who possesses the secret knowledge ('gnosis') required to bypass the dangers of the journey. Other important 'uthras' include Anush Uthra and Sam Ziwa, who also play roles as helpers and revealers of divine knowledge. These figures stand in stark contrast to the creator-figure, Ptahil, who is often seen as an arrogant and ignorant demiurge whose flawed creation trapped the 'nishimta' in the first place.",
+      "keyTerms": [
+        "Uthra",
+        "Hibil Ziwa",
+        "Anush Uthra",
+        "Gnosis",
+        "Redeemer"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "mandaeism-q2-1",
+          "type": "multipleChoice",
+          "question": "Who is the primary redeemer and guide figure in Mandaeism who paved a path for souls?",
+          "options": [
+            "Ptahil",
+            "Ur",
+            "Hibil Ziwa",
+            "Abatur"
+          ],
+          "correctAnswer": "Hibil Ziwa",
+          "explanation": "Hibil Ziwa is the key redeemer figure who descended into the World of Darkness to create a path of ascent for souls."
+        },
+        {
+          "id": "mandaeism-q2-2",
+          "type": "trueFalse",
+          "question": "The 'uthras' are demonic beings who try to trap the soul.",
+          "correctAnswer": "false",
+          "explanation": "'Uthras' are benevolent light-beings from the World of Light, sent to help and guide the soul on its journey."
         }
       ]
     },
     {
       "id": "mandaeism-dangers",
-      "title": "Dangers of the Journey",
-      "order": 2,
-      "content": "The journey through the mataratas presents several dangers. The Seven Planets are each ruled by a demonic power that claims ownership of souls; only through secret knowledge ('gnosis') and ritual purity can one pass. The Twelve Constellations contain zodiacal demons who attempt to bind souls to fate and reincarnation. Furthermore, Ruha and Her Sons, an evil mother spirit and her demonic offspring, patrol the boundaries, actively seeking to drag souls into their dark realm. [cite: 583, 584, 585, 586]",
-      "keyTerms": [
-        "Seven Planets",
-        "Twelve Constellations",
-        "Ruha and Her Sons",
-        "Gnosis",
-        "Ritual purity"
-      ],
-      "xpReward": 15,
-      "questions": [
-        {
-          "id": "mandaeism-q2-1",
-          "type": "multipleChoice",
-          "question": "What is required to pass the Seven Planets in Mandaeism?",
-          "options": [
-            "Physical strength",
-            "Wealth",
-            "Secret knowledge and ritual purity",
-            "Offering sacrifices"
-          ],
-          "correctAnswer": "Secret knowledge and ritual purity",
-          "explanation": "Only through secret knowledge (gnosis) and ritual purity can one pass. [cite: 584]"
-        },
-        {
-          "id": "mandaeism-q2-2",
-          "type": "trueFalse",
-          "question": "The Twelve Constellations are benign guides for souls.",
-          "correctAnswer": "false",
-          "explanation": "Zodiacal demons (Twelve Constellations) attempt to bind souls to fate and reincarnation. [cite: 585]"
-        }
-      ]
-    },
-    {
-      "id": "mandaeism-preparation",
-      "title": "Preparation and Destination",
+      "title": "The Ascent and its Guardians: Navigating the Matartas",
       "order": 3,
-      "content": "Success on this perilous journey requires lifetime preparation. Frequent baptism ('masbuta') in flowing water purifies the soul. Secret passwords learned through initiation are essential to unlock cosmic gates. The dying receive final rites to ensure they remember this crucial information. Those who succeed reach Alma d-Nhura (World of Light), reuniting with the Great Life (Hayyi Rabbi). Here, dressed in radiant garments, they dwell in eternal light beyond all darkness. Failed souls face reincarnation or, worse, eternal bondage in the House of Darkness, serving evil powers until cosmic redemption at time's end. [cite: 587, 588, 589, 590, 591]",
+      "content": "Upon death, the soul's ascent is a perilous one, navigating a series of 'mataratas'—watchhouses or toll stations that guard the path to the World of Light. There are typically seven 'mataratas', each corresponding to one of the Seven Planets, which are seen as demonic powers. These are ruled by malevolent archons who serve their mother, Ruha, the personification of the lower, material spirit. In addition to the Seven Planets, the soul must also bypass the twelve demonic forces of the Zodiac constellations. At each 'matarta', the soul is challenged by the guardian archon. To pass, the soul must be ritually pure and present the correct passwords, signs, and prayers taught during life. Failure means being detained, tormented, or even thrown back to the material world for another reincarnation.",
       "keyTerms": [
-        "Masbuta",
-        "Secret passwords",
-        "Alma d-Nhura",
-        "Great Life (Hayyi Rabbi)",
-        "House of Darkness"
+        "Mataratas",
+        "Archons",
+        "Seven Planets",
+        "Ruha",
+        "Twelve Constellations",
+        "Passwords"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
           "id": "mandaeism-q3-1",
           "type": "multipleChoice",
-          "question": "What ritual is crucial for purifying the soul in Mandaeism?",
+          "question": "What is required for a soul to successfully pass through a 'matarta'?",
           "options": [
-            "Animal sacrifice",
-            "Frequent baptism (masbuta)",
-            "Fasting for a year",
-            "Burning incense"
+            "Physical strength",
+            "Wealth and offerings",
+            "Ritual purity and secret knowledge (passwords and prayers)",
+            "A plea for mercy"
           ],
-          "correctAnswer": "Frequent baptism (masbuta)",
-          "explanation": "Frequent baptism (masbuta) in flowing water purifies the soul. [cite: 587]"
+          "correctAnswer": "Ritual purity and secret knowledge (passwords and prayers)",
+          "explanation": "Success at each watchhouse depends on the soul's ritual purity and its ability to recite the correct secret passwords and prayers."
         },
         {
           "id": "mandaeism-q3-2",
           "type": "trueFalse",
-          "question": "Failed souls in Mandaeism always achieve liberation through reincarnation.",
+          "question": "The Seven Planets and Twelve Constellations are viewed as benevolent guides in Mandaeism.",
           "correctAnswer": "false",
-          "explanation": "Failed souls face reincarnation or worse\u2014eternal bondage in the House of Darkness. [cite: 591]"
+          "explanation": "The Seven Planets and Twelve Constellations are considered demonic powers that pose a significant threat to the ascending soul in the 'mataratas'."
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-judgment",
+      "title": "The Scales of Abatur: Judgment in the Purgatory",
+      "order": 4,
+      "content": "After successfully navigating the lower 'matartas', the soul reaches a critical, purgatorial station presided over by the 'uthra' Abatur. This realm is often visualized as being on the farthest border of the World of Light. Abatur is known as the 'weigher of souls.' He sits with a set of scales and weighs the soul's purity and good deeds against its sins and ties to the material world. Abatur's examination is ruthless and impartial. Souls that are found worthy are allowed to proceed to the World of Light. Those found wanting, whose sins weigh them down, are deemed unfit to enter. They may be sent to a place of purification or, more commonly, cast back down into the material world to be reincarnated in a new body, forced to endure the cycle of life and death once more to try again.",
+      "keyTerms": [
+        "Abatur",
+        "Weighing of the Soul",
+        "Purgatory",
+        "Scales",
+        "Reincarnation"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "mandaeism-q4-1",
+          "type": "multipleChoice",
+          "question": "What is the primary role of the 'uthra' Abatur?",
+          "options": [
+            "To guide the soul through all the matartas",
+            "To weigh the soul in a set of scales to judge its purity",
+            "To rule the World of Darkness",
+            "To perform the final baptism"
+          ],
+          "correctAnswer": "To weigh the soul in a set of scales to judge its purity",
+          "explanation": "Abatur is the 'weigher of souls,' who determines if a soul is pure enough to enter the World of Light or if it must be sent back."
         },
         {
-          "id": "mandaeism-q3-3",
+          "id": "mandaeism-q4-2",
+          "type": "trueFalse",
+          "question": "Reaching Abatur's station guarantees entry into the World of Light.",
+          "correctAnswer": "false",
+          "explanation": "Even after passing the lower 'matartas', a soul can be judged unworthy by Abatur and sent back for reincarnation."
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-rituals",
+      "title": "Ritual Passports: The Masbuta and Masiqta",
+      "order": 5,
+      "content": "A Mandaean does not face the afterlife unprepared. Lifelong participation in rituals is essential for the soul's journey. The most important of these is the 'masbuta', a frequent baptism in flowing, living water ('yardna'). This is not a one-time event, but a regular rite of purification that cleanses the soul from worldly defilement and strengthens the light within. Upon death, an even more critical and complex series of ceremonies is performed: the 'masiqta'. The 'masiqta' is a ritual ascent, a 'path-making' ceremony performed by priests on behalf of the deceased. It involves specific prayers, meals for the dead ('lofani'), and anointing rituals that serve as a direct guide for the departed soul, helping it navigate the 'matartas', answer the archons, and successfully reach Abatur's scales. Without a properly performed 'masiqta', the soul's chances of a successful journey are considered perilously slim.",
+      "keyTerms": [
+        "Masbuta",
+        "Masiqta",
+        "Yardna",
+        "Lofani",
+        "Ritual Ascent",
+        "Purification"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "mandaeism-q5-1",
           "type": "multipleChoice",
-          "question": "What is the ultimate destination for successful souls in Mandaeism?",
+          "question": "What is the 'masiqta'?",
           "options": [
-            "House of Darkness",
-            "Seven Planets",
-            "Alma d-Nhura (World of Light)",
-            "Twelve Constellations"
+            "A weekly baptism for the living",
+            "A text of secret passwords",
+            "A complex post-death ritual performed by priests to guide the soul",
+            "A special garment worn by the dead"
           ],
-          "correctAnswer": "Alma d-Nhura (World of Light)",
-          "explanation": "Those who succeed reach Alma d-Nhura (World of Light). [cite: 589]"
+          "correctAnswer": "A complex post-death ritual performed by priests to guide the soul",
+          "explanation": "The 'masiqta' is a crucial series of death rites that acts as a ritual map and guide for the soul's ascent through the 'mataratas'."
+        },
+        {
+          "id": "mandaeism-q5-2",
+          "type": "trueFalse",
+          "question": "The 'masbuta' (baptism) is a ritual performed only once in a Mandaean's life.",
+          "correctAnswer": "false",
+          "explanation": "'Masbuta' is a frequent ritual of purification performed throughout a Mandaean's life to prepare the soul for its eventual journey."
+        }
+      ]
+    },
+    {
+      "id": "mandaeism-destination",
+      "title": "The Final Destination: Light or Darkness",
+      "order": 6,
+      "content": "For the soul that has lived a pure life, received the proper rites, and passed all the trials, the final destination is the 'Alma d-Nhura', the World of Light. This is not a paradise in a human sense, but a return to the origin. The soul is joyfully welcomed by the 'uthras', bathes in the light of the cosmic 'yardnas' (rivers of light), is clothed in a garment of radiance, and is finally reunited with the Great Life, 'Hayyi Rabbi'. In this state, the individual ego dissolves into the boundless light, finding ultimate peace and existence. For those who fail, who are mired in darkness and sin, the fate is grim. They are sent to the 'Bit Tumia', the House of Darkness, a realm of torment ruled by the great dragon 'Ur'. Here they are punished until a final cosmic redemption at the end of the world, when Hibil Ziwa is prophesied to rescue all the sparks of light from the darkness.",
+      "keyTerms": [
+        "Alma d-Nhura",
+        "Bit Tumia",
+        "Hayyi Rabbi",
+        "Ur",
+        "Garment of Light",
+        "Cosmic Redemption"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "mandaeism-q6-1",
+          "type": "multipleChoice",
+          "question": "What happens to the soul upon successfully entering the 'Alma d-Nhura' (World of Light)?",
+          "options": [
+            "It is given a new body and a kingdom to rule",
+            "It feasts and celebrates for eternity",
+            "It dissolves its individual identity and reunites with the Great Life",
+            "It is sent back to help other souls"
+          ],
+          "correctAnswer": "It dissolves its individual identity and reunites with the Great Life",
+          "explanation": "The ultimate goal and reward is to return to the source, the 'Hayyi Rabbi', where the individual soul merges back into the cosmic World of Light."
+        },
+        {
+          "id": "mandaeism-q6-2",
+          "type": "trueFalse",
+          "question": "In Mandaean belief, souls sent to the World of Darkness are trapped there for all eternity with absolutely no hope of escape.",
+          "correctAnswer": "false",
+          "explanation": "Mandaeism includes a belief in a final cosmic redemption, where even the souls in the 'Bit Tumia' will eventually be rescued and brought to the light."
         }
       ]
     }
@@ -133,7 +233,7 @@
     "id": "mandaeism-mastery",
     "title": "Mandaeism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 120,
     "questions": [
       {
         "id": "mandaeism-mt-q1",
@@ -141,66 +241,79 @@
         "question": "What are the 'mataratas' in Mandaean belief?",
         "options": [
           "Ritual purification baths",
-          "Demonic archons",
-          "Watchhouses between earth and the Light World",
-          "Secret passwords"
+          "Benevolent angelic guides",
+          "Watchhouses guarded by demonic archons between earth and the Light World",
+          "Secret passwords for the afterlife"
         ],
-        "correctAnswer": "Watchhouses between earth and the Light World",
-        "explanation": "The soul (nishimta) must navigate through the mataratas\u2014watchhouses between earth and the Light World. [cite: 581]"
+        "correctAnswer": "Watchhouses guarded by demonic archons between earth and the Light World",
+        "explanation": "The 'mataratas' are a series of perilous watchhouses or toll stations that the soul must navigate on its journey back to the World of Light."
       },
       {
         "id": "mandaeism-mt-q2",
         "type": "trueFalse",
-        "question": "In Mandaeism, death is viewed as the final end of the soul.",
-        "correctAnswer": "false",
-        "explanation": "Death begins liberation from the material prison. [cite: 581]"
+        "question": "The 'masiqta' is a ritual performed to guide the soul of a deceased person.",
+        "correctAnswer": "true",
+        "explanation": "The 'masiqta' is a critical and complex series of post-death rituals performed by priests that serves as a guide for the soul's ascent."
       },
       {
         "id": "mandaeism-mt-q3",
         "type": "multipleChoice",
-        "question": "What is 'gnosis' in Mandaeism?",
+        "question": "What is the ultimate destination for a successful soul in Mandaeism?",
         "options": [
-          "Physical strength",
-          "Secret knowledge",
-          "A type of ritual offering",
-          "A demonic power"
+          "The realm of Abatur",
+          "A favorable reincarnation",
+          "The Alma d-Nhura (World of Light)",
+          "The court of Ptahil"
         ],
-        "correctAnswer": "Secret knowledge",
-        "explanation": "Only through secret knowledge (gnosis) and ritual purity can one pass. [cite: 584]"
+        "correctAnswer": "The Alma d-Nhura (World of Light)",
+        "explanation": "The final goal for a purified soul is to pass all judgment and be reunited with the Great Life in the Alma d-Nhura."
       },
       {
         "id": "mandaeism-mt-q4",
         "type": "matching",
-        "question": "Match the Mandaean concept with its description:",
+        "question": "Match the Mandaean figure with their role:",
         "pairs": [
           {
-            "left": "Nishimta",
-            "right": "Soul"
+            "left": "Hibil Ziwa",
+            "right": "The primary redeemer and guide for souls"
           },
           {
-            "left": "Masbuta",
-            "right": "Frequent baptism in flowing water"
+            "left": "Abatur",
+            "right": "The weigher of souls at a purgatorial station"
           },
           {
-            "left": "Alma d-Nhura",
-            "right": "World of Light"
+            "left": "Ptahil",
+            "right": "The flawed creator of the material world"
           },
           {
-            "left": "Ruha and Her Sons",
-            "right": "Evil mother spirit and her demonic offspring"
+            "left": "Ruha",
+            "right": "The mother of the demonic rulers of the planets"
           }
         ],
         "correctAnswer": [
-          "Nishimta",
-          "Soul",
-          "Masbuta",
-          "Frequent baptism in flowing water",
-          "Alma d-Nhura",
-          "World of Light",
-          "Ruha and Her Sons",
-          "Evil mother spirit and her demonic offspring"
+          "Hibil Ziwa",
+          "The primary redeemer and guide for souls",
+          "Abatur",
+          "The weigher of souls at a purgatorial station",
+          "Ptahil",
+          "The flawed creator of the material world",
+          "Ruha",
+          "The mother of the demonic rulers of the planets"
         ],
-        "explanation": "These are key terms in Mandaean eschatology. [cite: 581, 586, 587, 589]"
+        "explanation": "These figures play key roles in the Mandaean cosmic drama of the soul's creation, entrapment, and journey to liberation."
+      },
+      {
+        "id": "mandaeism-mt-q5",
+        "type": "multipleChoice",
+        "question": "If a soul fails the judgment at the scales of Abatur, what is its most likely fate?",
+        "options": [
+          "Immediate destruction",
+          "Entry into a lower level of heaven",
+          "Being sent to the World of Darkness forever",
+          "Reincarnation into the material world"
+        ],
+        "correctAnswer": "Reincarnation into the material world",
+        "explanation": "Souls found wanting by Abatur are typically cast back into the material world for another lifetime, to undergo the cycle again."
       }
     ]
   }

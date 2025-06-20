@@ -4,198 +4,260 @@
   "description": "Explore the profound yet veiled visions of death and the afterlife within Jewish tradition, from the shadowy Sheol to the radiant Gan Eden and the ultimate Olam Ha-Ba.",
   "icon": "star_of_david",
   "color": "#003F7F",
-  "totalXP": 160,
+  "totalXP": 450,
   "lessons": [
     {
       "id": "judaism-intro",
-      "title": "Judaism: The Veiled World to Come",
+      "title": "Judaism: The Sanctity of This Life",
       "order": 1,
-      "content": "Judaism's ancient texts primarily focus on the sanctity of life rather than detailed descriptions of the afterlife. However, within its traditions, profound visions exist regarding what happens after death. The soul, considered a divine breath, does not simply vanish. It embarks on a journey, and while many aspects are veiled, the ultimate destiny is a transformed reality. [cite: 357, 358, 359]",
+      "content": "Judaism's foundational texts, particularly the Torah, are primarily concerned with *Olam Ha-Zeh*—'this world.' The tradition's central focus is on living a righteous, ethical, and holy life in the here and now, in accordance with the *mitzvot* (commandments). This emphasis on earthly life means that afterlife descriptions are often less detailed and more varied than in other religions. However, this does not signify an absence of belief. Rather, it reflects a perspective where the primary divine instruction is for actions in this world. Nonetheless, profound and complex ideas about the soul's journey after death have developed throughout Jewish history, from the early biblical period through Rabbinic literature, medieval philosophy, and Kabbalistic mysticism. The core belief is that life does not end with the last breath; the soul, a divine spark from God, endures and continues on a significant journey toward the *Olam Ha-Ba* (World to Come).",
       "keyTerms": [
+        "Olam Ha-Zeh",
+        "Mitzvot",
+        "Sanctity of life",
         "Olam Ha-Ba",
-        "Sheol",
-        "Gan Eden",
-        "Gehinnom",
-        "Messiah"
+        "Torah"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
           "id": "judaism-q1-1",
           "type": "multipleChoice",
-          "question": "What is the primary focus of ancient Jewish texts regarding life and death?",
+          "question": "What is the primary focus of the Torah regarding human existence?",
           "options": [
-            "Mysteries beyond death",
-            "Sanctity of life",
-            "Eternal damnation",
-            "Physical resurrection"
+            "Detailed maps of the afterlife",
+            "Living a righteous and holy life in this world",
+            "The nature of angels",
+            "Cosmic battles between good and evil"
           ],
-          "correctAnswer": "Sanctity of life",
-          "explanation": "Ancient Jewish texts are more concerned with the sanctity of life than with the mysteries of what lies beyond. [cite: 357]"
+          "correctAnswer": "Living a righteous and holy life in this world",
+          "explanation": "Judaism's foundational texts, like the Torah, prioritize *Olam Ha-Zeh*, 'this world,' emphasizing the importance of living a life of sanctity and following the commandments."
         },
         {
           "id": "judaism-q1-2",
           "type": "trueFalse",
-          "question": "In Judaism, the soul is believed to vanish after death.",
+          "question": "Judaism has a single, universally agreed-upon description of the afterlife.",
           "correctAnswer": "false",
-          "explanation": "In Jewish tradition, the soul, described as a divine breath, does not simply vanish but embarks on a journey. [cite: 359]"
+          "explanation": "Jewish tradition contains varied and evolving views on the afterlife, developed across different historical periods and schools of thought, from Rabbinic literature to Kabbalah."
+        }
+      ]
+    },
+    {
+      "id": "judaism-soul-anatomy",
+      "title": "The Anatomy of the Soul",
+      "order": 2,
+      "content": "Jewish mysticism, particularly Kabbalah, teaches that the soul is not a single, simple entity. It is a complex, multi-layered consciousness. The three most commonly discussed levels are the *Nefesh*, *Ruach*, and *Neshamah*. The *Nefesh* is the lowest level, the life-force or animal soul, which is connected to the physical body and its instincts. After death, it lingers near the body for a time. The *Ruach* ('spirit') is a higher level associated with emotion and morality; it is the aspect that weighs virtues and vices. The highest of these three is the *Neshamah* ('breath'), the divine spark of intellect and pure spiritual essence that connects directly to God. It is considered incorruptible and pure. Some traditions describe even higher levels, *Chayah* (living essence) and *Yechidah* (unique essence), which represent a state of near-total unity with the Divine. Understanding this spiritual anatomy is key to understanding the soul's journey, as different aspects experience the afterlife in different ways.",
+      "keyTerms": [
+        "Nefesh",
+        "Ruach",
+        "Neshamah",
+        "Kabbalah",
+        "Chayah",
+        "Yechidah"
+      ],
+      "xpReward": 30,
+      "questions": [
+        {
+          "id": "judaism-q2-1",
+          "type": "multipleChoice",
+          "question": "Which part of the soul is most closely associated with the physical body and instincts?",
+          "options": [
+            "Ruach",
+            "Neshamah",
+            "Nefesh",
+            "Yechidah"
+          ],
+          "correctAnswer": "Nefesh",
+          "explanation": "The *Nefesh* is considered the life-force or animal soul, connected to the physical body and its desires. It is the first and most basic level of the soul."
         },
         {
-          "id": "judaism-q1-3",
-          "type": "multipleChoice",
-          "question": "What is the ultimate destiny in Jewish belief, when reality itself will transform?",
-          "options": [
-            "Sheol",
-            "Gan Eden",
-            "Gehinnom",
-            "Olam Ha-Ba"
-          ],
-          "correctAnswer": "Olam Ha-Ba",
-          "explanation": "The ultimate destiny in Jewish belief is Olam Ha-Ba, the World to Come, where reality itself will transform when the Messiah arrives. [cite: 367, 368]"
+          "id": "judaism-q2-2",
+          "type": "trueFalse",
+          "question": "The *Neshamah* is the part of the soul associated with sin and corruption.",
+          "correctAnswer": "false",
+          "explanation": "The *Neshamah* is the highest of the three main soul-levels, the pure, incorruptible divine spark of intellect that connects humanity to God."
         }
       ]
     },
     {
       "id": "judaism-sheol",
-      "title": "Sheol and the Soul's Journey",
-      "order": 2,
-      "content": "After death, the soul journeys to Sheol, a great gathering place beneath the earth. It is described as a realm of diminished consciousness, where souls drift in perpetual twilight, not a place of torment. All humanity, regardless of their earthly status, descends to Sheol. However, Sheol is not the final destination. [cite: 360, 361, 362]",
+      "title": "Sheol: The Shadowy Underworld",
+      "order": 3,
+      "content": "Early biblical texts, such as the Tanakh, describe an afterlife destination called *Sheol*. This is not a place of reward or punishment based on one's deeds, but a neutral underworld, a 'land of gloom and deep shadow.' All souls—righteous and wicked alike—were believed to descend to Sheol, where they existed as *refaim* (shades) in a state of diminished consciousness and silence, separated from both the earthly world and God. It's a vast, dark, and dusty pit where memory and identity fade. This early conception reflects an era where the primary focus was on life, and the afterlife was seen as a grim, unavoidable, and universal fate. Later Rabbinic and mystical traditions would largely supplant this idea with more complex destinations like Gan Eden and Gehinnom, but the ancient concept of Sheol remains a foundational layer in Jewish eschatology.",
       "keyTerms": [
         "Sheol",
+        "Tanakh",
+        "Refaim",
         "Diminished consciousness",
-        "Perpetual twilight"
+        "Underworld"
       ],
-      "xpReward": 15,
-      "questions": [
-        {
-          "id": "judaism-q2-1",
-          "type": "multipleChoice",
-          "question": "What is Sheol described as in Jewish tradition?",
-          "options": [
-            "A hell of torment",
-            "A realm of eternal darkness",
-            "A realm of diminished consciousness",
-            "A celestial garden"
-          ],
-          "correctAnswer": "A realm of diminished consciousness",
-          "explanation": "Sheol is described as a realm of diminished consciousness where souls drift in perpetual twilight. [cite: 361]"
-        },
-        {
-          "id": "judaism-q2-2",
-          "type": "trueFalse",
-          "question": "Sheol is considered the final destination for all souls in Judaism.",
-          "correctAnswer": "false",
-          "explanation": "Sheol is not the final word in Jewish tradition; it is a temporary gathering place before other destinations. [cite: 362]"
-        },
-        {
-          "id": "judaism-q2-3",
-          "type": "multipleChoice",
-          "question": "Who descends to Sheol according to Jewish tradition?",
-          "options": [
-            "Only the wicked",
-            "Only the righteous",
-            "Only prophets",
-            "All humanity"
-          ],
-          "correctAnswer": "All humanity",
-          "explanation": "Sheol is the great gathering place where all humanity descends into shadowy existence. [cite: 360]"
-        }
-      ]
-    },
-    {
-      "id": "judaism-gan-eden-gehinnom",
-      "title": "Gan Eden and Gehinnom",
-      "order": 3,
-      "content": "For the righteous, the journey continues to Gan Eden, a celestial garden where souls bask in the radiance of the Divine Presence. Here, souls are freed from physical constraints and study the deepest mysteries of Torah and existence, expanding their understanding infinitely. For those with heavy sins, Gehinnom awaits. This is not eternal damnation, but a refining fire, described by Jewish mystics as a cosmic laundromat for purification, usually lasting no longer than twelve months. The most wicked may face annihilation, though this fate is rare. [cite: 362, 363, 364, 365, 366]",
-      "keyTerms": [
-        "Gan Eden",
-        "Gehinnom",
-        "Divine Presence",
-        "Purification"
-      ],
-      "xpReward": 15,
+      "xpReward": 25,
       "questions": [
         {
           "id": "judaism-q3-1",
           "type": "multipleChoice",
-          "question": "What happens to souls in Gan Eden?",
+          "question": "In early biblical texts, who goes to Sheol?",
           "options": [
-            "They are tormented eternally",
-            "They cease to exist",
-            "They bask in the Divine Presence and study Torah",
-            "They reincarnate immediately"
+            "Only the righteous",
+            "Only the wicked",
+            "All souls, regardless of their morality",
+            "Only non-Jews"
           ],
-          "correctAnswer": "They bask in the Divine Presence and study Torah",
-          "explanation": "In Gan Eden, souls bask in the radiance of the Divine Presence and study the deepest mysteries. [cite: 362, 363]"
+          "correctAnswer": "All souls, regardless of their morality",
+          "explanation": "Sheol was seen as the common destination for all of humanity, a neutral place where everyone, from kings to commoners, descended after death."
         },
         {
           "id": "judaism-q3-2",
           "type": "trueFalse",
-          "question": "Gehinnom is a place of eternal damnation in Jewish tradition.",
+          "question": "Sheol is described in the Tanakh as a place of active, fiery torment for sins.",
           "correctAnswer": "false",
-          "explanation": "Gehinnom is a refining fire for purification, not eternal damnation, and most souls spend no longer than twelve months there. [cite: 364, 365]"
+          "explanation": "Sheol is depicted as a place of shadow, dust, and diminished consciousness, not as a place of judgment or punishment like later concepts of Hell."
+        }
+      ]
+    },
+    {
+      "id": "judaism-gehinnom",
+      "title": "Gehinnom: The Spiritual Laundry",
+      "order": 4,
+      "content": "As Jewish thought evolved, the concept of a uniform afterlife in Sheol gave way to a belief in judgment. *Gehinnom* (named after the Valley of Hinnom near Jerusalem) emerged as a place of purification. It is rarely seen as a place of eternal damnation. Instead, Jewish mystics describe it as a 'spiritual laundromat' where the soul is cleansed of the stains of sin and transgression it acquired during its earthly life. This process is understood to be painful—the soul directly perceives the spiritual damage caused by its actions and experiences deep shame and regret. However, this suffering is purposeful and rehabilitative. For most souls, this purification period is temporary, traditionally lasting no more than twelve months. After being cleansed, the soul is pure enough to ascend to its true home in Gan Eden. Only the most irredeemably wicked, who have no desire for repentance, are said to face complete spiritual annihilation (*karet*) or remain in Gehinnom indefinitely.",
+      "keyTerms": [
+        "Gehinnom",
+        "Purification",
+        "Judgment",
+        "Twelve months",
+        "Karet"
+      ],
+      "xpReward": 30,
+      "questions": [
+        {
+          "id": "judaism-q4-1",
+          "type": "multipleChoice",
+          "question": "What is the primary purpose of Gehinnom in mainstream Jewish thought?",
+          "options": [
+            "Eternal punishment for all sinners",
+            "A waiting area before reincarnation",
+            "Purification and cleansing of the soul's sins",
+            "The final destruction of the soul"
+          ],
+          "correctAnswer": "Purification and cleansing of the soul's sins",
+          "explanation": "Gehinnom is primarily understood not as eternal hell, but as a temporary place of purification where the soul is cleansed before it can enter Gan Eden."
         },
         {
-          "id": "judaism-q3-3",
+          "id": "judaism-q4-2",
+          "type": "trueFalse",
+          "question": "According to tradition, the process of purification in Gehinnom typically lasts forever.",
+          "correctAnswer": "false",
+          "explanation": "For the vast majority of souls, the purification in Gehinnom is a temporary process that is said to last no more than twelve months."
+        }
+      ]
+    },
+    {
+      "id": "judaism-gan-eden",
+      "title": "Gan Eden: The Garden of Souls",
+      "order": 5,
+      "content": "*Gan Eden* ('Garden of Eden') is the Jewish concept of paradise, the ultimate destination for righteous souls. It is not merely a place of passive reward, but a realm of intense spiritual and intellectual activity. Tradition often describes two levels: Lower Gan Eden, which is a terrestrial paradise where souls enjoy a more tangible, though still spiritual, bliss; and Upper Gan Eden, a purely spiritual, celestial realm. In Upper Gan Eden, souls do not 'rest' but actively engage in understanding the deepest secrets of the Torah and the nature of God. The greatest joy is not physical pleasure but the experience of *Ziv HaShekhinah*—basking in the radiance of the Divine Presence. Souls here are said to sit in a celestial academy (*yeshiva shel ma'alah*), continuing their spiritual growth and drawing ever closer to God in a state of unending bliss and comprehension.",
+      "keyTerms": [
+        "Gan Eden",
+        "Paradise",
+        "Ziv HaShekhinah",
+        "Divine Presence",
+        "Yeshiva shel ma'alah"
+      ],
+      "xpReward": 30,
+      "questions": [
+        {
+          "id": "judaism-q5-1",
           "type": "multipleChoice",
-          "question": "What is the maximum duration most souls spend in Gehinnom?",
+          "question": "What is considered the greatest joy for a soul in Gan Eden?",
           "options": [
-            "Seven days",
-            "Forty days",
-            "Six months",
-            "Twelve months"
+            "Reuniting with all lost relatives",
+            "Resting from the toils of life",
+            "Studying Torah and basking in the Divine Presence",
+            "Experiencing endless physical pleasures"
           ],
-          "correctAnswer": "Twelve months",
-          "explanation": "Jewish mystics describe Gehinnom as a purification process for most souls, lasting no longer than twelve months. [cite: 365]"
+          "correctAnswer": "Studying Torah and basking in the Divine Presence",
+          "explanation": "The ultimate reward in Gan Eden is spiritual and intellectual: basking in the *Ziv HaShekhinah* (radiance of the Divine Presence) and delving into the infinite wisdom of the Torah."
+        },
+        {
+          "id": "judaism-q5-2",
+          "type": "trueFalse",
+          "question": "Gan Eden is understood to have only one, purely spiritual level of existence.",
+          "correctAnswer": "false",
+          "explanation": "Jewish tradition often speaks of two realms of paradise: a lower, terrestrial Gan Eden and a higher, purely celestial Gan Eden."
+        }
+      ]
+    },
+    {
+      "id": "judaism-gilgul",
+      "title": "Gilgul Neshamot: The Cycle of Souls",
+      "order": 6,
+      "content": "While not universally accepted in all Jewish movements, the concept of reincarnation, known as *Gilgul Neshamot* ('cycle of souls'), is a core tenet of Jewish mysticism, especially Kabbalah as taught by Isaac Luria (the Ari). According to this teaching, souls may be reborn into new physical bodies one or more times to fulfill specific purposes. This is not seen as a punishment, but as an opportunity. A soul might reincarnate to fulfill a *mitzvah* it did not complete in a previous life, to perfect a character trait, or to help another soul on its journey. Sometimes, a righteous soul might be reborn simply to guide a generation. Another related concept is *Ibbur* ('impregnation'), where a second, more advanced soul temporarily attaches itself to a person to help them overcome a great challenge or perform a significant deed. *Gilgul* adds another layer of complexity to the soul's journey, suggesting that life and the afterlife are part of a much larger cosmic process of *Tikkun Olam* (rectifying the world).",
+      "keyTerms": [
+        "Gilgul Neshamot",
+        "Reincarnation",
+        "Kabbalah",
+        "Isaac Luria",
+        "Ibbur",
+        "Tikkun Olam"
+      ],
+      "xpReward": 30,
+      "questions": [
+        {
+          "id": "judaism-q6-1",
+          "type": "multipleChoice",
+          "question": "In Kabbalistic thought, what is the primary purpose of *Gilgul Neshamot* (reincarnation)?",
+          "options": [
+            "As an eternal punishment for the wicked",
+            "To give the soul an opportunity to fulfill mitzvot or perfect itself",
+            "To experience every possible life form",
+            "As a random, meaningless cycle"
+          ],
+          "correctAnswer": "To give the soul an opportunity to fulfill mitzvot or perfect itself",
+          "explanation": "*Gilgul* is not a punishment, but a chance for the soul to continue its spiritual work, fulfill commandments it missed, or refine its character traits over multiple lifetimes."
+        },
+        {
+          "id": "judaism-q6-2",
+          "type": "trueFalse",
+          "question": "The concept of reincarnation is a fundamental belief in all denominations of Judaism.",
+          "correctAnswer": "false",
+          "explanation": "While it is a central idea in Jewish mysticism (Kabbalah), the belief in reincarnation is not held by all Jews, particularly within more rationalist traditions."
         }
       ]
     },
     {
       "id": "judaism-resurrection-rituals",
-      "title": "Resurrection and Rituals",
-      "order": 4,
-      "content": "The ultimate destiny is Olam Ha-Ba, the World to Come, where reality itself will transform when the Messiah arrives and the dead rise. The physical and spiritual will merge into a perfected existence where death no longer holds dominion. Orthodox Jews refuse cremation, preserving the body for its eventual resurrection. They sit shiva, covering mirrors to prevent the deceased from seeing their reflection and becoming trapped. Names of the deceased are rarely spoken for a year to allow the soul to complete its journey without being called back by grief. [cite: 367, 368, 369, 370, 371, 372]",
+      "title": "Rituals and the World to Come",
+      "order": 7,
+      "content": "Jewish mourning rituals are deeply connected to beliefs about the soul's journey. The intense seven-day mourning period of *Shiva* helps the soul transition from its earthly moorings. The recitation of the Mourner's *Kaddish* prayer is not a prayer for the dead, but an affirmation of God's greatness, which is believed to elevate the deceased's soul in the spiritual realms. The ultimate destiny in many Jewish traditions is the *Olam Ha-Ba* (the World to Come), a concept that often intertwines the Messianic Age with the resurrection of the dead, *Techiat HaMeitim*. In this future era, the physical and spiritual will merge into a perfected existence on earth where death no longer holds dominion. The belief in a future physical resurrection is why traditional Judaism forbids cremation, as the body must be preserved to be reunited with the soul in the World to Come. This final, collective redemption is the ultimate goal of history.",
       "keyTerms": [
         "Olam Ha-Ba",
-        "Messiah",
+        "Techiat HaMeitim",
         "Resurrection",
         "Shiva",
-        "Cremation"
+        "Kaddish",
+        "Messianic Age"
       ],
-      "xpReward": 15,
+      "xpReward": 30,
       "questions": [
         {
-          "id": "judaism-q4-1",
+          "id": "judaism-q7-1",
           "type": "multipleChoice",
-          "question": "What happens in Olam Ha-Ba when the Messiah arrives?",
+          "question": "What is the primary function of reciting the Mourner's Kaddish?",
           "options": [
-            "Souls cease to exist",
-            "The physical and spiritual merge into a perfected existence",
-            "Only the wicked are resurrected",
-            "Death reigns supreme"
+            "To ask for the forgiveness of the deceased's sins",
+            "To praise God and thereby elevate the soul of the deceased",
+            "To communicate directly with the deceased",
+            "To speed up the arrival of the Messiah"
           ],
-          "correctAnswer": "The physical and spiritual merge into a perfected existence",
-          "explanation": "In Olam Ha-Ba, reality will transform, and the physical and spiritual will merge into a perfected existence where death no longer holds dominion. [cite: 368, 369]"
+          "correctAnswer": "To praise God and thereby elevate the soul of the deceased",
+          "explanation": "The Kaddish is a doxology (praise of God) that, by affirming God's greatness, is believed to provide merit and spiritual elevation for the departed soul."
         },
         {
-          "id": "judaism-q4-2",
+          "id": "judaism-q7-2",
           "type": "trueFalse",
-          "question": "Orthodox Jews commonly practice cremation.",
+          "question": "The belief in *Techiat HaMeitim* (Resurrection of the Dead) is the reason traditional Judaism encourages cremation.",
           "correctAnswer": "false",
-          "explanation": "Orthodox Jews refuse cremation, as they preserve the body for its eventual resurrection. [cite: 370]"
-        },
-        {
-          "id": "judaism-q4-3",
-          "type": "multipleChoice",
-          "question": "Why are names of the deceased rarely spoken for a year in some Jewish traditions?",
-          "options": [
-            "To forget them",
-            "To avoid bad luck",
-            "To allow the soul time to complete its journey",
-            "To show disrespect"
-          ],
-          "correctAnswer": "To allow the soul time to complete its journey",
-          "explanation": "The names of the deceased are rarely spoken for a year to allow the soul time to complete its journey without being called back by grief. [cite: 372]"
+          "explanation": "On the contrary, the belief in a future physical resurrection is the primary reason traditional Judaism forbids cremation, holding that the body should be intact to be resurrected."
         }
       ]
     }
@@ -209,35 +271,35 @@
       {
         "id": "judaism-mt-q1",
         "type": "multipleChoice",
-        "question": "Which of the following is NOT a destination for souls in Jewish tradition?",
+        "question": "Which of these represents the most basic level of the soul, connected to the physical body?",
         "options": [
-          "Sheol",
-          "Gan Eden",
-          "Valhalla",
-          "Gehinnom"
+          "Neshamah",
+          "Ruach",
+          "Nefesh",
+          "Yechidah"
         ],
-        "correctAnswer": "Valhalla",
-        "explanation": "Valhalla is from Norse mythology, not Jewish tradition. Sheol, Gan Eden, and Gehinnom are all concepts within Judaism."
+        "correctAnswer": "Nefesh",
+        "explanation": "The *Nefesh* is the 'animal soul' or life-force that animates the physical body."
       },
       {
         "id": "judaism-mt-q2",
         "type": "trueFalse",
-        "question": "Jewish ancient texts are more concerned with the mysteries beyond death than with the sanctity of life.",
+        "question": "In mainstream Jewish mysticism, Gehinnom is typically a state of eternal damnation.",
         "correctAnswer": "false",
-        "explanation": "Judaism's ancient texts are more concerned with the sanctity of life. [cite: 357]"
+        "explanation": "Gehinnom is primarily understood as a temporary place of purification, a 'spiritual laundry' that typically lasts no more than 12 months."
       },
       {
         "id": "judaism-mt-q3",
         "type": "multipleChoice",
-        "question": "What is the purpose of Gehinnom?",
+        "question": "The Kabbalistic concept of reincarnation is known as...",
         "options": [
-          "Eternal torment",
-          "A place for the most wicked to be annihilated immediately",
-          "Purification of the soul",
-          "A temporary resting place for all souls"
+          "Techiat HaMeitim",
+          "Olam Ha-Ba",
+          "Gilgul Neshamot",
+          "Shekhinah"
         ],
-        "correctAnswer": "Purification of the soul",
-        "explanation": "Gehinnom is described as a refining fire for the purification of souls. [cite: 364, 365]"
+        "correctAnswer": "Gilgul Neshamot",
+        "explanation": "*Gilgul Neshamot* literally means 'cycle of souls' and is the Jewish mystical teaching on reincarnation."
       },
       {
         "id": "judaism-mt-q4",
@@ -245,33 +307,46 @@
         "question": "Match the Jewish concept with its description:",
         "pairs": [
           {
-            "left": "Olam Ha-Ba",
-            "right": "The World to Come"
+            "left": "Olam Ha-Zeh",
+            "right": "This World; the physical life we live now."
           },
           {
             "left": "Sheol",
-            "right": "Realm of diminished consciousness"
+            "right": "The early biblical concept of a shadowy underworld for all souls."
           },
           {
             "left": "Gan Eden",
-            "right": "Celestial garden for the righteous"
+            "right": "The paradisiacal 'Garden of Eden' for the righteous."
           },
           {
-            "left": "Gehinnom",
-            "right": "Refining fire for purification"
+            "left": "Techiat HaMeitim",
+            "right": "The Resurrection of the Dead in the Messianic Age."
           }
         ],
         "correctAnswer": [
-          "Olam Ha-Ba",
-          "The World to Come",
+          "Olam Ha-Zeh",
+          "This World; the physical life we live now.",
           "Sheol",
-          "Realm of diminished consciousness",
+          "The early biblical concept of a shadowy underworld for all souls.",
           "Gan Eden",
-          "Celestial garden for the righteous",
-          "Gehinnom",
-          "Refining fire for purification"
+          "The paradisiacal 'Garden of Eden' for the righteous.",
+          "Techiat HaMeitim",
+          "The Resurrection of the Dead in the Messianic Age."
         ],
-        "explanation": "These are key concepts in Jewish afterlife beliefs. [cite: 360, 361, 362, 364, 365, 367]"
+        "explanation": "These concepts represent different stages and locations within Jewish eschatology, from our current life to the ultimate redemption."
+      },
+      {
+        "id": "judaism-mt-q5",
+        "type": "multipleChoice",
+        "question": "The ultimate destiny involving a perfected world and the resurrection of the dead is known as:",
+        "options": [
+          "Gehinnom",
+          "Sheol",
+          "Olam Ha-Ba",
+          "Karet"
+        ],
+        "correctAnswer": "Olam Ha-Ba",
+        "explanation": "*Olam Ha-Ba*, the 'World to Come,' refers to the era of final redemption, which includes the resurrection of the dead and a perfected state of existence."
       }
     ]
   }

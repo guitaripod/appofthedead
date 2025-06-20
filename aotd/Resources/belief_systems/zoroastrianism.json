@@ -1,167 +1,298 @@
 {
   "id": "zoroastrianism",
   "name": "Zoroastrianism",
-  "description": "Discover Zoroastrianism's vision of death as a battle between Light and Darkness, focusing on the three days post-death, the Chinvat Bridge, and the ultimate universal salvation.",
+  "description": "Explore the profound Zoroastrian eschatology, detailing the soul's journey after death, the cosmic judgment at the Chinvat Bridge, the temporary nature of hell, and the ultimate universal salvation and renovation of the world known as Frashokereti.",
   "icon": "faravahar",
   "color": "#FF4500",
-  "totalXP": 160,
+  "totalXP": 350,
   "lessons": [
     {
-      "id": "zoroastrianism-intro",
-      "title": "Zoroastrianism: The Battle's End",
+      "id": "zoroastrianism-soul-nature",
+      "title": "The Soul's Nature: Urvan and Fravashi",
       "order": 1,
-      "content": "Zoroastrianism presents death as a critical battle in the cosmic war between Light and Darkness, Truth and Lie. For three days after death, the soul remains earthbound near the body. During this time, the righteous soul sits at the head of the body, chanting sacred Gathas and experiencing foretastes of paradise. Conversely, the wicked soul cowers at the feet, wailing verses from the Yasna, tormented by glimpses of coming punishment. [cite: 592, 593, 594, 595]",
+      "content": "In Zoroastrian thought, the human being is a composite entity, with the physical body (tan) being a temporary vessel for several spiritual components. The most central of these is the 'Urvan,' or soul. It is the Urvan that is the seat of consciousness, free will, and moral responsibility; it is the part of the individual that faces judgment after death. Every Urvan is accompanied by a 'Fravashi,' a pre-existent divine guardian spirit or higher self. The Fravashi acts as a spiritual guide and protector throughout life. While the Urvan descends into the material world to fight evil, the Fravashi remains in the spiritual realm as a perfect model. At the end of life, the righteous Urvan is reunited with its Fravashi, achieving a state of wholeness and perfection.",
       "keyTerms": [
-        "Chinvat Bridge",
-        "Daena",
-        "Ahura Mazda",
-        "Saoshyant",
-        "Gathas",
-        "Yasna"
+        "Urvan (Soul)",
+        "Fravashi (Guardian Spirit)",
+        "Tan (Body)",
+        "Free Will",
+        "Spiritual Guide"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
           "id": "zoroastrianism-q1-1",
           "type": "multipleChoice",
-          "question": "How long does the soul remain earthbound after death in Zoroastrianism?",
+          "question": "What is the 'Urvan' in Zoroastrianism?",
           "options": [
-            "One day",
-            "Three days",
-            "Seven days",
-            "Twelve months"
+            "The physical body",
+            "The guardian spirit",
+            "The soul, responsible for moral choices",
+            "A celestial judge"
           ],
-          "correctAnswer": "Three days",
-          "explanation": "For three days post-death, the soul remains earthbound near the body. [cite: 593]"
+          "correctAnswer": "The soul, responsible for moral choices",
+          "explanation": "The 'Urvan' is the soul, which holds the individual's consciousness and free will, and is subject to judgment after death."
         },
         {
           "id": "zoroastrianism-q1-2",
           "type": "trueFalse",
-          "question": "The wicked soul experiences foretastes of paradise after death.",
+          "question": "The Fravashi is a part of the soul that can be corrupted by evil.",
           "correctAnswer": "false",
-          "explanation": "The wicked soul cowers at the feet, wailing verses from the Yasna, tormented by glimpses of coming punishment. [cite: 595]"
+          "explanation": "The Fravashi is a pre-existent, perfect guardian spirit that remains in the spiritual realm and acts as a protector, not descending to fight evil directly."
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-three-day-vigil",
+      "title": "The Three-Day Vigil and Rituals",
+      "order": 2,
+      "content": "Zoroastrianism presents death as a critical battle in the cosmic war between Light and Darkness. For three days after death, the Urvan (soul) remains earthbound near the body. During this time, the soul contemplates its past life. A righteous soul is said to sit at the head of the body, joyfully chanting the sacred Gathas and experiencing a foretaste of paradise, comforted by angels. Conversely, the wicked soul cowers at the feet, wailing lamentations from the Yasna, tormented by visions of its misdeeds and the punishment to come, harassed by demons. During this period, funeral rites are performed, including the crucial 'Sagdid' ceremony, where a dog is brought before the corpse. The dog's gaze is believed to drive away the 'Druj Nasu,' the corpse demon, and lessen the demonic pollution. This ritual underscores the importance of purity and protection for the departing soul.",
+      "keyTerms": [
+        "Urvan",
+        "Gathas",
+        "Yasna",
+        "Sagdid",
+        "Druj Nasu",
+        "Purity"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "zoroastrianism-q2-1",
+          "type": "multipleChoice",
+          "question": "What is the purpose of the 'Sagdid' ceremony?",
+          "options": [
+            "To guide the soul to heaven",
+            "To weigh the soul's deeds",
+            "To have a dog's gaze drive away demonic influence",
+            "To mourn the deceased for three days"
+          ],
+          "correctAnswer": "To have a dog's gaze drive away demonic influence",
+          "explanation": "In the 'Sagdid' ceremony, a dog is brought before the corpse, as its gaze is believed to repel the corpse demon, Druj Nasu."
+        },
+        {
+          "id": "zoroastrianism-q2-2",
+          "type": "trueFalse",
+          "question": "For three days after death, both the righteous and wicked souls experience peace and tranquility.",
+          "correctAnswer": "false",
+          "explanation": "The righteous soul experiences a foretaste of paradise, while the wicked soul is tormented by visions of its coming punishment."
         }
       ]
     },
     {
       "id": "zoroastrianism-chinvat-bridge",
-      "title": "The Chinvat Bridge and Daena",
-      "order": 2,
-      "content": "At the dawn of the fourth day, judgment occurs at the Chinvat Bridge\u2014the 'Separator Bridge' spanning the abyss between earth and the spiritual realms. This bridge transforms based on the soul's nature: for the righteous, it broadens to a comfortable width, while for the wicked, it narrows to a razor's edge. Daena, the soul's own religion/conscience personified, appears. For the righteous, she is a beautiful maiden, fragrant as spring; for the wicked, a hideous, foul-smelling hag. [cite: 596, 597, 598]",
+      "title": "The Chinvat Bridge and the Maiden Daena",
+      "order": 3,
+      "content": "At dawn on the fourth day, the soul's vigil ends and it journeys to the Chinvat Bridge—the 'Separator Bridge'—which spans the abyss between the material world and the spiritual realms (the 'Ahu' and the 'Manahya'). This bridge is a decisive test; it morphs according to the soul's Asha (righteousness). For the righteous, it broadens into a wide, easy path. For the wicked, it narrows to the sharp edge of a razor, making passage impossible and causing the soul to tumble into the abyss of hell. Here the soul meets 'Daena,' the personification of its conscience and the sum of its actions. For a righteous soul, Daena appears as a beautiful, fragrant maiden of fifteen, who declares, 'I am your own good thoughts, good words, and good deeds.' For the wicked soul, she manifests as a monstrous, foul-smelling hag, embodying all their sins and leading them to their doom.",
       "keyTerms": [
         "Chinvat Bridge",
         "Separator Bridge",
         "Daena",
-        "Razor's edge",
+        "Asha",
         "Conscience personified"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
-          "id": "zoroastrianism-q2-1",
+          "id": "zoroastrianism-q3-1",
           "type": "multipleChoice",
-          "question": "What is the 'Chinvat Bridge' also known as?",
+          "question": "What happens to the Chinvat Bridge for a wicked soul?",
           "options": [
-            "The Bridge of Forgetting",
-            "The Bridge of Stars",
-            "The Separator Bridge",
-            "The Bridge of Sorrows"
+            "It becomes a path of flowers.",
+            "It vanishes completely.",
+            "It narrows to a razor's edge.",
+            "It is guarded by a dragon."
           ],
-          "correctAnswer": "The Separator Bridge",
-          "explanation": "Dawn of the fourth day brings judgment at Chinvat Bridge\u2014the 'Separator Bridge' spanning the abyss. [cite: 596]"
+          "correctAnswer": "It narrows to a razor's edge.",
+          "explanation": "For the wicked, the Chinvat Bridge narrows to a razor's edge, causing them to fall into the abyss."
         },
         {
-          "id": "zoroastrianism-q2-2",
+          "id": "zoroastrianism-q3-2",
           "type": "trueFalse",
-          "question": "Daena appears as a hideous hag for the righteous soul.",
+          "question": "Daena is an independent angel who judges the soul based on a sacred text.",
           "correctAnswer": "false",
-          "explanation": "For the righteous: A beautiful maiden of fifteen, fragrant as spring winds...For the wicked: A hideous hag, naked and foul-smelling. [cite: 598]"
+          "explanation": "Daena is the personification of the soul's own conscience and cumulative deeds, not an external entity."
         }
       ]
     },
     {
       "id": "zoroastrianism-judges-destinations",
-      "title": "Divine Judges and Destinations",
-      "order": 3,
-      "content": "Three judges preside over the Chinvat Bridge: Mithra (contracts), Sraosha (obedience), and Rashnu (justice), who weighs deeds on cosmic scales. Even thoughts carry weight, with good ones being light as feathers and evil ones heavy as mountains. Destinations unfold in gradations. The House of Song (Garo Demana) is Paradise, with four levels culminating in the direct presence of Ahura Mazda. The House of Lies is Hell, with multiple levels of specific torments matching earthly sins. [cite: 599, 600, 601, 602]",
+      "title": "The Divine Tribunal and the Scales of Justice",
+      "order": 4,
+      "content": "A divine tribunal presides over the judgment at the Chinvat Bridge. It consists of three great spiritual beings, or Yazatas. The first is Mithra, the lord of covenants, truth, and contracts, who oversees the proceedings. The second is Sraosha, the Yazata of obedience, discipline, and the protector of the soul, who guides the worthy across the bridge. The third is Rashnu, the personification of divine justice. Rashnu holds the golden scales of judgment and weighs the soul's deeds. Every thought, word, and action from life is placed on the scales; good deeds are light and fragrant, while evil deeds are heavy and foul-smelling. Based on this weighing, the soul's destination is determined. There are three primary possibilities: the House of Song (Paradise), the House of Lies (Hell), or the Place of the Mixed Ones.",
       "keyTerms": [
         "Mithra",
         "Sraosha",
         "Rashnu",
         "Cosmic scales",
-        "House of Song (Garo Demana)",
-        "House of Lies"
+        "Yazatas"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
-          "id": "zoroastrianism-q3-1",
+          "id": "zoroastrianism-q4-1",
           "type": "multipleChoice",
-          "question": "Which judge weighs deeds on cosmic scales?",
+          "question": "Which Yazata is responsible for weighing the soul's deeds on golden scales?",
           "options": [
             "Mithra",
             "Sraosha",
-            "Rashnu",
-            "Ahura Mazda"
+            "Daena",
+            "Rashnu"
           ],
           "correctAnswer": "Rashnu",
-          "explanation": "Three judges preside: Mithra (contracts), Sraosha (obedience), and Rashnu (justice), who weighs deeds on cosmic scales. [cite: 599]"
+          "explanation": "Rashnu is the Yazata of justice who weighs the soul's deeds on his cosmic scales."
         },
         {
-          "id": "zoroastrianism-q3-2",
+          "id": "zoroastrianism-q4-2",
           "type": "trueFalse",
-          "question": "Only physical actions are weighed at judgment; thoughts do not carry weight.",
+          "question": "Sraosha's role is primarily to prosecute the soul for its disobedience.",
           "correctAnswer": "false",
-          "explanation": "Even thoughts carry weight\u2014good ones light as feathers, evil ones heavy as mountains. [cite: 599]"
+          "explanation": "Sraosha is the Yazata of obedience and acts as a protector, guiding the worthy soul across the Chinvat Bridge."
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-heaven-hell",
+      "title": "The Heavens and Hells: Graded Realities",
+      "order": 5,
+      "content": "The Zoroastrian afterlife features a graded system of heavens and hells, corresponding to the nature of one's deeds. Paradise, known as 'Garo Demana' or the House of Song, has several ascending levels. The first three are named for the fundamental Zoroastrian creed: 'Humata' (the heaven of Good Thoughts), 'Hukhta' (the heaven of Good Words), and 'Hvarshta' (the heaven of Good Deeds). The highest realm is 'Anagra Raocha,' the Realm of Endless Light, where the most righteous souls experience the direct presence of Ahura Mazda. Conversely, 'Druj-o Demana,' the House of Lies (Hell), also has descending levels mirroring these categories: a realm for Evil Thoughts, one for Evil Words, and one for Evil Deeds. The punishments are not arbitrary but directly relate to the sins committed on earth—the cruel experience cruelty, the liar is tormented by deceit. Crucially, this hell is a temporary place of purification, not eternal damnation.",
+      "keyTerms": [
+        "Garo Demana (House of Song)",
+        "Druj-o Demana (House of Lies)",
+        "Humata, Hukhta, Hvarshta",
+        "Anagra Raocha (Endless Light)",
+        "Temporary Purification"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "zoroastrianism-q5-1",
+          "type": "multipleChoice",
+          "question": "What is the highest level of heaven, the direct presence of Ahura Mazda, called?",
+          "options": [
+            "Hukhta",
+            "Humata",
+            "Garo Demana",
+            "Anagra Raocha"
+          ],
+          "correctAnswer": "Anagra Raocha",
+          "explanation": "The Realm of Endless Light, 'Anagra Raocha,' is the highest heaven where souls dwell in the presence of Ahura Mazda. Garo Demana is the general name for Paradise."
+        },
+        {
+          "id": "zoroastrianism-q5-2",
+          "type": "trueFalse",
+          "question": "The punishments in the Zoroastrian House of Lies are eternal.",
+          "correctAnswer": "false",
+          "explanation": "Zoroastrian hell is a temporary state for the purification of the wicked; it is not a place of eternal damnation."
         }
       ]
     },
     {
       "id": "zoroastrianism-misvan-universal-salvation",
-      "title": "Misvan Gatu and Universal Salvation",
-      "order": 4,
-      "content": "Zoroastrian hell, unlike some other traditions, is not eternal; all souls will be purified at the cosmos' end. Misvan Gatu, the 'Place of Mixed Ones,' is for souls whose deeds balance perfectly, offering a grey existence without joy or sorrow, awaiting final renovation. Zoroastrianism uniquely promises universal salvation. At history's end, a savior (Saoshyant) will raise all dead. Molten metal will flood the earth, feeling like warm milk to the righteous but purifying fire to the wicked. All evil will be destroyed, all souls redeemed, and creation renewed in eternal perfection. [cite: 602, 603, 604, 605, 606]",
+      "title": "Misvan Gatu and the Promise of Universal Salvation",
+      "order": 6,
+      "content": "'Misvan Gatu,' the 'Place of the Mixed Ones,' is a specific destination for those rare souls whose good and evil deeds are perfectly balanced on Rashnu's scales. It is a neutral, grey realm of shadows, devoid of both joy and sorrow. Souls in Misvan Gatu exist in a state of spiritual stasis, awaiting the final renovation of the world. The existence of this realm, along with the temporary nature of hell, points to a core tenet of Zoroastrian eschatology: universal salvation. No soul is lost forever. The ultimate goal of Ahura Mazda's creation is the complete eradication of evil and the redemption of every single soul. This period of separation and purification is merely a necessary phase before the final, perfect state of being is established for all.",
       "keyTerms": [
         "Misvan Gatu",
+        "Place of the Mixed Ones",
         "Universal salvation",
-        "Saoshyant",
-        "Renovation",
-        "Purifying fire"
+        "Spiritual Stasis",
+        "Redemption"
       ],
-      "xpReward": 15,
+      "xpReward": 20,
       "questions": [
         {
-          "id": "zoroastrianism-q4-1",
+          "id": "zoroastrianism-q6-1",
           "type": "multipleChoice",
-          "question": "What is unique about Zoroastrian hell?",
+          "question": "Who goes to Misvan Gatu?",
           "options": [
-            "It is a place of eternal damnation",
-            "It is for animals only",
-            "It is not eternal, all souls will be purified",
-            "It is a place of joyful reunion"
+            "The most righteous souls",
+            "The most wicked souls",
+            "Souls whose good and evil deeds are perfectly balanced",
+            "Non-Zoroastrians"
           ],
-          "correctAnswer": "It is not eternal, all souls will be purified",
-          "explanation": "Zoroastrian hell isn't eternal\u2014at cosmos' end, all souls will be purified. [cite: 602]"
+          "correctAnswer": "Souls whose good and evil deeds are perfectly balanced",
+          "explanation": "Misvan Gatu is the 'Place of Mixed Ones' for souls whose deeds balance perfectly on the scales of justice."
         },
         {
-          "id": "zoroastrianism-q4-2",
+          "id": "zoroastrianism-q6-2",
           "type": "trueFalse",
-          "question": "Misvan Gatu is a place of intense joy for souls.",
+          "question": "The concept of universal salvation means that some souls will be annihilated at the end of time.",
           "correctAnswer": "false",
-          "explanation": "Misvan Gatu is a place of mixed ones\u2014neither joy nor sorrow, a grey existence. [cite: 603]"
+          "explanation": "Universal salvation in Zoroastrianism promises that all souls will eventually be redeemed and purified, and none will be annihilated or eternally damned."
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-frashokereti",
+      "title": "Frashokereti: The Final Renovation",
+      "order": 7,
+      "content": "Zoroastrianism culminates in a grand cosmic event called 'Frashokereti,' the final renovation or 'making wonderful' of the universe. At the end of the current historical age, a final savior figure, the 'Saoshyant,' will be born of a virgin from the seed of the prophet Zoroaster. The Saoshyant will usher in the 'Ristakhiz,' the resurrection of the dead. All the dead, from all ages, will rise from the ground, and families will be reunited. Following the resurrection comes the Great Ordeal. A comet or meteor will strike the earth, causing all its mountains and metals to melt into a vast, purifying river of molten metal. Every soul—living and resurrected—must pass through this river. For the righteous, it will feel like a pleasant bath of warm milk. For the wicked, it will be an agonizing but final purification, burning away all remaining sin and stain. This ordeal cleanses the entire world and every soul within it.",
+      "keyTerms": [
+        "Frashokereti",
+        "Saoshyant",
+        "Ristakhiz (Resurrection)",
+        "Great Ordeal",
+        "Molten Metal",
+        "Universal Purification"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "zoroastrianism-q7-1",
+          "type": "multipleChoice",
+          "question": "What is 'Frashokereti'?",
+          "options": [
+            "The final battle between gods and demons",
+            "The name of the Zoroastrian hell",
+            "The final renovation and making wonderful of the world",
+            "A book of prophecies"
+          ],
+          "correctAnswer": "The final renovation and making wonderful of the world",
+          "explanation": "'Frashokereti' is the term for the final renovation of the universe in Zoroastrian eschatology."
         },
         {
-          "id": "zoroastrianism-q4-3",
+          "id": "zoroastrianism-q7-2",
+          "type": "trueFalse",
+          "question": "In the Great Ordeal, the river of molten metal destroys the wicked forever.",
+          "correctAnswer": "false",
+          "explanation": "The river of molten metal serves as a final, intense purification for the wicked, not their destruction. It feels like warm milk to the righteous."
+        }
+      ]
+    },
+    {
+      "id": "zoroastrianism-perfected-world",
+      "title": "The Perfected World and Final Victory",
+      "order": 8,
+      "content": "After the Great Ordeal of molten metal has purified every soul and the very fabric of the world, the final victory is achieved. The Saoshyant, as the agent of Ahura Mazda, will offer a final sacrifice that renders all souls immortal. Angra Mainyu, the principle of Evil, and all his demonic forces, will be either utterly destroyed or rendered powerless forever, banished from creation. The cleansed earth will be renewed and made perfectly flat and smooth, a perfect material home for the perfected humanity. All souls, now purified and reunited with their Fravashis, will live in a state of eternal bliss, youthfulness, and joy in the physical presence of Ahura Mazda. In this renewed world, there will be no more pain, suffering, hunger, thirst, or death. Humanity will speak a single language and live as one family in a state of perpetual light and goodness, fulfilling the original, perfect plan of creation.",
+      "keyTerms": [
+        "Ahura Mazda",
+        "Angra Mainyu",
+        "Immortality",
+        "Renewed Earth",
+        "Eternal Bliss"
+      ],
+      "xpReward": 20,
+      "questions": [
+        {
+          "id": "zoroastrianism-q8-1",
           "type": "multipleChoice",
-          "question": "Who is expected to raise all the dead at history's end in Zoroastrianism?",
+          "question": "What happens to Angra Mainyu (Evil) at the end of time?",
           "options": [
-            "Ahura Mazda",
-            "Mithra",
-            "Saoshyant",
-            "Rashnu"
+            "He is forgiven and joins Ahura Mazda",
+            "He is made the eternal ruler of hell",
+            "He is utterly destroyed or rendered powerless forever",
+            "He escapes to create a new, evil world"
           ],
-          "correctAnswer": "Saoshyant",
-          "explanation": "At history's end, a savior (Saoshyant) will raise all dead. [cite: 604]"
+          "correctAnswer": "He is utterly destroyed or rendered powerless forever",
+          "explanation": "In the final victory, Angra Mainyu and the forces of evil are completely and permanently defeated and removed from creation."
+        },
+        {
+          "id": "zoroastrianism-q8-2",
+          "type": "trueFalse",
+          "question": "In the perfected world, souls exist only as spiritual beings without bodies.",
+          "correctAnswer": "false",
+          "explanation": "The final state includes the resurrection of the body and the renewal of the physical earth; humanity will live as perfected beings in a perfected material world."
         }
       ]
     }
@@ -170,40 +301,40 @@
     "id": "zoroastrianism-mastery",
     "title": "Zoroastrianism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 190,
     "questions": [
       {
         "id": "zoroastrianism-mt-q1",
         "type": "multipleChoice",
-        "question": "Which of the following is NOT one of the judges presiding at the Chinvat Bridge?",
+        "question": "What is the name for the Zoroastrian concept of the final renovation of the world?",
         "options": [
-          "Mithra",
-          "Sraosha",
-          "Zarathushtra",
-          "Rashnu"
+          "Ristakhiz",
+          "Frashokereti",
+          "Garo Demana",
+          "Sagdid"
         ],
-        "correctAnswer": "Zarathushtra",
-        "explanation": "The three judges are Mithra, Sraosha, and Rashnu. Zarathushtra is the prophet. [cite: 599]"
+        "correctAnswer": "Frashokereti",
+        "explanation": "Frashokereti is the 'making wonderful' of the universe, the culmination of cosmic history in Zoroastrianism."
       },
       {
         "id": "zoroastrianism-mt-q2",
         "type": "trueFalse",
-        "question": "In Zoroastrianism, the soul's own conscience, Daena, appears to judge it.",
+        "question": "In Zoroastrianism, the soul's own conscience, Daena, appears to it at the Chinvat Bridge.",
         "correctAnswer": "true",
-        "explanation": "Daena, the soul's own religion/conscience personified, appears. [cite: 598]"
+        "explanation": "Daena, the soul's own religion/conscience personified, appears as either a beautiful maiden or a hideous hag based on the soul's life deeds."
       },
       {
         "id": "zoroastrianism-mt-q3",
         "type": "multipleChoice",
-        "question": "What is the name of the paradise in Zoroastrianism?",
+        "question": "The pre-existent divine guardian spirit that accompanies each soul is called the:",
         "options": [
-          "House of Lies",
-          "Misvan Gatu",
-          "House of Song (Garo Demana)",
-          "Chinvat Bridge"
+          "Urvan",
+          "Saoshyant",
+          "Asha",
+          "Fravashi"
         ],
-        "correctAnswer": "House of Song (Garo Demana)",
-        "explanation": "House of Song (Garo Demana): Paradise presents four levels. [cite: 601]"
+        "correctAnswer": "Fravashi",
+        "explanation": "The Fravashi is the perfect guardian spirit that acts as a guide and protector for the Urvan (soul)."
       },
       {
         "id": "zoroastrianism-mt-q4",
@@ -212,32 +343,52 @@
         "pairs": [
           {
             "left": "Chinvat Bridge",
-            "right": "Separator Bridge spanning the abyss"
+            "right": "The separator bridge where judgment begins."
           },
           {
-            "left": "Daena",
-            "right": "Soul's religion/conscience personified"
+            "left": "Rashnu",
+            "right": "The Yazata of Justice who weighs deeds."
           },
           {
             "left": "Saoshyant",
-            "right": "Savior who raises all dead at history's end"
+            "right": "The final savior who raises the dead."
           },
           {
             "left": "Misvan Gatu",
-            "right": "Place of Mixed Ones, awaiting final renovation"
+            "right": "The 'Place of the Mixed Ones' for balanced souls."
           }
         ],
         "correctAnswer": [
           "Chinvat Bridge",
-          "Separator Bridge spanning the abyss",
-          "Daena",
-          "Soul's religion/conscience personified",
+          "The separator bridge where judgment begins.",
+          "Rashnu",
+          "The Yazata of Justice who weighs deeds.",
           "Saoshyant",
-          "Savior who raises all dead at history's end",
+          "The final savior who raises the dead.",
           "Misvan Gatu",
-          "Place of Mixed Ones, awaiting final renovation"
+          "The 'Place of the Mixed Ones' for balanced souls."
         ],
-        "explanation": "These are central concepts in Zoroastrian eschatology. [cite: 596, 598, 603, 604]"
+        "explanation": "These are central concepts in Zoroastrian eschatology."
+      },
+      {
+        "id": "zoroastrianism-mt-q5",
+        "type": "trueFalse",
+        "question": "The Zoroastrian hell, Druj-o Demana, is a place of eternal damnation for the wicked.",
+        "correctAnswer": "false",
+        "explanation": "The House of Lies is a temporary place of purification, as Zoroastrianism promises universal salvation for all souls."
+      },
+      {
+        "id": "zoroastrianism-mt-q6",
+        "type": "multipleChoice",
+        "question": "The three heavens leading to the presence of Ahura Mazda are named after what principle?",
+        "options": [
+          "The sacred elements: Fire, Water, and Earth",
+          "The three judges: Mithra, Sraosha, and Rashnu",
+          "The creed: Good Thoughts, Good Words, and Good Deeds",
+          "The seasons: Spring, Summer, and Autumn"
+        ],
+        "correctAnswer": "The creed: Good Thoughts, Good Words, and Good Deeds",
+        "explanation": "The first three levels of Paradise are Humata (Good Thoughts), Hukhta (Good Words), and Hvarshta (Good Deeds)."
       }
     ]
   }
