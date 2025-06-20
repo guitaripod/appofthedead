@@ -4,7 +4,7 @@
   "description": "Uncover the mechanics of suffering and liberation in Buddhism, focusing on the cycle of Samsara, the dissolution of elements, the Six Realms, the Bardo, and the ultimate goal of Nirvana.",
   "icon": "dharma_wheel",
   "color": "#FF8C00",
-  "totalXP": 600,
+  "totalXP": 1500,
   "lessons": [
     {
       "id": "buddhism-intro",
@@ -19,7 +19,7 @@
         "Impermanence",
         "Karma"
       ],
-      "xpReward": 75,
+      "xpReward": 180,
       "questions": [
         {
           "id": "buddhism-q1-1",
@@ -53,6 +53,33 @@
           ],
           "correctAnswer": "Earth",
           "explanation": "The 'earth' element (solidity, bodily functions) dissolves first into 'water'."
+        },
+        {
+          "id": "buddhism-q1-4",
+          "type": "trueFalse",
+          "question": "Samsara refers to the ceaseless cycle of existence, rebirth, and redeath.",
+          "correctAnswer": "true",
+          "explanation": "This cycle is driven by craving, aversion, and ignorance, binding beings to various realms of existence."
+        },
+        {
+          "id": "buddhism-q1-5",
+          "type": "multipleChoice",
+          "question": "What drives the cycle of Samsara according to Buddhism?",
+          "options": [
+            "Divine will",
+            "Random chance",
+            "Craving, aversion, and ignorance",
+            "Natural law alone"
+          ],
+          "correctAnswer": "Craving, aversion, and ignorance",
+          "explanation": "This cycle is driven by craving, aversion, and ignorance, binding beings to various realms of existence."
+        },
+        {
+          "id": "buddhism-q1-6",
+          "type": "trueFalse",
+          "question": "Consciousness dissolves into space as the final stage of the dying process.",
+          "correctAnswer": "true",
+          "explanation": "Finally, 'consciousness' itself dissolves into 'space,' culminating in a deep, profound luminosity."
         }
       ]
     },
@@ -71,7 +98,7 @@
         "Jealousy",
         "Pride"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "buddhism-q2-1",
@@ -105,6 +132,33 @@
           ],
           "correctAnswer": "They experience a devastating fall and rebirth in lower realms",
           "explanation": "When their immense accumulation of positive karma finally exhausts, they experience a devastating 'fall,' often leading to great sorrow and a subsequent rebirth in lower realms due to their clinging and attachment."
+        },
+        {
+          "id": "buddhism-q2-4",
+          "type": "trueFalse",
+          "question": "Devas can live for millions of years in celestial palaces.",
+          "correctAnswer": "true",
+          "explanation": "Here, beings known as Devas live for unimaginably long durations, some for millions of years, inhabiting subtle bodies of pure light."
+        },
+        {
+          "id": "buddhism-q2-5",
+          "type": "multipleChoice",
+          "question": "What primarily characterizes the Asura realm?",
+          "options": [
+            "Perfect peace and contentment",
+            "Constant strife and eternal warfare",
+            "Deep meditation and wisdom",
+            "Extreme poverty and hunger"
+          ],
+          "correctAnswer": "Constant strife and eternal warfare",
+          "explanation": "Their realm is characterized by constant strife and eternal warfare against the Devas, whom they envy."
+        },
+        {
+          "id": "buddhism-q2-6",
+          "type": "trueFalse",
+          "question": "Both God and Asura realms offer permanent liberation from suffering.",
+          "correctAnswer": "false",
+          "explanation": "Both the God and Asura realms, despite their apparent grandeur or power, are ultimately impermanent destinations within Samsara, offering no lasting liberation from suffering."
         }
       ]
     },
@@ -123,7 +177,7 @@
         "Eightfold Path",
         "Karmic causes"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "buddhism-q3-1",
@@ -157,6 +211,33 @@
           ],
           "correctAnswer": "It offers the ideal balance for spiritual liberation",
           "explanation": "The human experience offers a delicate and crucial balance of suffering and happiness, making it the only realm where enlightenment is possible."
+        },
+        {
+          "id": "buddhism-q3-4",
+          "type": "trueFalse",
+          "question": "A 'precious human birth' is common and easily obtained.",
+          "correctAnswer": "false",
+          "explanation": "A 'precious human birth' is often likened to a rare jewel, a fleeting opportunity not to be wasted."
+        },
+        {
+          "id": "buddhism-q3-5",
+          "type": "multipleChoice",
+          "question": "According to Tibetan texts, what might lead to rebirth as domestic animals?",
+          "options": [
+            "Meditation practice",
+            "Stealing from others",
+            "Acts of charity",
+            "Seeking wisdom"
+          ],
+          "correctAnswer": "Stealing from others",
+          "explanation": "Stealing from others might result in being reborn as a domestic animal continually exploited for labor or consumption."
+        },
+        {
+          "id": "buddhism-q3-6",
+          "type": "trueFalse",
+          "question": "The Animal Realm is characterized by consciousness driven mainly by instinct and primal urges.",
+          "correctAnswer": "true",
+          "explanation": "Their existence is largely driven by primal urges like hunger, survival, and reproduction, leaving little capacity for spiritual contemplation or ethical discernment."
         }
       ]
     },
@@ -175,7 +256,7 @@
         "Hoarding",
         "Karmic cause"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "buddhism-q4-1",
@@ -209,6 +290,33 @@
           "question": "Hungry Ghosts can easily find satisfaction for their hunger and thirst.",
           "correctAnswer": "false",
           "explanation": "They may find food or water, but it often transforms into fire, pus, or other repulsive substances upon reaching their mouths, or simply passes through their tiny throats without offering nourishment."
+        },
+        {
+          "id": "buddhism-q4-4",
+          "type": "trueFalse",
+          "question": "The Hungry Ghost realm exists completely separate from the human world.",
+          "correctAnswer": "false",
+          "explanation": "Hungry Ghosts (Pretas) inhabit a twilight realm, often said to overlap with our human world, remaining unseen but ever-present."
+        },
+        {
+          "id": "buddhism-q4-5",
+          "type": "multipleChoice",
+          "question": "What might food transform into when reaching a Hungry Ghost's mouth?",
+          "options": [
+            "Gold and jewels",
+            "Sweet nectar",
+            "Fire, pus, or repulsive substances",
+            "Pure water"
+          ],
+          "correctAnswer": "Fire, pus, or repulsive substances",
+          "explanation": "They may find food or water, but it often transforms into fire, pus, or other repulsive substances upon reaching their mouths."
+        },
+        {
+          "id": "buddhism-q4-6",
+          "type": "trueFalse",
+          "question": "Refusing to give charity in a previous life can lead to rebirth as a Hungry Ghost.",
+          "correctAnswer": "true",
+          "explanation": "Refusing to give charity, hoarding resources, or manipulating others for personal profit are karmic causes that lead to this agonizing state."
         }
       ]
     },
@@ -228,7 +336,7 @@
         "Hatred",
         "Cruelty"
       ],
-      "xpReward": 125,
+      "xpReward": 310,
       "questions": [
         {
           "id": "buddhism-q5-1",
@@ -275,6 +383,26 @@
           ],
           "correctAnswer": "Sanjiva",
           "explanation": "Sanjiva (Reviving Hell) is where beings are constantly killed and revived to experience torture anew."
+        },
+        {
+          "id": "buddhism-q5-5",
+          "type": "trueFalse",
+          "question": "Avici Hell is known for intermittent periods of relief from suffering.",
+          "correctAnswer": "false",
+          "explanation": "Avici (Uninterrupted Hell): The most terrible of hot hells, where suffering is constant and uninterrupted for unimaginably long periods."
+        },
+        {
+          "id": "buddhism-q5-6",
+          "type": "multipleChoice",
+          "question": "In which Cold Hell does the body turn blue and crack like a blue lotus?",
+          "options": [
+            "Arbuda",
+            "Atata",
+            "Utpala",
+            "Padma"
+          ],
+          "correctAnswer": "Utpala",
+          "explanation": "Utpala (Blue Lotus Hell): Body turns blue and cracks like a blue lotus."
         }
       ]
     },
@@ -296,7 +424,7 @@
         "Unconditioned bliss",
         "Samsara"
       ],
-      "xpReward": 125,
+      "xpReward": 310,
       "questions": [
         {
           "id": "buddhism-q6-1",
@@ -343,6 +471,26 @@
           ],
           "correctAnswer": "Chonyid Bardo",
           "explanation": "In Chonyid Bardo, consciousness encounters luminous visions and sounds, including both peaceful and wrathful deities."
+        },
+        {
+          "id": "buddhism-q6-5",
+          "type": "trueFalse",
+          "question": "The peaceful and wrathful deities in the Bardo are external beings sent to judge the soul.",
+          "correctAnswer": "false",
+          "explanation": "These deities are not external beings but rather dynamic, energetic projections of one's own mind, arising from past karmic imprints."
+        },
+        {
+          "id": "buddhism-q6-6",
+          "type": "multipleChoice",
+          "question": "What drives consciousness in the Sidpa Bardo?",
+          "options": [
+            "Divine guidance",
+            "Karmic winds",
+            "Random chance",
+            "External deities"
+          ],
+          "correctAnswer": "Karmic winds",
+          "explanation": "If liberation is not achieved in the previous stages, consciousness moves into this final Bardo phase, driven by 'karmic winds.'"
         }
       ]
     }

@@ -4,7 +4,7 @@
   "description": "Explore Sikhism's unique path through Indic cosmology, emphasizing divine grace, the role of Nam Simran, the Dharam Raj, and the ultimate destination of Sachkhand.",
   "icon": "khanda",
   "color": "#DDA0DD",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "sikhism-intro",
@@ -21,7 +21,7 @@
         "Chaurasi Lakh Joon",
         "Liberation"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "sikhism-q1-1",
@@ -62,6 +62,26 @@
           "question": "The soul journeys through an infinite number of life forms before human birth in Sikhism.",
           "correctAnswer": "false",
           "explanation": "The soul is believed to journey through 8.4 million life forms (a symbolic number) before achieving human birth."
+        },
+        {
+          "id": "sikhism-q1-5",
+          "type": "multipleChoice",
+          "question": "According to Guru Nanak, what does the dawn of a new day herald?",
+          "options": [
+            "Eternal life",
+            "A sunset",
+            "Divine judgment",
+            "Immediate liberation"
+          ],
+          "correctAnswer": "A sunset",
+          "explanation": "Guru Nanak, the founder of Sikhism, beautifully articulated this perspective: 'The dawn of a new day is the herald of a sunset. Earth is not your permanent home.'"
+        },
+        {
+          "id": "sikhism-q1-6",
+          "type": "trueFalse",
+          "question": "Human birth is the only form capable of achieving spiritual liberation in Sikhism.",
+          "correctAnswer": "true",
+          "explanation": "Human birth, which is considered the only form capable of 'nam simran' (remembrance of God's Name or meditation on the Divine attributes)."
         }
       ]
     },
@@ -79,7 +99,7 @@
         "Seva (Selfless Service)",
         "Karam Khand (Realm of Action)"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "sikhism-q2-1",
@@ -120,6 +140,26 @@
           "question": "The concept of karma is entirely discarded in Sikhism.",
           "correctAnswer": "false",
           "explanation": "While acknowledging the concept of reincarnation, Sikh philosophy diverges significantly by highlighting the unique opportunity presented by human birth."
+        },
+        {
+          "id": "sikhism-q2-5",
+          "type": "multipleChoice",
+          "question": "What is more potent than mechanical karma accumulation in Sikhism?",
+          "options": [
+            "Wealth and power",
+            "Sincere spiritual practice and God's grace",
+            "Social status",
+            "Physical strength"
+          ],
+          "correctAnswer": "Sincere spiritual practice and God's grace",
+          "explanation": "This profound belief underscores the paramount importance of devotion, righteous living, and selfless service (Seva) in Sikh theology, emphasizing that sincere spiritual practice and God's grace are more potent than the mechanical accumulation of karmic debt."
+        },
+        {
+          "id": "sikhism-q2-6",
+          "type": "trueFalse",
+          "question": "The True Name in Sikhism refers to a secret word known only to the Gurus.",
+          "correctAnswer": "false",
+          "explanation": "The 'True Name' refers to the divine essence of God, revealed through the teachings of the Gurus, and meditating upon it is considered the highest form of spiritual practice."
         }
       ]
     },
@@ -140,7 +180,7 @@
         "Saram Khand",
         "Karam Khand"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "sikhism-q3-1",
@@ -181,6 +221,26 @@
           "question": "Souls fully dissolve their individual identity upon reaching Sachkhand.",
           "correctAnswer": "false",
           "explanation": "Sachkhand represents eternal existence in God's presence while maintaining individual identity."
+        },
+        {
+          "id": "sikhism-q3-5",
+          "type": "multipleChoice",
+          "question": "In which Sikh text are the spiritual Khands (realms) described?",
+          "options": [
+            "Guru Granth Sahib only",
+            "Japji Sahib",
+            "Dasam Granth",
+            "Rehat Maryada"
+          ],
+          "correctAnswer": "Japji Sahib",
+          "explanation": "In Sikhism, the journey towards Sachkhand is progressive, described through various spiritual stages or 'Khands' (realms of spiritual endeavor) as outlined in the Japji Sahib, Guru Nanak's foundational composition."
+        },
+        {
+          "id": "sikhism-q3-6",
+          "type": "trueFalse",
+          "question": "A soul's experience of 'hell' in Sikhism is a state of separation from God.",
+          "correctAnswer": "true",
+          "explanation": "A soul experiences 'hell' as a state of separation from God, of suffering born from ego and attachment."
         }
       ]
     },
@@ -199,7 +259,7 @@
         "Akhand Path",
         "Sangat (Community)"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "sikhism-q4-1",
@@ -240,6 +300,26 @@
           "question": "The 'Akhand Path' is a short, one-hour reading of the Guru Granth Sahib.",
           "correctAnswer": "false",
           "explanation": "The formal mourning period culminates with the 'Akhand Path,' a continuous, uninterrupted reading of the entire Guru Granth Sahib, usually completed within 48 hours."
+        },
+        {
+          "id": "sikhism-q4-5",
+          "type": "multipleChoice",
+          "question": "Why is the body cremated in Sikh tradition?",
+          "options": [
+            "To punish the soul",
+            "To prevent resurrection",
+            "To symbolize return of physical elements and free the soul",
+            "To save burial space"
+          ],
+          "correctAnswer": "To symbolize return of physical elements and free the soul",
+          "explanation": "This practice is rooted in the belief that the body is merely a temporary vessel, and its return to the elements allows the divine spark—the soul—to continue its journey unhindered through divine will."
+        },
+        {
+          "id": "sikhism-q4-6",
+          "type": "trueFalse",
+          "question": "The Sangat (community) plays a vital role in supporting bereaved families in Sikhism.",
+          "correctAnswer": "true",
+          "explanation": "Throughout this period, the community (Sangat) plays a vital role, providing emotional and practical support, embodying the Sikh principle of communal solidarity."
         }
       ]
     }

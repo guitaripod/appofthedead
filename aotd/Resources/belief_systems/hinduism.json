@@ -4,7 +4,7 @@
   "description": "Explore the eternal return in Hinduism, understanding the cycle of Samsara, the role of Karma, the journey through different realms, and the ultimate liberation of Moksha.",
   "icon": "om",
   "color": "#FF9933",
-  "totalXP": 600,
+  "totalXP": 1500,
   "lessons": [
     {
       "id": "hinduism-intro",
@@ -23,7 +23,7 @@
         "Linga Sharira",
         "Pindas"
       ],
-      "xpReward": 75,
+      "xpReward": 180,
       "questions": [
         {
           "id": "hinduism-q1-1",
@@ -57,6 +57,33 @@
           ],
           "correctAnswer": "For the soul to build a subtle body from offerings",
           "explanation": "The Garuda Purana describes a thirteen-day transition during which the soul builds a subtle body from relatives' offerings, facilitating its journey."
+        },
+        {
+          "id": "hinduism-q1-4",
+          "type": "trueFalse",
+          "question": "Death in Hinduism is seen as complete annihilation of the soul.",
+          "correctAnswer": "false",
+          "explanation": "Death, in this context, is not an annihilation but a fundamental transition, a shedding of the physical body, allowing the soul to continue its journey."
+        },
+        {
+          "id": "hinduism-q1-5",
+          "type": "multipleChoice",
+          "question": "What are 'pindas' in Hindu death rituals?",
+          "options": [
+            "Sacred mantras",
+            "Rice balls offered to the deceased",
+            "Funeral pyres",
+            "Holy water"
+          ],
+          "correctAnswer": "Rice balls offered to the deceased",
+          "explanation": "During this critical time, the disembodied soul, often referred to as a 'preta' or ghost, actively constructs a new subtle body (linga sharira) from the offerings, such as pindas (rice balls) and water."
+        },
+        {
+          "id": "hinduism-q1-6",
+          "type": "trueFalse",
+          "question": "The soul (Atman) is seen as a temporary wave emerging from the ocean of consciousness (Brahman).",
+          "correctAnswer": "true",
+          "explanation": "Hindu cosmology perceives existence as an infinite, boundless ocean of consciousness (Brahman), from which individual souls (Atman) emerge as temporary, distinct waves."
         }
       ]
     },
@@ -75,7 +102,7 @@
         "Karma",
         "Dharma"
       ],
-      "xpReward": 75,
+      "xpReward": 180,
       "questions": [
         {
           "id": "hinduism-q2-1",
@@ -109,6 +136,33 @@
           ],
           "correctAnswer": "To show the soul its past life and every thought and secret desire",
           "explanation": "In Yama's court, the soul witnesses its entire life in the mirror of truth, where every thought and secret desire is revealed."
+        },
+        {
+          "id": "hinduism-q2-4",
+          "type": "trueFalse",
+          "question": "Yama was the first mortal to traverse the path to the afterlife.",
+          "correctAnswer": "true",
+          "explanation": "Yama, revered as Vaivasvata, the son of Surya (the Sun God), holds the distinguished and formidable title of the first mortal being to traverse the path to the afterlife."
+        },
+        {
+          "id": "hinduism-q2-5",
+          "type": "multipleChoice",
+          "question": "What happens to virtuous souls when crossing the Vaitarani River?",
+          "options": [
+            "They struggle immensely",
+            "They drown in the river",
+            "They cross with ease, often aided or transformed into birds",
+            "They must wait for judgment"
+          ],
+          "correctAnswer": "They cross with ease, often aided or transformed into birds",
+          "explanation": "Virtuous souls, whose karmic ledger is clean, are said to cross this river with remarkable ease, often aided by divine guides or even transforming into birds to fly over."
+        },
+        {
+          "id": "hinduism-q2-6",
+          "type": "trueFalse",
+          "question": "Chitragupta's records can be altered or modified after being written.",
+          "correctAnswer": "false",
+          "explanation": "Based on this comprehensive and unalterable record, and the self-realization prompted by the mirror, the soul's subsequent destination within the intricate tapestry of Samsara is meticulously determined."
         }
       ]
     },
@@ -136,7 +190,7 @@
         "Tamisra",
         "Andhatamisra"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "hinduism-q3-1",
@@ -183,6 +237,26 @@
           ],
           "correctAnswer": "It is reborn into a new earthly existence",
           "explanation": "Once the negative karma (papa) is expiated, the soul is released from Naraka and typically reborn into a new earthly existence."
+        },
+        {
+          "id": "hinduism-q3-5",
+          "type": "trueFalse",
+          "question": "Indra's Heaven (Indraloka) is the highest realm in Svarga.",
+          "correctAnswer": "false",
+          "explanation": "Higher realms, such as Mahar-loka, Jana-loka, Tapo-loka, and ultimately Brahmaloka (the abode of Lord Brahma), offer increasingly subtle and intellectual pleasures."
+        },
+        {
+          "id": "hinduism-q3-6",
+          "type": "multipleChoice",
+          "question": "How many distinct hells are described in Naraka?",
+          "options": [
+            "Seven",
+            "Fourteen",
+            "Twenty-eight",
+            "Forty-nine"
+          ],
+          "correctAnswer": "Twenty-eight",
+          "explanation": "Conversely, Naraka comprises twenty-eight distinct hells, each meticulously tailored to specific sins."
         }
       ]
     },
@@ -206,7 +280,7 @@
         "Sadhana",
         "Subtle body"
       ],
-      "xpReward": 125,
+      "xpReward": 310,
       "questions": [
         {
           "id": "hinduism-q4-1",
@@ -247,6 +321,26 @@
           "question": "The suffering of Pretas is eternal and cannot be alleviated by any means.",
           "correctAnswer": "false",
           "explanation": "The suffering of Pretas can sometimes be alleviated through specific rituals performed by the living, such as the offering of water, food, or charitable acts."
+        },
+        {
+          "id": "hinduism-q4-5",
+          "type": "multipleChoice",
+          "question": "How many species (yoni) can souls potentially reincarnate into?",
+          "options": [
+            "108 thousand",
+            "1.2 million",
+            "8.4 million",
+            "84 million"
+          ],
+          "correctAnswer": "8.4 million",
+          "explanation": "The cycle of rebirth encompasses a staggering diversity of forms, often cited as 8.4 million species (yoni)."
+        },
+        {
+          "id": "hinduism-q4-6",
+          "type": "trueFalse",
+          "question": "Only humans can achieve spiritual understanding and liberation (viveka).",
+          "correctAnswer": "true",
+          "explanation": "Only a human body possesses the unique capacity for self-awareness, ethical discrimination (viveka), and the intellectual and spiritual faculties necessary to comprehend dharma."
         }
       ]
     },
@@ -274,7 +368,7 @@
         "Ashtanga Yoga",
         "Samadhi"
       ],
-      "xpReward": 150,
+      "xpReward": 370,
       "questions": [
         {
           "id": "hinduism-q5-1",
@@ -321,6 +415,26 @@
           ],
           "correctAnswer": "Sat-chit-ananda",
           "explanation": "Once achieved, the soul escapes rebirth forever, existing in sat-chit-ananda – being, consciousness, bliss."
+        },
+        {
+          "id": "hinduism-q5-5",
+          "type": "trueFalse",
+          "question": "Karma Yoga involves performing actions with attachment to their outcomes.",
+          "correctAnswer": "false",
+          "explanation": "Karma Yoga (The Path of Action): This path focuses on performing one's duties (dharma) and actions (karma) in the world without attachment to the fruits or outcomes."
+        },
+        {
+          "id": "hinduism-q5-6",
+          "type": "multipleChoice",
+          "question": "Which Yoga path emphasizes intellectual discernment and study of sacred texts?",
+          "options": [
+            "Bhakti Yoga",
+            "Karma Yoga",
+            "Jnana Yoga",
+            "Raja Yoga"
+          ],
+          "correctAnswer": "Jnana Yoga",
+          "explanation": "Jnana Yoga (The Path of Knowledge): This path emphasizes intellectual discernment and the rigorous study of sacred texts (Vedas, Upanishads) to acquire spiritual wisdom."
         }
       ]
     },
@@ -342,7 +456,7 @@
         "Vedas",
         "Purana"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "hinduism-q6-1",
@@ -376,6 +490,33 @@
           ],
           "correctAnswer": "Rice balls mixed with sesame seeds and other ingredients",
           "explanation": "During Shraddha, pindas (rice balls mixed with sesame seeds and other ingredients) are offered to the ancestors (pitrs)."
+        },
+        {
+          "id": "hinduism-q6-4",
+          "type": "trueFalse",
+          "question": "Cremation is believed to prevent the soul from lingering as a ghost (preta).",
+          "correctAnswer": "true",
+          "explanation": "The belief is that cremation frees the soul from its physical ties, preventing it from lingering as a ghost (preta) and facilitating its journey."
+        },
+        {
+          "id": "hinduism-q6-5",
+          "type": "multipleChoice",
+          "question": "Where are cremation ashes typically immersed according to Hindu tradition?",
+          "options": [
+            "In the ocean",
+            "In sacred rivers, especially the Ganges",
+            "In mountain lakes",
+            "They are kept at home"
+          ],
+          "correctAnswer": "In sacred rivers, especially the Ganges",
+          "explanation": "Following cremation, ashes are collected and often immersed in sacred rivers, most notably the Ganges, believed to cleanse sins and ensure a favorable afterlife."
+        },
+        {
+          "id": "hinduism-q6-6",
+          "type": "trueFalse",
+          "question": "Improper execution of death rituals has no effect on the soul's journey.",
+          "correctAnswer": "false",
+          "explanation": "The correct performance of these rituals is considered vital, as their absence or improper execution can lead to the soul becoming a restless preta, unable to move on."
         }
       ]
     },
@@ -395,7 +536,7 @@
         "Pitru Paksha",
         "Subtle body"
       ],
-      "xpReward": 75,
+      "xpReward": 180,
       "questions": [
         {
           "id": "hinduism-q7-1",
@@ -429,6 +570,33 @@
           ],
           "correctAnswer": "To provide sustenance and spiritual upliftment, aiding their progression",
           "explanation": "The performance of Tarpan (offering water with sesame seeds) and various Shraddha ceremonies at specific times (e.g., during Pitru Paksha, a fortnight dedicated to ancestors) is crucial. These rituals are believed to provide sustenance, peace, and spiritual upliftment to the Pitrs, facilitating their continued well-being in Pitru Loka and aiding their progression towards a higher state or eventual liberation."
+        },
+        {
+          "id": "hinduism-q7-4",
+          "type": "trueFalse",
+          "question": "Neglecting ancestors can lead to misfortunes for living family members.",
+          "correctAnswer": "true",
+          "explanation": "Conversely, neglecting the proper veneration and performance of Shraddha rituals can lead to ancestral distress, potentially causing misfortunes for the living family members."
+        },
+        {
+          "id": "hinduism-q7-5",
+          "type": "multipleChoice",
+          "question": "What is 'Pitru Paksha' in Hindu tradition?",
+          "options": [
+            "A festival for children",
+            "A fortnight dedicated to ancestors",
+            "A harvest celebration",
+            "A new year celebration"
+          ],
+          "correctAnswer": "A fortnight dedicated to ancestors",
+          "explanation": "The performance of Tarpan (offering water with sesame seeds) and various Shraddha ceremonies at specific times (e.g., during Pitru Paksha, a fortnight dedicated to ancestors) is crucial."
+        },
+        {
+          "id": "hinduism-q7-6",
+          "type": "trueFalse",
+          "question": "Pitrs are believed to have completed their journey and achieved final liberation.",
+          "correctAnswer": "false",
+          "explanation": "This realm is distinct from Svarga (heaven) and Naraka (hell) and serves as an intermediate abode for souls that have completed their earthly existence but have not yet achieved Moksha or undergone immediate rebirth."
         }
       ]
     }
