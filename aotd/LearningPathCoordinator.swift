@@ -8,6 +8,8 @@ final class LearningPathCoordinator {
     private var currentLessonIndex = 0
     private var questionFlowCoordinator: QuestionFlowCoordinator?
     private let databaseManager = DatabaseManager.shared
+    private var isReplayMode = false
+    private var isMasterTest = false
     
     init(
         navigationController: UINavigationController,
@@ -22,6 +24,38 @@ final class LearningPathCoordinator {
     func start() {
         currentLessonIndex = findResumePoint()
         showNextLesson()
+    }
+    
+    func startLearningPath(for beliefSystem: BeliefSystem, replay: Bool = false) {
+        isReplayMode = replay
+        if replay {
+            currentLessonIndex = 0
+        } else {
+            currentLessonIndex = findResumePoint()
+        }
+        showNextLesson()
+    }
+    
+    func startMasterTest(for beliefSystem: BeliefSystem) {
+        isMasterTest = true
+        
+        let masteryTest = beliefSystem.masteryTest
+        
+        // Show the master test directly
+        questionFlowCoordinator = QuestionFlowCoordinator(
+            navigationController: navigationController,
+            questions: masteryTest.questions,
+            beliefSystem: beliefSystem
+        )
+        
+        questionFlowCoordinator?.delegate = self
+        questionFlowCoordinator?.start()
+    }
+    
+    func startReviewMissedQuestions(for beliefSystem: BeliefSystem) {
+        // TODO: Implement once we have missed questions tracking
+        // For now, just replay the full path
+        startLearningPath(for: beliefSystem, replay: true)
     }
     
     private func findResumePoint() -> Int {
@@ -102,6 +136,21 @@ final class LearningPathCoordinator {
     }
     
     private func completeLearningPath() {
+        // Mark belief system as completed
+        if let user = databaseManager.fetchUser() {
+            do {
+                try databaseManager.createOrUpdateProgress(
+                    userId: user.id,
+                    beliefSystemId: beliefSystem.id,
+                    lessonId: nil,
+                    status: .completed,
+                    score: nil
+                )
+            } catch {
+                print("Error marking belief system as completed: \(error)")
+            }
+        }
+        
         // Clear session when path is completed
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
         navigationController.popToRootViewController(animated: true)
@@ -128,13 +177,17 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     func questionFlowCoordinatorDidComplete(_ coordinator: QuestionFlowCoordinator, results: [QuestionResult]) {
         questionFlowCoordinator = nil
         
-        // Save lesson completion progress
-        saveLessonCompletion(results: results)
-        
-        currentLessonIndex += 1
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.showNextLesson()
+        if isMasterTest {
+            handleMasterTestCompletion(results: results)
+        } else {
+            // Save lesson completion progress
+            saveLessonCompletion(results: results)
+            
+            currentLessonIndex += 1
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.showNextLesson()
+            }
         }
     }
     
@@ -179,5 +232,80 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         } catch {
             print("Error saving lesson completion: \(error)")
         }
+    }
+    
+    private func handleMasterTestCompletion(results: [QuestionResult]) {
+        guard let user = databaseManager.fetchUser() else { return }
+        
+        let masteryTest = beliefSystem.masteryTest
+        
+        let correctAnswers = results.filter { $0.wasCorrect }.count
+        let totalQuestions = results.count
+        let score = totalQuestions > 0 ? Int((Double(correctAnswers) / Double(totalQuestions)) * 100) : 0
+        
+        // Check if user passed the master test
+        let requiredScore = masteryTest.requiredScore
+        let passed = score >= requiredScore
+        
+        do {
+            if passed {
+                // Mark belief system as mastered
+                try databaseManager.createOrUpdateProgress(
+                    userId: user.id,
+                    beliefSystemId: beliefSystem.id,
+                    lessonId: nil,
+                    status: .mastered,
+                    score: score
+                )
+                
+                // Award master test XP
+                try databaseManager.addXPToProgress(
+                    userId: user.id,
+                    beliefSystemId: beliefSystem.id,
+                    xp: masteryTest.xpReward
+                )
+                
+                // Show success message
+                showMasterTestSuccessAlert(score: score)
+            } else {
+                // Show failure message with option to retry
+                showMasterTestFailureAlert(score: score, requiredScore: requiredScore)
+            }
+        } catch {
+            print("Error saving master test completion: \(error)")
+        }
+    }
+    
+    private func showMasterTestSuccessAlert(score: Int) {
+        let alert = UIAlertController(
+            title: "Congratulations! 🎉",
+            message: "You've mastered \(beliefSystem.name) with a score of \(score)%!",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Continue", style: .default) { [weak self] _ in
+            self?.exitLearningPath()
+        })
+        
+        navigationController.present(alert, animated: true)
+    }
+    
+    private func showMasterTestFailureAlert(score: Int, requiredScore: Int) {
+        let alert = UIAlertController(
+            title: "Almost There!",
+            message: "You scored \(score)%, but need \(requiredScore)% to pass the master test.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Try Again", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.startMasterTest(for: self.beliefSystem)
+        })
+        
+        alert.addAction(UIAlertAction(title: "Review Path", style: .default) { [weak self] _ in
+            self?.exitLearningPath()
+        })
+        
+        navigationController.present(alert, animated: true)
     }
 }
