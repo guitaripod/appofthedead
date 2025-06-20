@@ -4,7 +4,7 @@
   "description": "Discover the Baháʼí Faith's perspective on death as a birth into a greater existence, an infinite progression through spiritual worlds, and the existence of Heaven and Hell as states of nearness or distance from God.",
   "icon": "nine_pointed_star",
   "color": "#FFC0CB",
-  "totalXP": 600,
+  "totalXP": 1500,
   "lessons": [
     {
       "id": "bahai-intro",
@@ -20,7 +20,7 @@
         "Messenger of joy",
         "Spiritual tools"
       ],
-      "xpReward": 75,
+      "xpReward": 188,
       "questions": [
         {
           "id": "bahai-q1-1",
@@ -54,6 +54,33 @@
           ],
           "correctAnswer": "Spiritual qualities cultivated in this life",
           "explanation": "Spiritual qualities such as love, justice, compassion, honesty, and truthfulness are considered essential spiritual 'tools' or capacities that are the true 'wealth' of the soul."
+        },
+        {
+          "id": "bahai-q1-4",
+          "type": "trueFalse",
+          "question": "Baháʼuʼlláh described death as a 'messenger of joy' in the Baháʼí writings.",
+          "correctAnswer": "true",
+          "explanation": "Baháʼuʼlláh, the Prophet-Founder of the Baháʼí Faith, stated: 'I have made death a messenger of joy to thee. Wherefore dost thou grieve?'"
+        },
+        {
+          "id": "bahai-q1-5",
+          "type": "multipleChoice",
+          "question": "According to the Baháʼí Faith, when does the soul begin its journey?",
+          "options": [
+            "At birth",
+            "At the moment of conception",
+            "At the age of spiritual maturity (15 years)",
+            "When one declares their faith"
+          ],
+          "correctAnswer": "At the moment of conception",
+          "explanation": "From the moment of conception, the soul is created and begins its journey, using earthly life to cultivate and refine spiritual attributes."
+        },
+        {
+          "id": "bahai-q1-6",
+          "type": "trueFalse",
+          "question": "The physical body is considered more important than the soul in Baháʼí teachings.",
+          "correctAnswer": "false",
+          "explanation": "The physical body is merely the instrument through which the soul expresses itself in this world, and its cessation allows the soul to continue its journey unencumbered."
         }
       ]
     },
@@ -71,7 +98,7 @@
         "Realms of consciousness",
         "Divine attributes"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "bahai-q2-1",
@@ -105,6 +132,33 @@
           ],
           "correctAnswer": "Spiritual development achieved during earthly life",
           "explanation": "The station of the soul in the next world is determined by the spiritual development it achieved during its earthly life."
+        },
+        {
+          "id": "bahai-q2-4",
+          "type": "trueFalse",
+          "question": "In the Baháʼí Faith, there is an ultimate limit to the soul's advancement in the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "There is no ultimate limit to the soul's advancement; it continues to unfold its latent spiritual capacities and deepen its understanding of divine mysteries throughout eternity."
+        },
+        {
+          "id": "bahai-q2-5",
+          "type": "multipleChoice",
+          "question": "After death, what happens to the soul's relationship with time and space?",
+          "options": [
+            "It becomes frozen in time",
+            "It sheds the limitations of time and space",
+            "It experiences time more slowly",
+            "It moves backwards through time"
+          ],
+          "correctAnswer": "It sheds the limitations of time and space",
+          "explanation": "After death, the soul sheds the limitations of time and space, which are characteristics of the material world."
+        },
+        {
+          "id": "bahai-q2-6",
+          "type": "trueFalse",
+          "question": "All souls progress at the same pace in the spiritual worlds.",
+          "correctAnswer": "false",
+          "explanation": "While the journey is infinite, each soul progresses at its own pace and according to its own spiritual preparation."
         }
       ]
     },
@@ -123,7 +177,7 @@
         "Divine virtues",
         "Spiritual contentment"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "bahai-q3-1",
@@ -157,6 +211,33 @@
           ],
           "correctAnswer": "A state of nearness to God, characterized by joy and spiritual understanding",
           "explanation": "Heaven is a state of nearness to God, characterized by joy, spiritual understanding, illumination, and flourishing."
+        },
+        {
+          "id": "bahai-q3-4",
+          "type": "trueFalse",
+          "question": "Both Heaven and Hell are internal states that originate in this world.",
+          "correctAnswer": "true",
+          "explanation": "Both Heaven and Hell are internal states that originate in this world, and are manifested more fully in the next."
+        },
+        {
+          "id": "bahai-q3-5",
+          "type": "multipleChoice",
+          "question": "What characterizes the state of Hell (Jahannam) in Baháʼí teachings?",
+          "options": [
+            "Physical torture and fire",
+            "Complete annihilation of the soul",
+            "Spiritual distance from God and inability to perceive spiritual realities",
+            "Eternal sleep"
+          ],
+          "correctAnswer": "Spiritual distance from God and inability to perceive spiritual realities",
+          "explanation": "Hell is a state of spiritual distance from God, characterized by spiritual deprivation and the soul's inability to perceive and participate in the spiritual realities that constitute true happiness."
+        },
+        {
+          "id": "bahai-q3-6",
+          "type": "trueFalse",
+          "question": "The 'rewards' of Heaven in Baháʼí belief are primarily material pleasures.",
+          "correctAnswer": "false",
+          "explanation": "The 'rewards' of Heaven are spiritual: an ever-deepening awareness of God's love, beauty, and wisdom, and the continuous unfolding of the soul's inherent perfections."
         }
       ]
     },
@@ -175,7 +256,7 @@
         "Selfless service",
         "Spiritual growth"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "bahai-q4-1",
@@ -209,6 +290,33 @@
           ],
           "correctAnswer": "Spiritual 'tools' or capacities for advancement",
           "explanation": "The virtues and good deeds cultivated during one's earthly life are considered spiritual 'tools' or capacities that the soul takes with it into the next world, crucial for its advancement."
+        },
+        {
+          "id": "bahai-q4-4",
+          "type": "trueFalse",
+          "question": "Prayers for the departed are meant to change God's decree or pull a soul out of Hell.",
+          "correctAnswer": "false",
+          "explanation": "Prayers are not meant to change God's decree or pull a soul out of a 'hellish' state, but rather to act as a catalyst, providing spiritual energy and light that enables the soul to continue its upward journey."
+        },
+        {
+          "id": "bahai-q4-5",
+          "type": "multipleChoice",
+          "question": "Which spiritual attributes are mentioned as crucial for the soul's advancement in the afterlife?",
+          "options": [
+            "Physical strength and beauty",
+            "Love, wisdom, compassion, justice, and sincerity",
+            "Wealth and social connections",
+            "Intellectual knowledge only"
+          ],
+          "correctAnswer": "Love, wisdom, compassion, justice, and sincerity",
+          "explanation": "These intrinsic spiritual attributes enable the soul to comprehend spiritual realities, experience profound joy, and draw ever closer to God."
+        },
+        {
+          "id": "bahai-q4-6",
+          "type": "trueFalse",
+          "question": "Baháʼuʼlláh and 'Abdu'l-Bahá revealed specific prayers for the dead.",
+          "correctAnswer": "true",
+          "explanation": "Baháʼuʼlláh and 'Abdu'l-Bahá, the central figures of the Faith, revealed specific prayers for the dead, emphasizing their potency and effectiveness."
         }
       ]
     },
@@ -227,7 +335,7 @@
         "Divine educators",
         "Unified reality"
       ],
-      "xpReward": 125,
+      "xpReward": 312,
       "questions": [
         {
           "id": "bahai-q5-1",
@@ -261,6 +369,33 @@
           ],
           "correctAnswer": "To provide spiritual laws and guidance for souls to progress in both this life and the next",
           "explanation": "Their teachings and examples provide the spiritual laws, principles, and guidance necessary for souls to develop the virtues that ensure their progress both in this life and the next."
+        },
+        {
+          "id": "bahai-q5-4",
+          "type": "trueFalse",
+          "question": "The influence of the Manifestations of God is limited to the physical plane and ends with their death.",
+          "correctAnswer": "false",
+          "explanation": "Their influence is not limited to the physical plane; their spiritual reality transcends death and continues to guide and inspire souls in the spiritual worlds."
+        },
+        {
+          "id": "bahai-q5-5",
+          "type": "multipleChoice",
+          "question": "Which religious figures are mentioned as examples of Manifestations of God?",
+          "options": [
+            "Only Baháʼuʼlláh and the Báb",
+            "Saints and mystics from various traditions",
+            "Baháʼuʼlláh, the Báb, Jesus, Moses, Muhammad, Zoroaster, Buddha, and Krishna",
+            "Political and social reformers"
+          ],
+          "correctAnswer": "Baháʼuʼlláh, the Báb, Jesus, Moses, Muhammad, Zoroaster, Buddha, and Krishna",
+          "explanation": "Figures like Baháʼuʼlláh, the Báb, Jesus Christ, Moses, Muhammad, Zoroaster, Buddha, Krishna, and others are seen as perfect mirrors reflecting God's light into the human world."
+        },
+        {
+          "id": "bahai-q5-6",
+          "type": "trueFalse",
+          "question": "The Baháʼí vision of the afterlife involves a static, unchanging spiritual existence.",
+          "correctAnswer": "false",
+          "explanation": "The Baháʼí vision of the afterlife is one of dynamic, continuous interaction within a vast, interconnected spiritual cosmos, eternally guided and sustained by the boundless love and wisdom of God."
         }
       ]
     }
@@ -269,7 +404,7 @@
     "id": "bahai-mastery",
     "title": "Baháʼí Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 250,
     "questions": [
       {
         "id": "bahai-mt-q1",

@@ -4,7 +4,7 @@
   "description": "Explore Tenrikyo's unique perspective on death as returning a borrowed body to God the Parent, leading to rebirth for another attempt at the 'Joyous Life', and the focus on collective spiritual evolution.",
   "icon": "sacred_fan",
   "color": "#DC143C",
-  "totalXP": 600,
+  "totalXP": 1500,
   "lessons": [
     {
       "id": "tenrikyo-intro",
@@ -20,7 +20,7 @@
         "Divine intention",
         "Mental impurities"
       ],
-      "xpReward": 75,
+      "xpReward": 188,
       "questions": [
         {
           "id": "tenrikyo-q1-1",
@@ -37,13 +37,6 @@
         },
         {
           "id": "tenrikyo-q1-2",
-          "type": "trueFalse",
-          "question": "Early death in Tenrikyo is attributed to random chance.",
-          "correctAnswer": "false",
-          "explanation": "Early death results from 'dust' accumulating in the mind—negative thoughts and attitudes that corrupt the divine gift."
-        },
-        {
-          "id": "tenrikyo-q1-3",
           "type": "multipleChoice",
           "question": "What does 'dust in the mind' refer to in Tenrikyo?",
           "options": [
@@ -54,6 +47,40 @@
           ],
           "correctAnswer": "Negative thoughts and attitudes",
           "explanation": " 'Dust in the mind' refers to negative thoughts, attitudes, and behaviors like greed, arrogance, hatred, and self-love."
+        },
+        {
+          "id": "tenrikyo-q1-3",
+          "type": "multipleChoice",
+          "question": "According to Tenrikyo, what is the ideal lifespan mentioned for the borrowed body?",
+          "options": [
+            "70 years",
+            "100 years",
+            "115 years",
+            "Unlimited"
+          ],
+          "correctAnswer": "115 years",
+          "explanation": "Tenrikyo teachings mention 115 years as the ideal lifespan for the borrowed body, though this is an ideal rather than a strict limit."
+        },
+        {
+          "id": "tenrikyo-q1-4",
+          "type": "trueFalse",
+          "question": "Early death in Tenrikyo is attributed to random chance.",
+          "correctAnswer": "false",
+          "explanation": "Early death results from 'dust' accumulating in the mind—negative thoughts and attitudes that corrupt the divine gift."
+        },
+        {
+          "id": "tenrikyo-q1-5",
+          "type": "trueFalse",
+          "question": "In Tenrikyo, our physical bodies are considered to be truly our own possessions.",
+          "correctAnswer": "false",
+          "explanation": "From the perspective of God the Parent, our physical forms are not truly our own but are graciously lent to us—they are 'borrowed bodies.'"
+        },
+        {
+          "id": "tenrikyo-q1-6",
+          "type": "trueFalse",
+          "question": "Sweeping away 'dust in the mind' through good deeds can lead to a healthier and more joyous life in Tenrikyo.",
+          "correctAnswer": "true",
+          "explanation": "Actively sweeping away mental dust through sincere introspection, repentance, and practicing virtuous deeds allows us to live in greater accordance with God's will, ensuring a healthier, more joyous life."
         }
       ]
     },
@@ -71,7 +98,7 @@
         "No heaven/hell (traditional)",
         "Ongoing journey"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "tenrikyo-q2-1",
@@ -88,13 +115,6 @@
         },
         {
           "id": "tenrikyo-q2-2",
-          "type": "trueFalse",
-          "question": "Tenrikyo believes in a fixed heaven or hell for souls after death.",
-          "correctAnswer": "false",
-          "explanation": "There is no concept of judgment or a fixed afterlife destination like heaven or hell in the traditional sense."
-        },
-        {
-          "id": "tenrikyo-q2-3",
           "type": "multipleChoice",
           "question": "What is the ultimate goal of successive rebirths in Tenrikyo?",
           "options": [
@@ -105,6 +125,40 @@
           ],
           "correctAnswer": "To purify and perfect one's spirit and contribute to collective spiritual evolution",
           "explanation": "The ultimate goal is not to escape the cycle of rebirth but to purify and perfect one's spirit through successive lives, eventually contributing to the collective spiritual evolution of humanity."
+        },
+        {
+          "id": "tenrikyo-q2-3",
+          "type": "multipleChoice",
+          "question": "How is the moment of death described in Tenrikyo?",
+          "options": [
+            "As a violent rupture",
+            "As a punishment",
+            "As a seamless and natural transition like a leaf falling from a tree",
+            "As complete annihilation"
+          ],
+          "correctAnswer": "As a seamless and natural transition like a leaf falling from a tree",
+          "explanation": "Death is described as a seamless and natural transition, akin to a leaf falling from a tree or a child returning home to a loving parent."
+        },
+        {
+          "id": "tenrikyo-q2-4",
+          "type": "trueFalse",
+          "question": "Tenrikyo believes in a fixed heaven or hell for souls after death.",
+          "correctAnswer": "false",
+          "explanation": "There is no concept of judgment or a fixed afterlife destination like heaven or hell in the traditional sense."
+        },
+        {
+          "id": "tenrikyo-q2-5",
+          "type": "trueFalse",
+          "question": "God the Parent orchestrates the conditions for each soul's rebirth to best support their spiritual growth.",
+          "correctAnswer": "true",
+          "explanation": "God the Parent, in infinite parental love and wisdom, orchestrates the conditions for the soul's next rebirth, ensuring it receives a body and circumstances most conducive to its spiritual growth."
+        },
+        {
+          "id": "tenrikyo-q2-6",
+          "type": "trueFalse",
+          "question": "The soul or 'tama' is destroyed when it detaches from the physical body at death.",
+          "correctAnswer": "false",
+          "explanation": "The detachment is not an annihilation but a graceful release. The soul continues under God's care and is prepared for its next incarnation."
         }
       ]
     },
@@ -123,7 +177,7 @@
         "Divine guidance",
         "Self-purification"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "tenrikyo-q3-1",
@@ -140,13 +194,6 @@
         },
         {
           "id": "tenrikyo-q3-2",
-          "type": "trueFalse",
-          "question": "Suffering and early death are seen as punishments in Tenrikyo.",
-          "correctAnswer": "false",
-          "explanation": "Even when individuals experience suffering or early death, it is viewed as a form of divine guidance or parental instruction, prompting them to reflect on their 'dust' and make spiritual adjustments."
-        },
-        {
-          "id": "tenrikyo-q3-3",
           "type": "multipleChoice",
           "question": "What does 'hinokishin' refer to in Tenrikyo?",
           "options": [
@@ -157,6 +204,40 @@
           ],
           "correctAnswer": "Acts of selfless service and universal love",
           "explanation": "Hinokishin refers to acts of selfless service and universal love, which contribute to the Joyous Life."
+        },
+        {
+          "id": "tenrikyo-q3-3",
+          "type": "multipleChoice",
+          "question": "What characterizes the 'Joyous Life' (Yoki Gurashi) in Tenrikyo?",
+          "options": [
+            "Individual wealth and success",
+            "Escape from worldly concerns",
+            "Mutual help, honesty, sincerity, and universal love",
+            "Solitary meditation"
+          ],
+          "correctAnswer": "Mutual help, honesty, sincerity, and universal love",
+          "explanation": "The 'Joyous Life' is a collective, communal existence characterized by mutual help, honesty, sincerity, and universal love."
+        },
+        {
+          "id": "tenrikyo-q3-4",
+          "type": "trueFalse",
+          "question": "Suffering and early death are seen as punishments in Tenrikyo.",
+          "correctAnswer": "false",
+          "explanation": "Even when individuals experience suffering or early death, it is viewed as a form of divine guidance or parental instruction, prompting them to reflect on their 'dust' and make spiritual adjustments."
+        },
+        {
+          "id": "tenrikyo-q3-5",
+          "type": "trueFalse",
+          "question": "The repeated cycles of rebirth in Tenrikyo are meant to prolong suffering.",
+          "correctAnswer": "false",
+          "explanation": "The repeated cycles of rebirth are not meant to prolong suffering but to provide endless opportunities for individuals to refine their character, overcome their 'dust,' and learn to live in accordance with God's intention."
+        },
+        {
+          "id": "tenrikyo-q3-6",
+          "type": "trueFalse",
+          "question": "The Joyous Life is primarily about achieving personal happiness.",
+          "correctAnswer": "false",
+          "explanation": "The 'Joyous Life' is not merely a state of personal happiness, but a collective, communal existence where all humanity lives in perfect harmony."
         }
       ]
     },
@@ -174,7 +255,7 @@
         "Divine providence",
         "God's ongoing creation"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "tenrikyo-q4-1",
@@ -191,13 +272,6 @@
         },
         {
           "id": "tenrikyo-q4-2",
-          "type": "trueFalse",
-          "question": "Each individual life is considered irrelevant to the collective spiritual evolution in Tenrikyo.",
-          "correctAnswer": "false",
-          "explanation": "Each individual life, including every rebirth, serves as an indispensable step in this grand, unfolding plan of God the Parent, contributing to collective spiritual maturity."
-        },
-        {
-          "id": "tenrikyo-q4-3",
           "type": "multipleChoice",
           "question": "What is the 'Kanrodai'?",
           "options": [
@@ -208,6 +282,40 @@
           ],
           "correctAnswer": "The name for the divine kingdom on Earth",
           "explanation": "The 'Kanrodai' (Sweet Dew Stand) world is the ideal world, described as the ultimate manifestation of the Joyous Life, where all people live in perfect harmony."
+        },
+        {
+          "id": "tenrikyo-q4-3",
+          "type": "multipleChoice",
+          "question": "How does Tenrikyo view the purpose of successive rebirths?",
+          "options": [
+            "As punishment for past sins",
+            "As random occurrences",
+            "As repeated opportunities for spiritual purification and growth",
+            "As a way to accumulate material wealth"
+          ],
+          "correctAnswer": "As repeated opportunities for spiritual purification and growth",
+          "explanation": "Successive rebirths are viewed as repeated opportunities for the soul to further purify itself, shed accumulated 'dust,' and cultivate virtues like sincerity, honesty, and mutual aid."
+        },
+        {
+          "id": "tenrikyo-q4-4",
+          "type": "trueFalse",
+          "question": "Each individual life is considered irrelevant to the collective spiritual evolution in Tenrikyo.",
+          "correctAnswer": "false",
+          "explanation": "Each individual life, including every rebirth, serves as an indispensable step in this grand, unfolding plan of God the Parent, contributing to collective spiritual maturity."
+        },
+        {
+          "id": "tenrikyo-q4-5",
+          "type": "trueFalse",
+          "question": "The divine kingdom in Tenrikyo will be free from illness, suffering, and conflict.",
+          "correctAnswer": "true",
+          "explanation": "The ideal world is described as where all people live in perfect harmony, free from illness, suffering, and conflict, recognizing God the Parent as their common origin."
+        },
+        {
+          "id": "tenrikyo-q4-6",
+          "type": "trueFalse",
+          "question": "In Tenrikyo, death is viewed as an escape to a transcendent realm.",
+          "correctAnswer": "false",
+          "explanation": "Death is simply a momentary pause before the soul is re-dispatched to continue participating in God's ongoing creation and the realization of a perfect world on Earth, rather than an escape to a transcendent realm."
         }
       ]
     },
@@ -226,7 +334,7 @@
         "Gratitude",
         "God's active involvement"
       ],
-      "xpReward": 100,
+      "xpReward": 250,
       "questions": [
         {
           "id": "tenrikyo-q5-1",
@@ -243,13 +351,6 @@
         },
         {
           "id": "tenrikyo-q5-2",
-          "type": "trueFalse",
-          "question": "Suffering and illness are considered punishments from God the Parent in Tenrikyo.",
-          "correctAnswer": "false",
-          "explanation": "Even suffering, illness, or setbacks—including the experience of death itself—are fundamentally viewed as 'parental guidance' or 'warnings' (oshie) from God the Parent, intended to prompt self-reflection and the 'sweeping away' of 'dust in the mind.' They are not punishments, but compassionate lessons."
-        },
-        {
-          "id": "tenrikyo-q5-3",
           "type": "multipleChoice",
           "question": "What is 'divine providence' in Tenrikyo?",
           "options": [
@@ -260,6 +361,40 @@
           ],
           "correctAnswer": "The constant, benevolent intervention of God the Parent in every aspect of existence",
           "explanation": "Divine providence is the constant, benevolent intervention of God the Parent, active in every aspect of existence, guiding humanity towards spiritual refinement."
+        },
+        {
+          "id": "tenrikyo-q5-3",
+          "type": "multipleChoice",
+          "question": "What are suffering and setbacks called when viewed as divine guidance in Tenrikyo?",
+          "options": [
+            "Karma",
+            "Sin",
+            "Oshie (parental guidance or warnings)",
+            "Bad luck"
+          ],
+          "correctAnswer": "Oshie (parental guidance or warnings)",
+          "explanation": "Suffering, illness, or setbacks are fundamentally viewed as 'parental guidance' or 'warnings' (oshie) from God the Parent."
+        },
+        {
+          "id": "tenrikyo-q5-4",
+          "type": "trueFalse",
+          "question": "Suffering and illness are considered punishments from God the Parent in Tenrikyo.",
+          "correctAnswer": "false",
+          "explanation": "Even suffering, illness, or setbacks—including the experience of death itself—are fundamentally viewed as 'parental guidance' or 'warnings' (oshie) from God the Parent, intended to prompt self-reflection and the 'sweeping away' of 'dust in the mind.' They are not punishments, but compassionate lessons."
+        },
+        {
+          "id": "tenrikyo-q5-5",
+          "type": "trueFalse",
+          "question": "Miracles in Tenrikyo are sought after for their own sake.",
+          "correctAnswer": "false",
+          "explanation": "Miracles, though not sought after for their own sake, are considered clear signs of God's active involvement and benevolence."
+        },
+        {
+          "id": "tenrikyo-q5-6",
+          "type": "trueFalse",
+          "question": "Every event in life, whether good or bad, is interpreted as a manifestation of God's parental love in Tenrikyo.",
+          "correctAnswer": "true",
+          "explanation": "Every event, whether seemingly good or bad, is interpreted as a manifestation of God's parental love, serving as a lesson or a nudge to steer humanity towards spiritual refinement."
         }
       ]
     }
@@ -268,7 +403,7 @@
     "id": "tenrikyo-mastery",
     "title": "Tenrikyo Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 250,
     "questions": [
       {
         "id": "tenrikyo-mt-q1",

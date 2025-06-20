@@ -4,7 +4,7 @@
   "description": "Explore the gentler vision of death in contemporary Paganism, where death is seen as another turn of the Wheel of the Year, leading to the Summerland for rest, reflection, and preparation for new incarnations.",
   "icon": "triple_goddess",
   "color": "#800080",
-  "totalXP": 600,
+  "totalXP": 1500,
   "lessons": [
     {
       "id": "wicca-intro",
@@ -19,7 +19,7 @@
         "Natural cycles",
         "Spiritual evolution"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q1-1",
@@ -53,6 +53,33 @@
           ],
           "correctAnswer": "A state of being or dimension between incarnations",
           "explanation": "The soul journeys to the Summerland—not a literal place, but a state of being between incarnations."
+        },
+        {
+          "id": "wicca-q1-4",
+          "type": "trueFalse",
+          "question": "Wiccan beliefs about death emphasize fear, punishment, and retribution.",
+          "correctAnswer": "false",
+          "explanation": "This understanding removes the fear often associated with death, as souls find rest without the burdens of earthly judgment, punishment, or retribution."
+        },
+        {
+          "id": "wicca-q1-5",
+          "type": "multipleChoice",
+          "question": "What happens in the Summerland according to Wiccan belief?",
+          "options": [
+            "Souls face trial and judgment",
+            "Souls find rest, healing, and opportunity for reflection",
+            "Souls are immediately reborn",
+            "Souls cease to exist"
+          ],
+          "correctAnswer": "Souls find rest, healing, and opportunity for reflection",
+          "explanation": "Here, souls find profound rest, healing, and opportunity for reflection without the burdens of earthly judgment."
+        },
+        {
+          "id": "wicca-q1-6",
+          "type": "trueFalse",
+          "question": "The Summerland is often described as an 'eternal summer twilight' before souls prepare for their return.",
+          "correctAnswer": "true",
+          "explanation": "It is a tranquil 'eternal summer twilight' before the soul prepares for its return to the physical plane."
         }
       ]
     },
@@ -69,7 +96,7 @@
         "Karmic understanding",
         "Soul reunion"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q2-1",
@@ -103,6 +130,33 @@
           ],
           "correctAnswer": "A dispassionate observation for insight and growth",
           "explanation": "Souls review their past life like a movie, gaining understanding of consequences... This review is non-judgmental, purely for insight and growth."
+        },
+        {
+          "id": "wicca-q2-4",
+          "type": "trueFalse",
+          "question": "In the Summerland, souls are reunited with beloved companions from across lifetimes.",
+          "correctAnswer": "true",
+          "explanation": "This gentle realm is where souls are reunited with beloved animal companions, friends, and family members from across lifetimes."
+        },
+        {
+          "id": "wicca-q2-5",
+          "type": "multipleChoice",
+          "question": "How is the Summerland's environment typically depicted?",
+          "options": [
+            "As a barren wasteland",
+            "As a modern city",
+            "As idyllic, idealized nature with forests and meadows",
+            "As an empty void"
+          ],
+          "correctAnswer": "As idyllic, idealized nature with forests and meadows",
+          "explanation": "The Summerland is often depicted as a realm of idyllic, idealized nature—lush ancient forests, clear meadow streams, sun-dappled glades."
+        },
+        {
+          "id": "wicca-q2-6",
+          "type": "trueFalse",
+          "question": "The life review in the Summerland serves as preparation for the next incarnation.",
+          "correctAnswer": "true",
+          "explanation": "This review is non-judgmental, purely for insight and growth, serving as vital preparation for the next incarnation."
         }
       ]
     },
@@ -120,7 +174,7 @@
         "Thinning veil",
         "Spiritual growth"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q3-1",
@@ -154,6 +208,33 @@
           ],
           "correctAnswer": "A time when the veil between worlds thins, allowing communication",
           "explanation": "The veil between worlds thins at Samhain, allowing for easier communication and interaction between the physical and spiritual realms."
+        },
+        {
+          "id": "wicca-q3-4",
+          "type": "trueFalse",
+          "question": "Highly advanced souls might volunteer for difficult lives to rapidly resolve karmic patterns.",
+          "correctAnswer": "true",
+          "explanation": "Highly advanced souls might even volunteer for particularly difficult or challenging lives, understanding that such experiences can rapidly 'burn off' significant karma."
+        },
+        {
+          "id": "wicca-q3-5",
+          "type": "multipleChoice",
+          "question": "What role can souls play between incarnations according to Wiccan belief?",
+          "options": [
+            "They become demons",
+            "They act as benevolent spirit guides",
+            "They are trapped in limbo",
+            "They have no influence on the living"
+          ],
+          "correctAnswer": "They act as benevolent spirit guides",
+          "explanation": "Between lives, or even while resting in the Summerland, souls can act as benevolent spirit guides, offering inspiration to artists, providing comfort."
+        },
+        {
+          "id": "wicca-q3-6",
+          "type": "trueFalse",
+          "question": "Communication with the dead during Samhain is viewed as fearful haunting in Wiccan belief.",
+          "correctAnswer": "false",
+          "explanation": "This connection is viewed not as fearful haunting but as a loving, respectful bond across death's boundary."
         }
       ]
     },
@@ -172,7 +253,7 @@
         "Cycle of rebirth",
         "Sacred balance"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q4-1",
@@ -206,6 +287,33 @@
           ],
           "correctAnswer": "A guide in the Summerland and overseer of rebirth",
           "explanation": "The God, often seen as the Horned God or the Lord of Death and Rebirth, is also a guide in the underworld or the Summerland, escorting souls to their rest and overseeing the preparatory period before reincarnation."
+        },
+        {
+          "id": "wicca-q4-4",
+          "type": "trueFalse",
+          "question": "The Goddess is associated with the fertile earth into which bodies return and from which new life springs.",
+          "correctAnswer": "true",
+          "explanation": "She is the fertile earth into which bodies return, and from which new life springs."
+        },
+        {
+          "id": "wicca-q4-5",
+          "type": "multipleChoice",
+          "question": "What do the Goddess and God together represent in Wiccan belief?",
+          "options": [
+            "Eternal conflict between good and evil",
+            "The sacred balance of creation and destruction, life and death",
+            "Punishment and reward",
+            "Separate, unconnected realms"
+          ],
+          "correctAnswer": "The sacred balance of creation and destruction, life and death",
+          "explanation": "Together, the Goddess and God represent the sacred balance of creation and destruction, life and death, embodying the cyclical nature of existence."
+        },
+        {
+          "id": "wicca-q4-6",
+          "type": "trueFalse",
+          "question": "The God in Wiccan belief represents the wild, untamed aspects of nature and continuous renewal.",
+          "correctAnswer": "true",
+          "explanation": "He represents the wild, untamed aspects of nature and the continuous renewal of life."
         }
       ]
     },
@@ -222,7 +330,7 @@
         "Divination",
         "Spiritual connection"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q5-1",
@@ -256,6 +364,33 @@
           ],
           "correctAnswer": "Food, drink, flowers, candles, and incense",
           "explanation": "Offerings of food (like bread or fruit), drink (water, wine, or juice), flowers, candles, and incense are commonly placed on these altars."
+        },
+        {
+          "id": "wicca-q5-4",
+          "type": "trueFalse",
+          "question": "Wiccans only connect with ancestors during Samhain and ignore them the rest of the year.",
+          "correctAnswer": "false",
+          "explanation": "Beyond the annual observation of Samhain, Wiccans often maintain an ongoing, respectful relationship with their ancestors and the broader spirit world throughout the year."
+        },
+        {
+          "id": "wicca-q5-5",
+          "type": "multipleChoice",
+          "question": "What forms can communication with ancestors take in Wiccan practice?",
+          "options": [
+            "Only through professional mediums",
+            "Exclusively through dreams",
+            "Meditation, prayer, divination, or ritual",
+            "Electronic devices only"
+          ],
+          "correctAnswer": "Meditation, prayer, divination, or ritual",
+          "explanation": "Communication with ancestors or benevolent spirits can take various forms, including meditation, prayer, divination (e.g., tarot, scrying), or ritual."
+        },
+        {
+          "id": "wicca-q5-6",
+          "type": "trueFalse",
+          "question": "Offerings on ancestor altars are believed to nourish spirits and strengthen the bond with the living.",
+          "correctAnswer": "true",
+          "explanation": "Offerings... are commonly placed on these altars as gestures of love and remembrance, believed to nourish the spirits and strengthen the bond."
         }
       ]
     },
@@ -274,7 +409,7 @@
         "Karmic debt",
         "Spiritual growth"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q6-1",
@@ -308,6 +443,33 @@
           ],
           "correctAnswer": "As a spiritual lesson-provider and natural energetic echo",
           "explanation": "Unlike some Eastern philosophies where karma is a strict debt system, in Wicca, it is often understood more as a spiritual lesson-provider and a natural energetic echo."
+        },
+        {
+          "id": "wicca-q6-4",
+          "type": "trueFalse",
+          "question": "The Law of Threefold Return applies only to actions, not to thoughts or intentions.",
+          "correctAnswer": "false",
+          "explanation": "This applies not only to actions but also to thoughts and intentions."
+        },
+        {
+          "id": "wicca-q6-5",
+          "type": "multipleChoice",
+          "question": "How might difficult experiences in a current life be understood through the Law of Threefold Return?",
+          "options": [
+            "As random bad luck",
+            "As divine punishment",
+            "As a return of negative energy or chosen challenges for spiritual growth",
+            "As proof that karma doesn't exist"
+          ],
+          "correctAnswer": "As a return of negative energy or chosen challenges for spiritual growth",
+          "explanation": "Difficult experiences might be understood as a direct return of negative energy put out in a past life, or as a chosen challenge to rapidly 'burn off' accumulated karmic debt."
+        },
+        {
+          "id": "wicca-q6-6",
+          "type": "trueFalse",
+          "question": "Positive actions in one life can lead to more favorable circumstances in future incarnations.",
+          "correctAnswer": "true",
+          "explanation": "Positive actions and virtuous living in one life can lead to more favorable circumstances and opportunities for growth in future incarnations."
         }
       ]
     },
@@ -327,7 +489,7 @@
         "Natural burial",
         "Wheel of the Year"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "wicca-q7-1",
@@ -361,6 +523,33 @@
           ],
           "correctAnswer": "To aid the soul's separation from the physical body and attachments",
           "explanation": "Rituals designed to gently aid the soul's separation from the physical body and its attachments to the earthly realm, helping it move freely towards the Summerland."
+        },
+        {
+          "id": "wicca-q7-4",
+          "type": "trueFalse",
+          "question": "Cremation and natural burial are common choices in Wiccan funerary practices.",
+          "correctAnswer": "true",
+          "explanation": "Cremation is a common choice, symbolizing the return to the elements, though natural burial is also favored."
+        },
+        {
+          "id": "wicca-q7-5",
+          "type": "multipleChoice",
+          "question": "What symbolic practice reinforces the connection to nature and the cycle of life in Wiccan memorials?",
+          "options": [
+            "Building concrete monuments",
+            "Planting a tree or creating a memorial garden",
+            "Erecting metal statues",
+            "Creating digital memorials only"
+          ],
+          "correctAnswer": "Planting a tree or creating a memorial garden",
+          "explanation": "A popular practice is to plant a tree or create a memorial garden in honor of the deceased, reinforcing the connection to nature and the cycle of life."
+        },
+        {
+          "id": "wicca-q7-6",
+          "type": "trueFalse",
+          "question": "The four classical elements are often invoked in Wiccan funerals to symbolize the dissolution of the body and the enduring spirit.",
+          "correctAnswer": "true",
+          "explanation": "Often, the four classical elements (Earth, Air, Fire, Water) are invoked to symbolize the dissolution of the body and the enduring spirit."
         }
       ]
     }
@@ -369,7 +558,7 @@
     "id": "wicca-mastery",
     "title": "Wicca Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 250,
     "questions": [
       {
         "id": "wicca-mt-q1",
