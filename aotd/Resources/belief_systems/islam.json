@@ -4,7 +4,7 @@
   "description": "Discover the precise and detailed cartography of death's journey in Islam, from the Angel of Death to the grave, the Final Hour, and the crossing of As-Sirat to Jannah or Jahannam.",
   "icon": "star_and_crescent",
   "color": "#009000",
-  "totalXP": 600,
+  "totalXP": 1000,
   "lessons": [
     {
       "id": "islam-intro",
@@ -20,7 +20,7 @@
         "Righteous",
         "Wicked"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "islam-q1-1",
@@ -37,13 +37,6 @@
         },
         {
           "id": "islam-q1-2",
-          "type": "trueFalse",
-          "question": "Islamic eschatology lacks detailed descriptions of the afterlife.",
-          "correctAnswer": "false",
-          "explanation": "Islamic eschatology presents perhaps the most detailed map of death's journey, precisely described in Quran and Hadith."
-        },
-        {
-          "id": "islam-q1-3",
           "type": "multipleChoice",
           "question": "How does Azrael appear to the righteous dying person?",
           "options": [
@@ -54,6 +47,40 @@
           ],
           "correctAnswer": "Beautiful and serene",
           "explanation": "To the righteous, Azrael appears in a beautiful, serene, and comforting guise."
+        },
+        {
+          "id": "islam-q1-3",
+          "type": "multipleChoice",
+          "question": "How is the soul extraction described for the wicked?",
+          "options": [
+            "Like water from a waterskin",
+            "Like a hair from dough",
+            "Like a thorny branch through wet wool",
+            "Like a gentle breeze"
+          ],
+          "correctAnswer": "Like a thorny branch through wet wool",
+          "explanation": "For the wicked, the extraction is depicted as violent and agonizing, like a thorny branch being pulled through wet wool."
+        },
+        {
+          "id": "islam-q1-4",
+          "type": "trueFalse",
+          "question": "Islamic eschatology lacks detailed descriptions of the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "Islamic eschatology presents perhaps the most detailed map of death's journey, precisely described in Quran and Hadith."
+        },
+        {
+          "id": "islam-q1-5",
+          "type": "trueFalse",
+          "question": "The dying person is granted a glimpse of their impending fate.",
+          "correctAnswer": "true",
+          "explanation": "As the final moments of earthly life approach, the dying person is granted a profound glimpse into their impending fate."
+        },
+        {
+          "id": "islam-q1-6",
+          "type": "trueFalse",
+          "question": "The form of Azrael is the same for all dying people.",
+          "correctAnswer": "false",
+          "explanation": "The form in which Azrael manifests is a direct reflection of the dying person's spiritual state: beautiful to the righteous, terrifying to the wicked."
         }
       ]
     },
@@ -70,7 +97,7 @@
         "Grave comfort",
         "Qiyamah (Resurrection)"
       ],
-      "xpReward": 100,
+      "xpReward": 150,
       "questions": [
         {
           "id": "islam-q2-1",
@@ -87,26 +114,6 @@
         },
         {
           "id": "islam-q2-2",
-          "type": "trueFalse",
-          "question": "Munkar and Nakir are angels who defend the righteous in the grave.",
-          "correctAnswer": "false",
-          "explanation": "Munkar and Nakir are terrible angels who ask three questions to determine immediate fate."
-        },
-        {
-          "id": "islam-q2-3",
-          "type": "multipleChoice",
-          "question": "Which of the following is NOT one of the three questions asked by Munkar and Nakir?",
-          "options": [
-            "Who is your Lord?",
-            "What is your prophet?",
-            "What is your religion?",
-            "What was your favorite food?"
-          ],
-          "correctAnswer": "What was your favorite food?",
-          "explanation": "The three questions are: 'Who is your Lord? What is your religion? Who is your prophet?'"
-        },
-        {
-          "id": "islam-q2-4",
           "type": "multipleChoice",
           "question": "What happens to the grave of the wicked after the questioning by Munkar and Nakir?",
           "options": [
@@ -117,6 +124,40 @@
           ],
           "correctAnswer": "It violently crushes inward and fills with darkness and heat",
           "explanation": "For the wicked, the grave will violently crush inward, filling with suffocating darkness and scorching heat, becoming a painful prelude to the greater torment of Hellfire."
+        },
+        {
+          "id": "islam-q2-3",
+          "type": "multipleChoice",
+          "question": "What happens to the souls of the righteous during their celestial journey?",
+          "options": [
+            "They are rejected at every heaven",
+            "The gates of each heaven open readily with angelic greetings",
+            "They remain on Earth",
+            "They immediately enter Hell"
+          ],
+          "correctAnswer": "The gates of each heaven open readily with angelic greetings",
+          "explanation": "For the souls of the righteous, adorned with purity and good deeds, the gates of each heaven open readily, accompanied by the greetings and prayers of angels."
+        },
+        {
+          "id": "islam-q2-4",
+          "type": "trueFalse",
+          "question": "Munkar and Nakir are angels who defend the righteous in the grave.",
+          "correctAnswer": "false",
+          "explanation": "Munkar and Nakir are terrible angels who ask three questions to determine immediate fate."
+        },
+        {
+          "id": "islam-q2-5",
+          "type": "trueFalse",
+          "question": "The deceased can hear the departing footsteps of their mourners.",
+          "correctAnswer": "true",
+          "explanation": "The deceased, even while physically buried, retains a form of conscious awareness, capable of hearing the departing footsteps of their mourners."
+        },
+        {
+          "id": "islam-q2-6",
+          "type": "trueFalse",
+          "question": "The souls of the wicked are welcomed into the heavens during their ascent.",
+          "correctAnswer": "false",
+          "explanation": "The souls of the wicked encounter an immediate and crushing rejection; the gates of heaven remain shut, and they are hurled back to Earth."
         }
       ]
     },
@@ -136,7 +177,7 @@
         "Gog and Magog",
         "Intercession"
       ],
-      "xpReward": 100,
+      "xpReward": 150,
       "questions": [
         {
           "id": "islam-q3-1",
@@ -153,13 +194,6 @@
         },
         {
           "id": "islam-q3-2",
-          "type": "trueFalse",
-          "question": "The waiting period on the Plain of Gathering is short for everyone.",
-          "correctAnswer": "false",
-          "explanation": "The waiting on the Plain of Gathering extends—some hadith suggest 50,000 years."
-        },
-        {
-          "id": "islam-q3-3",
           "type": "multipleChoice",
           "question": "Who sounds the Trumpet to initiate the Final Hour and resurrection?",
           "options": [
@@ -170,6 +204,40 @@
           ],
           "correctAnswer": "Israfil",
           "explanation": "Israfil sounds the Trumpet, causing all creation to die, then live again."
+        },
+        {
+          "id": "islam-q3-3",
+          "type": "multipleChoice",
+          "question": "How do people emerge from their graves at resurrection?",
+          "options": [
+            "Fully clothed in their burial shrouds",
+            "As spirits without bodies",
+            "Naked and uncircumcised, as they were at birth",
+            "In glorified bodies"
+          ],
+          "correctAnswer": "Naked and uncircumcised, as they were at birth",
+          "explanation": "Humanity will rise from their graves, emerging naked and uncircumcised, precisely as they were at birth."
+        },
+        {
+          "id": "islam-q3-4",
+          "type": "trueFalse",
+          "question": "The waiting period on the Plain of Gathering is short for everyone.",
+          "correctAnswer": "false",
+          "explanation": "The waiting on the Plain of Gathering extends—some hadith suggest 50,000 years."
+        },
+        {
+          "id": "islam-q3-5",
+          "type": "trueFalse",
+          "question": "The righteous believers will find shade under Allah's Throne on the Plain of Gathering.",
+          "correctAnswer": "true",
+          "explanation": "The righteous believers will find miraculous shade under Allah's majestic Throne, shielded from the searing heat."
+        },
+        {
+          "id": "islam-q3-6",
+          "type": "trueFalse",
+          "question": "People's sweat on the Plain of Gathering is the same depth for everyone.",
+          "correctAnswer": "false",
+          "explanation": "People will be submerged in their own sweat, the depth of which will be proportional to their accumulated sins."
         }
       ]
     },
@@ -187,7 +255,7 @@
         "Ummah",
         "Reckoning"
       ],
-      "xpReward": 100,
+      "xpReward": 150,
       "questions": [
         {
           "id": "islam-q4-1",
@@ -204,13 +272,6 @@
         },
         {
           "id": "islam-q4-2",
-          "type": "trueFalse",
-          "question": "Intercession is not possible on the Day of Judgment.",
-          "correctAnswer": "false",
-          "explanation": "Prophet Muhammad will be granted the 'Grand Intercession' (Shafa'ah al-Kubra) on this day, interceding on behalf of his Ummah (community)."
-        },
-        {
-          "id": "islam-q4-3",
           "type": "multipleChoice",
           "question": "In the Day of Judgment, how do the righteous receive their Book of Deeds?",
           "options": [
@@ -221,6 +282,40 @@
           ],
           "correctAnswer": "In their right hand",
           "explanation": "The righteous will receive their book in their right hand, a sign of their success and acceptance by Allah."
+        },
+        {
+          "id": "islam-q4-3",
+          "type": "multipleChoice",
+          "question": "What is the 'Grand Intercession' (Shafa'ah al-Kubra)?",
+          "options": [
+            "A type of prayer",
+            "Prophet Muhammad's intercession for his community",
+            "A judgment ritual",
+            "A heavenly reward"
+          ],
+          "correctAnswer": "Prophet Muhammad's intercession for his community",
+          "explanation": "Prophet Muhammad (peace be upon him) will be granted the 'Grand Intercession' to intercede on behalf of his Ummah (community) to expedite the judgment process."
+        },
+        {
+          "id": "islam-q4-4",
+          "type": "trueFalse",
+          "question": "Intercession is not possible on the Day of Judgment.",
+          "correctAnswer": "false",
+          "explanation": "Prophet Muhammad will be granted the 'Grand Intercession' (Shafa'ah al-Kubra) on this day, interceding on behalf of his Ummah (community)."
+        },
+        {
+          "id": "islam-q4-5",
+          "type": "trueFalse",
+          "question": "Even the smallest atom's weight of good or evil will be accounted for.",
+          "correctAnswer": "true",
+          "explanation": "Even the smallest atom's weight of good or evil will be accounted for on the Scale (Mizan)."
+        },
+        {
+          "id": "islam-q4-6",
+          "type": "trueFalse",
+          "question": "Only Prophet Muhammad can intercede on the Day of Judgment.",
+          "correctAnswer": "false",
+          "explanation": "Other prophets, martyrs, and righteous individuals may also be granted permission to intercede for those they know, but only with Allah's explicit permission."
         }
       ]
     },
@@ -238,7 +333,7 @@
         "Jannah",
         "Jahannam"
       ],
-      "xpReward": 100,
+      "xpReward": 150,
       "questions": [
         {
           "id": "islam-q5-1",
@@ -255,13 +350,6 @@
         },
         {
           "id": "islam-q5-2",
-          "type": "trueFalse",
-          "question": "Prophet Muhammad cries out for the wicked as they cross As-Sirat.",
-          "correctAnswer": "false",
-          "explanation": "Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers (believers) attempt passage."
-        },
-        {
-          "id": "islam-q5-3",
           "type": "multipleChoice",
           "question": "How do the righteous cross As-Sirat?",
           "options": [
@@ -272,6 +360,40 @@
           ],
           "correctAnswer": "With incredible speed, like lightning or wind",
           "explanation": "For the righteous, As-Sirat broadens and they will cross with incredible speed, some like lightning, others like strong winds, like swift horses, or even like a bird in flight."
+        },
+        {
+          "id": "islam-q5-3",
+          "type": "multipleChoice",
+          "question": "What are the 'Kalaleeb' on As-Sirat?",
+          "options": [
+            "Guiding lights",
+            "Protective angels",
+            "Horrific hooks that drag sinners into Hell",
+            "Steps to climb"
+          ],
+          "correctAnswer": "Horrific hooks that drag sinners into Hell",
+          "explanation": "Horrific hooks and grappling irons, known as Kalaleeb, emerge from below, dragging sinners into the abyss of Hell."
+        },
+        {
+          "id": "islam-q5-4",
+          "type": "trueFalse",
+          "question": "Prophet Muhammad cries out for the wicked as they cross As-Sirat.",
+          "correctAnswer": "false",
+          "explanation": "Prophet Muhammad stands at the bridge, crying, 'My Ummah! My Ummah!' as he watches his followers (believers) attempt passage."
+        },
+        {
+          "id": "islam-q5-5",
+          "type": "trueFalse",
+          "question": "As-Sirat is described as thinner than a strand of hair and sharper than a sword.",
+          "correctAnswer": "true",
+          "explanation": "This bridge is described as thinner than a strand of hair and sharper than the edge of a sword, a terrifying and unfathomable path."
+        },
+        {
+          "id": "islam-q5-6",
+          "type": "trueFalse",
+          "question": "All souls must cross As-Sirat, both righteous and wicked.",
+          "correctAnswer": "true",
+          "explanation": "After the judgment and reckoning, all souls, both righteous and wicked, must face the ultimate and most perilous test: the crossing of As-Sirat."
         }
       ]
     },
@@ -309,13 +431,6 @@
         },
         {
           "id": "islam-q6-2",
-          "type": "trueFalse",
-          "question": "In Jahannam, the skin of the damned does not regenerate, ensuring a quick end to suffering.",
-          "correctAnswer": "false",
-          "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering."
-        },
-        {
-          "id": "islam-q6-3",
           "type": "multipleChoice",
           "question": "How many levels does Jannah unfold in?",
           "options": [
@@ -328,7 +443,7 @@
           "explanation": "Jannah unfolds in eight levels."
         },
         {
-          "id": "islam-q6-4",
+          "id": "islam-q6-3",
           "type": "multipleChoice",
           "question": "What is the tree of Zaqqum found in Jahannam?",
           "options": [
@@ -339,6 +454,27 @@
           ],
           "correctAnswer": "A thorny, bitter tree whose fruit is like molten brass",
           "explanation": "They are forced to eat from the tree of Zaqqum, a thorny, bitter tree whose fruit is like molten brass and boils in their bellies like oil."
+        },
+        {
+          "id": "islam-q6-4",
+          "type": "trueFalse",
+          "question": "In Jahannam, the skin of the damned does not regenerate, ensuring a quick end to suffering.",
+          "correctAnswer": "false",
+          "explanation": "In Jahannam, the damned's skin regenerates after burning, ensuring eternal suffering."
+        },
+        {
+          "id": "islam-q6-5",
+          "type": "trueFalse",
+          "question": "The highest level of Jannah is called Firdaws.",
+          "correctAnswer": "true",
+          "explanation": "The highest level is Firdaws, reserved for the most pious."
+        },
+        {
+          "id": "islam-q6-6",
+          "type": "trueFalse",
+          "question": "The damned in Jahannam are granted the release of death.",
+          "correctAnswer": "false",
+          "explanation": "Despite their agony, they are denied the release of death; their pleas for annihilation are met with the chilling divine declaration, 'You shall neither die nor live.'"
         }
       ]
     }

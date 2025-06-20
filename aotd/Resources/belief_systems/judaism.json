@@ -4,7 +4,7 @@
   "description": "Explore the profound yet veiled visions of death and the afterlife within Jewish tradition, from the shadowy Sheol to the radiant Gan Eden and the ultimate Olam Ha-Ba.",
   "icon": "star_of_david",
   "color": "#003F7F",
-  "totalXP": 450,
+  "totalXP": 585,
   "lessons": [
     {
       "id": "judaism-intro",
@@ -18,7 +18,7 @@
         "Olam Ha-Ba",
         "Torah"
       ],
-      "xpReward": 20,
+      "xpReward": 50,
       "questions": [
         {
           "id": "judaism-q1-1",
@@ -35,10 +35,50 @@
         },
         {
           "id": "judaism-q1-2",
+          "type": "multipleChoice",
+          "question": "What does 'Olam Ha-Zeh' refer to in Jewish thought?",
+          "options": [
+            "The afterlife",
+            "This world",
+            "The World to Come",
+            "The Garden of Eden"
+          ],
+          "correctAnswer": "This world",
+          "explanation": "'Olam Ha-Zeh' literally means 'this world' and represents the Jewish focus on living a meaningful life in the present rather than focusing primarily on the afterlife."
+        },
+        {
+          "id": "judaism-q1-3",
+          "type": "multipleChoice",
+          "question": "What are mitzvot in Jewish tradition?",
+          "options": [
+            "Angels that guide souls",
+            "Places in the afterlife",
+            "Commandments to be followed in this life",
+            "Prayers for the dead"
+          ],
+          "correctAnswer": "Commandments to be followed in this life",
+          "explanation": "Mitzvot are the commandments given by God that guide Jewish ethical and ritual life, emphasizing righteous action in this world."
+        },
+        {
+          "id": "judaism-q1-4",
           "type": "trueFalse",
           "question": "Judaism has a single, universally agreed-upon description of the afterlife.",
           "correctAnswer": "false",
           "explanation": "Jewish tradition contains varied and evolving views on the afterlife, developed across different historical periods and schools of thought, from Rabbinic literature to Kabbalah."
+        },
+        {
+          "id": "judaism-q1-5",
+          "type": "trueFalse",
+          "question": "The Torah provides extensive and detailed descriptions of the afterlife.",
+          "correctAnswer": "false",
+          "explanation": "The Torah is notably sparse on afterlife details, focusing instead on how to live righteously in this world according to God's commandments."
+        },
+        {
+          "id": "judaism-q1-6",
+          "type": "trueFalse",
+          "question": "Jewish tradition teaches that the soul continues to exist after physical death.",
+          "correctAnswer": "true",
+          "explanation": "Despite varying views on the afterlife's nature, Jewish tradition holds that the soul, as a divine spark from God, endures beyond death and continues on a spiritual journey."
         }
       ]
     },
@@ -55,7 +95,7 @@
         "Chayah",
         "Yechidah"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "judaism-q2-1",
@@ -72,10 +112,50 @@
         },
         {
           "id": "judaism-q2-2",
+          "type": "multipleChoice",
+          "question": "What aspect of human experience is the Ruach associated with?",
+          "options": [
+            "Physical instincts and desires",
+            "Emotion and morality",
+            "Pure divine intellect",
+            "Unity with God"
+          ],
+          "correctAnswer": "Emotion and morality",
+          "explanation": "The Ruach ('spirit') is the middle level of the soul, associated with emotions, ethical choices, and the moral dimension of human experience."
+        },
+        {
+          "id": "judaism-q2-3",
+          "type": "multipleChoice",
+          "question": "According to Kabbalah, how many main levels does the soul have?",
+          "options": [
+            "One unified soul",
+            "Two levels",
+            "Three to five levels",
+            "Seven levels"
+          ],
+          "correctAnswer": "Three to five levels",
+          "explanation": "Kabbalah teaches three main levels (Nefesh, Ruach, Neshamah) and two additional higher levels (Chayah and Yechidah) for those who attain greater spiritual heights."
+        },
+        {
+          "id": "judaism-q2-4",
           "type": "trueFalse",
           "question": "The *Neshamah* is the part of the soul associated with sin and corruption.",
           "correctAnswer": "false",
           "explanation": "The *Neshamah* is the highest of the three main soul-levels, the pure, incorruptible divine spark of intellect that connects humanity to God."
+        },
+        {
+          "id": "judaism-q2-5",
+          "type": "trueFalse",
+          "question": "After death, the Nefesh immediately ascends to heaven with the other parts of the soul.",
+          "correctAnswer": "false",
+          "explanation": "The Nefesh, being connected to the physical body, is said to linger near the body for a time after death before gradually dissipating."
+        },
+        {
+          "id": "judaism-q2-6",
+          "type": "trueFalse",
+          "question": "Chayah and Yechidah represent the highest levels of soul that achieve near-total unity with the Divine.",
+          "correctAnswer": "true",
+          "explanation": "These two highest levels of soul represent states of profound spiritual attainment where the soul experiences deep unity with God's essence."
         }
       ]
     },
@@ -91,7 +171,7 @@
         "Diminished consciousness",
         "Underworld"
       ],
-      "xpReward": 25,
+      "xpReward": 60,
       "questions": [
         {
           "id": "judaism-q3-1",
@@ -108,10 +188,50 @@
         },
         {
           "id": "judaism-q3-2",
+          "type": "multipleChoice",
+          "question": "How are souls described in Sheol according to the Tanakh?",
+          "options": [
+            "As angels praising God",
+            "As refaim (shades) with diminished consciousness",
+            "As tormented spirits in flames",
+            "As fully conscious beings with all memories intact"
+          ],
+          "correctAnswer": "As refaim (shades) with diminished consciousness",
+          "explanation": "In Sheol, souls exist as refaim or shades - shadowy remnants with faded consciousness, memory, and identity."
+        },
+        {
+          "id": "judaism-q3-3",
+          "type": "multipleChoice",
+          "question": "What metaphor is commonly used to describe Sheol in biblical texts?",
+          "options": [
+            "A garden of delight",
+            "A lake of fire",
+            "A vast, dark pit or grave",
+            "A golden city"
+          ],
+          "correctAnswer": "A vast, dark pit or grave",
+          "explanation": "Sheol is often described as a pit, grave, or underground realm of dust and shadows, emphasizing its nature as a place of darkness and separation."
+        },
+        {
+          "id": "judaism-q3-4",
           "type": "trueFalse",
           "question": "Sheol is described in the Tanakh as a place of active, fiery torment for sins.",
           "correctAnswer": "false",
           "explanation": "Sheol is depicted as a place of shadow, dust, and diminished consciousness, not as a place of judgment or punishment like later concepts of Hell."
+        },
+        {
+          "id": "judaism-q3-5",
+          "type": "trueFalse",
+          "question": "In Sheol, souls maintain their connection to God and continue to worship.",
+          "correctAnswer": "false",
+          "explanation": "One of the most troubling aspects of Sheol in early Jewish thought was the separation from God - souls there could not praise or connect with the Divine."
+        },
+        {
+          "id": "judaism-q3-6",
+          "type": "trueFalse",
+          "question": "Later Jewish traditions largely replaced the concept of Sheol with more complex ideas like Gan Eden and Gehinnom.",
+          "correctAnswer": "true",
+          "explanation": "As Jewish theology evolved, the simple, neutral underworld of Sheol was supplemented and largely replaced by concepts of judgment, purification, and reward."
         }
       ]
     },
@@ -127,7 +247,7 @@
         "Twelve months",
         "Karet"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "judaism-q4-1",
@@ -144,10 +264,50 @@
         },
         {
           "id": "judaism-q4-2",
+          "type": "multipleChoice",
+          "question": "How long does the purification process in Gehinnom typically last?",
+          "options": [
+            "Seven days",
+            "Forty days",
+            "No more than twelve months",
+            "Eternity"
+          ],
+          "correctAnswer": "No more than twelve months",
+          "explanation": "Jewish tradition teaches that for most souls, the purification process in Gehinnom lasts a maximum of twelve months."
+        },
+        {
+          "id": "judaism-q4-3",
+          "type": "multipleChoice",
+          "question": "What happens to the most irredeemably wicked souls according to Jewish mysticism?",
+          "options": [
+            "They are forgiven immediately",
+            "They face karet (spiritual annihilation) or remain in Gehinnom indefinitely",
+            "They are reincarnated as animals",
+            "They become demons"
+          ],
+          "correctAnswer": "They face karet (spiritual annihilation) or remain in Gehinnom indefinitely",
+          "explanation": "Only the most wicked souls who refuse all repentance face either complete spiritual destruction (karet) or indefinite purification."
+        },
+        {
+          "id": "judaism-q4-4",
           "type": "trueFalse",
           "question": "According to tradition, the process of purification in Gehinnom typically lasts forever.",
           "correctAnswer": "false",
           "explanation": "For the vast majority of souls, the purification in Gehinnom is a temporary process that is said to last no more than twelve months."
+        },
+        {
+          "id": "judaism-q4-5",
+          "type": "trueFalse",
+          "question": "The suffering in Gehinnom is described as purposeful and rehabilitative rather than vindictive.",
+          "correctAnswer": "true",
+          "explanation": "Jewish mystics describe Gehinnom as a 'spiritual laundromat' where suffering serves to cleanse the soul of its sins, not to punish vindictively."
+        },
+        {
+          "id": "judaism-q4-6",
+          "type": "trueFalse",
+          "question": "Gehinnom takes its name from a valley near Jerusalem.",
+          "correctAnswer": "true",
+          "explanation": "Gehinnom is named after the Valley of Hinnom (Gei Hinnom) near Jerusalem, which had negative associations in biblical times."
         }
       ]
     },
@@ -163,7 +323,7 @@
         "Divine Presence",
         "Yeshiva shel ma'alah"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "judaism-q5-1",
@@ -180,10 +340,50 @@
         },
         {
           "id": "judaism-q5-2",
+          "type": "multipleChoice",
+          "question": "What is the 'yeshiva shel ma'alah' in Gan Eden?",
+          "options": [
+            "A place of physical rest",
+            "A celestial academy for continued Torah study",
+            "A judgment court",
+            "A reunion hall for families"
+          ],
+          "correctAnswer": "A celestial academy for continued Torah study",
+          "explanation": "The yeshiva shel ma'alah is the 'heavenly academy' where souls continue their spiritual and intellectual growth through Torah study."
+        },
+        {
+          "id": "judaism-q5-3",
+          "type": "multipleChoice",
+          "question": "How many levels of Gan Eden are traditionally described?",
+          "options": [
+            "One unified paradise",
+            "Two levels: Lower and Upper",
+            "Seven heavens",
+            "Countless levels"
+          ],
+          "correctAnswer": "Two levels: Lower and Upper",
+          "explanation": "Tradition describes Lower Gan Eden (more tangible spiritual bliss) and Upper Gan Eden (purely spiritual, celestial realm)."
+        },
+        {
+          "id": "judaism-q5-4",
           "type": "trueFalse",
           "question": "Gan Eden is understood to have only one, purely spiritual level of existence.",
           "correctAnswer": "false",
           "explanation": "Jewish tradition often speaks of two realms of paradise: a lower, terrestrial Gan Eden and a higher, purely celestial Gan Eden."
+        },
+        {
+          "id": "judaism-q5-5",
+          "type": "trueFalse",
+          "question": "In Gan Eden, souls are believed to 'rest' in a state of passive inactivity.",
+          "correctAnswer": "false",
+          "explanation": "Souls in Gan Eden actively engage in understanding Torah's secrets and God's nature - it's a place of intense spiritual and intellectual activity."
+        },
+        {
+          "id": "judaism-q5-6",
+          "type": "trueFalse",
+          "question": "The experience of Ziv HaShekhinah refers to basking in the radiance of the Divine Presence.",
+          "correctAnswer": "true",
+          "explanation": "Ziv HaShekhinah, experiencing the radiance of God's presence, is described as the ultimate spiritual bliss in Gan Eden."
         }
       ]
     },
@@ -200,7 +400,7 @@
         "Ibbur",
         "Tikkun Olam"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "judaism-q6-1",
@@ -217,10 +417,50 @@
         },
         {
           "id": "judaism-q6-2",
+          "type": "multipleChoice",
+          "question": "Which famous Kabbalist is most associated with developing the concept of Gilgul?",
+          "options": [
+            "Moses Maimonides",
+            "Rashi",
+            "Isaac Luria (the Ari)",
+            "The Baal Shem Tov"
+          ],
+          "correctAnswer": "Isaac Luria (the Ari)",
+          "explanation": "Isaac Luria, known as the Ari, was the 16th-century Kabbalist who most fully developed the doctrine of reincarnation in Jewish mysticism."
+        },
+        {
+          "id": "judaism-q6-3",
+          "type": "multipleChoice",
+          "question": "What is 'Ibbur' in Jewish mysticism?",
+          "options": [
+            "The complete destruction of a soul",
+            "When a more advanced soul temporarily attaches to help someone",
+            "The first stage of death",
+            "A type of angel"
+          ],
+          "correctAnswer": "When a more advanced soul temporarily attaches to help someone",
+          "explanation": "Ibbur ('impregnation') occurs when a righteous soul temporarily joins with a living person to help them overcome challenges or perform significant deeds."
+        },
+        {
+          "id": "judaism-q6-4",
           "type": "trueFalse",
           "question": "The concept of reincarnation is a fundamental belief in all denominations of Judaism.",
           "correctAnswer": "false",
           "explanation": "While it is a central idea in Jewish mysticism (Kabbalah), the belief in reincarnation is not held by all Jews, particularly within more rationalist traditions."
+        },
+        {
+          "id": "judaism-q6-5",
+          "type": "trueFalse",
+          "question": "According to Kabbalah, a soul might reincarnate simply to help guide a generation.",
+          "correctAnswer": "true",
+          "explanation": "Sometimes righteous souls are reborn not for their own perfection but to serve as spiritual guides and leaders for their generation."
+        },
+        {
+          "id": "judaism-q6-6",
+          "type": "trueFalse",
+          "question": "Gilgul Neshamot is connected to the concept of Tikkun Olam (repairing the world).",
+          "correctAnswer": "true",
+          "explanation": "Reincarnation is seen as part of the larger cosmic process of Tikkun Olam, where souls work across lifetimes to help repair and perfect the world."
         }
       ]
     },
@@ -237,7 +477,7 @@
         "Kaddish",
         "Messianic Age"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "judaism-q7-1",
@@ -254,10 +494,50 @@
         },
         {
           "id": "judaism-q7-2",
+          "type": "multipleChoice",
+          "question": "How long is the traditional Shiva mourning period?",
+          "options": [
+            "Three days",
+            "Seven days",
+            "Thirty days",
+            "One year"
+          ],
+          "correctAnswer": "Seven days",
+          "explanation": "Shiva is the intense seven-day mourning period that helps the soul transition from its earthly moorings while supporting the mourners."
+        },
+        {
+          "id": "judaism-q7-3",
+          "type": "multipleChoice",
+          "question": "What does 'Olam Ha-Ba' encompass in Jewish eschatology?",
+          "options": [
+            "Only the current world",
+            "Only paradise for righteous souls",
+            "The Messianic Age and resurrection of the dead",
+            "Only the period of purification"
+          ],
+          "correctAnswer": "The Messianic Age and resurrection of the dead",
+          "explanation": "Olam Ha-Ba (the World to Come) refers to the ultimate destiny including both the Messianic Age and the resurrection of the dead (Techiat HaMeitim)."
+        },
+        {
+          "id": "judaism-q7-4",
           "type": "trueFalse",
           "question": "The belief in *Techiat HaMeitim* (Resurrection of the Dead) is the reason traditional Judaism encourages cremation.",
           "correctAnswer": "false",
           "explanation": "On the contrary, the belief in a future physical resurrection is the primary reason traditional Judaism forbids cremation, holding that the body should be intact to be resurrected."
+        },
+        {
+          "id": "judaism-q7-5",
+          "type": "trueFalse",
+          "question": "The Mourner's Kaddish contains explicit prayers for the dead person's soul.",
+          "correctAnswer": "false",
+          "explanation": "Surprisingly, the Kaddish contains no mention of death or the deceased - it is purely a praise of God that benefits the soul through the mourner's merit."
+        },
+        {
+          "id": "judaism-q7-6",
+          "type": "trueFalse",
+          "question": "Jewish tradition teaches that in the World to Come, the physical and spiritual will merge into a perfected existence.",
+          "correctAnswer": "true",
+          "explanation": "The ultimate vision of Olam Ha-Ba includes a perfected state where body and soul are reunited in a world where death no longer exists."
         }
       ]
     }

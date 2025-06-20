@@ -4,7 +4,7 @@
   "description": "Explore the diverse Christian visions of salvation and damnation, from Catholic doctrines of Heaven, Purgatory, and Hell, to Protestant variations and Eastern Orthodox mysticism.",
   "icon": "cross",
   "color": "#FFD700",
-  "totalXP": 600,
+  "totalXP": 1000,
   "lessons": [
     {
       "id": "christianity-intro",
@@ -19,7 +19,7 @@
         "Second Coming",
         "New Heavens and New Earth"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q1-1",
@@ -36,13 +36,6 @@
         },
         {
           "id": "christianity-q1-2",
-          "type": "trueFalse",
-          "question": "Christianity limits its afterlife vision to only Jewish concepts.",
-          "correctAnswer": "false",
-          "explanation": "Christianity expanded the Jewish vision into a vast cosmic drama of salvation and damnation."
-        },
-        {
-          "id": "christianity-q1-3",
           "type": "multipleChoice",
           "question": "When is the General Judgment expected to occur?",
           "options": [
@@ -53,6 +46,40 @@
           ],
           "correctAnswer": "At the end of time with Christ's Second Coming",
           "explanation": "The General Judgment will occur at the end of time, coinciding with the Second Coming of Christ and the resurrection of the dead."
+        },
+        {
+          "id": "christianity-q1-3",
+          "type": "multipleChoice",
+          "question": "What does the Particular Judgment assess?",
+          "options": [
+            "Only major sins",
+            "Only thoughts, not actions",
+            "Every deed, word, and thought from earthly life",
+            "Only the last moments before death"
+          ],
+          "correctAnswer": "Every deed, word, and thought from earthly life",
+          "explanation": "The Particular Judgment is an individual assessment where every deed, word, and thought committed during earthly life is weighed before Christ."
+        },
+        {
+          "id": "christianity-q1-4",
+          "type": "trueFalse",
+          "question": "Christianity limits its afterlife vision to only Jewish concepts.",
+          "correctAnswer": "false",
+          "explanation": "Christianity expanded the Jewish vision into a vast cosmic drama of salvation and damnation."
+        },
+        {
+          "id": "christianity-q1-5",
+          "type": "trueFalse",
+          "question": "The General Judgment will reveal the full scope of God's justice and mercy.",
+          "correctAnswer": "true",
+          "explanation": "The General Judgment will reveal the full scope of God's justice and mercy, confirming the particular judgments and bringing about the complete restoration of creation."
+        },
+        {
+          "id": "christianity-q1-6",
+          "type": "trueFalse",
+          "question": "The Particular Judgment and General Judgment serve the same purpose.",
+          "correctAnswer": "false",
+          "explanation": "While the Particular Judgment addresses individual souls immediately after death, the General Judgment concerns the collective destiny of humanity and the ultimate triumph of God's plan."
         }
       ]
     },
@@ -68,7 +95,7 @@
         "Glorified bodies",
         "Resurrection"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q2-1",
@@ -85,13 +112,6 @@
         },
         {
           "id": "christianity-q2-2",
-          "type": "trueFalse",
-          "question": "In Catholic belief, souls in Heaven have physical bodies that are imperfect.",
-          "correctAnswer": "false",
-          "explanation": "The blessed exist in resurrected bodies, perfected and glorified, in Heaven."
-        },
-        {
-          "id": "christianity-q2-3",
           "type": "multipleChoice",
           "question": "Which of the following describes the resurrected bodies in Catholic Heaven?",
           "options": [
@@ -102,6 +122,40 @@
           ],
           "correctAnswer": "Perfected, glorified, and immortal",
           "explanation": "At the General Resurrection, souls will reunite with perfected and glorified resurrected bodies, which are immortal and free from suffering."
+        },
+        {
+          "id": "christianity-q2-3",
+          "type": "multipleChoice",
+          "question": "What is the nature of Heaven according to Catholic doctrine?",
+          "options": [
+            "Only a physical location",
+            "A temporary resting place",
+            "A state of perfect communion with God",
+            "A place of continued trials"
+          ],
+          "correctAnswer": "A state of perfect communion with God",
+          "explanation": "Heaven, in Catholic doctrine, is not merely a place but a state of perfect communion and unending joy with God, the Virgin Mary, the angels, and all the saints."
+        },
+        {
+          "id": "christianity-q2-4",
+          "type": "trueFalse",
+          "question": "In Catholic belief, souls in Heaven have physical bodies that are imperfect.",
+          "correctAnswer": "false",
+          "explanation": "The blessed exist in resurrected bodies, perfected and glorified, in Heaven."
+        },
+        {
+          "id": "christianity-q2-5",
+          "type": "trueFalse",
+          "question": "The communion of saints in Heaven includes perfect spiritual solidarity.",
+          "correctAnswer": "true",
+          "explanation": "The communion of saints in Heaven fosters a perfect spiritual solidarity, where love, joy, and understanding are shared among all who are saved."
+        },
+        {
+          "id": "christianity-q2-6",
+          "type": "trueFalse",
+          "question": "Each soul in Heaven experiences God's glory in exactly the same way.",
+          "correctAnswer": "false",
+          "explanation": "Heaven is described as unfolding in hierarchies of glory, where each soul experiences the divine according to its capacity and merits."
         }
       ]
     },
@@ -119,7 +173,7 @@
         "Indulgences",
         "Temporal punishment"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q3-1",
@@ -136,13 +190,6 @@
         },
         {
           "id": "christianity-q3-2",
-          "type": "trueFalse",
-          "question": "Souls in Purgatory suffer from God's wrath.",
-          "correctAnswer": "false",
-          "explanation": "Souls in Purgatory suffer not from God's wrath but from their own imperfections made manifest."
-        },
-        {
-          "id": "christianity-q3-3",
           "type": "multipleChoice",
           "question": "How can the Church Militant on earth help souls in Purgatory?",
           "options": [
@@ -155,11 +202,38 @@
           "explanation": "The Church Militant on earth speeds their journey through prayers, masses, and indulgences."
         },
         {
+          "id": "christianity-q3-3",
+          "type": "multipleChoice",
+          "question": "What determines the duration of a soul's time in Purgatory?",
+          "options": [
+            "Random chance",
+            "The soul's social status on Earth",
+            "God's mercy and justice based on temporal punishment owed",
+            "A fixed period of 100 years"
+          ],
+          "correctAnswer": "God's mercy and justice based on temporal punishment owed",
+          "explanation": "The duration of Purgatory is determined by God's mercy and justice, based on the temporal punishment owed for sins."
+        },
+        {
           "id": "christianity-q3-4",
+          "type": "trueFalse",
+          "question": "Souls in Purgatory suffer from God's wrath.",
+          "correctAnswer": "false",
+          "explanation": "Souls in Purgatory suffer not from God's wrath but from their own imperfections made manifest."
+        },
+        {
+          "id": "christianity-q3-5",
           "type": "trueFalse",
           "question": "Purgatory is considered a third eternal destination alongside Heaven and Hell.",
           "correctAnswer": "false",
           "explanation": "Purgatory is understood not as a third destination but as an intermediary state of purification for souls destined for Heaven."
+        },
+        {
+          "id": "christianity-q3-6",
+          "type": "trueFalse",
+          "question": "The suffering in Purgatory is born of love and hope, not despair.",
+          "correctAnswer": "true",
+          "explanation": "It is a state of active suffering, yet it is a suffering born of love and hope, not despair."
         }
       ]
     },
@@ -176,7 +250,7 @@
         "Eternal separation",
         "Mortal sin"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q4-1",
@@ -193,13 +267,6 @@
         },
         {
           "id": "christianity-q4-2",
-          "type": "trueFalse",
-          "question": "In Catholic belief, suffering in Hell is always reversible.",
-          "correctAnswer": "false",
-          "explanation": "Hell's essence remains: eternal, irreversible separation from the source of all good."
-        },
-        {
-          "id": "christianity-q4-3",
           "type": "multipleChoice",
           "question": "What are the two main types of suffering described in Catholic Hell?",
           "options": [
@@ -210,6 +277,40 @@
           ],
           "correctAnswer": "Pain of loss and pain of sense",
           "explanation": "Catholic theologians describe a dual suffering: the pain of loss (separation from God) and the pain of sense (positive torment)."
+        },
+        {
+          "id": "christianity-q4-3",
+          "type": "multipleChoice",
+          "question": "According to Catholic theology, how do souls end up in Hell?",
+          "options": [
+            "By God's arbitrary decision",
+            "Through bad luck",
+            "By freely choosing unrepented mortal sin",
+            "Due to minor mistakes"
+          ],
+          "correctAnswer": "By freely choosing unrepented mortal sin",
+          "explanation": "Hell represents the definitive self-exclusion from communion with God, the ultimate consequence of freely chosen and unrepented mortal sin."
+        },
+        {
+          "id": "christianity-q4-4",
+          "type": "trueFalse",
+          "question": "In Catholic belief, suffering in Hell is always reversible.",
+          "correctAnswer": "false",
+          "explanation": "Hell's essence remains: eternal, irreversible separation from the source of all good."
+        },
+        {
+          "id": "christianity-q4-5",
+          "type": "trueFalse",
+          "question": "The Church teaches that Hell is merely symbolic and not real.",
+          "correctAnswer": "false",
+          "explanation": "The Church teaches that Hell is real and eternal, a state freely chosen by those who persist in mortal sin until death."
+        },
+        {
+          "id": "christianity-q4-6",
+          "type": "trueFalse",
+          "question": "Hell is punishment imposed by God rather than a natural consequence of rejecting Him.",
+          "correctAnswer": "false",
+          "explanation": "This separation is not a punishment imposed by an arbitrary God, but the natural and just outcome of a creature's definitive rejection of God's love and grace."
         }
       ]
     },
@@ -227,7 +328,7 @@
         "Calvinism",
         "Arminianism"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q5-1",
@@ -244,13 +345,6 @@
         },
         {
           "id": "christianity-q5-2",
-          "type": "trueFalse",
-          "question": "Reformed theology emphasizes individual choice at the moment of death for eternal fate.",
-          "correctAnswer": "false",
-          "explanation": "Reformed theology speaks of double predestination, meaning souls are marked for glory or damnation before time's beginning."
-        },
-        {
-          "id": "christianity-q5-3",
           "type": "multipleChoice",
           "question": "What is 'soul sleep' in some Protestant views?",
           "options": [
@@ -261,6 +355,40 @@
           ],
           "correctAnswer": "The soul remaining unconscious until resurrection",
           "explanation": "Some Protestant views include 'soul sleep,' where the soul remains unconscious from death until the resurrection."
+        },
+        {
+          "id": "christianity-q5-3",
+          "type": "multipleChoice",
+          "question": "What does Arminianism emphasize regarding salvation?",
+          "options": [
+            "Predestination before time began",
+            "Human free will and ability to accept or reject grace",
+            "Salvation through works alone",
+            "Automatic salvation for all"
+          ],
+          "correctAnswer": "Human free will and ability to accept or reject grace",
+          "explanation": "Arminianism stresses human free will and the ability to accept or reject God's grace, making salvation contingent on personal faith and choice."
+        },
+        {
+          "id": "christianity-q5-4",
+          "type": "trueFalse",
+          "question": "Reformed theology emphasizes individual choice at the moment of death for eternal fate.",
+          "correctAnswer": "false",
+          "explanation": "Reformed theology speaks of double predestination, meaning souls are marked for glory or damnation before time's beginning."
+        },
+        {
+          "id": "christianity-q5-5",
+          "type": "trueFalse",
+          "question": "Evangelicals typically emphasize a personal decision to accept Christ as determinative for eternal fate.",
+          "correctAnswer": "true",
+          "explanation": "Evangelicals typically emphasize a personal decision to accept Christ as Lord and Savior as the determinative moment for eternal fate."
+        },
+        {
+          "id": "christianity-q5-6",
+          "type": "trueFalse",
+          "question": "All Protestant denominations believe in eternal conscious torment for the wicked.",
+          "correctAnswer": "false",
+          "explanation": "Some Protestant views include 'annihilationism,' where the wicked are ultimately destroyed rather than suffering eternal conscious torment."
         }
       ]
     },
@@ -278,7 +406,7 @@
         "Divine energies",
         "Final judgment"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q6-1",
@@ -295,13 +423,6 @@
         },
         {
           "id": "christianity-q6-2",
-          "type": "trueFalse",
-          "question": "In Eastern Orthodoxy, angels accuse the newly dead in 'toll houses'.",
-          "correctAnswer": "false",
-          "explanation": "In toll houses, demons accuse the newly dead of specific sins, while angels defend them."
-        },
-        {
-          "id": "christianity-q6-3",
           "type": "multipleChoice",
           "question": "What is the primary role of the 'toll houses' in Eastern Orthodoxy?",
           "options": [
@@ -312,6 +433,40 @@
           ],
           "correctAnswer": "A spiritual trial where demons accuse the soul and angels defend it",
           "explanation": "The toll houses are a spiritual trial where demons accuse the newly dead soul of specific sins while angels defend it, determining the soul's trajectory until the Final Judgment."
+        },
+        {
+          "id": "christianity-q6-3",
+          "type": "multipleChoice",
+          "question": "In Theosis, what happens to humanity's relationship with God?",
+          "options": [
+            "Humans merge completely with God's essence",
+            "Humans are destroyed",
+            "Humans participate in God's divine energies while maintaining personal identity",
+            "Humans become separate gods"
+          ],
+          "correctAnswer": "Humans participate in God's divine energies while maintaining personal identity",
+          "explanation": "Through synergy with God's grace, humanity participates in His divine energies while maintaining personal identity, becoming more like God, but never merging with His essence."
+        },
+        {
+          "id": "christianity-q6-4",
+          "type": "trueFalse",
+          "question": "In Eastern Orthodoxy, angels accuse the newly dead in 'toll houses'.",
+          "correctAnswer": "false",
+          "explanation": "In toll houses, demons accuse the newly dead of specific sins, while angels defend them."
+        },
+        {
+          "id": "christianity-q6-5",
+          "type": "trueFalse",
+          "question": "The toll houses determine the soul's final, definitive destiny.",
+          "correctAnswer": "false",
+          "explanation": "The outcome of the toll houses influences the soul's experience until the General Judgment and the resurrection of the body, where the final, definitive destiny is revealed."
+        },
+        {
+          "id": "christianity-q6-6",
+          "type": "trueFalse",
+          "question": "Orthodox Heaven is understood as increasing participation in God's uncreated energies.",
+          "correctAnswer": "true",
+          "explanation": "Heaven is understood as a state of increasing participation in God's uncreated energies, rather than a mere geographical location."
         }
       ]
     },
@@ -328,7 +483,7 @@
         "Glorified bodies",
         "Incorruptibility"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q7-1",
@@ -345,13 +500,6 @@
         },
         {
           "id": "christianity-q7-2",
-          "type": "trueFalse",
-          "question": "Only the righteous will be resurrected with their physical bodies.",
-          "correctAnswer": "false",
-          "explanation": "All human beings who have ever lived, both the righteous and the unrighteous, will be raised from the dead with their physical bodies reunited with their souls."
-        },
-        {
-          "id": "christianity-q7-3",
           "type": "multipleChoice",
           "question": "What is the outcome of the Final Judgment for the righteous?",
           "options": [
@@ -362,6 +510,40 @@
           ],
           "correctAnswer": "Entrance into eternal life in God's presence",
           "explanation": "Those judged righteous will enter into eternal life in God's presence, while those judged unrighteous will face eternal condemnation."
+        },
+        {
+          "id": "christianity-q7-3",
+          "type": "multipleChoice",
+          "question": "What is the nature of the Final Judgment?",
+          "options": [
+            "A private assessment of each soul",
+            "A public and universal judgment revealing all hidden thoughts and deeds",
+            "A judgment only for non-believers",
+            "A symbolic ritual with no real consequences"
+          ],
+          "correctAnswer": "A public and universal judgment revealing all hidden thoughts and deeds",
+          "explanation": "This is a public and universal judgment, where every individual's life, including all hidden thoughts and deeds, will be openly revealed before God and all of humanity."
+        },
+        {
+          "id": "christianity-q7-4",
+          "type": "trueFalse",
+          "question": "Only the righteous will be resurrected with their physical bodies.",
+          "correctAnswer": "false",
+          "explanation": "All human beings who have ever lived, both the righteous and the unrighteous, will be raised from the dead with their physical bodies reunited with their souls."
+        },
+        {
+          "id": "christianity-q7-5",
+          "type": "trueFalse",
+          "question": "The resurrected bodies of the righteous will be transformed and glorified.",
+          "correctAnswer": "true",
+          "explanation": "These resurrected bodies will be transformed and glorified for the righteous, made incorruptible and suited for eternal life in the New Heavens and New Earth."
+        },
+        {
+          "id": "christianity-q7-6",
+          "type": "trueFalse",
+          "question": "The Final Judgment serves to contradict the Particular Judgments.",
+          "correctAnswer": "false",
+          "explanation": "The Final Judgment serves to confirm the Particular Judgments, reveal the justice of God's ways, and bring to completion the history of salvation."
         }
       ]
     },
@@ -378,7 +560,7 @@
         "Eternal conscious torment",
         "Theological debates"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q8-1",
@@ -395,13 +577,6 @@
         },
         {
           "id": "christianity-q8-2",
-          "type": "trueFalse",
-          "question": "All Christian denominations agree on a literal fiery torment for Hell.",
-          "correctAnswer": "false",
-          "explanation": "Interpretations vary from literal fiery torment to a metaphorical state of absolute separation from God."
-        },
-        {
-          "id": "christianity-q8-3",
           "type": "multipleChoice",
           "question": "What does Universalism generally posit regarding salvation?",
           "options": [
@@ -412,6 +587,40 @@
           ],
           "correctAnswer": "All will ultimately be saved",
           "explanation": "Universalism, another minority view, posits that all will ultimately be saved, though this often involves a post-mortem purification or corrective period."
+        },
+        {
+          "id": "christianity-q8-3",
+          "type": "multipleChoice",
+          "question": "How is Heaven often depicted in Christian tradition?",
+          "options": [
+            "Only as a physical location with streets of gold",
+            "As various forms including a celestial city, restored Eden, or God's immediate presence",
+            "Exclusively as clouds and harps",
+            "As a continuation of earthly life"
+          ],
+          "correctAnswer": "As various forms including a celestial city, restored Eden, or God's immediate presence",
+          "explanation": "Heaven is often depicted as a celestial city, a garden of Eden restored, or simply the immediate presence of God."
+        },
+        {
+          "id": "christianity-q8-4",
+          "type": "trueFalse",
+          "question": "All Christian denominations agree on a literal fiery torment for Hell.",
+          "correctAnswer": "false",
+          "explanation": "Interpretations vary from literal fiery torment to a metaphorical state of absolute separation from God."
+        },
+        {
+          "id": "christianity-q8-5",
+          "type": "trueFalse",
+          "question": "The joys of heaven are understood to be primarily physical pleasures.",
+          "correctAnswer": "false",
+          "explanation": "The 'joys of heaven' are universally understood to transcend earthly pleasures, focusing on spiritual perfection, worship, and unending communion."
+        },
+        {
+          "id": "christianity-q8-6",
+          "type": "trueFalse",
+          "question": "These diverse interpretations still serve to motivate believers toward righteous living.",
+          "correctAnswer": "true",
+          "explanation": "The fundamental purpose of these doctrines remains: to underscore the importance of earthly life, moral choices, and faith in determining one's eternal destiny, and to motivate believers toward righteous living."
         }
       ]
     },
@@ -429,7 +638,7 @@
         "Protestantism",
         "Communion of saints"
       ],
-      "xpReward": 40,
+      "xpReward": 100,
       "questions": [
         {
           "id": "christianity-q9-1",
@@ -446,13 +655,6 @@
         },
         {
           "id": "christianity-q9-2",
-          "type": "trueFalse",
-          "question": "Relics are believed to be direct paths to salvation in Catholicism.",
-          "correctAnswer": "false",
-          "explanation": "While not a direct path to salvation, devotion to saints and the veneration of relics are seen as means of drawing closer to God through those who have already achieved holiness."
-        },
-        {
-          "id": "christianity-q9-3",
           "type": "multipleChoice",
           "question": "What do Protestant traditions emphasize regarding prayer?",
           "options": [
@@ -463,6 +665,40 @@
           ],
           "correctAnswer": "Direct prayer to God through Christ",
           "explanation": "In Protestant traditions, direct prayer to God through Christ is emphasized, and the intercession of saints (beyond Christ) and the veneration of relics are generally not practiced."
+        },
+        {
+          "id": "christianity-q9-3",
+          "type": "multipleChoice",
+          "question": "What are relics believed to be in Catholic and Orthodox traditions?",
+          "options": [
+            "Magical talismans that guarantee salvation",
+            "Channels of God's grace that can facilitate miracles",
+            "Purely symbolic objects with no spiritual power",
+            "Objects that replace the need for faith"
+          ],
+          "correctAnswer": "Channels of God's grace that can facilitate miracles",
+          "explanation": "Relics are believed to retain a spiritual connection to the holy person and can be channels of God's grace or facilitate miracles."
+        },
+        {
+          "id": "christianity-q9-4",
+          "type": "trueFalse",
+          "question": "Relics are believed to be direct paths to salvation in Catholicism.",
+          "correctAnswer": "false",
+          "explanation": "While not a direct path to salvation, devotion to saints and the veneration of relics are seen as means of drawing closer to God through those who have already achieved holiness."
+        },
+        {
+          "id": "christianity-q9-5",
+          "type": "trueFalse",
+          "question": "Saints in Heaven can intercede on behalf of those on Earth or in Purgatory.",
+          "correctAnswer": "true",
+          "explanation": "The belief is that saints in Heaven, being in perfect communion with God, can intercede on behalf of those still on Earth or in Purgatory."
+        },
+        {
+          "id": "christianity-q9-6",
+          "type": "trueFalse",
+          "question": "Death severs the bond of love and prayer among believers in all Christian traditions.",
+          "correctAnswer": "false",
+          "explanation": "The shared belief across all Christian traditions is that death does not sever the bond of love and prayer among believers, whether living or departed, even if the specific practices of intercession differ."
         }
       ]
     }
