@@ -4,7 +4,7 @@
   "description": "Delve into ancient Egypt's elaborate spiritual technology for the afterlife, from the perilous journey through Duat to the Hall of Two Truths and the ultimate Field of Reeds.",
   "icon": "ankh",
   "color": "#C19A6B",
-  "totalXP": 240,
+  "totalXP": 400,
   "lessons": [
     {
       "id": "egyptian-intro",
@@ -20,7 +20,7 @@
         "Book of Coming Forth by Day",
         "Chaos (Isfet)"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "egyptian-q1-1",
@@ -61,6 +61,26 @@
           "question": "The journey through Duat was considered easy and without challenges.",
           "correctAnswer": "false",
           "explanation": "Death initiated a perilous journey through the Duat... Each hour presented unique challenges, monstrous guardians, and divine encounters."
+        },
+        {
+          "id": "egyptian-q1-5",
+          "type": "multipleChoice",
+          "question": "How many hours of darkness did the deceased navigate through the Duat?",
+          "options": [
+            "Six hours",
+            "Eight hours",
+            "Twelve hours",
+            "Twenty-four hours"
+          ],
+          "correctAnswer": "Twelve hours",
+          "explanation": "The deceased navigated twelve hours of darkness corresponding to the night hours."
+        },
+        {
+          "id": "egyptian-q1-6",
+          "type": "trueFalse",
+          "question": "The sun's daily journey was mirrored in the Egyptian concept of death and rebirth.",
+          "correctAnswer": "true",
+          "explanation": "Death was a critical phase in a continuous cycle of existence that mirrored the sun's daily journey, with Ra's sun barque sailing each night, battling the forces of chaos to be reborn each dawn."
         }
       ]
     },
@@ -79,7 +99,7 @@
         "Mummification",
         "Offerings"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "egyptian-q2-1",
@@ -120,6 +140,26 @@
           "question": "Mummification was unimportant for the Ka's survival.",
           "correctAnswer": "false",
           "explanation": "Mummification was paramount in ensuring that the Ka had a physical anchor, should it need to return to the body."
+        },
+        {
+          "id": "egyptian-q2-5",
+          "type": "multipleChoice",
+          "question": "How was the Ba typically depicted in Egyptian art?",
+          "options": [
+            "As a scarab beetle",
+            "As a human-headed bird",
+            "As a jackal",
+            "As a golden ankh"
+          ],
+          "correctAnswer": "As a human-headed bird",
+          "explanation": "The 'Ba' represented the personality, individuality, and mobility of the deceased, often depicted as a human-headed bird."
+        },
+        {
+          "id": "egyptian-q2-6",
+          "type": "trueFalse",
+          "question": "The Ib was the Egyptian name for the heart, considered the seat of thought and emotion.",
+          "correctAnswer": "true",
+          "explanation": "Other lesser-known components included the 'Ib' (heart, seat of thought and emotion)."
         }
       ]
     },
@@ -139,7 +179,7 @@
         "Field of Reeds",
         "Thoth"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "egyptian-q3-1",
@@ -180,6 +220,26 @@
           "question": "The 'Negative Confession' involved confessing all the sins committed in life.",
           "correctAnswer": "false",
           "explanation": "The deceased recited the 'Negative Confession' or 'Declaration of Innocence,' listing 42 sins they had supposedly not committed before 42 divine judges."
+        },
+        {
+          "id": "egyptian-q3-5",
+          "type": "multipleChoice",
+          "question": "Which god recorded the outcome of the weighing of the heart?",
+          "options": [
+            "Anubis",
+            "Horus",
+            "Thoth",
+            "Set"
+          ],
+          "correctAnswer": "Thoth",
+          "explanation": "Thoth, the god of wisdom and writing, recorded the outcome of this sacred judgment."
+        },
+        {
+          "id": "egyptian-q3-6",
+          "type": "trueFalse",
+          "question": "A successful weighing meant the heart was lighter than Ma'at's feather.",
+          "correctAnswer": "false",
+          "explanation": "A successful outcome meant the heart balanced perfectly with the feather, indicating a life lived in accordance with Ma'at's principles—truth, justice, and order."
         }
       ]
     },
@@ -197,7 +257,7 @@
         "Ushabtis (funerary figurines)",
         "Pharaoh's afterlife"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "egyptian-q4-1",
@@ -237,6 +297,26 @@
           "type": "trueFalse",
           "question": "The Field of Reeds was a place of toil and suffering.",
           "correctAnswer": "false",
+          "explanation": "It was a realm free from want, sickness, and sorrow, a perfect reflection of the Nile Valley, where the righteous could live eternally in harmony with the gods."
+        },
+        {
+          "id": "egyptian-q4-5",
+          "type": "multipleChoice",
+          "question": "What transformation did some pharaohs aim for in the afterlife?",
+          "options": [
+            "Becoming crocodiles in the Nile",
+            "Transforming into 'Imperishable Ones' (stars)",
+            "Merging with the desert sands",
+            "Becoming earthly spirits"
+          ],
+          "correctAnswer": "Transforming into 'Imperishable Ones' (stars)",
+          "explanation": "Some pharaohs also aimed to transform into 'Imperishable Ones' (stars) in the northern sky, enduring for eternity."
+        },
+        {
+          "id": "egyptian-q4-6",
+          "type": "trueFalse",
+          "question": "The Field of Reeds was described as a perfect reflection of the Nile Valley.",
+          "correctAnswer": "true",
           "explanation": "It was a realm free from want, sickness, and sorrow, a perfect reflection of the Nile Valley, where the righteous could live eternally in harmony with the gods."
         }
       ]

@@ -4,7 +4,7 @@
   "description": "Journey through the shadowy Greek Underworld, ruled by Hades, crossing the Styx, encountering Cerberus, and discovering the various realms from the Asphodel Meadows to Elysium and Tartarus.",
   "icon": "owl",
   "color": "#6A0DAD",
-  "totalXP": 240,
+  "totalXP": 625,
   "lessons": [
     {
       "id": "greek-intro",
@@ -21,7 +21,7 @@
         "Silver cord",
         "Hypnos"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q1-1",
@@ -62,6 +62,26 @@
           "question": "The Keres were gentle spirits who guided all souls to Hades.",
           "correctAnswer": "false",
           "explanation": "For warriors, violent death might attract the Keres, dark spirits who fed on blood and dragged souls to Hades."
+        },
+        {
+          "id": "greek-q1-5",
+          "type": "multipleChoice",
+          "question": "What was the Greek word for the soul?",
+          "options": [
+            "Eidolon",
+            "Psyche",
+            "Pneuma",
+            "Soma"
+          ],
+          "correctAnswer": "Psyche",
+          "explanation": "Once separated from the body, the soul, or 'psyche,' would then be guided by Hermes Psychopompos."
+        },
+        {
+          "id": "greek-q1-6",
+          "type": "trueFalse",
+          "question": "Thanatos and Hypnos were brothers in Greek mythology.",
+          "correctAnswer": "true",
+          "explanation": "Thanatos, the personification of death, often depicted as a gentle, winged youth, who was the brother of Hypnos (Sleep)."
         }
       ]
     },
@@ -81,7 +101,7 @@
         "Oath",
         "Funerary custom"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q2-1",
@@ -122,6 +142,26 @@
           "question": "Souls without an obol were immediately granted passage after a short wait.",
           "correctAnswer": "false",
           "explanation": "Those without payment wandered the shores for a hundred years, which is why Greeks placed coins on the eyes or in the mouths of their dead."
+        },
+        {
+          "id": "greek-q2-5",
+          "type": "multipleChoice",
+          "question": "Which river was known as the 'River of Fire'?",
+          "options": [
+            "Styx",
+            "Cocytus",
+            "Phlegethon",
+            "Lethe"
+          ],
+          "correctAnswer": "Phlegethon",
+          "explanation": "The Phlegethon, the 'River of Fire,' glowed with molten flames and flowed directly into the deepest abyss of Tartarus."
+        },
+        {
+          "id": "greek-q2-6",
+          "type": "trueFalse",
+          "question": "The Cocytus river was formed from the tears of the damned.",
+          "correctAnswer": "true",
+          "explanation": "Finally, the Cocytus, the 'River of Lamentation,' was said to be formed from the ceaseless tears and wails of the damned and sorrowful souls condemned to its banks."
         }
       ]
     },
@@ -140,7 +180,7 @@
         "Guardian",
         "Escape prevention"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q3-1",
@@ -181,6 +221,26 @@
           "question": "Cerberus's main role was to prevent new souls from entering the Underworld.",
           "correctAnswer": "false",
           "explanation": "Cerberus's primary function was not to prevent the entry of new souls... Instead, his monumental task was to ensure that no soul, once admitted, ever escaped."
+        },
+        {
+          "id": "greek-q3-5",
+          "type": "multipleChoice",
+          "question": "How did Heracles overcome Cerberus in his twelfth labor?",
+          "options": [
+            "With enchanted music",
+            "With a magical potion",
+            "With sheer brute strength",
+            "With clever disguises"
+          ],
+          "correctAnswer": "With sheer brute strength",
+          "explanation": "Heracles, in his twelfth and final labor, faced the hound directly, subduing him with sheer brute strength."
+        },
+        {
+          "id": "greek-q3-6",
+          "type": "trueFalse",
+          "question": "Cerberus's three heads could see past, present, and future simultaneously.",
+          "correctAnswer": "true",
+          "explanation": "His three heads were not merely a fearsome aesthetic; each possessed a distinct ability, allowing him to perceive past, present, and future simultaneously."
         }
       ]
     },
@@ -201,7 +261,7 @@
         "Premature death",
         "Monotony"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q4-1",
@@ -242,6 +302,26 @@
           "question": "Erebus was considered the final destination for all souls.",
           "correctAnswer": "false",
           "explanation": "Erebus served as the entry court where souls waited for judgment."
+        },
+        {
+          "id": "greek-q4-5",
+          "type": "multipleChoice",
+          "question": "Who were the three infernal judges of the dead?",
+          "options": [
+            "Zeus, Poseidon, and Hades",
+            "Minos, Rhadamanthus, and Aeacus",
+            "Thanatos, Hypnos, and Morpheus",
+            "Clotho, Lachesis, and Atropos"
+          ],
+          "correctAnswer": "Minos, Rhadamanthus, and Aeacus",
+          "explanation": "This dim, shadowy realm was where the newly dead awaited judgment by the three infernal judges: Minos, Rhadamanthus, and Aeacus, sons of Zeus."
+        },
+        {
+          "id": "greek-q4-6",
+          "type": "trueFalse",
+          "question": "The shades in the Asphodel Meadows retained their full personalities and emotions.",
+          "correctAnswer": "false",
+          "explanation": "They existed as weak, listless echoes of their former selves, devoid of strong emotion or distinct personality, condemned to an eternity of grey monotony."
         }
       ]
     },
@@ -262,7 +342,7 @@
         "Cosmic irony",
         "Eternal punishment"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q5-1",
@@ -316,6 +396,13 @@
           "question": "The Isles of the Blessed were a lesser reward than Elysium.",
           "correctAnswer": "false",
           "explanation": "The truly blessed might reach the Isles of the Blessed, ruling their own paradise islands."
+        },
+        {
+          "id": "greek-q5-6",
+          "type": "trueFalse",
+          "question": "Tantalus's punishment involved eternal hunger and thirst with food and water just out of reach.",
+          "correctAnswer": "true",
+          "explanation": "Infamous residents included Tantalus, forever tormented by unquenchable hunger and thirst, with food and water perpetually just out of his reach."
         }
       ]
     },
@@ -334,7 +421,7 @@
         "Cosmic division",
         "Immutability of death"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q6-1",
@@ -375,6 +462,26 @@
           "question": "Hades frequently left the Underworld to interfere with the living.",
           "correctAnswer": "false",
           "explanation": "He was a stern, uncompromising deity, rarely leaving his dark kingdom, and was more concerned with maintaining order among the dead than interfering with the living."
+        },
+        {
+          "id": "greek-q6-5",
+          "type": "multipleChoice",
+          "question": "Who were Hades' brothers in the division of the cosmos?",
+          "options": [
+            "Apollo and Artemis",
+            "Zeus and Poseidon",
+            "Ares and Hephaestus",
+            "Hermes and Dionysus"
+          ],
+          "correctAnswer": "Zeus and Poseidon",
+          "explanation": "Hades, one of the three great Olympian brothers (alongside Zeus and Poseidon), drew the short straw in the division of the cosmos."
+        },
+        {
+          "id": "greek-q6-6",
+          "type": "trueFalse",
+          "question": "Persephone was the daughter of Demeter, goddess of the harvest.",
+          "correctAnswer": "true",
+          "explanation": "Persephone, the radiant daughter of Demeter (goddess of the harvest), was abducted by Hades and eventually became his queen."
         }
       ]
     },
@@ -393,7 +500,7 @@
         "Cautionary tale",
         "Finality of death"
       ],
-      "xpReward": 30,
+      "xpReward": 75,
       "questions": [
         {
           "id": "greek-q7-1",
@@ -434,6 +541,26 @@
           "question": "Stories of mortals returning from the Underworld indicate that death's laws were easily bypassed.",
           "correctAnswer": "false",
           "explanation": "These journeys, however, were fraught with peril and often ended in bittersweet success or tragic failure, serving as powerful cautionary tales about the inviolability of death's domain."
+        },
+        {
+          "id": "greek-q7-5",
+          "type": "multipleChoice",
+          "question": "What charmed Hades and Persephone to release Eurydice?",
+          "options": [
+            "Orpheus's physical strength",
+            "A divine command from Zeus",
+            "Orpheus's music and sorrow",
+            "A magical potion"
+          ],
+          "correctAnswer": "Orpheus's music and sorrow",
+          "explanation": "His lyre, played with unparalleled skill and sorrow, charmed even the unyielding hearts of Hades and Persephone."
+        },
+        {
+          "id": "greek-q7-6",
+          "type": "trueFalse",
+          "question": "Heracles kept Cerberus on the surface world after capturing him.",
+          "correctAnswer": "false",
+          "explanation": "He succeeded through sheer strength and divine favor, but promptly returned the beast."
         }
       ]
     }
