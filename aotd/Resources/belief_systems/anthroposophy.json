@@ -4,7 +4,7 @@
   "description": "Discover Rudolf Steiner's spiritual scientific investigation of death, mapping the soul's conscious evolution through planetary spheres, life reviews, and karmic weaving in preparation for future incarnations.",
   "icon": "flower_of_life",
   "color": "#4682B4",
-  "totalXP": 400,
+  "totalXP": 2500,
   "lessons": [
     {
       "id": "anthroposophy-intro",
@@ -20,7 +20,7 @@
         "Spiritual science",
         "Human constitution"
       ],
-      "xpReward": 25,
+      "xpReward": 150,
       "questions": [
         {
           "id": "anthroposophy-q1-1",
@@ -54,6 +54,33 @@
           ],
           "correctAnswer": "Three days",
           "explanation": "After death, the etheric body (life force) separates over three days, during which a complete life panorama is experienced."
+        },
+        {
+          "id": "anthroposophy-q1-4",
+          "type": "trueFalse",
+          "question": "Death in Anthroposophy is viewed as an end rather than a transformation.",
+          "correctAnswer": "false",
+          "explanation": "This journey is not an end but a systematic transformation, leading the soul through various spiritual realms and planetary spheres."
+        },
+        {
+          "id": "anthroposophy-q1-5",
+          "type": "multipleChoice",
+          "question": "During the life panorama, what does one experience?",
+          "options": [
+            "Only pleasant memories",
+            "The pain they caused and joy they shared from others' perspectives",
+            "A blank void",
+            "Future incarnations"
+          ],
+          "correctAnswer": "The pain they caused and joy they shared from others' perspectives",
+          "explanation": "This means feeling the pain they caused and the joy they shared, leading to a deep and often intense moral understanding of their past actions."
+        },
+        {
+          "id": "anthroposophy-q1-6",
+          "type": "trueFalse",
+          "question": "The etheric body dissolves into the universal ether after approximately three days.",
+          "correctAnswer": "true",
+          "explanation": "The etheric body itself eventually dissolves back into the universal ether, typically after these three days."
         }
       ]
     },
@@ -70,7 +97,7 @@
         "Lower desires",
         "Earthly attachments"
       ],
-      "xpReward": 25,
+      "xpReward": 150,
       "questions": [
         {
           "id": "anthroposophy-q2-1",
@@ -104,6 +131,33 @@
           ],
           "correctAnswer": "They burn away as the soul experiences their futility",
           "explanation": "During this period, often called 'kamaloca,' lower desires burn away as the soul experiences their futility without a physical body."
+        },
+        {
+          "id": "anthroposophy-q2-4",
+          "type": "trueFalse",
+          "question": "The Kamaloca period is a punitive process for earthly sins.",
+          "correctAnswer": "false",
+          "explanation": "This is not a punitive process, but rather a necessary purification where the soul confronts the futility and emptiness of these desires."
+        },
+        {
+          "id": "anthroposophy-q2-5",
+          "type": "multipleChoice",
+          "question": "How long does the Kamaloca period typically last?",
+          "options": [
+            "Seven days",
+            "One year",
+            "Approximately one-third the length of earthly life",
+            "Forever"
+          ],
+          "correctAnswer": "Approximately one-third the length of earthly life",
+          "explanation": "The length of this purification phase is proportional to the intensity of these earthly attachments, generally estimated to last approximately one-third the length of the earthly life."
+        },
+        {
+          "id": "anthroposophy-q2-6",
+          "type": "trueFalse",
+          "question": "The astral body is the bearer of desires, emotions, sympathies, and antipathies.",
+          "correctAnswer": "true",
+          "explanation": "The astral body, which is considered the bearer of desires, emotions, sympathies, and antipathies."
         }
       ]
     },
@@ -124,7 +178,7 @@
         "Christ Being",
         "Cosmic consciousness"
       ],
-      "xpReward": 30,
+      "xpReward": 188,
       "questions": [
         {
           "id": "anthroposophy-q3-1",
@@ -165,6 +219,26 @@
           "question": "Planetary spheres in Anthroposophy are solely physical planets.",
           "correctAnswer": "false",
           "explanation": "These spheres are not merely physical planets but rather spiritual realms associated with the archetypal forces and qualities that these planets embody."
+        },
+        {
+          "id": "anthroposophy-q3-5",
+          "type": "multipleChoice",
+          "question": "Which sphere develops moral techniques and conscience?",
+          "options": [
+            "Moon sphere",
+            "Mercury sphere",
+            "Venus sphere",
+            "Mars sphere"
+          ],
+          "correctAnswer": "Mercury sphere",
+          "explanation": "Next is the Mercury sphere, a realm where the soul develops moral techniques and strengthens its conscience."
+        },
+        {
+          "id": "anthroposophy-q3-6",
+          "type": "trueFalse",
+          "question": "Saturn marks the boundary between the solar system and zodiacal realms.",
+          "correctAnswer": "true",
+          "explanation": "Finally, the soul reaches the Saturn sphere, which marks the boundary between the immediate solar system and the vast, cosmic realms of the zodiac."
         }
       ]
     },
@@ -182,7 +256,7 @@
         "Reincarnation",
         "Cosmic wisdom"
       ],
-      "xpReward": 30,
+      "xpReward": 188,
       "questions": [
         {
           "id": "anthroposophy-q4-1",
@@ -223,6 +297,26 @@
           "question": "The soul randomly selects its next incarnation without conscious input.",
           "correctAnswer": "false",
           "explanation": "Here, the soul weaves karma with others, carefully choosing circumstances that balance past actions and enable future evolution."
+        },
+        {
+          "id": "anthroposophy-q4-5",
+          "type": "multipleChoice",
+          "question": "What happens during 'karmic weaving'?",
+          "options": [
+            "The soul forgets all past lives",
+            "The soul balances past actions with future evolutionary needs",
+            "Karma is completely erased",
+            "The soul is judged by higher beings"
+          ],
+          "correctAnswer": "The soul balances past actions with future evolutionary needs",
+          "explanation": "This is a crucial stage of 'karmic weaving,' where the soul, in full conscious awareness, works to balance past actions and intentions with future evolutionary needs."
+        },
+        {
+          "id": "anthroposophy-q4-6",
+          "type": "trueFalse",
+          "question": "The soul chooses its future parents and life circumstances in the zodiacal realms.",
+          "correctAnswer": "true",
+          "explanation": "It meticulously chooses the circumstances of its next earthly life, including its future parents, family, social environment, historical period, and even potential life challenges."
         }
       ]
     },
@@ -239,7 +333,7 @@
         "Ego (I)",
         "Human evolution"
       ],
-      "xpReward": 25,
+      "xpReward": 150,
       "questions": [
         {
           "id": "anthroposophy-q5-1",
@@ -273,6 +367,33 @@
           ],
           "correctAnswer": "To develop new faculties and refine moral character",
           "explanation": "Reincarnation allows the individual ego, or 'I,' to consciously evolve over vast periods of time... including developing new faculties, refining moral character, and deepening spiritual insight."
+        },
+        {
+          "id": "anthroposophy-q5-4",
+          "type": "trueFalse",
+          "question": "Every thought, feeling, and action creates a 'karmic seed' for future incarnations.",
+          "correctAnswer": "true",
+          "explanation": "Every thought, feeling, and action in one life creates a 'karmic seed' that will ripen in future incarnations."
+        },
+        {
+          "id": "anthroposophy-q5-5",
+          "type": "multipleChoice",
+          "question": "How is individual karma related to collective karma?",
+          "options": [
+            "They are completely separate",
+            "Individual karma overrides collective karma",
+            "Personal development is linked to humanity's evolution",
+            "Collective karma is more important"
+          ],
+          "correctAnswer": "Personal development is linked to humanity's evolution",
+          "explanation": "The interplay between an individual's karma and the collective karma of humanity is also emphasized, suggesting that personal development is intricately linked to the broader evolution of consciousness on Earth."
+        },
+        {
+          "id": "anthroposophy-q5-6",
+          "type": "trueFalse",
+          "question": "Death is merely a transition between cycles of incarnation in Anthroposophy.",
+          "correctAnswer": "true",
+          "explanation": "Death is merely a transition between these cycles of incarnation, a gateway for the soul to assimilate lessons from the past life and prepare for the opportunities of the next."
         }
       ]
     },
@@ -290,7 +411,7 @@
         "Christ Being",
         "Cosmic order"
       ],
-      "xpReward": 30,
+      "xpReward": 188,
       "questions": [
         {
           "id": "anthroposophy-q6-1",
@@ -324,6 +445,33 @@
           ],
           "correctAnswer": "Zodiacal realms",
           "explanation": "In the zodiacal realms, the soul works closely with these higher hierarchical beings to weave its karma and select the optimal conditions for its next incarnation."
+        },
+        {
+          "id": "anthroposophy-q6-4",
+          "type": "trueFalse",
+          "question": "Archangels guide individual human beings in Anthroposophy.",
+          "correctAnswer": "false",
+          "explanation": "Archangels guide the destinies of peoples and groups, while Angels guide individual human beings."
+        },
+        {
+          "id": "anthroposophy-q6-5",
+          "type": "multipleChoice",
+          "question": "What do Archai influence according to Anthroposophy?",
+          "options": [
+            "Individual human lives",
+            "Small family groups",
+            "Epochs and civilizations",
+            "Daily weather patterns"
+          ],
+          "correctAnswer": "Epochs and civilizations",
+          "explanation": "Archai influence epochs and civilizations."
+        },
+        {
+          "id": "anthroposophy-q6-6",
+          "type": "trueFalse",
+          "question": "Spiritual hierarchies are arbitrary rulers in Anthroposophy.",
+          "correctAnswer": "false",
+          "explanation": "They are not arbitrary rulers but beings of wisdom and love who assist in the unfolding of divine plan."
         }
       ]
     },
@@ -342,7 +490,7 @@
         "Macrocosm",
         "Microcosm"
       ],
-      "xpReward": 25,
+      "xpReward": 150,
       "questions": [
         {
           "id": "anthroposophy-q7-1",
@@ -376,6 +524,33 @@
           ],
           "correctAnswer": "At conception",
           "explanation": "The descent culminates in the moment of conception, where the spiritual individuality merges with the physical and etheric components provided by the parents, initiating the formation of the new organism."
+        },
+        {
+          "id": "anthroposophy-q7-4",
+          "type": "trueFalse",
+          "question": "Each planetary sphere contributes elements that shape temperament and talents.",
+          "correctAnswer": "true",
+          "explanation": "Each sphere contributes specific elements that will shape the individual's physical constitution, temperament, talents, and even the challenges they will face."
+        },
+        {
+          "id": "anthroposophy-q7-5",
+          "type": "multipleChoice",
+          "question": "What does the Mars sphere contribute during descent?",
+          "options": [
+            "Patience and destiny",
+            "Love and aesthetics",
+            "Courage and drive",
+            "Intellectual capacities"
+          ],
+          "correctAnswer": "Courage and drive",
+          "explanation": "Mars with courage and drive."
+        },
+        {
+          "id": "anthroposophy-q7-6",
+          "type": "trueFalse",
+          "question": "The descent process is identical for all souls.",
+          "correctAnswer": "false",
+          "explanation": "This process is highly individualized, reflecting the specific karmic needs and evolutionary goals of the soul."
         }
       ]
     }
@@ -384,7 +559,7 @@
     "id": "anthroposophy-mastery",
     "title": "Anthroposophy Mastery Test",
     "requiredScore": 80,
-    "xpReward": 100,
+    "xpReward": 250,
     "questions": [
       {
         "id": "anthroposophy-mt-q1",

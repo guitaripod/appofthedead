@@ -4,7 +4,7 @@
   "description": "Explore the Aztec understanding of death as cosmic necessity, where destiny is determined by how one died, leading to warrior paradises, Tlalocan, or the four-year journey to Mictlan.",
   "icon": "skull",
   "color": "#800020",
-  "totalXP": 240,
+  "totalXP": 600,
   "lessons": [
     {
       "id": "aztec-intro",
@@ -20,7 +20,7 @@
         "Tonatiuhichan",
         "Duality"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "aztec-q1-1",
@@ -54,6 +54,33 @@
           ],
           "correctAnswer": "They transformed into hummingbirds or butterflies",
           "explanation": "After four years, these esteemed warriors were believed to transform into hummingbirds, butterflies, or other precious birds."
+        },
+        {
+          "id": "aztec-q1-4",
+          "type": "trueFalse",
+          "question": "The Aztecs viewed death as moral judgment for one's actions in life.",
+          "correctAnswer": "false",
+          "explanation": "The Aztecs viewed death not as moral judgment but as a cosmic necessity, an integral part of the universe's cyclical nature."
+        },
+        {
+          "id": "aztec-q1-5",
+          "type": "multipleChoice",
+          "question": "Where did warriors accompany the sun?",
+          "options": [
+            "From sunset to sunrise",
+            "From dawn to noon",
+            "From noon to sunset",
+            "Throughout the entire day"
+          ],
+          "correctAnswer": "From dawn to noon",
+          "explanation": "They joined the sun's eastern palace, known as Tonatiuhichan, accompanying the solar disk from dawn to noon."
+        },
+        {
+          "id": "aztec-q1-6",
+          "type": "trueFalse",
+          "question": "Cihuateteo were always benevolent spirits.",
+          "correctAnswer": "false",
+          "explanation": "While powerful, they were also associated with crossroads at night, sometimes returning to earth on specific days as omens, often malevolent."
         }
       ]
     },
@@ -70,7 +97,7 @@
         "Fertility",
         "Abundance"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "aztec-q2-1",
@@ -104,6 +131,33 @@
           ],
           "correctAnswer": "Tlaloc",
           "explanation": "This vibrant and lush paradise was presided over by Tlaloc, the Aztec god of rain, lightning, and earthly fertility."
+        },
+        {
+          "id": "aztec-q2-4",
+          "type": "trueFalse",
+          "question": "Entry to Tlalocan required a long and difficult journey.",
+          "correctAnswer": "false",
+          "explanation": "Unlike the arduous journey to Mictlan, Tlalocan offered an immediate and joyful existence."
+        },
+        {
+          "id": "aztec-q2-5",
+          "type": "multipleChoice",
+          "question": "Which of these was a way to be claimed by Tlaloc?",
+          "options": [
+            "Dying in battle",
+            "Being struck by lightning",
+            "Old age",
+            "Childbirth"
+          ],
+          "correctAnswer": "Being struck by lightning",
+          "explanation": "Individuals claimed by Tlaloc—through drowning, being struck by lightning, succumbing to water-related diseases."
+        },
+        {
+          "id": "aztec-q2-6",
+          "type": "trueFalse",
+          "question": "In Tlalocan, corn grew tall without the need for planting or cultivation.",
+          "correctAnswer": "true",
+          "explanation": "Corn, the staple of Aztec life, grew tall and abundant without the need for planting or cultivation, symbolizing ultimate fertility."
         }
       ]
     },
@@ -122,7 +176,7 @@
         "Nine levels",
         "Ordinary deaths"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "aztec-q3-1",
@@ -156,6 +210,33 @@
           ],
           "correctAnswer": "Chicunauhco",
           "explanation": "The first was Itzcuintlan ('Place of Dogs'), where the soul reached the wide river Chicunauhco."
+        },
+        {
+          "id": "aztec-q3-4",
+          "type": "trueFalse",
+          "question": "Red or yellow dogs were the only animals that could help souls cross the river.",
+          "correctAnswer": "true",
+          "explanation": "To cross this formidable barrier, the assistance of a specific companion was crucial: a red or yellow dog."
+        },
+        {
+          "id": "aztec-q3-5",
+          "type": "multipleChoice",
+          "question": "What happened at Tepeme Monamictlan?",
+          "options": [
+            "Souls were judged by Mictlantecuhtli",
+            "Souls had to pass between colliding mountains",
+            "Souls found eternal rest",
+            "Souls were transformed into animals"
+          ],
+          "correctAnswer": "Souls had to pass between colliding mountains",
+          "explanation": "In this terrifying landscape, souls had to perfectly time their passage through two enormous mountains that continuously collided."
+        },
+        {
+          "id": "aztec-q3-6",
+          "type": "trueFalse",
+          "question": "Each level of Mictlan was designed to strip away remnants of earthly existence.",
+          "correctAnswer": "true",
+          "explanation": "Each level of Mictlan was designed to strip away the remnants of earthly existence, preparing the soul for its ultimate dissolution."
         }
       ]
     },
@@ -173,7 +254,7 @@
         "Obsidian blades",
         "Loss of agency"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "aztec-q4-1",
@@ -207,6 +288,33 @@
           ],
           "correctAnswer": "Frozen winds with obsidian shards",
           "explanation": "Next was Cehueloyan ('Where Wind Cuts Like Blades'), with frozen winds carrying obsidian shards flaying souls unable to find shelter."
+        },
+        {
+          "id": "aztec-q4-4",
+          "type": "trueFalse",
+          "question": "In Pancuetlacayan, souls maintained full control over their movements.",
+          "correctAnswer": "false",
+          "explanation": "This was depicted as a vast, desolate desert, where souls lost all control of their movements."
+        },
+        {
+          "id": "aztec-q4-5",
+          "type": "multipleChoice",
+          "question": "What did jaguars attempt to devour in Teocoylqualoa?",
+          "options": [
+            "The soul's memories",
+            "The physical body",
+            "The spiritual heart (teyolia)",
+            "The soul's name"
+          ],
+          "correctAnswer": "The spiritual heart (teyolia)",
+          "explanation": "Jaguars and other monstrous, shadowy creatures roamed, attempting to devour the spiritual heart, the 'teyolia.'"
+        },
+        {
+          "id": "aztec-q4-6",
+          "type": "trueFalse",
+          "question": "The middle levels of Mictlan represented increasing loss of individual agency.",
+          "correctAnswer": "true",
+          "explanation": "This stage represented the complete loss of individual agency and the surrender to the overwhelming power of Mictlan."
         }
       ]
     },
@@ -226,7 +334,7 @@
         "Completion",
         "Offerings"
       ],
-      "xpReward": 15,
+      "xpReward": 100,
       "questions": [
         {
           "id": "aztec-q5-1",
@@ -260,6 +368,33 @@
           ],
           "correctAnswer": "Xochitonal",
           "explanation": "Paradoxically, the next level was Xochitonal ('Having Flowers Is One's Fate'), a peaceful level of flowers and rest before the final descent."
+        },
+        {
+          "id": "aztec-q5-4",
+          "type": "trueFalse",
+          "question": "Souls presented offerings to Mictlantecuhtli upon reaching Chicunamictlan.",
+          "correctAnswer": "true",
+          "explanation": "Upon arrival, the weary souls presented the offerings that had been buried with them during their earthly funerals."
+        },
+        {
+          "id": "aztec-q5-5",
+          "type": "multipleChoice",
+          "question": "What did 'final rest' mean in Mictlan?",
+          "options": [
+            "Eternal paradise",
+            "Reincarnation",
+            "Complete dissolution and merging with darkness",
+            "Becoming a god"
+          ],
+          "correctAnswer": "Complete dissolution and merging with darkness",
+          "explanation": "This rest, however, was not an eternal paradise or a realm of individual bliss. Instead, it meant complete dissolution."
+        },
+        {
+          "id": "aztec-q5-6",
+          "type": "trueFalse",
+          "question": "The Aztecs viewed the dissolution in Mictlan as a tragic end.",
+          "correctAnswer": "false",
+          "explanation": "For the Aztecs, this was not viewed as a tragic end but rather as a natural and complete transformation."
         }
       ]
     }
