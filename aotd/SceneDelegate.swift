@@ -3,7 +3,7 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    private var learningPathCoordinator: LearningPathCoordinator?
+    var learningPathCoordinator: LearningPathCoordinator?
     private let databaseManager = DatabaseManager.shared
     
     private struct SessionState {
