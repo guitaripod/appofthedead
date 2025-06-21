@@ -247,7 +247,8 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         var snapshot = NSDiffableDataSourceSnapshot<Section, PathItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pathItems)
-        collectionDataSource.apply(snapshot, animatingDifferences: false)
+        // Force reload by using applySnapshotUsingReloadData
+        collectionDataSource.applySnapshotUsingReloadData(snapshot)
     }
     
     
@@ -342,6 +343,30 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         actions.append(primaryAction)
         
+        // Mistake Review action (if there are mistakes)
+        if let user = viewModel.currentUser {
+            do {
+                let mistakeCount = try DatabaseManager.shared.getMistakeCount(userId: user.id, beliefSystemId: item.id)
+                AppLogger.ui.info("Context menu mistake count", metadata: [
+                    "beliefSystemId": item.id,
+                    "mistakeCount": mistakeCount
+                ])
+                
+                if mistakeCount > 0 {
+                    let mistakeAction = UIAction(
+                        title: "Review Mistakes (\(mistakeCount))",
+                        image: UIImage(systemName: "exclamationmark.circle.fill"),
+                        attributes: []
+                    ) { [weak self] _ in
+                        self?.startMistakeReview(for: item, beliefSystem: beliefSystem)
+                    }
+                    actions.append(mistakeAction)
+                }
+            } catch {
+                AppLogger.logError(error, context: "Getting mistake count for context menu", logger: AppLogger.ui)
+            }
+        }
+        
         // Reset progress action (if there's progress)
         if let progress = progress, progress.earnedXP > 0 {
             let resetAction = UIAction(
@@ -370,18 +395,16 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     private func showResetProgressConfirmation(for item: PathItem, beliefSystem: BeliefSystem) {
-        let alert = UIAlertController(
+        PapyrusAlert(
             title: "Reset Progress?",
             message: "This will reset all your progress for \(beliefSystem.name). You'll lose your XP and completed lessons.",
-            preferredStyle: .alert
+            style: .alert
         )
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Reset", style: .destructive) { [weak self] _ in
+        .addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
+        .addAction(PapyrusAlert.Action(title: "Reset", style: .destructive) { [weak self] in
             self?.viewModel.resetProgress(for: item.id)
         })
-        
-        present(alert, animated: true)
+        .present(from: self)
     }
     
     
@@ -434,6 +457,54 @@ extension HomeViewController {
             coordinator: coordinator
         )
         present(completionVC, animated: true)
+    }
+    
+    private func startMistakeReview(for item: PathItem, beliefSystem: BeliefSystem) {
+        guard let user = viewModel.currentUser else { return }
+        
+        do {
+            // Get mistakes for this belief system
+            let mistakes = try DatabaseManager.shared.getMistakes(userId: user.id, beliefSystemId: item.id)
+            
+            guard !mistakes.isEmpty else {
+                PapyrusAlert.showSimpleAlert(
+                    title: "No Mistakes",
+                    message: "Great job! You haven't made any mistakes in this path.",
+                    from: self
+                )
+                return
+            }
+            
+            // Start mistake session
+            let session = try DatabaseManager.shared.startMistakeSession(userId: user.id, beliefSystemId: item.id)
+            
+            // Create and present mistake review controller
+            let mistakeReviewVC = MistakeReviewViewController(
+                beliefSystem: beliefSystem,
+                mistakes: mistakes,
+                session: session,
+                contentLoader: viewModel.contentLoader
+            )
+            
+            mistakeReviewVC.delegate = self
+            
+            let navController = UINavigationController(rootViewController: mistakeReviewVC)
+            navController.modalPresentationStyle = .fullScreen
+            present(navController, animated: true)
+            
+            AppLogger.learning.info("Started mistake review", metadata: [
+                "beliefSystemId": item.id,
+                "mistakeCount": mistakes.count
+            ])
+            
+        } catch {
+            AppLogger.logError(error, context: "Starting mistake review", logger: AppLogger.learning)
+            PapyrusAlert.showSimpleAlert(
+                title: "Error",
+                message: "Unable to start mistake review. Please try again.",
+                from: self
+            )
+        }
     }
 }
 
@@ -534,5 +605,39 @@ extension HomeViewController: SignInViewControllerDelegate {
     
     func signInDidCancel() {
         // No action needed
+    }
+}
+
+// MARK: - MistakeReviewViewControllerDelegate
+
+extension HomeViewController: MistakeReviewViewControllerDelegate {
+    func mistakeReviewCompleted(correctCount: Int, totalCount: Int, xpEarned: Int) {
+        // Force a complete refresh of the data
+        viewModel.loadData()
+        
+        // Ensure the collection view is updated with new data
+        DispatchQueue.main.async { [weak self] in
+            // Force complete reload to update context menus
+            self?.collectionView.reloadData()
+            self?.updateHeader()
+        }
+        
+        let accuracy = Int((Double(correctCount) / Double(totalCount)) * 100)
+        PapyrusAlert.showSimpleAlert(
+            title: "Review Complete!",
+            message: "You got \(correctCount) out of \(totalCount) correct (\(accuracy)%). Earned \(xpEarned) XP!",
+            from: self
+        )
+    }
+    
+    func mistakeReviewCancelled() {
+        // Reload data to ensure mistake counts are up to date
+        viewModel.loadData()
+        
+        // Ensure the collection view is updated
+        DispatchQueue.main.async { [weak self] in
+            // Force complete reload to update context menus
+            self?.collectionView.reloadData()
+        }
     }
 }
