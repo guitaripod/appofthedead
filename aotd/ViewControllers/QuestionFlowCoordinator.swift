@@ -93,6 +93,9 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         // Award XP for correct answers
         if didAnswerCorrectly {
             awardXPForCorrectAnswer(viewModel: viewModel)
+        } else {
+            // Save mistake for review
+            saveMistake(for: viewModel)
         }
         
         currentQuestionIndex += 1
@@ -145,5 +148,37 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
             reason: "Lesson completion",
             beliefSystemId: beliefSystem.id
         )
+    }
+    
+    private func saveMistake(for viewModel: BaseQuestionViewModel) {
+        guard let user = DatabaseManager.shared.fetchUser() else { return }
+        
+        let question = viewModel.question
+        let correctAnswer: String
+        
+        switch question.correctAnswer.value {
+        case .string(let answer):
+            correctAnswer = answer
+        case .array(let answers):
+            correctAnswer = answers.first ?? ""
+        }
+        
+        do {
+            try DatabaseManager.shared.saveMistake(
+                userId: user.id,
+                beliefSystemId: beliefSystem.id,
+                lessonId: nil, // We don't have lesson ID in this context
+                questionId: question.id,
+                incorrectAnswer: "", // We don't track the actual incorrect answer yet
+                correctAnswer: correctAnswer
+            )
+            
+            AppLogger.learning.info("Saved mistake for review", metadata: [
+                "questionId": question.id,
+                "beliefSystemId": beliefSystem.id
+            ])
+        } catch {
+            AppLogger.logError(error, context: "Saving mistake", logger: AppLogger.learning)
+        }
     }
 }
