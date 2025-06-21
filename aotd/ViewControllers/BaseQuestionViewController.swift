@@ -10,6 +10,8 @@ class BaseQuestionViewController: UIViewController {
     let contentStackView = UIStackView()
     
     var submitButton: UIButton?
+    var hideProgressView = false
+    var hideQuestionNumber = false
     
     init(viewModel: BaseQuestionViewModel) {
         self.viewModel = viewModel
@@ -72,12 +74,22 @@ class BaseQuestionViewController: UIViewController {
         NSLayoutConstraint.activate([
             progressView.heightAnchor.constraint(equalToConstant: 8)
         ])
+        
+        // Hide if requested
+        if hideProgressView {
+            progressView.isHidden = true
+        }
     }
     
     private func setupQuestionNumberLabel() {
         questionNumberLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         questionNumberLabel.textColor = UIColor.Papyrus.secondaryText
         contentStackView.addArrangedSubview(questionNumberLabel)
+        
+        // Hide if requested
+        if hideQuestionNumber {
+            questionNumberLabel.isHidden = true
+        }
     }
     
     private func setupQuestionLabel() {
