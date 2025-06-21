@@ -275,8 +275,8 @@ final class MistakeReviewViewController: UIViewController {
             AppLogger.logError(error, context: "Completing mistake session", logger: AppLogger.learning)
         }
         
-        // Dismiss first, then notify delegate so the home view can refresh properly
-        dismiss(animated: true) { [weak self] in
+        // Dismiss and notify delegate
+        dismissReview { [weak self] in
             guard let self = self else { return }
             self.delegate?.mistakeReviewCompleted(
                 correctCount: self.correctCount,
@@ -292,10 +292,38 @@ final class MistakeReviewViewController: UIViewController {
         PapyrusAlert(title: "Exit Review?", message: "Your progress will not be saved if you exit now.")
             .addAction(PapyrusAlert.Action(title: "Continue Review", style: .cancel))
             .addAction(PapyrusAlert.Action(title: "Exit", style: .destructive) { [weak self] in
-                self?.delegate?.mistakeReviewCancelled()
-                self?.dismiss(animated: true)
+                self?.exitReview()
             })
             .present(from: self)
+    }
+    
+    private func exitReview() {
+        // Add a small delay to ensure the alert is fully dismissed first
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            // Dismiss and notify delegate
+            self?.dismissReview { [weak self] in
+                self?.delegate?.mistakeReviewCancelled()
+            }
+        }
+    }
+    
+    private func dismissReview(completion: (() -> Void)? = nil) {
+        // Ensure we're on the main thread
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.dismissReview(completion: completion)
+            }
+            return
+        }
+        
+        // Since we're presented inside a navigation controller, dismiss via the presenter
+        if let navController = self.navigationController,
+           let presenter = navController.presentingViewController {
+            presenter.dismiss(animated: true, completion: completion)
+        } else {
+            // Fallback: dismiss directly
+            self.dismiss(animated: true, completion: completion)
+        }
     }
 }
 

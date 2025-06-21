@@ -205,7 +205,17 @@ private final class PapyrusAlertViewController: UIViewController {
             titleLabel.textColor = UIColor.Papyrus.primaryText
             titleLabel.textAlignment = .center
             titleLabel.numberOfLines = 0
-            contentStackView.addArrangedSubview(titleLabel)
+            // Add padding wrapper for title
+            let titleContainer = UIView()
+            titleContainer.addSubview(titleLabel)
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                titleLabel.topAnchor.constraint(equalTo: titleContainer.topAnchor),
+                titleLabel.leadingAnchor.constraint(equalTo: titleContainer.leadingAnchor, constant: 20),
+                titleLabel.trailingAnchor.constraint(equalTo: titleContainer.trailingAnchor, constant: -20),
+                titleLabel.bottomAnchor.constraint(equalTo: titleContainer.bottomAnchor)
+            ])
+            contentStackView.addArrangedSubview(titleContainer)
         }
         
         // Message
@@ -216,7 +226,17 @@ private final class PapyrusAlertViewController: UIViewController {
             messageLabel.textColor = UIColor.Papyrus.secondaryText
             messageLabel.textAlignment = .center
             messageLabel.numberOfLines = 0
-            contentStackView.addArrangedSubview(messageLabel)
+            // Add padding wrapper for message
+            let messageContainer = UIView()
+            messageContainer.addSubview(messageLabel)
+            messageLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                messageLabel.topAnchor.constraint(equalTo: messageContainer.topAnchor),
+                messageLabel.leadingAnchor.constraint(equalTo: messageContainer.leadingAnchor, constant: 20),
+                messageLabel.trailingAnchor.constraint(equalTo: messageContainer.trailingAnchor, constant: -20),
+                messageLabel.bottomAnchor.constraint(equalTo: messageContainer.bottomAnchor)
+            ])
+            contentStackView.addArrangedSubview(messageContainer)
         }
         
         // Divider
@@ -228,36 +248,53 @@ private final class PapyrusAlertViewController: UIViewController {
         // Buttons
         // Check if we should use vertical layout for alerts with long button titles
         let totalButtonTextLength = actions.reduce(0) { $0 + $1.title.count }
-        let shouldUseVerticalLayout = style == .actionSheet || totalButtonTextLength > 20
+        let longestButtonTitle = actions.map { $0.title.count }.max() ?? 0
+        // Check if this is a confirmation-style alert (has both cancel and destructive actions)
+        let hasConfirmationStyle = actions.contains { $0.style == .cancel } && 
+                                  actions.contains { $0.style == .destructive }
+        let shouldUseVerticalLayout = style == .actionSheet || 
+                                     totalButtonTextLength > 15 || 
+                                     longestButtonTitle > 10 ||
+                                     actions.count > 2 ||
+                                     hasConfirmationStyle
         
-        buttonStackView.axis = shouldUseVerticalLayout ? .vertical : .horizontal
-        buttonStackView.spacing = shouldUseVerticalLayout ? 0 : 1
-        buttonStackView.distribution = .fillEqually
-        buttonStackView.backgroundColor = shouldUseVerticalLayout ? .clear : UIColor.Papyrus.aged
-        contentStackView.addArrangedSubview(buttonStackView)
-        
-        for (index, action) in actions.enumerated() {
-            let button = createButton(for: action)
+        if shouldUseVerticalLayout {
+            // Vertical layout - buttons stacked with dividers between
+            buttonStackView.axis = .vertical
+            buttonStackView.spacing = 0
+            buttonStackView.distribution = .fill
+            buttonStackView.alignment = .fill
             
-            if shouldUseVerticalLayout && index > 0 {
-                // Add horizontal divider for vertical layouts
-                let horizontalDivider = UIView()
-                horizontalDivider.backgroundColor = UIColor.Papyrus.aged
-                horizontalDivider.heightAnchor.constraint(equalToConstant: 1).isActive = true
-                buttonStackView.addArrangedSubview(horizontalDivider)
-            } else if !shouldUseVerticalLayout && index > 0 {
-                // Add vertical divider for horizontal layouts
-                let verticalDivider = UIView()
-                verticalDivider.backgroundColor = UIColor.Papyrus.aged
-                verticalDivider.widthAnchor.constraint(equalToConstant: 1).isActive = true
-                buttonStackView.addArrangedSubview(verticalDivider)
+            for (index, action) in actions.enumerated() {
+                if index > 0 {
+                    // Add horizontal divider
+                    let divider = UIView()
+                    divider.backgroundColor = UIColor.Papyrus.aged
+                    divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
+                    buttonStackView.addArrangedSubview(divider)
+                }
+                
+                let button = createButton(for: action, isVertical: true)
+                buttonStackView.addArrangedSubview(button)
             }
+        } else {
+            // Horizontal layout - buttons side by side
+            buttonStackView.axis = .horizontal
+            buttonStackView.spacing = 1
+            buttonStackView.distribution = .fillEqually
+            buttonStackView.alignment = .fill
+            buttonStackView.backgroundColor = UIColor.Papyrus.aged
             
-            buttonStackView.addArrangedSubview(button)
+            for action in actions {
+                let button = createButton(for: action, isVertical: false)
+                buttonStackView.addArrangedSubview(button)
+            }
         }
+        
+        contentStackView.addArrangedSubview(buttonStackView)
     }
     
-    private func createButton(for action: PapyrusAlert.Action) -> UIButton {
+    private func createButton(for action: PapyrusAlert.Action, isVertical: Bool) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(action.title, for: .normal)
         button.titleLabel?.font = action.style == .cancel ? .systemFont(ofSize: 17, weight: .semibold) : .systemFont(ofSize: 17)
@@ -295,8 +332,8 @@ private final class PapyrusAlertViewController: UIViewController {
             
             // Content
             contentStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
         

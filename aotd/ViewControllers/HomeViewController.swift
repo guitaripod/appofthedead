@@ -316,7 +316,7 @@ extension HomeViewController: UICollectionViewDelegate {
         
         return UIContextMenuConfiguration(
             identifier: indexPath as NSCopying,
-            previewProvider: { [weak self] in
+            previewProvider: {
                 return PathPreviewViewController(
                     beliefSystem: beliefSystem,
                     progress: progress,
