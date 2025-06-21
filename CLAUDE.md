@@ -40,6 +40,13 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
 - **Logging**: Use `AppLogger` for all logging - never use `print()` statements. AppLogger provides structured logging with categories (auth, database, content, sync, learning, gamification, purchases, ui, viewModel, mlx, performance, general)
 
+## Claude Working Principles
+- **Before implementing**: Search for 2-3 similar patterns in the codebase to follow
+- **For complex tasks**: Internally decompose into sub-problems before starting
+- **After implementing**: Self-check the solution for edge cases and potential issues
+- **Consider alternatives**: Think of 2-3 approaches and pick the best one
+- **Gather context first**: Read relevant files and understand constraints before coding
+
 ## UI/UX Guidelines
 - Beautiful, modern design. You are a master iOS designer. Design of the year award winner app.
 - Distinct color themes per belief system. Color codes are in aotd.json
