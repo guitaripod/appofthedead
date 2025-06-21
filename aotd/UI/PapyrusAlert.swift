@@ -226,32 +226,31 @@ private final class PapyrusAlertViewController: UIViewController {
         contentStackView.addArrangedSubview(divider)
         
         // Buttons
-        buttonStackView.axis = style == .alert ? .horizontal : .vertical
-        buttonStackView.spacing = style == .alert ? 1 : 0
-        buttonStackView.distribution = .fillEqually
-        buttonStackView.backgroundColor = UIColor.Papyrus.aged
-        contentStackView.addArrangedSubview(buttonStackView)
+        // Check if we should use vertical layout for alerts with long button titles
+        let totalButtonTextLength = actions.reduce(0) { $0 + $1.title.count }
+        let shouldUseVerticalLayout = style == .actionSheet || totalButtonTextLength > 20
         
-        // Add vertical dividers for alert style
-        if style == .alert && actions.count > 1 {
-            buttonStackView.spacing = 0
-        }
+        buttonStackView.axis = shouldUseVerticalLayout ? .vertical : .horizontal
+        buttonStackView.spacing = shouldUseVerticalLayout ? 0 : 1
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.backgroundColor = shouldUseVerticalLayout ? .clear : UIColor.Papyrus.aged
+        contentStackView.addArrangedSubview(buttonStackView)
         
         for (index, action) in actions.enumerated() {
             let button = createButton(for: action)
             
-            if style == .alert && index > 0 {
-                // Add vertical divider
-                let verticalDivider = UIView()
-                verticalDivider.backgroundColor = UIColor.Papyrus.aged
-                verticalDivider.widthAnchor.constraint(equalToConstant: 1).isActive = true
-                buttonStackView.addArrangedSubview(verticalDivider)
-            } else if style == .actionSheet && index > 0 {
-                // Add horizontal divider
+            if shouldUseVerticalLayout && index > 0 {
+                // Add horizontal divider for vertical layouts
                 let horizontalDivider = UIView()
                 horizontalDivider.backgroundColor = UIColor.Papyrus.aged
                 horizontalDivider.heightAnchor.constraint(equalToConstant: 1).isActive = true
                 buttonStackView.addArrangedSubview(horizontalDivider)
+            } else if !shouldUseVerticalLayout && index > 0 {
+                // Add vertical divider for horizontal layouts
+                let verticalDivider = UIView()
+                verticalDivider.backgroundColor = UIColor.Papyrus.aged
+                verticalDivider.widthAnchor.constraint(equalToConstant: 1).isActive = true
+                buttonStackView.addArrangedSubview(verticalDivider)
             }
             
             buttonStackView.addArrangedSubview(button)
