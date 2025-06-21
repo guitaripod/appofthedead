@@ -141,6 +141,24 @@ final class PathListCell: UICollectionViewCell {
         return button
     }()
     
+    private lazy var mistakeBadge: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.systemRed
+        view.layer.cornerRadius = 10
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var mistakeCountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
+    
     // MARK: - Stack Views
     
     private lazy var textStackView: UIStackView = {
@@ -189,10 +207,12 @@ final class PathListCell: UICollectionViewCell {
         containerView.addSubview(chevronImageView)
         containerView.addSubview(infoButton)
         containerView.addSubview(previewContainer)
+        containerView.addSubview(mistakeBadge)
         
         previewContainer.addSubview(previewLabel)
         
         statusBadge.addSubview(statusIcon)
+        mistakeBadge.addSubview(mistakeCountLabel)
         
         NSLayoutConstraint.activate([
             // Container
@@ -262,7 +282,19 @@ final class PathListCell: UICollectionViewCell {
             previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 8),
             previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -8),
             previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 6),
-            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -6)
+            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -6),
+            
+            // Mistake badge
+            mistakeBadge.topAnchor.constraint(equalTo: iconContainerView.topAnchor, constant: -5),
+            mistakeBadge.trailingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 5),
+            mistakeBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            mistakeBadge.heightAnchor.constraint(equalToConstant: 20),
+            
+            // Mistake count label
+            mistakeCountLabel.centerXAnchor.constraint(equalTo: mistakeBadge.centerXAnchor),
+            mistakeCountLabel.centerYAnchor.constraint(equalTo: mistakeBadge.centerYAnchor),
+            mistakeCountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: mistakeBadge.leadingAnchor, constant: 4),
+            mistakeCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: mistakeBadge.trailingAnchor, constant: -4)
         ])
         
         // Add flexible bottom constraint with priority
@@ -351,6 +383,14 @@ final class PathListCell: UICollectionViewCell {
             let topicsText = preview.keyTopics.prefix(3).joined(separator: " • ")
             previewLabel.text = topicsText
         }
+        
+        // Configure mistake badge
+        if item.mistakeCount > 0 && item.isUnlocked {
+            mistakeBadge.isHidden = false
+            mistakeCountLabel.text = "\(item.mistakeCount)"
+        } else {
+            mistakeBadge.isHidden = true
+        }
     }
     
     // MARK: - Actions
@@ -398,6 +438,8 @@ final class PathListCell: UICollectionViewCell {
         infoButton.transform = .identity
         infoButton.isHidden = false
         pathPreview = nil
+        mistakeBadge.isHidden = true
+        mistakeCountLabel.text = nil
     }
     
     // MARK: - Touch Feedback

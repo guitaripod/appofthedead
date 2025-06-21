@@ -134,6 +134,24 @@ final class PathCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var mistakeBadge: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.systemRed
+        view.layer.cornerRadius = 10
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var mistakeCountLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.textColor = .white
+        label.textAlignment = .center
+        return label
+    }()
+    
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -156,6 +174,8 @@ final class PathCollectionViewCell: UICollectionViewCell {
         statusBadge.addSubview(statusIcon)
         containerView.addSubview(previewContainer)
         previewContainer.addSubview(previewLabel)
+        containerView.addSubview(mistakeBadge)
+        mistakeBadge.addSubview(mistakeCountLabel)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -204,7 +224,19 @@ final class PathCollectionViewCell: UICollectionViewCell {
             previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 4),
             previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -4),
             previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 4),
-            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -4)
+            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -4),
+            
+            // Mistake badge
+            mistakeBadge.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            mistakeBadge.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            mistakeBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            mistakeBadge.heightAnchor.constraint(equalToConstant: 20),
+            
+            // Mistake count label
+            mistakeCountLabel.centerXAnchor.constraint(equalTo: mistakeBadge.centerXAnchor),
+            mistakeCountLabel.centerYAnchor.constraint(equalTo: mistakeBadge.centerYAnchor),
+            mistakeCountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: mistakeBadge.leadingAnchor, constant: 4),
+            mistakeCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: mistakeBadge.trailingAnchor, constant: -4)
         ])
         
         // Add long press gesture
@@ -272,6 +304,14 @@ final class PathCollectionViewCell: UICollectionViewCell {
             let topicsText = preview.keyTopics.prefix(2).joined(separator: " • ")
             previewLabel.text = topicsText
         }
+        
+        // Configure mistake badge
+        if item.mistakeCount > 0 && item.isUnlocked {
+            mistakeBadge.isHidden = false
+            mistakeCountLabel.text = "\(item.mistakeCount)"
+        } else {
+            mistakeBadge.isHidden = true
+        }
     }
     
     // MARK: - Actions
@@ -326,5 +366,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         isShowingPreview = false
         contentStackView.transform = .identity
         pathPreview = nil
+        mistakeBadge.isHidden = true
+        mistakeCountLabel.text = nil
     }
 }
