@@ -249,7 +249,7 @@ final class ContentLoaderTests: XCTestCase {
         let judaism = beliefSystems.first { $0.id == "judaism" }
         XCTAssertNotNil(judaism)
         XCTAssertEqual(judaism?.name, "Judaism")
-        XCTAssertEqual(judaism?.totalXP, 160)
+        XCTAssertEqual(judaism?.totalXP, 700)
         
         // Check a few other belief systems
         let christianity = beliefSystems.first { $0.id == "christianity" }

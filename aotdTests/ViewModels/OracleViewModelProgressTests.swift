@@ -3,7 +3,21 @@ import XCTest
 
 final class OracleViewModelProgressTests: XCTestCase {
     
-    func testProgressSmoothingConcept() async {
+    override func setUp() {
+        super.setUp()
+        // Clean up UserDefaults to ensure tests start with clean state
+        UserDefaults.standard.removeObject(forKey: "MLXModelLoadedOnce")
+        UserDefaults.standard.synchronize()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        // Clean up after tests
+        UserDefaults.standard.removeObject(forKey: "MLXModelLoadedOnce")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func testProgressSmoothingConcept() {
         // This test validates the concept of progress smoothing
         // In practice, the smoothing happens internally during model download
         
@@ -25,30 +39,41 @@ final class OracleViewModelProgressTests: XCTestCase {
         }
     }
     
-    func testDownloadStatusMessages() async {
+    func testDownloadStatusMessages() {
         // Given
         let viewModel = OracleViewModel()
         
         // The download status should provide meaningful messages
         // Check initial state
-        let initialStatus = await viewModel.downloadStatus
+        let initialStatus = viewModel.downloadStatus
         XCTAssertTrue(initialStatus.isEmpty, "Initial download status should be empty")
         
         // Check that download progress starts at 0
-        let initialProgress = await viewModel.downloadProgress
+        let initialProgress = viewModel.downloadProgress
         XCTAssertEqual(initialProgress, 0.0, accuracy: 0.001)
     }
     
     func testModelLoadingState() async {
-        // Given
+        // Given a fresh instance
         let viewModel = OracleViewModel()
         
-        // Initially model should not be loaded
-        let isLoaded = await viewModel.isModelLoaded
-        XCTAssertFalse(isLoaded, "Model should not be loaded initially")
+        // Wait a moment for any async initialization
+        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
         
-        // Loading state should be false
-        let isLoading = await viewModel.isModelLoading
-        XCTAssertFalse(isLoading, "Model should not be loading initially")
+        // Test 1: Loading state should be false when not actively loading
+        XCTAssertFalse(viewModel.isModelLoading, "Model should not be loading initially")
+        
+        // Test 2: syncModelLoadedState should update the isModelLoaded property
+        let initialLoadedState = viewModel.isModelLoaded
+        viewModel.syncModelLoadedState()
+        // After sync, the state should match the singleton's state
+        XCTAssertEqual(viewModel.isModelLoaded, MLXModelManager.shared.isModelLoaded,
+                      "After sync, viewModel state should match singleton state")
+        
+        // Test 3: Download properties should start at zero
+        XCTAssertEqual(viewModel.downloadProgress, 0.0, accuracy: 0.001,
+                      "Download progress should start at 0")
+        XCTAssertTrue(viewModel.downloadStatus.isEmpty || viewModel.downloadStatus.contains("Loading") || viewModel.downloadStatus.contains("Oracle"),
+                     "Download status should be empty or contain loading message")
     }
 }

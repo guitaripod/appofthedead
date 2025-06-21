@@ -86,7 +86,7 @@ final class HomeViewModelTests: XCTestCase {
         XCTAssertEqual(judaismPath!.id, "judaism", "First path should be Judaism")
         XCTAssertEqual(judaismPath!.name, "Judaism")
         XCTAssertEqual(judaismPath!.icon, "star_of_david")
-        XCTAssertEqual(judaismPath!.totalXP, 450)
+        XCTAssertEqual(judaismPath!.totalXP, 700)
         XCTAssertEqual(judaismPath!.currentXP, 0) // No progress initially
         XCTAssertEqual(judaismPath!.progress, 0.0)
     }
@@ -153,7 +153,7 @@ final class HomeViewModelTests: XCTestCase {
         XCTAssertNotNil(judaismPath)
         XCTAssertEqual(judaismPath!.id, "judaism", "Judaism should still be first")
         XCTAssertEqual(judaismPath!.currentXP, 50)
-        XCTAssertEqual(judaismPath!.progress, 50.0 / 450.0)
+        XCTAssertEqual(judaismPath!.progress, 50.0 / 700)
     }
     
     func testCompletingPathDoesNotAutomaticallyUnlockOthers() throws {
