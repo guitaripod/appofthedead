@@ -4,7 +4,7 @@
   "description": "Explore the diverse Christian visions of salvation and damnation, from Catholic doctrines of Heaven, Purgatory, and Hell, to Protestant variations and Eastern Orthodox mysticism.",
   "icon": "cross",
   "color": "#FFD700",
-  "totalXP": 1000,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "christianity-intro",
@@ -19,7 +19,7 @@
         "Second Coming",
         "New Heavens and New Earth"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q1-1",
@@ -95,7 +95,7 @@
         "Glorified bodies",
         "Resurrection"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q2-1",
@@ -173,7 +173,7 @@
         "Indulgences",
         "Temporal punishment"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q3-1",
@@ -250,7 +250,7 @@
         "Eternal separation",
         "Mortal sin"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q4-1",
@@ -328,7 +328,7 @@
         "Calvinism",
         "Arminianism"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q5-1",
@@ -406,7 +406,7 @@
         "Divine energies",
         "Final judgment"
       ],
-      "xpReward": 100,
+      "xpReward": 67,
       "questions": [
         {
           "id": "christianity-q6-1",
@@ -483,7 +483,7 @@
         "Glorified bodies",
         "Incorruptibility"
       ],
-      "xpReward": 100,
+      "xpReward": 66,
       "questions": [
         {
           "id": "christianity-q7-1",
@@ -560,7 +560,7 @@
         "Eternal conscious torment",
         "Theological debates"
       ],
-      "xpReward": 100,
+      "xpReward": 66,
       "questions": [
         {
           "id": "christianity-q8-1",
@@ -638,7 +638,7 @@
         "Protestantism",
         "Communion of saints"
       ],
-      "xpReward": 100,
+      "xpReward": 66,
       "questions": [
         {
           "id": "christianity-q9-1",

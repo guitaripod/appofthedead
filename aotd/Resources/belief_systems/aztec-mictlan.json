@@ -4,7 +4,7 @@
   "description": "Explore the Aztec understanding of death as cosmic necessity, where destiny is determined by how one died, leading to warrior paradises, Tlalocan, or the four-year journey to Mictlan.",
   "icon": "skull",
   "color": "#800020",
-  "totalXP": 600,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "aztec-intro",
@@ -20,7 +20,7 @@
         "Tonatiuhichan",
         "Duality"
       ],
-      "xpReward": 100,
+      "xpReward": 120,
       "questions": [
         {
           "id": "aztec-q1-1",
@@ -97,7 +97,7 @@
         "Fertility",
         "Abundance"
       ],
-      "xpReward": 100,
+      "xpReward": 120,
       "questions": [
         {
           "id": "aztec-q2-1",
@@ -176,7 +176,7 @@
         "Nine levels",
         "Ordinary deaths"
       ],
-      "xpReward": 100,
+      "xpReward": 120,
       "questions": [
         {
           "id": "aztec-q3-1",
@@ -254,7 +254,7 @@
         "Obsidian blades",
         "Loss of agency"
       ],
-      "xpReward": 100,
+      "xpReward": 120,
       "questions": [
         {
           "id": "aztec-q4-1",
@@ -334,7 +334,7 @@
         "Completion",
         "Offerings"
       ],
-      "xpReward": 100,
+      "xpReward": 120,
       "questions": [
         {
           "id": "aztec-q5-1",

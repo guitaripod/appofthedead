@@ -4,7 +4,7 @@
   "description": "Explore the diverse afterlife concepts across Native American traditions, common themes of journey and transformation, and the continued connection between the living and the dead.",
   "icon": "dreamcatcher",
   "color": "#8B4513",
-  "totalXP": 600,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "native-american-intro",
@@ -21,7 +21,7 @@
         "Four-day journey",
         "Spiritual purity"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "native-american-q1-1",
@@ -100,7 +100,7 @@
         "Mutual dependency",
         "Status in afterlife"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "native-american-q2-1",
@@ -180,7 +180,7 @@
         "Metamorphosis",
         "Inter-realm interaction"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "native-american-q3-1",
@@ -259,7 +259,7 @@
         "Great Spirit",
         "Healing and wisdom"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "native-american-q4-1",
@@ -328,7 +328,7 @@
     "id": "native-american-mastery",
     "title": "Native American Visions Mastery Test",
     "requiredScore": 80,
-    "xpReward": 300,
+    "xpReward": 100,
     "questions": [
       {
         "id": "native-american-mt-q1",
@@ -358,10 +358,10 @@
           "Vengeful spirits",
           "Demonic entities",
           "Cloud beings who bring rain and blessings",
-            "Animal totems"
-          ],
-          "correctAnswer": "Cloud beings who bring rain and blessings",
-          "explanation": "Spirits become kachinas, cloud beings who bring rain and blessings to the living."
+          "Animal totems"
+        ],
+        "correctAnswer": "Cloud beings who bring rain and blessings",
+        "explanation": "Spirits become kachinas, cloud beings who bring rain and blessings to the living."
       },
       {
         "id": "native-american-mt-q4",

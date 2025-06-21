@@ -4,7 +4,7 @@
   "description": "Discover the Baháʼí Faith's perspective on death as a birth into a greater existence, an infinite progression through spiritual worlds, and the existence of Heaven and Hell as states of nearness or distance from God.",
   "icon": "nine_pointed_star",
   "color": "#FFC0CB",
-  "totalXP": 1500,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "bahai-intro",
@@ -20,7 +20,7 @@
         "Messenger of joy",
         "Spiritual tools"
       ],
-      "xpReward": 188,
+      "xpReward": 120,
       "questions": [
         {
           "id": "bahai-q1-1",
@@ -98,7 +98,7 @@
         "Realms of consciousness",
         "Divine attributes"
       ],
-      "xpReward": 250,
+      "xpReward": 120,
       "questions": [
         {
           "id": "bahai-q2-1",
@@ -177,7 +177,7 @@
         "Divine virtues",
         "Spiritual contentment"
       ],
-      "xpReward": 250,
+      "xpReward": 120,
       "questions": [
         {
           "id": "bahai-q3-1",
@@ -256,7 +256,7 @@
         "Selfless service",
         "Spiritual growth"
       ],
-      "xpReward": 250,
+      "xpReward": 120,
       "questions": [
         {
           "id": "bahai-q4-1",
@@ -335,7 +335,7 @@
         "Divine educators",
         "Unified reality"
       ],
-      "xpReward": 312,
+      "xpReward": 120,
       "questions": [
         {
           "id": "bahai-q5-1",
@@ -404,7 +404,7 @@
     "id": "bahai-mastery",
     "title": "Baháʼí Mastery Test",
     "requiredScore": 80,
-    "xpReward": 250,
+    "xpReward": 100,
     "questions": [
       {
         "id": "bahai-mt-q1",

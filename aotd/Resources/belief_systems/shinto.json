@@ -4,7 +4,7 @@
   "description": "Explore Shinto's perception of death as pollution and transformation, from the journey to Yomi-no-kuni to the purification of the spirit into a protective kami and the ongoing connection with ancestral spirits.",
   "icon": "torii_gate",
   "color": "#8B0000",
-  "totalXP": 400,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "shinto-intro",
@@ -19,7 +19,7 @@
         "Yomi-no-kuni",
         "Purification rituals"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "shinto-q1-1",
@@ -97,7 +97,7 @@
         "Ancestral altars",
         "Exorcism rites"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "shinto-q2-1",
@@ -175,7 +175,7 @@
         "Izanami",
         "Ancestral spirit"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "shinto-q3-1",
@@ -253,7 +253,7 @@
         "Benevolent influence",
         "Transformation into kami"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "shinto-q4-1",

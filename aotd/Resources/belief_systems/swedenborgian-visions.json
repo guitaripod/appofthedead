@@ -4,7 +4,7 @@
   "description": "Explore Emanuel Swedenborg's claimed direct experiences of the afterlife, detailing the soul's awakening in the world of spirits, the revelation of inner nature, and the self-chosen societies of heaven and hell.",
   "icon": "eye",
   "color": "#8A2BE2",
-  "totalXP": 320,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "swedenborgian-intro",
@@ -21,7 +21,7 @@
         "Free gravitation",
         "Communication of thoughts"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q1-1",
@@ -86,7 +86,7 @@
         "Goodness and truth",
         "Self-love and falsity"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q2-1",
@@ -152,7 +152,7 @@
         "Divine mercy",
         "Inner states"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q3-1",
@@ -218,7 +218,7 @@
         "Symbolism",
         "Love and truth"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q4-1",
@@ -284,7 +284,7 @@
         "Natural consequence",
         "Mercy in hell"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q5-1",
@@ -350,7 +350,7 @@
         "Spiritual offspring",
         "Adulterous affections"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q6-1",
@@ -416,7 +416,7 @@
         "Eternal purpose",
         "Love and wisdom"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q7-1",
@@ -469,7 +469,7 @@
         "Perverted perceptions",
         "Freedom to choose suffering"
       ],
-      "xpReward": 25,
+      "xpReward": 75,
       "questions": [
         {
           "id": "swedenborgian-q8-1",

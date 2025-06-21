@@ -4,7 +4,7 @@
   "description": "Discover Rudolf Steiner's spiritual scientific investigation of death, mapping the soul's conscious evolution through planetary spheres, life reviews, and karmic weaving in preparation for future incarnations.",
   "icon": "flower_of_life",
   "color": "#4682B4",
-  "totalXP": 2500,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "anthroposophy-intro",
@@ -20,7 +20,7 @@
         "Spiritual science",
         "Human constitution"
       ],
-      "xpReward": 150,
+      "xpReward": 86,
       "questions": [
         {
           "id": "anthroposophy-q1-1",
@@ -97,7 +97,7 @@
         "Lower desires",
         "Earthly attachments"
       ],
-      "xpReward": 150,
+      "xpReward": 86,
       "questions": [
         {
           "id": "anthroposophy-q2-1",
@@ -178,7 +178,7 @@
         "Christ Being",
         "Cosmic consciousness"
       ],
-      "xpReward": 188,
+      "xpReward": 86,
       "questions": [
         {
           "id": "anthroposophy-q3-1",
@@ -256,7 +256,7 @@
         "Reincarnation",
         "Cosmic wisdom"
       ],
-      "xpReward": 188,
+      "xpReward": 86,
       "questions": [
         {
           "id": "anthroposophy-q4-1",
@@ -333,7 +333,7 @@
         "Ego (I)",
         "Human evolution"
       ],
-      "xpReward": 150,
+      "xpReward": 86,
       "questions": [
         {
           "id": "anthroposophy-q5-1",
@@ -411,7 +411,7 @@
         "Christ Being",
         "Cosmic order"
       ],
-      "xpReward": 188,
+      "xpReward": 85,
       "questions": [
         {
           "id": "anthroposophy-q6-1",
@@ -490,7 +490,7 @@
         "Macrocosm",
         "Microcosm"
       ],
-      "xpReward": 150,
+      "xpReward": 85,
       "questions": [
         {
           "id": "anthroposophy-q7-1",
@@ -559,7 +559,7 @@
     "id": "anthroposophy-mastery",
     "title": "Anthroposophy Mastery Test",
     "requiredScore": 80,
-    "xpReward": 250,
+    "xpReward": 100,
     "questions": [
       {
         "id": "anthroposophy-mt-q1",
@@ -587,9 +587,9 @@
         "question": "Which planetary sphere is associated with developing cosmic love?",
         "options": [
           "Moon sphere",
-            "Mercury sphere",
-            "Venus sphere",
-            "Sun sphere"
+          "Mercury sphere",
+          "Venus sphere",
+          "Sun sphere"
         ],
         "correctAnswer": "Venus sphere",
         "explanation": "Venus: Experiencing cosmic love."

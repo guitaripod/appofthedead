@@ -4,7 +4,7 @@
   "description": "Explore the gentler vision of death in contemporary Paganism, where death is seen as another turn of the Wheel of the Year, leading to the Summerland for rest, reflection, and preparation for new incarnations.",
   "icon": "triple_goddess",
   "color": "#800080",
-  "totalXP": 1500,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "wicca-intro",
@@ -19,7 +19,7 @@
         "Natural cycles",
         "Spiritual evolution"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "wicca-q1-1",
@@ -96,7 +96,7 @@
         "Karmic understanding",
         "Soul reunion"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "wicca-q2-1",
@@ -174,7 +174,7 @@
         "Thinning veil",
         "Spiritual growth"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "wicca-q3-1",
@@ -253,7 +253,7 @@
         "Cycle of rebirth",
         "Sacred balance"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "wicca-q4-1",
@@ -330,7 +330,7 @@
         "Divination",
         "Spiritual connection"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "wicca-q5-1",
@@ -409,7 +409,7 @@
         "Karmic debt",
         "Spiritual growth"
       ],
-      "xpReward": 100,
+      "xpReward": 85,
       "questions": [
         {
           "id": "wicca-q6-1",
@@ -489,7 +489,7 @@
         "Natural burial",
         "Wheel of the Year"
       ],
-      "xpReward": 100,
+      "xpReward": 85,
       "questions": [
         {
           "id": "wicca-q7-1",
@@ -558,7 +558,7 @@
     "id": "wicca-mastery",
     "title": "Wicca Mastery Test",
     "requiredScore": 80,
-    "xpReward": 250,
+    "xpReward": 100,
     "questions": [
       {
         "id": "wicca-mt-q1",

@@ -4,7 +4,7 @@
   "description": "Uncover the mechanics of suffering and liberation in Buddhism, focusing on the cycle of Samsara, the dissolution of elements, the Six Realms, the Bardo, and the ultimate goal of Nirvana.",
   "icon": "dharma_wheel",
   "color": "#FF8C00",
-  "totalXP": 1500,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "buddhism-intro",
@@ -19,7 +19,7 @@
         "Impermanence",
         "Karma"
       ],
-      "xpReward": 180,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q1-1",
@@ -98,7 +98,7 @@
         "Jealousy",
         "Pride"
       ],
-      "xpReward": 250,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q2-1",
@@ -177,7 +177,7 @@
         "Eightfold Path",
         "Karmic causes"
       ],
-      "xpReward": 250,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q3-1",
@@ -256,7 +256,7 @@
         "Hoarding",
         "Karmic cause"
       ],
-      "xpReward": 250,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q4-1",
@@ -336,7 +336,7 @@
         "Hatred",
         "Cruelty"
       ],
-      "xpReward": 310,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q5-1",
@@ -424,7 +424,7 @@
         "Unconditioned bliss",
         "Samsara"
       ],
-      "xpReward": 310,
+      "xpReward": 100,
       "questions": [
         {
           "id": "buddhism-q6-1",

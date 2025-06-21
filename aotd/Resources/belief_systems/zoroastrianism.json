@@ -4,7 +4,7 @@
   "description": "Explore the profound Zoroastrian eschatology, detailing the soul's journey after death, the cosmic judgment at the Chinvat Bridge, the temporary nature of hell, and the ultimate universal salvation and renovation of the world known as Frashokereti.",
   "icon": "faravahar",
   "color": "#FF4500",
-  "totalXP": 590,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "zoroastrianism-soul-nature",
@@ -18,7 +18,7 @@
         "Free Will",
         "Spiritual Guide"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q1-1",
@@ -95,7 +95,7 @@
         "Druj Nasu",
         "Purity"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q2-1",
@@ -171,7 +171,7 @@
         "Asha",
         "Conscience personified"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q3-1",
@@ -247,7 +247,7 @@
         "Cosmic scales",
         "Yazatas"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q4-1",
@@ -323,7 +323,7 @@
         "Anagra Raocha (Endless Light)",
         "Temporary Purification"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q5-1",
@@ -399,7 +399,7 @@
         "Spiritual Stasis",
         "Redemption"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q6-1",
@@ -476,7 +476,7 @@
         "Molten Metal",
         "Universal Purification"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q7-1",
@@ -552,7 +552,7 @@
         "Renewed Earth",
         "Eternal Bliss"
       ],
-      "xpReward": 50,
+      "xpReward": 75,
       "questions": [
         {
           "id": "zoroastrianism-q8-1",
@@ -621,7 +621,7 @@
     "id": "zoroastrianism-mastery",
     "title": "Zoroastrianism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 190,
+    "xpReward": 100,
     "questions": [
       {
         "id": "zoroastrianism-mt-q1",

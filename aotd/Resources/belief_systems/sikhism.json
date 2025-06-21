@@ -4,7 +4,7 @@
   "description": "Explore Sikhism's unique path through Indic cosmology, emphasizing divine grace, the role of Nam Simran, the Dharam Raj, and the ultimate destination of Sachkhand.",
   "icon": "khanda",
   "color": "#DDA0DD",
-  "totalXP": 600,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "sikhism-intro",
@@ -21,7 +21,7 @@
         "Chaurasi Lakh Joon",
         "Liberation"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "sikhism-q1-1",
@@ -99,7 +99,7 @@
         "Seva (Selfless Service)",
         "Karam Khand (Realm of Action)"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "sikhism-q2-1",
@@ -180,7 +180,7 @@
         "Saram Khand",
         "Karam Khand"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "sikhism-q3-1",
@@ -259,7 +259,7 @@
         "Akhand Path",
         "Sangat (Community)"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "sikhism-q4-1",
@@ -422,10 +422,10 @@
         "type": "multipleChoice",
         "question": "Which spiritual practice is considered highest for breaking the cycle of rebirth in Sikhism?",
         "options": [
-            "Performing elaborate rituals",
-            "Pilgrimages to holy sites",
-            "Nam Simran (remembrance of God's Name)",
-            "Accumulating material wealth"
+          "Performing elaborate rituals",
+          "Pilgrimages to holy sites",
+          "Nam Simran (remembrance of God's Name)",
+          "Accumulating material wealth"
         ],
         "correctAnswer": "Nam Simran (remembrance of God's Name)",
         "explanation": "The practice of 'nam simran' is central to Sikh spiritual life, as it allows the soul to break free from the cycle of rebirth."

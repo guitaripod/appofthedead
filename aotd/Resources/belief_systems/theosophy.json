@@ -4,7 +4,7 @@
   "description": "Explore Theosophical teachings on death as the shedding of vehicles of consciousness, the soul's journey through astral and mental planes, and the ultimate goal of liberation from rebirth.",
   "icon": "seal_of_theosophy",
   "color": "#800000",
-  "totalXP": 600,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "theosophy-intro",
@@ -21,7 +21,7 @@
         "Purification",
         "Self-directed evolution"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "theosophy-q1-1",
@@ -100,7 +100,7 @@
         "Atma plane",
         "Spiritual evolution"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "theosophy-q2-1",
@@ -178,7 +178,7 @@
         "Soul's learning and growth",
         "Divine retribution (not)"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "theosophy-q3-1",
@@ -257,7 +257,7 @@
         "Higher planes of existence",
         "Subtle guidance"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "theosophy-q4-1",
@@ -326,7 +326,7 @@
     "id": "theosophy-mastery",
     "title": "Theosophy Mastery Test",
     "requiredScore": 80,
-    "xpReward": 250,
+    "xpReward": 100,
     "questions": [
       {
         "id": "theosophy-mt-q1",
@@ -420,10 +420,10 @@
         "type": "multipleChoice",
         "question": "What is the term for highly evolved souls who choose to remain connected to humanity after liberation?",
         "options": [
-            "Specters",
-            "Ghosts",
-            "Adepts or Mahatmas",
-            "Astral projections"
+          "Specters",
+          "Ghosts",
+          "Adepts or Mahatmas",
+          "Astral projections"
         ],
         "correctAnswer": "Adepts or Mahatmas",
         "explanation": "Many highly evolved souls, known as 'Adepts' or 'Mahatmas' (Great Souls), choose to remain connected to humanity."

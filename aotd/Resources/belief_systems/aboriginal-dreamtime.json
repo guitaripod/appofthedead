@@ -4,7 +4,7 @@
   "description": "Explore the Aboriginal Australian understanding of death as a return to the Dreaming, the timeless realm where individual spirits merge with ancestral beings and the land itself, emphasizing the importance of proper ceremonies.",
   "icon": "boomerang",
   "color": "#800000",
-  "totalXP": 900,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "aboriginal-intro",
@@ -18,7 +18,7 @@
         "Mokoi",
         "Jarnpa"
       ],
-      "xpReward": 40,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q1-1",
@@ -94,7 +94,7 @@
         "Avoidance taboos",
         "Funeral rites"
       ],
-      "xpReward": 40,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q2-1",
@@ -184,7 +184,7 @@
         "Archetypal powers",
         "Transformation"
       ],
-      "xpReward": 40,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q3-1",
@@ -433,7 +433,7 @@
         "Traditional law",
         "Cosmic order"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q6-1",
@@ -509,7 +509,7 @@
         "Multiple souls",
         "Eternal existence"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q7-1",
@@ -585,7 +585,7 @@
         "Mourning practices",
         "Speech taboos"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q8-1",
@@ -682,7 +682,7 @@
         "Land rights",
         "Integrated system"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q9-1",
@@ -758,7 +758,7 @@
         "Gender restrictions",
         "Spiritual contamination"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q10-1",
@@ -861,7 +861,7 @@
         "Knowledge transmission",
         "Spiritual authority"
       ],
-      "xpReward": 60,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q11-1",
@@ -937,7 +937,7 @@
         "Legal conflicts",
         "Cultural resilience"
       ],
-      "xpReward": 75,
+      "xpReward": 50,
       "questions": [
         {
           "id": "aboriginal-q12-1",

@@ -4,7 +4,7 @@
   "description": "Uncover the Taoist perspective on death as a natural transformation within the eternal dance of yin and yang, the dispersion of multiple souls, and the pursuit of immortality or return to the Tao.",
   "icon": "yin_yang",
   "color": "#000000",
-  "totalXP": 1000,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "taoism-intro",
@@ -20,7 +20,7 @@
         "Soul dispersion",
         "Funeral rites"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "taoism-q1-1",
@@ -101,7 +101,7 @@
         "Purification",
         "Karmic debt"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "taoism-q2-1",
@@ -182,7 +182,7 @@
         "Jing",
         "Shen"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "taoism-q3-1",
@@ -266,7 +266,7 @@
         "Spiritual cultivation",
         "Merging with the source"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "taoism-q4-1",
@@ -344,7 +344,7 @@
         "Spiritual realm",
         "Funeral rites"
       ],
-      "xpReward": 100,
+      "xpReward": 86,
       "questions": [
         {
           "id": "taoism-q5-1",
@@ -423,7 +423,7 @@
         "Liberation",
         "Spiritual progression"
       ],
-      "xpReward": 100,
+      "xpReward": 85,
       "questions": [
         {
           "id": "taoism-q6-1",
@@ -502,7 +502,7 @@
         "Pacification",
         "Exorcisms"
       ],
-      "xpReward": 100,
+      "xpReward": 85,
       "questions": [
         {
           "id": "taoism-q7-1",
@@ -665,10 +665,10 @@
         "type": "multipleChoice",
         "question": "What do paper offerings burned in Taoist funerals represent?",
         "options": [
-            "Purely symbolic gestures",
-            "Material items transmitted to the deceased in the spiritual realm",
-            "Fuel for the Earthly Prisons",
-            "A form of external alchemy"
+          "Purely symbolic gestures",
+          "Material items transmitted to the deceased in the spiritual realm",
+          "Fuel for the Earthly Prisons",
+          "A form of external alchemy"
         ],
         "correctAnswer": "Material items transmitted to the deceased in the spiritual realm",
         "explanation": "Paper offerings are believed to be transmitted to the deceased in the spiritual realm, ensuring their material comfort and status in the afterlife."

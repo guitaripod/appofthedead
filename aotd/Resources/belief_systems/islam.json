@@ -4,7 +4,7 @@
   "description": "Discover the precise and detailed cartography of death's journey in Islam, from the Angel of Death to the grave, the Final Hour, and the crossing of As-Sirat to Jannah or Jahannam.",
   "icon": "star_and_crescent",
   "color": "#009000",
-  "totalXP": 1000,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "islam-intro",
@@ -20,7 +20,7 @@
         "Righteous",
         "Wicked"
       ],
-      "xpReward": 150,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q1-1",
@@ -97,7 +97,7 @@
         "Grave comfort",
         "Qiyamah (Resurrection)"
       ],
-      "xpReward": 150,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q2-1",
@@ -177,7 +177,7 @@
         "Gog and Magog",
         "Intercession"
       ],
-      "xpReward": 150,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q3-1",
@@ -255,7 +255,7 @@
         "Ummah",
         "Reckoning"
       ],
-      "xpReward": 150,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q4-1",
@@ -333,7 +333,7 @@
         "Jannah",
         "Jahannam"
       ],
-      "xpReward": 150,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q5-1",
@@ -414,7 +414,7 @@
         "Eternal reward",
         "Eternal punishment"
       ],
-      "xpReward": 125,
+      "xpReward": 100,
       "questions": [
         {
           "id": "islam-q6-1",

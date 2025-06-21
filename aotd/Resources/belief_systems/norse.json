@@ -4,7 +4,7 @@
   "description": "Journey through the Norse afterlife where death in battle leads to Valhalla's eternal feast, while most souls trek to Hel's misty realm, all awaiting Ragnarök's final transformation.",
   "icon": "mjolnir",
   "color": "#4B0082",
-  "totalXP": 596,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "norse-intro",
@@ -20,7 +20,7 @@
         "Ragnarök",
         "Honor in death"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q1-1",
@@ -101,7 +101,7 @@
         "Eldhrímnir",
         "Odin"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q2-1",
@@ -181,7 +181,7 @@
         "Niflhel",
         "River Gjöll"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q3-1",
@@ -249,18 +249,18 @@
       "id": "norse-other-deaths",
       "title": "Alternative Afterlives and Divine Destinies",
       "order": 4,
-      "content": "Beyond Valhalla and Hel, Norse cosmology recognized multiple, specialized afterlife destinations, each determined by specific circumstances of death or life. Those who met their end by drowning or any other seafaring misfortune were not destined for Hel, but were instead claimed by the formidable sea goddess Rán. She, along with her nine daughters, reigned over a net-draped hall beneath the waves, where the drowned souls resided, sometimes depicted as enjoying a peaceful, watery existence within her realm. A unique and significant destination was Fólkvangr, meaning 'Field of the Host' or 'People's Field,' presided over by the goddess Freyja. This serene and beautiful hall, known as Sessrúmnir ('Seat-Room'), was where Freyja received half of the battle-slain, sharing these honored warriors with Odin. Fólkvangr was often seen as a softer, yet equally honorable, alternative to Valhalla, emphasizing Freyja's role as a deity of love, war, and fertility, and allowing for a different kind of post-mortem glory. Another important concept was Giml\u00e9, a radiant hall mentioned in some Eddic poems. Described as 'fairer than the sun' and 'shining,' Giml\u00e9 was prophesied as a haven for the righteous and good people who would survive Ragnarök. It represented a new, purified world after the destruction and rebirth of the cosmos, offering a future of eternal peace and bliss, free from the cycles of conflict. The death of the beloved god Baldr also illuminated another facet of the Norse afterlife: even gods could die and dwell in Hel's realm. Baldr's journey to the underworld, and the gods' failed attempts to retrieve him, underscored the unyielding nature of Hel's dominion. However, prophecies promised his eventual return from Hel after the world's rebirth following Ragnarök, symbolizing hope and renewal. These varied destinations reflected the intricate and nuanced Norse understanding that death, like life, contained many possibilities and served different cosmic purposes.",
+      "content": "Beyond Valhalla and Hel, Norse cosmology recognized multiple, specialized afterlife destinations, each determined by specific circumstances of death or life. Those who met their end by drowning or any other seafaring misfortune were not destined for Hel, but were instead claimed by the formidable sea goddess Rán. She, along with her nine daughters, reigned over a net-draped hall beneath the waves, where the drowned souls resided, sometimes depicted as enjoying a peaceful, watery existence within her realm. A unique and significant destination was Fólkvangr, meaning 'Field of the Host' or 'People's Field,' presided over by the goddess Freyja. This serene and beautiful hall, known as Sessrúmnir ('Seat-Room'), was where Freyja received half of the battle-slain, sharing these honored warriors with Odin. Fólkvangr was often seen as a softer, yet equally honorable, alternative to Valhalla, emphasizing Freyja's role as a deity of love, war, and fertility, and allowing for a different kind of post-mortem glory. Another important concept was Gimlé, a radiant hall mentioned in some Eddic poems. Described as 'fairer than the sun' and 'shining,' Gimlé was prophesied as a haven for the righteous and good people who would survive Ragnarök. It represented a new, purified world after the destruction and rebirth of the cosmos, offering a future of eternal peace and bliss, free from the cycles of conflict. The death of the beloved god Baldr also illuminated another facet of the Norse afterlife: even gods could die and dwell in Hel's realm. Baldr's journey to the underworld, and the gods' failed attempts to retrieve him, underscored the unyielding nature of Hel's dominion. However, prophecies promised his eventual return from Hel after the world's rebirth following Ragnarök, symbolizing hope and renewal. These varied destinations reflected the intricate and nuanced Norse understanding that death, like life, contained many possibilities and served different cosmic purposes.",
       "keyTerms": [
         "Rán",
         "Fólkvangr",
         "Freyja",
-        "Giml\u00e9",
+        "Gimlé",
         "Baldr",
         "Sessrúmnir",
         "Drowning deaths",
         "Ragnarök survivors"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q4-1",
@@ -285,7 +285,7 @@
         {
           "id": "norse-q4-3",
           "type": "multipleChoice",
-          "question": "What was Giml\u00e9 described as?",
+          "question": "What was Gimlé described as?",
           "options": [
             "A dark prison",
             "A hall fairer than the sun",
@@ -293,7 +293,7 @@
             "A battlefield"
           ],
           "correctAnswer": "A hall fairer than the sun",
-          "explanation": "Giml\u00e9, a hall fairer than the sun where righteous men would live after Ragnarök."
+          "explanation": "Gimlé, a hall fairer than the sun where righteous men would live after Ragnarök."
         },
         {
           "id": "norse-q4-4",
@@ -340,7 +340,7 @@
         "Ancestors",
         "Memorials"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q5-1",
@@ -422,7 +422,7 @@
         "Heimdall",
         "Loki"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q6-1",
@@ -502,7 +502,7 @@
         "Luck",
         "Memory"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q7-1",
@@ -582,7 +582,7 @@
         "Veneration",
         "Lineage"
       ],
-      "xpReward": 62,
+      "xpReward": 75,
       "questions": [
         {
           "id": "norse-q8-1",
@@ -681,7 +681,7 @@
           "Valhalla",
           "Fólkvangr",
           "Éljúðnir",
-          "Giml\u00e9"
+          "Gimlé"
         ],
         "correctAnswer": "Éljúðnir",
         "explanation": "Her hall Éljúðnir ('Damp with Sleet') lay beyond the bridge."
@@ -704,7 +704,7 @@
             "right": "Freyja's hall for noble dead"
           },
           {
-            "left": "Giml\u00e9",
+            "left": "Gimlé",
             "right": "Hall fairer than the sun after Ragnarök"
           }
         ],
@@ -715,7 +715,7 @@
           "Corpse Shore for oath-breakers",
           "Fólkvangr",
           "Freyja's hall for noble dead",
-          "Giml\u00e9",
+          "Gimlé",
           "Hall fairer than the sun after Ragnarök"
         ],
         "explanation": "These are the main afterlife destinations in Norse mythology."
@@ -742,7 +742,7 @@
           "Baldr and Nanna",
           "Líf and Lífþrasir",
           "Odin and Frigg"
-          ],
+        ],
         "correctAnswer": "Líf and Lífþrasir",
         "explanation": "Two human survivors, Líf and Lífþrasir, sheltered within Yggdrasil, would repopulate the renewed world."
       },
@@ -784,10 +784,10 @@
         "type": "multipleChoice",
         "question": "What was the name of the World Serpent that Thor would battle during Ragnarök?",
         "options": [
-            "Fenrir",
-            "Níðhöggr",
-            "Jörmungandr",
-            "Garmr"
+          "Fenrir",
+          "Níðhöggr",
+          "Jörmungandr",
+          "Garmr"
         ],
         "correctAnswer": "Jörmungandr",
         "explanation": "Thor would perish killing the World Serpent (Jörmungandr)."

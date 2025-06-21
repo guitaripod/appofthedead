@@ -4,7 +4,7 @@
   "description": "Journey through the shadowy Greek Underworld, ruled by Hades, crossing the Styx, encountering Cerberus, and discovering the various realms from the Asphodel Meadows to Elysium and Tartarus.",
   "icon": "owl",
   "color": "#6A0DAD",
-  "totalXP": 625,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "greek-intro",
@@ -21,7 +21,7 @@
         "Silver cord",
         "Hypnos"
       ],
-      "xpReward": 75,
+      "xpReward": 86,
       "questions": [
         {
           "id": "greek-q1-1",
@@ -101,7 +101,7 @@
         "Oath",
         "Funerary custom"
       ],
-      "xpReward": 75,
+      "xpReward": 86,
       "questions": [
         {
           "id": "greek-q2-1",
@@ -180,7 +180,7 @@
         "Guardian",
         "Escape prevention"
       ],
-      "xpReward": 75,
+      "xpReward": 86,
       "questions": [
         {
           "id": "greek-q3-1",
@@ -261,7 +261,7 @@
         "Premature death",
         "Monotony"
       ],
-      "xpReward": 75,
+      "xpReward": 86,
       "questions": [
         {
           "id": "greek-q4-1",
@@ -342,7 +342,7 @@
         "Cosmic irony",
         "Eternal punishment"
       ],
-      "xpReward": 75,
+      "xpReward": 86,
       "questions": [
         {
           "id": "greek-q5-1",
@@ -421,7 +421,7 @@
         "Cosmic division",
         "Immutability of death"
       ],
-      "xpReward": 75,
+      "xpReward": 85,
       "questions": [
         {
           "id": "greek-q6-1",
@@ -500,7 +500,7 @@
         "Cautionary tale",
         "Finality of death"
       ],
-      "xpReward": 75,
+      "xpReward": 85,
       "questions": [
         {
           "id": "greek-q7-1",
@@ -711,9 +711,9 @@
         "question": "Who was the queen of the Underworld, abducted by Hades?",
         "options": [
           "Hera",
-            "Demeter",
-            "Persephone",
-            "Aphrodite"
+          "Demeter",
+          "Persephone",
+          "Aphrodite"
         ],
         "correctAnswer": "Persephone",
         "explanation": "Persephone, the radiant daughter of Demeter (goddess of the harvest), was abducted by Hades and eventually became his queen."

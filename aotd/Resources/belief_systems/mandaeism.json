@@ -4,7 +4,7 @@
   "description": "Explore the unique Gnostic vision of Mandaeism, mapping the soul's perilous journey through cosmic darkness and watchhouses, back to the World of Light, and the challenges of demonic archons.",
   "icon": "star_of_david",
   "color": "#4B0082",
-  "totalXP": 600,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "mandaeism-intro",
@@ -21,7 +21,7 @@
         "Pagra",
         "Ptahil"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q1-1",
@@ -97,7 +97,7 @@
         "Gnosis",
         "Redeemer"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q2-1",
@@ -174,7 +174,7 @@
         "Twelve Constellations",
         "Passwords"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q3-1",
@@ -250,7 +250,7 @@
         "Scales",
         "Reincarnation"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q4-1",
@@ -327,7 +327,7 @@
         "Ritual Ascent",
         "Purification"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q5-1",
@@ -404,7 +404,7 @@
         "Garment of Light",
         "Cosmic Redemption"
       ],
-      "xpReward": 50,
+      "xpReward": 100,
       "questions": [
         {
           "id": "mandaeism-q6-1",
@@ -473,7 +473,7 @@
     "id": "mandaeism-mastery",
     "title": "Mandaeism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 300,
+    "xpReward": 100,
     "questions": [
       {
         "id": "mandaeism-mt-q1",

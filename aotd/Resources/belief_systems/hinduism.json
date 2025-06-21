@@ -4,7 +4,7 @@
   "description": "Explore the eternal return in Hinduism, understanding the cycle of Samsara, the role of Karma, the journey through different realms, and the ultimate liberation of Moksha.",
   "icon": "om",
   "color": "#FF9933",
-  "totalXP": 1500,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "hinduism-intro",
@@ -23,7 +23,7 @@
         "Linga Sharira",
         "Pindas"
       ],
-      "xpReward": 180,
+      "xpReward": 86,
       "questions": [
         {
           "id": "hinduism-q1-1",
@@ -102,7 +102,7 @@
         "Karma",
         "Dharma"
       ],
-      "xpReward": 180,
+      "xpReward": 86,
       "questions": [
         {
           "id": "hinduism-q2-1",
@@ -190,7 +190,7 @@
         "Tamisra",
         "Andhatamisra"
       ],
-      "xpReward": 250,
+      "xpReward": 86,
       "questions": [
         {
           "id": "hinduism-q3-1",
@@ -280,7 +280,7 @@
         "Sadhana",
         "Subtle body"
       ],
-      "xpReward": 310,
+      "xpReward": 86,
       "questions": [
         {
           "id": "hinduism-q4-1",
@@ -368,7 +368,7 @@
         "Ashtanga Yoga",
         "Samadhi"
       ],
-      "xpReward": 370,
+      "xpReward": 86,
       "questions": [
         {
           "id": "hinduism-q5-1",
@@ -456,7 +456,7 @@
         "Vedas",
         "Purana"
       ],
-      "xpReward": 250,
+      "xpReward": 85,
       "questions": [
         {
           "id": "hinduism-q6-1",
@@ -536,7 +536,7 @@
         "Pitru Paksha",
         "Subtle body"
       ],
-      "xpReward": 180,
+      "xpReward": 85,
       "questions": [
         {
           "id": "hinduism-q7-1",
@@ -605,7 +605,7 @@
     "id": "hinduism-mastery",
     "title": "Hinduism Mastery Test",
     "requiredScore": 80,
-    "xpReward": 200,
+    "xpReward": 100,
     "questions": [
       {
         "id": "hinduism-mt-q1",

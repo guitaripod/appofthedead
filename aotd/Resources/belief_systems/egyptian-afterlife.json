@@ -4,7 +4,7 @@
   "description": "Delve into ancient Egypt's elaborate spiritual technology for the afterlife, from the perilous journey through Duat to the Hall of Two Truths and the ultimate Field of Reeds.",
   "icon": "ankh",
   "color": "#C19A6B",
-  "totalXP": 400,
+  "totalXP": 700,
   "lessons": [
     {
       "id": "egyptian-intro",
@@ -20,7 +20,7 @@
         "Book of Coming Forth by Day",
         "Chaos (Isfet)"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "egyptian-q1-1",
@@ -99,7 +99,7 @@
         "Mummification",
         "Offerings"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "egyptian-q2-1",
@@ -179,7 +179,7 @@
         "Field of Reeds",
         "Thoth"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "egyptian-q3-1",
@@ -257,7 +257,7 @@
         "Ushabtis (funerary figurines)",
         "Pharaoh's afterlife"
       ],
-      "xpReward": 75,
+      "xpReward": 150,
       "questions": [
         {
           "id": "egyptian-q4-1",
