@@ -93,7 +93,7 @@ final class LearningPathCoordinator {
             return min(furthestIndex, beliefSystem.lessons.count)
             
         } catch {
-            print("Error finding resume point: \(error)")
+            AppLogger.logError(error, context: "Finding resume point", logger: AppLogger.learning)
             return 0
         }
     }
@@ -147,7 +147,7 @@ final class LearningPathCoordinator {
                     score: nil
                 )
             } catch {
-                print("Error marking belief system as completed: \(error)")
+                AppLogger.logError(error, context: "Marking belief system as completed", logger: AppLogger.learning)
             }
         }
         
@@ -208,7 +208,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 score: nil
             )
         } catch {
-            print("Error saving lesson started: \(error)")
+            AppLogger.logError(error, context: "Saving lesson started", logger: AppLogger.learning)
         }
     }
     
@@ -230,7 +230,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 score: score
             )
         } catch {
-            print("Error saving lesson completion: \(error)")
+            AppLogger.logError(error, context: "Saving lesson completion", logger: AppLogger.learning)
         }
     }
     
@@ -272,7 +272,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 showMasterTestFailureAlert(score: score, requiredScore: requiredScore)
             }
         } catch {
-            print("Error saving master test completion: \(error)")
+            AppLogger.logError(error, context: "Saving master test completion", logger: AppLogger.learning)
         }
     }
     

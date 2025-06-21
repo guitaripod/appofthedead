@@ -16,29 +16,40 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        AppLogger.ui.info("Scene will connect to session")
+        let sceneSetupActivity = AppLogger.beginActivity("SceneSetup")
+        
         self.window = UIWindow(windowScene: windowScene)
         
         // Initialize custom icons
+        let iconsActivity = AppLogger.beginActivity("IconProvider.createCustomIcons")
         IconProvider.createCustomIcons()
+        AppLogger.endActivity("IconProvider.createCustomIcons", id: iconsActivity)
         
         // Initialize content loader
+        let contentLoaderActivity = AppLogger.beginActivity("ContentLoader.init")
         let contentLoader = ContentLoader()
+        AppLogger.endActivity("ContentLoader.init", id: contentLoaderActivity)
         
         // Set the content loader in database manager to avoid duplicates
         databaseManager.setContentLoader(contentLoader)
         
         // Initialize Home screen
+        let homeActivity = AppLogger.beginActivity("HomeViewController.setup")
         let homeViewModel = HomeViewModel(
             databaseManager: databaseManager,
             contentLoader: contentLoader
         )
         let homeViewController = HomeViewController(viewModel: homeViewModel)
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)
+        AppLogger.endActivity("HomeViewController.setup", id: homeActivity)
         
         // Initialize Profile screen
+        let profileActivity = AppLogger.beginActivity("ProfileViewController.setup")
         let profileViewModel = ProfileViewModel(databaseManager: databaseManager)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
+        AppLogger.endActivity("ProfileViewController.setup", id: profileActivity)
         
         // Initialize Settings screen
         let settingsViewController = SettingsViewController()
@@ -95,6 +106,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Clear any stored session to prevent auto-navigation
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
+        
+        AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
+            "viewControllerCount": tabBarController.viewControllers?.count ?? 0
+        ])
+        AppLogger.ui.info("Scene setup complete")
     }
     
     private func setupNavigationFlow(
@@ -117,6 +133,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController: UINavigationController,
         contentLoader: ContentLoader
     ) {
+        AppLogger.logUserAction("startLearningPath", parameters: [
+            "beliefSystemId": beliefSystem.id,
+            "beliefSystemName": beliefSystem.name
+        ], logger: AppLogger.learning)
+        
         // Save current learning path session
         UserDefaults.standard.set(beliefSystem.id, forKey: SessionState.currentBeliefSystemKey)
         
@@ -130,16 +151,21 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
+        AppLogger.ui.info("Scene did enter background")
         // Session state is already saved when starting learning paths
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
+        AppLogger.ui.info("Scene will enter foreground")
         // Resume functionality is handled in scene connection
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
+        AppLogger.ui.info("Scene did become active")
         // Trigger sync when app becomes active
+        let syncActivity = AppLogger.beginActivity("SyncManager.attemptSync", logger: AppLogger.sync)
         SyncManager.shared.attemptSync()
+        AppLogger.endActivity("SyncManager.attemptSync", id: syncActivity, logger: AppLogger.sync)
     }
     
     private func configureNavigationBarAppearance() {

@@ -35,7 +35,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     // MARK: - Initialization
     
     init(deities: [OracleViewModel.Deity], currentDeity: OracleViewModel.Deity?, onSelection: @escaping (OracleViewModel.Deity) -> Void) {
-        print("[DeitySelectionViewController] Init with \(deities.count) deities")
+        AppLogger.ui.debug("[DeitySelectionViewController] Init", metadata: ["deityCount": deities.count])
         
         self.deities = deities
         self.currentDeity = currentDeity
@@ -43,7 +43,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         
         super.init(nibName: nil, bundle: nil)
         
-        print("[DeitySelectionViewController] Super init completed")
+        AppLogger.ui.debug("[DeitySelectionViewController] Super init completed")
         
         // Set modal presentation style
         modalPresentationStyle = .pageSheet
@@ -105,7 +105,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     // MARK: - Setup
     
     private func setupUI() {
-        print("[DeitySelectionViewController] setupUI started")
+        AppLogger.ui.debug("[DeitySelectionViewController] setupUI started")
         
         // Use dynamic color for background
         view.backgroundColor = UIColor.Papyrus.background

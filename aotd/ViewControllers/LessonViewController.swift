@@ -262,10 +262,10 @@ final class LessonViewController: UIViewController {
     }
     
     @objc private func backButtonTapped() {
-        print("DEBUG: LessonViewController - Back button tapped")
+        AppLogger.ui.debug("LessonViewController - Back button tapped")
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         viewModel.exitLearningPath()
-        print("DEBUG: LessonViewController - Called viewModel.exitLearningPath()")
+        AppLogger.ui.debug("LessonViewController - Called viewModel.exitLearningPath()")
     }
     
     // MARK: - Key Term Handling

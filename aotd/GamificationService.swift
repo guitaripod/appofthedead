@@ -54,7 +54,7 @@ final class GamificationService {
             }
             
         } catch {
-            print("Failed to check achievement \(achievement.id): \(error)")
+            AppLogger.logError(error, context: "Checking achievement \(achievement.id)", logger: AppLogger.gamification)
         }
     }
     
@@ -181,7 +181,7 @@ final class GamificationService {
         do {
             try databaseManager.updateUser(user)
         } catch {
-            print("Failed to update user streak: \(error)")
+            AppLogger.logError(error, context: "Updating user streak", logger: AppLogger.gamification)
         }
     }
     
@@ -201,9 +201,9 @@ final class GamificationService {
             }
             
             // Debug logging
-            print("📊 Awarded \(amount) XP to user \(userId) for \(reason)")
+            AppLogger.gamification.info("XP Awarded", metadata: ["amount": amount, "userId": userId, "reason": reason])
             if let beliefSystemId = beliefSystemId {
-                print("📊 Also awarded to belief system: \(beliefSystemId)")
+                AppLogger.gamification.debug("XP also awarded to belief system", metadata: ["beliefSystemId": beliefSystemId])
             }
             
             // Check for newly unlocked achievements
@@ -213,7 +213,7 @@ final class GamificationService {
             NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
             
         } catch {
-            print("Failed to award XP (\(reason)): \(error)")
+            AppLogger.logError(error, context: "Awarding XP for \(reason)", logger: AppLogger.gamification)
         }
     }
 }

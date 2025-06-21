@@ -41,7 +41,7 @@ final class SyncManager {
         // Check if user has cloud sync access (Ultimate plan)
         guard let user = DatabaseManager.shared.fetchUser(),
               (user.hasUltimateAccess() || StoreManager.shared.checkEntitlement(.cloudSync)) else {
-            print("Sync skipped: User doesn't have cloud sync access")
+            AppLogger.sync.info("Sync skipped: User doesn't have cloud sync access")
             return
         }
         

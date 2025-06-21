@@ -4,6 +4,7 @@ import MLXLLM
 import MLXLMCommon
 import Hub
 import UIKit
+import os.log
 
 final class MLXService {
     
@@ -12,6 +13,16 @@ final class MLXService {
     static let shared = MLXService()
     
     private init() {}
+    
+    // MARK: - Logging
+    
+    private static let logger = Logger(subsystem: "com.appofthedead", category: "MLXService")
+    
+    private static func debugLog(_ message: String) {
+        #if targetEnvironment(simulator) || DEBUG
+        logger.debug("\(message)")
+        #endif
+    }
     
     // MARK: - Haptic Configuration
     
@@ -64,7 +75,7 @@ final class MLXService {
     ) async throws {
         // Check if running in simulator
         if DeviceUtility.isSimulator {
-            print("🤖 MLX: Running in simulator - using mock mode")
+            Self.debugLog("MLX: Running in simulator - using mock mode")
             // Simulate loading progress
             let progress = Foundation.Progress(totalUnitCount: 100)
             for i in 0...100 {
@@ -160,14 +171,12 @@ final class MLXService {
             return Chat.Message(role: role, content: message.content)
         }
         
-        #if DEBUG
-        print("🤖 MLX Chat Messages:")
+        Self.debugLog("MLX Chat Messages:")
         for (index, msg) in chatMessages.enumerated() {
-            print("  [\(index)] Role: \(msg.role), Content: \(msg.content)")
+            Self.debugLog("  [\(index)] Role: \(msg.role), Content: \(msg.content)")
         }
-        print("🤖 MLX Temperature: \(config.temperature)")
-        print("🤖 MLX Max Tokens: \(config.maxTokens)")
-        #endif
+        Self.debugLog("MLX Temperature: \(config.temperature)")
+        Self.debugLog("MLX Max Tokens: \(config.maxTokens)")
         
         // Create user input
         let userInput = UserInput(chat: chatMessages)
@@ -205,10 +214,8 @@ final class MLXService {
                     }
                     
                     // Stream the tokens
-                    #if DEBUG
                     var tokenCount = 0
                     var totalText = ""
-                    #endif
                     
                     for try await generation in stream {
                         // Check for cancellation before processing each token
@@ -217,11 +224,9 @@ final class MLXService {
                         switch generation {
                         case .chunk(let text):
                             if !text.isEmpty {
-                                #if DEBUG
                                 tokenCount += 1
                                 totalText += text
-                                print("🤖 MLX Token #\(tokenCount): '\(text)'")
-                                #endif
+                                Self.debugLog("MLX Token #\(tokenCount): '\(text)'")
                                 
                                 // Subtle impact haptic feedback at configured interval
                                 if HapticConfig.isStreamingHapticsEnabled && tokenCount % HapticConfig.tokenInterval == 0 {
@@ -233,17 +238,13 @@ final class MLXService {
                                 continuation.yield(text)
                             }
                         case .info(let info):
-                            #if DEBUG
-                            print("🤖 MLX Generation Info: \(info)")
-                            #endif
+                            Self.debugLog("MLX Generation Info: \(info)")
                             break
                         }
                     }
                     
-                    #if DEBUG
-                    print("🤖 MLX Generation Complete - Total tokens: \(tokenCount)")
-                    print("🤖 MLX Total generated text: \(totalText)")
-                    #endif
+                    Self.debugLog("MLX Generation Complete - Total tokens: \(tokenCount)")
+                    Self.debugLog("MLX Total generated text: \(totalText)")
                     
                     // Success haptic on completion
                     await MainActor.run {
@@ -253,9 +254,7 @@ final class MLXService {
                     continuation.finish()
                 } catch {
                     if error is CancellationError {
-                        #if DEBUG
-                        print("🤖 MLX Generation cancelled")
-                        #endif
+                        Self.debugLog("MLX Generation cancelled")
                         continuation.finish(throwing: CancellationError())
                     } else {
                         continuation.finish(throwing: error)
@@ -268,9 +267,7 @@ final class MLXService {
                 switch termination {
                 case .cancelled:
                     generationTask.cancel()
-                    #if DEBUG
-                    print("🤖 MLX Stream terminated - cancelling generation task")
-                    #endif
+                    Self.debugLog("MLX Stream terminated - cancelling generation task")
                 default:
                     break
                 }
@@ -305,10 +302,10 @@ final class MLXService {
                     
                     // Generate a mock response based on the context
                     let mockResponses = [
-                        "🔮 [Simulator Mode] The ancient spirits whisper through the digital void...",
-                        "📱 [Simulator Mode] In the realm of simulation, all prophecies converge...",
-                        "✨ [Simulator Mode] The oracle's wisdom transcends physical hardware...",
-                        "🌟 [Simulator Mode] Even in this ethereal plane, guidance can be found..."
+                        "[Simulator Mode] The ancient spirits whisper through the digital void...",
+                        "[Simulator Mode] In the realm of simulation, all prophecies converge...",
+                        "[Simulator Mode] The oracle's wisdom transcends physical hardware...",
+                        "[Simulator Mode] Even in this ethereal plane, guidance can be found..."
                     ]
                     
                     // Pick a response and add context
@@ -344,9 +341,7 @@ final class MLXService {
                     continuation.finish()
                 } catch {
                     if error is CancellationError {
-                        #if DEBUG
-                        print("🤖 Simulator generation cancelled")
-                        #endif
+                        Self.debugLog("Simulator generation cancelled")
                         continuation.finish(throwing: CancellationError())
                     } else {
                         continuation.finish(throwing: error)
@@ -359,9 +354,7 @@ final class MLXService {
                 switch termination {
                 case .cancelled:
                     simulationTask.cancel()
-                    #if DEBUG
-                    print("🤖 Simulator stream terminated - cancelling simulation task")
-                    #endif
+                    Self.debugLog("Simulator stream terminated - cancelling simulation task")
                 default:
                     break
                 }

@@ -87,7 +87,7 @@ extension User {
         do {
             try DatabaseManager.shared.saveOracleConsultation(consultation)
         } catch {
-            print("Error recording oracle consultation: \(error)")
+            AppLogger.logError(error, context: "Recording oracle consultation", logger: AppLogger.database)
         }
     }
     

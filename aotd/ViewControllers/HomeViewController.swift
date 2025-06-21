@@ -40,6 +40,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewDidLoad")
         setupUI()
         bindViewModel()
         setupLayout(for: currentLayoutPreference)
@@ -49,6 +50,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewWillAppear")
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         // Refresh data when returning to home screen to pick up any XP changes
@@ -249,6 +251,13 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = collectionDataSource.itemIdentifier(for: indexPath) else { return }
         
+        AppLogger.logUserAction("selectPath", parameters: [
+            "pathId": item.id,
+            "pathName": item.name,
+            "isUnlocked": item.isUnlocked,
+            "status": "\(item.status)"
+        ])
+        
         if item.isUnlocked {
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.prepare()
@@ -320,6 +329,10 @@ extension HomeViewController: HomeHeaderViewDelegate {
     func profileButtonTapped() {
         let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
         
+        AppLogger.logUserAction("profileButtonTapped", parameters: [
+            "isSignedIn": isSignedIn
+        ])
+        
         if isSignedIn {
             showProfileViewController()
         } else {
@@ -354,6 +367,10 @@ extension HomeViewController: HomeHeaderViewDelegate {
 
 extension HomeViewController: AuthenticationManagerDelegate {
     func authenticationDidComplete(userId: String) {
+        AppLogger.auth.info("Authentication completed", metadata: [
+            "userId": userId
+        ])
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.viewModel.loadData()

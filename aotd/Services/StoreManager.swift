@@ -23,16 +23,19 @@ class StoreManager: NSObject {
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: "appl_EPdbsDpeVyslVzSVIWLwbgIGKsc")
         Purchases.shared.delegate = self
-        print("StoreManager: RevenueCat configured successfully")
+        AppLogger.purchases.info("RevenueCat configured successfully")
     }
     
     // MARK: - User Management
     func login(userId: String) {
         Purchases.shared.logIn(userId) { customerInfo, created, error in
             if let error = error {
-                print("StoreManager: Login error: \(error.localizedDescription)")
+                AppLogger.logError(error, context: "StoreManager.login", logger: AppLogger.purchases)
             } else {
-                print("StoreManager: Logged in user \(userId), created: \(created)")
+                AppLogger.purchases.info("Logged in user", metadata: [
+                    "userId": userId,
+                    "created": created
+                ])
                 self.customerInfo = customerInfo
                 NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
             }
@@ -42,9 +45,9 @@ class StoreManager: NSObject {
     func logout() {
         Purchases.shared.logOut { customerInfo, error in
             if let error = error {
-                print("StoreManager: Logout error: \(error.localizedDescription)")
+                AppLogger.logError(error, context: "StoreManager.logout", logger: AppLogger.purchases)
             } else {
-                print("StoreManager: Logged out successfully")
+                AppLogger.purchases.info("Logged out successfully")
                 self.customerInfo = customerInfo
                 NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
             }

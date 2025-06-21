@@ -168,7 +168,7 @@ class DatabaseManager {
                 }
             }
         } catch {
-            print("Failed to update user Apple ID: \(error)")
+            AppLogger.logError(error, context: "Update user Apple ID", logger: AppLogger.auth)
         }
     }
     
@@ -188,7 +188,7 @@ class DatabaseManager {
                 }
             }
         } catch {
-            print("Failed to update user with Apple data: \(error)")
+            AppLogger.logError(error, context: "Update user with Apple data", logger: AppLogger.auth, additionalInfo: ["appleId": appleId])
         }
     }
     
@@ -202,7 +202,7 @@ class DatabaseManager {
                 }
             }
         } catch {
-            print("Failed to clear user session: \(error)")
+            AppLogger.logError(error, context: "Clear user session", logger: AppLogger.auth)
         }
     }
     
@@ -278,13 +278,21 @@ class DatabaseManager {
                 let oldXP = existingProgress.earnedXP
                 existingProgress.addXP(xp)
                 try existingProgress.update(db)
-                print("💾 Updated progress for \(beliefSystemId): \(oldXP) -> \(existingProgress.earnedXP) XP")
+                AppLogger.database.info("Updated progress for belief system", metadata: [
+                    "beliefSystemId": beliefSystemId,
+                    "previousXP": oldXP,
+                    "currentXP": existingProgress.earnedXP,
+                    "xpAdded": xp
+                ])
             } else {
                 // Create new progress
                 var newProgress = Progress(userId: userId, beliefSystemId: beliefSystemId)
                 newProgress.addXP(xp)
                 try newProgress.insert(db)
-                print("💾 Created new progress for \(beliefSystemId) with \(newProgress.earnedXP) XP")
+                AppLogger.database.info("Created new progress for belief system", metadata: [
+                    "beliefSystemId": beliefSystemId,
+                    "earnedXP": newProgress.earnedXP
+                ])
             }
         }
     }
@@ -355,7 +363,7 @@ class DatabaseManager {
     
     func loadBeliefSystems() -> [BeliefSystem] {
         guard let contentLoader = contentLoader else {
-            print("Warning: ContentLoader not set in DatabaseManager")
+            AppLogger.content.warning("ContentLoader not set in DatabaseManager")
             return []
         }
         return contentLoader.loadBeliefSystems()
@@ -363,7 +371,7 @@ class DatabaseManager {
     
     func loadAchievements() -> [Achievement] {
         guard let contentLoader = contentLoader else {
-            print("Warning: ContentLoader not set in DatabaseManager")
+            AppLogger.content.warning("ContentLoader not set in DatabaseManager")
             return []
         }
         return contentLoader.loadAchievements()
@@ -424,7 +432,7 @@ class DatabaseManager {
                 return purchase != nil
             }
         } catch {
-            print("Error checking purchase access: \(error)")
+            AppLogger.logError(error, context: "Checking purchase access", logger: AppLogger.purchases, additionalInfo: ["userId": userId, "productId": productId.rawValue])
             return false
         }
     }
@@ -442,7 +450,7 @@ class DatabaseManager {
                 return purchase != nil
             }
         } catch {
-            print("Error checking XP boost: \(error)")
+            AppLogger.logError(error, context: "Checking XP boost", logger: AppLogger.purchases, additionalInfo: ["userId": userId])
             return false
         }
     }
@@ -453,7 +461,7 @@ class DatabaseManager {
                 try OracleConsultation.getConsultationCount(for: userId, deityId: deityId, in: db)
             }
         } catch {
-            print("Error getting consultation count: \(error)")
+            AppLogger.logError(error, context: "Getting oracle consultation count", logger: AppLogger.database, additionalInfo: ["userId": userId, "deityId": deityId])
             return 0
         }
     }
@@ -464,7 +472,7 @@ class DatabaseManager {
                 try OracleConsultation.canConsultForFree(userId: userId, deityId: deityId, in: db)
             }
         } catch {
-            print("Error checking oracle consultation: \(error)")
+            AppLogger.logError(error, context: "Checking oracle consultation availability", logger: AppLogger.database, additionalInfo: ["userId": userId, "deityId": deityId])
             return false
         }
     }

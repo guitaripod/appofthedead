@@ -36,7 +36,9 @@ class ContentLoader {
                     let beliefSystem = try decoder.decode(BeliefSystem.self, from: jsonData)
                     beliefSystems.append(beliefSystem)
                 } catch {
-                    print("Error decoding \(beliefSystemId).json: \(error)")
+                    AppLogger.logError(error, context: "ContentLoader.loadBeliefSystems",
+                                     logger: AppLogger.content,
+                                     additionalInfo: ["beliefSystemId": beliefSystemId])
                 }
             }
         }
@@ -57,7 +59,7 @@ class ContentLoader {
         
         guard let path = bundle.path(forResource: "achievements", ofType: "json"),
               let jsonData = NSData(contentsOfFile: path) as Data? else {
-            print("Error: Could not find achievements.json file in bundle")
+            AppLogger.content.error("Could not find achievements.json file in bundle")
             return []
         }
         
@@ -67,7 +69,7 @@ class ContentLoader {
             cachedAchievements = achievements
             return achievements
         } catch {
-            print("Error decoding achievements JSON: \(error)")
+            AppLogger.logError(error, context: "ContentLoader.loadAchievements", logger: AppLogger.content)
             return []
         }
     }
@@ -95,7 +97,7 @@ class ContentLoader {
         
         guard let validPath = path,
               let jsonData = NSData(contentsOfFile: validPath) as Data? else {
-            print("Error: Could not find deity_prompts.json file in any bundle")
+            AppLogger.content.error("Could not find deity_prompts.json file in any bundle")
             return [:]
         }
         
@@ -105,7 +107,7 @@ class ContentLoader {
             cachedDeities = deityData.deities
             return deityData.deities
         } catch {
-            print("Error decoding deity JSON: \(error)")
+            AppLogger.logError(error, context: "ContentLoader.loadDeities", logger: AppLogger.content)
             return [:]
         }
     }

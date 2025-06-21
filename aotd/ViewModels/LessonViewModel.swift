@@ -50,9 +50,9 @@ final class LessonViewModel {
     }
     
     func exitLearningPath() {
-        print("DEBUG: LessonViewModel - exitLearningPath called, delegate: \(delegate != nil ? "exists" : "nil")")
+        AppLogger.viewModel.debug("LessonViewModel - exitLearningPath called", metadata: ["delegateExists": delegate != nil])
         delegate?.lessonViewModelDidRequestExit(self)
-        print("DEBUG: LessonViewModel - Called delegate.lessonViewModelDidRequestExit")
+        AppLogger.viewModel.debug("LessonViewModel - Called delegate.lessonViewModelDidRequestExit")
     }
 }
 

@@ -38,6 +38,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Keep view controllers focused - delegate business logic to view models. Use latest UIKit API like diffable datasource etc.
 - Use coordinators for navigation flow between lessons and quizzes
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
+- **Logging**: Use `AppLogger` for all logging - never use `print()` statements. AppLogger provides structured logging with categories (auth, database, content, sync, learning, gamification, purchases, ui, viewModel, mlx, performance, general)
 
 ## UI/UX Guidelines
 - Beautiful, modern design. You are a master iOS designer. Design of the year award winner app.

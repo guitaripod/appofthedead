@@ -33,7 +33,7 @@ final class ProfileViewModel {
         do {
             userStats = try databaseManager.getUserStatistics(userId: userId)
         } catch {
-            print("Failed to load user statistics: \(error)")
+            AppLogger.logError(error, context: "Loading user statistics", logger: AppLogger.viewModel)
         }
     }
     
@@ -47,7 +47,7 @@ final class ProfileViewModel {
         do {
             userAchievements = try databaseManager.getUserAchievements(userId: userId)
         } catch {
-            print("Failed to load user achievements: \(error)")
+            AppLogger.logError(error, context: "Loading user achievements", logger: AppLogger.viewModel)
         }
     }
 }
