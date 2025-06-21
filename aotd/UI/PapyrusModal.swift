@@ -335,14 +335,18 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         // Labels
         downloadLabel.text = DeviceUtility.isSimulator ? "Simulator Mode" : "Oracle Model Required"
         downloadLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
-        downloadLabel.textColor = PapyrusDesignSystem.Colors.primaryText
+        downloadLabel.textColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor.label : PapyrusDesignSystem.Colors.primaryText
+        }
         downloadLabel.textAlignment = .center
         
         downloadDescriptionLabel.text = DeviceUtility.isSimulator
             ? "The Oracle runs on device. Use a physical device to experience divine wisdom."
             : "Download the Oracle model to unlock divine explanations from \(deity.name)."
         downloadDescriptionLabel.font = PapyrusDesignSystem.Typography.body()
-        downloadDescriptionLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+        downloadDescriptionLabel.textColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor.secondaryLabel : PapyrusDesignSystem.Colors.secondaryText
+        }
         downloadDescriptionLabel.textAlignment = .center
         downloadDescriptionLabel.numberOfLines = 0
         
@@ -357,13 +361,17 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         // Progress label
         progressLabel.font = PapyrusDesignSystem.Typography.subheadline()
-        progressLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+        progressLabel.textColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor.secondaryLabel : PapyrusDesignSystem.Colors.secondaryText
+        }
         progressLabel.textAlignment = .center
         progressLabel.isHidden = true
         
         // Stage label
         stageLabel.font = PapyrusDesignSystem.Typography.footnote()
-        stageLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+        stageLabel.textColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor.tertiaryLabel : PapyrusDesignSystem.Colors.tertiaryText
+        }
         stageLabel.textAlignment = .center
         stageLabel.isHidden = true
         
