@@ -14,10 +14,34 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private let grabberView = UIView()
     private var gradientLayer: CAGradientLayer?
     
+    // Download UI properties
+    private let downloadContainerView = UIView()
+    private let oracleIcon = UIImageView()
+    private let downloadLabel = UILabel()
+    private let downloadDescriptionLabel = UILabel()
+    private let progressView = UIProgressView(progressViewStyle: .default)
+    private let progressLabel = UILabel()
+    private let stageLabel = UILabel()
+    private let downloadButton = UIButton(type: .system)
+    private let downloadLoadingIndicator = UIActivityIndicatorView(style: .medium)
+    
     private let deity: Deity
     private let keyword: String
     private let mlxService: MLXService
     private var streamingTask: Task<Void, Never>?
+    private let mlxManager = MLXModelManager.shared
+    
+    // Download tracking properties
+    private let modelSizeGB: Double = 1.8
+    private var modelSizeBytes: Int64 { Int64(modelSizeGB * 1024 * 1024 * 1024) }
+    private var progressTimer: Timer?
+    
+    // Progress smoothing properties
+    private var downloadStartTime = Date()
+    private var lastReportedProgress: Float = 0.0
+    private var progressHistory: [(time: Date, progress: Float)] = []
+    private var smoothedProgress: Float = 0.0
+    private var progressAnimator: Timer?
     
     // MARK: - Initialization
     
@@ -45,7 +69,20 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        startStreamingExplanation()
+        
+        // Check if model is loaded
+        if mlxManager.isModelLoaded {
+            // Model is loaded, start streaming
+            downloadContainerView.isHidden = true
+            contentTextView.isHidden = false
+            startStreamingExplanation()
+        } else {
+            // Model needs to be downloaded
+            downloadContainerView.isHidden = false
+            contentTextView.isHidden = true
+            setupDownloadUI()
+            updateDownloadUI()
+        }
         
         // Set presentation controller delegate to detect actual dismissal
         presentationController?.delegate = self
@@ -54,16 +91,10 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Don't cancel here anymore - wait for actual dismissal
-        #if DEBUG
-        print("🔮 PapyrusModal: viewWillDisappear - modal is being dismissed")
-        #endif
     }
     
     deinit {
         // Ensure task is cancelled if view controller is deallocated
-        #if DEBUG
-        print("🔮 PapyrusModal: deinit - ensuring task is cancelled")
-        #endif
         streamingTask?.cancel()
     }
     
@@ -81,6 +112,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             updateBorderColors()
             updateShadows()
             updateBackgroundColor()
+            updateDownloadContainerColors()
         }
     }
     
@@ -217,6 +249,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         // Add to content stack
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(contentTextView)
+        contentStackView.addArrangedSubview(downloadContainerView)
         
         // Add loading indicator to content text view
         contentTextView.addSubview(loadingIndicator)
@@ -258,6 +291,225 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     }
     
     // MARK: - Actions
+    
+    // MARK: - Download UI
+    
+    private func setupDownloadUI() {
+        // Container styling similar to Oracle
+        downloadContainerView.backgroundColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor.systemGray5
+                : PapyrusDesignSystem.Colors.secondaryBackground
+        }
+        downloadContainerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
+        downloadContainerView.layer.borderWidth = 1
+        let baseColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        downloadContainerView.layer.borderColor = traitCollection.userInterfaceStyle == .dark
+            ? baseColor.withAlphaComponent(0.3).cgColor
+            : PapyrusDesignSystem.Colors.aged.cgColor
+        downloadContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Stack view for download content
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = PapyrusDesignSystem.Spacing.medium
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        downloadContainerView.addSubview(stackView)
+        
+        // Oracle icon
+        if DeviceUtility.isSimulator {
+            oracleIcon.image = UIImage(systemName: "desktopcomputer")
+        } else {
+            oracleIcon.image = UIImage(systemName: "sparkles")
+        }
+        oracleIcon.tintColor = UIColor { [weak self] traitCollection in
+            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
+            return traitCollection.userInterfaceStyle == .dark
+                ? baseColor
+                : baseColor.withAlphaComponent(0.8)
+        }
+        oracleIcon.contentMode = .scaleAspectFit
+        oracleIcon.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Labels
+        downloadLabel.text = DeviceUtility.isSimulator ? "Simulator Mode" : "Oracle Model Required"
+        downloadLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
+        downloadLabel.textColor = PapyrusDesignSystem.Colors.primaryText
+        downloadLabel.textAlignment = .center
+        
+        downloadDescriptionLabel.text = DeviceUtility.isSimulator
+            ? "The Oracle runs on device. Use a physical device to experience divine wisdom."
+            : "Download the Oracle model to unlock divine explanations from \(deity.name)."
+        downloadDescriptionLabel.font = PapyrusDesignSystem.Typography.body()
+        downloadDescriptionLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+        downloadDescriptionLabel.textAlignment = .center
+        downloadDescriptionLabel.numberOfLines = 0
+        
+        // Progress view
+        progressView.progressTintColor = UIColor { [weak self] traitCollection in
+            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
+            return baseColor
+        }
+        progressView.trackTintColor = UIColor.systemGray5
+        progressView.isHidden = true
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Progress label
+        progressLabel.font = PapyrusDesignSystem.Typography.subheadline()
+        progressLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+        progressLabel.textAlignment = .center
+        progressLabel.isHidden = true
+        
+        // Stage label
+        stageLabel.font = PapyrusDesignSystem.Typography.footnote()
+        stageLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+        stageLabel.textAlignment = .center
+        stageLabel.isHidden = true
+        
+        // Download button
+        downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Oracle Model", for: .normal)
+        downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
+        downloadButton.backgroundColor = UIColor { [weak self] traitCollection in
+            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
+            return baseColor
+        }
+        downloadButton.setTitleColor(.white, for: .normal)
+        downloadButton.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.medium
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        downloadButton.isEnabled = !DeviceUtility.isSimulator
+        downloadButton.alpha = DeviceUtility.isSimulator ? 0.5 : 1.0
+        downloadButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Loading indicator
+        downloadLoadingIndicator.color = UIColor { [weak self] traitCollection in
+            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
+            return baseColor
+        }
+        downloadLoadingIndicator.hidesWhenStopped = true
+        
+        // Add to stack
+        stackView.addArrangedSubview(oracleIcon)
+        stackView.addArrangedSubview(downloadLabel)
+        stackView.addArrangedSubview(downloadDescriptionLabel)
+        stackView.addArrangedSubview(progressView)
+        stackView.addArrangedSubview(progressLabel)
+        stackView.addArrangedSubview(stageLabel)
+        stackView.addArrangedSubview(downloadButton)
+        stackView.addArrangedSubview(downloadLoadingIndicator)
+        
+        // Setup constraints
+        NSLayoutConstraint.activate([
+            // Download container
+            downloadContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
+            
+            // Stack view
+            stackView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: PapyrusDesignSystem.Spacing.xLarge),
+            stackView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.large),
+            stackView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.large),
+            stackView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
+            
+            // Icon
+            oracleIcon.widthAnchor.constraint(equalToConstant: 60),
+            oracleIcon.heightAnchor.constraint(equalToConstant: 60),
+            
+            // Progress view
+            progressView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            progressView.heightAnchor.constraint(equalToConstant: 8),
+            
+            // Download button
+            downloadButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            downloadButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func updateDownloadUI() {
+        guard !DeviceUtility.isSimulator else { return }
+        
+        // Just show the download button, don't start downloading automatically
+        downloadButton.isHidden = false
+        progressView.isHidden = true
+        progressLabel.isHidden = true
+        stageLabel.isHidden = true
+    }
+    
+    @objc private func downloadButtonTapped() {
+        guard !DeviceUtility.isSimulator else { return }
+        
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        
+        downloadButton.isHidden = true
+        downloadLoadingIndicator.startAnimating()
+        
+        // Show initial progress UI
+        progressView.isHidden = false
+        progressLabel.isHidden = false
+        stageLabel.isHidden = false
+        downloadLoadingIndicator.stopAnimating()
+        progressView.progress = 0
+        progressLabel.text = "Preparing divine connection..."
+        let gbSize = 1.8
+        stageLabel.text = String(format: "0 MB / %.1f GB", gbSize)
+        downloadStartTime = Date()
+        lastReportedProgress = 0.0
+        progressHistory = []
+        smoothedProgress = 0.0
+        
+        Task {
+            do {
+                // Start a timer to ensure UI updates even if progress doesn't report
+                await MainActor.run {
+                    self.progressTimer?.invalidate()
+                    self.progressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+                        guard let self = self else {
+                            timer.invalidate()
+                            return
+                        }
+                        
+                        // If we haven't received any progress updates, at least show the size
+                        if self.progressView.progress == 0 {
+                            self.stageLabel.text = String(format: "0 MB / %.1f GB", 
+                                                         Double(self.modelSizeBytes) / 1024 / 1024 / 1024)
+                        }
+                    }
+                }
+                
+                try await mlxManager.downloadModel { [weak self] progress in
+                    guard let self = self else { return }
+                    
+                    Task { @MainActor in
+                        self.progressView.isHidden = false
+                        self.progressLabel.isHidden = false
+                        self.stageLabel.isHidden = false
+                        self.downloadLoadingIndicator.stopAnimating()
+                        
+                        // Handle discrete progress steps from MLX
+                        self.handleProgressUpdate(progress.progress)
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.progressTimer?.invalidate()
+                    self.progressTimer = nil
+                    
+                    self.downloadButton.isHidden = false
+                    self.downloadLoadingIndicator.stopAnimating()
+                    self.progressView.isHidden = true
+                    self.progressLabel.isHidden = true
+                    self.stageLabel.isHidden = true
+                    
+                    // Show error alert
+                    let alert = UIAlertController(
+                        title: "Download Failed",
+                        message: "Unable to download the Oracle model. Please check your internet connection and try again.",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
     
     // MARK: - Data Loading
     
@@ -383,13 +635,19 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
     }
     
+    private func updateDownloadContainerColors() {
+        let isDarkMode = traitCollection.userInterfaceStyle == .dark
+        let baseColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        
+        downloadContainerView.layer.borderColor = isDarkMode
+            ? baseColor.withAlphaComponent(0.3).cgColor
+            : PapyrusDesignSystem.Colors.aged.cgColor
+    }
+    
     // MARK: - UIAdaptivePresentationControllerDelegate
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         // Modal has been fully dismissed
-        #if DEBUG
-        print("🔮 PapyrusModal: presentationControllerDidDismiss - modal fully dismissed, cancelling task")
-        #endif
         streamingTask?.cancel()
         streamingTask = nil
     }
@@ -401,9 +659,106 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
         // Modal is about to be dismissed but user can still cancel the gesture
-        #if DEBUG
-        print("🔮 PapyrusModal: presentationControllerWillDismiss - dismissal gesture started")
-        #endif
+    }
+    
+    // MARK: - Progress Handling
+    
+    private func handleProgressUpdate(_ reportedProgress: Float) {
+        let currentTime = Date()
+        
+        // Store progress history
+        progressHistory.append((time: currentTime, progress: reportedProgress))
+        
+        // Keep only recent history (last 10 seconds)
+        progressHistory = progressHistory.filter { currentTime.timeIntervalSince($0.time) < 10 }
+        
+        // Start smooth animation if this is a new progress step
+        if reportedProgress > lastReportedProgress {
+            lastReportedProgress = reportedProgress
+            startSmoothProgressAnimation(to: reportedProgress)
+        }
+        
+        updateProgressUI()
+    }
+    
+    private func startSmoothProgressAnimation(to targetProgress: Float) {
+        // Cancel any existing animation
+        progressAnimator?.invalidate()
+        
+        let startProgress = smoothedProgress
+        let progressDelta = targetProgress - startProgress
+        let animationDuration: TimeInterval = 2.0 // Smooth over 2 seconds
+        let updateInterval: TimeInterval = 0.05 // 20 FPS
+        let totalSteps = Int(animationDuration / updateInterval)
+        var currentStep = 0
+        
+        progressAnimator = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            
+            currentStep += 1
+            if currentStep >= totalSteps {
+                self.smoothedProgress = targetProgress
+                timer.invalidate()
+                self.progressAnimator = nil
+            } else {
+                // Ease-out animation
+                let t = Float(currentStep) / Float(totalSteps)
+                let easedT = 1 - pow(1 - t, 3) // Cubic ease-out
+                self.smoothedProgress = startProgress + progressDelta * easedT
+            }
+            
+            self.updateProgressUI()
+        }
+    }
+    
+    private func updateProgressUI() {
+        // Update progress bar with smoothed value
+        progressView.progress = smoothedProgress
+        
+        // Generate status text based on smoothed progress
+        let progressPercent = Int(smoothedProgress * 100)
+        if progressPercent < 10 {
+            progressLabel.text = "Gathering sacred texts..."
+        } else if progressPercent < 30 {
+            progressLabel.text = "Channeling divine wisdom..."
+        } else if progressPercent < 50 {
+            progressLabel.text = "Deciphering ancient knowledge..."
+        } else if progressPercent < 70 {
+            progressLabel.text = "Binding ethereal essence..."
+        } else if progressPercent < 90 {
+            progressLabel.text = "Preparing the Oracle..."
+        } else {
+            progressLabel.text = "Finalizing divine connection..."
+        }
+        
+        // Calculate sizes based on smoothed progress
+        let totalBytes = modelSizeBytes
+        let bytesDownloaded = Int64(Double(modelSizeBytes) * Double(smoothedProgress))
+        let mbDownloaded = Double(bytesDownloaded) / 1024 / 1024
+        let gbTotal = Double(totalBytes) / 1024 / 1024 / 1024
+        
+        // Simple display without speed or time estimate
+        stageLabel.text = String(format: "%.0f MB / %.1f GB", mbDownloaded, gbTotal)
+        
+        // Check if download completed
+        if smoothedProgress >= 0.99 && lastReportedProgress >= 1.0 {
+            progressAnimator?.invalidate()
+            progressAnimator = nil
+            progressTimer?.invalidate()
+            progressTimer = nil
+            
+            UIView.animate(withDuration: 0.3) {
+                self.downloadContainerView.alpha = 0
+                self.contentTextView.alpha = 1
+            } completion: { _ in
+                self.downloadContainerView.isHidden = true
+                self.contentTextView.isHidden = false
+                self.startStreamingExplanation()
+            }
+        }
     }
 }
 

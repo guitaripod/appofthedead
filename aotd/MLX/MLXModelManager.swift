@@ -43,9 +43,16 @@ final class MLXModelManager {
     struct DownloadProgress {
         let bytesDownloaded: Int64
         let totalBytes: Int64
-        var progress: Float {
-            guard totalBytes > 0 else { return 0 }
-            return Float(bytesDownloaded) / Float(totalBytes)
+        let progress: Float
+        
+        init(bytesDownloaded: Int64, totalBytes: Int64, progress: Float? = nil) {
+            self.bytesDownloaded = bytesDownloaded
+            self.totalBytes = totalBytes
+            if let progress = progress {
+                self.progress = progress
+            } else {
+                self.progress = totalBytes > 0 ? Float(bytesDownloaded) / Float(totalBytes) : 0
+            }
         }
     }
     
@@ -57,8 +64,6 @@ final class MLXModelManager {
     }
     
     func loadModel() async throws {
-        print("[MLXModelManager] Starting model load")
-        
         do {
             try await mlxService.loadModel { (progress: Foundation.Progress) in
             }
@@ -66,10 +71,7 @@ final class MLXModelManager {
             // Persist that we've loaded the model at least once
             UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
             
-            print("[MLXModelManager] Model loaded successfully")
-            print("[MLXModelManager] isModelLoaded: \(isModelLoaded)")
         } catch {
-            print("[MLXModelManager] Model load error: \(error)")
             throw error
         }
     }
@@ -84,11 +86,7 @@ final class MLXModelManager {
         useSystemPrompt: Bool = false, // Control whether to use system prompts
         onToken: @escaping (String) -> Void
     ) async throws -> String {
-        print("[MLXModelManager] Generate called")
-        print("[MLXModelManager] Model loaded: \(isModelLoaded)")
-        
         guard isModelLoaded else {
-            print("[MLXModelManager] Error: Model not loaded")
             throw MLXError.modelNotLoaded
         }
         
@@ -121,9 +119,6 @@ final class MLXModelManager {
         var tokenTimings: [TimeInterval] = []
         var lastTokenTime = startTime
         
-        print("[MLXModelManager] 🚀 Starting generation stream")
-        print("[MLXModelManager] 📊 Max tokens: \(maxTokens), Temperature: \(temperature)")
-        
         let stream = try await mlxService.generate(
             messages: messages,
             config: config
@@ -135,8 +130,6 @@ final class MLXModelManager {
             // Track first token latency
             if firstTokenTime == nil {
                 firstTokenTime = tokenTime
-                let firstTokenLatency = tokenTime.timeIntervalSince(startTime)
-                print("[MLXModelManager] ⏱️ First token latency: \(String(format: "%.3f", firstTokenLatency))s")
             }
             
             // Track inter-token timing
@@ -149,53 +142,21 @@ final class MLXModelManager {
             onToken(token)
         }
         
-        // Calculate statistics
-        let totalTime = Date().timeIntervalSince(startTime)
-        let generationTime = firstTokenTime != nil ? Date().timeIntervalSince(firstTokenTime!) : totalTime
-        let tokensPerSecond = tokenCount > 0 ? Double(tokenCount) / generationTime : 0
-        
-        // Calculate average and median inter-token time
-        let avgTokenInterval = tokenTimings.isEmpty ? 0 : tokenTimings.reduce(0, +) / Double(tokenTimings.count)
-        let sortedTimings = tokenTimings.sorted()
-        let medianTokenInterval = sortedTimings.isEmpty ? 0 : sortedTimings[sortedTimings.count / 2]
-        
-        print("[MLXModelManager] ✅ Generation complete")
-        print("[MLXModelManager] 📊 === Generation Statistics ===")
-        print("[MLXModelManager] 📊 Total tokens: \(tokenCount)")
-        print("[MLXModelManager] 📊 Total time: \(String(format: "%.3f", totalTime))s")
-        print("[MLXModelManager] 📊 Generation time: \(String(format: "%.3f", generationTime))s")
-        print("[MLXModelManager] 📊 Tokens/second: \(String(format: "%.2f", tokensPerSecond))")
-        print("[MLXModelManager] 📊 Avg token interval: \(String(format: "%.3f", avgTokenInterval))s")
-        print("[MLXModelManager] 📊 Median token interval: \(String(format: "%.3f", medianTokenInterval))s")
-        print("[MLXModelManager] 📊 Characters generated: \(generatedText.count)")
-        print("[MLXModelManager] 📊 Avg chars/token: \(String(format: "%.2f", Double(generatedText.count) / Double(max(tokenCount, 1))))")
-        
-        // Add memory usage stats
-        let memoryStatus = checkMemoryStatus()
-        let totalMemoryMB = Int64(ProcessInfo.processInfo.physicalMemory) / 1024 / 1024
-        let availableMB = memoryStatus.availableMemory / 1024 / 1024
-        let usedMB = totalMemoryMB - availableMB
-        print("[MLXModelManager] 💾 Memory - Used: \(usedMB)MB, Available: \(availableMB)MB")
-        print("[MLXModelManager] 📊 ==============================")
-        
         return generatedText
     }
     
     // MARK: - Model Download
     
     func downloadModel(onProgress: @escaping (DownloadProgress) -> Void) async throws {
-        print("[MLXModelManager] Starting model download")
-        
         // The MLXService will handle the actual download through Hub
         try await mlxService.loadModel { (progress: Foundation.Progress) in
             let downloadProgress = DownloadProgress(
-                bytesDownloaded: progress.completedUnitCount,
-                totalBytes: progress.totalUnitCount
+                bytesDownloaded: 0,  // MLX doesn't provide actual bytes
+                totalBytes: 0,       // MLX doesn't provide actual bytes
+                progress: Float(progress.fractionCompleted)
             )
             onProgress(downloadProgress)
         }
-        
-        print("[MLXModelManager] Model download complete")
     }
     
     // MARK: - Clean Up
@@ -208,8 +169,6 @@ final class MLXModelManager {
     
     /// Handle memory pressure by clearing caches but keeping model loaded if possible
     func handleMemoryPressure() {
-        print("[MLXModelManager] Handling memory pressure")
-        
         // Clear any caches or temporary data
         // The MLX framework should handle its own memory management
         // We don't want to unload the model unless absolutely necessary
@@ -237,8 +196,6 @@ final class MLXModelManager {
             let usedMemory = Int64(info.resident_size)
             let totalMemory = Int64(ProcessInfo.processInfo.physicalMemory)
             let availableMemory = totalMemory - usedMemory
-            
-            print("[MLXModelManager] Memory status - Used: \(usedMemory / 1024 / 1024)MB, Available: \(availableMemory / 1024 / 1024)MB")
             
             return (availableMemory, totalMemory)
         }

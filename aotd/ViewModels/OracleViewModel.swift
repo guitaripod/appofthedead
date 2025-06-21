@@ -22,6 +22,18 @@ final class OracleViewModel: ObservableObject {
     private let modelManager = MLXModelManager.shared
     private var cancellables = Set<AnyCancellable>()
     
+    // Download tracking properties
+    private var lastBytesDownloaded: Int64 = 0
+    private var lastUpdateTime = Date()
+    private var lastKnownSpeed: Double = 0.0
+    
+    // Progress smoothing properties
+    private var downloadStartTime = Date()
+    private var lastReportedProgress: Float = 0.0
+    private var progressHistory: [(time: Date, progress: Float)] = []
+    private var smoothedProgressValue: Float = 0.0
+    private var progressAnimator: Timer?
+    
     // MARK: - Types
     
     struct ChatMessage {
@@ -59,22 +71,16 @@ final class OracleViewModel: ObservableObject {
             lhs.id == rhs.id
         }
         
-        // Debug description
-        var debugDescription: String {
-            return "Deity(id: \(id), name: \(name), tradition: \(tradition))"
-        }
     }
     
     // MARK: - Initialization
     
     init() {
-        print("[OracleViewModel] Initializing")
         loadDeities()
         // Don't add welcome message - let the conversation start with user
         
         // Check initial model status
         isModelLoaded = modelManager.isModelLoaded
-        print("[OracleViewModel] Initial model loaded status: \(isModelLoaded)")
         
         // Auto-load model if it was previously downloaded
         Task {
@@ -86,11 +92,9 @@ final class OracleViewModel: ObservableObject {
     
     func syncModelLoadedState() {
         isModelLoaded = modelManager.isModelLoaded
-        print("[OracleViewModel] Synced model loaded state: \(isModelLoaded)")
     }
     
     func loadModel() async {
-        print("[OracleViewModel] Starting model load")
         
         await MainActor.run {
             isModelLoading = true
@@ -101,9 +105,9 @@ final class OracleViewModel: ObservableObject {
             // First download if needed
             let isDownloaded = await modelManager.isModelDownloaded
             if !isDownloaded {
-                print("[OracleViewModel] Model not downloaded, starting download")
-                // Estimate total size for Llama3.2-3B model (overestimate to ~1.8GB)
-                let estimatedTotalSize: Int64 = 1_932_735_283 // ~1.8GB in bytes
+                // Model size is 1.8GB
+                let modelSizeGB: Double = 1.8
+                let estimatedTotalSize: Int64 = Int64(modelSizeGB * 1024 * 1024 * 1024)
                 
                 await MainActor.run {
                     self.downloadStatus = "Preparing divine connection..."
@@ -116,52 +120,20 @@ final class OracleViewModel: ObservableObject {
                     self.downloadProgress = 0.02
                 }
                 
-                var lastProgress: Float = 0.0
-                let startTime = Date()
-                var lastBytesDownloaded: Int64 = 0
+                // Reset tracking variables
+                lastBytesDownloaded = 0
+                lastUpdateTime = Date()
+                lastKnownSpeed = 0.0
+                downloadStartTime = Date()
+                lastReportedProgress = 0.0
+                progressHistory = []
+                smoothedProgressValue = 0.0
                 
-                try await modelManager.downloadModel { progress in
-                    // The progress object provides a fraction (0-1), not actual bytes
-                    // Calculate estimated bytes based on progress
-                    let actualProgress = progress.progress
-                    let totalBytes = estimatedTotalSize
+                try await modelManager.downloadModel { [weak self] progress in
+                    guard let self = self else { return }
                     
                     Task { @MainActor in
-                        // Smooth out progress updates
-                        let smoothedProgress = self.smoothProgress(current: actualProgress, last: lastProgress)
-                        self.downloadProgress = smoothedProgress
-                        lastProgress = smoothedProgress
-                        
-                        // Format download size
-                        let downloadedMB = Double(smoothedProgress) * Double(totalBytes) / (1024 * 1024)
-                        let totalMB = Double(totalBytes) / (1024 * 1024)
-                        
-                        // Update status with more descriptive messages
-                        let elapsedTime = Date().timeIntervalSince(startTime)
-                        if smoothedProgress < 0.3 {
-                            self.downloadStatus = String(format: "Gathering sacred texts... %.0f MB / %.0f MB", downloadedMB, totalMB)
-                        } else if smoothedProgress < 0.6 {
-                            self.downloadStatus = String(format: "Channeling divine wisdom... %.0f MB / %.0f MB", downloadedMB, totalMB)
-                        } else if smoothedProgress < 0.9 {
-                            self.downloadStatus = String(format: "Establishing connection... %.0f MB / %.0f MB", downloadedMB, totalMB)
-                        } else {
-                            self.downloadStatus = String(format: "Finalizing oracle preparations... %.0f MB / %.0f MB", downloadedMB, totalMB)
-                        }
-                        
-                        // Calculate download speed and time estimate
-                        let estimatedBytesDownloaded = Int64(smoothedProgress * Float(totalBytes))
-                        if elapsedTime > 3 && estimatedBytesDownloaded > lastBytesDownloaded {
-                            let bytesPerSecond = Double(estimatedBytesDownloaded) / elapsedTime
-                            let remainingBytes = totalBytes - estimatedBytesDownloaded
-                            let remainingSeconds = Double(remainingBytes) / bytesPerSecond
-                            
-                            if remainingSeconds > 5 && remainingSeconds < 3600 { // Between 5 seconds and 1 hour
-                                let speedMBps = bytesPerSecond / (1024 * 1024)
-                                self.downloadStage = String(format: "%.1f MB/s • %@", speedMBps, self.formatTime(remainingSeconds))
-                            }
-                        }
-                        
-                        lastBytesDownloaded = estimatedBytesDownloaded
+                        self.handleProgressUpdate(progress.progress, estimatedTotalSize: estimatedTotalSize)
                     }
                 }
                 
@@ -173,7 +145,6 @@ final class OracleViewModel: ObservableObject {
             }
             
             // Then load the model
-            print("[OracleViewModel] Loading model into memory")
             await MainActor.run {
                 self.downloadStatus = "Oracle awakening..."
             }
@@ -185,10 +156,8 @@ final class OracleViewModel: ObservableObject {
                 isModelLoading = false
                 self.downloadStatus = ""
                 self.downloadStage = ""
-                print("[OracleViewModel] Model loaded successfully")
             }
         } catch {
-            print("[OracleViewModel] Model load error: \(error)")
             await MainActor.run {
                 modelError = error.localizedDescription
                 isModelLoading = false
@@ -200,11 +169,8 @@ final class OracleViewModel: ObservableObject {
     func sendMessage(_ text: String) async {
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
               let deity = selectedDeity else {
-            print("[OracleViewModel] Cannot send message - empty text or no deity selected")
             return
         }
-        
-        print("[OracleViewModel] Sending message: \(text) to deity: \(deity.name)")
         
         // Add user message
         let userMessage = ChatMessage(
@@ -223,8 +189,6 @@ final class OracleViewModel: ObservableObject {
     }
     
     func selectDeity(_ deity: Deity) {
-        print("[OracleViewModel] Selecting deity: \(deity.name)")
-        
         // Only proceed if actually changing deity
         guard deity.id != selectedDeity?.id else { return }
         
@@ -237,23 +201,17 @@ final class OracleViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func checkAndAutoLoadModel() async {
-        print("[OracleViewModel] Checking for auto-load")
-        
         // Check if model was previously loaded
         let wasLoadedBefore = UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce")
-        print("[OracleViewModel] Model was loaded before: \(wasLoadedBefore)")
         
         // Check if model is already loaded in memory
         if isModelLoaded {
-            print("[OracleViewModel] Model already loaded in memory")
             return
         }
         
         // Check if model files exist and auto-load if they do
         let isDownloaded = await modelManager.isModelDownloaded
         if wasLoadedBefore && isDownloaded {
-            print("[OracleViewModel] Auto-loading previously downloaded model")
-            
             await MainActor.run {
                 isModelLoading = true
                 downloadStatus = "Loading Oracle model..."
@@ -266,10 +224,8 @@ final class OracleViewModel: ObservableObject {
                     isModelLoaded = true
                     isModelLoading = false
                     downloadStatus = ""
-                    print("[OracleViewModel] Model auto-loaded successfully")
                 }
             } catch {
-                print("[OracleViewModel] Auto-load error: \(error)")
                 await MainActor.run {
                     modelError = "Failed to auto-load model: \(error.localizedDescription)"
                     isModelLoading = false
@@ -280,24 +236,13 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func loadDeities() {
-        print("[OracleViewModel] Loading deities from JSON")
-        
         guard let url = Bundle.main.url(forResource: "deity_prompts", withExtension: "json") else {
-            print("[OracleViewModel] Error: Could not find deity_prompts.json")
             return
         }
         
         do {
             let data = try Data(contentsOf: url)
-            print("[OracleViewModel] Loaded data size: \(data.count) bytes")
-            
-            // Validate JSON structure
-            if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                print("[OracleViewModel] JSON validation passed. Root keys: \(jsonObject.keys)")
-            }
-            
             let deitiesData = try JSONDecoder().decode(DeitiesData.self, from: data)
-            print("[OracleViewModel] Decoded deities dictionary with \(deitiesData.deities.count) entries")
             
             // Create array and validate each deity
             let deityArray = Array(deitiesData.deities.values)
@@ -307,39 +252,13 @@ final class OracleViewModel: ObservableObject {
                 // Validate critical fields
                 if !deity.id.isEmpty && !deity.name.isEmpty && !deity.color.isEmpty {
                     validDeities.append(deity)
-                    print("[OracleViewModel] Valid deity: \(deity.name) with color: \(deity.color)")
-                } else {
-                    print("[OracleViewModel] Invalid deity skipped: \(deity.debugDescription)")
                 }
             }
             
             availableDeities = validDeities.sorted { $0.name < $1.name }
             selectedDeity = availableDeities.first
-            
-            print("[OracleViewModel] Loaded \(availableDeities.count) valid deities")
-            print("[OracleViewModel] Selected deity: \(selectedDeity?.name ?? "none")")
-            
-            // Print first few deities for debugging
-            for (index, deity) in availableDeities.prefix(3).enumerated() {
-                print("[OracleViewModel] Deity \(index): \(deity.name) - \(deity.tradition) - Color: \(deity.color)")
-            }
-        } catch let decodingError as DecodingError {
-            print("[OracleViewModel] Decoding error: \(decodingError)")
-            switch decodingError {
-            case .dataCorrupted(let context):
-                print("[OracleViewModel] Data corrupted: \(context.debugDescription)")
-            case .keyNotFound(let key, let context):
-                print("[OracleViewModel] Key not found: \(key.stringValue) - \(context.debugDescription)")
-            case .typeMismatch(let type, let context):
-                print("[OracleViewModel] Type mismatch: \(type) - \(context.debugDescription)")
-            case .valueNotFound(let type, let context):
-                print("[OracleViewModel] Value not found: \(type) - \(context.debugDescription)")
-            @unknown default:
-                print("[OracleViewModel] Unknown decoding error")
-            }
         } catch {
-            print("[OracleViewModel] Error loading deities: \(error)")
-            print("[OracleViewModel] Error details: \(error.localizedDescription)")
+            // Silent error handling
         }
     }
     
@@ -392,8 +311,6 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func generateResponse(to userMessage: String, deity: Deity) async {
-        print("[OracleViewModel] Generating response for: \(userMessage)")
-        print("[OracleViewModel] Using deity: \(deity.name)")
         
         await MainActor.run {
             isGenerating = true
@@ -416,11 +333,6 @@ final class OracleViewModel: ObservableObject {
             var fullResponse = ""
             
             // Generate response with streaming
-            #if DEBUG
-            print("🔮 Oracle System Prompt: \(deity.systemPrompt)")
-            print("🔮 Oracle User Message: \(userMessage)")
-            print("🔮 Oracle Starting response generation...")
-            #endif
             
             // Qwen3 should handle system prompts properly
             _ = try await modelManager.generate(
@@ -433,10 +345,6 @@ final class OracleViewModel: ObservableObject {
                 // Update message with each token
                 Task { @MainActor in
                     fullResponse += token
-                    
-                    #if DEBUG
-                    print("🔮 Oracle Token: \(token)")
-                    #endif
                     
                     // Only update UI if we're not inside think tags
                     if !fullResponse.contains("<think>") || fullResponse.contains("</think>") {
@@ -471,16 +379,7 @@ final class OracleViewModel: ObservableObject {
                 isGenerating = false
             }
             
-            #if DEBUG
-            print("🔮 Oracle Complete Response: \(cleanedResponse)")
-            print("🔮 Oracle Response length: \(cleanedResponse.count) characters")
-            if cleanedResponse != fullResponse {
-                print("🔮 Oracle Filtered out think tags")
-            }
-            #endif
-            
         } catch {
-            print("[OracleViewModel] Generation error: \(error)")
             
             let errorMessage = ChatMessage(
                 text: "I apologize, but I'm having trouble connecting to the divine realm. Please try again.",
@@ -548,5 +447,104 @@ final class OracleViewModel: ObservableObject {
     
     private struct DeitiesData: Codable {
         let deities: [String: Deity]
+    }
+    
+    // MARK: - Progress Handling
+    
+    private func handleProgressUpdate(_ reportedProgress: Float, estimatedTotalSize: Int64) {
+        let currentTime = Date()
+        
+        // Store progress history
+        progressHistory.append((time: currentTime, progress: reportedProgress))
+        
+        // Keep only recent history (last 10 seconds)
+        progressHistory = progressHistory.filter { currentTime.timeIntervalSince($0.time) < 10 }
+        
+        // Start smooth animation if this is a new progress step
+        if reportedProgress > lastReportedProgress {
+            lastReportedProgress = reportedProgress
+            startSmoothProgressAnimation(to: reportedProgress, estimatedTotalSize: estimatedTotalSize)
+        }
+        
+        updateProgressUI(estimatedTotalSize: estimatedTotalSize)
+    }
+    
+    private func startSmoothProgressAnimation(to targetProgress: Float, estimatedTotalSize: Int64) {
+        // Cancel any existing animation
+        progressAnimator?.invalidate()
+        
+        let startProgress = smoothedProgressValue
+        let progressDelta = targetProgress - startProgress
+        let animationDuration: TimeInterval = 2.0 // Smooth over 2 seconds
+        let updateInterval: TimeInterval = 0.05 // 20 FPS
+        let totalSteps = Int(animationDuration / updateInterval)
+        var currentStep = 0
+        
+        progressAnimator = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { [weak self] timer in
+            guard let self = self else {
+                timer.invalidate()
+                return
+            }
+            
+            currentStep += 1
+            if currentStep >= totalSteps {
+                Task { @MainActor in
+                    self.smoothedProgressValue = targetProgress
+                    self.progressAnimator = nil
+                    self.updateProgressUI(estimatedTotalSize: estimatedTotalSize)
+                }
+                timer.invalidate()
+            } else {
+                // Ease-out animation
+                let t = Float(currentStep) / Float(totalSteps)
+                let easedT = 1 - pow(1 - t, 3) // Cubic ease-out
+                
+                Task { @MainActor in
+                    self.smoothedProgressValue = startProgress + progressDelta * easedT
+                    self.updateProgressUI(estimatedTotalSize: estimatedTotalSize)
+                }
+            }
+        }
+    }
+    
+    private func updateProgressUI(estimatedTotalSize: Int64) {
+        // Update progress with smoothed value
+        downloadProgress = smoothedProgressValue
+        
+        // MLX reports progress as steps (0-6) not bytes, use progress fraction
+        let totalBytes = estimatedTotalSize
+        let bytesDownloaded = Int64(Double(estimatedTotalSize) * Double(smoothedProgressValue))
+        
+        // Format download size
+        let downloadedMB = Double(bytesDownloaded) / (1024 * 1024)
+        let totalGB = Double(totalBytes) / (1024 * 1024 * 1024)
+        
+        // Update status with more descriptive messages
+        let progressPercent = Int(smoothedProgressValue * 100)
+        if progressPercent < 10 {
+            downloadStatus = "Gathering sacred texts..."
+        } else if progressPercent < 30 {
+            downloadStatus = "Channeling divine wisdom..."
+        } else if progressPercent < 50 {
+            downloadStatus = "Deciphering ancient knowledge..."
+        } else if progressPercent < 70 {
+            downloadStatus = "Binding ethereal essence..."
+        } else if progressPercent < 90 {
+            downloadStatus = "Preparing the Oracle..."
+        } else {
+            downloadStatus = "Finalizing divine connection..."
+        }
+        
+        // Simple display without speed or time estimate
+        downloadStage = String(format: "%.0f MB / %.1f GB", downloadedMB, totalGB)
+        
+        // Check if download completed
+        if smoothedProgressValue >= 0.99 && lastReportedProgress >= 1.0 {
+            progressAnimator?.invalidate()
+            progressAnimator = nil
+            downloadProgress = 1.0
+            downloadStatus = "Download complete! Awakening the oracle..."
+            downloadStage = ""
+        }
     }
 }

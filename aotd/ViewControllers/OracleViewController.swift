@@ -134,7 +134,6 @@ final class OracleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("[OracleViewController] viewDidLoad started")
         setupUI()
         setupKeyboardObservers()
         setupBindings()
@@ -147,8 +146,6 @@ final class OracleViewController: UIViewController {
             name: UIApplication.didReceiveMemoryWarningNotification,
             object: nil
         )
-        
-        print("[OracleViewController] viewDidLoad completed")
     }
     
     deinit {
@@ -310,7 +307,7 @@ final class OracleViewController: UIViewController {
     
     private func setupDownloadUI() {
         // Add download container later to ensure it's above prompt suggestions
-        view.insertSubview(downloadContainerView, aboveSubview: promptSuggestionsView)
+        view.insertSubview(downloadContainerView, belowSubview: promptSuggestionsView)
         downloadContainerView.addSubview(oracleIcon)
         downloadContainerView.addSubview(downloadLabel)
         downloadContainerView.addSubview(downloadDescriptionLabel)
@@ -320,6 +317,7 @@ final class OracleViewController: UIViewController {
         downloadContainerView.addSubview(stageLabel)
         downloadContainerView.addSubview(loadingIndicator)
         
+        // Position download container above where the prompts will appear
         NSLayoutConstraint.activate([
             downloadContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             downloadContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -476,17 +474,9 @@ final class OracleViewController: UIViewController {
     }
     
     private func checkModelStatus() {
-        print("[OracleViewController] Checking model status")
-        print("[OracleViewController] ViewModel isModelLoaded: \(viewModel.isModelLoaded)")
-        print("[OracleViewController] MLXModelManager isModelLoaded: \(MLXModelManager.shared.isModelLoaded)")
-        
         Task {
-            let isDownloaded = await MLXModelManager.shared.isModelDownloaded
-            print("[OracleViewController] MLXModelManager isModelDownloaded: \(isDownloaded)")
-            
             // If model is already loaded in MLXModelManager but not in ViewModel, sync the state
             if MLXModelManager.shared.isModelLoaded && !viewModel.isModelLoaded {
-                print("[OracleViewController] Syncing model loaded state from MLXModelManager")
                 await MainActor.run {
                     viewModel.syncModelLoadedState()
                 }
@@ -537,14 +527,12 @@ final class OracleViewController: UIViewController {
     @objc private func sendMessage() {
         guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty else {
-            print("[OracleViewController] Send message attempted with empty text")
             return
         }
         
         // Check oracle consultation limits
         guard let user = AuthenticationManager.shared.currentUser,
               let deity = viewModel.selectedDeity else {
-            print("[OracleViewController] No user or deity selected")
             return
         }
         
@@ -554,9 +542,6 @@ final class OracleViewController: UIViewController {
             present(paywall, animated: true)
             return
         }
-        
-        print("[OracleViewController] Sending message: \(text)")
-        print("[OracleViewController] Selected deity: \(viewModel.selectedDeity?.name ?? "none")")
         
         // Clear input
         messageTextView.text = ""
@@ -572,19 +557,14 @@ final class OracleViewController: UIViewController {
     }
     
     @objc private func downloadModel() {
-        print("[OracleViewController] Download model button tapped")
         Task {
             await viewModel.loadModel()
         }
     }
     
     @objc private func selectDeity() {
-        print("[OracleViewController] Select deity button tapped")
-        print("[OracleViewController] Available deities: \(viewModel.availableDeities.count)")
-        
         // Ensure we have deities before presenting
         guard !viewModel.availableDeities.isEmpty else {
-            print("[OracleViewController] Error: No deities available")
             return
         }
         
@@ -606,17 +586,12 @@ final class OracleViewController: UIViewController {
         // Find the current deity copy in our new array
         let currentDeityCopy = deitiesArray.first { $0.id == viewModel.selectedDeity?.id }
         
-        print("[OracleViewController] Creating deity selector...")
-        print("[OracleViewController] Deities array count: \(deitiesArray.count)")
-        print("[OracleViewController] Current deity: \(currentDeityCopy?.name ?? "none")")
-        
         // Create the view controller with the enhanced UI
         let deitySelector = DeitySelectionViewController(
             deities: deitiesArray,
             currentDeity: currentDeityCopy
         ) { [weak self] selectedDeity in
             guard let self = self else { return }
-            print("[OracleViewController] Selected deity: \(selectedDeity.name)")
             
             // Find the original deity in the view model's array
             if let originalDeity = self.viewModel.availableDeities.first(where: { $0.id == selectedDeity.id }) {
@@ -627,16 +602,9 @@ final class OracleViewController: UIViewController {
             }
         }
         
-        print("[OracleViewController] Deity selector created successfully")
-        
         // Present as normal modal
         if self.presentedViewController == nil {
-            print("[OracleViewController] About to present deity selector")
-            self.present(deitySelector, animated: true) {
-                print("[OracleViewController] Deity selector presented successfully")
-            }
-        } else {
-            print("[OracleViewController] Warning: Already presenting a view controller")
+            self.present(deitySelector, animated: true)
         }
     }
     
@@ -668,8 +636,6 @@ final class OracleViewController: UIViewController {
     }
     
     @objc private func handleMemoryWarning() {
-        print("[OracleViewController] Received memory warning")
-        
         // Clear image caches if any
         URLCache.shared.removeAllCachedResponses()
         
@@ -680,15 +646,12 @@ final class OracleViewController: UIViewController {
         let memoryStatus = MLXModelManager.shared.checkMemoryStatus()
         let availableMB = memoryStatus.availableMemory / 1024 / 1024
         
-        print("[OracleViewController] Available memory: \(availableMB)MB")
-        
         // If we're not actively generating, handle memory pressure
         if !viewModel.isGenerating && viewModel.isModelLoaded {
             MLXModelManager.shared.handleMemoryPressure()
             
             // Only unload model if critically low on memory (less than 500MB available)
             if availableMB < 500 {
-                print("[OracleViewController] Critical memory pressure - considering model unload")
                 // Still don't unload automatically - let iOS handle it
                 // The model will be reloaded next time if needed
             }
@@ -703,11 +666,8 @@ final class OracleViewController: UIViewController {
     
     private func updateDeityButton() {
         guard let deity = viewModel.selectedDeity else {
-            print("[OracleViewController] updateDeityButton - no deity selected")
             return
         }
-        
-        print("[OracleViewController] Updating deity button for: \(deity.name)")
         
         // Use SF Symbol directly since deity.avatar contains SF Symbol names
         if let iconImage = UIImage(systemName: deity.avatar) {
@@ -715,7 +675,6 @@ final class OracleViewController: UIViewController {
             deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
             deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         } else {
-            print("[OracleViewController] Warning: Could not load icon \(deity.avatar)")
             // Fallback icon
             deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
             deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
@@ -731,14 +690,12 @@ final class OracleViewController: UIViewController {
         
         // Check if we should show prompts
         let hasRealMessages = viewModel.messages.filter { !$0.text.isEmpty && $0.isUser }.count > 0
-        let shouldShowPrompts = !hasRealMessages && viewModel.selectedDeity != nil
+        let shouldShowPrompts = !hasRealMessages && viewModel.selectedDeity != nil && viewModel.isModelLoaded
         
-        // Show prompt suggestions when:
-        // 1. Model is not loaded (below download UI)
-        // 2. Model is loaded and no real messages yet
+        // Only show prompt suggestions when model is loaded and no messages yet
         promptSuggestionsView.isHidden = !shouldShowPrompts
         
-        // Hide table view only when showing prompts AND model is loaded
+        // Hide table view when showing prompts
         if viewModel.isModelLoaded {
             tableView.isHidden = shouldShowPrompts
         }
@@ -834,8 +791,8 @@ final class OracleViewController: UIViewController {
             }
         }
         
-        // Adjust container position based on model loaded state
-        let centerYOffset: CGFloat = viewModel.isModelLoaded ? 0 : 140
+        // Center the prompts vertically
+        let centerYOffset: CGFloat = 0
         
         // Constraints
         NSLayoutConstraint.activate([
