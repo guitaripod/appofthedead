@@ -38,6 +38,8 @@ class DatabaseManager {
                 try UserAnswer.createTable(db)
                 try Purchase.createTable(db)
                 try OracleConsultation.createTable(db)
+                try Mistake.createTable(db)
+                try MistakeSession.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -59,6 +61,8 @@ class DatabaseManager {
                 try UserAnswer.createTable(db)
                 try Purchase.createTable(db)
                 try OracleConsultation.createTable(db)
+                try Mistake.createTable(db)
+                try MistakeSession.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -132,6 +136,8 @@ class DatabaseManager {
             try Progress.filter(Column("userId") == userId).deleteAll(db)
             try Purchase.filter(Column("userId") == userId).deleteAll(db)
             try OracleConsultation.filter(Column("userId") == userId).deleteAll(db)
+            try Mistake.filter(Column("userId") == userId).deleteAll(db)
+            try MistakeSession.filter(Column("userId") == userId).deleteAll(db)
             
             // Delete the user
             try User.deleteOne(db, key: userId)
@@ -265,6 +271,27 @@ class DatabaseManager {
             return try getUserProgress(userId: userId)
         } catch {
             return []
+        }
+    }
+    
+    func deleteProgress(userId: String, beliefSystemId: String) throws {
+        try dbQueue.write { db in
+            // Delete all progress records for this belief system
+            try Progress
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .deleteAll(db)
+            
+            // Also delete all mistakes for this belief system
+            try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .deleteAll(db)
+            
+            AppLogger.database.info("Deleted progress and mistakes", metadata: [
+                "userId": userId,
+                "beliefSystemId": beliefSystemId
+            ])
         }
     }
     
@@ -474,6 +501,128 @@ class DatabaseManager {
         } catch {
             AppLogger.logError(error, context: "Checking oracle consultation availability", logger: AppLogger.database, additionalInfo: ["userId": userId, "deityId": deityId])
             return false
+        }
+    }
+    
+    // MARK: - Mistake Management
+    
+    func saveMistake(userId: String, beliefSystemId: String, lessonId: String? = nil,
+                     questionId: String, incorrectAnswer: String, correctAnswer: String) throws {
+        try dbQueue.write { db in
+            // Check if mistake already exists
+            let existingMistake = try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("questionId") == questionId)
+                .filter(Column("mastered") == false)
+                .fetchOne(db)
+            
+            if existingMistake == nil {
+                var mistake = Mistake(
+                    userId: userId,
+                    beliefSystemId: beliefSystemId,
+                    lessonId: lessonId,
+                    questionId: questionId,
+                    incorrectAnswer: incorrectAnswer,
+                    correctAnswer: correctAnswer
+                )
+                try mistake.insert(db)
+                AppLogger.learning.info("Saved new mistake", metadata: [
+                    "questionId": questionId,
+                    "beliefSystemId": beliefSystemId
+                ])
+            }
+        }
+    }
+    
+    func getMistakes(userId: String, beliefSystemId: String) throws -> [Mistake] {
+        return try dbQueue.read { db in
+            try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .filter(Column("mastered") == false)
+                .filter(Column("nextReview") <= Date())
+                .order(Column("nextReview").asc)
+                .fetchAll(db)
+        }
+    }
+    
+    func getMistakeCount(userId: String, beliefSystemId: String) throws -> Int {
+        return try dbQueue.read { db in
+            try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .filter(Column("mastered") == false)
+                .filter(Column("nextReview") <= Date())
+                .fetchCount(db)
+        }
+    }
+    
+    func updateMistakeReview(mistakeId: String, wasCorrect: Bool) throws {
+        try dbQueue.write { db in
+            if var mistake = try Mistake.fetchOne(db, key: mistakeId) {
+                mistake.markReviewed(wasCorrect: wasCorrect)
+                try mistake.update(db)
+                
+                AppLogger.learning.info("Updated mistake review", metadata: [
+                    "mistakeId": mistakeId,
+                    "wasCorrect": wasCorrect,
+                    "reviewCount": mistake.reviewCount,
+                    "mastered": mistake.mastered
+                ])
+            }
+        }
+    }
+    
+    func startMistakeSession(userId: String, beliefSystemId: String) throws -> MistakeSession {
+        var session = try dbQueue.write { db -> MistakeSession in
+            let mistakeCount = try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .filter(Column("mastered") == false)
+                .filter(Column("nextReview") <= Date())
+                .fetchCount(db)
+            
+            var session = MistakeSession(
+                userId: userId,
+                beliefSystemId: beliefSystemId,
+                mistakeCount: mistakeCount
+            )
+            try session.insert(db)
+            return session
+        }
+        
+        AppLogger.learning.info("Started mistake session", metadata: [
+            "sessionId": session.id,
+            "beliefSystemId": beliefSystemId,
+            "mistakeCount": session.mistakeCount
+        ])
+        
+        return session
+    }
+    
+    func completeMistakeSession(sessionId: String, correctCount: Int, xpEarned: Int) throws {
+        try dbQueue.write { db in
+            if var session = try MistakeSession.fetchOne(db, key: sessionId) {
+                session.complete(correctCount: correctCount, xpEarned: xpEarned)
+                try session.update(db)
+                
+                AppLogger.learning.info("Completed mistake session", metadata: [
+                    "sessionId": sessionId,
+                    "correctCount": correctCount,
+                    "xpEarned": xpEarned,
+                    "accuracy": Double(correctCount) / Double(session.mistakeCount)
+                ])
+            }
+        }
+    }
+    
+    func deleteMistake(for userId: String, beliefSystemId: String, questionId: String) throws {
+        try dbQueue.write { db in
+            try Mistake
+                .filter(Column("userId") == userId)
+                .filter(Column("beliefSystemId") == beliefSystemId)
+                .filter(Column("questionId") == questionId)
+                .deleteAll(db)
         }
     }
     
