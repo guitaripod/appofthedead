@@ -14,6 +14,7 @@ struct PathItem: Hashable {
     let isUnlocked: Bool
     let progress: Float
     let status: Progress.ProgressStatus
+    let mistakeCount: Int
 }
 
 // MARK: - HomeViewModel
@@ -71,18 +72,27 @@ final class HomeViewModel {
         
         AppLogger.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
         
-        // For now, we'll just remove the progress from our local dictionary
-        // In a real implementation, you'd want to add a deleteProgress method to DatabaseManager
-        userProgress.removeValue(forKey: beliefSystemId)
-        
-        // Reload data to reflect changes
-        loadUserProgress()
-        updatePathItems()
-        
-        AppLogger.learning.info("Progress reset", metadata: [
-            "userId": userId,
-            "beliefSystemId": beliefSystemId
-        ])
+        do {
+            // Delete progress and mistakes from database
+            try databaseManager.deleteProgress(userId: userId, beliefSystemId: beliefSystemId)
+            
+            // Remove from local dictionary
+            userProgress.removeValue(forKey: beliefSystemId)
+            
+            // Reload data to reflect changes
+            loadUserProgress()
+            updatePathItems()
+            
+            AppLogger.learning.info("Progress reset", metadata: [
+                "userId": userId,
+                "beliefSystemId": beliefSystemId
+            ])
+        } catch {
+            AppLogger.logError(error, context: "Resetting progress", logger: AppLogger.learning, additionalInfo: [
+                "userId": userId,
+                "beliefSystemId": beliefSystemId
+            ])
+        }
     }
     
     // MARK: - Private Methods
@@ -153,6 +163,12 @@ final class HomeViewModel {
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
             let status = progress?.status ?? .notStarted
             
+            // Get mistake count
+            var mistakeCount = 0
+            if let userId = user?.id {
+                mistakeCount = (try? databaseManager.getMistakeCount(userId: userId, beliefSystemId: beliefSystem.id)) ?? 0
+            }
+            
             return PathItem(
                 id: beliefSystem.id,
                 name: beliefSystem.name,
@@ -162,7 +178,8 @@ final class HomeViewModel {
                 currentXP: currentXP,
                 isUnlocked: isUnlocked,
                 progress: progressPercentage,
-                status: status
+                status: status,
+                mistakeCount: mistakeCount
             )
         }
         
