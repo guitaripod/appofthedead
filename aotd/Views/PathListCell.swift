@@ -4,6 +4,9 @@ final class PathListCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private var isShowingPreview = false
+    private var pathPreview: PathPreview?
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +112,35 @@ final class PathListCell: UICollectionViewCell {
         return imageView
     }()
     
+    private lazy var previewContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.1)
+        view.layer.cornerRadius = 8
+        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+    
+    private lazy var previewLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor.Papyrus.secondaryText
+        label.numberOfLines = 2
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private lazy var infoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "info.circle"), for: .normal)
+        button.tintColor = UIColor.Papyrus.secondaryText
+        button.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Stack Views
     
     private lazy var textStackView: UIStackView = {
@@ -155,6 +187,10 @@ final class PathListCell: UICollectionViewCell {
         containerView.addSubview(statusBadge)
         containerView.addSubview(lockIconImageView)
         containerView.addSubview(chevronImageView)
+        containerView.addSubview(infoButton)
+        containerView.addSubview(previewContainer)
+        
+        previewContainer.addSubview(previewLabel)
         
         statusBadge.addSubview(statusIcon)
         
@@ -205,15 +241,32 @@ final class PathListCell: UICollectionViewCell {
             lockIconImageView.widthAnchor.constraint(equalToConstant: 20),
             lockIconImageView.heightAnchor.constraint(equalToConstant: 20),
             
+            // Info button
+            infoButton.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
+            infoButton.centerYAnchor.constraint(equalTo: textStackView.centerYAnchor),
+            infoButton.widthAnchor.constraint(equalToConstant: 22),
+            infoButton.heightAnchor.constraint(equalToConstant: 22),
+            
             // Chevron
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             chevronImageView.widthAnchor.constraint(equalToConstant: 12),
-            chevronImageView.heightAnchor.constraint(equalToConstant: 20)
+            chevronImageView.heightAnchor.constraint(equalToConstant: 20),
+            
+            // Preview container
+            previewContainer.leadingAnchor.constraint(equalTo: textStackView.leadingAnchor),
+            previewContainer.topAnchor.constraint(equalTo: progressStackView.bottomAnchor, constant: 8),
+            previewContainer.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
+            
+            // Preview label
+            previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 8),
+            previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -8),
+            previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 6),
+            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -6)
         ])
         
         // Add flexible bottom constraint with priority
-        let bottomConstraint = progressStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
+        let bottomConstraint = previewContainer.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
         bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
         
@@ -225,8 +278,9 @@ final class PathListCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configure(with item: PathItem) {
+    func configure(with item: PathItem, preview: PathPreview? = nil) {
         nameLabel.text = item.name
+        self.pathPreview = preview
         
         // Set description based on status
         switch item.status {
@@ -255,6 +309,7 @@ final class PathListCell: UICollectionViewCell {
             iconImageView.tintColor = .white
             iconImageView.isHidden = false
             lockIconImageView.isHidden = true
+            infoButton.isHidden = false
         } else {
             containerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.2)
             containerView.layer.borderColor = UIColor.Papyrus.aged.withAlphaComponent(0.5).cgColor
@@ -268,6 +323,7 @@ final class PathListCell: UICollectionViewCell {
             iconContainerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
             iconImageView.isHidden = true
             lockIconImageView.isHidden = false
+            infoButton.isHidden = true
         }
         
         progressView.progress = item.progress
@@ -289,6 +345,35 @@ final class PathListCell: UICollectionViewCell {
         
         // Adjust shadow opacity
         containerView.layer.shadowOpacity = item.isUnlocked ? 0.1 : 0.05
+        
+        // Configure preview if available
+        if let preview = preview {
+            let topicsText = preview.keyTopics.prefix(3).joined(separator: " • ")
+            previewLabel.text = topicsText
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func infoButtonTapped() {
+        togglePreview()
+    }
+    
+    private func togglePreview() {
+        isShowingPreview.toggle()
+        
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
+            self.previewContainer.isHidden = !self.isShowingPreview
+            self.previewContainer.alpha = self.isShowingPreview ? 1 : 0
+            
+            // Animate info button rotation
+            let rotation = self.isShowingPreview ? CGFloat.pi : 0
+            self.infoButton.transform = CGAffineTransform(rotationAngle: rotation)
+        }
+        
+        // Haptic feedback
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
     }
     
     // MARK: - Reuse
@@ -307,6 +392,12 @@ final class PathListCell: UICollectionViewCell {
         containerView.backgroundColor = UIColor.Papyrus.cardBackground
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.borderWidth = 1
+        previewContainer.isHidden = true
+        previewContainer.alpha = 0
+        isShowingPreview = false
+        infoButton.transform = .identity
+        infoButton.isHidden = false
+        pathPreview = nil
     }
     
     // MARK: - Touch Feedback

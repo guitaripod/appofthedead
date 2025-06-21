@@ -4,6 +4,9 @@ final class PathCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private var pathPreview: PathPreview?
+    private var isShowingPreview = false
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -111,6 +114,26 @@ final class PathCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private lazy var previewContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.15)
+        view.layer.cornerRadius = 8
+        view.isHidden = true
+        view.alpha = 0
+        return view
+    }()
+    
+    private lazy var previewLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 10, weight: .regular)
+        label.textColor = UIColor.Papyrus.secondaryText
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        return label
+    }()
+    
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -131,6 +154,8 @@ final class PathCollectionViewCell: UICollectionViewCell {
         lockOverlay.addSubview(lockIconImageView)
         containerView.addSubview(statusBadge)
         statusBadge.addSubview(statusIcon)
+        containerView.addSubview(previewContainer)
+        previewContainer.addSubview(previewLabel)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -168,13 +193,30 @@ final class PathCollectionViewCell: UICollectionViewCell {
             statusIcon.centerXAnchor.constraint(equalTo: statusBadge.centerXAnchor),
             statusIcon.centerYAnchor.constraint(equalTo: statusBadge.centerYAnchor),
             statusIcon.widthAnchor.constraint(equalToConstant: 16),
-            statusIcon.heightAnchor.constraint(equalToConstant: 16)
+            statusIcon.heightAnchor.constraint(equalToConstant: 16),
+            
+            // Preview container
+            previewContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            previewContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            previewContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            
+            // Preview label
+            previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 4),
+            previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -4),
+            previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 4),
+            previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -4)
         ])
+        
+        // Add long press gesture
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPressGesture.minimumPressDuration = 0.5
+        addGestureRecognizer(longPressGesture)
     }
     
     // MARK: - Configuration
     
-    func configure(with item: PathItem) {
+    func configure(with item: PathItem, preview: PathPreview? = nil) {
+        self.pathPreview = preview
         // Set icon using IconProvider
         iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: item.color)
         
@@ -224,6 +266,40 @@ final class PathCollectionViewCell: UICollectionViewCell {
         // Force layout update to ensure proper alignment
         setNeedsLayout()
         layoutIfNeeded()
+        
+        // Configure preview if available
+        if let preview = preview, item.isUnlocked {
+            let topicsText = preview.keyTopics.prefix(2).joined(separator: " • ")
+            previewLabel.text = topicsText
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began, pathPreview != nil else { return }
+        
+        togglePreview()
+    }
+    
+    private func togglePreview() {
+        isShowingPreview.toggle()
+        
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseInOut) {
+            self.previewContainer.isHidden = !self.isShowingPreview
+            self.previewContainer.alpha = self.isShowingPreview ? 1 : 0
+            
+            // Slightly scale down other elements when preview is shown
+            if self.isShowingPreview {
+                self.contentStackView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            } else {
+                self.contentStackView.transform = .identity
+            }
+        }
+        
+        // Haptic feedback
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
     }
     
     
@@ -245,5 +321,10 @@ final class PathCollectionViewCell: UICollectionViewCell {
         containerView.layer.shadowOpacity = 0.15
         containerView.layer.borderWidth = 1.5
         containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+        previewContainer.isHidden = true
+        previewContainer.alpha = 0
+        isShowingPreview = false
+        contentStackView.transform = .identity
+        pathPreview = nil
     }
 }

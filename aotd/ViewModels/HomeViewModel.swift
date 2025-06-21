@@ -27,6 +27,7 @@ final class HomeViewModel {
     private(set) var beliefSystems: [BeliefSystem] = []
     private var user: User?
     private(set) var userProgress: [String: Progress] = [:]
+    private(set) var pathPreviews: [String: PathPreview] = [:]
     
     var onDataUpdate: (() -> Void)?
     var onUserDataUpdate: ((User) -> Void)?
@@ -56,12 +57,32 @@ final class HomeViewModel {
         loadUser()
         loadBeliefSystems()
         loadUserProgress()
+        loadPathPreviews()
         updatePathItems()
     }
     
     func selectPath(_ item: PathItem) {
         guard let beliefSystem = beliefSystems.first(where: { $0.id == item.id }) else { return }
         onPathSelected?(beliefSystem)
+    }
+    
+    func resetProgress(for beliefSystemId: String) {
+        guard let userId = user?.id else { return }
+        
+        AppLogger.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
+        
+        // For now, we'll just remove the progress from our local dictionary
+        // In a real implementation, you'd want to add a deleteProgress method to DatabaseManager
+        userProgress.removeValue(forKey: beliefSystemId)
+        
+        // Reload data to reflect changes
+        loadUserProgress()
+        updatePathItems()
+        
+        AppLogger.learning.info("Progress reset", metadata: [
+            "userId": userId,
+            "beliefSystemId": beliefSystemId
+        ])
     }
     
     // MARK: - Private Methods
@@ -114,6 +135,16 @@ final class HomeViewModel {
         )
     }
     
+    private func loadPathPreviews() {
+        guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let previews = try? JSONDecoder().decode([String: PathPreview].self, from: data) else {
+            AppLogger.content.error("Failed to load path previews")
+            return
+        }
+        pathPreviews = previews
+    }
+    
     private func updatePathItems() {
         pathItems = beliefSystems.map { beliefSystem in
             let progress = userProgress[beliefSystem.id]
@@ -160,6 +191,10 @@ final class HomeViewModel {
         // Fall back to local database check
         guard let user = user else { return false }
         return user.hasPathAccess(beliefSystemId: beliefSystem.id)
+    }
+    
+    func pathPreview(for beliefSystemId: String) -> PathPreview? {
+        return pathPreviews[beliefSystemId]
     }
 }
 

@@ -107,18 +107,40 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     
     private func bindViewModel() {
         viewModel.onDataUpdate = { [weak self] in
-            self?.applySnapshot()
+            DispatchQueue.main.async {
+                self?.applySnapshot()
+                self?.updateHeader()
+            }
         }
         
         viewModel.onUserDataUpdate = { [weak self] user in
-            self?.updateHeader()
+            DispatchQueue.main.async {
+                self?.updateHeader()
+            }
+        }
+        
+        viewModel.onPathSelected = { [weak self] beliefSystem in
+            guard let self = self else { return }
+            
+            // Get the coordinator from SceneDelegate
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let sceneDelegate = scene.delegate as? SceneDelegate else { return }
+            
+            let coordinator = sceneDelegate.learningPathCoordinator ?? {
+                let newCoordinator = LearningPathCoordinator(
+                    navigationController: self.navigationController ?? UINavigationController(),
+                    beliefSystem: beliefSystem,
+                    contentLoader: self.viewModel.contentLoader
+                )
+                sceneDelegate.learningPathCoordinator = newCoordinator
+                return newCoordinator
+            }()
+            
+            coordinator.start()
         }
     }
     
     private func updateHeader() {
-        guard let user = viewModel.currentUser else { return }
-        let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
-        
         // Force the collection view header to update
         let snapshot = collectionDataSource.snapshot()
         collectionDataSource.applySnapshotUsingReloadData(snapshot)
@@ -186,13 +208,15 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
     
     private func createCollectionDataSource() -> UICollectionViewDiffableDataSource<Section, PathItem> {
         // Grid cell registration
-        let gridCellRegistration = UICollectionView.CellRegistration<PathCollectionViewCell, PathItem> { cell, indexPath, item in
-            cell.configure(with: item)
+        let gridCellRegistration = UICollectionView.CellRegistration<PathCollectionViewCell, PathItem> { [weak self] cell, indexPath, item in
+            let preview = self?.viewModel.pathPreview(for: item.id)
+            cell.configure(with: item, preview: preview)
         }
         
         // List cell registration
-        let listCellRegistration = UICollectionView.CellRegistration<PathListCell, PathItem> { cell, indexPath, item in
-            cell.configure(with: item)
+        let listCellRegistration = UICollectionView.CellRegistration<PathListCell, PathItem> { [weak self] cell, indexPath, item in
+            let preview = self?.viewModel.pathPreview(for: item.id)
+            cell.configure(with: item, preview: preview)
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<HomeHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
@@ -276,6 +300,104 @@ extension HomeViewController: UICollectionViewDelegate {
             
             showLockedPathAlert(for: item)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let item = collectionDataSource.itemIdentifier(for: indexPath) else { return nil }
+        
+        // Only show context menu for unlocked paths
+        guard item.isUnlocked else { return nil }
+        
+        // Find the belief system and progress
+        guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }) else { return nil }
+        let progress = viewModel.userProgress[item.id]
+        let preview = viewModel.pathPreview(for: item.id)
+        
+        return UIContextMenuConfiguration(
+            identifier: indexPath as NSCopying,
+            previewProvider: { [weak self] in
+                return PathPreviewViewController(
+                    beliefSystem: beliefSystem,
+                    progress: progress,
+                    pathPreview: preview
+                )
+            },
+            actionProvider: { [weak self] suggestedActions in
+                return self?.createContextMenuActions(for: item, beliefSystem: beliefSystem, progress: progress)
+            }
+        )
+    }
+    
+    private func createContextMenuActions(for item: PathItem, beliefSystem: BeliefSystem, progress: Progress?) -> UIMenu? {
+        var actions: [UIMenuElement] = []
+        
+        // Start/Continue action
+        let primaryTitle = (progress?.earnedXP ?? 0) > 0 ? "Continue Learning" : "Start Path"
+        let primaryAction = UIAction(
+            title: primaryTitle,
+            image: UIImage(systemName: "play.fill"),
+            attributes: []
+        ) { [weak self] _ in
+            self?.viewModel.selectPath(item)
+        }
+        actions.append(primaryAction)
+        
+        // Reset progress action (if there's progress)
+        if let progress = progress, progress.earnedXP > 0 {
+            let resetAction = UIAction(
+                title: "Reset Progress",
+                image: UIImage(systemName: "arrow.counterclockwise"),
+                attributes: .destructive
+            ) { [weak self] _ in
+                self?.showResetProgressConfirmation(for: item, beliefSystem: beliefSystem)
+            }
+            actions.append(resetAction)
+        }
+        
+        // Oracle consultation action removed for now since it requires separate deity selection
+        
+        // Share action
+        let shareAction = UIAction(
+            title: "Share Path",
+            image: UIImage(systemName: "square.and.arrow.up"),
+            attributes: []
+        ) { [weak self] _ in
+            self?.sharePath(beliefSystem)
+        }
+        actions.append(shareAction)
+        
+        return UIMenu(title: "", children: actions)
+    }
+    
+    private func showResetProgressConfirmation(for item: PathItem, beliefSystem: BeliefSystem) {
+        let alert = UIAlertController(
+            title: "Reset Progress?",
+            message: "This will reset all your progress for \(beliefSystem.name). You'll lose your XP and completed lessons.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Reset", style: .destructive) { [weak self] _ in
+            self?.viewModel.resetProgress(for: item.id)
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    
+    private func sharePath(_ beliefSystem: BeliefSystem) {
+        let shareText = "I'm learning about \(beliefSystem.name) in App of the Dead!"
+        let activityVC = UIActivityViewController(
+            activityItems: [shareText],
+            applicationActivities: nil
+        )
+        
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = view
+            popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+        }
+        
+        present(activityVC, animated: true)
     }
 }
 
