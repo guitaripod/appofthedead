@@ -1,5 +1,6 @@
 import Foundation
 import GRDB
+import UIKit
 
 struct Book: Codable, FetchableRecord, PersistableRecord {
     var id: String
@@ -201,6 +202,98 @@ struct Bookmark: Codable {
     var createdAt: Date
 }
 
+// Highlights and annotations
+struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
+    var id: String
+    var userId: String
+    var bookId: String
+    var chapterId: String
+    var startPosition: Int
+    var endPosition: Int
+    var highlightedText: String
+    var color: String
+    var note: String?
+    var oracleConsultationId: String? // Link to oracle consultation about this text
+    var createdAt: Date
+    var updatedAt: Date
+    
+    static let databaseTableName = "book_highlights"
+    
+    static func createTable(_ db: Database) throws {
+        try db.create(table: databaseTableName, ifNotExists: true) { t in
+            t.column("id", .text).notNull().primaryKey()
+            t.column("userId", .text).notNull()
+            t.column("bookId", .text).notNull()
+            t.column("chapterId", .text).notNull()
+            t.column("startPosition", .integer).notNull()
+            t.column("endPosition", .integer).notNull()
+            t.column("highlightedText", .text).notNull()
+            t.column("color", .text).notNull()
+            t.column("note", .text)
+            t.column("oracleConsultationId", .text)
+            t.column("createdAt", .datetime).notNull()
+            t.column("updatedAt", .datetime).notNull()
+            
+            t.foreignKey(["userId"], references: "users", columns: ["id"])
+            t.foreignKey(["bookId"], references: "books", columns: ["id"])
+            t.foreignKey(["oracleConsultationId"], references: "oracle_consultations", columns: ["id"])
+        }
+    }
+}
+
+// Reading themes
+struct ReadingTheme {
+    let name: String
+    let backgroundColor: UIColor
+    let textColor: UIColor
+    let highlightColor: UIColor
+    let secondaryTextColor: UIColor
+    let isDark: Bool
+    
+    static let themes: [String: ReadingTheme] = [
+        "papyrus": ReadingTheme(
+            name: "Papyrus",
+            backgroundColor: UIColor(hex: "#FEFDF5")!,
+            textColor: UIColor(hex: "#2C1810")!,
+            highlightColor: UIColor(hex: "#FFD700")!,
+            secondaryTextColor: UIColor(hex: "#5D4E37")!,
+            isDark: false
+        ),
+        "sepia": ReadingTheme(
+            name: "Sepia",
+            backgroundColor: UIColor(hex: "#F4E8D0")!,
+            textColor: UIColor(hex: "#3C2F26")!,
+            highlightColor: UIColor(hex: "#E6A85C")!,
+            secondaryTextColor: UIColor(hex: "#7A6A57")!,
+            isDark: false
+        ),
+        "dark": ReadingTheme(
+            name: "Dark",
+            backgroundColor: UIColor(hex: "#1E1E1E")!,
+            textColor: UIColor(hex: "#E0E0E0")!,
+            highlightColor: UIColor(hex: "#4A90E2")!,
+            secondaryTextColor: UIColor(hex: "#A0A0A0")!,
+            isDark: true
+        ),
+        "midnight": ReadingTheme(
+            name: "Midnight",
+            backgroundColor: UIColor(hex: "#0F1419")!,
+            textColor: UIColor(hex: "#EFEFEF")!,
+            highlightColor: UIColor(hex: "#6B5CE6")!,
+            secondaryTextColor: UIColor(hex: "#8899A6")!,
+            isDark: true
+        ),
+        "cream": ReadingTheme(
+            name: "Cream",
+            backgroundColor: UIColor(hex: "#FFF8E7")!,
+            textColor: UIColor(hex: "#333333")!,
+            highlightColor: UIColor(hex: "#FFA500")!,
+            secondaryTextColor: UIColor(hex: "#666666")!,
+            isDark: false
+        )
+    ]
+}
+
 // Reading preferences per book
 struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var id: String
@@ -216,6 +309,18 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var autoScrollSpeed: Double?
     var ttsSpeed: Float
     var ttsVoice: String?
+    var textAlignment: String // left, center, right, justified
+    var marginSize: Double // 0-50 points
+    var theme: String // papyrus, sepia, dark, midnight, cream
+    var showPageProgress: Bool
+    var enableHyphenation: Bool
+    var paragraphSpacing: Double
+    var firstLineIndent: Double
+    var highlightColor: String
+    var pageTransitionStyle: String // scroll, page
+    var keepScreenOn: Bool
+    var enableSwipeGestures: Bool
+    var fontWeight: String // regular, medium, semibold, bold
     
     static let databaseTableName = "book_reading_preferences"
     
@@ -234,6 +339,18 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
             t.column("autoScrollSpeed", .double)
             t.column("ttsSpeed", .double).notNull().defaults(to: 1.0)
             t.column("ttsVoice", .text)
+            t.column("textAlignment", .text).notNull().defaults(to: "justified")
+            t.column("marginSize", .double).notNull().defaults(to: 20.0)
+            t.column("theme", .text).notNull().defaults(to: "papyrus")
+            t.column("showPageProgress", .boolean).notNull().defaults(to: true)
+            t.column("enableHyphenation", .boolean).notNull().defaults(to: true)
+            t.column("paragraphSpacing", .double).notNull().defaults(to: 1.2)
+            t.column("firstLineIndent", .double).notNull().defaults(to: 30.0)
+            t.column("highlightColor", .text).notNull().defaults(to: "#FFD700")
+            t.column("pageTransitionStyle", .text).notNull().defaults(to: "scroll")
+            t.column("keepScreenOn", .boolean).notNull().defaults(to: true)
+            t.column("enableSwipeGestures", .boolean).notNull().defaults(to: true)
+            t.column("fontWeight", .text).notNull().defaults(to: "regular")
             
             t.uniqueKey(["userId", "bookId"])
         }
@@ -253,7 +370,19 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
             brightness: 1.0,
             autoScrollSpeed: nil,
             ttsSpeed: 1.0,
-            ttsVoice: nil
+            ttsVoice: nil,
+            textAlignment: "justified",
+            marginSize: 20.0,
+            theme: "papyrus",
+            showPageProgress: true,
+            enableHyphenation: true,
+            paragraphSpacing: 1.2,
+            firstLineIndent: 30.0,
+            highlightColor: "#FFD700",
+            pageTransitionStyle: "scroll",
+            keepScreenOn: true,
+            enableSwipeGestures: true,
+            fontWeight: "regular"
         )
     }
 }

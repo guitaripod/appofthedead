@@ -43,6 +43,7 @@ class DatabaseManager {
                 try Book.createTable(db)
                 try BookProgress.createTable(db)
                 try BookReadingPreferences.createTable(db)
+                try BookHighlight.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -69,6 +70,7 @@ class DatabaseManager {
                 try Book.createTable(db)
                 try BookProgress.createTable(db)
                 try BookReadingPreferences.createTable(db)
+                try BookHighlight.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -764,6 +766,82 @@ class DatabaseManager {
                     .filter(Column("bookId") == book.id)
                     .fetchOne(db)
                 result.append((book, progress))
+            }
+            
+            return result
+        }
+    }
+    
+    // MARK: - Book Highlights
+    
+    func saveBookHighlight(_ highlight: BookHighlight) throws {
+        var mutableHighlight = highlight
+        try dbQueue.write { db in
+            try mutableHighlight.insert(db)
+        }
+    }
+    
+    func getBookHighlights(userId: String, bookId: String) throws -> [BookHighlight] {
+        return try dbQueue.read { db in
+            try BookHighlight
+                .filter(Column("userId") == userId)
+                .filter(Column("bookId") == bookId)
+                .order(Column("chapterId").asc, Column("startPosition").asc)
+                .fetchAll(db)
+        }
+    }
+    
+    func getChapterHighlights(userId: String, bookId: String, chapterId: String) throws -> [BookHighlight] {
+        return try dbQueue.read { db in
+            try BookHighlight
+                .filter(Column("userId") == userId)
+                .filter(Column("bookId") == bookId)
+                .filter(Column("chapterId") == chapterId)
+                .order(Column("startPosition").asc)
+                .fetchAll(db)
+        }
+    }
+    
+    func deleteBookHighlight(highlightId: String) throws {
+        try dbQueue.write { db in
+            try BookHighlight.deleteOne(db, key: highlightId)
+        }
+    }
+    
+    func updateBookHighlight(_ highlight: BookHighlight) throws {
+        var mutableHighlight = highlight
+        mutableHighlight.updatedAt = Date()
+        try dbQueue.write { db in
+            try mutableHighlight.update(db)
+        }
+    }
+    
+    func linkHighlightToOracleConsultation(highlightId: String, consultationId: String) throws {
+        try dbQueue.write { db in
+            if var highlight = try BookHighlight.fetchOne(db, key: highlightId) {
+                highlight.oracleConsultationId = consultationId
+                highlight.updatedAt = Date()
+                try highlight.update(db)
+            }
+        }
+    }
+    
+    func getHighlightsWithOracleConsultations(userId: String, bookId: String) throws -> [(highlight: BookHighlight, consultation: OracleConsultation?)] {
+        return try dbQueue.read { db in
+            let highlights = try BookHighlight
+                .filter(Column("userId") == userId)
+                .filter(Column("bookId") == bookId)
+                .order(Column("chapterId").asc, Column("startPosition").asc)
+                .fetchAll(db)
+            
+            var result: [(BookHighlight, OracleConsultation?)] = []
+            
+            for highlight in highlights {
+                var consultation: OracleConsultation? = nil
+                if let consultationId = highlight.oracleConsultationId {
+                    consultation = try OracleConsultation.fetchOne(db, key: consultationId)
+                }
+                result.append((highlight, consultation))
             }
             
             return result
