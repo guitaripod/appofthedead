@@ -40,6 +40,25 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
 - **Logging**: Use `AppLogger` for all logging - never use `print()` statements. AppLogger provides structured logging with categories (auth, database, content, sync, learning, gamification, purchases, ui, viewModel, mlx, performance, general)
 
+## Test Organization
+- **Tests are organized by feature area in the test target** for better discoverability while remaining in the test bundle
+  - Example: `aotd/Models/User.swift` → `aotdTests/Models/UserTests.swift`
+  - Example: `aotd/ViewModels/HomeViewModel.swift` → `aotdTests/ViewModels/HomeViewModelTests.swift`
+- **Test directory structure mirrors source directory structure**:
+  - `aotdTests/Models/` - Model tests
+  - `aotdTests/Database/` - Database and JSON validation tests
+  - `aotdTests/ViewModels/` - ViewModel tests
+  - `aotdTests/Services/` - Service tests (Auth, Gamification, etc.)
+  - `aotdTests/Integration/` - Integration tests that test flows across multiple components
+- **Only write tests that provide real value**:
+  - Test actual implementations, not stubs
+  - Test business logic, data persistence, and complex operations
+  - Skip trivial tests that don't add value
+- **When adding tests**:
+  - Place tests in the corresponding directory within aotdTests
+  - Name tests as `<SourceFileName>Tests.swift`
+  - For multiple test files testing the same class, use descriptive suffixes (e.g., `HomeViewModelSortingTests.swift`)
+
 ## Claude Working Principles
 - **Before implementing**: Search for 2-3 similar patterns in the codebase to follow
 - **For complex tasks**: Internally decompose into sub-problems before starting
