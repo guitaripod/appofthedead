@@ -10,20 +10,14 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private let titleLabel = UILabel()
     private let keywordLabel = UILabel()
     private let contentTextView = UITextView()
-    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
+    private let loadingView = PapyrusLoadingView(style: .oracle)
     private let grabberView = UIView()
     private var gradientLayer: CAGradientLayer?
     
     // Download UI properties
     private let downloadContainerView = UIView()
-    private let oracleIcon = UIImageView()
-    private let downloadLabel = UILabel()
-    private let downloadDescriptionLabel = UILabel()
-    private let progressView = UIProgressView(progressViewStyle: .default)
-    private let progressLabel = UILabel()
-    private let stageLabel = UILabel()
+    private let downloadLoadingView = PapyrusLoadingView(style: .download)
     private let downloadButton = UIButton(type: .system)
-    private let downloadLoadingIndicator = UIActivityIndicatorView(style: .medium)
     
     private let deity: Deity
     private let keyword: String
@@ -235,24 +229,18 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             right: PapyrusDesignSystem.Spacing.medium
         )
         
-        // Loading indicator
-        loadingIndicator.style = traitCollection.userInterfaceStyle == .dark ? .large : .medium
-        loadingIndicator.color = UIColor { [weak self] traitCollection in
-            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
-            return traitCollection.userInterfaceStyle == .dark
-                ? baseColor
-                : baseColor.withAlphaComponent(0.8)
-        }
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
         // Add to content stack
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(contentTextView)
         contentStackView.addArrangedSubview(downloadContainerView)
         
-        // Add loading indicator to content text view
-        contentTextView.addSubview(loadingIndicator)
+        // Add loading view to content text view
+        contentTextView.addSubview(loadingView)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Set deity color for loading view
+        let deityColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        loadingView.setDeityColor(deityColor)
         
         NSLayoutConstraint.activate([
             // Scroll view
@@ -280,9 +268,11 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             // Content text view
             contentTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
             
-            // Loading indicator
-            loadingIndicator.centerXAnchor.constraint(equalTo: contentTextView.centerXAnchor),
-            loadingIndicator.topAnchor.constraint(equalTo: contentTextView.topAnchor, constant: PapyrusDesignSystem.Spacing.large),
+            // Loading view
+            loadingView.centerXAnchor.constraint(equalTo: contentTextView.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: contentTextView.centerYAnchor),
+            loadingView.widthAnchor.constraint(equalTo: contentTextView.widthAnchor),
+            loadingView.heightAnchor.constraint(equalTo: contentTextView.heightAnchor),
             
             // Avatar image view
             avatarImageView.widthAnchor.constraint(equalToConstant: 44),
@@ -309,79 +299,24 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             : PapyrusDesignSystem.Colors.aged.cgColor
         downloadContainerView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Stack view for download content
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = PapyrusDesignSystem.Spacing.medium
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        downloadContainerView.addSubview(stackView)
+        // Add download loading view
+        downloadContainerView.addSubview(downloadLoadingView)
+        downloadLoadingView.translatesAutoresizingMaskIntoConstraints = false
+        downloadLoadingView.setDeityColor(baseColor)
         
-        // Oracle icon
+        // Update loading view content
         if DeviceUtility.isSimulator {
-            oracleIcon.image = UIImage(systemName: "desktopcomputer")
+            downloadLoadingView.updateTitle("Simulator Mode")
+            downloadLoadingView.updateSubtitle("The Oracle runs on device. Use a physical device to experience divine wisdom.")
         } else {
-            oracleIcon.image = UIImage(systemName: "sparkles")
+            downloadLoadingView.updateTitle("Oracle Model Required")
+            downloadLoadingView.updateSubtitle("Download the Oracle model to unlock divine explanations from \(deity.name).")
         }
-        oracleIcon.tintColor = UIColor { [weak self] traitCollection in
-            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
-            return traitCollection.userInterfaceStyle == .dark
-                ? baseColor
-                : baseColor.withAlphaComponent(0.8)
-        }
-        oracleIcon.contentMode = .scaleAspectFit
-        oracleIcon.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Labels
-        downloadLabel.text = DeviceUtility.isSimulator ? "Simulator Mode" : "Oracle Model Required"
-        downloadLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
-        downloadLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? UIColor.label : PapyrusDesignSystem.Colors.primaryText
-        }
-        downloadLabel.textAlignment = .center
-        
-        downloadDescriptionLabel.text = DeviceUtility.isSimulator
-            ? "The Oracle runs on device. Use a physical device to experience divine wisdom."
-            : "Download the Oracle model to unlock divine explanations from \(deity.name)."
-        downloadDescriptionLabel.font = PapyrusDesignSystem.Typography.body()
-        downloadDescriptionLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? UIColor.secondaryLabel : PapyrusDesignSystem.Colors.secondaryText
-        }
-        downloadDescriptionLabel.textAlignment = .center
-        downloadDescriptionLabel.numberOfLines = 0
-        
-        // Progress view
-        progressView.progressTintColor = UIColor { [weak self] traitCollection in
-            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
-            return baseColor
-        }
-        progressView.trackTintColor = UIColor.systemGray5
-        progressView.isHidden = true
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Progress label
-        progressLabel.font = PapyrusDesignSystem.Typography.subheadline()
-        progressLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? UIColor.secondaryLabel : PapyrusDesignSystem.Colors.secondaryText
-        }
-        progressLabel.textAlignment = .center
-        progressLabel.isHidden = true
-        
-        // Stage label
-        stageLabel.font = PapyrusDesignSystem.Typography.footnote()
-        stageLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? UIColor.tertiaryLabel : PapyrusDesignSystem.Colors.tertiaryText
-        }
-        stageLabel.textAlignment = .center
-        stageLabel.isHidden = true
         
         // Download button
         downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Oracle Model", for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
-        downloadButton.backgroundColor = UIColor { [weak self] traitCollection in
-            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
-            return baseColor
-        }
+        downloadButton.backgroundColor = baseColor
         downloadButton.setTitleColor(.white, for: .normal)
         downloadButton.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.medium
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
@@ -389,44 +324,23 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         downloadButton.alpha = DeviceUtility.isSimulator ? 0.5 : 1.0
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
         
-        // Loading indicator
-        downloadLoadingIndicator.color = UIColor { [weak self] traitCollection in
-            let baseColor = UIColor(hex: self?.deity.color ?? "") ?? UIColor.systemPurple
-            return baseColor
-        }
-        downloadLoadingIndicator.hidesWhenStopped = true
-        
-        // Add to stack
-        stackView.addArrangedSubview(oracleIcon)
-        stackView.addArrangedSubview(downloadLabel)
-        stackView.addArrangedSubview(downloadDescriptionLabel)
-        stackView.addArrangedSubview(progressView)
-        stackView.addArrangedSubview(progressLabel)
-        stackView.addArrangedSubview(stageLabel)
-        stackView.addArrangedSubview(downloadButton)
-        stackView.addArrangedSubview(downloadLoadingIndicator)
+        downloadContainerView.addSubview(downloadButton)
         
         // Setup constraints
         NSLayoutConstraint.activate([
             // Download container
             downloadContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
             
-            // Stack view
-            stackView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: PapyrusDesignSystem.Spacing.xLarge),
-            stackView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.large),
-            stackView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.large),
-            stackView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
-            
-            // Icon
-            oracleIcon.widthAnchor.constraint(equalToConstant: 60),
-            oracleIcon.heightAnchor.constraint(equalToConstant: 60),
-            
-            // Progress view
-            progressView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
-            progressView.heightAnchor.constraint(equalToConstant: 8),
+            // Download loading view
+            downloadLoadingView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor),
+            downloadLoadingView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor),
+            downloadLoadingView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor),
+            downloadLoadingView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor),
             
             // Download button
-            downloadButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.8),
+            downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
+            downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
+            downloadButton.widthAnchor.constraint(equalToConstant: 250),
             downloadButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -436,9 +350,6 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         // Just show the download button, don't start downloading automatically
         downloadButton.isHidden = false
-        progressView.isHidden = true
-        progressLabel.isHidden = true
-        stageLabel.isHidden = true
     }
     
     @objc private func downloadButtonTapped() {
@@ -447,17 +358,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
         downloadButton.isHidden = true
-        downloadLoadingIndicator.startAnimating()
+        downloadLoadingView.startAnimating()
+        downloadLoadingView.updateProgress(0, withText: "Preparing divine connection...")
         
-        // Show initial progress UI
-        progressView.isHidden = false
-        progressLabel.isHidden = false
-        stageLabel.isHidden = false
-        downloadLoadingIndicator.stopAnimating()
-        progressView.progress = 0
-        progressLabel.text = "Preparing divine connection..."
-        let gbSize = 1.8
-        stageLabel.text = String(format: "0 MB / %.1f GB", gbSize)
         downloadStartTime = Date()
         lastReportedProgress = 0.0
         progressHistory = []
@@ -475,9 +378,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                         }
                         
                         // If we haven't received any progress updates, at least show the size
-                        if self.progressView.progress == 0 {
-                            self.stageLabel.text = String(format: "0 MB / %.1f GB", 
-                                                         Double(self.modelSizeBytes) / 1024 / 1024 / 1024)
+                        if self.smoothedProgress == 0 {
+                            self.downloadLoadingView.updateProgress(0, withText: String(format: "0 MB / %.1f GB", 
+                                                         Double(self.modelSizeBytes) / 1024 / 1024 / 1024))
                         }
                     }
                 }
@@ -486,11 +389,6 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     guard let self = self else { return }
                     
                     Task { @MainActor in
-                        self.progressView.isHidden = false
-                        self.progressLabel.isHidden = false
-                        self.stageLabel.isHidden = false
-                        self.downloadLoadingIndicator.stopAnimating()
-                        
                         // Handle discrete progress steps from MLX
                         self.handleProgressUpdate(progress.progress)
                     }
@@ -501,10 +399,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     self.progressTimer = nil
                     
                     self.downloadButton.isHidden = false
-                    self.downloadLoadingIndicator.stopAnimating()
-                    self.progressView.isHidden = true
-                    self.progressLabel.isHidden = true
-                    self.stageLabel.isHidden = true
+                    self.downloadLoadingView.stopAnimating()
                     
                     // Show error alert
                     let alert = UIAlertController(
@@ -523,7 +418,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     private func startStreamingExplanation() {
         contentTextView.text = ""
-        loadingIndicator.startAnimating()
+        loadingView.startAnimating()
         
         streamingTask = Task {
             do {
@@ -550,7 +445,8 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 let stream = try await mlxService.generate(messages: messages, config: config)
                 
                 await MainActor.run {
-                    self.loadingIndicator.stopAnimating()
+                    self.loadingView.stopAnimating()
+                    self.loadingView.isHidden = true
                 }
                 
                 var fullText = ""
@@ -581,7 +477,8 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 }
                 
                 await MainActor.run {
-                    self.loadingIndicator.stopAnimating()
+                    self.loadingView.stopAnimating()
+                    self.loadingView.isHidden = true
                     self.contentTextView.text = "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later."
                 }
             }
@@ -723,23 +620,22 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     }
     
     private func updateProgressUI() {
-        // Update progress bar with smoothed value
-        progressView.progress = smoothedProgress
-        
         // Generate status text based on smoothed progress
         let progressPercent = Int(smoothedProgress * 100)
+        let statusText: String
+        
         if progressPercent < 10 {
-            progressLabel.text = "Gathering sacred texts..."
+            statusText = "Gathering sacred texts..."
         } else if progressPercent < 30 {
-            progressLabel.text = "Channeling divine wisdom..."
+            statusText = "Channeling divine wisdom..."
         } else if progressPercent < 50 {
-            progressLabel.text = "Deciphering ancient knowledge..."
+            statusText = "Deciphering ancient knowledge..."
         } else if progressPercent < 70 {
-            progressLabel.text = "Binding ethereal essence..."
+            statusText = "Binding ethereal essence..."
         } else if progressPercent < 90 {
-            progressLabel.text = "Preparing the Oracle..."
+            statusText = "Preparing the Oracle..."
         } else {
-            progressLabel.text = "Finalizing divine connection..."
+            statusText = "Finalizing divine connection..."
         }
         
         // Calculate sizes based on smoothed progress
@@ -748,8 +644,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         let mbDownloaded = Double(bytesDownloaded) / 1024 / 1024
         let gbTotal = Double(totalBytes) / 1024 / 1024 / 1024
         
-        // Simple display without speed or time estimate
-        stageLabel.text = String(format: "%.0f MB / %.1f GB", mbDownloaded, gbTotal)
+        // Update loading view with progress
+        let sizeText = String(format: "%.0f MB / %.1f GB", mbDownloaded, gbTotal)
+        downloadLoadingView.updateProgress(smoothedProgress, withText: "\(statusText)\n\(sizeText)")
         
         // Check if download completed
         if smoothedProgress >= 0.99 && lastReportedProgress >= 1.0 {
