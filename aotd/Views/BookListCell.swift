@@ -15,13 +15,23 @@ final class BookListCell: UICollectionViewCell {
         return view
     }()
     
+    private lazy var bookSpineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = PapyrusDesignSystem.Colors.ancientInk.withAlphaComponent(0.8)
+        view.layer.cornerRadius = 2
+        return view
+    }()
+    
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = PapyrusDesignSystem.Colors.goldLeaf.withAlphaComponent(0.1)
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
         imageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+        // Add book-like appearance
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = PapyrusDesignSystem.Colors.ancientInk.withAlphaComponent(0.2).cgColor
         return imageView
     }()
     
@@ -79,6 +89,7 @@ final class BookListCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(containerView)
+        containerView.addSubview(bookSpineView)
         containerView.addSubview(coverImageView)
         containerView.addSubview(titleLabel)
         containerView.addSubview(subtitleLabel)
@@ -87,6 +98,7 @@ final class BookListCell: UICollectionViewCell {
         containerView.addSubview(chevronImageView)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        bookSpineView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -101,11 +113,17 @@ final class BookListCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
+            // Book spine (left edge)
+            bookSpineView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            bookSpineView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            bookSpineView.widthAnchor.constraint(equalToConstant: 4),
+            bookSpineView.heightAnchor.constraint(equalToConstant: 76),
+            
             // Cover image (left side)
-            coverImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+            coverImageView.leadingAnchor.constraint(equalTo: bookSpineView.trailingAnchor, constant: 2),
             coverImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            coverImageView.widthAnchor.constraint(equalToConstant: 60),
-            coverImageView.heightAnchor.constraint(equalToConstant: 84),
+            coverImageView.widthAnchor.constraint(equalToConstant: 54),
+            coverImageView.heightAnchor.constraint(equalToConstant: 76),
             
             // Chevron (right side)
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
@@ -138,7 +156,7 @@ final class BookListCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configure(with book: Book, progress: BookProgress?) {
+    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil) {
         titleLabel.text = book.title
         
         // Set subtitle with reading time
@@ -150,8 +168,14 @@ final class BookListCell: UICollectionViewCell {
             subtitleLabel.text = "\(minutes)m estimated reading time"
         }
         
-        // Set cover image placeholder
-        coverImageView.image = UIImage(systemName: "book.closed.fill")
+        // Set cover image with belief system icon
+        if let beliefSystem = beliefSystem {
+            coverImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf)
+            coverImageView.tintColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        } else {
+            coverImageView.image = UIImage(systemName: "book.closed.fill")
+            coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+        }
         
         if let progress = progress {
             progressView.isHidden = false
@@ -182,5 +206,8 @@ final class BookListCell: UICollectionViewCell {
         progressView.progress = 0
         progressView.isHidden = true
         statusLabel.isHidden = true
+        coverImageView.image = nil
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 }

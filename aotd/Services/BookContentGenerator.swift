@@ -19,6 +19,19 @@ final class BookContentGenerator {
         ])
         
         let chapters = createChapters(from: beliefSystem)
+        
+        // Validate chapters are in correct order and no duplicates
+        var seenChapterNumbers = Set<Int>()
+        for chapter in chapters {
+            if seenChapterNumbers.contains(chapter.chapterNumber) {
+                AppLogger.content.error("Duplicate chapter number found", metadata: [
+                    "chapterNumber": chapter.chapterNumber,
+                    "chapterTitle": chapter.title
+                ])
+            }
+            seenChapterNumbers.insert(chapter.chapterNumber)
+        }
+        
         let totalWords = chapters.reduce(0) { $0 + $1.wordCount }
         let estimatedReadingTime = Int(Double(totalWords) / 200.0) // Assuming 200 words per minute
         
@@ -79,7 +92,7 @@ final class BookContentGenerator {
         var chapters: [Chapter] = []
         var chapterNumber = 1
         
-        // Introduction chapter
+        // Introduction chapter - FIRST
         chapters.append(createIntroductionChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
@@ -111,11 +124,25 @@ final class BookContentGenerator {
         ))
         chapterNumber += 1
         
-        // Conclusion chapter
+        // Conclusion chapter - LAST
         chapters.append(createConclusionChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
         ))
+        
+        // Ensure chapters are properly ordered
+        chapters.sort { $0.chapterNumber < $1.chapterNumber }
+        
+        // Validate chapter sequence
+        for (index, chapter) in chapters.enumerated() {
+            if chapter.chapterNumber != index + 1 {
+                AppLogger.content.warning("Chapter numbering mismatch", metadata: [
+                    "expected": index + 1,
+                    "actual": chapter.chapterNumber,
+                    "title": chapter.title
+                ])
+            }
+        }
         
         return chapters
     }
@@ -223,7 +250,7 @@ final class BookContentGenerator {
             id: lesson.id,
             bookId: "book_\(beliefSystemId)",
             chapterNumber: chapterNumber,
-            title: "Chapter \(chapterNumber): \(lesson.title)",
+            title: lesson.title,
             content: content,
             wordCount: content.split(separator: " ").count
         )
@@ -331,8 +358,7 @@ final class BookContentGenerator {
     private func generateExplanationFromQuestion(_ question: Question) -> String? {
         switch question.type {
         case .multipleChoice:
-            if let options = question.options,
-               case .string(let correctAnswer) = question.correctAnswer.value {
+            if case .string(let correctAnswer) = question.correctAnswer.value {
                 return "\(question.question) The answer is \(correctAnswer), which highlights an important aspect of this tradition's understanding."
             }
         case .trueFalse:

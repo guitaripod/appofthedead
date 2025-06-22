@@ -6,6 +6,8 @@ final class BookLibraryViewModel {
     
     let userId: String
     private let databaseManager: DatabaseManager
+    private let contentLoader: ContentLoader
+    private var beliefSystems: [BeliefSystem] = []
     
     private(set) var availableBooks: [Book] = []
     private(set) var readingBooks: [(book: Book, progress: BookProgress)] = []
@@ -17,9 +19,13 @@ final class BookLibraryViewModel {
     
     // MARK: - Initialization
     
-    init(userId: String, databaseManager: DatabaseManager = .shared) {
+    init(userId: String, databaseManager: DatabaseManager = .shared, contentLoader: ContentLoader = ContentLoader()) {
         self.userId = userId
         self.databaseManager = databaseManager
+        self.contentLoader = contentLoader
+        
+        // Load belief systems
+        self.beliefSystems = contentLoader.loadBeliefSystems()
     }
     
     // MARK: - Public Methods
@@ -66,5 +72,9 @@ final class BookLibraryViewModel {
     
     func refreshBooks() {
         loadBooks()
+    }
+    
+    func beliefSystem(for book: Book) -> BeliefSystem? {
+        return beliefSystems.first { $0.id == book.beliefSystemId }
     }
 }

@@ -11,6 +11,7 @@ final class BookReaderViewController: UIViewController {
     private var panGestureStartPosition: CGFloat = 0
     private var autoScrollTimer: Timer?
     private var controlsHidden = false
+    private var isNavigatingChapter = false
     
     // MARK: - UI Components
     
@@ -58,10 +59,17 @@ final class BookReaderViewController: UIViewController {
         textView.isEditable = false
         textView.isSelectable = true
         textView.backgroundColor = .clear
-        textView.textContainerInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        textView.textContainerInset = UIEdgeInsets(top: 120, left: 20, bottom: 100, right: 20)
         textView.showsVerticalScrollIndicator = false
         textView.delegate = self
         return textView
+    }()
+    
+    private lazy var papyrusBackgroundView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.alpha = 0.3
+        return imageView
     }()
     
     private lazy var progressView: UIProgressView = {
@@ -126,59 +134,6 @@ final class BookReaderViewController: UIViewController {
         return label
     }()
     
-    // Settings Panel
-    private lazy var settingsPanel: UIView = {
-        let view = UIView()
-        view.backgroundColor = PapyrusDesignSystem.Colors.beige
-        view.layer.cornerRadius = 20
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowOffset = CGSize(width: 0, height: -4)
-        view.layer.shadowRadius = 8
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var fontSizeSlider: UISlider = {
-        let slider = UISlider()
-        slider.minimumValue = 14
-        slider.maximumValue = 28
-        slider.value = 18
-        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        slider.addTarget(self, action: #selector(fontSizeChanged(_:)), for: .valueChanged)
-        return slider
-    }()
-    
-    private lazy var brightnessSlider: UISlider = {
-        let slider = UISlider()
-        slider.minimumValue = 0.3
-        slider.maximumValue = 1.0
-        slider.value = 1.0
-        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        slider.addTarget(self, action: #selector(brightnessChanged(_:)), for: .valueChanged)
-        return slider
-    }()
-    
-    private lazy var ttsSpeedSlider: UISlider = {
-        let slider = UISlider()
-        slider.minimumValue = 0.5
-        slider.maximumValue = 2.0
-        slider.value = 1.0
-        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        slider.addTarget(self, action: #selector(ttsSpeedChanged(_:)), for: .valueChanged)
-        return slider
-    }()
-    
-    private lazy var autoScrollSpeedSlider: UISlider = {
-        let slider = UISlider()
-        slider.minimumValue = 10
-        slider.maximumValue = 100
-        slider.value = 50
-        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        slider.addTarget(self, action: #selector(autoScrollSpeedChanged(_:)), for: .valueChanged)
-        return slider
-    }()
     
     // MARK: - Lifecycle
     
@@ -215,10 +170,13 @@ final class BookReaderViewController: UIViewController {
         view.backgroundColor = UIColor(hex: viewModel.preferences.backgroundColor) ?? PapyrusDesignSystem.Colors.background
         
         // Add subviews
+        view.addSubview(papyrusBackgroundView)
         view.addSubview(textView)
         view.addSubview(headerView)
         view.addSubview(bottomToolbar)
-        view.addSubview(settingsPanel)
+        
+        // Add papyrus texture
+        createPapyrusTexture()
         
         headerView.addSubview(backButton)
         headerView.addSubview(titleLabel)
@@ -248,9 +206,16 @@ final class BookReaderViewController: UIViewController {
         bookmarkButton.translatesAutoresizingMaskIntoConstraints = false
         readingTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         percentageLabel.translatesAutoresizingMaskIntoConstraints = false
-        settingsPanel.translatesAutoresizingMaskIntoConstraints = false
+        
+        papyrusBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            // Papyrus background
+            papyrusBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            papyrusBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            papyrusBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            papyrusBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             // Header
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -309,63 +274,13 @@ final class BookReaderViewController: UIViewController {
             readingTimeLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             
             percentageLabel.trailingAnchor.constraint(equalTo: bottomToolbar.trailingAnchor, constant: -20),
-            percentageLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            
-            // Settings Panel
-            settingsPanel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            settingsPanel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            settingsPanel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            settingsPanel.heightAnchor.constraint(equalToConstant: 350)
+            percentageLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
         ])
         
-        setupSettingsPanel()
         setupGestures()
         applyReadingPreferences()
     }
     
-    private func setupSettingsPanel() {
-        let fontSizeLabel = createSettingLabel("Font Size")
-        let brightnessLabel = createSettingLabel("Brightness")
-        let ttsSpeedLabel = createSettingLabel("TTS Speed")
-        let autoScrollSpeedLabel = createSettingLabel("Auto-Scroll Speed")
-        
-        let fontStack = UIStackView(arrangedSubviews: [fontSizeLabel, fontSizeSlider])
-        fontStack.axis = .vertical
-        fontStack.spacing = 8
-        
-        let brightnessStack = UIStackView(arrangedSubviews: [brightnessLabel, brightnessSlider])
-        brightnessStack.axis = .vertical
-        brightnessStack.spacing = 8
-        
-        let ttsStack = UIStackView(arrangedSubviews: [ttsSpeedLabel, ttsSpeedSlider])
-        ttsStack.axis = .vertical
-        ttsStack.spacing = 8
-        
-        let autoScrollStack = UIStackView(arrangedSubviews: [autoScrollSpeedLabel, autoScrollSpeedSlider])
-        autoScrollStack.axis = .vertical
-        autoScrollStack.spacing = 8
-        
-        let mainStack = UIStackView(arrangedSubviews: [fontStack, brightnessStack, ttsStack, autoScrollStack])
-        mainStack.axis = .vertical
-        mainStack.spacing = 24
-        mainStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        settingsPanel.addSubview(mainStack)
-        
-        NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: settingsPanel.topAnchor, constant: 30),
-            mainStack.leadingAnchor.constraint(equalTo: settingsPanel.leadingAnchor, constant: 20),
-            mainStack.trailingAnchor.constraint(equalTo: settingsPanel.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    private func createSettingLabel(_ text: String) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.font = PapyrusDesignSystem.Typography.body()
-        label.textColor = PapyrusDesignSystem.Colors.ancientInk
-        return label
-    }
     
     private func setupGestures() {
         // Tap gesture for hiding/showing controls
@@ -373,18 +288,21 @@ final class BookReaderViewController: UIViewController {
         tapGesture.delegate = self
         textView.addGestureRecognizer(tapGesture)
         
-        // Tap gesture for settings panel
-        let settingsTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSettingsPanelTap))
-        settingsPanel.addGestureRecognizer(settingsTapGesture)
-        
-        // Pan gesture for brightness adjustment
+        // Pan gesture for brightness adjustment - disabled by default
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        panGesture.isEnabled = false // Disable until user explicitly enables it
         view.addGestureRecognizer(panGesture)
     }
     
     private func bindViewModel() {
         viewModel.onContentUpdate = { [weak self] in
             self?.updateContent()
+            self?.updateChapterInfo()
+            
+            // Ensure proper scrolling after content update
+            DispatchQueue.main.async { [weak self] in
+                self?.scrollToCurrentChapter(animated: false)
+            }
         }
         
         viewModel.onProgressUpdate = { [weak self] in
@@ -404,23 +322,36 @@ final class BookReaderViewController: UIViewController {
     }
     
     @objc private func settingsTapped() {
-        toggleSettingsPanel()
+        let settingsVC = BookReaderSettingsViewController(preferences: viewModel.preferences)
+        settingsVC.delegate = self
+        
+        if #available(iOS 15.0, *) {
+            if let sheet = settingsVC.sheetPresentationController {
+                sheet.detents = [.medium()]
+                sheet.prefersGrabberVisible = true
+            }
+        }
+        
+        present(settingsVC, animated: true)
     }
     
     @objc private func previousChapterTapped() {
         stopSpeech()
         stopAutoScroll()
         
-        if viewModel.currentChapterIndex > 0 {
-            viewModel.currentChapterIndex -= 1
-            viewModel.saveProgress()
-            
-            // Haptic feedback
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
-            
-            scrollToCurrentChapter(animated: true)
-            updateChapterInfo()
+        isNavigatingChapter = true
+        viewModel.goToPreviousChapter()
+        
+        // Update UI immediately
+        updateChapterInfo()
+        
+        // Scroll to the new chapter
+        DispatchQueue.main.async { [weak self] in
+            self?.scrollToCurrentChapter(animated: true)
+            // Re-enable scroll detection after animation completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.isNavigatingChapter = false
+            }
         }
     }
     
@@ -428,16 +359,19 @@ final class BookReaderViewController: UIViewController {
         stopSpeech()
         stopAutoScroll()
         
-        if viewModel.currentChapterIndex < viewModel.book.chapters.count - 1 {
-            viewModel.currentChapterIndex += 1
-            viewModel.saveProgress()
-            
-            // Haptic feedback
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
-            
-            scrollToCurrentChapter(animated: true)
-            updateChapterInfo()
+        isNavigatingChapter = true
+        viewModel.goToNextChapter()
+        
+        // Update UI immediately
+        updateChapterInfo()
+        
+        // Scroll to the new chapter
+        DispatchQueue.main.async { [weak self] in
+            self?.scrollToCurrentChapter(animated: true)
+            // Re-enable scroll detection after animation completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.isNavigatingChapter = false
+            }
         }
     }
     
@@ -464,39 +398,11 @@ final class BookReaderViewController: UIViewController {
         generator.impactOccurred()
     }
     
-    @objc private func fontSizeChanged(_ slider: UISlider) {
-        viewModel.updateFontSize(Double(slider.value))
-    }
-    
-    @objc private func brightnessChanged(_ slider: UISlider) {
-        viewModel.updateBrightness(Double(slider.value))
-        view.alpha = CGFloat(slider.value)
-    }
-    
-    @objc private func ttsSpeedChanged(_ slider: UISlider) {
-        viewModel.updateTTSSpeed(slider.value)
-    }
-    
-    @objc private func autoScrollSpeedChanged(_ slider: UISlider) {
-        viewModel.updateAutoScrollSpeed(Double(slider.value))
-        // If currently auto-scrolling, restart with new speed
-        if autoScrollTimer != nil {
-            stopAutoScroll()
-            startAutoScroll()
-        }
-    }
     
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        if !settingsPanel.isHidden {
-            toggleSettingsPanel()
-        } else {
-            toggleUIVisibility()
-        }
+        toggleUIVisibility()
     }
     
-    @objc private func handleSettingsPanelTap() {
-        // Do nothing - prevent settings panel from closing when tapped
-    }
     
     // Auto scroll functionality
     private func startAutoScroll() {
@@ -530,33 +436,29 @@ final class BookReaderViewController: UIViewController {
     }
     
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
-        switch gesture.state {
-        case .began:
-            panGestureStartPosition = CGFloat(brightnessSlider.value)
-        case .changed:
-            let translation = gesture.translation(in: view)
-            let change = Float(-translation.y / 200.0)
-            let newValue = max(0.3, min(1.0, panGestureStartPosition + CGFloat(change)))
-            brightnessSlider.value = Float(newValue)
-            brightnessChanged(brightnessSlider)
-        default:
-            break
-        }
+        // Disabled - brightness now controlled through settings
     }
     
     // MARK: - UI Updates
     
+    private var chapterStartPositions: [Int] = []
+    
     private func updateContent() {
         titleLabel.text = viewModel.book.title
-        chapterLabel.text = viewModel.currentChapterTitle
+        chapterLabel.text = "Chapter \(viewModel.currentChapterIndex + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)"
         
-        // Create combined content from all chapters
+        // Create combined content from all chapters and track positions
         var fullContent = ""
+        chapterStartPositions = []
+        
         for (index, chapter) in viewModel.book.chapters.enumerated() {
+            // Store the start position of this chapter
+            chapterStartPositions.append(fullContent.count)
+            
             if index > 0 {
                 fullContent += "\n\n\n"
             }
-            fullContent += "Chapter \(chapter.chapterNumber): \(chapter.title)\n\n"
+            fullContent += "Chapter \(index + 1): \(chapter.title)\n\n"
             fullContent += chapter.content
         }
         
@@ -565,9 +467,17 @@ final class BookReaderViewController: UIViewController {
         paragraphStyle.lineSpacing = CGFloat(viewModel.preferences.lineSpacing * viewModel.preferences.fontSize)
         paragraphStyle.alignment = .justified
         
+        // Use appropriate text color based on interface style
+        let textColor: UIColor
+        if traitCollection.userInterfaceStyle == .dark {
+            textColor = .white
+        } else {
+            textColor = UIColor(hex: viewModel.preferences.textColor) ?? PapyrusDesignSystem.Colors.primaryText
+        }
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: viewModel.preferences.fontFamily, size: viewModel.preferences.fontSize) ?? UIFont.systemFont(ofSize: viewModel.preferences.fontSize),
-            .foregroundColor: UIColor(hex: viewModel.preferences.textColor) ?? PapyrusDesignSystem.Colors.primaryText,
+            .foregroundColor: textColor,
             .paragraphStyle: paragraphStyle
         ]
         
@@ -583,25 +493,49 @@ final class BookReaderViewController: UIViewController {
     }
     
     private func scrollToCurrentChapter(animated: Bool) {
+        guard viewModel.currentChapterIndex < chapterStartPositions.count else { return }
+        guard viewModel.currentChapterIndex < viewModel.book.chapters.count else { return }
+        
+        // If we haven't laid out yet, delay the scroll
+        if textView.contentSize.height <= 0 || chapterStartPositions.isEmpty {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.scrollToCurrentChapter(animated: animated)
+            }
+            return
+        }
+        
         let layoutManager = textView.layoutManager
         let textContainer = textView.textContainer
         
-        var chapterStartPosition = 0
+        // Get the character position for the start of the current chapter
+        let chapterStartPosition = chapterStartPositions[viewModel.currentChapterIndex]
         
-        for (index, chapter) in viewModel.book.chapters.enumerated() {
-            if index == viewModel.currentChapterIndex {
-                break
+        // Ensure we have valid text range
+        guard chapterStartPosition < textView.text.count else { return }
+        
+        // Force layout of the entire text view first
+        layoutManager.ensureLayout(for: textContainer)
+        
+        // Get the glyph range for the chapter start
+        let glyphRange = layoutManager.glyphRange(forCharacterRange: NSRange(location: chapterStartPosition, length: 1), actualCharacterRange: nil)
+        let rect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+        
+        // Calculate the target offset - account for text container insets
+        let yOffset = rect.origin.y - textView.textContainerInset.top
+        let maxOffset = max(0, textView.contentSize.height - textView.bounds.height)
+        let targetOffset = CGPoint(x: 0, y: min(max(0, yOffset), maxOffset))
+        
+        if animated {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.textView.setContentOffset(targetOffset, animated: false)
+            }) { _ in
+                // Update progress after animation completes
+                self.viewModel.updateScrollPosition(0)
             }
-            // Account for chapter header and content
-            chapterStartPosition += "Chapter \(chapter.chapterNumber): \(chapter.title)\n\n".count
-            chapterStartPosition += chapter.content.count
-            chapterStartPosition += "\n\n\n".count // Space between chapters
+        } else {
+            textView.setContentOffset(targetOffset, animated: false)
+            viewModel.updateScrollPosition(0)
         }
-        
-        let glyphIndex = layoutManager.glyphIndexForCharacter(at: chapterStartPosition)
-        let rect = layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: textContainer)
-        
-        textView.setContentOffset(CGPoint(x: 0, y: rect.origin.y - 20), animated: animated)
     }
     
     private func updateProgress() {
@@ -623,13 +557,16 @@ final class BookReaderViewController: UIViewController {
     }
     
     private func applyReadingPreferences() {
-        view.backgroundColor = UIColor(hex: viewModel.preferences.backgroundColor) ?? PapyrusDesignSystem.Colors.background
-        view.alpha = CGFloat(viewModel.preferences.brightness)
+        // Apply background color based on current interface style
+        if traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+            papyrusBackgroundView.alpha = 0.1
+        } else {
+            view.backgroundColor = UIColor(hex: viewModel.preferences.backgroundColor) ?? PapyrusDesignSystem.Colors.background
+            papyrusBackgroundView.alpha = 0.3
+        }
         
-        fontSizeSlider.value = Float(viewModel.preferences.fontSize)
-        brightnessSlider.value = Float(viewModel.preferences.brightness)
-        ttsSpeedSlider.value = viewModel.preferences.ttsSpeed
-        autoScrollSpeedSlider.value = Float(viewModel.preferences.autoScrollSpeed ?? 50.0)
+        view.alpha = CGFloat(viewModel.preferences.brightness)
         
         updateContent()
     }
@@ -648,23 +585,7 @@ final class BookReaderViewController: UIViewController {
         }
     }
     
-    private func toggleSettingsPanel() {
-        if settingsPanel.isHidden {
-            settingsPanel.alpha = 0
-            settingsPanel.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.settingsPanel.alpha = 1
-                self.settingsPanel.transform = CGAffineTransform(translationX: 0, y: -20)
-            }
-        } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.settingsPanel.alpha = 0
-                self.settingsPanel.transform = .identity
-            }) { _ in
-                self.settingsPanel.isHidden = true
-            }
-        }
-    }
+    // Removed toggleSettingsPanel - now using sheet presentation
     
     // MARK: - Reading Timer
     
@@ -723,48 +644,100 @@ final class BookReaderViewController: UIViewController {
             return "\(minutes)m"
         }
     }
+    
+    private func createPapyrusTexture() {
+        // Create a subtle papyrus texture pattern
+        let size = CGSize(width: 100, height: 100)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        // Background
+        context.setFillColor(UIColor(hex: "#F5E6D3")?.cgColor ?? UIColor.systemBackground.cgColor)
+        context.fill(CGRect(origin: .zero, size: size))
+        
+        // Add subtle texture lines
+        context.setStrokeColor(UIColor(hex: "#E5D6C3")?.withAlphaComponent(0.3).cgColor ?? UIColor.gray.cgColor)
+        context.setLineWidth(0.5)
+        
+        for i in stride(from: 0, to: 100, by: 5) {
+            let startX = CGFloat.random(in: 0...5)
+            let endX = CGFloat.random(in: 95...100)
+            context.move(to: CGPoint(x: startX, y: CGFloat(i)))
+            context.addLine(to: CGPoint(x: endX, y: CGFloat(i) + CGFloat.random(in: -2...2)))
+            context.strokePath()
+        }
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        papyrusBackgroundView.image = image
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            applyReadingPreferences()
+        }
+    }
 }
 
 // MARK: - UITextViewDelegate
 
 extension BookReaderViewController: UITextViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let progress = scrollView.contentOffset.y / max(1, scrollView.contentSize.height - scrollView.bounds.height)
-        viewModel.updateScrollPosition(Double(progress))
+        guard scrollView.contentSize.height > 0 else { return }
+        guard !isNavigatingChapter else { return } // Don't update chapter during navigation
         
-        // Check if we've scrolled to a new chapter
+        // Calculate current position in the text
         let currentOffset = scrollView.contentOffset.y + scrollView.bounds.height / 2
-        var accumulatedHeight: CGFloat = 0
-        var newChapterIndex = 0
+        let layoutManager = textView.layoutManager
+        let textContainer = textView.textContainer
         
-        for (index, chapter) in viewModel.book.chapters.enumerated() {
-            let chapterText = "Chapter \(chapter.chapterNumber): \(chapter.title)\n\n\(chapter.content)"
-            let chapterHeight = estimatedHeight(for: chapterText)
-            
-            if currentOffset < accumulatedHeight + chapterHeight {
-                newChapterIndex = index
+        // Find the character index at the current scroll position
+        let point = CGPoint(x: textView.bounds.midX, y: currentOffset)
+        let characterIndex = layoutManager.characterIndex(for: point, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        // Find which chapter we're in based on character position
+        var currentChapter = 0
+        for (index, startPosition) in chapterStartPositions.enumerated() {
+            if characterIndex >= startPosition {
+                currentChapter = index
+            } else {
                 break
             }
-            accumulatedHeight += chapterHeight + 60 // Account for spacing
         }
         
-        if newChapterIndex != viewModel.currentChapterIndex {
-            viewModel.currentChapterIndex = newChapterIndex
+        // Update chapter if changed
+        if currentChapter != viewModel.currentChapterIndex && currentChapter < viewModel.book.chapters.count {
+            viewModel.currentChapterIndex = currentChapter
+            chapterLabel.text = "Chapter \(currentChapter + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)"
+            updateChapterInfo()
             
             // Haptic feedback
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.impactOccurred()
-            
-            updateChapterInfo()
         }
-    }
-    
-    private func estimatedHeight(for text: String) -> CGFloat {
-        let textView = UITextView()
-        textView.text = text
-        textView.font = UIFont(name: viewModel.preferences.fontFamily, size: viewModel.preferences.fontSize) ?? UIFont.systemFont(ofSize: viewModel.preferences.fontSize)
-        let size = textView.sizeThatFits(CGSize(width: self.textView.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude))
-        return size.height
+        
+        // Calculate progress within current chapter
+        if currentChapter < chapterStartPositions.count {
+            let chapterStart = chapterStartPositions[currentChapter]
+            let chapterEnd: Int
+            
+            if currentChapter < chapterStartPositions.count - 1 {
+                chapterEnd = chapterStartPositions[currentChapter + 1]
+            } else {
+                chapterEnd = textView.text.count
+            }
+            
+            let chapterLength = chapterEnd - chapterStart
+            if chapterLength > 0 {
+                let progressInChapter = Double(characterIndex - chapterStart) / Double(chapterLength)
+                let clampedProgress = max(0, min(1, progressInChapter))
+                viewModel.updateScrollPosition(clampedProgress)
+            }
+        }
     }
 }
 
@@ -786,6 +759,32 @@ extension BookReaderViewController: AVSpeechSynthesizerDelegate {
         if viewModel.canGoNext {
             viewModel.goToNextChapter()
             startSpeech()
+        }
+    }
+}
+
+// MARK: - BookReaderSettingsDelegate
+
+extension BookReaderViewController: BookReaderSettingsDelegate {
+    func settingsDidUpdateFontSize(_ size: Double) {
+        viewModel.updateFontSize(size)
+    }
+    
+    func settingsDidUpdateBrightness(_ brightness: Double) {
+        viewModel.updateBrightness(brightness)
+        view.alpha = CGFloat(brightness)
+    }
+    
+    func settingsDidUpdateTTSSpeed(_ speed: Float) {
+        viewModel.updateTTSSpeed(speed)
+    }
+    
+    func settingsDidUpdateAutoScrollSpeed(_ speed: Double) {
+        viewModel.updateAutoScrollSpeed(speed)
+        // If currently auto-scrolling, restart with new speed
+        if autoScrollTimer != nil {
+            stopAutoScroll()
+            startAutoScroll()
         }
     }
 }

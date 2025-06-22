@@ -215,18 +215,31 @@ final class BookReaderViewModel {
     
     private func updateProgress() {
         // Calculate overall reading progress
-        let chaptersRead = Double(currentChapterIndex)
         let totalChapters = Double(book.chapters.count)
-        let chapterProgress = preferences.scrollPosition
+        guard totalChapters > 0 else { return }
         
-        bookProgress.readingProgress = (chaptersRead + chapterProgress) / totalChapters
+        // Calculate how many full chapters have been read
+        let chaptersCompleted = Double(currentChapterIndex)
+        
+        // Calculate progress within current chapter (0 to 1)
+        let chapterProgress = max(0, min(1, preferences.scrollPosition))
+        
+        // Calculate total progress
+        // Each chapter contributes 1/totalChapters to the overall progress
+        let progressPerChapter = 1.0 / totalChapters
+        let totalProgress = (chaptersCompleted * progressPerChapter) + (chapterProgress * progressPerChapter)
+        
+        bookProgress.readingProgress = min(1.0, totalProgress)
         
         // Check if book is completed
         if currentChapterIndex == book.chapters.count - 1 && chapterProgress > 0.95 {
-            bookProgress.isCompleted = true
-            
-            // Award XP for completing the book
-            awardCompletionXP()
+            if !bookProgress.isCompleted {
+                bookProgress.isCompleted = true
+                bookProgress.readingProgress = 1.0
+                
+                // Award XP for completing the book
+                awardCompletionXP()
+            }
         }
         
         onProgressUpdate?()

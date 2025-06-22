@@ -72,7 +72,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let libraryActivity = AppLogger.beginActivity("BookLibraryViewController.setup")
         let libraryViewModel = BookLibraryViewModel(
             userId: databaseManager.fetchUser()?.id ?? "",
-            databaseManager: databaseManager
+            databaseManager: databaseManager,
+            contentLoader: contentLoader
         )
         let libraryViewController = BookLibraryViewController(viewModel: libraryViewModel)
         let libraryNavigationController = UINavigationController(rootViewController: libraryViewController)

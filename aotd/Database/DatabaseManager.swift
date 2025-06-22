@@ -704,13 +704,23 @@ class DatabaseManager {
     
     func getAllBooks() throws -> [Book] {
         return try dbQueue.read { db in
-            try Book.fetchAll(db)
+            var books = try Book.fetchAll(db)
+            // Ensure chapters are sorted for all books
+            for i in 0..<books.count {
+                books[i].chapters.sort { $0.chapterNumber < $1.chapterNumber }
+            }
+            return books
         }
     }
     
     func getBook(by id: String) throws -> Book? {
         return try dbQueue.read { db in
-            try Book.fetchOne(db, key: id)
+            if var book = try Book.fetchOne(db, key: id) {
+                // Ensure chapters are sorted by chapter number
+                book.chapters.sort { $0.chapterNumber < $1.chapterNumber }
+                return book
+            }
+            return nil
         }
     }
     

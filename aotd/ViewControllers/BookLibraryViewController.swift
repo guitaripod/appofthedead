@@ -110,8 +110,21 @@ final class BookLibraryViewController: UIViewController {
     }
     
     @objc private func layoutPreferenceChanged() {
-        collectionView.setCollectionViewLayout(createCompositionalLayout(), animated: true)
-        updateSnapshot()
+        // Force complete reload with new layout
+        let newLayout = createCompositionalLayout()
+        
+        // Disable animations to prevent visual glitches
+        UIView.performWithoutAnimation {
+            collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.setCollectionViewLayout(newLayout, animated: false)
+            collectionView.layoutIfNeeded()
+        }
+        
+        // Apply snapshot after layout is complete
+        DispatchQueue.main.async { [weak self] in
+            self?.updateSnapshot()
+        }
     }
     
     // MARK: - Setup
@@ -161,13 +174,13 @@ final class BookLibraryViewController: UIViewController {
                 // List layout
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .estimated(100)
+                    heightDimension: .absolute(100)
                 )
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .estimated(100)
+                    heightDimension: .absolute(100)
                 )
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
                 
@@ -195,13 +208,13 @@ final class BookLibraryViewController: UIViewController {
                     heightDimension: .estimated(280)
                 )
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6)
                 
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .estimated(280)
                 )
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
-                group.interItemSpacing = .fixed(12)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.interGroupSpacing = 12
@@ -236,7 +249,8 @@ final class BookLibraryViewController: UIViewController {
                     for: indexPath
                 ) as! BookListCell
                 
-                cell.configure(with: bookItem.book, progress: bookItem.progress)
+                let beliefSystem = self.viewModel.beliefSystem(for: bookItem.book)
+                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem)
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(
@@ -244,7 +258,8 @@ final class BookLibraryViewController: UIViewController {
                     for: indexPath
                 ) as! BookCollectionViewCell
                 
-                cell.configure(with: bookItem.book, progress: bookItem.progress)
+                let beliefSystem = self.viewModel.beliefSystem(for: bookItem.book)
+                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem)
                 return cell
             }
         }
@@ -271,15 +286,10 @@ final class BookLibraryViewController: UIViewController {
     private func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, BookItem>()
         
-        // Available books
-        let availableBooks = viewModel.availableBooks.map { BookItem(book: $0, progress: nil) }
-        if !availableBooks.isEmpty {
-            snapshot.appendSections([.available])
-            snapshot.appendItems(availableBooks, toSection: .available)
-        }
-        
-        // Currently reading
-        let readingBooks = viewModel.readingBooks.map { BookItem(book: $0.book, progress: $0.progress) }
+        // Currently reading (sorted by progress descending)
+        let readingBooks = viewModel.readingBooks
+            .sorted { $0.progress.readingProgress > $1.progress.readingProgress }
+            .map { BookItem(book: $0.book, progress: $0.progress) }
         if !readingBooks.isEmpty {
             snapshot.appendSections([.reading])
             snapshot.appendItems(readingBooks, toSection: .reading)
@@ -292,10 +302,19 @@ final class BookLibraryViewController: UIViewController {
             snapshot.appendItems(completedBooks, toSection: .completed)
         }
         
+        // Available books
+        let availableBooks = viewModel.availableBooks.map { BookItem(book: $0, progress: nil) }
+        if !availableBooks.isEmpty {
+            snapshot.appendSections([.available])
+            snapshot.appendItems(availableBooks, toSection: .available)
+        }
+        
         // Show empty state if no books
         emptyStateView.isHidden = !snapshot.itemIdentifiers.isEmpty
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        // Don't animate if we're changing layouts
+        let shouldAnimate = !collectionView.isDragging && !collectionView.isDecelerating
+        dataSource.apply(snapshot, animatingDifferences: shouldAnimate)
     }
 }
 
@@ -323,7 +342,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         view.layer.cornerRadius = 12
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOpacity = 0.15
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
         view.layer.shadowRadius = 4
         return view
@@ -413,12 +432,17 @@ private class BookCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with book: Book, progress: BookProgress?) {
+    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil) {
         titleLabel.text = book.title
         
-        // Set cover image placeholder with book icon
-        coverImageView.image = UIImage(systemName: "book.closed.fill")
-        coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+        // Set cover image with belief system icon
+        if let beliefSystem = beliefSystem {
+            coverImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf)
+            coverImageView.tintColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        } else {
+            coverImageView.image = UIImage(systemName: "book.closed.fill")
+            coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+        }
         
         if let progress = progress {
             progressView.isHidden = false
@@ -436,6 +460,19 @@ private class BookCollectionViewCell: UICollectionViewCell {
             progressView.isHidden = true
             statusLabel.isHidden = true
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        statusLabel.text = nil
+        progressView.progress = 0
+        progressView.isHidden = true
+        statusLabel.isHidden = true
+        coverImageView.image = nil
+        // Force layout update
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 }
 
