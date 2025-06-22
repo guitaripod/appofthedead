@@ -30,10 +30,14 @@ final class BookLibraryViewController: UIViewController {
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(book.id)
+            hasher.combine(progress?.readingProgress ?? 0)
+            hasher.combine(progress?.isCompleted ?? false)
         }
         
         static func == (lhs: BookItem, rhs: BookItem) -> Bool {
-            return lhs.book.id == rhs.book.id
+            return lhs.book.id == rhs.book.id &&
+                   lhs.progress?.readingProgress == rhs.progress?.readingProgress &&
+                   lhs.progress?.isCompleted == rhs.progress?.isCompleted
         }
     }
     
@@ -106,24 +110,39 @@ final class BookLibraryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // Force refresh to get latest progress
         viewModel.refreshBooks()
+        // Also reload the data source to ensure UI updates
+        if dataSource != nil {
+            updateSnapshot()
+        }
     }
     
     @objc private func layoutPreferenceChanged() {
-        // Force complete reload with new layout
+        // Re-register cells for the new layout type
+        let isListView = UserDefaults.standard.object(forKey: "viewLayoutPreference") as? String == "list"
+        
+        // Create new layout
         let newLayout = createCompositionalLayout()
         
-        // Disable animations to prevent visual glitches
-        UIView.performWithoutAnimation {
-            collectionView.reloadData()
-            collectionView.collectionViewLayout.invalidateLayout()
-            collectionView.setCollectionViewLayout(newLayout, animated: false)
-            collectionView.layoutIfNeeded()
-        }
-        
-        // Apply snapshot after layout is complete
-        DispatchQueue.main.async { [weak self] in
-            self?.updateSnapshot()
+        // Perform layout change without animation
+        UIView.performWithoutAnimation { [weak self] in
+            guard let self = self else { return }
+            
+            // Save current content offset
+            let offset = self.collectionView.contentOffset
+            
+            // Update layout
+            self.collectionView.setCollectionViewLayout(newLayout, animated: false)
+            
+            // Force reconfigure data source
+            self.configureDataSource()
+            
+            // Reload with current data
+            self.updateSnapshot(animatingDifferences: false)
+            
+            // Restore offset
+            self.collectionView.contentOffset = offset
         }
     }
     
@@ -205,14 +224,14 @@ final class BookLibraryViewController: UIViewController {
                 // Grid layout
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(0.5),
-                    heightDimension: .estimated(280)
+                    heightDimension: .absolute(260)
                 )
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6)
                 
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .estimated(280)
+                    heightDimension: .absolute(260)
                 )
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
                 
@@ -283,7 +302,7 @@ final class BookLibraryViewController: UIViewController {
         }
     }
     
-    private func updateSnapshot() {
+    private func updateSnapshot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, BookItem>()
         
         // Currently reading (sorted by progress descending)
@@ -312,8 +331,8 @@ final class BookLibraryViewController: UIViewController {
         // Show empty state if no books
         emptyStateView.isHidden = !snapshot.itemIdentifiers.isEmpty
         
-        // Don't animate if we're changing layouts
-        let shouldAnimate = !collectionView.isDragging && !collectionView.isDecelerating
+        // Apply snapshot with controlled animation
+        let shouldAnimate = animatingDifferences && !collectionView.isDragging && !collectionView.isDecelerating
         dataSource.apply(snapshot, animatingDifferences: shouldAnimate)
     }
 }
@@ -350,7 +369,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = PapyrusDesignSystem.Colors.goldLeaf.withAlphaComponent(0.1)
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
@@ -362,6 +381,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
         label.font = PapyrusDesignSystem.Typography.body().withSize(14)
         label.textColor = PapyrusDesignSystem.Colors.primaryText
         label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .center
         return label
     }()
@@ -411,14 +431,14 @@ private class BookCollectionViewCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            coverImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
-            coverImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            coverImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            coverImageView.heightAnchor.constraint(equalTo: coverImageView.widthAnchor, multiplier: 1.4),
+            coverImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+            coverImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            coverImageView.widthAnchor.constraint(equalToConstant: 80),
+            coverImageView.heightAnchor.constraint(equalToConstant: 80),
             
             titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             
             progressView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             progressView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
@@ -460,6 +480,10 @@ private class BookCollectionViewCell: UICollectionViewCell {
             progressView.isHidden = true
             statusLabel.isHidden = true
         }
+        
+        // Force layout update to ensure proper sizing
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     override func prepareForReuse() {

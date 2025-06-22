@@ -194,6 +194,10 @@ final class BookListCell: UICollectionViewCell {
             progressView.isHidden = true
             statusLabel.isHidden = true
         }
+        
+        // Force layout update
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     // MARK: - Reuse

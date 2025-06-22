@@ -168,6 +168,8 @@ final class BookReaderViewModel {
     func updateScrollPosition(_ position: Double) {
         preferences.scrollPosition = position
         updateCurrentPosition()
+        updateProgress()
+        saveProgress()
     }
     
     func updateFontSize(_ size: Double) {
@@ -229,7 +231,10 @@ final class BookReaderViewModel {
         let progressPerChapter = 1.0 / totalChapters
         let totalProgress = (chaptersCompleted * progressPerChapter) + (chapterProgress * progressPerChapter)
         
-        bookProgress.readingProgress = min(1.0, totalProgress)
+        let newProgress = min(1.0, totalProgress)
+        let progressChanged = abs(bookProgress.readingProgress - newProgress) > 0.001
+        
+        bookProgress.readingProgress = newProgress
         
         // Check if book is completed
         if currentChapterIndex == book.chapters.count - 1 && chapterProgress > 0.95 {
@@ -240,6 +245,11 @@ final class BookReaderViewModel {
                 // Award XP for completing the book
                 awardCompletionXP()
             }
+        }
+        
+        // Save progress if it changed
+        if progressChanged {
+            saveProgress()
         }
         
         onProgressUpdate?()
