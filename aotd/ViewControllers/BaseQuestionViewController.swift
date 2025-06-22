@@ -143,8 +143,8 @@ class BaseQuestionViewController: UIViewController {
     
     func enableSubmitButton(_ enabled: Bool) {
         submitButton?.isEnabled = enabled
-        submitButton?.backgroundColor = enabled ? UIColor.Papyrus.gold : UIColor.Papyrus.aged
-        submitButton?.setTitleColor(enabled ? UIColor.Papyrus.ink : UIColor.Papyrus.beige, for: .normal)
+        submitButton?.backgroundColor = enabled ? PapyrusDesignSystem.Colors.Component.Button.primaryBackground : PapyrusDesignSystem.Colors.Component.Button.disabledBackground
+        submitButton?.setTitleColor(enabled ? PapyrusDesignSystem.Colors.Component.Button.primaryForeground : PapyrusDesignSystem.Colors.Component.Button.disabledForeground, for: .normal)
     }
     
     @objc func submitAnswer() {

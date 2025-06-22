@@ -42,8 +42,8 @@ class PathPreviewViewController: UIViewController {
         // Use dynamic color that adapts to dark mode
         view.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ? 
-                UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1.0) : 
-                PapyrusDesignSystem.Colors.background
+                PapyrusDesignSystem.Colors.Core.darkCard : 
+                PapyrusDesignSystem.Colors.Dynamic.background
         }
         
         // Container view with padding
@@ -78,20 +78,12 @@ class PathPreviewViewController: UIViewController {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         // Stats container
-        statsContainer.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? 
-                UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 1.0) : 
-                PapyrusDesignSystem.Colors.secondaryBackground
-        }
+        statsContainer.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         statsContainer.layer.cornerRadius = 12
         statsContainer.translatesAutoresizingMaskIntoConstraints = false
         
         // Topics container
-        topicsContainer.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ? 
-                UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1.0) : 
-                PapyrusDesignSystem.Colors.tertiaryBackground.withAlphaComponent(0.3)
-        }
+        topicsContainer.backgroundColor = PapyrusDesignSystem.Colors.Core.aged.withAlphaComponent(0.3)
         topicsContainer.layer.cornerRadius = 12
         topicsContainer.translatesAutoresizingMaskIntoConstraints = false
         

@@ -264,11 +264,7 @@ class PaywallViewController: UIViewController {
     // MARK: - Product Cards
     private func createProductCard(for product: ProductIdentifier, price: String, recommended: Bool = false) -> UIView {
         let card = UIView()
-        card.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark 
-                ? UIColor(red: 42/255, green: 38/255, blue: 34/255, alpha: 1.0) // Darker papyrus
-                : PapyrusDesignSystem.Colors.secondaryBackground
-        }
+        card.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         card.layer.cornerRadius = 12
         card.layer.borderWidth = 2
         card.layer.borderColor = UIColor.clear.cgColor
@@ -295,12 +291,8 @@ class PaywallViewController: UIViewController {
         let buyButton = UIButton(type: .system)
         buyButton.setTitle(recommended ? "Best Value" : "Select", for: .normal)
         buyButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        buyButton.backgroundColor = recommended ? PapyrusDesignSystem.Colors.goldLeaf : UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark 
-                ? UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0)
-                : UIColor.systemGray5
-        }
-        buyButton.setTitleColor(recommended ? .white : .label, for: .normal)
+        buyButton.backgroundColor = recommended ? PapyrusDesignSystem.Colors.Core.goldLeaf : PapyrusDesignSystem.Colors.Core.aged
+        buyButton.setTitleColor(recommended ? PapyrusDesignSystem.Colors.Core.ancientInk : PapyrusDesignSystem.Colors.Dynamic.primaryText, for: .normal)
         buyButton.layer.cornerRadius = 8
         
         // Different action based on whether it's a path product

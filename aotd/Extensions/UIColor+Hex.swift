@@ -1,6 +1,10 @@
 import UIKit
 
+// MARK: - UIColor Hex String Extension
+
 extension UIColor {
+    /// Creates a UIColor from a hex string
+    /// - Parameter hex: Hex color string in format "#RRGGBB" or "RRGGBB"
     convenience init?(hex: String) {
         let r, g, b: CGFloat
         
@@ -23,73 +27,31 @@ extension UIColor {
     }
 }
 
-// MARK: - Papyrus Theme Colors
+// MARK: - Papyrus Color Convenience
 
 extension UIColor {
+    /// Convenience accessor for Papyrus design system colors
+    /// Use PapyrusDesignSystem.Colors for the full color library
     struct Papyrus {
-        // Primary Colors
-        static let beige = UIColor(red: 243/255, green: 237/255, blue: 214/255, alpha: 1.0)
-        static let ink = UIColor(red: 42/255, green: 32/255, blue: 24/255, alpha: 1.0)
-        static let gold = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1.0)
-        static let hieroglyphBlue = UIColor(red: 45/255, green: 85/255, blue: 125/255, alpha: 1.0)
-        static let tombRed = UIColor(red: 139/255, green: 35/255, blue: 35/255, alpha: 1.0)
+        // Core colors - map to design system
+        static let beige = PapyrusDesignSystem.Colors.Core.beige
+        static let ink = PapyrusDesignSystem.Colors.Core.ancientInk
+        static let gold = PapyrusDesignSystem.Colors.Core.goldLeaf
+        static let hieroglyphBlue = PapyrusDesignSystem.Colors.Core.hieroglyphBlue
+        static let tombRed = PapyrusDesignSystem.Colors.Core.tombRed
+        static let sandstone = PapyrusDesignSystem.Colors.Core.sandstone
+        static let aged = PapyrusDesignSystem.Colors.Core.aged
+        static let burnishedGold = PapyrusDesignSystem.Colors.Core.burnishedGold
+        static let mysticPurple = PapyrusDesignSystem.Colors.Core.mysticPurple
+        static let scarabGreen = PapyrusDesignSystem.Colors.Core.scarabGreen
         
-        // Secondary Colors
-        static let sandstone = UIColor(red: 226/255, green: 218/255, blue: 196/255, alpha: 1.0)
-        static let aged = UIColor(red: 209/255, green: 196/255, blue: 162/255, alpha: 1.0)
-        static let burnishedGold = UIColor(red: 184/255, green: 134/255, blue: 11/255, alpha: 1.0)
-        static let mysticPurple = UIColor(red: 102/255, green: 51/255, blue: 153/255, alpha: 1.0)
-        static let scarabGreen = UIColor(red: 60/255, green: 110/255, blue: 60/255, alpha: 1.0)
-        
-        // Text Colors with better dark mode support
-        static var primaryText: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ? beige : ink
-            }
-        }
-        
-        static var secondaryText: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ?
-                    UIColor(red: 209/255, green: 196/255, blue: 162/255, alpha: 1.0) :
-                    UIColor(red: 92/255, green: 72/255, blue: 54/255, alpha: 1.0)
-            }
-        }
-        
-        static var tertiaryText: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ?
-                    UIColor(red: 162/255, green: 152/255, blue: 134/255, alpha: 1.0) :
-                    UIColor(red: 142/255, green: 122/255, blue: 104/255, alpha: 1.0)
-            }
-        }
-        
-        // Dynamic Colors
-        static var background: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ? 
-                    UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0) : beige
-            }
-        }
-        
-        static var foreground: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ? beige : ink
-            }
-        }
-        
-        static var cardBackground: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ?
-                    UIColor(red: 38/255, green: 34/255, blue: 30/255, alpha: 1.0) : sandstone
-            }
-        }
-        
-        static var separator: UIColor {
-            UIColor { traitCollection in
-                traitCollection.userInterfaceStyle == .dark ?
-                    aged.withAlphaComponent(0.3) : aged.withAlphaComponent(0.5)
-            }
-        }
+        // Dynamic colors - map to design system
+        static var primaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.primaryText }
+        static var secondaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.secondaryText }
+        static var tertiaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.tertiaryText }
+        static var background: UIColor { PapyrusDesignSystem.Colors.Dynamic.background }
+        static var foreground: UIColor { PapyrusDesignSystem.Colors.Dynamic.primaryText }
+        static var cardBackground: UIColor { PapyrusDesignSystem.Colors.Dynamic.cardBackground }
+        static var separator: UIColor { PapyrusDesignSystem.Colors.Dynamic.separator }
     }
 }

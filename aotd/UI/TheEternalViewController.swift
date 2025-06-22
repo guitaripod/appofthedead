@@ -179,21 +179,13 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         // Title - The Eternal, Cosmic Consciousness
         titleLabel.text = "The Eternal, Cosmic Consciousness"
         titleLabel.font = PapyrusDesignSystem.Typography.subheadline()
-        titleLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
-                ? UIColor.label
-                : PapyrusDesignSystem.Colors.secondaryText
-        }
+        titleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         
         // Subtitle - the selected text
         let displayText = selectedText.count > 50 ? String(selectedText.prefix(47)) + "..." : selectedText
         subtitleLabel.text = displayText
         subtitleLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
-        subtitleLabel.textColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
-                ? UIColor.label
-                : PapyrusDesignSystem.Colors.primaryText
-        }
+        subtitleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         subtitleLabel.numberOfLines = 2
         
         titleStackView.addArrangedSubview(titleLabel)

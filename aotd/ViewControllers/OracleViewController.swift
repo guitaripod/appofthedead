@@ -229,8 +229,8 @@ final class OracleViewController: UIViewController {
         messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
         messageTextView.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ?
-                UIColor(red: 48/255, green: 44/255, blue: 40/255, alpha: 1.0) :
-                UIColor.Papyrus.beige
+                PapyrusDesignSystem.Colors.Core.darkCard :
+                PapyrusDesignSystem.Colors.Core.beige
         }
         messageTextView.textColor = UIColor.Papyrus.primaryText
         messageTextView.layer.borderWidth = 1

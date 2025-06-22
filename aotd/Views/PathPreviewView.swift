@@ -108,11 +108,7 @@ class PathPreviewView: UIView {
         containerView.addSubview(priceLabel)
         
         // Ultimate container
-        ultimateContainer.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0)
-                : UIColor.systemGray6
-        }
+        ultimateContainer.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         ultimateContainer.layer.cornerRadius = 12
         ultimateContainer.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(ultimateContainer)
@@ -307,11 +303,7 @@ class PathPreviewView: UIView {
         
         // Circle background
         let circle = UIView()
-        circle.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0)
-                : UIColor.systemGray6
-        }
+        circle.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         circle.layer.cornerRadius = circleSize / 2
         circle.layer.borderWidth = 3
         circle.layer.borderColor = pathColor.withAlphaComponent(0.3).cgColor
