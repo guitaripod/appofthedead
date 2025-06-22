@@ -438,6 +438,64 @@ class DatabaseManager {
                 t.add(column: "appleId", .text).unique()
             }
         }
+        
+        // Add missing columns to book_reading_preferences table
+        if try db.tableExists("book_reading_preferences") {
+            let prefsColumns = try db.columns(in: "book_reading_preferences")
+            
+            if !prefsColumns.contains(where: { $0.name == "firstLineIndent" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "firstLineIndent", .double).notNull().defaults(to: 30.0)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "highlightColor" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "highlightColor", .text).notNull().defaults(to: "#FFD700")
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "pageTransitionStyle" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "pageTransitionStyle", .text).notNull().defaults(to: "scroll")
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "keepScreenOn" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "keepScreenOn", .boolean).notNull().defaults(to: true)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "enableSwipeGestures" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "enableSwipeGestures", .boolean).notNull().defaults(to: true)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "fontWeight" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "fontWeight", .text).notNull().defaults(to: "regular")
+                }
+            }
+            
+            // Update any existing rows that have null values for new columns
+            try db.execute(sql: """
+                UPDATE book_reading_preferences
+                SET firstLineIndent = COALESCE(firstLineIndent, 30.0),
+                    highlightColor = COALESCE(highlightColor, '#FFD700'),
+                    pageTransitionStyle = COALESCE(pageTransitionStyle, 'scroll'),
+                    keepScreenOn = COALESCE(keepScreenOn, 1),
+                    enableSwipeGestures = COALESCE(enableSwipeGestures, 1),
+                    fontWeight = COALESCE(fontWeight, 'regular')
+                WHERE firstLineIndent IS NULL
+                   OR highlightColor IS NULL
+                   OR pageTransitionStyle IS NULL
+                   OR keepScreenOn IS NULL
+                   OR enableSwipeGestures IS NULL
+                   OR fontWeight IS NULL
+            """)
+        }
     }
     
     func getBeliefSystem(by id: String) -> BeliefSystem? {

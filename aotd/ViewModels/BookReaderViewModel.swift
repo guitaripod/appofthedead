@@ -69,6 +69,12 @@ final class BookReaderViewModel {
         do {
             if let existingProgress = try databaseManager.getBookProgress(userId: userId, bookId: book.id) {
                 self.bookProgress = existingProgress
+                AppLogger.viewModel.info("Loaded existing book progress", metadata: [
+                    "bookId": book.id,
+                    "readingProgress": existingProgress.readingProgress,
+                    "currentChapterId": existingProgress.currentChapterId ?? "nil",
+                    "totalReadingTime": existingProgress.totalReadingTime
+                ])
                 // Find current chapter index
                 if let currentChapterId = existingProgress.currentChapterId,
                    let index = book.chapters.firstIndex(where: { $0.id == currentChapterId }) {
@@ -92,17 +98,9 @@ final class BookReaderViewModel {
                 )
                 try databaseManager.saveBookProgress(bookProgress)
             }
-            
-            // Load or create preferences
-            if let existingPrefs = try databaseManager.getBookReadingPreferences(userId: userId, bookId: book.id) {
-                self.preferences = existingPrefs
-            } else {
-                self.preferences = BookReadingPreferences.defaultPreferences(userId: userId, bookId: book.id)
-                try databaseManager.saveBookReadingPreferences(preferences)
-            }
         } catch {
             AppLogger.logError(error, context: "Loading book progress", logger: AppLogger.viewModel)
-            // Fallback to default values
+            // Fallback to default progress
             self.bookProgress = BookProgress(
                 id: UUID().uuidString,
                 userId: userId,
@@ -117,7 +115,53 @@ final class BookReaderViewModel {
                 createdAt: Date(),
                 updatedAt: Date()
             )
+        }
+        
+        // Load or create preferences separately
+        do {
+            if let existingPrefs = try databaseManager.getBookReadingPreferences(userId: userId, bookId: book.id) {
+                self.preferences = existingPrefs
+                AppLogger.viewModel.info("Loaded existing reading preferences", metadata: [
+                    "bookId": book.id,
+                    "scrollPosition": existingPrefs.scrollPosition,
+                    "fontSize": existingPrefs.fontSize
+                ])
+            } else {
+                self.preferences = BookReadingPreferences.defaultPreferences(userId: userId, bookId: book.id)
+                // Calculate initial scroll position from book progress
+                if bookProgress.readingProgress > 0 {
+                    // Estimate scroll position within current chapter based on overall progress
+                    let chapterContribution = 1.0 / Double(book.chapters.count)
+                    let progressInCurrentChapter = (bookProgress.readingProgress - (Double(currentChapterIndex) * chapterContribution)) / chapterContribution
+                    self.preferences.scrollPosition = max(0, min(1, progressInCurrentChapter))
+                    AppLogger.viewModel.info("Calculated scroll position from progress", metadata: [
+                        "bookProgress": bookProgress.readingProgress,
+                        "chapterIndex": currentChapterIndex,
+                        "calculatedScrollPosition": self.preferences.scrollPosition
+                    ])
+                }
+                try databaseManager.saveBookReadingPreferences(preferences)
+                AppLogger.viewModel.info("Created new reading preferences", metadata: [
+                    "bookId": book.id
+                ])
+            }
+        } catch {
+            AppLogger.logError(error, context: "Loading reading preferences", logger: AppLogger.viewModel)
+            // Fallback to default preferences but preserve scroll position from progress
             self.preferences = BookReadingPreferences.defaultPreferences(userId: userId, bookId: book.id)
+            
+            // Calculate scroll position from book progress when preferences fail to load
+            if bookProgress.readingProgress > 0 {
+                // Estimate scroll position within current chapter based on overall progress
+                let chapterContribution = 1.0 / Double(book.chapters.count)
+                let progressInCurrentChapter = (bookProgress.readingProgress - (Double(currentChapterIndex) * chapterContribution)) / chapterContribution
+                self.preferences.scrollPosition = max(0, min(1, progressInCurrentChapter))
+                AppLogger.viewModel.info("Calculated scroll position from progress after error", metadata: [
+                    "bookProgress": bookProgress.readingProgress,
+                    "chapterIndex": currentChapterIndex,
+                    "calculatedScrollPosition": self.preferences.scrollPosition
+                ])
+            }
         }
     }
     
@@ -129,7 +173,7 @@ final class BookReaderViewModel {
     
     func loadCurrentChapter() {
         onContentUpdate?()
-        updateProgress()
+        // Don't update progress here - let it be triggered after UI is ready
     }
     
     func goToPreviousChapter() {
@@ -240,7 +284,7 @@ final class BookReaderViewModel {
         bookProgress.updatedAt = Date()
         
         do {
-            try databaseManager.updateBookProgress(bookProgress)
+            try databaseManager.saveBookProgress(bookProgress)
         } catch {
             AppLogger.logError(error, context: "Saving book progress", logger: AppLogger.viewModel)
         }
@@ -266,6 +310,14 @@ final class BookReaderViewModel {
         
         let newProgress = min(1.0, totalProgress)
         let progressChanged = abs(bookProgress.readingProgress - newProgress) > 0.001
+        
+        AppLogger.viewModel.debug("updateProgress called", metadata: [
+            "currentChapterIndex": currentChapterIndex,
+            "chapterProgress": chapterProgress,
+            "oldProgress": bookProgress.readingProgress,
+            "newProgress": newProgress,
+            "scrollPosition": preferences.scrollPosition
+        ])
         
         bookProgress.readingProgress = newProgress
         
