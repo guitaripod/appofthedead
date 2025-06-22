@@ -479,6 +479,42 @@ class DatabaseManager {
                 }
             }
             
+            if !prefsColumns.contains(where: { $0.name == "textAlignment" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "textAlignment", .text).notNull().defaults(to: "justified")
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "marginSize" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "marginSize", .double).notNull().defaults(to: 20.0)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "theme" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "theme", .text).notNull().defaults(to: "papyrus")
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "showPageProgress" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "showPageProgress", .boolean).notNull().defaults(to: true)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "enableHyphenation" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "enableHyphenation", .boolean).notNull().defaults(to: true)
+                }
+            }
+            
+            if !prefsColumns.contains(where: { $0.name == "paragraphSpacing" }) {
+                try db.alter(table: "book_reading_preferences") { t in
+                    t.add(column: "paragraphSpacing", .double).notNull().defaults(to: 1.2)
+                }
+            }
+            
             // Update any existing rows that have null values for new columns
             try db.execute(sql: """
                 UPDATE book_reading_preferences
@@ -487,13 +523,25 @@ class DatabaseManager {
                     pageTransitionStyle = COALESCE(pageTransitionStyle, 'scroll'),
                     keepScreenOn = COALESCE(keepScreenOn, 1),
                     enableSwipeGestures = COALESCE(enableSwipeGestures, 1),
-                    fontWeight = COALESCE(fontWeight, 'regular')
+                    fontWeight = COALESCE(fontWeight, 'regular'),
+                    textAlignment = COALESCE(textAlignment, 'justified'),
+                    marginSize = COALESCE(marginSize, 20.0),
+                    theme = COALESCE(theme, 'papyrus'),
+                    showPageProgress = COALESCE(showPageProgress, 1),
+                    enableHyphenation = COALESCE(enableHyphenation, 1),
+                    paragraphSpacing = COALESCE(paragraphSpacing, 1.2)
                 WHERE firstLineIndent IS NULL
                    OR highlightColor IS NULL
                    OR pageTransitionStyle IS NULL
                    OR keepScreenOn IS NULL
                    OR enableSwipeGestures IS NULL
                    OR fontWeight IS NULL
+                   OR textAlignment IS NULL
+                   OR marginSize IS NULL
+                   OR theme IS NULL
+                   OR showPageProgress IS NULL
+                   OR enableHyphenation IS NULL
+                   OR paragraphSpacing IS NULL
             """)
         }
     }
@@ -778,10 +826,7 @@ class DatabaseManager {
     }
     
     func updateBookReadingPreferences(_ preferences: BookReadingPreferences) throws {
-        var mutablePrefs = preferences
-        try dbQueue.write { db in
-            try mutablePrefs.update(db)
-        }
+        try saveBookReadingPreferences(preferences)
     }
     
     func getAllBooks() throws -> [Book] {

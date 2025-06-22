@@ -307,7 +307,7 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var scrollPosition: Double
     var brightness: Double
     var autoScrollSpeed: Double?
-    var ttsSpeed: Float
+    var ttsSpeed: Double
     var ttsVoice: String?
     var textAlignment: String // left, center, right, justified
     var marginSize: Double // 0-50 points

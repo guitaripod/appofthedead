@@ -164,13 +164,25 @@ final class BookReaderViewController: UIViewController {
         
         // Load highlights
         loadHighlights()
+        
+        // Observe app lifecycle for background saves
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillResignActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopSpeech()
         stopReadingTimer()
-        viewModel.saveProgress()
+        viewModel.saveAll() // Save both progress and preferences
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Setup
@@ -331,8 +343,12 @@ final class BookReaderViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func dismissTapped() {
-        viewModel.saveProgress()
+        viewModel.saveAll() // Save both progress and preferences
         dismiss(animated: true)
+    }
+    
+    @objc private func appWillResignActive() {
+        viewModel.saveAll() // Save when app goes to background
     }
     
     @objc private func settingsTapped() {
@@ -626,7 +642,7 @@ final class BookReaderViewController: UIViewController {
         }
         
         let utterance = AVSpeechUtterance(string: viewModel.currentContent)
-        utterance.rate = viewModel.preferences.ttsSpeed
+        utterance.rate = Float(viewModel.preferences.ttsSpeed)
         
         if let voice = viewModel.preferences.ttsVoice {
             utterance.voice = AVSpeechSynthesisVoice(identifier: voice)
@@ -750,7 +766,7 @@ extension BookReaderViewController: UITextViewDelegate {
         
         // Update chapter if changed
         if currentChapter != viewModel.currentChapterIndex && currentChapter < viewModel.book.chapters.count {
-            viewModel.currentChapterIndex = currentChapter
+            viewModel.updateCurrentChapter(currentChapter)
             chapterLabel.text = "Chapter \(currentChapter + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)"
             updateChapterInfo()
             

@@ -533,8 +533,8 @@ extension BookReaderSettingsViewController: SettingsCellDelegate {
             delegate?.settingsDidUpdateAutoScrollSpeed(preferences.autoScrollSpeed ?? 50.0)
             
         case .ttsSpeed:
-            preferences.ttsSpeed = Float(value as? Double ?? 1.0)
-            delegate?.settingsDidUpdateTTSSpeed(preferences.ttsSpeed)
+            preferences.ttsSpeed = value as? Double ?? 1.0
+            delegate?.settingsDidUpdateTTSSpeed(Float(preferences.ttsSpeed))
             
         case .ttsVoice:
             preferences.ttsVoice = value as? String

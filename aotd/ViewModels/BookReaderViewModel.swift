@@ -69,12 +69,6 @@ final class BookReaderViewModel {
         do {
             if let existingProgress = try databaseManager.getBookProgress(userId: userId, bookId: book.id) {
                 self.bookProgress = existingProgress
-                AppLogger.viewModel.info("Loaded existing book progress", metadata: [
-                    "bookId": book.id,
-                    "readingProgress": existingProgress.readingProgress,
-                    "currentChapterId": existingProgress.currentChapterId ?? "nil",
-                    "totalReadingTime": existingProgress.totalReadingTime
-                ])
                 // Find current chapter index
                 if let currentChapterId = existingProgress.currentChapterId,
                    let index = book.chapters.firstIndex(where: { $0.id == currentChapterId }) {
@@ -121,11 +115,6 @@ final class BookReaderViewModel {
         do {
             if let existingPrefs = try databaseManager.getBookReadingPreferences(userId: userId, bookId: book.id) {
                 self.preferences = existingPrefs
-                AppLogger.viewModel.info("Loaded existing reading preferences", metadata: [
-                    "bookId": book.id,
-                    "scrollPosition": existingPrefs.scrollPosition,
-                    "fontSize": existingPrefs.fontSize
-                ])
             } else {
                 self.preferences = BookReadingPreferences.defaultPreferences(userId: userId, bookId: book.id)
                 // Calculate initial scroll position from book progress
@@ -134,16 +123,8 @@ final class BookReaderViewModel {
                     let chapterContribution = 1.0 / Double(book.chapters.count)
                     let progressInCurrentChapter = (bookProgress.readingProgress - (Double(currentChapterIndex) * chapterContribution)) / chapterContribution
                     self.preferences.scrollPosition = max(0, min(1, progressInCurrentChapter))
-                    AppLogger.viewModel.info("Calculated scroll position from progress", metadata: [
-                        "bookProgress": bookProgress.readingProgress,
-                        "chapterIndex": currentChapterIndex,
-                        "calculatedScrollPosition": self.preferences.scrollPosition
-                    ])
                 }
                 try databaseManager.saveBookReadingPreferences(preferences)
-                AppLogger.viewModel.info("Created new reading preferences", metadata: [
-                    "bookId": book.id
-                ])
             }
         } catch {
             AppLogger.logError(error, context: "Loading reading preferences", logger: AppLogger.viewModel)
@@ -156,11 +137,6 @@ final class BookReaderViewModel {
                 let chapterContribution = 1.0 / Double(book.chapters.count)
                 let progressInCurrentChapter = (bookProgress.readingProgress - (Double(currentChapterIndex) * chapterContribution)) / chapterContribution
                 self.preferences.scrollPosition = max(0, min(1, progressInCurrentChapter))
-                AppLogger.viewModel.info("Calculated scroll position from progress after error", metadata: [
-                    "bookProgress": bookProgress.readingProgress,
-                    "chapterIndex": currentChapterIndex,
-                    "calculatedScrollPosition": self.preferences.scrollPosition
-                ])
             }
         }
     }
@@ -182,8 +158,7 @@ final class BookReaderViewModel {
         bookProgress.currentChapterId = currentChapter?.id
         bookProgress.currentPosition = 0
         preferences.scrollPosition = 0
-        saveProgress()
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
         onContentUpdate?()
         updateProgress()
     }
@@ -194,8 +169,7 @@ final class BookReaderViewModel {
         bookProgress.currentChapterId = currentChapter?.id
         bookProgress.currentPosition = 0
         preferences.scrollPosition = 0
-        saveProgress()
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
         onContentUpdate?()
         updateProgress()
     }
@@ -218,15 +192,21 @@ final class BookReaderViewModel {
             bookProgress.bookmarks.append(bookmark)
         }
         
-        saveProgress()
+        // Removed immediate save - will save on background/dismiss
     }
     
     func updateScrollPosition(_ position: Double) {
         preferences.scrollPosition = position
         updateCurrentPosition()
         updateProgress()
-        saveProgress()
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
+    }
+    
+    func updateCurrentChapter(_ chapterIndex: Int) {
+        guard chapterIndex < book.chapters.count else { return }
+        currentChapterIndex = chapterIndex
+        bookProgress.currentChapterId = book.chapters[chapterIndex].id
+        // Don't reset scroll position - it will be updated by scrollViewDidScroll
     }
     
     func updateOverallProgress(_ overallProgress: Double) {
@@ -241,40 +221,47 @@ final class BookReaderViewModel {
                 
                 // Award XP for completing the book
                 awardCompletionXP()
+                // Save immediately on completion to ensure XP is awarded
+                saveProgress()
             }
         }
         
-        saveProgress()
+        // Removed immediate save for regular progress updates
         onProgressUpdate?()
     }
     
     func updateFontSize(_ size: Double) {
         preferences.fontSize = size
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
+        onPreferencesUpdate?()
+    }
+    
+    // Add methods to directly update preferences without saving
+    func updatePreferences(with newPrefs: BookReadingPreferences) {
+        self.preferences = newPrefs
         onPreferencesUpdate?()
     }
     
     func updateBrightness(_ brightness: Double) {
         preferences.brightness = brightness
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
     }
     
     func updateTTSSpeed(_ speed: Float) {
-        preferences.ttsSpeed = speed
-        savePreferences()
+        preferences.ttsSpeed = Double(speed)
+        // Removed immediate save - will save on background/dismiss
     }
     
     func updateAutoScrollSpeed(_ speed: Double) {
         preferences.autoScrollSpeed = speed
-        savePreferences()
+        // Removed immediate save - will save on background/dismiss
     }
     
     func incrementReadingTime() {
         bookProgress.totalReadingTime += 1
         
-        // Save progress every 10 seconds
+        // Update progress UI every 10 seconds, but don't save to DB
         if Int(bookProgress.totalReadingTime) % 10 == 0 {
-            saveProgress()
             updateProgress()
         }
     }
@@ -288,6 +275,13 @@ final class BookReaderViewModel {
         } catch {
             AppLogger.logError(error, context: "Saving book progress", logger: AppLogger.viewModel)
         }
+    }
+    
+    func saveAll() {
+        // Save both progress and preferences together
+        saveProgress()
+        savePreferences()
+        
     }
     
     // MARK: - Private Methods
@@ -309,7 +303,6 @@ final class BookReaderViewModel {
         let totalProgress = (chaptersCompleted * progressPerChapter) + (chapterProgress * progressPerChapter)
         
         let newProgress = min(1.0, totalProgress)
-        let progressChanged = abs(bookProgress.readingProgress - newProgress) > 0.001
         
         bookProgress.readingProgress = newProgress
         
@@ -321,13 +314,12 @@ final class BookReaderViewModel {
                 
                 // Award XP for completing the book
                 awardCompletionXP()
+                // Save immediately on completion to ensure XP is awarded
+                saveProgress()
             }
         }
         
-        // Save progress if it changed
-        if progressChanged {
-            saveProgress()
-        }
+        // Removed automatic save on progress change
         
         onProgressUpdate?()
     }
