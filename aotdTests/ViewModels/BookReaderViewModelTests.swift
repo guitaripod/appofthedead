@@ -76,29 +76,25 @@ final class BookReaderViewModelTests: XCTestCase {
         XCTAssertFalse(sut.hasBookmarkAtCurrentPosition)
     }
     
-    func testScrollPositionPersistence() {
+    func testDeferredScrollPositionPersistence() {
         // Given - Create initial view model
         sut = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
         XCTAssertEqual(sut.preferences.scrollPosition, 0.0, "Initial scroll position should be 0")
         
-        // When - Update scroll position
+        // When - Update scroll position WITHOUT saving
         sut.updateScrollPosition(0.5)
-        XCTAssertEqual(sut.preferences.scrollPosition, 0.5, "Scroll position should be updated to 0.5")
+        XCTAssertEqual(sut.preferences.scrollPosition, 0.5, "Scroll position should be updated in memory")
         
-        // Manually verify database state
-        do {
-            let savedPrefs = try databaseManager.getBookReadingPreferences(userId: testUserId, bookId: testBook.id)
-            XCTAssertNotNil(savedPrefs, "Preferences should exist in database")
-            XCTAssertEqual(savedPrefs?.scrollPosition ?? -1, 0.5, "Database should have scroll position 0.5")
-        } catch {
-            XCTFail("Failed to read preferences from database: \(error)")
-        }
+        // Verify changes are NOT saved yet
+        let newViewModelBeforeSave = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        XCTAssertEqual(newViewModelBeforeSave.preferences.scrollPosition, 0.0, "Scroll position should NOT be persisted without saveAll()")
         
-        // When - Create new view model instance (simulating app restart)
-        let newViewModel = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        // When - Save explicitly
+        sut.saveAll()
         
-        // Then - Verify scroll position is restored
-        XCTAssertEqual(newViewModel.preferences.scrollPosition, 0.5, "Scroll position should be restored from database")
+        // Then - Create new view model and verify persistence
+        let newViewModelAfterSave = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        XCTAssertEqual(newViewModelAfterSave.preferences.scrollPosition, 0.5, "Scroll position should be persisted after saveAll()")
     }
     
     func testChapterNavigationResetsScrollPosition() {
@@ -149,37 +145,51 @@ final class BookReaderViewModelTests: XCTestCase {
         XCTAssertFalse(sut.hasBookmarkAtCurrentPosition)
     }
     
-    func testReadingTimePersistence() {
+    func testDeferredReadingTimePersistence() {
         // Given
         sut = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
         
-        // When - Increment reading time
+        // When - Increment reading time without saving
         for _ in 0..<60 {
             sut.incrementReadingTime()
         }
         
-        // Then
+        // Then - Time should be updated in memory
         XCTAssertEqual(sut.totalReadingTime, 60.0)
         
-        // When - Create new instance
-        let newViewModel = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        // Verify changes are NOT saved yet
+        let newViewModelBeforeSave = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        XCTAssertEqual(newViewModelBeforeSave.totalReadingTime, 0.0, "Reading time should NOT be persisted without saveAll()")
         
-        // Then - Reading time should be preserved
-        XCTAssertEqual(newViewModel.totalReadingTime, 60.0)
+        // When - Save explicitly
+        sut.saveAll()
+        
+        // Then - Create new view model and verify persistence
+        let newViewModelAfterSave = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        XCTAssertEqual(newViewModelAfterSave.totalReadingTime, 60.0, "Reading time should be persisted after saveAll()")
     }
     
-    func testBookCompletionDetection() {
+    func testBookCompletionImmediateSave() {
         // Given
         sut = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
+        
+        // Create user for XP tracking
+        do {
+            _ = try databaseManager.createUser(name: "test", email: "test@test.com")
+        } catch {
+            // User might already exist
+        }
         
         // When - Navigate to last chapter and read most of it
         sut.goToNextChapter()
         sut.updateScrollPosition(0.96)
         
-        // Then - Book should be marked as completed
+        // Then - Book completion should be saved immediately (not deferred)
+        let newViewModel = BookReaderViewModel(book: testBook, userId: testUserId, databaseManager: databaseManager)
         let progress = try? databaseManager.getBookProgress(userId: testUserId, bookId: testBook.id)
+        
         XCTAssertNotNil(progress)
-        XCTAssertTrue(progress?.isCompleted ?? false)
+        XCTAssertTrue(progress?.isCompleted ?? false, "Book completion should be saved immediately")
         XCTAssertEqual(progress?.readingProgress ?? 0, 1.0, accuracy: 0.01)
     }
 }
