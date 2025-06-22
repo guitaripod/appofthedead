@@ -18,6 +18,13 @@ final class AuthenticationManager: NSObject {
         return DatabaseManager.shared.fetchUser()
     }
     
+    func getCurrentUser() async throws -> User {
+        if let user = currentUser {
+            return user
+        }
+        throw NSError(domain: "AuthenticationManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "No authenticated user found"])
+    }
+    
     private override init() {
         super.init()
     }

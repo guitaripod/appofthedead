@@ -116,6 +116,12 @@ enum PapyrusDesignSystem {
         static func caption2(weight: UIFont.Weight = .regular) -> UIFont {
             return UIFont.systemFont(ofSize: 11, weight: weight)
         }
+        
+        static func bodyItalic(weight: UIFont.Weight = .regular) -> UIFont {
+            let descriptor = UIFont.systemFont(ofSize: 17, weight: weight).fontDescriptor
+            let italicDescriptor = descriptor.withSymbolicTraits(.traitItalic) ?? descriptor
+            return UIFont(descriptor: italicDescriptor, size: 17)
+        }
     }
     
     // MARK: - Spacing & Layout
