@@ -34,6 +34,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Set the content loader in database manager to avoid duplicates
         databaseManager.setContentLoader(contentLoader)
         
+        // Generate books if needed (runs in background)
+        DispatchQueue.global(qos: .background).async {
+            let bookGenerator = BookContentGenerator(
+                databaseManager: self.databaseManager,
+                contentLoader: contentLoader
+            )
+            bookGenerator.generateAndSaveAllBooks()
+        }
+        
         // Initialize Home screen
         let homeActivity = AppLogger.beginActivity("HomeViewController.setup")
         let homeViewModel = HomeViewModel(
@@ -59,6 +68,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let oracleViewController = OracleViewController()
         let oracleNavigationController = UINavigationController(rootViewController: oracleViewController)
         
+        // Initialize Library screen
+        let libraryActivity = AppLogger.beginActivity("BookLibraryViewController.setup")
+        let libraryViewModel = BookLibraryViewModel(
+            userId: databaseManager.fetchUser()?.id ?? "",
+            databaseManager: databaseManager
+        )
+        let libraryViewController = BookLibraryViewController(viewModel: libraryViewModel)
+        let libraryNavigationController = UINavigationController(rootViewController: libraryViewController)
+        AppLogger.endActivity("BookLibraryViewController.setup", id: libraryActivity)
+        
         // Create Tab Bar Controller
         let tabBarController = UITabBarController()
         
@@ -81,6 +100,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectedImage: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill")
         )
         
+        libraryNavigationController.tabBarItem = UITabBarItem(
+            title: "Library",
+            image: UIImage(systemName: "books.vertical"),
+            selectedImage: UIImage(systemName: "books.vertical")
+        )
+        
         settingsNavigationController.tabBarItem = UITabBarItem(
             title: "Settings",
             image: UIImage(systemName: "gearshape.fill"),
@@ -88,7 +113,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
         
         // Set view controllers
-        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, settingsNavigationController]
+        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, libraryNavigationController, settingsNavigationController]
         
         // Configure appearance with Papyrus theme
         configureNavigationBarAppearance()

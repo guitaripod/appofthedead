@@ -40,6 +40,9 @@ class DatabaseManager {
                 try OracleConsultation.createTable(db)
                 try Mistake.createTable(db)
                 try MistakeSession.createTable(db)
+                try Book.createTable(db)
+                try BookProgress.createTable(db)
+                try BookReadingPreferences.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -63,6 +66,9 @@ class DatabaseManager {
                 try OracleConsultation.createTable(db)
                 try Mistake.createTable(db)
                 try MistakeSession.createTable(db)
+                try Book.createTable(db)
+                try BookProgress.createTable(db)
+                try BookReadingPreferences.createTable(db)
                 
                 // Run migrations
                 try runMigrations(db)
@@ -644,6 +650,91 @@ class DatabaseManager {
                 totalAchievements: achievements,
                 correctAnswers: correctAnswers
             )
+        }
+    }
+    
+    // MARK: - Book Management
+    
+    func getBookProgress(userId: String, bookId: String) throws -> BookProgress? {
+        return try dbQueue.read { db in
+            try BookProgress
+                .filter(Column("userId") == userId)
+                .filter(Column("bookId") == bookId)
+                .fetchOne(db)
+        }
+    }
+    
+    func saveBookProgress(_ progress: BookProgress) throws {
+        var mutableProgress = progress
+        try dbQueue.write { db in
+            try mutableProgress.insert(db)
+        }
+    }
+    
+    func updateBookProgress(_ progress: BookProgress) throws {
+        var mutableProgress = progress
+        mutableProgress.updatedAt = Date()
+        try dbQueue.write { db in
+            try mutableProgress.update(db)
+        }
+    }
+    
+    func getBookReadingPreferences(userId: String, bookId: String) throws -> BookReadingPreferences? {
+        return try dbQueue.read { db in
+            try BookReadingPreferences
+                .filter(Column("userId") == userId)
+                .filter(Column("bookId") == bookId)
+                .fetchOne(db)
+        }
+    }
+    
+    func saveBookReadingPreferences(_ preferences: BookReadingPreferences) throws {
+        var mutablePrefs = preferences
+        try dbQueue.write { db in
+            try mutablePrefs.insert(db)
+        }
+    }
+    
+    func updateBookReadingPreferences(_ preferences: BookReadingPreferences) throws {
+        var mutablePrefs = preferences
+        try dbQueue.write { db in
+            try mutablePrefs.update(db)
+        }
+    }
+    
+    func getAllBooks() throws -> [Book] {
+        return try dbQueue.read { db in
+            try Book.fetchAll(db)
+        }
+    }
+    
+    func getBook(by id: String) throws -> Book? {
+        return try dbQueue.read { db in
+            try Book.fetchOne(db, key: id)
+        }
+    }
+    
+    func saveBook(_ book: Book) throws {
+        var mutableBook = book
+        try dbQueue.write { db in
+            try mutableBook.insert(db)
+        }
+    }
+    
+    func getUserBooks(userId: String) throws -> [(book: Book, progress: BookProgress?)] {
+        return try dbQueue.read { db in
+            let books = try Book.fetchAll(db)
+            var result: [(Book, BookProgress?)] = []
+            
+            for book in books {
+                let progress = try BookProgress
+                    .filter(Column("userId") == userId)
+                    .filter(Column("bookId") == book.id)
+                    .fetchOne(db)
+                result.append((book, progress))
+            }
+            
+            return result
         }
     }
 }
