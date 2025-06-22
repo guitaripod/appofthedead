@@ -9,7 +9,7 @@ final class BookReaderViewModel {
     private let userId: String
     private let databaseManager: DatabaseManager
     private var bookProgress: BookProgress
-    private(set) var preferences: BookReadingPreferences
+    var preferences: BookReadingPreferences
     
     var currentChapterIndex: Int = 0
     var currentChapter: Chapter? {
@@ -122,6 +122,10 @@ final class BookReaderViewModel {
     }
     
     // MARK: - Public Methods
+    
+    func loadBook() {
+        loadCurrentChapter()
+    }
     
     func loadCurrentChapter() {
         onContentUpdate?()

@@ -13,6 +13,10 @@ final class BookReaderViewController: UIViewController {
     private var controlsHidden = false
     private var isNavigatingChapter = false
     private var hasRestoredPosition = false
+    private var textSelectionHandler: BookReaderTextSelectionHandler?
+    private var currentHighlights: [BookHighlight] = []
+    private var highlightViews: [UIView] = []
+    private var chapterStartPositions: [Int] = []
     
     // MARK: - UI Components
     
@@ -55,8 +59,8 @@ final class BookReaderViewController: UIViewController {
         return label
     }()
     
-    private lazy var textView: UITextView = {
-        let textView = UITextView()
+    private lazy var textView: BookReaderTextView = {
+        let textView = BookReaderTextView()
         textView.isEditable = false
         textView.isSelectable = true
         textView.backgroundColor = .clear
@@ -151,11 +155,15 @@ final class BookReaderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupTextSelection()
         bindViewModel()
         startReadingTimer()
         
         // Load initial content
         viewModel.loadCurrentChapter()
+        
+        // Load highlights
+        loadHighlights()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -329,8 +337,10 @@ final class BookReaderViewController: UIViewController {
         
         if #available(iOS 15.0, *) {
             if let sheet = settingsVC.sheetPresentationController {
-                sheet.detents = [.medium()]
+                sheet.detents = [.medium(), .large()]
+                sheet.selectedDetentIdentifier = .medium
                 sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
             }
         }
         
@@ -443,56 +453,6 @@ final class BookReaderViewController: UIViewController {
     
     // MARK: - UI Updates
     
-    private var chapterStartPositions: [Int] = []
-    
-    private func updateContent() {
-        titleLabel.text = viewModel.book.title
-        chapterLabel.text = "Chapter \(viewModel.currentChapterIndex + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)"
-        
-        // Create combined content from all chapters and track positions
-        var fullContent = ""
-        chapterStartPositions = []
-        
-        for (index, chapter) in viewModel.book.chapters.enumerated() {
-            // Store the start position of this chapter
-            chapterStartPositions.append(fullContent.count)
-            
-            if index > 0 {
-                fullContent += "\n\n\n"
-            }
-            fullContent += "Chapter \(index + 1): \(chapter.title)\n\n"
-            fullContent += chapter.content
-        }
-        
-        // Create attributed string with proper formatting
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(viewModel.preferences.lineSpacing * viewModel.preferences.fontSize)
-        paragraphStyle.alignment = .justified
-        
-        // Use appropriate text color based on interface style
-        let textColor: UIColor
-        if traitCollection.userInterfaceStyle == .dark {
-            textColor = .white
-        } else {
-            textColor = UIColor(hex: viewModel.preferences.textColor) ?? PapyrusDesignSystem.Colors.primaryText
-        }
-        
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: viewModel.preferences.fontFamily, size: viewModel.preferences.fontSize) ?? UIFont.systemFont(ofSize: viewModel.preferences.fontSize),
-            .foregroundColor: textColor,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        textView.attributedText = NSAttributedString(string: fullContent, attributes: attributes)
-        
-        // Restore reading position after content is loaded
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.restoreReadingPosition()
-        }
-        
-        updateNavigationButtons()
-        updateBookmarkButton()
-    }
     
     private func scrollToCurrentChapter(animated: Bool, useStoredPosition: Bool = false) {
         guard viewModel.currentChapterIndex < chapterStartPositions.count else { return }
@@ -615,20 +575,6 @@ final class BookReaderViewController: UIViewController {
         bookmarkButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
-    private func applyReadingPreferences() {
-        // Apply background color based on current interface style
-        if traitCollection.userInterfaceStyle == .dark {
-            view.backgroundColor = .black
-            papyrusBackgroundView.alpha = 0.1
-        } else {
-            view.backgroundColor = UIColor(hex: viewModel.preferences.backgroundColor) ?? PapyrusDesignSystem.Colors.background
-            papyrusBackgroundView.alpha = 0.3
-        }
-        
-        view.alpha = CGFloat(viewModel.preferences.brightness)
-        
-        updateContent()
-    }
     
     private func toggleUIVisibility() {
         controlsHidden = !controlsHidden
@@ -855,5 +801,474 @@ extension BookReaderViewController: BookReaderSettingsDelegate {
             stopAutoScroll()
             startAutoScroll()
         }
+    }
+    
+    func settingsDidUpdateFontFamily(_ family: String) {
+        viewModel.preferences.fontFamily = family
+        updateContent()
+    }
+    
+    func settingsDidUpdateFontWeight(_ weight: String) {
+        viewModel.preferences.fontWeight = weight
+        updateContent()
+    }
+    
+    func settingsDidUpdateLineSpacing(_ spacing: Double) {
+        viewModel.preferences.lineSpacing = spacing
+        updateContent()
+    }
+    
+    func settingsDidUpdateParagraphSpacing(_ spacing: Double) {
+        viewModel.preferences.paragraphSpacing = spacing
+        updateContent()
+    }
+    
+    func settingsDidUpdateFirstLineIndent(_ indent: Double) {
+        viewModel.preferences.firstLineIndent = indent
+        updateContent()
+    }
+    
+    func settingsDidUpdateTextAlignment(_ alignment: String) {
+        viewModel.preferences.textAlignment = alignment
+        updateContent()
+    }
+    
+    func settingsDidUpdateMargins(_ size: Double) {
+        viewModel.preferences.marginSize = size
+        applyTextAlignment()
+    }
+    
+    func settingsDidUpdateTheme(_ theme: String) {
+        viewModel.preferences.theme = theme
+        applyReadingPreferences()
+    }
+    
+    func settingsDidUpdateHyphenation(_ enabled: Bool) {
+        viewModel.preferences.enableHyphenation = enabled
+        updateContent()
+    }
+    
+    func settingsDidUpdatePageProgress(_ enabled: Bool) {
+        viewModel.preferences.showPageProgress = enabled
+        progressView.isHidden = !enabled
+        percentageLabel.isHidden = !enabled
+    }
+    
+    func settingsDidUpdateKeepScreenOn(_ enabled: Bool) {
+        viewModel.preferences.keepScreenOn = enabled
+        UIApplication.shared.isIdleTimerDisabled = enabled
+    }
+    
+    func settingsDidUpdateSwipeGestures(_ enabled: Bool) {
+        viewModel.preferences.enableSwipeGestures = enabled
+        // Handle swipe gesture enabling/disabling
+    }
+    
+    func settingsDidUpdatePageTransition(_ style: String) {
+        viewModel.preferences.pageTransitionStyle = style
+        // Handle page transition style change
+    }
+}
+
+// MARK: - Text Selection and Highlights
+
+extension BookReaderViewController {
+    
+    private func setupTextSelection() {
+        textSelectionHandler = BookReaderTextSelectionHandler(textView: textView)
+        textSelectionHandler?.delegate = self
+        textSelectionHandler?.configureTextView()
+        
+        // Set the selection handler on the text view
+        textView.selectionHandler = textSelectionHandler
+    }
+    
+    private func loadHighlights() {
+        Task {
+            do {
+                let user = try await AuthenticationManager.shared.getCurrentUser()
+                currentHighlights = try DatabaseManager.shared.getBookHighlights(
+                    userId: user.id,
+                    bookId: viewModel.book.id
+                )
+                applyHighlights()
+            } catch {
+                AppLogger.database.error("Failed to load highlights: \(error)")
+            }
+        }
+    }
+    
+    private func applyHighlights() {
+        // Remove existing highlight views
+        highlightViews.forEach { $0.removeFromSuperview() }
+        highlightViews.removeAll()
+        
+        // Apply new highlights to the text
+        guard let attributedText = textView.attributedText else { return }
+        let mutableText = NSMutableAttributedString(attributedString: attributedText)
+        
+        for highlight in currentHighlights {
+            let range = NSRange(location: highlight.startPosition, length: highlight.endPosition - highlight.startPosition)
+            
+            // Skip if range is invalid
+            guard range.location + range.length <= mutableText.length else { continue }
+            
+            // Apply highlight color
+            let color = UIColor(hex: highlight.color) ?? UIColor(hex: viewModel.preferences.highlightColor) ?? UIColor.yellow.withAlphaComponent(0.3)
+            mutableText.addAttribute(.backgroundColor, value: color, range: range)
+        }
+        
+        textView.attributedText = mutableText
+    }
+    
+    private func saveHighlight(text: String, range: NSRange, color: UIColor, note: String? = nil, oracleConsultationId: String? = nil) {
+        Task {
+            do {
+                let user = try await AuthenticationManager.shared.getCurrentUser()
+                
+                // Find which chapter this highlight belongs to
+                var chapterId = viewModel.book.chapters[0].id
+                for (index, startPos) in chapterStartPositions.enumerated() {
+                    if range.location >= startPos {
+                        chapterId = viewModel.book.chapters[index].id
+                    }
+                }
+                
+                let highlight = BookHighlight(
+                    id: UUID().uuidString,
+                    userId: user.id,
+                    bookId: viewModel.book.id,
+                    chapterId: chapterId,
+                    startPosition: range.location,
+                    endPosition: range.location + range.length,
+                    highlightedText: text,
+                    color: color.toHexString(),
+                    note: note,
+                    oracleConsultationId: oracleConsultationId,
+                    createdAt: Date(),
+                    updatedAt: Date()
+                )
+                
+                try DatabaseManager.shared.saveBookHighlight(highlight)
+                currentHighlights.append(highlight)
+                applyHighlights()
+                
+                // Haptic feedback
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+                
+            } catch {
+                AppLogger.database.error("Failed to save highlight: \(error)")
+            }
+        }
+    }
+    
+    private func showOracleExplanation(for text: String, range: NSRange) {
+        // Get book context (surrounding text)
+        let contextRange = NSRange(
+            location: max(0, range.location - 100),
+            length: min(textView.text.count - range.location, range.length + 200)
+        )
+        let context = (textView.text as NSString).substring(with: contextRange)
+        
+        // Get current deity
+        let deityId = viewModel.preferences.ttsVoice ?? "thoth" // Default to Thoth if no deity selected
+        
+        // Show oracle explanation view
+        let oracleView = OracleTextExplanationView(
+            selectedText: text,
+            bookContext: context,
+            deityId: deityId
+        )
+        oracleView.delegate = self
+        oracleView.show(in: view)
+    }
+    
+    private func shareText(_ text: String) {
+        let activityVC = UIActivityViewController(
+            activityItems: [text, "From \"\(viewModel.book.title)\" in App of the Dead"],
+            applicationActivities: nil
+        )
+        
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = textView
+            popover.sourceRect = textView.bounds
+        }
+        
+        present(activityVC, animated: true)
+    }
+    
+    private func showNoteEditor(for text: String, range: NSRange) {
+        let alert = UIAlertController(title: "Add Note", message: "Add a note for this highlighted text", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Enter your note..."
+            textField.autocapitalizationType = .sentences
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+            if let note = alert.textFields?.first?.text, !note.isEmpty {
+                self?.saveHighlight(text: text, range: range, color: PapyrusDesignSystem.Colors.goldLeaf, note: note)
+            }
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    private func applyReadingPreferences() {
+        // Apply theme
+        applyTheme(viewModel.preferences.theme)
+        
+        // Apply brightness
+        view.alpha = CGFloat(viewModel.preferences.brightness)
+        
+        // Apply other preferences
+        applyTextAlignment()
+        
+        // Keep screen on if enabled
+        UIApplication.shared.isIdleTimerDisabled = viewModel.preferences.keepScreenOn
+        
+        updateContent()
+    }
+    
+    private func applyTheme(_ themeName: String) {
+        guard let theme = ReadingTheme.themes[themeName] else { return }
+        
+        // Apply theme colors
+        view.backgroundColor = theme.backgroundColor
+        textView.backgroundColor = .clear
+        textView.textColor = theme.textColor
+        
+        // Update UI elements
+        headerView.backgroundColor = theme.isDark ? theme.backgroundColor : PapyrusDesignSystem.Colors.beige
+        bottomToolbar.backgroundColor = theme.isDark ? theme.backgroundColor : PapyrusDesignSystem.Colors.beige
+        
+        // Update control colors
+        let controlTint = theme.isDark ? theme.textColor : PapyrusDesignSystem.Colors.ancientInk
+        backButton.tintColor = controlTint
+        settingsButton.tintColor = controlTint
+        previousChapterButton.tintColor = controlTint
+        nextChapterButton.tintColor = controlTint
+        bookmarkButton.tintColor = controlTint
+        playPauseButton.tintColor = theme.isDark ? theme.highlightColor : PapyrusDesignSystem.Colors.goldLeaf
+        
+        // Update labels
+        titleLabel.textColor = controlTint
+        chapterLabel.textColor = theme.secondaryTextColor
+        readingTimeLabel.textColor = theme.secondaryTextColor
+        percentageLabel.textColor = theme.secondaryTextColor
+        
+        // Update papyrus background
+        papyrusBackgroundView.alpha = theme.isDark ? 0.05 : 0.3
+    }
+    
+    private func applyTextAlignment() {
+        let margin = CGFloat(viewModel.preferences.marginSize)
+        textView.textContainerInset = UIEdgeInsets(top: 120, left: margin, bottom: 100, right: margin)
+        updateContent()
+    }
+    
+    private func updateContent() {
+        chapterStartPositions.removeAll()
+        
+        let attributedString = NSMutableAttributedString()
+        
+        // Create font based on preferences including weight
+        let font = getFont()
+        
+        // Create paragraph style
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(viewModel.preferences.lineSpacing * 8)
+        paragraphStyle.paragraphSpacing = CGFloat(viewModel.preferences.paragraphSpacing * 12)
+        paragraphStyle.firstLineHeadIndent = CGFloat(viewModel.preferences.firstLineIndent)
+        paragraphStyle.hyphenationFactor = viewModel.preferences.enableHyphenation ? 1.0 : 0.0
+        
+        switch viewModel.preferences.textAlignment {
+        case "left":
+            paragraphStyle.alignment = .left
+        case "center":
+            paragraphStyle.alignment = .center
+        case "right":
+            paragraphStyle.alignment = .right
+        case "justified":
+            paragraphStyle.alignment = .justified
+        default:
+            paragraphStyle.alignment = .justified
+        }
+        
+        let theme = ReadingTheme.themes[viewModel.preferences.theme] ?? ReadingTheme.themes["papyrus"]!
+        
+        let baseAttributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: theme.textColor,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        // Build full content with chapter markers
+        for chapter in viewModel.book.chapters {
+            // Record chapter start position
+            chapterStartPositions.append(attributedString.length)
+            
+            // Add chapter title
+            let titleFont = getFont(size: viewModel.preferences.fontSize + 6, weight: .bold)
+            let chapterTitle = NSMutableAttributedString(string: "\(chapter.title)\n\n", attributes: [
+                .font: titleFont,
+                .foregroundColor: theme.textColor,
+                .paragraphStyle: paragraphStyle
+            ])
+            attributedString.append(chapterTitle)
+            
+            // Add chapter content
+            let chapterContent = NSAttributedString(string: chapter.content + "\n\n\n", attributes: baseAttributes)
+            attributedString.append(chapterContent)
+        }
+        
+        textView.attributedText = attributedString
+        
+        // Apply any highlights
+        applyHighlights()
+    }
+    
+    private func getFont(size: CGFloat? = nil, weight: UIFont.Weight? = nil) -> UIFont {
+        let fontSize = CGFloat(size ?? viewModel.preferences.fontSize)
+        let fontWeight = weight ?? getFontWeight()
+        
+        if let customFont = UIFont(name: viewModel.preferences.fontFamily, size: fontSize) {
+            // For custom fonts, we need to get the appropriate weight variant
+            let weightTrait = UIFontDescriptor.SymbolicTraits()
+            let weightValue: CGFloat
+            
+            switch fontWeight {
+            case .ultraLight:
+                weightValue = -0.8
+            case .thin:
+                weightValue = -0.6
+            case .light:
+                weightValue = -0.4
+            case .regular:
+                weightValue = 0.0
+            case .medium:
+                weightValue = 0.23
+            case .semibold:
+                weightValue = 0.3
+            case .bold:
+                weightValue = 0.4
+            case .heavy:
+                weightValue = 0.56
+            case .black:
+                weightValue = 0.62
+            default:
+                weightValue = 0.0
+            }
+            
+            let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weightValue]
+            let descriptor = customFont.fontDescriptor.addingAttributes([.traits: traits])
+            return UIFont(descriptor: descriptor, size: fontSize)
+        }
+        
+        return UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+    }
+    
+    private func getFontWeight() -> UIFont.Weight {
+        switch viewModel.preferences.fontWeight {
+        case "light":
+            return .light
+        case "regular":
+            return .regular
+        case "medium":
+            return .medium
+        case "semibold":
+            return .semibold
+        case "bold":
+            return .bold
+        default:
+            return .regular
+        }
+    }
+}
+
+// MARK: - BookReaderTextSelectionDelegate
+
+extension BookReaderViewController: BookReaderTextSelectionDelegate {
+    func textSelectionHandler(_ handler: BookReaderTextSelectionHandler, didSelectAction action: TextSelectionAction, text: String, range: NSRange) {
+        switch action {
+        case .askOracle:
+            showOracleExplanation(for: text, range: range)
+            
+        case .highlight(let color):
+            saveHighlight(text: text, range: range, color: color)
+            
+        case .addNote:
+            showNoteEditor(for: text, range: range)
+            
+        case .copy:
+            UIPasteboard.general.string = text
+            
+        case .share:
+            shareText(text)
+            
+        case .define:
+            // iOS handles this automatically
+            break
+        }
+    }
+}
+
+// MARK: - OracleTextExplanationViewDelegate
+
+extension BookReaderViewController: OracleTextExplanationViewDelegate {
+    func oracleTextExplanationViewDidDismiss(_ view: OracleTextExplanationView) {
+        // Handle dismissal if needed
+    }
+    
+    func oracleTextExplanationView(_ view: OracleTextExplanationView, didSaveExplanation explanation: String, for text: String) {
+        // Find the range of the text in the current view
+        if let range = textView.text.range(of: text) {
+            let nsRange = NSRange(range, in: textView.text)
+            
+            // Save oracle consultation
+            Task {
+                do {
+                    let user = try await AuthenticationManager.shared.getCurrentUser()
+                    
+                    // Save oracle consultation
+                    let consultation = OracleConsultation(
+                        userId: user.id,
+                        deityId: viewModel.preferences.ttsVoice ?? "thoth"
+                    )
+                    
+                    try DatabaseManager.shared.saveOracleConsultation(consultation)
+                    
+                    // Save highlight with oracle consultation
+                    saveHighlight(
+                        text: text,
+                        range: nsRange,
+                        color: PapyrusDesignSystem.Colors.goldLeaf,
+                        note: nil,
+                        oracleConsultationId: consultation.id
+                    )
+                    
+                } catch {
+                    AppLogger.database.error("Failed to save oracle consultation: \(error)")
+                }
+            }
+        }
+    }
+}
+
+// Helper extension for UIColor
+extension UIColor {
+    func toHexString() -> String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        
+        return String(format: "#%06x", rgb)
     }
 }
