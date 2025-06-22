@@ -54,6 +54,10 @@ final class BookReaderViewModel {
         return bookProgress.bookmarks.contains { $0.chapterId == chapterId }
     }
     
+    var savedScrollPercentage: Double {
+        return bookProgress.readingProgress
+    }
+    
     // MARK: - Initialization
     
     init(book: Book, userId: String, databaseManager: DatabaseManager = .shared) {
@@ -129,7 +133,9 @@ final class BookReaderViewModel {
         currentChapterIndex -= 1
         bookProgress.currentChapterId = currentChapter?.id
         bookProgress.currentPosition = 0
+        preferences.scrollPosition = 0
         saveProgress()
+        savePreferences()
         onContentUpdate?()
         updateProgress()
     }
@@ -139,7 +145,9 @@ final class BookReaderViewModel {
         currentChapterIndex += 1
         bookProgress.currentChapterId = currentChapter?.id
         bookProgress.currentPosition = 0
+        preferences.scrollPosition = 0
         saveProgress()
+        savePreferences()
         onContentUpdate?()
         updateProgress()
     }
@@ -170,6 +178,26 @@ final class BookReaderViewModel {
         updateCurrentPosition()
         updateProgress()
         saveProgress()
+        savePreferences()
+    }
+    
+    func updateOverallProgress(_ overallProgress: Double) {
+        // Directly update the book progress based on overall scroll position
+        bookProgress.readingProgress = overallProgress
+        
+        // Check if book is completed
+        if overallProgress > 0.95 {
+            if !bookProgress.isCompleted {
+                bookProgress.isCompleted = true
+                bookProgress.readingProgress = 1.0
+                
+                // Award XP for completing the book
+                awardCompletionXP()
+            }
+        }
+        
+        saveProgress()
+        onProgressUpdate?()
     }
     
     func updateFontSize(_ size: Double) {
@@ -196,8 +224,9 @@ final class BookReaderViewModel {
     func incrementReadingTime() {
         bookProgress.totalReadingTime += 1
         
-        // Update progress every 10 seconds
+        // Save progress every 10 seconds
         if Int(bookProgress.totalReadingTime) % 10 == 0 {
+            saveProgress()
             updateProgress()
         }
     }

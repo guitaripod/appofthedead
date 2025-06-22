@@ -667,7 +667,18 @@ class DatabaseManager {
     func saveBookProgress(_ progress: BookProgress) throws {
         var mutableProgress = progress
         try dbQueue.write { db in
-            try mutableProgress.insert(db)
+            // Check if progress already exists for this user+book
+            if let existing = try BookProgress
+                .filter(Column("userId") == progress.userId)
+                .filter(Column("bookId") == progress.bookId)
+                .fetchOne(db) {
+                // Update existing record with the same ID
+                mutableProgress.id = existing.id
+                try mutableProgress.update(db)
+            } else {
+                // Insert new record
+                try mutableProgress.insert(db)
+            }
         }
     }
     
@@ -691,7 +702,18 @@ class DatabaseManager {
     func saveBookReadingPreferences(_ preferences: BookReadingPreferences) throws {
         var mutablePrefs = preferences
         try dbQueue.write { db in
-            try mutablePrefs.insert(db)
+            // Check if preferences already exist for this user+book
+            if let existing = try BookReadingPreferences
+                .filter(Column("userId") == preferences.userId)
+                .filter(Column("bookId") == preferences.bookId)
+                .fetchOne(db) {
+                // Update existing record with the same ID
+                mutablePrefs.id = existing.id
+                try mutablePrefs.update(db)
+            } else {
+                // Insert new record
+                try mutablePrefs.insert(db)
+            }
         }
     }
     

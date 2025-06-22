@@ -12,6 +12,7 @@ final class BookReaderViewController: UIViewController {
     private var autoScrollTimer: Timer?
     private var controlsHidden = false
     private var isNavigatingChapter = false
+    private var hasRestoredPosition = false
     
     // MARK: - UI Components
     
@@ -300,8 +301,9 @@ final class BookReaderViewController: UIViewController {
             self?.updateChapterInfo()
             
             // Ensure proper scrolling after content update
+            // Use stored position on initial load
             DispatchQueue.main.async { [weak self] in
-                self?.scrollToCurrentChapter(animated: false)
+                self?.scrollToCurrentChapter(animated: false, useStoredPosition: true)
             }
         }
         
@@ -483,23 +485,23 @@ final class BookReaderViewController: UIViewController {
         
         textView.attributedText = NSAttributedString(string: fullContent, attributes: attributes)
         
-        // Scroll to current chapter
-        DispatchQueue.main.async {
-            self.scrollToCurrentChapter(animated: false)
+        // Restore reading position after content is loaded
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.restoreReadingPosition()
         }
         
         updateNavigationButtons()
         updateBookmarkButton()
     }
     
-    private func scrollToCurrentChapter(animated: Bool) {
+    private func scrollToCurrentChapter(animated: Bool, useStoredPosition: Bool = false) {
         guard viewModel.currentChapterIndex < chapterStartPositions.count else { return }
         guard viewModel.currentChapterIndex < viewModel.book.chapters.count else { return }
         
         // If we haven't laid out yet, delay the scroll
         if textView.contentSize.height <= 0 || chapterStartPositions.isEmpty {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.scrollToCurrentChapter(animated: animated)
+                self?.scrollToCurrentChapter(animated: animated, useStoredPosition: useStoredPosition)
             }
             return
         }
@@ -516,8 +518,27 @@ final class BookReaderViewController: UIViewController {
         // Force layout of the entire text view first
         layoutManager.ensureLayout(for: textContainer)
         
-        // Get the glyph range for the chapter start
-        let glyphRange = layoutManager.glyphRange(forCharacterRange: NSRange(location: chapterStartPosition, length: 1), actualCharacterRange: nil)
+        // Calculate chapter bounds
+        let chapterEndPosition: Int
+        if viewModel.currentChapterIndex < chapterStartPositions.count - 1 {
+            chapterEndPosition = chapterStartPositions[viewModel.currentChapterIndex + 1]
+        } else {
+            chapterEndPosition = textView.text.count
+        }
+        let chapterLength = chapterEndPosition - chapterStartPosition
+        
+        // Calculate target position
+        let targetCharPosition: Int
+        if useStoredPosition && viewModel.preferences.scrollPosition > 0 {
+            // Use stored scroll position within the chapter
+            targetCharPosition = chapterStartPosition + Int(Double(chapterLength) * viewModel.preferences.scrollPosition)
+        } else {
+            // Default to chapter start
+            targetCharPosition = chapterStartPosition
+        }
+        
+        // Get the glyph range for the target position
+        let glyphRange = layoutManager.glyphRange(forCharacterRange: NSRange(location: targetCharPosition, length: 1), actualCharacterRange: nil)
         let rect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
         
         // Calculate the target offset - account for text container insets
@@ -529,13 +550,51 @@ final class BookReaderViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.textView.setContentOffset(targetOffset, animated: false)
             }) { _ in
-                // Update progress after animation completes
-                self.viewModel.updateScrollPosition(0)
+                // Only reset position if we're navigating chapters
+                if !useStoredPosition {
+                    self.viewModel.updateScrollPosition(0)
+                }
             }
         } else {
             textView.setContentOffset(targetOffset, animated: false)
-            viewModel.updateScrollPosition(0)
+            // Only reset position if we're navigating chapters
+            if !useStoredPosition {
+                viewModel.updateScrollPosition(0)
+            }
         }
+    }
+    
+    private func restoreReadingPosition() {
+        // Only restore position once
+        guard !hasRestoredPosition else { return }
+        
+        // Ensure text view is ready
+        guard textView.contentSize.height > 0 else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.restoreReadingPosition()
+            }
+            return
+        }
+        
+        hasRestoredPosition = true
+        
+        // Calculate position based on overall book progress
+        let totalHeight = textView.contentSize.height
+        let viewHeight = textView.bounds.height
+        let maxScrollY = max(0, totalHeight - viewHeight)
+        
+        // Use the book's reading progress to determine scroll position
+        let targetY = viewModel.readingProgress * maxScrollY
+        
+        AppLogger.ui.info("Restoring book position", metadata: [
+            "readingProgress": viewModel.readingProgress,
+            "targetY": targetY,
+            "maxScrollY": maxScrollY,
+            "currentChapter": viewModel.currentChapterIndex
+        ])
+        
+        // Scroll to the calculated position
+        textView.setContentOffset(CGPoint(x: 0, y: targetY), animated: false)
     }
     
     private func updateProgress() {
@@ -689,6 +748,13 @@ extension BookReaderViewController: UITextViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView.contentSize.height > 0 else { return }
         guard !isNavigatingChapter else { return } // Don't update chapter during navigation
+        guard hasRestoredPosition else { return } // Don't update position during initial restore
+        
+        // Calculate overall book position based on scroll
+        let currentY = scrollView.contentOffset.y
+        let totalHeight = scrollView.contentSize.height - scrollView.bounds.height
+        let overallProgress = totalHeight > 0 ? currentY / totalHeight : 0
+        let clampedOverallProgress = max(0, min(1, overallProgress))
         
         // Calculate current position in the text
         let currentOffset = scrollView.contentOffset.y + scrollView.bounds.height / 2
@@ -720,7 +786,7 @@ extension BookReaderViewController: UITextViewDelegate {
             generator.impactOccurred()
         }
         
-        // Calculate progress within current chapter
+        // Calculate progress within current chapter for scroll position tracking
         if currentChapter < chapterStartPositions.count {
             let chapterStart = chapterStartPositions[currentChapter]
             let chapterEnd: Int
@@ -735,7 +801,10 @@ extension BookReaderViewController: UITextViewDelegate {
             if chapterLength > 0 {
                 let progressInChapter = Double(characterIndex - chapterStart) / Double(chapterLength)
                 let clampedProgress = max(0, min(1, progressInChapter))
+                
+                // Update both chapter scroll position and overall book progress
                 viewModel.updateScrollPosition(clampedProgress)
+                viewModel.updateOverallProgress(clampedOverallProgress)
             }
         }
     }
