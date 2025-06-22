@@ -312,6 +312,10 @@ final class BookReaderViewController: UIViewController {
             // Use stored position on initial load
             DispatchQueue.main.async { [weak self] in
                 self?.scrollToCurrentChapter(animated: false, useStoredPosition: true)
+                // Mark as restored after scrolling to chapter position
+                self?.hasRestoredPosition = true
+                // Update UI to show loaded progress
+                self?.updateProgress()
             }
         }
         
@@ -546,13 +550,6 @@ final class BookReaderViewController: UIViewController {
         // Use the book's reading progress to determine scroll position
         let targetY = viewModel.readingProgress * maxScrollY
         
-        AppLogger.ui.info("Restoring book position", metadata: [
-            "readingProgress": viewModel.readingProgress,
-            "targetY": targetY,
-            "maxScrollY": maxScrollY,
-            "currentChapter": viewModel.currentChapterIndex
-        ])
-        
         // Scroll to the calculated position
         textView.setContentOffset(CGPoint(x: 0, y: targetY), animated: false)
     }
@@ -560,7 +557,22 @@ final class BookReaderViewController: UIViewController {
     private func updateProgress() {
         progressView.progress = Float(viewModel.readingProgress)
         percentageLabel.text = "\(Int(viewModel.readingProgress * 100))%"
-        readingTimeLabel.text = formatReadingTime(viewModel.totalReadingTime)
+        
+        // Calculate and display time remaining
+        let timeRemaining = calculateTimeRemaining()
+        if timeRemaining > 0 {
+            readingTimeLabel.text = "~\(formatReadingTime(timeRemaining)) left"
+        } else {
+            // Show different messages based on progress
+            if viewModel.readingProgress > 0.95 {
+                readingTimeLabel.text = "Almost done!"
+            } else if viewModel.totalReadingTime < 60 {
+                // Show reading time until we have enough data
+                readingTimeLabel.text = "Reading \(formatReadingTime(viewModel.totalReadingTime))"
+            } else {
+                readingTimeLabel.text = "Calculating..."
+            }
+        }
     }
     
     private func updateNavigationButtons() {
@@ -650,6 +662,24 @@ final class BookReaderViewController: UIViewController {
         }
     }
     
+    private func calculateTimeRemaining() -> TimeInterval {
+        // Don't calculate if we haven't started reading
+        guard viewModel.totalReadingTime > 60 else { return 0 }
+        guard viewModel.readingProgress > 0.01 else { return 0 }
+        
+        // Calculate reading speed based on progress so far
+        let timePerProgress = viewModel.totalReadingTime / viewModel.readingProgress
+        
+        // Calculate remaining progress
+        let remainingProgress = 1.0 - viewModel.readingProgress
+        
+        // Estimate time remaining
+        let estimatedTimeRemaining = remainingProgress * timePerProgress
+        
+        // Cap at reasonable maximum (10 hours)
+        return min(estimatedTimeRemaining, 36000)
+    }
+    
     private func createPapyrusTexture() {
         // Create a subtle papyrus texture pattern
         let size = CGSize(width: 100, height: 100)
@@ -696,11 +726,8 @@ extension BookReaderViewController: UITextViewDelegate {
         guard !isNavigatingChapter else { return } // Don't update chapter during navigation
         guard hasRestoredPosition else { return } // Don't update position during initial restore
         
-        // Calculate overall book position based on scroll
-        let currentY = scrollView.contentOffset.y
-        let totalHeight = scrollView.contentSize.height - scrollView.bounds.height
-        let overallProgress = totalHeight > 0 ? currentY / totalHeight : 0
-        let clampedOverallProgress = max(0, min(1, overallProgress))
+        // Don't calculate progress based on raw scroll position
+        // Instead, we'll calculate it based on chapter progress below
         
         // Calculate current position in the text
         let currentOffset = scrollView.contentOffset.y + scrollView.bounds.height / 2
@@ -748,9 +775,11 @@ extension BookReaderViewController: UITextViewDelegate {
                 let progressInChapter = Double(characterIndex - chapterStart) / Double(chapterLength)
                 let clampedProgress = max(0, min(1, progressInChapter))
                 
-                // Update both chapter scroll position and overall book progress
+                // Update chapter scroll position
                 viewModel.updateScrollPosition(clampedProgress)
-                viewModel.updateOverallProgress(clampedOverallProgress)
+                
+                // Don't use the scroll-based overall progress
+                // Let the view model calculate it based on chapter + chapter progress
             }
         }
     }

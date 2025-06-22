@@ -311,14 +311,6 @@ final class BookReaderViewModel {
         let newProgress = min(1.0, totalProgress)
         let progressChanged = abs(bookProgress.readingProgress - newProgress) > 0.001
         
-        AppLogger.viewModel.debug("updateProgress called", metadata: [
-            "currentChapterIndex": currentChapterIndex,
-            "chapterProgress": chapterProgress,
-            "oldProgress": bookProgress.readingProgress,
-            "newProgress": newProgress,
-            "scrollPosition": preferences.scrollPosition
-        ])
-        
         bookProgress.readingProgress = newProgress
         
         // Check if book is completed
