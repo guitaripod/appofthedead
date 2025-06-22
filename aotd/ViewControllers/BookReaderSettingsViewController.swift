@@ -23,25 +23,54 @@ protocol BookReaderSettingsDelegate: AnyObject {
 
 final class BookReaderSettingsViewController: UIViewController {
     
+    // MARK: - Types
+    
+    enum Section: Int, CaseIterable {
+        case appearance
+        case textLayout
+        case readingFeatures
+        case automation
+        
+        var title: String {
+            switch self {
+            case .appearance: return "Appearance"
+            case .textLayout: return "Text Layout"
+            case .readingFeatures: return "Reading Features"
+            case .automation: return "Automation"
+            }
+        }
+    }
+    
+    enum Item: Hashable {
+        case theme(value: String)
+        case fontFamily(value: String)
+        case fontSize(value: Double)
+        case fontWeight(value: String)
+        case brightness(value: Double)
+        case textAlignment(value: String)
+        case lineSpacing(value: Double)
+        case paragraphSpacing(value: Double)
+        case firstLineIndent(value: Double)
+        case margins(value: Double)
+        case hyphenation(enabled: Bool)
+        case pageTransition(style: String)
+        case pageProgress(enabled: Bool)
+        case keepScreenOn(enabled: Bool)
+        case swipeGestures(enabled: Bool)
+        case autoScrollSpeed(value: Double)
+        case ttsSpeed(value: Double)
+        case ttsVoice(value: String)
+    }
+    
     // MARK: - Properties
     
     weak var delegate: BookReaderSettingsDelegate?
     private var preferences: BookReadingPreferences
     private let databaseManager = DatabaseManager.shared
-    private var sections: [SettingsSection] = []
+    private var collectionView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     // MARK: - UI Components
-    
-    private lazy var tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.delegate = self
-        table.dataSource = self
-        table.backgroundColor = .clear
-        table.separatorStyle = .none
-        table.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-        return table
-    }()
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -99,7 +128,8 @@ final class BookReaderSettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupSections()
+        configureDataSource()
+        applySnapshot()
     }
     
     // MARK: - Setup
@@ -107,9 +137,15 @@ final class BookReaderSettingsViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         
+        // Configure collection view with compositional layout
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        
         headerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(headerView)
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -117,60 +153,282 @@ final class BookReaderSettingsViewController: UIViewController {
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 60),
             
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        // Register custom cells
-        tableView.register(SliderSettingCell.self, forCellReuseIdentifier: "SliderCell")
-        tableView.register(SegmentedSettingCell.self, forCellReuseIdentifier: "SegmentedCell")
-        tableView.register(SwitchSettingCell.self, forCellReuseIdentifier: "SwitchCell")
-        tableView.register(ThemeSelectionCell.self, forCellReuseIdentifier: "ThemeCell")
-        tableView.register(FontSelectionCell.self, forCellReuseIdentifier: "FontCell")
     }
     
-    private func setupSections() {
-        sections = [
-            // Appearance Section
-            SettingsSection(title: "Appearance", items: [
-                SettingItem(title: "Theme", type: .theme, value: preferences.theme),
-                SettingItem(title: "Font Family", type: .fontFamily, value: preferences.fontFamily),
-                SettingItem(title: "Font Size", type: .slider, value: preferences.fontSize, min: 12, max: 32),
-                SettingItem(title: "Font Weight", type: .segmented, value: preferences.fontWeight,
-                           options: ["Light", "Regular", "Medium", "Semibold", "Bold"]),
-                SettingItem(title: "Brightness", type: .slider, value: preferences.brightness, min: 0.3, max: 1.0)
-            ]),
+    private func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+        
+        let layout = UICollectionViewCompositionalLayout(sectionProvider: { [weak self] sectionIndex, _ in
+            guard let self = self,
+                  let section = Section(rawValue: sectionIndex) else { return nil }
             
-            // Text Layout Section
-            SettingsSection(title: "Text Layout", items: [
-                SettingItem(title: "Text Alignment", type: .segmented, value: preferences.textAlignment,
-                           options: ["Left", "Center", "Right", "Justified"]),
-                SettingItem(title: "Line Spacing", type: .slider, value: preferences.lineSpacing, min: 1.0, max: 2.5),
-                SettingItem(title: "Paragraph Spacing", type: .slider, value: preferences.paragraphSpacing, min: 1.0, max: 2.0),
-                SettingItem(title: "First Line Indent", type: .slider, value: preferences.firstLineIndent, min: 0, max: 50),
-                SettingItem(title: "Margins", type: .slider, value: preferences.marginSize, min: 10, max: 50),
-                SettingItem(title: "Enable Hyphenation", type: .switch, value: preferences.enableHyphenation)
-            ]),
+            // Create different layouts based on section
+            switch section {
+            case .appearance:
+                return self.createAppearanceSection()
+            case .textLayout, .readingFeatures, .automation:
+                return self.createStandardSection()
+            }
+        }, configuration: config)
+        
+        // Register header
+        layout.register(
+            SectionHeaderView.self,
+            forDecorationViewOfKind: UICollectionView.elementKindSectionHeader
+        )
+        
+        return layout
+    }
+    
+    private func createAppearanceSection() -> NSCollectionLayoutSection {
+        // Item
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(80)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        // Group
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(80)
+        )
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        // Section
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        section.interGroupSpacing = 12
+        
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(44)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    private func createStandardSection() -> NSCollectionLayoutSection {
+        // Item
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(60)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        // Group
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(60)
+        )
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        // Section
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        section.interGroupSpacing = 8
+        
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(44)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    private func configureDataSource() {
+        // Register cells
+        collectionView.register(ThemeSettingCell.self, forCellWithReuseIdentifier: "ThemeCell")
+        collectionView.register(FontFamilySettingCell.self, forCellWithReuseIdentifier: "FontFamilyCell")
+        collectionView.register(SliderSettingCell.self, forCellWithReuseIdentifier: "SliderCell")
+        collectionView.register(SegmentedSettingCell.self, forCellWithReuseIdentifier: "SegmentedCell")
+        collectionView.register(SwitchSettingCell.self, forCellWithReuseIdentifier: "SwitchCell")
+        
+        // Register header
+        collectionView.register(
+            SectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "SectionHeader"
+        )
+        
+        // Create data source
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(
+            collectionView: collectionView
+        ) { [weak self] collectionView, indexPath, item in
+            guard let self = self else { return nil }
             
-            // Reading Features Section
-            SettingsSection(title: "Reading Features", items: [
-                SettingItem(title: "Page Transition", type: .segmented, value: preferences.pageTransitionStyle,
-                           options: ["Scroll", "Page Turn"]),
-                SettingItem(title: "Show Page Progress", type: .switch, value: preferences.showPageProgress),
-                SettingItem(title: "Keep Screen On", type: .switch, value: preferences.keepScreenOn),
-                SettingItem(title: "Enable Swipe Gestures", type: .switch, value: preferences.enableSwipeGestures)
-            ]),
+            switch item {
+            case .theme(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThemeCell", for: indexPath) as! ThemeSettingCell
+                cell.configure(value: value, delegate: self)
+                return cell
+                
+            case .fontFamily(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FontFamilyCell", for: indexPath) as! FontFamilySettingCell
+                cell.configure(value: value, delegate: self)
+                return cell
+                
+            case .fontSize(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Font Size", value: value, min: 12, max: 32, format: { "\(Int($0))pt" }, delegate: self)
+                return cell
+                
+            case .fontWeight(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
+                cell.configure(title: "Font Weight", value: value, options: ["Light", "Regular", "Medium", "Semibold", "Bold"], delegate: self)
+                return cell
+                
+            case .brightness(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Brightness", value: value, min: 0.3, max: 1.0, format: { "\(Int($0 * 100))%" }, delegate: self)
+                return cell
+                
+            case .textAlignment(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
+                cell.configure(title: "Text Alignment", value: value, options: ["Left", "Center", "Right", "Justified"], delegate: self)
+                return cell
+                
+            case .lineSpacing(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Line Spacing", value: value, min: 1.0, max: 2.5, format: { String(format: "%.1f", $0) }, delegate: self)
+                return cell
+                
+            case .paragraphSpacing(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Paragraph Spacing", value: value, min: 1.0, max: 2.0, format: { String(format: "%.1f", $0) }, delegate: self)
+                return cell
+                
+            case .firstLineIndent(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "First Line Indent", value: value, min: 0, max: 50, format: { "\(Int($0))" }, delegate: self)
+                return cell
+                
+            case .margins(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Margins", value: value, min: 10, max: 50, format: { "\(Int($0))" }, delegate: self)
+                return cell
+                
+            case .hyphenation(let enabled):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
+                cell.configure(title: "Enable Hyphenation", value: enabled, delegate: self)
+                return cell
+                
+            case .pageTransition(let style):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
+                cell.configure(title: "Page Transition", value: style, options: ["Scroll", "Page Turn"], delegate: self)
+                return cell
+                
+            case .pageProgress(let enabled):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
+                cell.configure(title: "Show Page Progress", value: enabled, delegate: self)
+                return cell
+                
+            case .keepScreenOn(let enabled):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
+                cell.configure(title: "Keep Screen On", value: enabled, delegate: self)
+                return cell
+                
+            case .swipeGestures(let enabled):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
+                cell.configure(title: "Enable Swipe Gestures", value: enabled, delegate: self)
+                return cell
+                
+            case .autoScrollSpeed(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "Auto-Scroll Speed", value: value, min: 10, max: 100, format: { "\(Int($0))" }, delegate: self)
+                return cell
+                
+            case .ttsSpeed(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
+                cell.configure(title: "TTS Speed", value: value, min: 0.5, max: 2.0, format: { String(format: "%.1fx", $0) }, delegate: self)
+                return cell
+                
+            case .ttsVoice(let value):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
+                cell.configure(title: "TTS Voice", value: value, options: getAvailableVoices(), delegate: self)
+                return cell
+            }
+        }
+        
+        // Configure supplementary view provider
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
             
-            // Automation Section
-            SettingsSection(title: "Automation", items: [
-                SettingItem(title: "Auto-Scroll Speed", type: .slider, value: preferences.autoScrollSpeed ?? 50.0, min: 10, max: 100),
-                SettingItem(title: "TTS Speed", type: .slider, value: Double(preferences.ttsSpeed), min: 0.5, max: 2.0),
-                SettingItem(title: "TTS Voice", type: .segmented, value: preferences.ttsVoice ?? "Default",
-                           options: getAvailableVoices())
-            ])
-        ]
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "SectionHeader",
+                for: indexPath
+            ) as! SectionHeaderView
+            
+            let section = Section(rawValue: indexPath.section)!
+            header.configure(title: section.title)
+            
+            return header
+        }
+    }
+    
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        
+        // Appearance section
+        snapshot.appendSections([.appearance])
+        snapshot.appendItems([
+            .theme(value: preferences.theme),
+            .fontFamily(value: preferences.fontFamily),
+            .fontSize(value: preferences.fontSize),
+            .fontWeight(value: preferences.fontWeight),
+            .brightness(value: preferences.brightness)
+        ], toSection: .appearance)
+        
+        // Text Layout section
+        snapshot.appendSections([.textLayout])
+        snapshot.appendItems([
+            .textAlignment(value: preferences.textAlignment),
+            .lineSpacing(value: preferences.lineSpacing),
+            .paragraphSpacing(value: preferences.paragraphSpacing),
+            .firstLineIndent(value: preferences.firstLineIndent),
+            .margins(value: preferences.marginSize),
+            .hyphenation(enabled: preferences.enableHyphenation)
+        ], toSection: .textLayout)
+        
+        // Reading Features section
+        snapshot.appendSections([.readingFeatures])
+        snapshot.appendItems([
+            .pageTransition(style: preferences.pageTransitionStyle),
+            .pageProgress(enabled: preferences.showPageProgress),
+            .keepScreenOn(enabled: preferences.keepScreenOn),
+            .swipeGestures(enabled: preferences.enableSwipeGestures)
+        ], toSection: .readingFeatures)
+        
+        // Automation section
+        snapshot.appendSections([.automation])
+        snapshot.appendItems([
+            .autoScrollSpeed(value: preferences.autoScrollSpeed ?? 50.0),
+            .ttsSpeed(value: Double(preferences.ttsSpeed)),
+            .ttsVoice(value: preferences.ttsVoice ?? "Default")
+        ], toSection: .automation)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func getAvailableVoices() -> [String] {
@@ -197,214 +455,137 @@ final class BookReaderSettingsViewController: UIViewController {
             }
         }
     }
-    
-    // MARK: - Helper Methods
-    
-    private func updatePreference(for item: SettingItem, value: Any) {
-        switch item.title {
-        case "Theme":
-            preferences.theme = value as? String ?? "papyrus"
-            delegate?.settingsDidUpdateTheme(preferences.theme)
-        case "Font Family":
-            preferences.fontFamily = value as? String ?? "Georgia"
-            delegate?.settingsDidUpdateFontFamily(preferences.fontFamily)
-        case "Font Size":
-            preferences.fontSize = value as? Double ?? 18.0
-            delegate?.settingsDidUpdateFontSize(preferences.fontSize)
-        case "Font Weight":
-            preferences.fontWeight = value as? String ?? "regular"
-            delegate?.settingsDidUpdateFontWeight(preferences.fontWeight)
-        case "Brightness":
-            preferences.brightness = value as? Double ?? 1.0
-            delegate?.settingsDidUpdateBrightness(preferences.brightness)
-        case "Text Alignment":
-            preferences.textAlignment = value as? String ?? "justified"
-            delegate?.settingsDidUpdateTextAlignment(preferences.textAlignment)
-        case "Line Spacing":
-            preferences.lineSpacing = value as? Double ?? 1.5
-            delegate?.settingsDidUpdateLineSpacing(preferences.lineSpacing)
-        case "Paragraph Spacing":
-            preferences.paragraphSpacing = value as? Double ?? 1.2
-            delegate?.settingsDidUpdateParagraphSpacing(preferences.paragraphSpacing)
-        case "First Line Indent":
-            preferences.firstLineIndent = value as? Double ?? 30.0
-            delegate?.settingsDidUpdateFirstLineIndent(preferences.firstLineIndent)
-        case "Margins":
-            preferences.marginSize = value as? Double ?? 20.0
-            delegate?.settingsDidUpdateMargins(preferences.marginSize)
-        case "Enable Hyphenation":
-            preferences.enableHyphenation = value as? Bool ?? true
-            delegate?.settingsDidUpdateHyphenation(preferences.enableHyphenation)
-        case "Page Transition":
-            preferences.pageTransitionStyle = value as? String ?? "scroll"
-            delegate?.settingsDidUpdatePageTransition(preferences.pageTransitionStyle)
-        case "Show Page Progress":
-            preferences.showPageProgress = value as? Bool ?? true
-            delegate?.settingsDidUpdatePageProgress(preferences.showPageProgress)
-        case "Keep Screen On":
-            preferences.keepScreenOn = value as? Bool ?? true
-            delegate?.settingsDidUpdateKeepScreenOn(preferences.keepScreenOn)
-        case "Enable Swipe Gestures":
-            preferences.enableSwipeGestures = value as? Bool ?? true
-            delegate?.settingsDidUpdateSwipeGestures(preferences.enableSwipeGestures)
-        case "Auto-Scroll Speed":
-            preferences.autoScrollSpeed = value as? Double
-            delegate?.settingsDidUpdateAutoScrollSpeed(preferences.autoScrollSpeed ?? 50.0)
-        case "TTS Speed":
-            preferences.ttsSpeed = Float(value as? Double ?? 1.0)
-            delegate?.settingsDidUpdateTTSSpeed(preferences.ttsSpeed)
-        case "TTS Voice":
-            preferences.ttsVoice = value as? String
-        default:
-            break
-        }
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension BookReaderSettingsViewController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = sections[indexPath.section].items[indexPath.row]
-        
-        switch item.type {
-        case .slider:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-            cell.configure(with: item, delegate: self)
-            return cell
-            
-        case .segmented:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
-            cell.configure(with: item, delegate: self)
-            return cell
-            
-        case .switch:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
-            cell.configure(with: item, delegate: self)
-            return cell
-            
-        case .theme:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ThemeCell", for: indexPath) as! ThemeSelectionCell
-            cell.configure(with: item, delegate: self)
-            return cell
-            
-        case .fontFamily:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FontCell", for: indexPath) as! FontSelectionCell
-            cell.configure(with: item, delegate: self)
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
-    }
-}
-
-// MARK: - UITableViewDelegate
-
-extension BookReaderSettingsViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = sections[indexPath.section].items[indexPath.row]
-        switch item.type {
-        case .theme:
-            return 80
-        case .fontFamily:
-            return 120
-        case .segmented:
-            // Check if it's the font weight cell specifically
-            if item.title == "Font Weight" {
-                return 80  // Give more height for better visibility
-            }
-            return 80  // Standard height for segmented controls
-        case .slider:
-            return 80  // More height for sliders to prevent text cutoff
-        case .switch:
-            return 60  // Standard height for switches
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        
-        let label = UILabel()
-        label.text = sections[section].title
-        label.font = PapyrusDesignSystem.Typography.body(weight: .bold)
-        label.textColor = PapyrusDesignSystem.Colors.goldLeaf
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        headerView.addSubview(label)
-        
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
-        
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
 }
 
 // MARK: - SettingsCellDelegate
 
+protocol SettingsCellDelegate: AnyObject {
+    func settingValueChanged(_ value: Any, for indexPath: IndexPath)
+}
+
 extension BookReaderSettingsViewController: SettingsCellDelegate {
-    func settingValueChanged(_ item: SettingItem, value: Any) {
-        updatePreference(for: item, value: value)
+    func settingValueChanged(_ value: Any, for indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        switch item {
+        case .theme:
+            preferences.theme = value as? String ?? "papyrus"
+            delegate?.settingsDidUpdateTheme(preferences.theme)
+            
+        case .fontFamily:
+            preferences.fontFamily = value as? String ?? "Georgia"
+            delegate?.settingsDidUpdateFontFamily(preferences.fontFamily)
+            
+        case .fontSize:
+            preferences.fontSize = value as? Double ?? 18.0
+            delegate?.settingsDidUpdateFontSize(preferences.fontSize)
+            
+        case .fontWeight:
+            preferences.fontWeight = value as? String ?? "regular"
+            delegate?.settingsDidUpdateFontWeight(preferences.fontWeight)
+            
+        case .brightness:
+            preferences.brightness = value as? Double ?? 1.0
+            delegate?.settingsDidUpdateBrightness(preferences.brightness)
+            
+        case .textAlignment:
+            preferences.textAlignment = value as? String ?? "justified"
+            delegate?.settingsDidUpdateTextAlignment(preferences.textAlignment)
+            
+        case .lineSpacing:
+            preferences.lineSpacing = value as? Double ?? 1.5
+            delegate?.settingsDidUpdateLineSpacing(preferences.lineSpacing)
+            
+        case .paragraphSpacing:
+            preferences.paragraphSpacing = value as? Double ?? 1.2
+            delegate?.settingsDidUpdateParagraphSpacing(preferences.paragraphSpacing)
+            
+        case .firstLineIndent:
+            preferences.firstLineIndent = value as? Double ?? 30.0
+            delegate?.settingsDidUpdateFirstLineIndent(preferences.firstLineIndent)
+            
+        case .margins:
+            preferences.marginSize = value as? Double ?? 20.0
+            delegate?.settingsDidUpdateMargins(preferences.marginSize)
+            
+        case .hyphenation:
+            preferences.enableHyphenation = value as? Bool ?? true
+            delegate?.settingsDidUpdateHyphenation(preferences.enableHyphenation)
+            
+        case .pageTransition:
+            preferences.pageTransitionStyle = value as? String ?? "scroll"
+            delegate?.settingsDidUpdatePageTransition(preferences.pageTransitionStyle)
+            
+        case .pageProgress:
+            preferences.showPageProgress = value as? Bool ?? true
+            delegate?.settingsDidUpdatePageProgress(preferences.showPageProgress)
+            
+        case .keepScreenOn:
+            preferences.keepScreenOn = value as? Bool ?? true
+            delegate?.settingsDidUpdateKeepScreenOn(preferences.keepScreenOn)
+            
+        case .swipeGestures:
+            preferences.enableSwipeGestures = value as? Bool ?? true
+            delegate?.settingsDidUpdateSwipeGestures(preferences.enableSwipeGestures)
+            
+        case .autoScrollSpeed:
+            preferences.autoScrollSpeed = value as? Double
+            delegate?.settingsDidUpdateAutoScrollSpeed(preferences.autoScrollSpeed ?? 50.0)
+            
+        case .ttsSpeed:
+            preferences.ttsSpeed = Float(value as? Double ?? 1.0)
+            delegate?.settingsDidUpdateTTSSpeed(preferences.ttsSpeed)
+            
+        case .ttsVoice:
+            preferences.ttsVoice = value as? String
+        }
+        
+        // Refresh the specific item
+        applySnapshot()
     }
 }
 
-// MARK: - Data Models
+// MARK: - Section Header View
 
-struct SettingsSection {
-    let title: String
-    let items: [SettingItem]
-}
-
-struct SettingItem {
-    let title: String
-    let type: SettingType
-    var value: Any
-    var min: Double?
-    var max: Double?
-    var options: [String]?
-}
-
-enum SettingType {
-    case slider
-    case segmented
-    case `switch`
-    case theme
-    case fontFamily
-}
-
-// MARK: - Custom Cells
-
-protocol SettingsCellDelegate: AnyObject {
-    func settingValueChanged(_ item: SettingItem, value: Any)
-}
-
-// Base class for setting cells
-class BaseSettingCell: UITableViewCell {
-    weak var delegate: SettingsCellDelegate?
-    var item: SettingItem?
+class SectionHeaderView: UICollectionReusableView {
+    private let titleLabel = UILabel()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-        backgroundColor = .clear
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        titleLabel.font = PapyrusDesignSystem.Typography.body(weight: .bold)
+        titleLabel.textColor = PapyrusDesignSystem.Colors.goldLeaf
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        ])
+    }
+    
+    func configure(title: String) {
+        titleLabel.text = title.uppercased()
+    }
+}
+
+// MARK: - Cell Classes
+
+class BaseSettingCell: UICollectionViewCell {
+    weak var delegate: SettingsCellDelegate?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
     }
     
@@ -415,196 +596,18 @@ class BaseSettingCell: UITableViewCell {
     func setupUI() {
         // Override in subclasses
     }
-    
-    func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        self.item = item
-        self.delegate = delegate
-    }
 }
 
-// Slider cell
-class SliderSettingCell: BaseSettingCell {
-    private let titleLabel = UILabel()
-    private let valueLabel = UILabel()
-    private let slider = UISlider()
-    
-    override func setupUI() {
-        titleLabel.font = PapyrusDesignSystem.Typography.body()
-        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
-        
-        valueLabel.font = PapyrusDesignSystem.Typography.caption1()
-        valueLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
-        valueLabel.textAlignment = .right
-        
-        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
-        stack.spacing = 8
-        
-        let mainStack = UIStackView(arrangedSubviews: [stack, slider])
-        mainStack.axis = .vertical
-        mainStack.spacing = 12  // Increased spacing
-        mainStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(mainStack)
-        
-        NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-        ])
-    }
-    
-    override func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        super.configure(with: item, delegate: delegate)
-        
-        titleLabel.text = item.title
-        slider.minimumValue = Float(item.min ?? 0)
-        slider.maximumValue = Float(item.max ?? 100)
-        slider.value = Float(item.value as? Double ?? 0)
-        updateValueLabel()
-    }
-    
-    @objc private func sliderChanged() {
-        updateValueLabel()
-        delegate?.settingValueChanged(item!, value: Double(slider.value))
-    }
-    
-    private func updateValueLabel() {
-        if item?.title == "Font Size" {
-            valueLabel.text = "\(Int(slider.value))pt"
-        } else if item?.title == "TTS Speed" {
-            valueLabel.text = String(format: "%.1fx", slider.value)
-        } else if item?.title == "Brightness" {
-            valueLabel.text = "\(Int(slider.value * 100))%"
-        } else {
-            valueLabel.text = "\(Int(slider.value))"
-        }
-    }
-}
+// MARK: - Theme Cell
 
-// Segmented control cell
-class SegmentedSettingCell: BaseSettingCell {
-    private let titleLabel = UILabel()
-    private let segmentedControl = UISegmentedControl()
-    
-    override func setupUI() {
-        titleLabel.font = PapyrusDesignSystem.Typography.body()
-        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
-        
-        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
-        segmentedControl.backgroundColor = PapyrusDesignSystem.Colors.beige
-        segmentedControl.selectedSegmentTintColor = PapyrusDesignSystem.Colors.goldLeaf
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, segmentedControl])
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(stack)
-        
-        NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        ])
-    }
-    
-    override func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        super.configure(with: item, delegate: delegate)
-        
-        titleLabel.text = item.title
-        
-        segmentedControl.removeAllSegments()
-        item.options?.enumerated().forEach { index, option in
-            segmentedControl.insertSegment(withTitle: option, at: index, animated: false)
-        }
-        
-        // Map value to segment index
-        if let currentValue = item.value as? String,
-           let index = mapValueToSegmentIndex(value: currentValue, for: item.title) {
-            segmentedControl.selectedSegmentIndex = index
-        }
-    }
-    
-    @objc private func segmentChanged() {
-        let value = mapSegmentIndexToValue(index: segmentedControl.selectedSegmentIndex, for: item?.title ?? "")
-        delegate?.settingValueChanged(item!, value: value)
-    }
-    
-    private func mapValueToSegmentIndex(value: String, for title: String) -> Int? {
-        switch title {
-        case "Text Alignment":
-            return ["left", "center", "right", "justified"].firstIndex(of: value)
-        case "Font Weight":
-            return ["light", "regular", "medium", "semibold", "bold"].firstIndex(of: value)
-        case "Page Transition":
-            return ["scroll", "page"].firstIndex(of: value)
-        default:
-            return item?.options?.firstIndex(of: value)
-        }
-    }
-    
-    private func mapSegmentIndexToValue(index: Int, for title: String) -> String {
-        switch title {
-        case "Text Alignment":
-            return ["left", "center", "right", "justified"][index]
-        case "Font Weight":
-            return ["light", "regular", "medium", "semibold", "bold"][index]
-        case "Page Transition":
-            return ["scroll", "page"][index]
-        default:
-            return item?.options?[index] ?? ""
-        }
-    }
-}
-
-// Switch cell
-class SwitchSettingCell: BaseSettingCell {
-    private let titleLabel = UILabel()
-    private let switchControl = UISwitch()
-    
-    override func setupUI() {
-        titleLabel.font = PapyrusDesignSystem.Typography.body()
-        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
-        
-        switchControl.onTintColor = PapyrusDesignSystem.Colors.goldLeaf
-        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-        
-        let stack = UIStackView(arrangedSubviews: [titleLabel, switchControl])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(stack)
-        
-        NSLayoutConstraint.activate([
-            stack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    override func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        super.configure(with: item, delegate: delegate)
-        
-        titleLabel.text = item.title
-        switchControl.isOn = item.value as? Bool ?? false
-    }
-    
-    @objc private func switchChanged() {
-        delegate?.settingValueChanged(item!, value: switchControl.isOn)
-    }
-}
-
-// Theme selection cell
-class ThemeSelectionCell: BaseSettingCell {
+class ThemeSettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
     private var themeButtons: [UIButton] = []
     private let stackView = UIStackView()
+    private var currentValue: String = ""
     
     override func setupUI() {
+        titleLabel.text = "Theme"
         titleLabel.font = PapyrusDesignSystem.Typography.body()
         titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
         
@@ -621,31 +624,19 @@ class ThemeSelectionCell: BaseSettingCell {
         
         NSLayoutConstraint.activate([
             mainStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
+        
+        setupThemeButtons()
     }
     
-    override func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        super.configure(with: item, delegate: delegate)
-        
-        titleLabel.text = item.title
-        
-        // Clear existing buttons
-        themeButtons.forEach { $0.removeFromSuperview() }
-        themeButtons.removeAll()
-        
-        // Sort themes to ensure consistent order
+    private func setupThemeButtons() {
         let sortedThemes = ReadingTheme.themes.sorted { $0.key < $1.key }
         
-        // Create theme buttons
         for (key, theme) in sortedThemes {
             let button = createThemeButton(theme: theme, key: key)
-            button.isSelected = (item.value as? String) == key
-            if button.isSelected {
-                button.layer.borderColor = PapyrusDesignSystem.Colors.goldLeaf.cgColor
-            }
             themeButtons.append(button)
             stackView.addArrangedSubview(button)
         }
@@ -681,7 +672,6 @@ class ThemeSelectionCell: BaseSettingCell {
     }
     
     @objc private func themeButtonTapped(_ sender: UIButton) {
-        // Update selection state
         themeButtons.forEach { button in
             button.layer.borderColor = UIColor.clear.cgColor
             button.isSelected = false
@@ -690,33 +680,47 @@ class ThemeSelectionCell: BaseSettingCell {
         sender.layer.borderColor = PapyrusDesignSystem.Colors.goldLeaf.cgColor
         sender.isSelected = true
         
-        // Get theme key - use sorted order
         let sortedThemeKeys = ReadingTheme.themes.keys.sorted()
         let themeKey = sortedThemeKeys[sender.tag]
         
-        delegate?.settingValueChanged(item!, value: themeKey)
+        if let indexPath = (superview as? UICollectionView)?.indexPath(for: self) {
+            delegate?.settingValueChanged(themeKey, for: indexPath)
+        }
+    }
+    
+    func configure(value: String, delegate: SettingsCellDelegate) {
+        self.delegate = delegate
+        self.currentValue = value
+        
+        let sortedThemeKeys = ReadingTheme.themes.keys.sorted()
+        if let index = sortedThemeKeys.firstIndex(of: value) {
+            themeButtons[index].layer.borderColor = PapyrusDesignSystem.Colors.goldLeaf.cgColor
+            themeButtons[index].isSelected = true
+        }
     }
 }
 
-// Font selection cell
-class FontSelectionCell: BaseSettingCell {
+// MARK: - Font Family Cell
+
+class FontFamilySettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
     private let collectionView: UICollectionView
+    private var currentValue: String = ""
     
     private let fonts = [
         "Georgia", "Palatino", "Baskerville", "Times New Roman",
         "Helvetica Neue", "San Francisco", "Avenir", "Charter"
     ]
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 60)
+        layout.itemSize = CGSize(width: 100, height: 50)
         layout.minimumInteritemSpacing = 8
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(frame: frame)
     }
     
     required init?(coder: NSCoder) {
@@ -724,6 +728,7 @@ class FontSelectionCell: BaseSettingCell {
     }
     
     override func setupUI() {
+        titleLabel.text = "Font Family"
         titleLabel.font = PapyrusDesignSystem.Typography.body()
         titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
         
@@ -742,21 +747,21 @@ class FontSelectionCell: BaseSettingCell {
         
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            collectionView.heightAnchor.constraint(equalToConstant: 60)
+            collectionView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    override func configure(with item: SettingItem, delegate: SettingsCellDelegate) {
-        super.configure(with: item, delegate: delegate)
-        titleLabel.text = item.title
+    func configure(value: String, delegate: SettingsCellDelegate) {
+        self.delegate = delegate
+        self.currentValue = value
         collectionView.reloadData()
     }
 }
 
-extension FontSelectionCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FontFamilySettingCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fonts.count
     }
@@ -764,13 +769,14 @@ extension FontSelectionCell: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FontCell", for: indexPath) as! FontCell
         let fontName = fonts[indexPath.item]
-        cell.configure(fontName: fontName, isSelected: fontName == (item?.value as? String))
+        cell.configure(fontName: fontName, isSelected: fontName == currentValue)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.settingValueChanged(item!, value: fonts[indexPath.item])
-        collectionView.reloadData()
+        if let parentIndexPath = (superview as? UICollectionView)?.indexPath(for: self) {
+            delegate?.settingValueChanged(fonts[indexPath.item], for: parentIndexPath)
+        }
     }
 }
 
@@ -805,7 +811,189 @@ class FontCell: UICollectionViewCell {
     
     func configure(fontName: String, isSelected: Bool) {
         label.text = "Aa"
-        label.font = UIFont(name: fontName, size: 18) ?? .systemFont(ofSize: 18)
+        label.font = UIFont(name: fontName, size: 16) ?? .systemFont(ofSize: 16)
         layer.borderColor = isSelected ? PapyrusDesignSystem.Colors.goldLeaf.cgColor : UIColor.clear.cgColor
+    }
+}
+
+// MARK: - Slider Cell
+
+class SliderSettingCell: BaseSettingCell {
+    private let titleLabel = UILabel()
+    private let valueLabel = UILabel()
+    private let slider = UISlider()
+    private var formatValue: ((Double) -> String)?
+    
+    override func setupUI() {
+        titleLabel.font = PapyrusDesignSystem.Typography.body()
+        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
+        
+        valueLabel.font = PapyrusDesignSystem.Typography.caption1()
+        valueLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+        valueLabel.textAlignment = .right
+        
+        slider.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+        slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
+        
+        let topStack = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
+        topStack.spacing = 8
+        
+        let mainStack = UIStackView(arrangedSubviews: [topStack, slider])
+        mainStack.axis = .vertical
+        mainStack.spacing = 12
+        mainStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(mainStack)
+        
+        NSLayoutConstraint.activate([
+            mainStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+        ])
+    }
+    
+    func configure(title: String, value: Double, min: Double, max: Double, format: @escaping (Double) -> String, delegate: SettingsCellDelegate) {
+        self.delegate = delegate
+        self.formatValue = format
+        
+        titleLabel.text = title
+        slider.minimumValue = Float(min)
+        slider.maximumValue = Float(max)
+        slider.value = Float(value)
+        updateValueLabel()
+    }
+    
+    @objc private func sliderChanged() {
+        updateValueLabel()
+        if let indexPath = (superview as? UICollectionView)?.indexPath(for: self) {
+            delegate?.settingValueChanged(Double(slider.value), for: indexPath)
+        }
+    }
+    
+    private func updateValueLabel() {
+        if let format = formatValue {
+            valueLabel.text = format(Double(slider.value))
+        } else {
+            valueLabel.text = "\(Int(slider.value))"
+        }
+    }
+}
+
+// MARK: - Segmented Cell
+
+class SegmentedSettingCell: BaseSettingCell {
+    private let titleLabel = UILabel()
+    private let segmentedControl = UISegmentedControl()
+    private var currentTitle: String = ""
+    
+    override func setupUI() {
+        titleLabel.font = PapyrusDesignSystem.Typography.body()
+        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
+        
+        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        segmentedControl.backgroundColor = PapyrusDesignSystem.Colors.beige
+        segmentedControl.selectedSegmentTintColor = PapyrusDesignSystem.Colors.goldLeaf
+        
+        let stack = UIStackView(arrangedSubviews: [titleLabel, segmentedControl])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(stack)
+        
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        ])
+    }
+    
+    func configure(title: String, value: String, options: [String], delegate: SettingsCellDelegate) {
+        self.delegate = delegate
+        self.currentTitle = title
+        
+        titleLabel.text = title
+        
+        segmentedControl.removeAllSegments()
+        options.enumerated().forEach { index, option in
+            segmentedControl.insertSegment(withTitle: option, at: index, animated: false)
+        }
+        
+        if let index = mapValueToSegmentIndex(value: value, for: title) {
+            segmentedControl.selectedSegmentIndex = index
+        }
+    }
+    
+    @objc private func segmentChanged() {
+        let value = mapSegmentIndexToValue(index: segmentedControl.selectedSegmentIndex, for: currentTitle)
+        if let indexPath = (superview as? UICollectionView)?.indexPath(for: self) {
+            delegate?.settingValueChanged(value, for: indexPath)
+        }
+    }
+    
+    private func mapValueToSegmentIndex(value: String, for title: String) -> Int? {
+        switch title {
+        case "Text Alignment":
+            return ["left", "center", "right", "justified"].firstIndex(of: value)
+        case "Font Weight":
+            return ["light", "regular", "medium", "semibold", "bold"].firstIndex(of: value)
+        case "Page Transition":
+            return ["scroll", "page"].firstIndex(of: value)
+        default:
+            return nil
+        }
+    }
+    
+    private func mapSegmentIndexToValue(index: Int, for title: String) -> String {
+        switch title {
+        case "Text Alignment":
+            return ["left", "center", "right", "justified"][index]
+        case "Font Weight":
+            return ["light", "regular", "medium", "semibold", "bold"][index]
+        case "Page Transition":
+            return ["scroll", "page"][index]
+        default:
+            return ""
+        }
+    }
+}
+
+// MARK: - Switch Cell
+
+class SwitchSettingCell: BaseSettingCell {
+    private let titleLabel = UILabel()
+    private let switchControl = UISwitch()
+    
+    override func setupUI() {
+        titleLabel.font = PapyrusDesignSystem.Typography.body()
+        titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
+        
+        switchControl.onTintColor = PapyrusDesignSystem.Colors.goldLeaf
+        switchControl.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        
+        let stack = UIStackView(arrangedSubviews: [titleLabel, switchControl])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(stack)
+        
+        NSLayoutConstraint.activate([
+            stack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    func configure(title: String, value: Bool, delegate: SettingsCellDelegate) {
+        self.delegate = delegate
+        titleLabel.text = title
+        switchControl.isOn = value
+    }
+    
+    @objc private func switchChanged() {
+        if let indexPath = (superview as? UICollectionView)?.indexPath(for: self) {
+            delegate?.settingValueChanged(switchControl.isOn, for: indexPath)
+        }
     }
 }
