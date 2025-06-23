@@ -74,6 +74,15 @@ final class BookListCell: UICollectionViewCell {
         return imageView
     }()
     
+    private lazy var lockIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "lock.fill")
+        imageView.tintColor = PapyrusDesignSystem.Colors.aged
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -96,6 +105,7 @@ final class BookListCell: UICollectionViewCell {
         containerView.addSubview(progressView)
         containerView.addSubview(statusLabel)
         containerView.addSubview(chevronImageView)
+        containerView.addSubview(lockIconImageView)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         bookSpineView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,67 +115,142 @@ final class BookListCell: UICollectionViewCell {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
+        lockIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            // Container
+        // Set content hugging and compression resistance priorities
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        
+        subtitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        subtitleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        
+        statusLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        statusLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        // Create constraints with proper priorities
+        let containerConstraints = [
+            // Container - required constraints
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            // Book spine (left edge)
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ]
+        
+        // Book spine - fixed size
+        let spineConstraints = [
             bookSpineView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             bookSpineView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             bookSpineView.widthAnchor.constraint(equalToConstant: 4),
-            bookSpineView.heightAnchor.constraint(equalToConstant: 76),
-            
-            // Cover image (left side)
+            bookSpineView.heightAnchor.constraint(equalToConstant: 76)
+        ]
+        
+        // Cover image - fixed size and position
+        let coverConstraints = [
             coverImageView.leadingAnchor.constraint(equalTo: bookSpineView.trailingAnchor, constant: 2),
             coverImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             coverImageView.widthAnchor.constraint(equalToConstant: 54),
-            coverImageView.heightAnchor.constraint(equalToConstant: 76),
-            
-            // Chevron (right side)
+            coverImageView.heightAnchor.constraint(equalToConstant: 76)
+        ]
+        
+        // Chevron - fixed size and position
+        let chevronConstraints = [
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             chevronImageView.widthAnchor.constraint(equalToConstant: 20),
-            chevronImageView.heightAnchor.constraint(equalToConstant: 20),
-            
-            // Title
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 20)
+        ]
+        
+        // Title - flexible width
+        let titleConstraints = [
+            titleLabel.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
-            
-            // Subtitle
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: chevronImageView.leadingAnchor, constant: -12)
+        ]
+        
+        // Center title vertically when there's enough space
+        let titleCenterConstraint = titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16)
+        titleCenterConstraint.priority = .defaultHigh
+        
+        // Subtitle
+        let subtitleConstraints = [
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: statusLabel.leadingAnchor, constant: -8),
-            
-            // Progress
+            subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusLabel.leadingAnchor, constant: -8)
+        ]
+        
+        // Progress
+        let progressConstraints = [
             progressView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
             progressView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             progressView.widthAnchor.constraint(equalToConstant: 120),
-            progressView.heightAnchor.constraint(equalToConstant: 4),
-            progressView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -16),
-            
-            // Status
+            progressView.heightAnchor.constraint(equalToConstant: 4)
+        ]
+        
+        // Bottom constraint with priority
+        let progressBottomConstraint = progressView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
+        progressBottomConstraint.priority = .defaultHigh
+        
+        // Status
+        let statusConstraints = [
             statusLabel.centerYAnchor.constraint(equalTo: subtitleLabel.centerYAnchor),
-            statusLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12)
-        ])
+            statusLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
+            statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40)
+        ]
+        
+        // Lock icon
+        let lockConstraints = [
+            lockIconImageView.centerXAnchor.constraint(equalTo: coverImageView.centerXAnchor),
+            lockIconImageView.centerYAnchor.constraint(equalTo: coverImageView.centerYAnchor),
+            lockIconImageView.widthAnchor.constraint(equalToConstant: 24),
+            lockIconImageView.heightAnchor.constraint(equalToConstant: 24)
+        ]
+        
+        // Activate all constraints
+        NSLayoutConstraint.activate(containerConstraints)
+        NSLayoutConstraint.activate(spineConstraints)
+        NSLayoutConstraint.activate(coverConstraints)
+        NSLayoutConstraint.activate(chevronConstraints)
+        NSLayoutConstraint.activate(titleConstraints)
+        NSLayoutConstraint.activate([titleCenterConstraint])
+        NSLayoutConstraint.activate(subtitleConstraints)
+        NSLayoutConstraint.activate(progressConstraints)
+        NSLayoutConstraint.activate([progressBottomConstraint])
+        NSLayoutConstraint.activate(statusConstraints)
+        NSLayoutConstraint.activate(lockConstraints)
     }
     
     // MARK: - Configuration
     
-    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil) {
+    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil, isUnlocked: Bool = true) {
         titleLabel.text = book.title
         
-        // Set subtitle with reading time
-        let hours = book.estimatedReadingTime / 60
-        let minutes = book.estimatedReadingTime % 60
-        if hours > 0 {
-            subtitleLabel.text = "\(hours)h \(minutes)m estimated reading time"
+        // Apply lock state styling
+        if isUnlocked {
+            containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+            containerView.layer.shadowOpacity = 0.08
+            titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
+            subtitleLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+            chevronImageView.tintColor = PapyrusDesignSystem.Colors.secondaryText.withAlphaComponent(0.5)
+            coverImageView.alpha = 1.0
+            lockIconImageView.isHidden = true
+            
+            // Set subtitle with reading time
+            let hours = book.estimatedReadingTime / 60
+            let minutes = book.estimatedReadingTime % 60
+            if hours > 0 {
+                subtitleLabel.text = "\(hours)h \(minutes)m estimated reading time"
+            } else {
+                subtitleLabel.text = "\(minutes)m estimated reading time"
+            }
         } else {
-            subtitleLabel.text = "\(minutes)m estimated reading time"
+            containerView.backgroundColor = PapyrusDesignSystem.Colors.aged.withAlphaComponent(0.2)
+            containerView.layer.shadowOpacity = 0.04
+            titleLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+            subtitleLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+            subtitleLabel.text = "Locked"
+            chevronImageView.tintColor = PapyrusDesignSystem.Colors.aged
+            coverImageView.alpha = 0.3
+            lockIconImageView.isHidden = false
         }
         
         // Set cover image with belief system icon
@@ -177,7 +262,7 @@ final class BookListCell: UICollectionViewCell {
             coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
         }
         
-        if let progress = progress {
+        if let progress = progress, isUnlocked {
             progressView.isHidden = false
             progressView.progress = Float(progress.readingProgress)
             
@@ -211,6 +296,10 @@ final class BookListCell: UICollectionViewCell {
         progressView.isHidden = true
         statusLabel.isHidden = true
         coverImageView.image = nil
+        coverImageView.alpha = 1.0
+        lockIconImageView.isHidden = true
+        containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+        containerView.layer.shadowOpacity = 0.08
         setNeedsLayout()
         layoutIfNeeded()
     }

@@ -27,17 +27,20 @@ final class BookLibraryViewController: UIViewController {
     private struct BookItem: Hashable {
         let book: Book
         let progress: BookProgress?
+        let isUnlocked: Bool
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(book.id)
             hasher.combine(progress?.readingProgress ?? 0)
             hasher.combine(progress?.isCompleted ?? false)
+            hasher.combine(isUnlocked)
         }
         
         static func == (lhs: BookItem, rhs: BookItem) -> Bool {
             return lhs.book.id == rhs.book.id &&
                    lhs.progress?.readingProgress == rhs.progress?.readingProgress &&
-                   lhs.progress?.isCompleted == rhs.progress?.isCompleted
+                   lhs.progress?.isCompleted == rhs.progress?.isCompleted &&
+                   lhs.isUnlocked == rhs.isUnlocked
         }
     }
     
@@ -269,7 +272,7 @@ final class BookLibraryViewController: UIViewController {
                 ) as! BookListCell
                 
                 let beliefSystem = self.viewModel.beliefSystem(for: bookItem.book)
-                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem)
+                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem, isUnlocked: bookItem.isUnlocked)
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(
@@ -278,7 +281,7 @@ final class BookLibraryViewController: UIViewController {
                 ) as! BookCollectionViewCell
                 
                 let beliefSystem = self.viewModel.beliefSystem(for: bookItem.book)
-                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem)
+                cell.configure(with: bookItem.book, progress: bookItem.progress, beliefSystem: beliefSystem, isUnlocked: bookItem.isUnlocked)
                 return cell
             }
         }
@@ -308,21 +311,23 @@ final class BookLibraryViewController: UIViewController {
         // Currently reading (sorted by progress descending)
         let readingBooks = viewModel.readingBooks
             .sorted { $0.progress.readingProgress > $1.progress.readingProgress }
-            .map { BookItem(book: $0.book, progress: $0.progress) }
+            .map { BookItem(book: $0.book, progress: $0.progress, isUnlocked: $0.isUnlocked) }
         if !readingBooks.isEmpty {
             snapshot.appendSections([.reading])
             snapshot.appendItems(readingBooks, toSection: .reading)
         }
         
         // Completed books
-        let completedBooks = viewModel.completedBooks.map { BookItem(book: $0.book, progress: $0.progress) }
+        let completedBooks = viewModel.completedBooks.map { BookItem(book: $0.book, progress: $0.progress, isUnlocked: $0.isUnlocked) }
         if !completedBooks.isEmpty {
             snapshot.appendSections([.completed])
             snapshot.appendItems(completedBooks, toSection: .completed)
         }
         
-        // Available books
-        let availableBooks = viewModel.availableBooks.map { BookItem(book: $0, progress: nil) }
+        // Available books - need to check unlock status
+        let availableBooks = viewModel.availableBooks.map { book in
+            BookItem(book: book, progress: nil, isUnlocked: viewModel.isBookUnlocked(book))
+        }
         if !availableBooks.isEmpty {
             snapshot.appendSections([.available])
             snapshot.appendItems(availableBooks, toSection: .available)
@@ -343,12 +348,19 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let bookItem = dataSource.itemIdentifier(for: indexPath) else { return }
         
-        let bookReaderViewModel = BookReaderViewModel(
-            book: bookItem.book,
-            userId: viewModel.userId
-        )
-        let bookReaderVC = BookReaderViewController(viewModel: bookReaderViewModel)
-        present(bookReaderVC, animated: true)
+        if bookItem.isUnlocked {
+            // Open book reader
+            let bookReaderViewModel = BookReaderViewModel(
+                book: bookItem.book,
+                userId: viewModel.userId
+            )
+            let bookReaderVC = BookReaderViewController(viewModel: bookReaderViewModel)
+            present(bookReaderVC, animated: true)
+        } else {
+            // Show paywall
+            let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: bookItem.book.beliefSystemId))
+            present(paywall, animated: true)
+        }
     }
 }
 
@@ -403,6 +415,15 @@ private class BookCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var lockIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "lock.fill")
+        imageView.tintColor = PapyrusDesignSystem.Colors.aged
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -418,12 +439,14 @@ private class BookCollectionViewCell: UICollectionViewCell {
         containerView.addSubview(titleLabel)
         containerView.addSubview(progressView)
         containerView.addSubview(statusLabel)
+        containerView.addSubview(lockIconImageView)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        lockIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -448,12 +471,35 @@ private class BookCollectionViewCell: UICollectionViewCell {
             statusLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 4),
             statusLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             statusLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            statusLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12)
+            statusLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
+            
+            // Lock icon (centered on cover image)
+            lockIconImageView.centerXAnchor.constraint(equalTo: coverImageView.centerXAnchor),
+            lockIconImageView.centerYAnchor.constraint(equalTo: coverImageView.centerYAnchor),
+            lockIconImageView.widthAnchor.constraint(equalToConstant: 32),
+            lockIconImageView.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
     
-    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil) {
+    func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil, isUnlocked: Bool = true) {
         titleLabel.text = book.title
+        
+        // Apply lock state styling
+        if isUnlocked {
+            containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+            containerView.layer.shadowOpacity = 0.15
+            titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
+            statusLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
+            coverImageView.alpha = 1.0
+            lockIconImageView.isHidden = true
+        } else {
+            containerView.backgroundColor = PapyrusDesignSystem.Colors.aged.withAlphaComponent(0.2)
+            containerView.layer.shadowOpacity = 0.05
+            titleLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+            statusLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
+            coverImageView.alpha = 0.3
+            lockIconImageView.isHidden = false
+        }
         
         // Set cover image with belief system icon
         if let beliefSystem = beliefSystem {
@@ -464,7 +510,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
             coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
         }
         
-        if let progress = progress {
+        if let progress = progress, isUnlocked {
             progressView.isHidden = false
             progressView.progress = Float(progress.readingProgress)
             
@@ -476,6 +522,10 @@ private class BookCollectionViewCell: UICollectionViewCell {
                 statusLabel.isHidden = false
                 statusLabel.text = "\(Int(progress.readingProgress * 100))% Complete"
             }
+        } else if !isUnlocked {
+            progressView.isHidden = true
+            statusLabel.isHidden = false
+            statusLabel.text = "Locked"
         } else {
             progressView.isHidden = true
             statusLabel.isHidden = true
@@ -494,6 +544,10 @@ private class BookCollectionViewCell: UICollectionViewCell {
         progressView.isHidden = true
         statusLabel.isHidden = true
         coverImageView.image = nil
+        coverImageView.alpha = 1.0
+        lockIconImageView.isHidden = true
+        containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+        containerView.layer.shadowOpacity = 0.15
         // Force layout update
         setNeedsLayout()
         layoutIfNeeded()

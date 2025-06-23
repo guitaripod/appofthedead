@@ -8,10 +8,11 @@ final class BookLibraryViewModel {
     private let databaseManager: DatabaseManager
     private let contentLoader: ContentLoader
     private var beliefSystems: [BeliefSystem] = []
+    private var user: User?
     
     private(set) var availableBooks: [Book] = []
-    private(set) var readingBooks: [(book: Book, progress: BookProgress)] = []
-    private(set) var completedBooks: [(book: Book, progress: BookProgress)] = []
+    private(set) var readingBooks: [(book: Book, progress: BookProgress, isUnlocked: Bool)] = []
+    private(set) var completedBooks: [(book: Book, progress: BookProgress, isUnlocked: Bool)] = []
     
     // MARK: - Callbacks
     
@@ -31,21 +32,26 @@ final class BookLibraryViewModel {
     // MARK: - Public Methods
     
     func loadBooks() {
+        // Load user first
+        user = databaseManager.fetchUser()
+        
         do {
             // Get all books with user progress
             let userBooks = try databaseManager.getUserBooks(userId: userId)
             
             // Categorize books
             var available: [Book] = []
-            var reading: [(Book, BookProgress)] = []
-            var completed: [(Book, BookProgress)] = []
+            var reading: [(Book, BookProgress, Bool)] = []
+            var completed: [(Book, BookProgress, Bool)] = []
             
             for (book, progress) in userBooks {
+                let isUnlocked = checkIfBookUnlocked(book)
+                
                 if let progress = progress {
                     if progress.isCompleted {
-                        completed.append((book, progress))
+                        completed.append((book, progress, isUnlocked))
                     } else {
-                        reading.append((book, progress))
+                        reading.append((book, progress, isUnlocked))
                     }
                 } else {
                     available.append(book)
@@ -53,7 +59,17 @@ final class BookLibraryViewModel {
             }
             
             // Sort by various criteria
-            self.availableBooks = available.sorted { $0.title < $1.title }
+            self.availableBooks = available.sorted { book1, book2 in
+                let unlocked1 = checkIfBookUnlocked(book1)
+                let unlocked2 = checkIfBookUnlocked(book2)
+                
+                // Unlocked books come first
+                if unlocked1 != unlocked2 {
+                    return unlocked1
+                }
+                // Then sort by title
+                return book1.title < book2.title
+            }
             self.readingBooks = reading.sorted { $0.1.lastReadAt ?? Date.distantPast > $1.1.lastReadAt ?? Date.distantPast }
             self.completedBooks = completed.sorted { $0.1.updatedAt > $1.1.updatedAt }
             
@@ -76,5 +92,23 @@ final class BookLibraryViewModel {
     
     func beliefSystem(for book: Book) -> BeliefSystem? {
         return beliefSystems.first { $0.id == book.beliefSystemId }
+    }
+    
+    func isBookUnlocked(_ book: Book) -> Bool {
+        return checkIfBookUnlocked(book)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func checkIfBookUnlocked(_ book: Book) -> Bool {
+        // Books are locked based on their belief system's path access
+        // Check RevenueCat for access first, then fall back to local database
+        if StoreManager.shared.hasPathAccess(book.beliefSystemId) {
+            return true
+        }
+        
+        // Fall back to local database check
+        guard let user = user else { return false }
+        return user.hasPathAccess(beliefSystemId: book.beliefSystemId)
     }
 }
