@@ -1,7 +1,6 @@
 import UIKit
-import AuthenticationServices
 
-final class HomeViewController: UIViewController, ASAuthorizationControllerPresentationContextProviding, ViewLayoutConfigurable {
+final class HomeViewController: UIViewController, ViewLayoutConfigurable {
     
     // MARK: - Properties
     
@@ -221,8 +220,7 @@ final class HomeViewController: UIViewController, ASAuthorizationControllerPrese
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<HomeHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
             guard let self = self, let user = self.viewModel.currentUser else { return }
-            let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
-            headerView.configure(xp: user.totalXP, streak: user.currentStreak, isSignedIn: isSignedIn)
+            headerView.configure(xp: user.totalXP, streak: user.currentStreak, isSignedIn: true)
             headerView.delegate = self
         }
         
@@ -520,93 +518,18 @@ extension HomeViewController {
 
 extension HomeViewController: HomeHeaderViewDelegate {
     func profileButtonTapped() {
-        let isSignedIn = UserDefaults.standard.string(forKey: "appleUserId") != nil
-        
-        AppLogger.logUserAction("profileButtonTapped", parameters: [
-            "isSignedIn": isSignedIn
-        ])
-        
-        if isSignedIn {
-            showProfileViewController()
-        } else {
-            showSignInOptions()
-        }
-    }
-    
-    private func showProfileViewController() {
-        // Switch to the Profile tab instead of presenting modally
+        AppLogger.logUserAction("profileButtonTapped")
         if let tabBarController = self.tabBarController {
-            tabBarController.selectedIndex = 1 // Profile is the second tab
+            tabBarController.selectedIndex = 1
         }
     }
     
-    private func showSignInOptions() {
-        let signInVC = SignInViewController()
-        signInVC.delegate = self
-        signInVC.modalPresentationStyle = .pageSheet
-        if let sheet = signInVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersGrabberVisible = true
-        }
-        present(signInVC, animated: true)
-    }
-    
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
+
 }
 
-// MARK: - AuthenticationManagerDelegate
 
-extension HomeViewController: AuthenticationManagerDelegate {
-    func authenticationDidComplete(userId: String) {
-        AppLogger.auth.info("Authentication completed", metadata: [
-            "userId": userId
-        ])
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.loadData()
-            self.updateHeader()
-            
-            PapyrusAlert.showSimpleAlert(
-                title: "Success",
-                message: "You are now signed in!",
-                from: self
-            )
-        }
-    }
-    
-    func authenticationDidFail(error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            PapyrusAlert.showSimpleAlert(
-                title: "Sign In Failed",
-                message: error.localizedDescription,
-                from: self
-            )
-        }
-    }
-}
 
-// MARK: - SignInViewControllerDelegate
 
-extension HomeViewController: SignInViewControllerDelegate {
-    func signInDidComplete() {
-        viewModel.loadData()
-        updateHeader()
-        
-        PapyrusAlert.showSimpleAlert(
-            title: "Success",
-            message: "You are now signed in!",
-            from: self
-        )
-    }
-    
-    func signInDidCancel() {
-        // No action needed
-    }
-}
 
 // MARK: - MistakeReviewViewControllerDelegate
 

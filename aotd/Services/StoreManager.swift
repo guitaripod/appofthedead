@@ -26,33 +26,7 @@ class StoreManager: NSObject {
         AppLogger.purchases.info("RevenueCat configured successfully")
     }
     
-    // MARK: - User Management
-    func login(userId: String) {
-        Purchases.shared.logIn(userId) { customerInfo, created, error in
-            if let error = error {
-                AppLogger.logError(error, context: "StoreManager.login", logger: AppLogger.purchases)
-            } else {
-                AppLogger.purchases.info("Logged in user", metadata: [
-                    "userId": userId,
-                    "created": created
-                ])
-                self.customerInfo = customerInfo
-                NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
-            }
-        }
-    }
-    
-    func logout() {
-        Purchases.shared.logOut { customerInfo, error in
-            if let error = error {
-                AppLogger.logError(error, context: "StoreManager.logout", logger: AppLogger.purchases)
-            } else {
-                AppLogger.purchases.info("Logged out successfully")
-                self.customerInfo = customerInfo
-                NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
-            }
-        }
-    }
+
     
     // MARK: - Products and Offerings
     func fetchOfferings(completion: @escaping (Result<Offerings, Error>) -> Void) {
@@ -114,27 +88,7 @@ class StoreManager: NSObject {
         }
     }
     
-    // MARK: - Entitlements Check
-    func checkEntitlement(_ entitlement: EntitlementType) -> Bool {
-        guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else { return false }
-        
-        switch entitlement {
-        case .pathAccess:
-            // Check if user has any path entitlement
-            return customerInfo.entitlements.all.values.contains { $0.isActive && $0.identifier.hasPrefix("path_") }
-        case .oracleUnlimited:
-            return customerInfo.entitlements["oracle_unlimited"]?.isActive == true
-        case .cloudSync:
-            return customerInfo.entitlements["cloud_sync"]?.isActive == true
-        case .xpBoost:
-            return customerInfo.entitlements["xp_boost"]?.isActive == true
-        case .deityPack:
-            // Check if user has any deity pack
-            return customerInfo.entitlements.all.values.contains { $0.isActive && $0.identifier.hasPrefix("deity_") }
-        case .ultimate:
-            return customerInfo.entitlements["ultimate"]?.isActive == true
-        }
-    }
+
     
     func hasPathAccess(_ beliefSystemId: String) -> Bool {
         // Judaism is always free

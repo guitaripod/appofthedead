@@ -12,27 +12,15 @@ final class SettingsViewController: UIViewController {
     }()
     
     private enum Section: Int, CaseIterable {
-        case account
         case learning
         case experience
         case about
-        
+
         var title: String {
             switch self {
-            case .account: return "Account"
             case .learning: return "Learning"
             case .experience: return "Experience"
             case .about: return "About"
-            }
-        }
-    }
-    
-    private enum AccountRow: Int, CaseIterable {
-        case signOut
-        
-        var title: String {
-            switch self {
-            case .signOut: return "Sign Out"
             }
         }
     }
@@ -108,33 +96,7 @@ final class SettingsViewController: UIViewController {
         ])
     }
     
-    @objc private func handleSignOut() {
-        PapyrusAlert.showConfirmationAlert(
-            title: "Sign Out",
-            message: "Are you sure you want to sign out?",
-            confirmTitle: "Sign Out",
-            confirmStyle: .destructive,
-            from: self,
-            onConfirm: { [weak self] in
-                guard let self = self else { return }
-                // Clear user session
-                DatabaseManager.shared.clearUserSession()
-                
-                // Navigate to sign in screen
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first {
-                    let signInVC = SignInViewController()
-                    let navigationController = UINavigationController(rootViewController: signInVC)
-                    navigationController.modalPresentationStyle = .fullScreen
-                    
-                    window.rootViewController = navigationController
-                    window.makeKeyAndVisible()
-                    
-                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
-                }
-            }
-        )
-    }
+
     
     private func showComingSoon(feature: String) {
         PapyrusAlert.showSimpleAlert(
@@ -159,8 +121,6 @@ extension SettingsViewController: UITableViewDataSource {
         guard let sectionType = Section(rawValue: section) else { return 0 }
         
         switch sectionType {
-        case .account:
-            return AccountRow.allCases.count
         case .learning:
             return LearningRow.allCases.count
         case .experience:
@@ -186,13 +146,6 @@ extension SettingsViewController: UITableViewDataSource {
         }
         
         switch sectionType {
-        case .account:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TransparentCardCell", for: indexPath) as! TransparentCardCell
-            if let row = AccountRow(rawValue: indexPath.row) {
-                cell.configure(text: row.title, textColor: UIColor.Papyrus.tombRed)
-            }
-            return cell
-            
         case .learning:
             let cell = tableView.dequeueReusableCell(withIdentifier: "TransparentCardCell", for: indexPath) as! TransparentCardCell
             if let row = LearningRow(rawValue: indexPath.row) {
@@ -256,14 +209,6 @@ extension SettingsViewController: UITableViewDelegate {
         guard let sectionType = Section(rawValue: indexPath.section) else { return }
         
         switch sectionType {
-        case .account:
-            if let row = AccountRow(rawValue: indexPath.row) {
-                switch row {
-                case .signOut:
-                    handleSignOut()
-                }
-            }
-            
         case .learning:
             if let row = LearningRow(rawValue: indexPath.row) {
                 showComingSoon(feature: row.title)

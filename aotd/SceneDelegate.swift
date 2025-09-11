@@ -188,10 +188,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidBecomeActive(_ scene: UIScene) {
         AppLogger.ui.info("Scene did become active")
-        // Trigger sync when app becomes active
-        let syncActivity = AppLogger.beginActivity("SyncManager.attemptSync", logger: AppLogger.sync)
-        SyncManager.shared.attemptSync()
-        AppLogger.endActivity("SyncManager.attemptSync", id: syncActivity, logger: AppLogger.sync)
     }
     
     private func configureNavigationBarAppearance() {

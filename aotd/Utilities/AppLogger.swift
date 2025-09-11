@@ -12,17 +12,11 @@ final class AppLogger {
 
   // MARK: - Log Categories
 
-  /// Authentication and user management logging
-  static let auth = Logger(subsystem: subsystem, category: "Authentication")
-
   /// Database operations and data persistence
   static let database = Logger(subsystem: subsystem, category: "Database")
 
   /// Content loading and JSON parsing
   static let content = Logger(subsystem: subsystem, category: "Content")
-
-  /// Network and sync operations
-  static let sync = Logger(subsystem: subsystem, category: "Sync")
 
   /// Learning path navigation and progress
   static let learning = Logger(subsystem: subsystem, category: "Learning")
@@ -133,7 +127,7 @@ final class AppLogger {
   // MARK: - Network Request Logging
 
   /// Log network request with privacy-conscious URL handling
-  static func logNetworkRequest(url: String, method: String, logger: Logger = sync) {
+  static func logNetworkRequest(url: String, method: String, logger: Logger = general) {
     logger.debug("Network Request | method: \(method), url: \(url, privacy: .private)")
   }
 
@@ -142,7 +136,7 @@ final class AppLogger {
     url: String,
     statusCode: Int,
     duration: TimeInterval,
-    logger: Logger = sync
+    logger: Logger = general
   ) {
     let success = statusCode < 400
     let durationStr = String(format: "%.3f", duration)

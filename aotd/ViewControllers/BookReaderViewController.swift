@@ -931,7 +931,7 @@ extension BookReaderViewController {
     private func loadHighlights() {
         Task {
             do {
-                let user = try await AuthenticationManager.shared.getCurrentUser()
+                guard let user = DatabaseManager.shared.fetchUser() else { return }
                 currentHighlights = try DatabaseManager.shared.getBookHighlights(
                     userId: user.id,
                     bookId: viewModel.book.id
@@ -969,7 +969,7 @@ extension BookReaderViewController {
     private func saveHighlight(text: String, range: NSRange, color: UIColor, note: String? = nil, oracleConsultationId: String? = nil) {
         Task {
             do {
-                let user = try await AuthenticationManager.shared.getCurrentUser()
+                guard let user = DatabaseManager.shared.fetchUser() else { return }
                 
                 // Find which chapter this highlight belongs to
                 var chapterId = viewModel.book.chapters[0].id
@@ -1275,7 +1275,7 @@ extension BookReaderViewController: OracleTextExplanationViewDelegate {
             // Save oracle consultation
             Task {
                 do {
-                    let user = try await AuthenticationManager.shared.getCurrentUser()
+                guard let user = DatabaseManager.shared.fetchUser() else { return }
                     
                     // Save oracle consultation
                     let consultation = OracleConsultation(

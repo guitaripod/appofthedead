@@ -82,33 +82,21 @@ class DatabaseManager {
     }
     
     // MARK: - User Management
-    
-    func createUser(name: String, email: String) throws -> User {
-        var user = User(name: name, email: email)
+
+    func createAnonymousUser() throws -> User {
+        let user = User()
         try dbQueue.write { db in
             try user.insert(db)
         }
         return user
     }
-    
+
     func getUser(by id: String) throws -> User? {
         return try dbQueue.read { db in
             try User.fetchOne(db, key: id)
         }
     }
-    
-    func getUserByEmail(_ email: String) throws -> User? {
-        return try dbQueue.read { db in
-            try User.filter(Column("email") == email).fetchOne(db)
-        }
-    }
-    
-    func getUserByAppleId(_ appleId: String) throws -> User? {
-        return try dbQueue.read { db in
-            try User.filter(Column("appleId") == appleId).fetchOne(db)
-        }
-    }
-    
+
     func updateUser(_ user: User) throws {
         var updatedUser = user
         updatedUser.updatedAt = Date()
@@ -116,23 +104,22 @@ class DatabaseManager {
             try updatedUser.update(db)
         }
     }
-    
-    func addXPToUser(userId: String, xp: Int) throws {
+
+    func addXPToUser(_ user: User, xp: Int) throws {
         try dbQueue.write { db in
-            if var user = try User.fetchOne(db, key: userId) {
-                // Check for active XP boost
-                let hasBoost = try Purchase
-                    .filter(Column("userId") == userId)
-                    .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
-                    .filter(Column("isActive") == true)
-                    .filter(Column("expirationDate") > Date())
-                    .fetchOne(db) != nil
-                
-                let multiplier = hasBoost ? 2 : 1
-                let finalXP = xp * multiplier
-                user.addXP(finalXP)
-                try user.update(db)
-            }
+            var updatedUser = user
+            // Check for active XP boost
+            let hasBoost = try Purchase
+                .filter(Column("userId") == user.id)
+                .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
+                .filter(Column("isActive") == true)
+                .filter(Column("expirationDate") > Date())
+                .fetchOne(db) != nil
+
+            let multiplier = hasBoost ? 2 : 1
+            let finalXP = xp * multiplier
+            updatedUser.addXP(finalXP)
+            try updatedUser.update(db)
         }
     }
     
@@ -160,9 +147,9 @@ class DatabaseManager {
             }) {
                 return existingUser
             }
-            
-            // If no user exists, create one
-            var newUser = User(name: "Learner", email: "learner@aotd.com")
+
+            // If no user exists, create anonymous one
+            let newUser = User()
             try dbQueue.write { db in
                 try newUser.insert(db)
             }
@@ -172,53 +159,7 @@ class DatabaseManager {
         }
     }
     
-    func updateUserAppleId(_ appleId: String) {
-        do {
-            try dbQueue.write { db in
-                if var user = try User.fetchOne(db) {
-                    user.appleId = appleId
-                    user.updatedAt = Date()
-                    try user.update(db)
-                }
-            }
-        } catch {
-            AppLogger.logError(error, context: "Update user Apple ID", logger: AppLogger.auth)
-        }
-    }
-    
-    func updateUserWithAppleData(appleId: String, name: String? = nil, email: String? = nil) {
-        do {
-            try dbQueue.write { db in
-                if var user = try User.fetchOne(db) {
-                    user.appleId = appleId
-                    if let name = name, !name.isEmpty {
-                        user.name = name
-                    }
-                    if let email = email, !email.isEmpty {
-                        user.email = email
-                    }
-                    user.updatedAt = Date()
-                    try user.update(db)
-                }
-            }
-        } catch {
-            AppLogger.logError(error, context: "Update user with Apple data", logger: AppLogger.auth, additionalInfo: ["appleId": appleId])
-        }
-    }
-    
-    func clearUserSession() {
-        do {
-            try dbQueue.write { db in
-                if var user = try User.fetchOne(db) {
-                    user.appleId = nil
-                    user.updatedAt = Date()
-                    try user.update(db)
-                }
-            }
-        } catch {
-            AppLogger.logError(error, context: "Clear user session", logger: AppLogger.auth)
-        }
-    }
+
     
     // MARK: - Progress Management
     
@@ -431,13 +372,7 @@ class DatabaseManager {
             """)
         }
         
-        // Add appleId column to users table if it doesn't exist
-        let userColumns = try db.columns(in: "users")
-        if !userColumns.contains(where: { $0.name == "appleId" }) {
-            try db.alter(table: "users") { t in
-                t.add(column: "appleId", .text).unique()
-            }
-        }
+
         
         // Add missing columns to book_reading_preferences table
         if try db.tableExists("book_reading_preferences") {
