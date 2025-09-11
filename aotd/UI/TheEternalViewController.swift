@@ -545,7 +545,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     private func saveEternalWisdom() {
         Task {
             do {
-                let user = try await AuthenticationManager.shared.getCurrentUser()
+                guard let user = DatabaseManager.shared.fetchUser() else { return }
                 
                 // Create an oracle consultation for The Eternal
                 let consultation = OracleConsultation(

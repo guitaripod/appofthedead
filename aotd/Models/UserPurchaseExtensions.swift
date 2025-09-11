@@ -43,8 +43,8 @@ extension User {
     
     func canConsultOracle(deityId: String) -> Bool {
         // First check RevenueCat entitlements
-        if StoreManager.shared.checkEntitlement(.oracleUnlimited) { return true }
-        if StoreManager.shared.checkEntitlement(.ultimate) { return true }
+        if Purchases.shared.cachedCustomerInfo?.entitlements["oracle_unlimited"]?.isActive == true { return true }
+        if Purchases.shared.cachedCustomerInfo?.entitlements["ultimate"]?.isActive == true { return true }
         
         // Check deity pack access through RevenueCat
         if hasDeityPackAccessFromRevenueCat(for: deityId) { return true }
@@ -63,14 +63,13 @@ extension User {
         let greekDeities = ["hermes", "hecate", "pachamama"]
         let easternDeities = ["yama", "meng_po", "izanami"]
         
-        if egyptianDeities.contains(deityId) && StoreManager.shared.checkEntitlement(.deityPack) {
-            // Need to check specific deity pack entitlement
+        if egyptianDeities.contains(deityId) {
             return Purchases.shared.cachedCustomerInfo?.entitlements["deity_egyptian"]?.isActive == true
         }
-        if greekDeities.contains(deityId) && StoreManager.shared.checkEntitlement(.deityPack) {
+        if greekDeities.contains(deityId) {
             return Purchases.shared.cachedCustomerInfo?.entitlements["deity_greek"]?.isActive == true
         }
-        if easternDeities.contains(deityId) && StoreManager.shared.checkEntitlement(.deityPack) {
+        if easternDeities.contains(deityId) {
             return Purchases.shared.cachedCustomerInfo?.entitlements["deity_eastern"]?.isActive == true
         }
         

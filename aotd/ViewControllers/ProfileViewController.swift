@@ -234,7 +234,7 @@ final class ProfileViewController: UIViewController {
         titleLabel.textAlignment = .center
         
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Access all paths, unlimited Oracle, cloud sync, and exclusive features"
+        descriptionLabel.text = "Access all paths, unlimited Oracle, and exclusive features"
         descriptionLabel.font = .systemFont(ofSize: 14)
         descriptionLabel.textColor = .secondaryLabel
         descriptionLabel.textAlignment = .center

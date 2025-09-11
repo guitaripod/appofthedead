@@ -531,7 +531,7 @@ final class OracleViewController: UIViewController {
         }
         
         // Check oracle consultation limits
-        guard let user = AuthenticationManager.shared.currentUser,
+        guard let user = DatabaseManager.shared.fetchUser(),
               let deity = viewModel.selectedDeity else {
             return
         }

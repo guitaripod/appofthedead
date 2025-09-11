@@ -178,7 +178,7 @@ class PaywallViewController: UIViewController {
             features = [
                 ("lock.open.fill", "All Belief Systems", "9+ paths to explore"),
                 ("person.3.fill", "All 21 Deities", "Unlimited Oracle access"),
-                ("icloud.fill", "Cloud Sync", "Progress across devices"),
+                ("star.fill", "Premium Features", "Exclusive content & insights"),
                 ("crown.fill", "Exclusive Content", "Special achievements & features")
             ]
         }
