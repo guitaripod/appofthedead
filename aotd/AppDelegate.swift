@@ -20,7 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let contentLoader = ContentLoader()
         DatabaseManager.shared.setContentLoader(contentLoader)
         AppLogger.endActivity("ContentLoader.initialize", id: contentActivity)
-        
+
+        let syncActivity = AppLogger.beginActivity("iCloudSync.initialize")
+        if let user = DatabaseManager.shared.fetchUser() {
+            DatabaseManager.shared.applySyncedProgressIfNeeded(userId: user.id)
+        }
+        AppLogger.endActivity("iCloudSync.initialize", id: syncActivity)
+
         AppLogger.general.info("App initialization complete")
         
         return true

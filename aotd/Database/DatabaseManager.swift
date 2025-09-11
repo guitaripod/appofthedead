@@ -108,17 +108,7 @@ class DatabaseManager {
     func addXPToUser(_ user: User, xp: Int) throws {
         try dbQueue.write { db in
             var updatedUser = user
-            // Check for active XP boost
-            let hasBoost = try Purchase
-                .filter(Column("userId") == user.id)
-                .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
-                .filter(Column("isActive") == true)
-                .filter(Column("expirationDate") > Date())
-                .fetchOne(db) != nil
-
-            let multiplier = hasBoost ? 2 : 1
-            let finalXP = xp * multiplier
-            updatedUser.addXP(finalXP)
+            updatedUser.addXP(xp)
             try updatedUser.update(db)
         }
     }
@@ -271,6 +261,8 @@ class DatabaseManager {
                 ])
             }
         }
+
+        syncProgressToCloudIfNeeded(userId: userId)
     }
     
     // MARK: - Answer Management
@@ -513,23 +505,7 @@ class DatabaseManager {
         }
     }
     
-    func hasActiveXPBoost(userId: String) -> Bool {
-        do {
-            return try dbQueue.read { db in
-                let purchase = try Purchase
-                    .filter(Column("userId") == userId)
-                    .filter(Column("productId") == ProductIdentifier.xpBoost7Days.rawValue)
-                    .filter(Column("isActive") == true)
-                    .filter(Column("expirationDate") > Date())
-                    .fetchOne(db)
-                
-                return purchase != nil
-            }
-        } catch {
-            AppLogger.logError(error, context: "Checking XP boost", logger: AppLogger.purchases, additionalInfo: ["userId": userId])
-            return false
-        }
-    }
+
     
     func getOracleConsultationCount(userId: String, deityId: String) -> Int {
         do {
@@ -871,9 +847,9 @@ class DatabaseManager {
                 .filter(Column("bookId") == bookId)
                 .order(Column("chapterId").asc, Column("startPosition").asc)
                 .fetchAll(db)
-            
+
             var result: [(BookHighlight, OracleConsultation?)] = []
-            
+
             for highlight in highlights {
                 var consultation: OracleConsultation? = nil
                 if let consultationId = highlight.oracleConsultationId {
@@ -881,8 +857,86 @@ class DatabaseManager {
                 }
                 result.append((highlight, consultation))
             }
-            
+
             return result
+        }
+    }
+
+    // MARK: - iCloud Sync Integration
+
+    /// Get completed belief system IDs for sync
+    func getCompletedBeliefSystemIds(userId: String) -> Set<String> {
+        do {
+            let completedProgress = try dbQueue.read { db in
+                try Progress
+                    .filter(Column("userId") == userId)
+                    .filter(Column("status") == Progress.ProgressStatus.completed.rawValue)
+                    .filter(Column("lessonId") == nil) // Only belief system level completion
+                    .fetchAll(db)
+            }
+
+            return Set(completedProgress.map { $0.beliefSystemId })
+        } catch {
+            AppLogger.database.error("Failed to get completed belief systems", error: error)
+            return []
+        }
+    }
+
+    /// Sync progress to iCloud if user has made significant progress
+    private func syncProgressToCloudIfNeeded(userId: String) {
+        guard let user = try? getUser(by: userId),
+              iCloudSyncManager.shared.isCloudSyncAvailable else {
+            return
+        }
+
+        let completedPaths = getCompletedBeliefSystemIds(userId: userId)
+
+        // Only sync if user has meaningful progress
+        if user.totalXP > 0 || !completedPaths.isEmpty {
+            iCloudSyncManager.shared.syncProgress(user: user, completedPaths: completedPaths)
+        }
+    }
+
+    /// Apply synced progress from iCloud to local database
+    func applySyncedProgressIfNeeded(userId: String) {
+        guard let syncedData = iCloudSyncManager.shared.retrieveSyncedProgress(),
+              let user = try? getUser(by: userId) else {
+            return
+        }
+
+        // Only apply if synced data is more advanced than local
+        if syncedData.xp > user.totalXP || syncedData.level > user.currentLevel {
+            do {
+                try dbQueue.write { db in
+                    if var existingUser = try User.fetchOne(db, key: userId) {
+                        // Update user with synced data
+                        existingUser.totalXP = max(existingUser.totalXP, syncedData.xp)
+                        existingUser.currentLevel = max(existingUser.currentLevel, syncedData.level)
+                        existingUser.updatedAt = Date()
+                        try existingUser.update(db)
+
+                        AppLogger.database.info("Applied synced progress to user", metadata: [
+                            "userId": userId,
+                            "syncedXP": syncedData.xp,
+                            "syncedLevel": syncedData.level,
+                            "localXP": user.totalXP,
+                            "localLevel": user.currentLevel
+                        ])
+                    }
+                }
+
+                // Mark completed paths as completed locally
+                for beliefSystemId in syncedData.completedPaths {
+                    try createOrUpdateProgress(
+                        userId: userId,
+                        beliefSystemId: beliefSystemId,
+                        status: .completed
+                    )
+                }
+
+            } catch {
+                AppLogger.database.error("Failed to apply synced progress", error: error)
+            }
         }
     }
 }
