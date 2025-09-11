@@ -195,8 +195,7 @@ class StoreManager: NSObject {
             return "$19.99"
         case .egyptianPantheon, .greekGuides, .easternWisdom:
             return "$1.99"
-        case .xpBoost7Days:
-            return "$0.99"
+
         }
     }
 }
