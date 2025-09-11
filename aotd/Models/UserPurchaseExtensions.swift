@@ -37,9 +37,7 @@ extension User {
         return DatabaseManager.shared.getOracleConsultationCount(userId: id, deityId: deityId)
     }
     
-    func hasActiveXPBoost() -> Bool {
-        return DatabaseManager.shared.hasActiveXPBoost(userId: id)
-    }
+
     
     func canConsultOracle(deityId: String) -> Bool {
         // First check RevenueCat entitlements

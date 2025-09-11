@@ -268,39 +268,7 @@ final class ProfileViewController: UIViewController {
         contentStackView.addArrangedSubview(upgradeContainer)
         
         // Add XP boost indicator if active
-        if user.hasActiveXPBoost() {
-            let boostContainer = UIView()
-            boostContainer.backgroundColor = UIColor.Papyrus.cardBackground
-            boostContainer.layer.cornerRadius = 12
-            
-            let boostStack = UIStackView()
-            boostStack.axis = .horizontal
-            boostStack.spacing = 8
-            boostStack.alignment = .center
-            boostStack.translatesAutoresizingMaskIntoConstraints = false
-            
-            let boostIndicator = XPBoostIndicator()
-            boostIndicator.translatesAutoresizingMaskIntoConstraints = false
-            
-            let boostLabel = UILabel()
-            boostLabel.text = "XP Boost Active!"
-            boostLabel.font = .systemFont(ofSize: 16, weight: .medium)
-            
-            boostStack.addArrangedSubview(boostIndicator)
-            boostStack.addArrangedSubview(boostLabel)
-            boostStack.addArrangedSubview(UIView()) // Spacer
-            
-            boostContainer.addSubview(boostStack)
-            
-            NSLayoutConstraint.activate([
-                boostStack.topAnchor.constraint(equalTo: boostContainer.topAnchor, constant: 12),
-                boostStack.leadingAnchor.constraint(equalTo: boostContainer.leadingAnchor, constant: 16),
-                boostStack.trailingAnchor.constraint(equalTo: boostContainer.trailingAnchor, constant: -16),
-                boostStack.bottomAnchor.constraint(equalTo: boostContainer.bottomAnchor, constant: -12)
-            ])
-            
-            contentStackView.addArrangedSubview(boostContainer)
-        }
+
     }
     
     @objc private func showPaywall() {

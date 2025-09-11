@@ -88,8 +88,7 @@ enum ProductIdentifier: String, CaseIterable {
     case greekGuides = "com.appofthedead.deities.greek"
     case easternWisdom = "com.appofthedead.deities.eastern"
     
-    // Boosts
-    case xpBoost7Days = "com.appofthedead.boost.xp7"
+
     
     var displayName: String {
         switch self {
@@ -107,7 +106,7 @@ enum ProductIdentifier: String, CaseIterable {
         case .egyptianPantheon: return "Death Masters Pack"
         case .greekGuides: return "Spirit Guides Pack"
         case .easternWisdom: return "Eastern Guardians Pack"
-        case .xpBoost7Days: return "7-Day XP Boost"
+
         case .sikhism: return "Sikhism Path"
         case .aztecMictlan: return "Aztec Mictlan Path"
         case .taoism: return "Taoism Path"
@@ -139,7 +138,7 @@ enum ProductIdentifier: String, CaseIterable {
         case .egyptianPantheon: return "Consult Anubis, Kali, and Baron Samedi - Masters of Death"
         case .greekGuides: return "Speak with Hermes, Hecate, and Pachamama - Guides & Nature Spirits"
         case .easternWisdom: return "Connect with Yama, Meng Po, and Izanami - Eastern Afterlife Guardians"
-        case .xpBoost7Days: return "Double your XP gains for 7 days"
+
         case .sikhism: return "Discover the cycle of rebirth and liberation through Sikh teachings"
         case .aztecMictlan: return "Follow the four-year journey through nine levels of Mictlan"
         case .taoism: return "Explore immortality and the harmonious afterlife realms"
@@ -187,7 +186,7 @@ enum ProductIdentifier: String, CaseIterable {
 enum EntitlementType: String {
     case pathAccess = "path_access"
     case oracleUnlimited = "oracle_unlimited"
-    case xpBoost = "xp_boost"
+
     case deityPack = "deity_pack"
     case ultimate = "ultimate"
 }
