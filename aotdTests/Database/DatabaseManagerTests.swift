@@ -15,7 +15,7 @@ final class DatabaseManagerTests: XCTestCase {
         databaseManager.setContentLoader(contentLoader)
         
         
-        testUser = try databaseManager.createUser(name: "Test User", email: "test@example.com")
+        testUser = try databaseManager.createAnonymousUser()
     }
     
     override func tearDownWithError() throws {
@@ -24,12 +24,10 @@ final class DatabaseManagerTests: XCTestCase {
         databaseManager = nil
     }
     
-    func testCreateUser() throws {
-        let user = try databaseManager.createUser(name: "John Doe", email: "john@example.com")
-        
+    func testCreateAnonymousUser() throws {
+        let user = try databaseManager.createAnonymousUser()
+
         XCTAssertFalse(user.id.isEmpty)
-        XCTAssertEqual(user.name, "John Doe")
-        XCTAssertEqual(user.email, "john@example.com")
         XCTAssertEqual(user.totalXP, 0)
         XCTAssertEqual(user.currentLevel, 1)
     }
@@ -39,27 +37,18 @@ final class DatabaseManagerTests: XCTestCase {
         
         XCTAssertNotNil(retrievedUser)
         XCTAssertEqual(retrievedUser?.id, testUser.id)
-        XCTAssertEqual(retrievedUser?.name, testUser.name)
-        XCTAssertEqual(retrievedUser?.email, testUser.email)
+        XCTAssertEqual(retrievedUser?.id, testUser.id)
     }
     
-    func testGetUserByEmail() throws {
-        let retrievedUser = try databaseManager.getUserByEmail(testUser.email)
-        
-        XCTAssertNotNil(retrievedUser)
-        XCTAssertEqual(retrievedUser?.id, testUser.id)
-        XCTAssertEqual(retrievedUser?.email, testUser.email)
-    }
+
     
     func testUpdateUser() throws {
         var updatedUser = testUser!
-        updatedUser.name = "Updated Name"
         updatedUser.addXP(100)
-        
+
         try databaseManager.updateUser(updatedUser)
-        
+
         let retrievedUser = try databaseManager.getUser(by: testUser.id)
-        XCTAssertEqual(retrievedUser?.name, "Updated Name")
         XCTAssertEqual(retrievedUser?.totalXP, 100)
         XCTAssertEqual(retrievedUser?.currentLevel, 2)
     }

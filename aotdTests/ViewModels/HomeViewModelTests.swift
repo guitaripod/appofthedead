@@ -129,8 +129,8 @@ final class HomeViewModelTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1.0)
         XCTAssertNotNil(receivedUser)
-        XCTAssertEqual(receivedUser!.name, "Learner")
-        XCTAssertEqual(receivedUser!.email, "learner@aotd.com")
+        XCTAssertFalse(receivedUser!.id.isEmpty)
+        XCTAssertEqual(receivedUser!.totalXP, 0)
     }
     
     func testProgressUpdatesPathItemXP() throws {

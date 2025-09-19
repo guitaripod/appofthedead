@@ -302,7 +302,7 @@ final class BookReaderEdgeCaseTests: XCTestCase {
         
         let userId: String
         do {
-            let user = try databaseManager.createUser(name: "test", email: "test@test.com")
+            let user = try databaseManager.createAnonymousUser()
             userId = user.id
         } catch {
             XCTFail("Failed to create user: \(error)")

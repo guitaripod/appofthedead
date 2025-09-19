@@ -17,7 +17,7 @@ final class MistakeReviewIntegrationTest: XCTestCase {
         databaseManager.setContentLoader(contentLoader)
         
         
-        user = try! databaseManager.createUser(name: "Test User", email: "test@example.com")
+        user = try! databaseManager.createAnonymousUser()
         
         
         beliefSystem = contentLoader.loadBeliefSystems().first!

@@ -16,15 +16,8 @@ final class BookReaderIntegrationTests: XCTestCase {
         databaseManager = DatabaseManager(inMemory: true)
         
         
-        testUser = User(
-            id: "integration-test-user",
-            name: "reader",
-            email: "reader@test.com"
-        )
-        
         do {
-            let createdUser = try databaseManager.createUser(name: testUser.name, email: testUser.email)
-            testUser = createdUser
+            testUser = try databaseManager.createAnonymousUser()
         } catch {
             XCTFail("Failed to create test user: \(error)")
         }

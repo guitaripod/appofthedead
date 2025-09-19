@@ -4,7 +4,7 @@ import GRDB
 class DatabaseManager {
     static let shared = DatabaseManager()
     
-    private var dbQueue: DatabaseQueue!
+    private(set) var dbQueue: DatabaseQueue!
     private var contentLoader: ContentLoader?
     
     var database: Database? {

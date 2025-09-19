@@ -13,7 +13,7 @@ final class GamificationServiceTests: XCTestCase {
         
         
         do {
-            testUser = try DatabaseManager.shared.createUser(name: "Test User \(UUID().uuidString)", email: "test\(UUID().uuidString)@aotd.com")
+            testUser = try DatabaseManager.shared.createAnonymousUser()
         } catch {
             XCTFail("Failed to create test user: \(error)")
         }

@@ -244,7 +244,7 @@ final class BookReaderViewModelAdvancedTests: XCTestCase {
     func testBookCompletionWithXPAward() {
         
         do {
-            let createdUser = try databaseManager.createUser(name: "testuser", email: "test@example.com")
+            let createdUser = try databaseManager.createAnonymousUser()
             testUserId = createdUser.id
         } catch {
             XCTFail("Failed to create user: \(error)")
@@ -276,10 +276,10 @@ final class BookReaderViewModelAdvancedTests: XCTestCase {
     func testBookCompletionOnlyAwardsXPOnce() {
         
         do {
-            var createdUser = try databaseManager.createUser(name: "testuser", email: "test@example.com")
+            var createdUser = try databaseManager.createAnonymousUser()
             testUserId = createdUser.id
-            
-            
+
+
             createdUser.totalXP = 1000
             createdUser.currentLevel = 5
             try databaseManager.updateUser(createdUser)

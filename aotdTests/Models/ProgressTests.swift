@@ -14,7 +14,7 @@ final class ProgressTests: XCTestCase {
         }
         
         
-        testUser = User(name: "Test User", email: "test@example.com")
+        testUser = User()
         try dbQueue.write { db in
             try testUser.insert(db)
         }

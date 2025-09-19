@@ -13,7 +13,7 @@ final class MistakeReviewTests: XCTestCase {
         databaseManager = DatabaseManager(inMemory: true)
         
         
-        user = try! databaseManager.createUser(name: "Test User", email: "test@example.com")
+        user = try! databaseManager.createAnonymousUser()
     }
     
     override func tearDown() {

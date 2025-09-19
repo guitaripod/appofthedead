@@ -175,9 +175,9 @@ final class BookReaderViewModelTests: XCTestCase {
         
         
         do {
-            _ = try databaseManager.createUser(name: "test", email: "test@test.com")
+            _ = try databaseManager.createAnonymousUser()
         } catch {
-            
+
         }
         
         

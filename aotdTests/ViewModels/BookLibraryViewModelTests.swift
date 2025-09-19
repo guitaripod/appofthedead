@@ -14,7 +14,8 @@ final class BookLibraryViewModelTests: XCTestCase {
         databaseManager = try! DatabaseManager(inMemory: true)
         
         
-        var user = User(id: "test-user", name: "Test User", email: "test@example.com")
+        var user = User()
+        user.id = "test-user"
         try! databaseManager.dbQueue.write { db in
             try user.save(db)
         }
