@@ -65,7 +65,7 @@ final class DatabaseManagerTests: XCTestCase {
     }
     
     func testAddXPToUser() throws {
-        try databaseManager.addXPToUser(userId: testUser.id, xp: 150)
+        try databaseManager.addXPToUser(testUser, xp: 150)
         
         let retrievedUser = try databaseManager.getUser(by: testUser.id)
         XCTAssertEqual(retrievedUser?.totalXP, 150)
@@ -222,7 +222,7 @@ final class DatabaseManagerTests: XCTestCase {
     
     func testGetUserStatistics() throws {
         // Add some test data
-        try databaseManager.addXPToUser(userId: testUser.id, xp: 250)
+        try databaseManager.addXPToUser(testUser, xp: 250)
         
         try databaseManager.createOrUpdateProgress(
             userId: testUser.id,
