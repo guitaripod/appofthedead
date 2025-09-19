@@ -6,3 +6,6 @@ dist/
 build/
 testresults
 testresults.xcresult/
+
+# Xcode user data
+*.xcuserdatad/
