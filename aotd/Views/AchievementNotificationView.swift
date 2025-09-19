@@ -35,14 +35,14 @@ final class AchievementNotificationView: UIView {
         
         let contentView = backgroundView
         
-        // Setup achievement image
+        
         achievementImageView.contentMode = .scaleAspectFit
         achievementImageView.image = UIImage(systemName: "star.fill")
         achievementImageView.tintColor = UIColor.Papyrus.gold
         achievementImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(achievementImageView)
         
-        // Setup title
+        
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .left
@@ -50,7 +50,7 @@ final class AchievementNotificationView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
         
-        // Setup description
+        
         descriptionLabel.font = .systemFont(ofSize: 14, weight: .medium)
         descriptionLabel.textColor = UIColor.Papyrus.secondaryText
         descriptionLabel.textAlignment = .left
@@ -84,7 +84,7 @@ final class AchievementNotificationView: UIView {
         titleLabel.text = achievement.name
         descriptionLabel.text = achievement.description
         
-        // Use different icons based on achievement type
+        
         let iconName: String
         switch achievement.criteria.type {
         case .totalXP:
@@ -104,7 +104,7 @@ final class AchievementNotificationView: UIView {
         achievementImageView.image = UIImage(systemName: iconName)
     }
     
-    // MARK: - Animation Methods
+    
     
     func showAnimated(in parentView: UIView, completion: @escaping () -> Void) {
         translatesAutoresizingMaskIntoConstraints = false
@@ -116,22 +116,22 @@ final class AchievementNotificationView: UIView {
             topAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.topAnchor, constant: 20)
         ])
         
-        // Initial state
+        
         alpha = 0
         transform = CGAffineTransform(translationX: 0, y: -100)
         
-        // Animate in
+        
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
             self.alpha = 1
             self.transform = .identity
         }) { _ in
-            // Auto-dismiss after 3 seconds
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.hideAnimated(completion: completion)
             }
         }
         
-        // Haptic feedback
+        
         UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
     

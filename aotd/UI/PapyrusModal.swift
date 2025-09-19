@@ -2,7 +2,7 @@ import UIKit
 
 class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
-    // MARK: - Properties
+    
     
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -14,7 +14,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private let grabberView = UIView()
     private var gradientLayer: CAGradientLayer?
     
-    // Download UI properties
+    
     private let downloadContainerView = UIView()
     private let downloadLoadingView = PapyrusLoadingView(style: .download)
     private let downloadButton = UIButton(type: .system)
@@ -25,19 +25,19 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private var streamingTask: Task<Void, Never>?
     private let mlxManager = MLXModelManager.shared
     
-    // Download tracking properties
+    
     private let modelSizeGB: Double = 1.8
     private var modelSizeBytes: Int64 { Int64(modelSizeGB * 1024 * 1024 * 1024) }
     private var progressTimer: Timer?
     
-    // Progress smoothing properties
+    
     private var downloadStartTime = Date()
     private var lastReportedProgress: Float = 0.0
     private var progressHistory: [(time: Date, progress: Float)] = []
     private var smoothedProgress: Float = 0.0
     private var progressAnimator: Timer?
     
-    // MARK: - Initialization
+    
     
     init(deity: Deity, keyword: String, mlxService: MLXService) {
         self.deity = deity
@@ -45,7 +45,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         self.mlxService = mlxService
         super.init(nibName: nil, bundle: nil)
         
-        // Configure for sheet presentation
+        
         if let sheet = sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -58,43 +58,43 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         
-        // Check if model is loaded
+        
         if mlxManager.isModelLoaded {
-            // Model is loaded, start streaming
+            
             downloadContainerView.isHidden = true
             contentTextView.isHidden = false
             startStreamingExplanation()
         } else {
-            // Model needs to be downloaded
+            
             downloadContainerView.isHidden = false
             contentTextView.isHidden = true
             setupDownloadUI()
             updateDownloadUI()
         }
         
-        // Set presentation controller delegate to detect actual dismissal
+        
         presentationController?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Don't cancel here anymore - wait for actual dismissal
+        
     }
     
     deinit {
-        // Ensure task is cancelled if view controller is deallocated
+        
         streamingTask?.cancel()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Update gradient frame
+        
         gradientLayer?.frame = headerView.bounds
     }
     
@@ -110,29 +110,29 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
     }
     
-    // MARK: - UI Setup
+    
     
     private func setupUI() {
-        // Add blur effect for modal background
+        
         if traitCollection.userInterfaceStyle == .dark {
             view.backgroundColor = UIColor.black.withAlphaComponent(0.95)
         } else {
             view.backgroundColor = PapyrusDesignSystem.Colors.background
         }
         
-        // Scroll view setup
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInsetAdjustmentBehavior = .automatic
         view.addSubview(scrollView)
         
-        // Content stack view
+        
         contentStackView.axis = .vertical
         contentStackView.spacing = PapyrusDesignSystem.Spacing.large
         contentStackView.alignment = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentStackView)
         
-        // Header view with gradient
+        
         headerView.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor.systemGray6
@@ -141,7 +141,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         headerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
         headerView.layer.borderWidth = 1
         
-        // Add shadow for depth in dark mode
+        
         if traitCollection.userInterfaceStyle == .dark {
             headerView.layer.shadowColor = UIColor(hex: deity.color)?.cgColor ?? UIColor.systemPurple.cgColor
             headerView.layer.shadowOpacity = 0.3
@@ -149,7 +149,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             headerView.layer.shadowRadius = 8
         }
         
-        // Store gradient layer for updates
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
@@ -165,7 +165,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(headerStackView)
         
-        // Avatar - using UIImageView for SF Symbol
+        
         let avatarImageView = UIImageView()
         if let symbolImage = UIImage(systemName: deity.avatar) {
             avatarImageView.image = symbolImage
@@ -176,14 +176,14 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     : baseColor.withAlphaComponent(0.9)
             }
         } else {
-            // Fallback if not a valid SF Symbol
+            
             avatarImageView.image = UIImage(systemName: "person.circle.fill")
             avatarImageView.tintColor = PapyrusDesignSystem.Colors.foreground
         }
         avatarImageView.contentMode = .scaleAspectFit
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Title and keyword
+        
         let titleStackView = UIStackView()
         titleStackView.axis = .vertical
         titleStackView.spacing = PapyrusDesignSystem.Spacing.xxSmall
@@ -209,9 +209,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         headerStackView.addArrangedSubview(avatarImageView)
         headerStackView.addArrangedSubview(titleStackView)
-        headerStackView.addArrangedSubview(UIView()) // Spacer
+        headerStackView.addArrangedSubview(UIView()) 
         
-        // Content text view
+        
         contentTextView.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor.systemGray5
@@ -229,63 +229,63 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             right: PapyrusDesignSystem.Spacing.medium
         )
         
-        // Add to content stack
+        
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(contentTextView)
         contentStackView.addArrangedSubview(downloadContainerView)
         
-        // Add loading view to content text view
+        
         contentTextView.addSubview(loadingView)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set deity color for loading view
+        
         let deityColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
         loadingView.setDeityColor(deityColor)
         
         NSLayoutConstraint.activate([
-            // Scroll view
+            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            // Content stack view
+            
             contentStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -PapyrusDesignSystem.Spacing.medium * 2),
             
-            // Header view
+            
             headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
             
-            // Header stack view inside header view
+            
             headerStackView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             headerStackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             headerStackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             headerStackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             
-            // Content text view
+            
             contentTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
             
-            // Loading view
+            
             loadingView.centerXAnchor.constraint(equalTo: contentTextView.centerXAnchor),
             loadingView.centerYAnchor.constraint(equalTo: contentTextView.centerYAnchor),
             loadingView.widthAnchor.constraint(equalTo: contentTextView.widthAnchor),
             loadingView.heightAnchor.constraint(equalTo: contentTextView.heightAnchor),
             
-            // Avatar image view
+            
             avatarImageView.widthAnchor.constraint(equalToConstant: 44),
             avatarImageView.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
-    // MARK: - Actions
     
-    // MARK: - Download UI
+    
+    
     
     private func setupDownloadUI() {
-        // Container styling similar to Oracle
+        
         downloadContainerView.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
                 ? UIColor.systemGray5
@@ -299,12 +299,12 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             : PapyrusDesignSystem.Colors.aged.cgColor
         downloadContainerView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add download loading view
+        
         downloadContainerView.addSubview(downloadLoadingView)
         downloadLoadingView.translatesAutoresizingMaskIntoConstraints = false
         downloadLoadingView.setDeityColor(baseColor)
         
-        // Update loading view content
+        
         if DeviceUtility.isSimulator {
             downloadLoadingView.updateTitle("Simulator Mode")
             downloadLoadingView.updateSubtitle("The Oracle runs on device. Use a physical device to experience divine wisdom.")
@@ -313,7 +313,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             downloadLoadingView.updateSubtitle("Download the Oracle model to unlock divine explanations from \(deity.name).")
         }
         
-        // Download button
+        
         downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Oracle Model", for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = baseColor
@@ -326,18 +326,18 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         downloadContainerView.addSubview(downloadButton)
         
-        // Setup constraints
+        
         NSLayoutConstraint.activate([
-            // Download container
+            
             downloadContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
             
-            // Download loading view
+            
             downloadLoadingView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor),
             downloadLoadingView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor),
             downloadLoadingView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor),
             downloadLoadingView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor),
             
-            // Download button
+            
             downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
             downloadButton.widthAnchor.constraint(equalToConstant: 250),
@@ -348,7 +348,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private func updateDownloadUI() {
         guard !DeviceUtility.isSimulator else { return }
         
-        // Just show the download button, don't start downloading automatically
+        
         downloadButton.isHidden = false
     }
     
@@ -368,7 +368,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         Task {
             do {
-                // Start a timer to ensure UI updates even if progress doesn't report
+                
                 await MainActor.run {
                     self.progressTimer?.invalidate()
                     self.progressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
@@ -377,7 +377,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                             return
                         }
                         
-                        // If we haven't received any progress updates, at least show the size
+                        
                         if self.smoothedProgress == 0 {
                             self.downloadLoadingView.updateProgress(0, withText: String(format: "0 MB / %.1f GB", 
                                                          Double(self.modelSizeBytes) / 1024 / 1024 / 1024))
@@ -389,7 +389,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     guard let self = self else { return }
                     
                     Task { @MainActor in
-                        // Handle discrete progress steps from MLX
+                        
                         self.handleProgressUpdate(progress.progress)
                     }
                 }
@@ -401,7 +401,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     self.downloadButton.isHidden = false
                     self.downloadLoadingView.stopAnimating()
                     
-                    // Show error alert
+                    
                     let alert = UIAlertController(
                         title: "Download Failed",
                         message: "Unable to download the Oracle model. Please check your internet connection and try again.",
@@ -414,7 +414,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
     }
     
-    // MARK: - Data Loading
+    
     
     private func startStreamingExplanation() {
         contentTextView.text = ""
@@ -422,10 +422,10 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         streamingTask = Task {
             do {
-                // Ensure model is loaded
+                
                 if !mlxService.isModelLoaded {
                     try await mlxService.loadModel { progress in
-                        // Progress handled internally
+                        
                     }
                 }
                 let prompt = "Explain the concept of '\(keyword)' in the context of afterlife beliefs. Be informative yet concise, speaking in character as \(deity.name)."
@@ -451,7 +451,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 
                 var fullText = ""
                 for try await chunk in stream {
-                    // Check for cancellation
+                    
                     try Task.checkCancellation()
                     guard !Task.isCancelled else { break }
                     
@@ -460,7 +460,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     await MainActor.run {
                         self.contentTextView.text = fullText
                         
-                        // Auto-scroll to bottom as text streams in
+                        
                         if self.contentTextView.contentSize.height > self.contentTextView.bounds.height {
                             let bottomOffset = CGPoint(
                                 x: 0,
@@ -471,7 +471,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     }
                 }
             } catch {
-                // Don't show error if task was cancelled
+                
                 if error is CancellationError || Task.isCancelled {
                     return
                 }
@@ -485,19 +485,19 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
     }
     
-    // MARK: - UI Updates
+    
     
     private func updateGradientColors() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
         if isDarkMode {
-            // More vibrant gradient in dark mode
+            
             gradientLayer?.colors = [
                 (UIColor(hex: deity.color)?.withAlphaComponent(0.4) ?? UIColor.clear).cgColor,
                 (UIColor(hex: deity.color)?.withAlphaComponent(0.1) ?? UIColor.clear).cgColor
             ]
         } else {
-            // Subtle gradient in light mode
+            
             gradientLayer?.colors = [
                 (UIColor(hex: deity.color)?.withAlphaComponent(0.15) ?? UIColor.clear).cgColor,
                 (UIColor(hex: deity.color)?.withAlphaComponent(0.05) ?? UIColor.clear).cgColor
@@ -509,7 +509,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
         if isDarkMode {
-            // Use the deity color more prominently in dark mode
+            
             headerView.layer.borderColor = UIColor(hex: deity.color)?.withAlphaComponent(0.6).cgColor ?? UIColor.systemPurple.cgColor
             headerView.layer.borderWidth = 1.5
         } else {
@@ -549,35 +549,35 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             : PapyrusDesignSystem.Colors.aged.cgColor
     }
     
-    // MARK: - UIAdaptivePresentationControllerDelegate
+    
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        // Modal has been fully dismissed
+        
         streamingTask?.cancel()
         streamingTask = nil
     }
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        // Allow dismissal at any time
+        
         return true
     }
     
     func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
-        // Modal is about to be dismissed but user can still cancel the gesture
+        
     }
     
-    // MARK: - Progress Handling
+    
     
     private func handleProgressUpdate(_ reportedProgress: Float) {
         let currentTime = Date()
         
-        // Store progress history
+        
         progressHistory.append((time: currentTime, progress: reportedProgress))
         
-        // Keep only recent history (last 10 seconds)
+        
         progressHistory = progressHistory.filter { currentTime.timeIntervalSince($0.time) < 10 }
         
-        // Start smooth animation if this is a new progress step
+        
         if reportedProgress > lastReportedProgress {
             lastReportedProgress = reportedProgress
             startSmoothProgressAnimation(to: reportedProgress)
@@ -587,13 +587,13 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     }
     
     private func startSmoothProgressAnimation(to targetProgress: Float) {
-        // Cancel any existing animation
+        
         progressAnimator?.invalidate()
         
         let startProgress = smoothedProgress
         let progressDelta = targetProgress - startProgress
-        let animationDuration: TimeInterval = 2.0 // Smooth over 2 seconds
-        let updateInterval: TimeInterval = 0.05 // 20 FPS
+        let animationDuration: TimeInterval = 2.0 
+        let updateInterval: TimeInterval = 0.05 
         let totalSteps = Int(animationDuration / updateInterval)
         var currentStep = 0
         
@@ -609,9 +609,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 timer.invalidate()
                 self.progressAnimator = nil
             } else {
-                // Ease-out animation
+                
                 let t = Float(currentStep) / Float(totalSteps)
-                let easedT = 1 - pow(1 - t, 3) // Cubic ease-out
+                let easedT = 1 - pow(1 - t, 3) 
                 self.smoothedProgress = startProgress + progressDelta * easedT
             }
             
@@ -620,7 +620,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     }
     
     private func updateProgressUI() {
-        // Generate status text based on smoothed progress
+        
         let progressPercent = Int(smoothedProgress * 100)
         let statusText: String
         
@@ -638,17 +638,17 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             statusText = "Finalizing divine connection..."
         }
         
-        // Calculate sizes based on smoothed progress
+        
         let totalBytes = modelSizeBytes
         let bytesDownloaded = Int64(Double(modelSizeBytes) * Double(smoothedProgress))
         let mbDownloaded = Double(bytesDownloaded) / 1024 / 1024
         let gbTotal = Double(totalBytes) / 1024 / 1024 / 1024
         
-        // Update loading view with progress
+        
         let sizeText = String(format: "%.0f MB / %.1f GB", mbDownloaded, gbTotal)
         downloadLoadingView.updateProgress(smoothedProgress, withText: "\(statusText)\n\(sizeText)")
         
-        // Check if download completed
+        
         if smoothedProgress >= 0.99 && lastReportedProgress >= 1.0 {
             progressAnimator?.invalidate()
             progressAnimator = nil

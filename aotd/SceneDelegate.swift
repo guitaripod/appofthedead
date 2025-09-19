@@ -21,20 +21,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: windowScene)
         
-        // Initialize custom icons
+        
         let iconsActivity = AppLogger.beginActivity("IconProvider.createCustomIcons")
         IconProvider.createCustomIcons()
         AppLogger.endActivity("IconProvider.createCustomIcons", id: iconsActivity)
         
-        // Initialize content loader
+        
         let contentLoaderActivity = AppLogger.beginActivity("ContentLoader.init")
         let contentLoader = ContentLoader()
         AppLogger.endActivity("ContentLoader.init", id: contentLoaderActivity)
         
-        // Set the content loader in database manager to avoid duplicates
+        
         databaseManager.setContentLoader(contentLoader)
         
-        // Generate books if needed (runs in background)
+        
         DispatchQueue.global(qos: .background).async {
             let bookGenerator = BookContentGenerator(
                 databaseManager: self.databaseManager,
@@ -43,7 +43,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             bookGenerator.generateAndSaveAllBooks()
         }
         
-        // Initialize Home screen
+        
         let homeActivity = AppLogger.beginActivity("HomeViewController.setup")
         let homeViewModel = HomeViewModel(
             databaseManager: databaseManager,
@@ -53,22 +53,22 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)
         AppLogger.endActivity("HomeViewController.setup", id: homeActivity)
         
-        // Initialize Profile screen
+        
         let profileActivity = AppLogger.beginActivity("ProfileViewController.setup")
         let profileViewModel = ProfileViewModel(databaseManager: databaseManager)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
         AppLogger.endActivity("ProfileViewController.setup", id: profileActivity)
         
-        // Initialize Settings screen
+        
         let settingsViewController = SettingsViewController()
         let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
         
-        // Initialize Oracle screen
+        
         let oracleViewController = OracleViewController()
         let oracleNavigationController = UINavigationController(rootViewController: oracleViewController)
         
-        // Initialize Library screen
+        
         let libraryActivity = AppLogger.beginActivity("BookLibraryViewController.setup")
         let libraryViewModel = BookLibraryViewModel(
             userId: databaseManager.fetchUser()?.id ?? "",
@@ -79,10 +79,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let libraryNavigationController = UINavigationController(rootViewController: libraryViewController)
         AppLogger.endActivity("BookLibraryViewController.setup", id: libraryActivity)
         
-        // Create Tab Bar Controller
+        
         let tabBarController = UITabBarController()
         
-        // Configure tab bar items
+        
         homeNavigationController.tabBarItem = UITabBarItem(
             title: "Learn",
             image: UIImage(systemName: "book.fill"),
@@ -113,14 +113,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectedImage: UIImage(systemName: "gearshape.fill")
         )
         
-        // Set view controllers
+        
         tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, libraryNavigationController, settingsNavigationController]
         
-        // Configure appearance with Papyrus theme
+        
         configureNavigationBarAppearance()
         configureTabBarAppearance(tabBarController.tabBar)
         
-        // Set up navigation flow
+        
         setupNavigationFlow(
             homeViewModel: homeViewModel,
             navigationController: homeNavigationController,
@@ -130,7 +130,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
         
-        // Clear any stored session to prevent auto-navigation
+        
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
         
         AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
@@ -164,7 +164,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             "beliefSystemName": beliefSystem.name
         ], logger: AppLogger.learning)
         
-        // Save current learning path session
+        
         UserDefaults.standard.set(beliefSystem.id, forKey: SessionState.currentBeliefSystemKey)
         
         learningPathCoordinator = LearningPathCoordinator(
@@ -178,12 +178,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         AppLogger.ui.info("Scene did enter background")
-        // Session state is already saved when starting learning paths
+        
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         AppLogger.ui.info("Scene will enter foreground")
-        // Resume functionality is handled in scene connection
+        
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -194,10 +194,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         
-        // Background
+        
         appearance.backgroundColor = UIColor.Papyrus.cardBackground
         
-        // Title attributes
+        
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.Papyrus.primaryText,
             .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -208,14 +208,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .font: UIFont.systemFont(ofSize: 34, weight: .bold)
         ]
         
-        // Button attributes
+        
         let buttonAppearance = UIBarButtonItemAppearance()
         buttonAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.Papyrus.gold
         ]
         appearance.buttonAppearance = buttonAppearance
         
-        // Apply to all navigation bars
+        
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
@@ -223,28 +223,28 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func configureTabBarAppearance(_ tabBar: UITabBar) {
-        // Configure tab bar with Papyrus theme
+        
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         
-        // Background color
+        
         appearance.backgroundColor = UIColor.Papyrus.cardBackground
         
-        // Shadow
+        
         appearance.shadowColor = UIColor.Papyrus.aged
         appearance.shadowImage = UIImage()
         
-        // Item appearance
+        
         let itemAppearance = UITabBarItemAppearance()
         
-        // Normal state
+        
         itemAppearance.normal.iconColor = UIColor.Papyrus.tertiaryText
         itemAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.Papyrus.tertiaryText,
             .font: UIFont.systemFont(ofSize: 10, weight: .medium)
         ]
         
-        // Selected state
+        
         itemAppearance.selected.iconColor = UIColor.Papyrus.gold
         itemAppearance.selected.titleTextAttributes = [
             .foregroundColor: UIColor.Papyrus.gold,
@@ -258,10 +258,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
         
-        // Tint color for selected items
+        
         tabBar.tintColor = UIColor.Papyrus.gold
         
-        // Add subtle border
+        
         tabBar.layer.borderWidth = 0.5
         tabBar.layer.borderColor = UIColor.Papyrus.aged.cgColor
     }

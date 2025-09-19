@@ -64,7 +64,7 @@ final class BaseQuestionViewModelTests: XCTestCase {
     }
     
     func testProgress() {
-        XCTAssertEqual(sut.progress, 0.3) // (2 + 1) / 10
+        XCTAssertEqual(sut.progress, 0.3) 
     }
     
     func testBeliefSystemColor() {

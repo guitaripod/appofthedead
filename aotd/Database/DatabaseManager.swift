@@ -45,7 +45,7 @@ class DatabaseManager {
                 try BookReadingPreferences.createTable(db)
                 try BookHighlight.createTable(db)
                 
-                // Run migrations
+                
                 try runMigrations(db)
             }
             
@@ -72,7 +72,7 @@ class DatabaseManager {
                 try BookReadingPreferences.createTable(db)
                 try BookHighlight.createTable(db)
                 
-                // Run migrations
+                
                 try runMigrations(db)
             }
             
@@ -81,7 +81,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - User Management
+    
 
     func createAnonymousUser() throws -> User {
         var user = User()
@@ -115,7 +115,7 @@ class DatabaseManager {
     
     func deleteUser(_ userId: String) throws {
         try dbQueue.write { db in
-            // Delete user's related data first
+            
             try UserAnswer.filter(Column("userId") == userId).deleteAll(db)
             try UserAchievement.filter(Column("userId") == userId).deleteAll(db)
             try Progress.filter(Column("userId") == userId).deleteAll(db)
@@ -124,21 +124,21 @@ class DatabaseManager {
             try Mistake.filter(Column("userId") == userId).deleteAll(db)
             try MistakeSession.filter(Column("userId") == userId).deleteAll(db)
             
-            // Delete the user
+            
             try User.deleteOne(db, key: userId)
         }
     }
     
     func fetchUser() -> User? {
         do {
-            // First try to read existing user
+            
             if let existingUser = try dbQueue.read({ db in
                 try User.fetchOne(db)
             }) {
                 return existingUser
             }
 
-            // If no user exists, create anonymous one
+            
             var newUser = User()
             try dbQueue.write { db in
                 try newUser.insert(db)
@@ -151,7 +151,7 @@ class DatabaseManager {
     
 
     
-    // MARK: - Progress Management
+    
     
     func getProgress(userId: String, beliefSystemId: String, lessonId: String? = nil) throws -> Progress? {
         return try dbQueue.read { db in
@@ -168,7 +168,7 @@ class DatabaseManager {
     func createOrUpdateProgress(userId: String, beliefSystemId: String, lessonId: String? = nil, 
                                status: Progress.ProgressStatus, score: Int? = nil) throws {
         try dbQueue.write { db in
-            // Query progress directly within the write transaction
+            
             var query = Progress.filter(Column("userId") == userId && Column("beliefSystemId") == beliefSystemId)
             if let lessonId = lessonId {
                 query = query.filter(Column("lessonId") == lessonId)
@@ -215,13 +215,13 @@ class DatabaseManager {
     
     func deleteProgress(userId: String, beliefSystemId: String) throws {
         try dbQueue.write { db in
-            // Delete all progress records for this belief system
+            
             try Progress
                 .filter(Column("userId") == userId)
                 .filter(Column("beliefSystemId") == beliefSystemId)
                 .deleteAll(db)
             
-            // Also delete all mistakes for this belief system
+            
             try Mistake
                 .filter(Column("userId") == userId)
                 .filter(Column("beliefSystemId") == beliefSystemId)
@@ -236,11 +236,11 @@ class DatabaseManager {
     
     func addXPToProgress(userId: String, beliefSystemId: String, xp: Int) throws {
         try dbQueue.write { db in
-            // Get or create progress for belief system
+            
             if var existingProgress = try Progress
                 .filter(Column("userId") == userId && Column("beliefSystemId") == beliefSystemId && Column("lessonId") == nil)
                 .fetchOne(db) {
-                // Update existing progress
+                
                 let oldXP = existingProgress.earnedXP
                 existingProgress.addXP(xp)
                 try existingProgress.update(db)
@@ -251,7 +251,7 @@ class DatabaseManager {
                     "xpAdded": xp
                 ])
             } else {
-                // Create new progress
+                
                 var newProgress = Progress(userId: userId, beliefSystemId: beliefSystemId)
                 newProgress.addXP(xp)
                 try newProgress.insert(db)
@@ -265,7 +265,7 @@ class DatabaseManager {
         syncProgressToCloudIfNeeded(userId: userId)
     }
     
-    // MARK: - Answer Management
+    
     
     func saveUserAnswer(_ answer: UserAnswer) throws {
         var mutableAnswer = answer
@@ -290,7 +290,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Achievement Management
+    
     
     func unlockAchievement(userId: String, achievementId: String, progress: Double = 1.0) throws {
         try dbQueue.write { db in
@@ -323,7 +323,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Content Loading
+    
     
     func setContentLoader(_ loader: ContentLoader) {
         self.contentLoader = loader
@@ -345,18 +345,18 @@ class DatabaseManager {
         return contentLoader.loadAchievements()
     }
     
-    // MARK: - Database Migrations
+    
     
     private func runMigrations(_ db: Database) throws {
-        // Add earnedXP column to progress table if it doesn't exist
+        
         let progressColumns = try db.columns(in: "progress")
         if !progressColumns.contains(where: { $0.name == "earnedXP" }) {
             try db.alter(table: "progress") { t in
                 t.add(column: "earnedXP", .integer).notNull().defaults(to: 0)
             }
             
-            // Migrate existing data: calculate earnedXP from user's totalXP for each belief system
-            // This is a simple migration that sets initial values
+            
+            
             try db.execute(sql: """
                 UPDATE progress 
                 SET earnedXP = 0 
@@ -366,7 +366,7 @@ class DatabaseManager {
         
 
         
-        // Add missing columns to book_reading_preferences table
+        
         if try db.tableExists("book_reading_preferences") {
             let prefsColumns = try db.columns(in: "book_reading_preferences")
             
@@ -442,7 +442,7 @@ class DatabaseManager {
                 }
             }
             
-            // Update any existing rows that have null values for new columns
+            
             try db.execute(sql: """
                 UPDATE book_reading_preferences
                 SET firstLineIndent = COALESCE(firstLineIndent, 30.0),
@@ -477,7 +477,7 @@ class DatabaseManager {
         return loadBeliefSystems().first { $0.id == id }
     }
     
-    // MARK: - Oracle Consultation Management
+    
     
     func saveOracleConsultation(_ consultation: OracleConsultation) throws {
         var mutableConsultation = consultation
@@ -486,7 +486,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Purchase Management
+    
     
     func hasAccess(userId: String, to productId: ProductIdentifier) -> Bool {
         do {
@@ -529,12 +529,12 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Mistake Management
+    
     
     func saveMistake(userId: String, beliefSystemId: String, lessonId: String? = nil,
                      questionId: String, incorrectAnswer: String, correctAnswer: String) throws {
         try dbQueue.write { db in
-            // Check if mistake already exists
+            
             let existingMistake = try Mistake
                 .filter(Column("userId") == userId)
                 .filter(Column("questionId") == questionId)
@@ -651,7 +651,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Statistics
+    
     
     func getUserStatistics(userId: String) throws -> UserStatistics {
         return try dbQueue.read { db in
@@ -674,7 +674,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Book Management
+    
     
     func getBookProgress(userId: String, bookId: String) throws -> BookProgress? {
         return try dbQueue.read { db in
@@ -688,16 +688,16 @@ class DatabaseManager {
     func saveBookProgress(_ progress: BookProgress) throws {
         var mutableProgress = progress
         try dbQueue.write { db in
-            // Check if progress already exists for this user+book
+            
             if let existing = try BookProgress
                 .filter(Column("userId") == progress.userId)
                 .filter(Column("bookId") == progress.bookId)
                 .fetchOne(db) {
-                // Update existing record with the same ID
+                
                 mutableProgress.id = existing.id
                 try mutableProgress.update(db)
             } else {
-                // Insert new record
+                
                 try mutableProgress.insert(db)
             }
         }
@@ -723,16 +723,16 @@ class DatabaseManager {
     func saveBookReadingPreferences(_ preferences: BookReadingPreferences) throws {
         var mutablePrefs = preferences
         try dbQueue.write { db in
-            // Check if preferences already exist for this user+book
+            
             if let existing = try BookReadingPreferences
                 .filter(Column("userId") == preferences.userId)
                 .filter(Column("bookId") == preferences.bookId)
                 .fetchOne(db) {
-                // Update existing record with the same ID
+                
                 mutablePrefs.id = existing.id
                 try mutablePrefs.update(db)
             } else {
-                // Insert new record
+                
                 try mutablePrefs.insert(db)
             }
         }
@@ -745,7 +745,7 @@ class DatabaseManager {
     func getAllBooks() throws -> [Book] {
         return try dbQueue.read { db in
             var books = try Book.fetchAll(db)
-            // Ensure chapters are sorted for all books
+            
             for i in 0..<books.count {
                 books[i].chapters.sort { $0.chapterNumber < $1.chapterNumber }
             }
@@ -756,7 +756,7 @@ class DatabaseManager {
     func getBook(by id: String) throws -> Book? {
         return try dbQueue.read { db in
             if var book = try Book.fetchOne(db, key: id) {
-                // Ensure chapters are sorted by chapter number
+                
                 book.chapters.sort { $0.chapterNumber < $1.chapterNumber }
                 return book
             }
@@ -788,7 +788,7 @@ class DatabaseManager {
         }
     }
     
-    // MARK: - Book Highlights
+    
     
     func saveBookHighlight(_ highlight: BookHighlight) throws {
         var mutableHighlight = highlight
@@ -864,16 +864,16 @@ class DatabaseManager {
         }
     }
 
-    // MARK: - iCloud Sync Integration
+    
 
-    /// Get completed belief system IDs for sync
+    
     func getCompletedBeliefSystemIds(userId: String) -> Set<String> {
         do {
             let completedProgress = try dbQueue.read { db in
                 try Progress
                     .filter(Column("userId") == userId)
                     .filter(Column("status") == Progress.ProgressStatus.completed.rawValue)
-                    .filter(Column("lessonId") == nil) // Only belief system level completion
+                    .filter(Column("lessonId") == nil) 
                     .fetchAll(db)
             }
 
@@ -884,7 +884,7 @@ class DatabaseManager {
         }
     }
 
-    /// Sync progress to iCloud if user has made significant progress
+    
     private func syncProgressToCloudIfNeeded(userId: String) {
         guard let user = try? getUser(by: userId),
               iCloudSyncManager.shared.isCloudSyncAvailable else {
@@ -893,25 +893,25 @@ class DatabaseManager {
 
         let completedPaths = getCompletedBeliefSystemIds(userId: userId)
 
-        // Only sync if user has meaningful progress
+        
         if user.totalXP > 0 || !completedPaths.isEmpty {
             iCloudSyncManager.shared.syncProgress(user: user, completedPaths: completedPaths)
         }
     }
 
-    /// Apply synced progress from iCloud to local database
+    
     func applySyncedProgressIfNeeded(userId: String) {
         guard let syncedData = iCloudSyncManager.shared.retrieveSyncedProgress(),
               let user = try? getUser(by: userId) else {
             return
         }
 
-        // Only apply if synced data is more advanced than local
+        
         if syncedData.xp > user.totalXP || syncedData.level > user.currentLevel {
             do {
                 try dbQueue.write { db in
                     if var existingUser = try User.fetchOne(db, key: userId) {
-                        // Update user with synced data
+                        
                         existingUser.totalXP = max(existingUser.totalXP, syncedData.xp)
                         existingUser.currentLevel = max(existingUser.currentLevel, syncedData.level)
                         existingUser.updatedAt = Date()
@@ -927,7 +927,7 @@ class DatabaseManager {
                     }
                 }
 
-                // Mark completed paths as completed locally
+                
                 for beliefSystemId in syncedData.completedPaths {
                     try createOrUpdateProgress(
                         userId: userId,

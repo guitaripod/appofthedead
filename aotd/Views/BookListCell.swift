@@ -2,7 +2,7 @@ import UIKit
 
 final class BookListCell: UICollectionViewCell {
     
-    // MARK: - Properties
+    
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -29,7 +29,7 @@ final class BookListCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
         imageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        // Add book-like appearance
+        
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = PapyrusDesignSystem.Colors.ancientInk.withAlphaComponent(0.2).cgColor
         return imageView
@@ -83,7 +83,7 @@ final class BookListCell: UICollectionViewCell {
         return imageView
     }()
     
-    // MARK: - Initialization
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,7 +94,7 @@ final class BookListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         contentView.addSubview(containerView)
@@ -117,7 +117,7 @@ final class BookListCell: UICollectionViewCell {
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
         lockIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Set content hugging and compression resistance priorities
+        
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
@@ -127,16 +127,16 @@ final class BookListCell: UICollectionViewCell {
         statusLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         statusLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        // Create constraints with proper priorities
+        
         let containerConstraints = [
-            // Container - required constraints
+            
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ]
         
-        // Book spine - fixed size
+        
         let spineConstraints = [
             bookSpineView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             bookSpineView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -144,7 +144,7 @@ final class BookListCell: UICollectionViewCell {
             bookSpineView.heightAnchor.constraint(equalToConstant: 76)
         ]
         
-        // Cover image - fixed size and position
+        
         let coverConstraints = [
             coverImageView.leadingAnchor.constraint(equalTo: bookSpineView.trailingAnchor, constant: 2),
             coverImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -152,7 +152,7 @@ final class BookListCell: UICollectionViewCell {
             coverImageView.heightAnchor.constraint(equalToConstant: 76)
         ]
         
-        // Chevron - fixed size and position
+        
         let chevronConstraints = [
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
@@ -160,25 +160,25 @@ final class BookListCell: UICollectionViewCell {
             chevronImageView.heightAnchor.constraint(equalToConstant: 20)
         ]
         
-        // Title - flexible width
+        
         let titleConstraints = [
             titleLabel.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: chevronImageView.leadingAnchor, constant: -12)
         ]
         
-        // Center title vertically when there's enough space
+        
         let titleCenterConstraint = titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16)
         titleCenterConstraint.priority = .defaultHigh
         
-        // Subtitle
+        
         let subtitleConstraints = [
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusLabel.leadingAnchor, constant: -8)
         ]
         
-        // Progress
+        
         let progressConstraints = [
             progressView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 8),
             progressView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -186,18 +186,18 @@ final class BookListCell: UICollectionViewCell {
             progressView.heightAnchor.constraint(equalToConstant: 4)
         ]
         
-        // Bottom constraint with priority
+        
         let progressBottomConstraint = progressView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
         progressBottomConstraint.priority = .defaultHigh
         
-        // Status
+        
         let statusConstraints = [
             statusLabel.centerYAnchor.constraint(equalTo: subtitleLabel.centerYAnchor),
             statusLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
             statusLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40)
         ]
         
-        // Lock icon
+        
         let lockConstraints = [
             lockIconImageView.centerXAnchor.constraint(equalTo: coverImageView.centerXAnchor),
             lockIconImageView.centerYAnchor.constraint(equalTo: coverImageView.centerYAnchor),
@@ -205,7 +205,7 @@ final class BookListCell: UICollectionViewCell {
             lockIconImageView.heightAnchor.constraint(equalToConstant: 24)
         ]
         
-        // Activate all constraints
+        
         NSLayoutConstraint.activate(containerConstraints)
         NSLayoutConstraint.activate(spineConstraints)
         NSLayoutConstraint.activate(coverConstraints)
@@ -219,12 +219,12 @@ final class BookListCell: UICollectionViewCell {
         NSLayoutConstraint.activate(lockConstraints)
     }
     
-    // MARK: - Configuration
+    
     
     func configure(with book: Book, progress: BookProgress?, beliefSystem: BeliefSystem? = nil, isUnlocked: Bool = true) {
         titleLabel.text = book.title
         
-        // Apply lock state styling
+        
         if isUnlocked {
             containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
             containerView.layer.shadowOpacity = 0.08
@@ -234,7 +234,7 @@ final class BookListCell: UICollectionViewCell {
             coverImageView.alpha = 1.0
             lockIconImageView.isHidden = true
             
-            // Set subtitle with reading time
+            
             let hours = book.estimatedReadingTime / 60
             let minutes = book.estimatedReadingTime % 60
             if hours > 0 {
@@ -253,7 +253,7 @@ final class BookListCell: UICollectionViewCell {
             lockIconImageView.isHidden = false
         }
         
-        // Set cover image with belief system icon
+        
         if let beliefSystem = beliefSystem {
             coverImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf)
             coverImageView.tintColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
@@ -280,12 +280,12 @@ final class BookListCell: UICollectionViewCell {
             statusLabel.isHidden = true
         }
         
-        // Force layout update
+        
         setNeedsLayout()
         layoutIfNeeded()
     }
     
-    // MARK: - Reuse
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()

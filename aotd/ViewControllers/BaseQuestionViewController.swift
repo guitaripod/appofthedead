@@ -30,7 +30,7 @@ class BaseQuestionViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        // Make sure navigation bar is visible
+        
         navigationController?.setNavigationBarHidden(false, animated: false)
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
@@ -75,7 +75,7 @@ class BaseQuestionViewController: UIViewController {
             progressView.heightAnchor.constraint(equalToConstant: 8)
         ])
         
-        // Hide if requested
+        
         if hideProgressView {
             progressView.isHidden = true
         }
@@ -86,7 +86,7 @@ class BaseQuestionViewController: UIViewController {
         questionNumberLabel.textColor = UIColor.Papyrus.secondaryText
         contentStackView.addArrangedSubview(questionNumberLabel)
         
-        // Hide if requested
+        
         if hideQuestionNumber {
             questionNumberLabel.isHidden = true
         }
@@ -148,7 +148,7 @@ class BaseQuestionViewController: UIViewController {
     }
     
     @objc func submitAnswer() {
-        // To be overridden by subclasses
+        
     }
     
     @objc private func backButtonTapped() {

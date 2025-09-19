@@ -23,7 +23,7 @@ protocol BookReaderSettingsDelegate: AnyObject {
 
 final class BookReaderSettingsViewController: UIViewController {
     
-    // MARK: - Types
+    
     
     enum Section: Int, CaseIterable {
         case appearance
@@ -62,7 +62,7 @@ final class BookReaderSettingsViewController: UIViewController {
         case ttsVoice(value: String)
     }
     
-    // MARK: - Properties
+    
     
     weak var delegate: BookReaderSettingsDelegate?
     private var preferences: BookReadingPreferences
@@ -70,7 +70,7 @@ final class BookReaderSettingsViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
-    // MARK: - UI Components
+    
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -105,7 +105,7 @@ final class BookReaderSettingsViewController: UIViewController {
         return view
     }()
     
-    // MARK: - Initialization
+    
     
     init(preferences: BookReadingPreferences) {
         self.preferences = preferences
@@ -123,7 +123,7 @@ final class BookReaderSettingsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,12 +132,12 @@ final class BookReaderSettingsViewController: UIViewController {
         applySnapshot()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         
-        // Configure collection view with compositional layout
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -168,7 +168,7 @@ final class BookReaderSettingsViewController: UIViewController {
             guard let self = self,
                   let section = Section(rawValue: sectionIndex) else { return nil }
             
-            // Create different layouts based on section
+            
             switch section {
             case .appearance:
                 return self.createAppearanceSection()
@@ -177,7 +177,7 @@ final class BookReaderSettingsViewController: UIViewController {
             }
         }, configuration: config)
         
-        // Register header
+        
         layout.register(
             SectionHeaderView.self,
             forDecorationViewOfKind: UICollectionView.elementKindSectionHeader
@@ -187,26 +187,26 @@ final class BookReaderSettingsViewController: UIViewController {
     }
     
     private func createAppearanceSection() -> NSCollectionLayoutSection {
-        // Item
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(80)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Group
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(80)
         )
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        // Section
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         section.interGroupSpacing = 12
         
-        // Header
+        
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(44)
@@ -222,26 +222,26 @@ final class BookReaderSettingsViewController: UIViewController {
     }
     
     private func createStandardSection() -> NSCollectionLayoutSection {
-        // Item
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(60)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Group
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(60)
         )
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        // Section
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         section.interGroupSpacing = 8
         
-        // Header
+        
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(44)
@@ -257,21 +257,21 @@ final class BookReaderSettingsViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        // Register cells
+        
         collectionView.register(ThemeSettingCell.self, forCellWithReuseIdentifier: "ThemeCell")
         collectionView.register(FontFamilySettingCell.self, forCellWithReuseIdentifier: "FontFamilyCell")
         collectionView.register(SliderSettingCell.self, forCellWithReuseIdentifier: "SliderCell")
         collectionView.register(SegmentedSettingCell.self, forCellWithReuseIdentifier: "SegmentedCell")
         collectionView.register(SwitchSettingCell.self, forCellWithReuseIdentifier: "SwitchCell")
         
-        // Register header
+        
         collectionView.register(
             SectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "SectionHeader"
         )
         
-        // Create data source
+        
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(
             collectionView: collectionView
         ) { [weak self] collectionView, indexPath, item in
@@ -370,7 +370,7 @@ final class BookReaderSettingsViewController: UIViewController {
             }
         }
         
-        // Configure supplementary view provider
+        
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == UICollectionView.elementKindSectionHeader else { return nil }
             
@@ -390,7 +390,7 @@ final class BookReaderSettingsViewController: UIViewController {
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         
-        // Appearance section
+        
         snapshot.appendSections([.appearance])
         snapshot.appendItems([
             .theme(value: preferences.theme),
@@ -400,7 +400,7 @@ final class BookReaderSettingsViewController: UIViewController {
             .brightness(value: preferences.brightness)
         ], toSection: .appearance)
         
-        // Text Layout section
+        
         snapshot.appendSections([.textLayout])
         snapshot.appendItems([
             .textAlignment(value: preferences.textAlignment),
@@ -411,7 +411,7 @@ final class BookReaderSettingsViewController: UIViewController {
             .hyphenation(enabled: preferences.enableHyphenation)
         ], toSection: .textLayout)
         
-        // Reading Features section
+        
         snapshot.appendSections([.readingFeatures])
         snapshot.appendItems([
             .pageTransition(style: preferences.pageTransitionStyle),
@@ -420,7 +420,7 @@ final class BookReaderSettingsViewController: UIViewController {
             .swipeGestures(enabled: preferences.enableSwipeGestures)
         ], toSection: .readingFeatures)
         
-        // Automation section
+        
         snapshot.appendSections([.automation])
         snapshot.appendItems([
             .autoScrollSpeed(value: preferences.autoScrollSpeed ?? 50.0),
@@ -439,7 +439,7 @@ final class BookReaderSettingsViewController: UIViewController {
         return ["Default"] + voices
     }
     
-    // MARK: - Actions
+    
     
     @objc private func closeSettings() {
         savePreferences()
@@ -457,7 +457,7 @@ final class BookReaderSettingsViewController: UIViewController {
     }
 }
 
-// MARK: - SettingsCellDelegate
+
 
 protocol SettingsCellDelegate: AnyObject {
     func settingValueChanged(_ value: Any, for indexPath: IndexPath)
@@ -540,12 +540,12 @@ extension BookReaderSettingsViewController: SettingsCellDelegate {
             preferences.ttsVoice = value as? String
         }
         
-        // Refresh the specific item
+        
         applySnapshot()
     }
 }
 
-// MARK: - Section Header View
+
 
 class SectionHeaderView: UICollectionReusableView {
     private let titleLabel = UILabel()
@@ -579,7 +579,7 @@ class SectionHeaderView: UICollectionReusableView {
     }
 }
 
-// MARK: - Cell Classes
+
 
 class BaseSettingCell: UICollectionViewCell {
     weak var delegate: SettingsCellDelegate?
@@ -594,11 +594,11 @@ class BaseSettingCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        // Override in subclasses
+        
     }
 }
 
-// MARK: - Theme Cell
+
 
 class ThemeSettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
@@ -700,7 +700,7 @@ class ThemeSettingCell: BaseSettingCell {
     }
 }
 
-// MARK: - Font Family Cell
+
 
 class FontFamilySettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
@@ -816,7 +816,7 @@ class FontCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Slider Cell
+
 
 class SliderSettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
@@ -880,7 +880,7 @@ class SliderSettingCell: BaseSettingCell {
     }
 }
 
-// MARK: - Segmented Cell
+
 
 class SegmentedSettingCell: BaseSettingCell {
     private let titleLabel = UILabel()
@@ -960,7 +960,7 @@ class SegmentedSettingCell: BaseSettingCell {
     }
 }
 
-// MARK: - Switch Cell
+
 
 class SwitchSettingCell: BaseSettingCell {
     private let titleLabel = UILabel()

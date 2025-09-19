@@ -7,7 +7,7 @@ final class ProfileViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
     
-    // Header views
+    
     private let profileHeaderView = UIView()
     private let avatarImageView = UIImageView()
     private let nameLabel = UILabel()
@@ -15,11 +15,11 @@ final class ProfileViewController: UIViewController {
     private let xpProgressView = UIProgressView()
     private let xpLabel = UILabel()
     
-    // Stats section
+    
     private let statsContainerView = UIView()
     private let statsStackView = UIStackView()
     
-    // Achievements section
+    
     private let achievementsHeaderLabel = UILabel()
     private lazy var achievementsCollectionView = createAchievementsCollectionView()
     
@@ -39,7 +39,7 @@ final class ProfileViewController: UIViewController {
         bindViewModel()
         viewModel.loadData()
         
-        // Listen for data changes
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleDataUpdate),
@@ -53,11 +53,11 @@ final class ProfileViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         title = "Profile"
         
-        // Reload data every time the view appears to ensure fresh stats
+        
         viewModel.loadData()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
@@ -104,7 +104,7 @@ final class ProfileViewController: UIViewController {
         profileHeaderView.layer.shadowRadius = 4
         contentStackView.addArrangedSubview(profileHeaderView)
         
-        // Avatar
+        
         avatarImageView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
         avatarImageView.layer.cornerRadius = 40
         avatarImageView.clipsToBounds = true
@@ -114,7 +114,7 @@ final class ProfileViewController: UIViewController {
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(avatarImageView)
         
-        // Name
+        
         if let papyrusFont = UIFont(name: "Papyrus", size: 26) {
             nameLabel.font = papyrusFont
         } else {
@@ -124,13 +124,13 @@ final class ProfileViewController: UIViewController {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(nameLabel)
         
-        // Level
+        
         levelLabel.font = .systemFont(ofSize: 18, weight: .bold)
         levelLabel.textColor = UIColor.Papyrus.gold
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(levelLabel)
         
-        // XP Progress
+        
         xpProgressView.progressTintColor = UIColor.Papyrus.gold
         xpProgressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         xpProgressView.layer.cornerRadius = 4
@@ -138,7 +138,7 @@ final class ProfileViewController: UIViewController {
         xpProgressView.translatesAutoresizingMaskIntoConstraints = false
         profileHeaderView.addSubview(xpProgressView)
         
-        // XP Label
+        
         xpLabel.font = .systemFont(ofSize: 14, weight: .medium)
         xpLabel.textColor = UIColor.Papyrus.secondaryText
         xpLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -208,7 +208,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupUpgradeSection() {
-        // Only show if user doesn't have ultimate access
+        
         guard let user = viewModel.user, !user.hasUltimateAccess() else { return }
         
         let upgradeContainer = UIView()
@@ -267,7 +267,7 @@ final class ProfileViewController: UIViewController {
         
         contentStackView.addArrangedSubview(upgradeContainer)
         
-        // Add XP boost indicator if active
+        
 
     }
     
@@ -320,11 +320,11 @@ final class ProfileViewController: UIViewController {
         guard let user = viewModel.user,
               let stats = viewModel.userStats else { return }
         
-        // Update header
+        
         nameLabel.text = "Anonymous User"
         levelLabel.text = "Level \(user.currentLevel)"
         
-        // Calculate XP progress to next level
+        
         let currentLevelXP = (user.currentLevel - 1) * 100
         let nextLevelXP = user.currentLevel * 100
         let progressInLevel = user.totalXP - currentLevelXP
@@ -333,10 +333,10 @@ final class ProfileViewController: UIViewController {
         xpProgressView.progress = Float(progressInLevel) / Float(xpNeededForLevel)
         xpLabel.text = "\(progressInLevel) / \(xpNeededForLevel) XP to next level"
         
-        // Update stats
+        
         updateStatsSection(with: stats)
         
-        // Reload achievements
+        
         achievementsCollectionView.reloadData()
     }
     
@@ -399,7 +399,7 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionViewDataSource & UICollectionViewDelegate
+
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     

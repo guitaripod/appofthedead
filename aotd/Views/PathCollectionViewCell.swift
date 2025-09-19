@@ -2,7 +2,7 @@ import UIKit
 
 final class PathCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - Properties
+    
     
     private var pathPreview: PathPreview?
     private var isShowingPreview = false
@@ -152,7 +152,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // MARK: - Initialization
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -163,7 +163,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         contentView.addSubview(containerView)
@@ -183,14 +183,14 @@ final class PathCollectionViewCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            // Center the stack view vertically, but allow it to move up if needed
+            
             contentStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             contentStackView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
             contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             
-            // Ensure progress view and name label use available width
+            
             progressView.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 16),
             progressView.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -16),
             
@@ -215,41 +215,41 @@ final class PathCollectionViewCell: UICollectionViewCell {
             statusIcon.widthAnchor.constraint(equalToConstant: 16),
             statusIcon.heightAnchor.constraint(equalToConstant: 16),
             
-            // Preview container
+            
             previewContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
             previewContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             previewContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             
-            // Preview label
+            
             previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 4),
             previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -4),
             previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 4),
             previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -4),
             
-            // Mistake badge
+            
             mistakeBadge.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             mistakeBadge.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
             mistakeBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
             mistakeBadge.heightAnchor.constraint(equalToConstant: 20),
             
-            // Mistake count label
+            
             mistakeCountLabel.centerXAnchor.constraint(equalTo: mistakeBadge.centerXAnchor),
             mistakeCountLabel.centerYAnchor.constraint(equalTo: mistakeBadge.centerYAnchor),
             mistakeCountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: mistakeBadge.leadingAnchor, constant: 4),
             mistakeCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: mistakeBadge.trailingAnchor, constant: -4)
         ])
         
-        // Add long press gesture
+        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPressGesture.minimumPressDuration = 0.5
         addGestureRecognizer(longPressGesture)
     }
     
-    // MARK: - Configuration
+    
     
     func configure(with item: PathItem, preview: PathPreview? = nil) {
         self.pathPreview = preview
-        // Set icon using IconProvider
+        
         iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: item.color)
         
         nameLabel.text = item.name
@@ -275,7 +275,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         
         lockOverlay.isHidden = item.isUnlocked
         
-        // Configure status badge based on progress status
+        
         switch item.status {
         case .completed:
             statusBadge.isHidden = false
@@ -295,17 +295,17 @@ final class PathCollectionViewCell: UICollectionViewCell {
             containerView.layer.shadowOpacity = 0.15
         }
         
-        // Force layout update to ensure proper alignment
+        
         setNeedsLayout()
         layoutIfNeeded()
         
-        // Configure preview if available
+        
         if let preview = preview, item.isUnlocked {
             let topicsText = preview.keyTopics.prefix(2).joined(separator: " • ")
             previewLabel.text = topicsText
         }
         
-        // Configure mistake badge
+        
         if item.mistakeCount > 0 && item.isUnlocked {
             mistakeBadge.isHidden = false
             mistakeCountLabel.text = "\(item.mistakeCount)"
@@ -314,7 +314,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began, pathPreview != nil else { return }
@@ -329,7 +329,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
             self.previewContainer.isHidden = !self.isShowingPreview
             self.previewContainer.alpha = self.isShowingPreview ? 1 : 0
             
-            // Slightly scale down other elements when preview is shown
+            
             if self.isShowingPreview {
                 self.contentStackView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
             } else {
@@ -337,13 +337,13 @@ final class PathCollectionViewCell: UICollectionViewCell {
             }
         }
         
-        // Haptic feedback
+        
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
     }
     
     
-    // MARK: - Reuse
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()

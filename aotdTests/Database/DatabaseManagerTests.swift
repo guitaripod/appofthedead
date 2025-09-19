@@ -7,19 +7,19 @@ final class DatabaseManagerTests: XCTestCase {
     var testUser: User!
     
     override func setUpWithError() throws {
-        // Create a test database manager with in-memory database
+        
         databaseManager = DatabaseManager(inMemory: true)
         
-        // Set up content loader
+        
         let contentLoader = ContentLoader()
         databaseManager.setContentLoader(contentLoader)
         
-        // Create a test user
+        
         testUser = try databaseManager.createUser(name: "Test User", email: "test@example.com")
     }
     
     override func tearDownWithError() throws {
-        // Clean up
+        
         testUser = nil
         databaseManager = nil
     }
@@ -93,7 +93,7 @@ final class DatabaseManagerTests: XCTestCase {
     }
     
     func testUpdateExistingProgress() throws {
-        // First create progress
+        
         try databaseManager.createOrUpdateProgress(
             userId: testUser.id,
             beliefSystemId: "judaism",
@@ -101,7 +101,7 @@ final class DatabaseManagerTests: XCTestCase {
             status: .inProgress
         )
         
-        // Then update it
+        
         try databaseManager.createOrUpdateProgress(
             userId: testUser.id,
             beliefSystemId: "judaism",
@@ -197,7 +197,7 @@ final class DatabaseManagerTests: XCTestCase {
         let beliefSystems = databaseManager.loadBeliefSystems()
         XCTAssertGreaterThan(beliefSystems.count, 0)
         
-        // Check if we can find Judaism
+        
         let judaism = beliefSystems.first { $0.id == "judaism" }
         XCTAssertNotNil(judaism)
         XCTAssertEqual(judaism?.name, "Judaism")
@@ -207,7 +207,7 @@ final class DatabaseManagerTests: XCTestCase {
         let achievements = databaseManager.loadAchievements()
         XCTAssertGreaterThan(achievements.count, 0)
         
-        // Check if we can find first_step achievement
+        
         let firstStep = achievements.first { $0.id == "first_step" }
         XCTAssertNotNil(firstStep)
         XCTAssertEqual(firstStep?.name, "First Step")
@@ -221,7 +221,7 @@ final class DatabaseManagerTests: XCTestCase {
     }
     
     func testGetUserStatistics() throws {
-        // Add some test data
+        
         try databaseManager.addXPToUser(testUser, xp: 250)
         
         try databaseManager.createOrUpdateProgress(
@@ -264,16 +264,16 @@ final class DatabaseManagerTests: XCTestCase {
     }
     
     func testAddXPToProgress() throws {
-        // Test adding XP to belief system progress
+        
         try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 50)
         
         let progress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")
         XCTAssertNotNil(progress)
         XCTAssertEqual(progress?.earnedXP, 50)
         XCTAssertEqual(progress?.currentXP, 50)
-        XCTAssertNil(progress?.lessonId) // Should be belief system level progress
+        XCTAssertNil(progress?.lessonId) 
         
-        // Add more XP
+        
         try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 25)
         
         let updatedProgress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")
@@ -282,9 +282,9 @@ final class DatabaseManagerTests: XCTestCase {
     }
     
     func testAddXPToProgressDifferentBeliefSystems() throws {
-        // Add XP to Judaism
+        
         try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "judaism", xp: 30)
-        // Add XP to Christianity  
+        
         try databaseManager.addXPToProgress(userId: testUser.id, beliefSystemId: "christianity", xp: 40)
         
         let judaismProgress = try databaseManager.getProgress(userId: testUser.id, beliefSystemId: "judaism")

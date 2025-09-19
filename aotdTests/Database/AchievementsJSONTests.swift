@@ -10,17 +10,17 @@ final class AchievementsJSONTests: XCTestCase {
     }
     
     func testAchievementsJSONStructure() throws {
-        // Get the bundle and file path
+        
         let bundle = Bundle(for: type(of: self))
         guard let path = bundle.path(forResource: "achievements", ofType: "json") else {
             XCTFail("Could not find achievements.json in test bundle")
             return
         }
         
-        // Read the raw JSON data
+        
         let jsonData = try Data(contentsOf: URL(fileURLWithPath: path))
         
-        // Validate it's a valid JSON array
+        
         guard let jsonArray = try JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
             XCTFail("achievements.json is not a valid JSON array")
             return
@@ -29,18 +29,18 @@ final class AchievementsJSONTests: XCTestCase {
         XCTAssertGreaterThan(jsonArray.count, 0, "achievements.json should contain at least one achievement")
         XCTAssertEqual(jsonArray.count, 10, "achievements.json should contain exactly 10 achievements")
         
-        // Validate each achievement
+        
         for (index, achievement) in jsonArray.enumerated() {
             validateAchievementJSON(achievement, index: index)
         }
         
-        // Test that it can be decoded into our model
+        
         let decoder = JSONDecoder()
         do {
             let achievements = try decoder.decode([Achievement].self, from: jsonData)
             XCTAssertEqual(achievements.count, jsonArray.count, "Decoded achievements count should match JSON")
             
-            // Additional validation on decoded models
+            
             for achievement in achievements {
                 XCTAssertFalse(achievement.id.isEmpty, "Achievement ID should not be empty")
                 XCTAssertFalse(achievement.name.isEmpty, "Achievement name should not be empty")
@@ -55,19 +55,19 @@ final class AchievementsJSONTests: XCTestCase {
     private func validateAchievementJSON(_ achievement: [String: Any], index: Int) {
         let context = "achievements.json[\(index)]"
         
-        // Required fields
+        
         XCTAssertNotNil(achievement["id"], "\(context) missing 'id'")
         XCTAssertNotNil(achievement["name"], "\(context) missing 'name'")
         XCTAssertNotNil(achievement["description"], "\(context) missing 'description'")
         XCTAssertNotNil(achievement["icon"], "\(context) missing 'icon'")
         XCTAssertNotNil(achievement["criteria"], "\(context) missing 'criteria'")
         
-        // Validate criteria structure
+        
         if let criteria = achievement["criteria"] as? [String: Any] {
             XCTAssertNotNil(criteria["type"], "\(context) criteria missing 'type'")
             XCTAssertNotNil(criteria["value"], "\(context) criteria missing 'value'")
             
-            // Validate criteria type
+            
             if let type = criteria["type"] as? String {
                 let validTypes = [
                     "completePath", "completeMultiplePaths", "completeAllPaths",
@@ -75,7 +75,7 @@ final class AchievementsJSONTests: XCTestCase {
                 ]
                 XCTAssertTrue(validTypes.contains(type), "\(context) has invalid criteria type: \(type)")
                 
-                // Type-specific value validation
+                
                 switch type {
                 case "completePath":
                     XCTAssertTrue(criteria["value"] is String, "\(context) completePath value should be String")

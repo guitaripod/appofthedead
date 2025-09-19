@@ -2,49 +2,49 @@ import Foundation
 import UIKit
 import os.log
 
-/// Centralized logging system for App of the Dead
-/// Provides structured, performant, and privacy-conscious logging with proper categorization
+
+
 final class AppLogger {
 
-  // MARK: - Subsystem
+  
 
   private static let subsystem = "com.appofthedead"
 
-  // MARK: - Log Categories
+  
 
-  /// Database operations and data persistence
+  
   static let database = Logger(subsystem: subsystem, category: "Database")
 
-  /// Content loading and JSON parsing
+  
   static let content = Logger(subsystem: subsystem, category: "Content")
 
-  /// Learning path navigation and progress
+  
   static let learning = Logger(subsystem: subsystem, category: "Learning")
 
-  /// Gamification, achievements, and XP
+  
   static let gamification = Logger(subsystem: subsystem, category: "Gamification")
 
-  /// In-app purchases and RevenueCat
+  
   static let purchases = Logger(subsystem: subsystem, category: "Purchases")
 
-  /// User interface and navigation
+  
   static let ui = Logger(subsystem: subsystem, category: "UI")
 
-  /// View model operations and business logic
+  
   static let viewModel = Logger(subsystem: subsystem, category: "ViewModel")
 
-  /// Machine learning and MLX operations
+  
   static let mlx = Logger(subsystem: subsystem, category: "MLX")
 
-  /// Performance monitoring and metrics
+  
   static let performance = Logger(subsystem: subsystem, category: "Performance")
 
-  /// General app lifecycle and configuration
+  
   static let general = Logger(subsystem: subsystem, category: "General")
 
-  // MARK: - Convenience Methods
+  
 
-  /// Log app launch with metadata
+  
   static func logAppLaunch() {
     let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
@@ -57,23 +57,23 @@ final class AppLogger {
     )
   }
 
-  /// Log view controller lifecycle
+  
   static func logViewControllerLifecycle(_ viewController: String, event: String) {
     ui.debug("\(viewController) - \(event)")
   }
 
-  /// Create a signpost for performance measurement
+  
   static func beginActivity(_ name: StaticString, logger: Logger = performance) -> OSSignpostID {
-    // For now, return a dummy ID since os_signpost requires OSLog, not Logger
+    
     return OSSignpostID(log: .default)
   }
 
-  /// End a signpost for performance measurement
+  
   static func endActivity(
     _ name: StaticString, id: OSSignpostID, logger: Logger = performance,
     metadata: [String: Any] = [:]
   ) {
-    // Log the activity end as a regular log message instead
+    
     if metadata.isEmpty {
       logger.debug("Activity ended: \(name)")
     } else {
@@ -82,9 +82,9 @@ final class AppLogger {
     }
   }
 
-  // MARK: - Error Logging Helpers
+  
 
-  /// Log an error with proper context and privacy
+  
   static func logError(
     _ error: Error,
     context: String,
@@ -97,19 +97,19 @@ final class AppLogger {
     metadataComponents.append("error: \(error.localizedDescription)")
     metadataComponents.append("errorType: \(String(describing: type(of: error)))")
 
-    // Handle different error types with appropriate privacy
+    
     if let nsError = error as NSError? {
       metadataComponents.append("domain: \(nsError.domain)")
       metadataComponents.append("code: \(nsError.code)")
 
-      // Log user info with privacy considerations
+      
       for (key, value) in nsError.userInfo {
         let privacyValue = shouldRedactValue(key: key) ? "<redacted>" : "\(value)"
         metadataComponents.append("userInfo.\(key): \(privacyValue)")
       }
     }
 
-    // Add additional info
+    
     for (key, value) in additionalInfo {
       metadataComponents.append("\(key): \(value)")
     }
@@ -118,20 +118,20 @@ final class AppLogger {
     logger.error("Error in \(context): \(error.localizedDescription) | \(metadata)")
   }
 
-  /// Check if a value should be redacted for privacy
+  
   private static func shouldRedactValue(key: String) -> Bool {
     let sensitiveKeys = ["password", "token", "key", "secret", "email", "userId", "appleId"]
     return sensitiveKeys.contains { key.lowercased().contains($0) }
   }
 
-  // MARK: - Network Request Logging
+  
 
-  /// Log network request with privacy-conscious URL handling
+  
   static func logNetworkRequest(url: String, method: String, logger: Logger = general) {
     logger.debug("Network Request | method: \(method), url: \(url, privacy: .private)")
   }
 
-  /// Log network response
+  
   static func logNetworkResponse(
     url: String,
     statusCode: Int,
@@ -152,9 +152,9 @@ final class AppLogger {
     }
   }
 
-  // MARK: - User Action Logging
+  
 
-  /// Log user interactions with proper privacy
+  
   static func logUserAction(
     _ action: String,
     parameters: [String: Any] = [:],
@@ -163,7 +163,7 @@ final class AppLogger {
     var metadataComponents: [String] = ["action: \(action)"]
 
     for (key, value) in parameters {
-      // Apply privacy based on parameter type
+      
       let privacyValue = shouldRedactValue(key: key) ? "<redacted>" : "\(value)"
       metadataComponents.append("\(key): \(privacyValue)")
     }
@@ -172,9 +172,9 @@ final class AppLogger {
     logger.info("User Action: \(action) | \(metadata)")
   }
 
-  // MARK: - Database Operation Logging
+  
 
-  /// Log database operations with performance tracking
+  
   static func logDatabaseOperation(
     _ operation: String,
     table: String? = nil,
@@ -197,17 +197,17 @@ final class AppLogger {
     database.debug("Database: \(operation) | \(metadata)")
   }
 
-  // MARK: - Achievement Logging
+  
 
-  /// Log achievement unlock with celebration
+  
   static func logAchievementUnlock(_ achievementId: String, xpEarned: Int) {
     gamification.info(
       "Achievement Unlocked! | achievementId: \(achievementId), xpEarned: \(xpEarned)")
   }
 
-  // MARK: - Memory Warning
+  
 
-  /// Log memory warnings with current usage
+  
   static func logMemoryWarning() {
     let memoryUsage = getMemoryUsage()
     performance.warning(
@@ -240,10 +240,10 @@ final class AppLogger {
   }
 }
 
-// MARK: - Logger Extension for Metadata Support
+
 
 extension Logger {
-  /// Log with metadata dictionary
+  
   func debug(_ message: String, metadata: [String: Any]) {
     let formattedMetadata = formatMetadata(metadata)
     self.debug("\(message) | \(formattedMetadata)")

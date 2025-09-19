@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import GRDB
 
-// MARK: - PathItem
+
 
 struct PathItem: Hashable {
     let id: String
@@ -17,11 +17,11 @@ struct PathItem: Hashable {
     let mistakeCount: Int
 }
 
-// MARK: - HomeViewModel
+
 
 final class HomeViewModel {
     
-    // MARK: - Properties
+    
     
     private let databaseManager: DatabaseManager
     let contentLoader: ContentLoader
@@ -40,7 +40,7 @@ final class HomeViewModel {
         return user
     }
     
-    // MARK: - Initialization
+    
     
     init(databaseManager: DatabaseManager, contentLoader: ContentLoader) {
         self.databaseManager = databaseManager
@@ -52,7 +52,7 @@ final class HomeViewModel {
         NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: - Public Methods
+    
     
     func loadData() {
         loadUser()
@@ -73,13 +73,13 @@ final class HomeViewModel {
         AppLogger.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
         
         do {
-            // Delete progress and mistakes from database
+            
             try databaseManager.deleteProgress(userId: userId, beliefSystemId: beliefSystemId)
             
-            // Remove from local dictionary
+            
             userProgress.removeValue(forKey: beliefSystemId)
             
-            // Reload data to reflect changes
+            
             loadUserProgress()
             updatePathItems()
             
@@ -95,7 +95,7 @@ final class HomeViewModel {
         }
     }
     
-    // MARK: - Private Methods
+    
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
@@ -114,12 +114,12 @@ final class HomeViewModel {
     }
     
     @objc private func handlePurchaseCompleted() {
-        // Reload data to reflect new purchases
+        
         loadData()
     }
     
     @objc private func handleEntitlementsUpdated() {
-        // Reload data to reflect updated entitlements
+        
         loadData()
     }
     
@@ -138,7 +138,7 @@ final class HomeViewModel {
         guard let userId = user?.id else { return }
         
         let allProgress = databaseManager.fetchProgress(for: userId)
-        // Filter to only belief system level progress (where lessonId is nil)
+        
         let beliefSystemProgress = allProgress.filter { $0.lessonId == nil }
         userProgress = Dictionary(
             uniqueKeysWithValues: beliefSystemProgress.map { ($0.beliefSystemId, $0) }
@@ -163,7 +163,7 @@ final class HomeViewModel {
             let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
             let status = progress?.status ?? .notStarted
             
-            // Get mistake count
+            
             var mistakeCount = 0
             if let userId = user?.id {
                 mistakeCount = (try? databaseManager.getMistakeCount(userId: userId, beliefSystemId: beliefSystem.id)) ?? 0
@@ -183,16 +183,16 @@ final class HomeViewModel {
             )
         }
         
-        // Sort paths: unlocked first, then by original order
+        
         pathItems.sort { item1, item2 in
-            // If both have same unlock status, maintain original order
+            
             if item1.isUnlocked == item2.isUnlocked {
-                // Find original indices
+                
                 let index1 = beliefSystems.firstIndex { $0.id == item1.id } ?? Int.max
                 let index2 = beliefSystems.firstIndex { $0.id == item2.id } ?? Int.max
                 return index1 < index2
             }
-            // Otherwise, unlocked paths come first
+            
             return item1.isUnlocked && !item2.isUnlocked
         }
         
@@ -200,12 +200,12 @@ final class HomeViewModel {
     }
     
     private func checkIfUnlocked(_ beliefSystem: BeliefSystem) -> Bool {
-        // Check RevenueCat for access first, then fall back to local database
+        
         if StoreManager.shared.hasPathAccess(beliefSystem.id) {
             return true
         }
         
-        // Fall back to local database check
+        
         guard let user = user else { return false }
         return user.hasPathAccess(beliefSystemId: beliefSystem.id)
     }

@@ -81,7 +81,7 @@ final class MultipleChoiceViewModelTests: XCTestCase {
     
     func testInheritsFromBaseViewModel() {
         XCTAssertEqual(sut.questionText, "What is 2 + 2?")
-        XCTAssertEqual(sut.progress, 0.2) // 1/5
+        XCTAssertEqual(sut.progress, 0.2) 
         XCTAssertNotNil(sut.beliefSystemColor)
     }
 }

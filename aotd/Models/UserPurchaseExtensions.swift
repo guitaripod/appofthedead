@@ -2,7 +2,7 @@ import Foundation
 import GRDB
 import RevenueCat
 
-// Extension to User model for purchase and Oracle tracking
+
 extension User {
     func hasAccess(to productId: ProductIdentifier) -> Bool {
         return DatabaseManager.shared.hasAccess(userId: id, to: productId)
@@ -17,13 +17,13 @@ extension User {
     }
     
     func hasPathAccess(beliefSystemId: String) -> Bool {
-        // Judaism is always free
+        
         if beliefSystemId == "judaism" { return true }
         
-        // Check ultimate access
+        
         if hasUltimateAccess() { return true }
         
-        // Check specific path purchase
+        
         for product in ProductIdentifier.allCases {
             if product.beliefSystemId == beliefSystemId && hasAccess(to: product) {
                 return true
@@ -40,23 +40,23 @@ extension User {
 
     
     func canConsultOracle(deityId: String) -> Bool {
-        // First check RevenueCat entitlements
+        
         if Purchases.shared.cachedCustomerInfo?.entitlements["oracle_unlimited"]?.isActive == true { return true }
         if Purchases.shared.cachedCustomerInfo?.entitlements["ultimate"]?.isActive == true { return true }
         
-        // Check deity pack access through RevenueCat
+        
         if hasDeityPackAccessFromRevenueCat(for: deityId) { return true }
         
-        // Fall back to local database check
+        
         if hasOracleAccess() { return true }
         if hasDeityPackAccess(for: deityId) { return true }
         
-        // Check free consultations (3 per deity)
+        
         return DatabaseManager.shared.canConsultOracleForFree(userId: id, deityId: deityId)
     }
     
     private func hasDeityPackAccessFromRevenueCat(for deityId: String) -> Bool {
-        // Map deities to their packs
+        
         let egyptianDeities = ["anubis", "kali", "baron_samedi"]
         let greekDeities = ["hermes", "hecate", "pachamama"]
         let easternDeities = ["yama", "meng_po", "izanami"]
@@ -89,10 +89,10 @@ extension User {
     }
     
     private func hasDeityPackAccess(for deityId: String) -> Bool {
-        // Map deities to their packs based on actual deities in deity_prompts.json
-        let egyptianDeities = ["anubis", "kali", "baron_samedi"] // Death deities pack
-        let greekDeities = ["hermes", "hecate", "pachamama"] // Guide/Nature deities pack
-        let easternDeities = ["yama", "meng_po", "izanami"] // Eastern afterlife deities pack
+        
+        let egyptianDeities = ["anubis", "kali", "baron_samedi"] 
+        let greekDeities = ["hermes", "hecate", "pachamama"] 
+        let easternDeities = ["yama", "meng_po", "izanami"] 
         
         if egyptianDeities.contains(deityId) && hasAccess(to: .egyptianPantheon) {
             return true

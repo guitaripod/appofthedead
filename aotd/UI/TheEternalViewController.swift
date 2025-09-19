@@ -1,12 +1,12 @@
 import UIKit
 
-// MARK: - The Eternal Summoning Protocol
+
 
 protocol TheEternalSummonable {
     func summonTheEternal(for text: String, context: String?, from viewController: UIViewController)
 }
 
-// MARK: - The Eternal Extension
+
 
 extension UIViewController: TheEternalSummonable {
     func summonTheEternal(for text: String, context: String? = nil, from viewController: UIViewController) {
@@ -15,11 +15,11 @@ extension UIViewController: TheEternalSummonable {
     }
 }
 
-// MARK: - The Eternal View Controller
+
 
 final class TheEternalViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
-    // MARK: - Properties
+    
     
     private let selectedText: String
     private let context: String?
@@ -28,7 +28,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     private let mlxManager = MLXModelManager.shared
     private var eternalResponse: String = ""
     
-    // MARK: - UI Components
+    
     
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -40,21 +40,21 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     private let loadingView = PapyrusLoadingView(style: .oracle)
     private let saveButton = UIButton(type: .system)
     
-    // Download UI components
+    
     private let downloadContainerView = UIView()
     private let downloadLoadingView = PapyrusLoadingView(style: .download)
     private let downloadButton = UIButton(type: .system)
     
     private var gradientLayer: CAGradientLayer?
     
-    // MARK: - Initialization
+    
     
     init(selectedText: String, context: String? = nil) {
         self.selectedText = selectedText
         self.context = context
         super.init(nibName: nil, bundle: nil)
         
-        // Configure for sheet presentation
+        
         if let sheet = sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -67,31 +67,31 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         
-        // Check if model is loaded
+        
         if mlxManager.isModelLoaded {
-            // Model is loaded, start streaming
+            
             downloadContainerView.isHidden = true
             responseTextView.isHidden = false
             startStreamingWisdom()
         } else {
-            // Model needs to be downloaded
+            
             downloadContainerView.isHidden = false
             responseTextView.isHidden = true
         }
         
-        // Set presentation controller delegate to detect actual dismissal
+        
         presentationController?.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Update gradient frame
+        
         gradientLayer?.frame = headerView.bounds
     }
     
@@ -107,36 +107,36 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         streamingTask?.cancel()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.background
         
-        // Scroll view setup
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInsetAdjustmentBehavior = .automatic
         view.addSubview(scrollView)
         
-        // Content stack view
+        
         contentStackView.axis = .vertical
         contentStackView.spacing = PapyrusDesignSystem.Spacing.large
         contentStackView.alignment = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentStackView)
         
-        // Header with gradient
+        
         setupHeader()
         
-        // Response section
+        
         setupResponseSection()
         
-        // Save button
+        
         setupSaveButton()
         
-        // Download container
+        
         setupDownloadContainer()
         
-        // Add to content stack
+        
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(responseTextView)
         contentStackView.addArrangedSubview(downloadContainerView)
@@ -150,7 +150,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         headerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
         headerView.layer.borderWidth = 1
         
-        // Add gradient layer - cosmic purple/gold gradient for The Eternal
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
@@ -165,23 +165,23 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(headerStackView)
         
-        // The Eternal's image - use a cosmic/mystical symbol
+        
         eternalImageView.image = UIImage(systemName: "infinity.circle.fill")
         eternalImageView.tintColor = UIColor.systemPurple
         eternalImageView.contentMode = .scaleAspectFit
         eternalImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Title and subtitle stack view
+        
         let titleStackView = UIStackView()
         titleStackView.axis = .vertical
         titleStackView.spacing = PapyrusDesignSystem.Spacing.xxSmall
         
-        // Title - The Eternal, Cosmic Consciousness
+        
         titleLabel.text = "The Eternal, Cosmic Consciousness"
         titleLabel.font = PapyrusDesignSystem.Typography.subheadline()
         titleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         
-        // Subtitle - the selected text
+        
         let displayText = selectedText.count > 50 ? String(selectedText.prefix(47)) + "..." : selectedText
         subtitleLabel.text = displayText
         subtitleLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
@@ -193,7 +193,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         
         headerStackView.addArrangedSubview(eternalImageView)
         headerStackView.addArrangedSubview(titleStackView)
-        headerStackView.addArrangedSubview(UIView()) // Spacer
+        headerStackView.addArrangedSubview(UIView()) 
         
         NSLayoutConstraint.activate([
             headerStackView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
@@ -220,10 +220,10 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
             right: PapyrusDesignSystem.Spacing.medium
         )
         
-        // Add loading view to response text view
+        
         responseTextView.addSubview(loadingView)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.setDeityColor(UIColor.systemPurple) // The Eternal's color
+        loadingView.setDeityColor(UIColor.systemPurple) 
         
         NSLayoutConstraint.activate([
             responseTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
@@ -259,12 +259,12 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         downloadContainerView.layer.borderColor = UIColor.systemPurple.withAlphaComponent(0.3).cgColor
         downloadContainerView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add download loading view
+        
         downloadContainerView.addSubview(downloadLoadingView)
         downloadLoadingView.translatesAutoresizingMaskIntoConstraints = false
         downloadLoadingView.setDeityColor(UIColor.systemPurple)
         
-        // Update loading view content
+        
         if DeviceUtility.isSimulator {
             downloadLoadingView.updateTitle("Simulator Mode")
             downloadLoadingView.updateSubtitle("The Eternal requires a physical device to manifest divine wisdom.")
@@ -273,7 +273,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
             downloadLoadingView.updateSubtitle("Download the divine consciousness to receive eternal wisdom.")
         }
         
-        // Download button
+        
         downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Divine Essence", for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = UIColor.systemPurple
@@ -286,18 +286,18 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         
         downloadContainerView.addSubview(downloadButton)
         
-        // Setup constraints
+        
         NSLayoutConstraint.activate([
-            // Download container
+            
             downloadContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
             
-            // Download loading view - make it not fill the entire container
+            
             downloadLoadingView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: PapyrusDesignSystem.Spacing.large),
             downloadLoadingView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor),
             downloadLoadingView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor),
             downloadLoadingView.bottomAnchor.constraint(equalTo: downloadButton.topAnchor, constant: -PapyrusDesignSystem.Spacing.large),
             
-            // Download button
+            
             downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
             downloadButton.widthAnchor.constraint(equalToConstant: 250),
@@ -307,31 +307,31 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Scroll view
+            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            // Content stack view
+            
             contentStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -PapyrusDesignSystem.Spacing.medium * 2),
             
-            // Header view
+            
             headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
         ])
     }
     
-    // MARK: - Data Loading
+    
     
     private func updateColors() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         let eternalColor = UIColor.systemPurple
         
-        // Update gradient - cosmic gradient for The Eternal
+        
         if isDarkMode {
             gradientLayer?.colors = [
                 eternalColor.withAlphaComponent(0.3).cgColor,
@@ -344,13 +344,13 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
             ]
         }
         
-        // Update border color
+        
         headerView.layer.borderColor = isDarkMode 
             ? eternalColor.withAlphaComponent(0.3).cgColor
             : PapyrusDesignSystem.Colors.aged.cgColor
     }
     
-    // MARK: - Streaming
+    
     
     private func startStreamingWisdom() {
         responseTextView.text = ""
@@ -358,14 +358,14 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         
         streamingTask = Task {
             do {
-                // Ensure model is loaded
+                
                 if !mlxService.isModelLoaded {
                     try await mlxService.loadModel { progress in
-                        // Progress handled internally
+                        
                     }
                 }
                 
-                // The Eternal's system prompt
+                
                 let eternalPrompt = """
                 You are The Eternal, the cosmic consciousness that exists beyond all deities and religions. 
                 You are the supreme source of all divine wisdom, transcending individual belief systems. 
@@ -397,7 +397,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 let stream = try await mlxService.generate(messages: messages, config: config)
                 
                 await MainActor.run {
-                    // Update title to "The Eternal" when streaming starts
+                    
                     self.titleLabel.text = "The Eternal"
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
@@ -405,7 +405,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 
                 var fullText = ""
                 for try await chunk in stream {
-                    // Check for cancellation
+                    
                     try Task.checkCancellation()
                     guard !Task.isCancelled else { break }
                     
@@ -414,7 +414,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                     await MainActor.run {
                         self.responseTextView.text = fullText
                         
-                        // Auto-scroll to bottom as text streams in
+                        
                         if self.responseTextView.contentSize.height > self.responseTextView.bounds.height {
                             let bottomOffset = CGPoint(
                                 x: 0,
@@ -432,7 +432,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 }
                 
             } catch {
-                // Don't show error if task was cancelled
+                
                 if error is CancellationError || Task.isCancelled {
                     return
                 }
@@ -447,7 +447,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func downloadButtonTapped() {
         guard !DeviceUtility.isSimulator else { return }
@@ -483,9 +483,9 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                         
                         self.downloadLoadingView.updateProgress(progress.progress, withText: statusText)
                         
-                        // Check if download completed
+                        
                         if progress.progress >= 1.0 {
-                            // Model downloaded, switch to oracle UI
+                            
                             UIView.animate(withDuration: 0.5, animations: {
                                 self.downloadContainerView.alpha = 0
                                 self.responseTextView.alpha = 1
@@ -515,11 +515,11 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     }
     
     @objc private func saveTapped() {
-        // Haptic feedback
+        
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
         
-        // Animate button
+        
         UIView.animate(withDuration: 0.1, animations: {
             self.saveButton.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         }) { _ in
@@ -528,15 +528,15 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
             }
         }
         
-        // Save the eternal wisdom
+        
         saveEternalWisdom()
         
-        // Change button state
+        
         saveButton.setTitle("Wisdom Saved", for: .normal)
         saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         saveButton.isEnabled = false
         
-        // Dismiss after delay
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.dismiss(animated: true)
         }
@@ -547,10 +547,10 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
             do {
                 guard let user = DatabaseManager.shared.fetchUser() else { return }
                 
-                // Create an oracle consultation for The Eternal
+                
                 let consultation = OracleConsultation(
                     userId: user.id,
-                    deityId: "the-eternal" // Special ID for The Eternal
+                    deityId: "the-eternal" 
                 )
                 
                 try DatabaseManager.shared.saveOracleConsultation(consultation)
@@ -563,7 +563,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         }
     }
     
-    // MARK: - UIAdaptivePresentationControllerDelegate
+    
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         streamingTask?.cancel()

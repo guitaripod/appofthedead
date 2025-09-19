@@ -4,7 +4,7 @@ import Combine
 
 final class OracleViewModel: ObservableObject {
     
-    // MARK: - Published Properties
+    
     
     @Published var messages: [ChatMessage] = []
     @Published var selectedDeity: Deity?
@@ -15,26 +15,26 @@ final class OracleViewModel: ObservableObject {
     @Published var modelError: String?
     @Published var downloadProgress: Float = 0.0
     @Published var downloadStatus: String = ""
-    @Published var downloadStage: String = "" // Track current stage
+    @Published var downloadStage: String = "" 
     
-    // MARK: - Properties
+    
     
     private let modelManager = MLXModelManager.shared
     private var cancellables = Set<AnyCancellable>()
     
-    // Download tracking properties
+    
     private var lastBytesDownloaded: Int64 = 0
     private var lastUpdateTime = Date()
     private var lastKnownSpeed: Double = 0.0
     
-    // Progress smoothing properties
+    
     private var downloadStartTime = Date()
     private var lastReportedProgress: Float = 0.0
     private var progressHistory: [(time: Date, progress: Float)] = []
     private var smoothedProgressValue: Float = 0.0
     private var progressAnimator: Timer?
     
-    // MARK: - Types
+    
     
     struct ChatMessage {
         let id: UUID
@@ -62,7 +62,7 @@ final class OracleViewModel: ObservableObject {
         let systemPrompt: String
         let suggestedPrompts: [String]?
         
-        // Implement Hashable
+        
         func hash(into hasher: inout Hasher) {
             hasher.combine(id)
         }
@@ -73,22 +73,22 @@ final class OracleViewModel: ObservableObject {
         
     }
     
-    // MARK: - Initialization
+    
     
     init() {
         loadDeities()
-        // Don't add welcome message - let the conversation start with user
         
-        // Check initial model status
+        
+        
         isModelLoaded = modelManager.isModelLoaded
         
-        // Auto-load model if it was previously downloaded
+        
         Task {
             await checkAndAutoLoadModel()
         }
     }
     
-    // MARK: - Public Methods
+    
     
     func syncModelLoadedState() {
         isModelLoaded = modelManager.isModelLoaded
@@ -102,10 +102,10 @@ final class OracleViewModel: ObservableObject {
         }
         
         do {
-            // First download if needed
+            
             let isDownloaded = await modelManager.isModelDownloaded
             if !isDownloaded {
-                // Model size is 1.8GB
+                
                 let modelSizeGB: Double = 1.8
                 let estimatedTotalSize: Int64 = Int64(modelSizeGB * 1024 * 1024 * 1024)
                 
@@ -115,12 +115,12 @@ final class OracleViewModel: ObservableObject {
                     self.downloadProgress = 0.0
                 }
                 
-                // Add a small initial progress to show something is happening
+                
                 await MainActor.run {
                     self.downloadProgress = 0.02
                 }
                 
-                // Reset tracking variables
+                
                 lastBytesDownloaded = 0
                 lastUpdateTime = Date()
                 lastKnownSpeed = 0.0
@@ -144,7 +144,7 @@ final class OracleViewModel: ObservableObject {
                 }
             }
             
-            // Then load the model
+            
             await MainActor.run {
                 self.downloadStatus = "Oracle awakening..."
             }
@@ -172,7 +172,7 @@ final class OracleViewModel: ObservableObject {
             return
         }
         
-        // Add user message
+        
         let userMessage = ChatMessage(
             text: text,
             isUser: true,
@@ -184,32 +184,32 @@ final class OracleViewModel: ObservableObject {
             messages.append(userMessage)
         }
         
-        // Generate response
+        
         await generateResponse(to: text, deity: deity)
     }
     
     func selectDeity(_ deity: Deity) {
-        // Only proceed if actually changing deity
+        
         guard deity.id != selectedDeity?.id else { return }
         
         selectedDeity = deity
-        // Clear chat history when switching deities
+        
         messages.removeAll()
-        // Don't add deity greeting - let the user start the conversation
+        
     }
     
-    // MARK: - Private Methods
+    
     
     private func checkAndAutoLoadModel() async {
-        // Check if model was previously loaded
+        
         let wasLoadedBefore = UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce")
         
-        // Check if model is already loaded in memory
+        
         if isModelLoaded {
             return
         }
         
-        // Check if model files exist and auto-load if they do
+        
         let isDownloaded = await modelManager.isModelDownloaded
         if wasLoadedBefore && isDownloaded {
             await MainActor.run {
@@ -244,12 +244,12 @@ final class OracleViewModel: ObservableObject {
             let data = try Data(contentsOf: url)
             let deitiesData = try JSONDecoder().decode(DeitiesData.self, from: data)
             
-            // Create array and validate each deity
+            
             let deityArray = Array(deitiesData.deities.values)
             var validDeities: [Deity] = []
             
             for deity in deityArray {
-                // Validate critical fields
+                
                 if !deity.id.isEmpty && !deity.name.isEmpty && !deity.color.isEmpty {
                     validDeities.append(deity)
                 }
@@ -258,7 +258,7 @@ final class OracleViewModel: ObservableObject {
             availableDeities = validDeities.sorted { $0.name < $1.name }
             selectedDeity = availableDeities.first
         } catch {
-            // Silent error handling
+            
         }
     }
     
@@ -298,7 +298,7 @@ final class OracleViewModel: ObservableObject {
             "the_eternal": "I AM THAT I AM. Known by countless names, I am the thread connecting all beliefs. In Me, all paths converge. What universal truth calls to you?"
         ]
         
-        // Use custom greeting if available, otherwise generate one
+        
         let greetingText = greetings[deity.id] ?? "I am \(deity.name), \(deity.role) of the \(deity.tradition) tradition. I am here to guide you. What would you like to know?"
         
         let message = ChatMessage(
@@ -317,7 +317,7 @@ final class OracleViewModel: ObservableObject {
         }
         
         do {
-            // Create a message that will be updated with streaming tokens
+            
             let responseMessage = ChatMessage(
                 text: "",
                 isUser: false,
@@ -332,21 +332,21 @@ final class OracleViewModel: ObservableObject {
             let messageIndex = messages.count - 1
             var fullResponse = ""
             
-            // Generate response with streaming
             
-            // Qwen3 should handle system prompts properly
+            
+            
             _ = try await modelManager.generate(
                 prompt: userMessage,
                 systemPrompt: deity.systemPrompt,
-                maxTokens: 800,  // Increased to allow complete responses
+                maxTokens: 800,  
                 temperature: 0.7,
-                useSystemPrompt: true // Enable system prompts for Qwen3
+                useSystemPrompt: true 
             ) { token in
-                // Update message with each token
+                
                 Task { @MainActor in
                     fullResponse += token
                     
-                    // Only update UI if we're not inside think tags
+                    
                     if !fullResponse.contains("<think>") || fullResponse.contains("</think>") {
                         let cleanedResponse = self.removeThinkTags(from: fullResponse)
                         if messageIndex < self.messages.count && !cleanedResponse.isEmpty {
@@ -362,10 +362,10 @@ final class OracleViewModel: ObservableObject {
                 }
             }
             
-            // Final cleanup and update
+            
             let cleanedResponse = removeThinkTags(from: fullResponse)
             
-            // Ensure final message is updated with complete cleaned response
+            
             await MainActor.run {
                 if messageIndex < messages.count {
                     messages[messageIndex] = ChatMessage(
@@ -397,7 +397,7 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func removeThinkTags(from text: String) -> String {
-        // Simple regex to remove think tags
+        
         let pattern = "<think>.*?</think>"
         let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators])
         let range = NSRange(location: 0, length: text.utf16.count)
@@ -410,16 +410,16 @@ final class OracleViewModel: ObservableObject {
         return text
     }
     
-    // MARK: - Helper Methods
+    
     
     private func smoothProgress(current: Float, last: Float) -> Float {
-        // If progress jumped backwards or stayed the same, keep incrementing slowly
+        
         if current <= last {
-            return min(last + 0.001, 0.99) // Never reach 100% until actually done
+            return min(last + 0.001, 0.99) 
         }
         
-        // For normal progress, smooth out large jumps
-        let maxJump: Float = 0.05 // Maximum 5% jump at a time
+        
+        let maxJump: Float = 0.05 
         let diff = current - last
         
         if diff > maxJump {
@@ -443,24 +443,24 @@ final class OracleViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Supporting Types
+    
     
     private struct DeitiesData: Codable {
         let deities: [String: Deity]
     }
     
-    // MARK: - Progress Handling
+    
     
     private func handleProgressUpdate(_ reportedProgress: Float, estimatedTotalSize: Int64) {
         let currentTime = Date()
         
-        // Store progress history
+        
         progressHistory.append((time: currentTime, progress: reportedProgress))
         
-        // Keep only recent history (last 10 seconds)
+        
         progressHistory = progressHistory.filter { currentTime.timeIntervalSince($0.time) < 10 }
         
-        // Start smooth animation if this is a new progress step
+        
         if reportedProgress > lastReportedProgress {
             lastReportedProgress = reportedProgress
             startSmoothProgressAnimation(to: reportedProgress, estimatedTotalSize: estimatedTotalSize)
@@ -470,13 +470,13 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func startSmoothProgressAnimation(to targetProgress: Float, estimatedTotalSize: Int64) {
-        // Cancel any existing animation
+        
         progressAnimator?.invalidate()
         
         let startProgress = smoothedProgressValue
         let progressDelta = targetProgress - startProgress
-        let animationDuration: TimeInterval = 2.0 // Smooth over 2 seconds
-        let updateInterval: TimeInterval = 0.05 // 20 FPS
+        let animationDuration: TimeInterval = 2.0 
+        let updateInterval: TimeInterval = 0.05 
         let totalSteps = Int(animationDuration / updateInterval)
         var currentStep = 0
         
@@ -495,9 +495,9 @@ final class OracleViewModel: ObservableObject {
                 }
                 timer.invalidate()
             } else {
-                // Ease-out animation
+                
                 let t = Float(currentStep) / Float(totalSteps)
-                let easedT = 1 - pow(1 - t, 3) // Cubic ease-out
+                let easedT = 1 - pow(1 - t, 3) 
                 
                 Task { @MainActor in
                     self.smoothedProgressValue = startProgress + progressDelta * easedT
@@ -508,18 +508,18 @@ final class OracleViewModel: ObservableObject {
     }
     
     private func updateProgressUI(estimatedTotalSize: Int64) {
-        // Update progress with smoothed value
+        
         downloadProgress = smoothedProgressValue
         
-        // MLX reports progress as steps (0-6) not bytes, use progress fraction
+        
         let totalBytes = estimatedTotalSize
         let bytesDownloaded = Int64(Double(estimatedTotalSize) * Double(smoothedProgressValue))
         
-        // Format download size
+        
         let downloadedMB = Double(bytesDownloaded) / (1024 * 1024)
         let totalGB = Double(totalBytes) / (1024 * 1024 * 1024)
         
-        // Update status with more descriptive messages
+        
         let progressPercent = Int(smoothedProgressValue * 100)
         if progressPercent < 10 {
             downloadStatus = "Gathering sacred texts..."
@@ -535,10 +535,10 @@ final class OracleViewModel: ObservableObject {
             downloadStatus = "Finalizing divine connection..."
         }
         
-        // Simple display without speed or time estimate
+        
         downloadStage = String(format: "%.0f MB / %.1f GB", downloadedMB, totalGB)
         
-        // Check if download completed
+        
         if smoothedProgressValue >= 0.99 && lastReportedProgress >= 1.0 {
             progressAnimator?.invalidate()
             progressAnimator = nil

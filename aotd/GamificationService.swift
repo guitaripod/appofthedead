@@ -15,7 +15,7 @@ final class GamificationService {
     
     private init() {}
     
-    // MARK: - Achievement Checking
+    
     
     func checkAchievements(for userId: String) {
         guard let user = try? databaseManager.getUser(by: userId) else { return }
@@ -32,14 +32,14 @@ final class GamificationService {
             let userAchievements = try databaseManager.getUserAchievements(userId: user.id)
             let existingAchievement = userAchievements.first { $0.achievementId == achievement.id }
             
-            // Skip if already completed
+            
             if existingAchievement?.isCompleted == true {
                 return
             }
             
             let progress = calculateAchievementProgress(achievement, for: user)
             
-            // Update or create achievement progress
+            
             if progress > (existingAchievement?.progress ?? 0) {
                 try databaseManager.unlockAchievement(
                     userId: user.id,
@@ -47,7 +47,7 @@ final class GamificationService {
                     progress: progress
                 )
                 
-                // Notify if newly completed
+                
                 if progress >= 1.0 && existingAchievement?.isCompleted != true {
                     delegate?.gamificationService(self, didUnlockAchievement: achievement.id)
                 }
@@ -88,7 +88,7 @@ final class GamificationService {
     }
     
     private func calculatePathCompletionProgress(_ achievement: Achievement, for user: User) -> Double {
-        // Check if specific belief system is completed
+        
         guard case .string(let beliefSystemId) = achievement.criteria.value,
               let beliefSystem = databaseManager.getBeliefSystem(by: beliefSystemId) else {
             return 0.0
@@ -119,24 +119,24 @@ final class GamificationService {
             }
         }
         
-        // For "completeAllPaths", check against total count
+        
         if achievement.criteria.type == .completeAllPaths {
             return min(1.0, Double(completedPaths) / Double(beliefSystems.count))
         }
         
-        // For "completeMultiplePaths", check against specified target
+        
         guard case .int(let targetPaths) = achievement.criteria.value else { return 0.0 }
         return min(1.0, Double(completedPaths) / Double(targetPaths))
     }
     
     private func calculatePerfectMasteryProgress(_ achievement: Achievement, for user: User) -> Double {
-        // This would require tracking mastery test scores
-        // For now, return 0.0 as this feature isn't fully implemented
+        
+        
         return 0.0
     }
     
     private func calculateLessonCompletionProgress(_ achievement: Achievement, for user: User) -> Double {
-        // Count completed lessons across all belief systems
+        
         guard case .int(let targetLessons) = achievement.criteria.value else { return 0.0 }
         
         do {
@@ -148,7 +148,7 @@ final class GamificationService {
         }
     }
     
-    // MARK: - Streak Management
+    
     
     func updateStreakIfNeeded(for userId: String) {
         guard var user = try? databaseManager.getUser(by: userId) else { return }
@@ -161,19 +161,19 @@ final class GamificationService {
             
             switch daysBetween {
             case 0:
-                // Same day, no change
+                
                 break
             case 1:
-                // Consecutive day, increment streak
+                
                 user.streakDays += 1
                 user.lastActiveDate = today
             default:
-                // Missed day(s), reset streak
+                
                 user.streakDays = 1
                 user.lastActiveDate = today
             }
         } else {
-            // First time user
+            
             user.streakDays = 1
             user.lastActiveDate = today
         }
@@ -185,35 +185,35 @@ final class GamificationService {
         }
     }
     
-    // MARK: - XP Award with Achievement Check
+    
     
     func awardXP(to userId: String, amount: Int, reason: String, beliefSystemId: String? = nil) {
         do {
-            // Update streak first
+            
             updateStreakIfNeeded(for: userId)
 
-            // Fetch user and award XP to user total
+            
             guard let user = try databaseManager.getUser(by: userId) else {
                 AppLogger.gamification.error("Failed to find user for XP award", metadata: ["userId": userId])
                 return
             }
             try databaseManager.addXPToUser(user, xp: amount)
             
-            // If belief system is specified, also update belief-system-specific XP
+            
             if let beliefSystemId = beliefSystemId {
                 try databaseManager.addXPToProgress(userId: userId, beliefSystemId: beliefSystemId, xp: amount)
             }
             
-            // Debug logging
+            
             AppLogger.gamification.info("XP Awarded", metadata: ["amount": amount, "userId": userId, "reason": reason])
             if let beliefSystemId = beliefSystemId {
                 AppLogger.gamification.debug("XP also awarded to belief system", metadata: ["beliefSystemId": beliefSystemId])
             }
             
-            // Check for newly unlocked achievements
+            
             checkAchievements(for: userId)
             
-            // Notify UI about data changes
+            
             NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
             
         } catch {

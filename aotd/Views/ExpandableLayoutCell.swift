@@ -2,12 +2,12 @@ import UIKit
 
 final class ExpandableLayoutCell: UITableViewCell {
     
-    // MARK: - Properties
+    
     
     private var isExpanded = false
     private var onLayoutSelected: ((ViewLayoutPreference) -> Void)?
     
-    // MARK: - UI Components
+    
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -64,7 +64,7 @@ final class ExpandableLayoutCell: UITableViewCell {
         return button
     }()
     
-    // MARK: - Initialization
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -75,7 +75,7 @@ final class ExpandableLayoutCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         selectionStyle = .none
@@ -97,46 +97,46 @@ final class ExpandableLayoutCell: UITableViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Container view
+            
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             
-            // Title label
+            
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
-            // Chevron
+            
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             chevronImageView.widthAnchor.constraint(equalToConstant: 12),
             chevronImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            // Current value label
+            
             currentValueLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
             currentValueLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             currentValueLabel.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 8),
             
-            // Expanded container
+            
             expandedContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             expandedContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             expandedContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             expandedContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             
-            // Grid button
+            
             gridButton.leadingAnchor.constraint(equalTo: expandedContainer.leadingAnchor),
             gridButton.trailingAnchor.constraint(equalTo: expandedContainer.trailingAnchor),
             gridButton.topAnchor.constraint(equalTo: expandedContainer.topAnchor),
             
-            // List button
+            
             listButton.leadingAnchor.constraint(equalTo: expandedContainer.leadingAnchor),
             listButton.trailingAnchor.constraint(equalTo: expandedContainer.trailingAnchor),
             listButton.topAnchor.constraint(equalTo: gridButton.bottomAnchor),
             listButton.bottomAnchor.constraint(equalTo: expandedContainer.bottomAnchor)
         ])
         
-        // Add flexible height constraints for buttons
+        
         let gridHeightConstraint = gridButton.heightAnchor.constraint(equalToConstant: 60)
         gridHeightConstraint.priority = .defaultHigh
         gridHeightConstraint.isActive = true
@@ -155,7 +155,7 @@ final class ExpandableLayoutCell: UITableViewCell {
     }
     
     private func setupLayoutButton(_ button: UIButton, layout: ViewLayoutPreference) {
-        // Icon
+        
         let iconImageView = UIImageView()
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.contentMode = .scaleAspectFit
@@ -163,18 +163,18 @@ final class ExpandableLayoutCell: UITableViewCell {
             UIImage(systemName: "square.grid.2x2.fill") : 
             UIImage(systemName: "list.bullet")
         
-        // Title
+        
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = layout.title
         titleLabel.font = .systemFont(ofSize: 16)
         
-        // Checkmark
+        
         let checkmarkImageView = UIImageView()
         checkmarkImageView.translatesAutoresizingMaskIntoConstraints = false
         checkmarkImageView.image = UIImage(systemName: "checkmark")
         checkmarkImageView.tintColor = UIColor.Papyrus.gold
-        checkmarkImageView.tag = 100 // Use tag to find it later
+        checkmarkImageView.tag = 100 
         
         button.addSubview(iconImageView)
         button.addSubview(titleLabel)
@@ -195,18 +195,18 @@ final class ExpandableLayoutCell: UITableViewCell {
             checkmarkImageView.heightAnchor.constraint(equalToConstant: 20)
         ])
         
-        // Store layout reference
+        
         button.tag = layout == .grid ? 1 : 2
     }
     
-    // MARK: - Configuration
+    
     
     func configure(currentLayout: ViewLayoutPreference, onSelection: @escaping (ViewLayoutPreference) -> Void) {
         currentValueLabel.text = currentLayout.title
         onLayoutSelected = onSelection
         updateSelection(currentLayout)
         
-        // Ensure proper initial state
+        
         isExpanded = false
         containerView.isHidden = false
         containerView.alpha = 1
@@ -217,10 +217,10 @@ final class ExpandableLayoutCell: UITableViewCell {
     }
     
     private func updateSelection(_ layout: ViewLayoutPreference) {
-        // Update colors and checkmarks
+        
         let isGrid = layout == .grid
         
-        // Grid button
+        
         if let gridIcon = gridButton.subviews.first as? UIImageView,
            let gridLabel = gridButton.subviews.first(where: { $0 is UILabel }) as? UILabel,
            let gridCheck = gridButton.viewWithTag(100) {
@@ -230,7 +230,7 @@ final class ExpandableLayoutCell: UITableViewCell {
             gridCheck.isHidden = !isGrid
         }
         
-        // List button
+        
         if let listIcon = listButton.subviews.first as? UIImageView,
            let listLabel = listButton.subviews.first(where: { $0 is UILabel }) as? UILabel,
            let listCheck = listButton.viewWithTag(100) {
@@ -241,7 +241,7 @@ final class ExpandableLayoutCell: UITableViewCell {
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func gridTapped() {
         onLayoutSelected?(.grid)
@@ -257,7 +257,7 @@ final class ExpandableLayoutCell: UITableViewCell {
         animateCollapse()
     }
     
-    // MARK: - Animation
+    
     
     func toggleExpansion() {
         if isExpanded {
@@ -270,11 +270,11 @@ final class ExpandableLayoutCell: UITableViewCell {
     private func animateExpand() {
         isExpanded = true
         
-        // Prepare for animation
+        
         expandedContainer.isHidden = false
         expandedContainer.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        // Find table view and reload row height
+        
         var currentView: UIView? = superview
         while currentView != nil && !(currentView is UITableView) {
             currentView = currentView?.superview
@@ -298,10 +298,10 @@ final class ExpandableLayoutCell: UITableViewCell {
     private func animateCollapse() {
         isExpanded = false
         
-        // Prepare for animation
+        
         containerView.isHidden = false
         
-        // Find table view and reload row height
+        
         var currentView: UIView? = superview
         while currentView != nil && !(currentView is UITableView) {
             currentView = currentView?.superview
@@ -322,19 +322,19 @@ final class ExpandableLayoutCell: UITableViewCell {
         }
     }
     
-    // MARK: - Height
+    
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        let height: CGFloat = isExpanded ? 136 : 52 // 52 to match other cells with padding
+        let height: CGFloat = isExpanded ? 136 : 52 
         return CGSize(width: targetSize.width, height: height)
     }
     
-    // MARK: - Reuse
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        // Reset to collapsed state
+        
         isExpanded = false
         containerView.isHidden = false
         containerView.alpha = 1

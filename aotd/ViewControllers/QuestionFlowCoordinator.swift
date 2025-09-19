@@ -33,7 +33,7 @@ final class QuestionFlowCoordinator: NSObject {
     
     private func showNextQuestion() {
         guard currentQuestionIndex < questions.count else {
-            // Award lesson completion XP bonus
+            
             awardLessonCompletionXP()
             delegate?.questionFlowCoordinatorDidComplete(self, results: results)
             return
@@ -69,7 +69,7 @@ final class QuestionFlowCoordinator: NSObject {
             viewController = TrueFalseViewController(viewModel: viewModel)
             
         case .matching:
-            // For now, use multiple choice as placeholder for matching
+            
             viewModel = MultipleChoiceViewModel(
                 question: question,
                 beliefSystem: beliefSystem,
@@ -90,11 +90,11 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         let result = QuestionResult(question: viewModel.question, wasCorrect: didAnswerCorrectly)
         results.append(result)
         
-        // Award XP for correct answers
+        
         if didAnswerCorrectly {
             awardXPForCorrectAnswer(viewModel: viewModel)
         } else {
-            // Save mistake for review
+            
             saveMistake(for: viewModel)
         }
         
@@ -126,18 +126,18 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
     
     private func calculateStreakMultiplier(streakDays: Int) -> Double {
         switch streakDays {
-        case 0...2: return 1.0      // No bonus for first 3 days
-        case 3...6: return 1.1      // 10% bonus for 3-6 day streak
-        case 7...13: return 1.25    // 25% bonus for week+ streak
-        case 14...29: return 1.5    // 50% bonus for 2-4 week streak
-        default: return 2.0         // 100% bonus for month+ streak
+        case 0...2: return 1.0      
+        case 3...6: return 1.1      
+        case 7...13: return 1.25    
+        case 14...29: return 1.5    
+        default: return 2.0         
         }
     }
     
     private func awardLessonCompletionXP() {
         guard let user = DatabaseManager.shared.fetchUser() else { return }
         
-        // Calculate lesson completion bonus (15 XP base from aotd.json)
+        
         let lessonBaseXP = 15
         let streakMultiplier = calculateStreakMultiplier(streakDays: user.streakDays)
         let totalXP = Int(Double(lessonBaseXP) * streakMultiplier)
@@ -167,9 +167,9 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
             try DatabaseManager.shared.saveMistake(
                 userId: user.id,
                 beliefSystemId: beliefSystem.id,
-                lessonId: nil, // We don't have lesson ID in this context
+                lessonId: nil, 
                 questionId: question.id,
-                incorrectAnswer: "", // We don't track the actual incorrect answer yet
+                incorrectAnswer: "", 
                 correctAnswer: correctAnswer
             )
             

@@ -30,7 +30,7 @@ struct UserAnswer: Codable, FetchableRecord, MutablePersistableRecord {
     }
     
     mutating func didInsert(with rowID: Int64, for column: String?) {
-        // Called after insert
+        
     }
     
     static func createTable(_ db: Database) throws {

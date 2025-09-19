@@ -2,7 +2,7 @@ import UIKit
 
 final class PathListCell: UICollectionViewCell {
     
-    // MARK: - Properties
+    
     
     private var isShowingPreview = false
     private var pathPreview: PathPreview?
@@ -159,7 +159,7 @@ final class PathListCell: UICollectionViewCell {
         return label
     }()
     
-    // MARK: - Stack Views
+    
     
     private lazy var textStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
@@ -179,7 +179,7 @@ final class PathListCell: UICollectionViewCell {
         return stack
     }()
     
-    // MARK: - Initialization
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -190,7 +190,7 @@ final class PathListCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         backgroundColor = .clear
@@ -215,106 +215,106 @@ final class PathListCell: UICollectionViewCell {
         mistakeBadge.addSubview(mistakeCountLabel)
         
         NSLayoutConstraint.activate([
-            // Container
+            
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             
-            // Icon container
+            
             iconContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             iconContainerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             iconContainerView.widthAnchor.constraint(equalToConstant: 40),
             iconContainerView.heightAnchor.constraint(equalToConstant: 40),
             
-            // Icon
+            
             iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
             iconImageView.widthAnchor.constraint(equalToConstant: 24),
             iconImageView.heightAnchor.constraint(equalToConstant: 24),
             
-            // Text stack
+            
             textStackView.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 12),
             textStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             textStackView.trailingAnchor.constraint(lessThanOrEqualTo: statusBadge.leadingAnchor, constant: -8),
             
-            // Progress stack
+            
             progressStackView.leadingAnchor.constraint(equalTo: textStackView.leadingAnchor),
             progressStackView.topAnchor.constraint(equalTo: textStackView.bottomAnchor, constant: 8),
             progressStackView.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
             
-            // Status badge
+            
             statusBadge.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
             statusBadge.centerYAnchor.constraint(equalTo: textStackView.centerYAnchor),
             statusBadge.widthAnchor.constraint(equalToConstant: 24),
             statusBadge.heightAnchor.constraint(equalToConstant: 24),
             
-            // Status icon
+            
             statusIcon.centerXAnchor.constraint(equalTo: statusBadge.centerXAnchor),
             statusIcon.centerYAnchor.constraint(equalTo: statusBadge.centerYAnchor),
             statusIcon.widthAnchor.constraint(equalToConstant: 16),
             statusIcon.heightAnchor.constraint(equalToConstant: 16),
             
-            // Lock icon
+            
             lockIconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
             lockIconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
             lockIconImageView.widthAnchor.constraint(equalToConstant: 20),
             lockIconImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            // Info button
+            
             infoButton.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
             infoButton.centerYAnchor.constraint(equalTo: textStackView.centerYAnchor),
             infoButton.widthAnchor.constraint(equalToConstant: 22),
             infoButton.heightAnchor.constraint(equalToConstant: 22),
             
-            // Chevron
+            
             chevronImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             chevronImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             chevronImageView.widthAnchor.constraint(equalToConstant: 12),
             chevronImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            // Preview container
+            
             previewContainer.leadingAnchor.constraint(equalTo: textStackView.leadingAnchor),
             previewContainer.topAnchor.constraint(equalTo: progressStackView.bottomAnchor, constant: 8),
             previewContainer.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -12),
             
-            // Preview label
+            
             previewLabel.leadingAnchor.constraint(equalTo: previewContainer.leadingAnchor, constant: 8),
             previewLabel.trailingAnchor.constraint(equalTo: previewContainer.trailingAnchor, constant: -8),
             previewLabel.topAnchor.constraint(equalTo: previewContainer.topAnchor, constant: 6),
             previewLabel.bottomAnchor.constraint(equalTo: previewContainer.bottomAnchor, constant: -6),
             
-            // Mistake badge
+            
             mistakeBadge.topAnchor.constraint(equalTo: iconContainerView.topAnchor, constant: -5),
             mistakeBadge.trailingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 5),
             mistakeBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
             mistakeBadge.heightAnchor.constraint(equalToConstant: 20),
             
-            // Mistake count label
+            
             mistakeCountLabel.centerXAnchor.constraint(equalTo: mistakeBadge.centerXAnchor),
             mistakeCountLabel.centerYAnchor.constraint(equalTo: mistakeBadge.centerYAnchor),
             mistakeCountLabel.leadingAnchor.constraint(greaterThanOrEqualTo: mistakeBadge.leadingAnchor, constant: 4),
             mistakeCountLabel.trailingAnchor.constraint(lessThanOrEqualTo: mistakeBadge.trailingAnchor, constant: -4)
         ])
         
-        // Add flexible bottom constraint with priority
+        
         let bottomConstraint = previewContainer.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12)
         bottomConstraint.priority = .defaultHigh
         bottomConstraint.isActive = true
         
-        // Add progress view height constraint with priority
+        
         let progressHeightConstraint = progressView.heightAnchor.constraint(equalToConstant: 6)
         progressHeightConstraint.priority = .defaultHigh
         progressHeightConstraint.isActive = true
     }
     
-    // MARK: - Configuration
+    
     
     func configure(with item: PathItem, preview: PathPreview? = nil) {
         nameLabel.text = item.name
         self.pathPreview = preview
         
-        // Set description based on status
+        
         switch item.status {
         case .notStarted:
             descriptionLabel.text = "Ready to begin your journey"
@@ -335,7 +335,7 @@ final class PathListCell: UICollectionViewCell {
             progressView.progressTintColor = item.color
             chevronImageView.tintColor = UIColor.Papyrus.secondaryText
             
-            // Set icon with color background
+            
             iconContainerView.backgroundColor = item.color.withAlphaComponent(0.9)
             iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: .white)
             iconImageView.tintColor = .white
@@ -351,7 +351,7 @@ final class PathListCell: UICollectionViewCell {
             progressView.progressTintColor = UIColor.Papyrus.aged
             chevronImageView.tintColor = UIColor.Papyrus.aged
             
-            // Show lock icon
+            
             iconContainerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
             iconImageView.isHidden = true
             lockIconImageView.isHidden = false
@@ -361,7 +361,7 @@ final class PathListCell: UICollectionViewCell {
         progressView.progress = item.progress
         xpLabel.text = "\(item.currentXP) / \(item.totalXP) XP"
         
-        // Configure status badge
+        
         switch item.status {
         case .completed:
             statusBadge.isHidden = false
@@ -375,16 +375,16 @@ final class PathListCell: UICollectionViewCell {
             statusBadge.isHidden = true
         }
         
-        // Adjust shadow opacity
+        
         containerView.layer.shadowOpacity = item.isUnlocked ? 0.1 : 0.05
         
-        // Configure preview if available
+        
         if let preview = preview {
             let topicsText = preview.keyTopics.prefix(3).joined(separator: " • ")
             previewLabel.text = topicsText
         }
         
-        // Configure mistake badge
+        
         if item.mistakeCount > 0 && item.isUnlocked {
             mistakeBadge.isHidden = false
             mistakeCountLabel.text = "\(item.mistakeCount)"
@@ -393,7 +393,7 @@ final class PathListCell: UICollectionViewCell {
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func infoButtonTapped() {
         togglePreview()
@@ -406,17 +406,17 @@ final class PathListCell: UICollectionViewCell {
             self.previewContainer.isHidden = !self.isShowingPreview
             self.previewContainer.alpha = self.isShowingPreview ? 1 : 0
             
-            // Animate info button rotation
+            
             let rotation = self.isShowingPreview ? CGFloat.pi : 0
             self.infoButton.transform = CGAffineTransform(rotationAngle: rotation)
         }
         
-        // Haptic feedback
+        
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
     }
     
-    // MARK: - Reuse
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -442,7 +442,7 @@ final class PathListCell: UICollectionViewCell {
         mistakeCountLabel.text = nil
     }
     
-    // MARK: - Touch Feedback
+    
     
     override var isHighlighted: Bool {
         didSet {

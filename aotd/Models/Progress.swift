@@ -40,7 +40,7 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
     }
     
     mutating func didInsert(with rowID: Int64, for column: String?) {
-        // Called after insert
+        
     }
     
     mutating func markCompleted(score: Int? = nil) {

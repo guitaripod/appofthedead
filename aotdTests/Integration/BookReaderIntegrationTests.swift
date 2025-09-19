@@ -12,10 +12,10 @@ final class BookReaderIntegrationTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // Create in-memory database
+        
         databaseManager = DatabaseManager(inMemory: true)
         
-        // Create test user
+        
         testUser = User(
             id: "integration-test-user",
             name: "reader",
@@ -29,7 +29,7 @@ final class BookReaderIntegrationTests: XCTestCase {
             XCTFail("Failed to create test user: \(error)")
         }
         
-        // Create realistic book
+        
         testBook = createRealisticBook()
         
         do {
@@ -38,7 +38,7 @@ final class BookReaderIntegrationTests: XCTestCase {
             XCTFail("Failed to save test book: \(error)")
         }
         
-        // Create view model and view controller
+        
         viewModel = BookReaderViewModel(
             book: testBook,
             userId: testUser.id,
@@ -127,80 +127,80 @@ final class BookReaderIntegrationTests: XCTestCase {
         )
     }
     
-    // MARK: - End-to-End Reading Flow Tests
+    
     
     func testCompleteReadingSessionFlow() {
-        // Given - Load the view
+        
         bookReaderVC.loadViewIfNeeded()
         
-        // Simulate initial content load
+        
         viewModel.loadBook()
         
-        // When - User reads through the book
         
-        // Read first chapter partially
+        
+        
         viewModel.updateScrollPosition(0.5)
         XCTAssertEqual(viewModel.currentChapterIndex, 0)
-        XCTAssertEqual(viewModel.readingProgress, 0.166, accuracy: 0.01) // 50% of 33.3%
+        XCTAssertEqual(viewModel.readingProgress, 0.166, accuracy: 0.01) 
         
-        // Add bookmark
+        
         viewModel.toggleBookmark()
         XCTAssertTrue(viewModel.hasBookmarkAtCurrentPosition)
         
-        // Move to next chapter
+        
         viewModel.goToNextChapter()
         XCTAssertEqual(viewModel.currentChapterIndex, 1)
         
-        // Read second chapter completely
-        viewModel.updateScrollPosition(1.0)
-        XCTAssertEqual(viewModel.readingProgress, 0.666, accuracy: 0.01) // 33.3% + 33.3%
         
-        // Move to last chapter
+        viewModel.updateScrollPosition(1.0)
+        XCTAssertEqual(viewModel.readingProgress, 0.666, accuracy: 0.01) 
+        
+        
         viewModel.goToNextChapter()
         XCTAssertEqual(viewModel.currentChapterIndex, 2)
         
-        // Complete the book
+        
         viewModel.updateScrollPosition(0.96)
         
-        // Then - Verify completion
+        
         let progress = try? databaseManager.getBookProgress(userId: testUser.id, bookId: testBook.id)
         XCTAssertNotNil(progress)
         XCTAssertTrue(progress?.isCompleted ?? false)
         
-        // Verify XP was awarded
+        
         let updatedUser = try? databaseManager.getUser(by: testUser.id)
-        XCTAssertEqual(updatedUser?.totalXP, 500) // Book completion XP
+        XCTAssertEqual(updatedUser?.totalXP, 500) 
     }
     
     func testAppBackgroundingDuringReading() {
-        // Given - Start reading
+        
         bookReaderVC.loadViewIfNeeded()
         viewModel.loadBook()
         
-        // Make some progress
+        
         viewModel.updateScrollPosition(0.3)
         viewModel.updateFontSize(20.0)
         viewModel.toggleBookmark()
         
-        // Simulate reading time
+        
         for _ in 0..<60 {
             viewModel.incrementReadingTime()
         }
         
-        // When - App goes to background
+        
         NotificationCenter.default.post(
             name: UIApplication.willResignActiveNotification,
             object: nil
         )
         
-        // Give time for save to complete
+        
         let expectation = XCTestExpectation(description: "Save completes")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
         
-        // Then - Progress should be saved
+        
         let savedProgress = try? databaseManager.getBookProgress(userId: testUser.id, bookId: testBook.id)
         XCTAssertNotNil(savedProgress)
         XCTAssertEqual(savedProgress?.totalReadingTime, 60.0)
@@ -212,21 +212,21 @@ final class BookReaderIntegrationTests: XCTestCase {
     }
     
     func testViewControllerDismissalSavesProgress() {
-        // Given - Start reading
+        
         bookReaderVC.loadViewIfNeeded()
         viewModel.loadBook()
         
-        // Make progress
+        
         viewModel.updateScrollPosition(0.7)
         viewModel.updateBrightness(0.8)
         for _ in 0..<120 {
             viewModel.incrementReadingTime()
         }
         
-        // When - Dismiss view controller
+        
         bookReaderVC.viewWillDisappear(false)
         
-        // Then - All changes should be saved
+        
         let newViewModel = BookReaderViewModel(
             book: testBook,
             userId: testUser.id,
@@ -238,46 +238,46 @@ final class BookReaderIntegrationTests: XCTestCase {
         XCTAssertEqual(newViewModel.totalReadingTime, 120.0)
     }
     
-    // MARK: - Multi-Session Tests
+    
     
     func testProgressAcrossMultipleSessions() {
-        // Session 1: Read part of chapter 1
+        
         var session1 = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         session1.updateScrollPosition(0.6)
-        for _ in 0..<300 { // 5 minutes
+        for _ in 0..<300 { 
             session1.incrementReadingTime()
         }
         session1.saveAll()
         
-        // Session 2: Continue from where we left off
+        
         var session2 = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         XCTAssertEqual(session2.currentChapterIndex, 0)
         XCTAssertEqual(session2.preferences.scrollPosition, 0.6, accuracy: 0.01)
         XCTAssertEqual(session2.totalReadingTime, 300.0)
         
-        // Continue reading
+        
         session2.goToNextChapter()
         session2.updateScrollPosition(0.4)
-        for _ in 0..<180 { // 3 more minutes
+        for _ in 0..<180 { 
             session2.incrementReadingTime()
         }
         session2.saveAll()
         
-        // Session 3: Verify cumulative progress
+        
         let session3 = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         XCTAssertEqual(session3.currentChapterIndex, 1)
         XCTAssertEqual(session3.preferences.scrollPosition, 0.4, accuracy: 0.01)
-        XCTAssertEqual(session3.totalReadingTime, 480.0) // 8 minutes total
-        XCTAssertEqual(session3.readingProgress, 0.466, accuracy: 0.01) // ~46.6%
+        XCTAssertEqual(session3.totalReadingTime, 480.0) 
+        XCTAssertEqual(session3.readingProgress, 0.466, accuracy: 0.01) 
     }
     
-    // MARK: - Preference Persistence Tests
+    
     
     func testComplexPreferenceChanges() {
-        // Given
+        
         bookReaderVC.loadViewIfNeeded()
         
-        // When - Update multiple preferences
+        
         let newPrefs = BookReadingPreferences(
             id: viewModel.preferences.id,
             userId: testUser.id,
@@ -309,7 +309,7 @@ final class BookReaderIntegrationTests: XCTestCase {
         viewModel.updatePreferences(with: newPrefs)
         viewModel.saveAll()
         
-        // Then - Create new view model and verify all preferences
+        
         let newViewModel = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         
         XCTAssertEqual(newViewModel.preferences.fontSize, 24.0)
@@ -322,33 +322,33 @@ final class BookReaderIntegrationTests: XCTestCase {
         XCTAssertFalse(newViewModel.preferences.enableHyphenation)
     }
     
-    // MARK: - Error Recovery Tests
+    
     
     func testRecoveryFromDatabaseErrors() {
-        // Given - Create a view model
+        
         let normalViewModel = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         
-        // Make some progress
+        
         normalViewModel.updateScrollPosition(0.5)
         normalViewModel.toggleBookmark()
         
-        // When - Database becomes unavailable (simulate by using nil database)
-        // This would normally crash, but the view model should handle it gracefully
+        
+        
         normalViewModel.saveAll()
         
-        // Then - View model should continue to function
+        
         XCTAssertEqual(normalViewModel.preferences.scrollPosition, 0.5)
         XCTAssertTrue(normalViewModel.hasBookmarkAtCurrentPosition)
         
-        // New instance should still load defaults if database is unavailable
+        
         let recoveryViewModel = BookReaderViewModel(book: testBook, userId: testUser.id, databaseManager: databaseManager)
         XCTAssertNotNil(recoveryViewModel)
     }
     
-    // MARK: - Performance Tests
+    
     
     func testLargeBookPerformance() {
-        // Given - Create a book with many chapters
+        
         let largeBookId = UUID().uuidString
         let chapters = (1...50).map { num in
             Chapter(
@@ -376,11 +376,11 @@ final class BookReaderIntegrationTests: XCTestCase {
         
         try? databaseManager.saveBook(largeBook)
         
-        // When - Create view model and navigate
+        
         let startTime = Date()
         let largeBookViewModel = BookReaderViewModel(book: largeBook, userId: testUser.id, databaseManager: databaseManager)
         
-        // Navigate through multiple chapters
+        
         for _ in 0..<10 {
             largeBookViewModel.goToNextChapter()
             largeBookViewModel.updateScrollPosition(0.5)
@@ -391,41 +391,41 @@ final class BookReaderIntegrationTests: XCTestCase {
         let endTime = Date()
         let timeInterval = endTime.timeIntervalSince(startTime)
         
-        // Then - Operations should complete in reasonable time
+        
         XCTAssertLessThan(timeInterval, 2.0, "Large book operations should complete within 2 seconds")
         XCTAssertEqual(largeBookViewModel.currentChapterIndex, 10)
     }
     
-    // MARK: - Bookmark Edge Cases
+    
     
     func testBookmarkLimitsAndEdgeCases() {
-        // Given
+        
         viewModel.loadBook()
         
-        // When - Add many bookmarks
+        
         for i in 0..<3 {
             if i > 0 {
                 viewModel.goToNextChapter()
             }
             
-            // Add multiple bookmarks per chapter at different positions
+            
             for position in stride(from: 0.0, to: 1.0, by: 0.2) {
                 viewModel.updateScrollPosition(position)
                 viewModel.toggleBookmark()
                 
-                // Move slightly to avoid duplicate position
+                
                 viewModel.updateScrollPosition(position + 0.01)
             }
         }
         
         viewModel.saveAll()
         
-        // Then - All bookmarks should be preserved
+        
         let savedProgress = try? databaseManager.getBookProgress(userId: testUser.id, bookId: testBook.id)
         XCTAssertNotNil(savedProgress)
         
-        // We toggle on and off at same position, so we should have some bookmarks
-        // The exact count depends on the toggle behavior
+        
+        
         XCTAssertGreaterThan(savedProgress?.bookmarks.count ?? 0, 0)
     }
 }

@@ -16,7 +16,7 @@ class ContentLoader {
         
         var beliefSystems: [BeliefSystem] = []
         
-        // Known belief system IDs
+        
         let beliefSystemIds = [
             "judaism", "christianity", "islam", "hinduism", "buddhism",
             "sikhism", "egyptian-afterlife", "greek-underworld", "norse",
@@ -25,7 +25,7 @@ class ContentLoader {
             "native-american-visions", "anthroposophy", "theosophy", "swedenborgian-visions"
         ]
         
-        // Try to load each belief system file
+        
         let bundle = Bundle(for: type(of: self))
         
         for beliefSystemId in beliefSystemIds {
@@ -43,7 +43,7 @@ class ContentLoader {
             }
         }
         
-        // Sort by a consistent order (alphabetically by ID)
+        
         beliefSystems.sort { $0.id < $1.id }
         
         cachedBeliefSystems = beliefSystems
@@ -85,12 +85,12 @@ class ContentLoader {
             return cached
         }
         
-        // Try main bundle first, then test bundle (for testing)
+        
         var bundle = Bundle.main
         var path = bundle.path(forResource: "deity_prompts", ofType: "json")
         
         if path == nil {
-            // If not found in main bundle, try the bundle containing this class
+            
             bundle = Bundle(for: type(of: self))
             path = bundle.path(forResource: "deity_prompts", ofType: "json")
         }
@@ -115,7 +115,7 @@ class ContentLoader {
     func getDeityForBeliefSystem(_ beliefSystemId: String) -> Deity? {
         let deities = loadDeities()
         
-        // Use The Eternal for all belief systems - the universal cosmic consciousness
-        return deities["the_eternal"] ?? deities["anubis"] // Fallback to Anubis if The Eternal is not found
+        
+        return deities["the_eternal"] ?? deities["anubis"] 
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: - TappableKeyTermView
+
 
 private class TappableKeyTermView: UIView {
     let term: String
@@ -196,7 +196,7 @@ final class LessonViewController: UIViewController {
         
         if let beliefColor = viewModel.beliefSystemColor {
             progressView.progressTintColor = beliefColor
-            // Keep gold for the continue button as it's more prominent
+            
             continueButton.backgroundColor = UIColor.Papyrus.gold
         }
         
@@ -215,7 +215,7 @@ final class LessonViewController: UIViewController {
         container.layer.borderWidth = 1
         container.layer.borderColor = UIColor.Papyrus.aged.cgColor
         
-        // Stack view for icon and label
+        
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -228,7 +228,7 @@ final class LessonViewController: UIViewController {
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.Papyrus.primaryText
         
-        // Add info icon to indicate tappable
+        
         let infoIcon = UIImageView(image: UIImage(systemName: "info.circle"))
         infoIcon.tintColor = viewModel.beliefSystemColor ?? UIColor.Papyrus.primaryText
         infoIcon.contentMode = .scaleAspectFit
@@ -268,7 +268,7 @@ final class LessonViewController: UIViewController {
         AppLogger.ui.debug("LessonViewController - Called viewModel.exitLearningPath()")
     }
     
-    // MARK: - Key Term Handling
+    
     
     private func handleKeyTermTap(_ term: String) {
         guard let deity = deity else { return }
@@ -280,10 +280,10 @@ final class LessonViewController: UIViewController {
     }
     
     
-    // MARK: - Deity Loading
+    
     
     private func loadDeity() {
-        // Get deity for the current belief system
+        
         deity = contentLoader.getDeityForBeliefSystem(viewModel.beliefSystemId)
     }
 }

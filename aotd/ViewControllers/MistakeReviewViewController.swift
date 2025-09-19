@@ -7,7 +7,7 @@ protocol MistakeReviewViewControllerDelegate: AnyObject {
 
 final class MistakeReviewViewController: UIViewController {
     
-    // MARK: - Properties
+    
     
     weak var delegate: MistakeReviewViewControllerDelegate?
     
@@ -21,7 +21,7 @@ final class MistakeReviewViewController: UIViewController {
     private var questions: [Question] = []
     private var questionToMistakeMap: [String: Mistake] = [:]
     
-    // MARK: - UI Elements
+    
     
     private lazy var progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .default)
@@ -72,7 +72,7 @@ final class MistakeReviewViewController: UIViewController {
         return view
     }()
     
-    // MARK: - Initialization
+    
     
     init(beliefSystem: BeliefSystem, mistakes: [Mistake], session: MistakeSession, contentLoader: ContentLoader) {
         self.beliefSystem = beliefSystem
@@ -86,7 +86,7 @@ final class MistakeReviewViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,19 +95,19 @@ final class MistakeReviewViewController: UIViewController {
         showNextQuestion()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
         
-        // Navigation
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
             action: #selector(cancelTapped)
         )
         
-        // Layout
+        
         headerStackView.addArrangedSubview(titleLabel)
         headerStackView.addArrangedSubview(subtitleLabel)
         headerStackView.addArrangedSubview(progressView)
@@ -116,15 +116,15 @@ final class MistakeReviewViewController: UIViewController {
         view.addSubview(containerView)
         
         NSLayoutConstraint.activate([
-            // Header
+            
             headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             headerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             headerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            // Progress view height
+            
             progressView.heightAnchor.constraint(equalToConstant: 8),
             
-            // Container
+            
             containerView.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 30),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -133,10 +133,10 @@ final class MistakeReviewViewController: UIViewController {
     }
     
     private func loadQuestions() {
-        // Load all questions from belief system lessons
+        
         let allQuestions = beliefSystem.lessons.flatMap { $0.questions }
         
-        // Build question to mistake mapping and filter questions
+        
         questionToMistakeMap.removeAll()
         questions = mistakes.compactMap { mistake in
             if let question = allQuestions.first(where: { $0.id == mistake.questionId }) {
@@ -146,7 +146,7 @@ final class MistakeReviewViewController: UIViewController {
             return nil
         }
         
-        // Shuffle for variety
+        
         questions.shuffle()
         
         AppLogger.learning.info("Loaded questions for mistake review", metadata: [
@@ -156,7 +156,7 @@ final class MistakeReviewViewController: UIViewController {
         ])
     }
     
-    // MARK: - Question Flow
+    
     
     private func showNextQuestion() {
         guard currentQuestionIndex < questions.count else {
@@ -176,14 +176,14 @@ final class MistakeReviewViewController: UIViewController {
             return
         }
         
-        // Update progress
+        
         let progress = Float(currentQuestionIndex) / Float(questions.count)
         progressView.setProgress(progress, animated: true)
         
-        // Create appropriate view controller
+        
         let viewController = createViewController(for: question, mistake: mistake)
         
-        // Clear container and add new view controller
+        
         containerView.subviews.forEach { $0.removeFromSuperview() }
         children.forEach { $0.removeFromParent() }
         
@@ -225,7 +225,7 @@ final class MistakeReviewViewController: UIViewController {
             viewController = TrueFalseViewController(viewModel: viewModel)
             
         case .matching:
-            // For now, use multiple choice as placeholder
+            
             viewModel = MultipleChoiceViewModel(
                 question: question,
                 beliefSystem: beliefSystem,
@@ -237,24 +237,24 @@ final class MistakeReviewViewController: UIViewController {
         
         viewModel.delegate = self
         
-        // Hide the child's progress view and question number since we're showing our own
+        
         viewController.hideProgressView = true
         viewController.hideQuestionNumber = true
         
         return viewController
     }
     
-    // MARK: - Completion
+    
     
     private func completeReview() {
-        // Update progress to 100%
+        
         progressView.setProgress(1.0, animated: true)
         
-        // Calculate XP earned (5 XP per correct answer)
+        
         let xpPerCorrect = 5
         let totalXP = correctCount * xpPerCorrect
         
-        // Award XP
+        
         if let user = DatabaseManager.shared.fetchUser() {
             GamificationService.shared.awardXP(
                 to: user.id,
@@ -264,7 +264,7 @@ final class MistakeReviewViewController: UIViewController {
             )
         }
         
-        // Complete the session
+        
         do {
             try DatabaseManager.shared.completeMistakeSession(
                 sessionId: session.id,
@@ -275,7 +275,7 @@ final class MistakeReviewViewController: UIViewController {
             AppLogger.logError(error, context: "Completing mistake session", logger: AppLogger.learning)
         }
         
-        // Dismiss and notify delegate
+        
         dismissReview { [weak self] in
             guard let self = self else { return }
             self.delegate?.mistakeReviewCompleted(
@@ -286,7 +286,7 @@ final class MistakeReviewViewController: UIViewController {
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func cancelTapped() {
         PapyrusAlert(title: "Exit Review?", message: "Your progress will not be saved if you exit now.")
@@ -298,9 +298,9 @@ final class MistakeReviewViewController: UIViewController {
     }
     
     private func exitReview() {
-        // Add a small delay to ensure the alert is fully dismissed first
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-            // Dismiss and notify delegate
+            
             self?.dismissReview { [weak self] in
                 self?.delegate?.mistakeReviewCancelled()
             }
@@ -308,7 +308,7 @@ final class MistakeReviewViewController: UIViewController {
     }
     
     private func dismissReview(completion: (() -> Void)? = nil) {
-        // Ensure we're on the main thread
+        
         guard Thread.isMainThread else {
             DispatchQueue.main.async { [weak self] in
                 self?.dismissReview(completion: completion)
@@ -316,18 +316,18 @@ final class MistakeReviewViewController: UIViewController {
             return
         }
         
-        // Since we're presented inside a navigation controller, dismiss via the presenter
+        
         if let navController = self.navigationController,
            let presenter = navController.presentingViewController {
             presenter.dismiss(animated: true, completion: completion)
         } else {
-            // Fallback: dismiss directly
+            
             self.dismiss(animated: true, completion: completion)
         }
     }
 }
 
-// MARK: - QuestionViewModelDelegate
+
 
 extension MistakeReviewViewController: QuestionViewModelDelegate {
     func questionViewModel(_ viewModel: BaseQuestionViewModel, didAnswerCorrectly: Bool) {
@@ -345,28 +345,28 @@ extension MistakeReviewViewController: QuestionViewModelDelegate {
         if didAnswerCorrectly {
             correctCount += 1
             
-            // Update mistake review status
+            
             do {
                 try DatabaseManager.shared.updateMistakeReview(
                     mistakeId: mistake.id,
                     wasCorrect: true
                 )
                 
-                // Haptic feedback
+                
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.success)
             } catch {
                 AppLogger.logError(error, context: "Updating mistake review", logger: AppLogger.learning)
             }
         } else {
-            // Reset mistake progress
+            
             do {
                 try DatabaseManager.shared.updateMistakeReview(
                     mistakeId: mistake.id,
                     wasCorrect: false
                 )
                 
-                // Haptic feedback
+                
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.error)
             } catch {
@@ -376,7 +376,7 @@ extension MistakeReviewViewController: QuestionViewModelDelegate {
         
         currentQuestionIndex += 1
         
-        // Delay before showing next question
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
             self?.showNextQuestion()
         }

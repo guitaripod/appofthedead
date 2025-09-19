@@ -16,7 +16,7 @@ final class AchievementNotificationManager: GamificationServiceDelegate {
         currentViewController = viewController
     }
     
-    // MARK: - GamificationServiceDelegate
+    
     
     func gamificationService(_ service: GamificationService, didUnlockAchievement achievementId: String) {
         let achievements = DatabaseManager.shared.loadAchievements()
@@ -26,7 +26,7 @@ final class AchievementNotificationManager: GamificationServiceDelegate {
         showNextNotificationIfNeeded()
     }
     
-    // MARK: - Private Methods
+    
     
     private func showNextNotificationIfNeeded() {
         guard !isShowingNotification,

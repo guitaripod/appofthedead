@@ -41,7 +41,7 @@ final class LearningPathCoordinator {
         
         let masteryTest = beliefSystem.masteryTest
         
-        // Show the master test directly
+        
         questionFlowCoordinator = QuestionFlowCoordinator(
             navigationController: navigationController,
             questions: masteryTest.questions,
@@ -53,8 +53,8 @@ final class LearningPathCoordinator {
     }
     
     func startReviewMissedQuestions(for beliefSystem: BeliefSystem) {
-        // TODO: Implement once we have missed questions tracking
-        // For now, just replay the full path
+        
+        
         startLearningPath(for: beliefSystem, replay: true)
     }
     
@@ -65,31 +65,31 @@ final class LearningPathCoordinator {
             let userProgress = try databaseManager.getUserProgress(userId: user.id)
             let beliefSystemProgress = userProgress.filter { $0.beliefSystemId == beliefSystem.id }
             
-            // Find lessons with any progress for this belief system
+            
             let lessonsWithProgress = beliefSystemProgress.filter { $0.lessonId != nil }
             
-            // If no lessons have been started, start from beginning
+            
             if lessonsWithProgress.isEmpty {
                 return 0
             }
             
-            // Find the furthest lesson that has been started
+            
             var furthestIndex = 0
             for (index, lesson) in beliefSystem.lessons.enumerated() {
                 let lessonProgress = lessonsWithProgress.first { $0.lessonId == lesson.id }
                 if let progress = lessonProgress {
                     if progress.status == .completed {
-                        // This lesson is completed, continue to next
+                        
                         furthestIndex = index + 1
                     } else if progress.status == .inProgress {
-                        // This lesson is in progress, resume here
+                        
                         furthestIndex = index
                         break
                     }
                 }
             }
             
-            // Make sure we don't go beyond the available lessons
+            
             return min(furthestIndex, beliefSystem.lessons.count)
             
         } catch {
@@ -106,7 +106,7 @@ final class LearningPathCoordinator {
         
         let lesson = beliefSystem.lessons[currentLessonIndex]
         
-        // Save that user started this lesson
+        
         saveLessonStarted(lesson: lesson)
         
         let lessonViewModel = LessonViewModel(
@@ -136,7 +136,7 @@ final class LearningPathCoordinator {
     }
     
     private func completeLearningPath() {
-        // Mark belief system as completed
+        
         if let user = databaseManager.fetchUser() {
             do {
                 try databaseManager.createOrUpdateProgress(
@@ -151,7 +151,7 @@ final class LearningPathCoordinator {
             }
         }
         
-        // Clear session when path is completed
+        
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
         navigationController.popToRootViewController(animated: true)
     }
@@ -167,7 +167,7 @@ extension LearningPathCoordinator: LessonViewModelDelegate {
     }
     
     private func exitLearningPath() {
-        // Clear the session state when exiting
+        
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
         navigationController.popToRootViewController(animated: true)
     }
@@ -180,7 +180,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         if isMasterTest {
             handleMasterTestCompletion(results: results)
         } else {
-            // Save lesson completion progress
+            
             saveLessonCompletion(results: results)
             
             currentLessonIndex += 1
@@ -243,13 +243,13 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         let totalQuestions = results.count
         let score = totalQuestions > 0 ? Int((Double(correctAnswers) / Double(totalQuestions)) * 100) : 0
         
-        // Check if user passed the master test
+        
         let requiredScore = masteryTest.requiredScore
         let passed = score >= requiredScore
         
         do {
             if passed {
-                // Mark belief system as mastered
+                
                 try databaseManager.createOrUpdateProgress(
                     userId: user.id,
                     beliefSystemId: beliefSystem.id,
@@ -258,17 +258,17 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                     score: score
                 )
                 
-                // Award master test XP
+                
                 try databaseManager.addXPToProgress(
                     userId: user.id,
                     beliefSystemId: beliefSystem.id,
                     xp: masteryTest.xpReward
                 )
                 
-                // Show success message
+                
                 showMasterTestSuccessAlert(score: score)
             } else {
-                // Show failure message with option to retry
+                
                 showMasterTestFailureAlert(score: score, requiredScore: requiredScore)
             }
         } catch {

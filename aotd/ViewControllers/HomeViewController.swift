@@ -2,7 +2,7 @@ import UIKit
 
 final class HomeViewController: UIViewController, ViewLayoutConfigurable {
     
-    // MARK: - Properties
+    
     
     private let viewModel: HomeViewModel
     var currentLayoutPreference: ViewLayoutPreference = UserDefaults.standard.viewLayoutPreference
@@ -16,11 +16,11 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
         return collectionView
     }()
     
-    // Removed tableView and tableHeaderView - now using single collectionView with compositional layout
+    
     
     private lazy var collectionDataSource = createCollectionDataSource()
     
-    // MARK: - Initialization
+    
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -35,7 +35,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
         NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,11 +52,11 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
         AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewWillAppear")
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        // Refresh data when returning to home screen to pick up any XP changes
+        
         viewModel.loadData()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
@@ -94,10 +94,10 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
     }
     
     @objc private func handlePurchaseCompleted(_ notification: Notification) {
-        // Check if this is a path purchase (ProductIdentifier is passed as object)
+        
         if let productId = notification.object as? ProductIdentifier,
            productId.beliefSystemId != nil {
-            // Scroll to top for single path purchases
+            
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.setContentOffset(.zero, animated: true)
             }
@@ -121,7 +121,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
         viewModel.onPathSelected = { [weak self] beliefSystem in
             guard let self = self else { return }
             
-            // Get the coordinator from SceneDelegate
+            
             guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let sceneDelegate = scene.delegate as? SceneDelegate else { return }
             
@@ -140,12 +140,12 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
     }
     
     private func updateHeader() {
-        // Force the collection view header to update
+        
         let snapshot = collectionDataSource.snapshot()
         collectionDataSource.applySnapshotUsingReloadData(snapshot)
     }
     
-    // MARK: - Collection View Configuration
+    
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
@@ -155,7 +155,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
             guard let self = self else { return nil }
             
             if self.currentLayoutPreference == .grid {
-                // Grid layout
+                
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
@@ -167,7 +167,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
                 section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8)
                 section.interGroupSpacing = 8
                 
-                // Add header
+                
                 let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))
                 let header = NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: headerSize,
@@ -179,7 +179,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
                 
                 return section
             } else {
-                // List layout with custom item size
+                
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
@@ -190,7 +190,7 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
                 section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
                 section.interGroupSpacing = 0
                 
-                // Add header
+                
                 let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(120))
                 let header = NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: headerSize,
@@ -206,13 +206,13 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
     }
     
     private func createCollectionDataSource() -> UICollectionViewDiffableDataSource<Section, PathItem> {
-        // Grid cell registration
+        
         let gridCellRegistration = UICollectionView.CellRegistration<PathCollectionViewCell, PathItem> { [weak self] cell, indexPath, item in
             let preview = self?.viewModel.pathPreview(for: item.id)
             cell.configure(with: item, preview: preview)
         }
         
-        // List cell registration
+        
         let listCellRegistration = UICollectionView.CellRegistration<PathListCell, PathItem> { [weak self] cell, indexPath, item in
             let preview = self?.viewModel.pathPreview(for: item.id)
             cell.configure(with: item, preview: preview)
@@ -245,30 +245,30 @@ final class HomeViewController: UIViewController, ViewLayoutConfigurable {
         var snapshot = NSDiffableDataSourceSnapshot<Section, PathItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pathItems)
-        // Force reload by using applySnapshotUsingReloadData
+        
         collectionDataSource.applySnapshotUsingReloadData(snapshot)
     }
     
     
-    // MARK: - ViewLayoutConfigurable
+    
     
     func switchToLayout(_ layout: ViewLayoutPreference) {
         currentLayoutPreference = layout
         setupLayout(for: layout)
         
-        // Force layout update
+        
         collectionView.collectionViewLayout.invalidateLayout()
         applySnapshot()
     }
     
     func setupLayout(for preference: ViewLayoutPreference) {
-        // Layout will be handled by compositional layout
-        // Just update the current preference which the layout uses
+        
+        
         currentLayoutPreference = preference
     }
 }
 
-// MARK: - UICollectionViewDelegate
+
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -286,7 +286,7 @@ extension HomeViewController: UICollectionViewDelegate {
             generator.prepare()
             generator.impactOccurred()
             
-            // Check if path is completed and show options
+            
             if item.status == Progress.ProgressStatus.completed || item.status == Progress.ProgressStatus.mastered {
                 showCompletionOptions(for: item)
             } else {
@@ -304,10 +304,10 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         guard let item = collectionDataSource.itemIdentifier(for: indexPath) else { return nil }
         
-        // Only show context menu for unlocked paths
+        
         guard item.isUnlocked else { return nil }
         
-        // Find the belief system and progress
+        
         guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }) else { return nil }
         let progress = viewModel.userProgress[item.id]
         let preview = viewModel.pathPreview(for: item.id)
@@ -330,7 +330,7 @@ extension HomeViewController: UICollectionViewDelegate {
     private func createContextMenuActions(for item: PathItem, beliefSystem: BeliefSystem, progress: Progress?) -> UIMenu? {
         var actions: [UIMenuElement] = []
         
-        // Start/Continue action
+        
         let primaryTitle = (progress?.earnedXP ?? 0) > 0 ? "Continue Learning" : "Start Path"
         let primaryAction = UIAction(
             title: primaryTitle,
@@ -341,7 +341,7 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         actions.append(primaryAction)
         
-        // Mistake Review action (if there are mistakes)
+        
         if let user = viewModel.currentUser {
             do {
                 let mistakeCount = try DatabaseManager.shared.getMistakeCount(userId: user.id, beliefSystemId: item.id)
@@ -365,7 +365,7 @@ extension HomeViewController: UICollectionViewDelegate {
             }
         }
         
-        // Reset progress action (if there's progress)
+        
         if let progress = progress, progress.earnedXP > 0 {
             let resetAction = UIAction(
                 title: "Reset Progress",
@@ -377,9 +377,9 @@ extension HomeViewController: UICollectionViewDelegate {
             actions.append(resetAction)
         }
         
-        // Oracle consultation action removed for now since it requires separate deity selection
         
-        // Share action
+        
+        
         let shareAction = UIAction(
             title: "Share Path",
             image: UIImage(systemName: "square.and.arrow.up"),
@@ -422,7 +422,7 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Helper Methods
+
 
 extension HomeViewController {
     private func showLockedPathAlert(for item: PathItem) {
@@ -431,11 +431,11 @@ extension HomeViewController {
     }
     
     private func showCompletionOptions(for item: PathItem) {
-        // Find the corresponding belief system
+        
         guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }),
               let progress = viewModel.userProgress[item.id] else { return }
         
-        // Get the coordinator from SceneDelegate
+        
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let sceneDelegate = scene.delegate as? SceneDelegate else { return }
         
@@ -461,7 +461,7 @@ extension HomeViewController {
         guard let user = viewModel.currentUser else { return }
         
         do {
-            // Get mistakes for this belief system
+            
             let mistakes = try DatabaseManager.shared.getMistakes(userId: user.id, beliefSystemId: item.id)
             
             guard !mistakes.isEmpty else {
@@ -473,10 +473,10 @@ extension HomeViewController {
                 return
             }
             
-            // Start mistake session
+            
             let session = try DatabaseManager.shared.startMistakeSession(userId: user.id, beliefSystemId: item.id)
             
-            // Create and present mistake review controller
+            
             let mistakeReviewVC = MistakeReviewViewController(
                 beliefSystem: beliefSystem,
                 mistakes: mistakes,
@@ -506,7 +506,7 @@ extension HomeViewController {
     }
 }
 
-// MARK: - Section
+
 
 extension HomeViewController {
     enum Section {
@@ -514,7 +514,7 @@ extension HomeViewController {
     }
 }
 
-// MARK: - HomeHeaderViewDelegate
+
 
 extension HomeViewController: HomeHeaderViewDelegate {
     func profileButtonTapped() {
@@ -531,16 +531,16 @@ extension HomeViewController: HomeHeaderViewDelegate {
 
 
 
-// MARK: - MistakeReviewViewControllerDelegate
+
 
 extension HomeViewController: MistakeReviewViewControllerDelegate {
     func mistakeReviewCompleted(correctCount: Int, totalCount: Int, xpEarned: Int) {
-        // Force a complete refresh of the data
+        
         viewModel.loadData()
         
-        // Ensure the collection view is updated with new data
+        
         DispatchQueue.main.async { [weak self] in
-            // Force complete reload to update context menus
+            
             self?.collectionView.reloadData()
             self?.updateHeader()
         }
@@ -554,12 +554,12 @@ extension HomeViewController: MistakeReviewViewControllerDelegate {
     }
     
     func mistakeReviewCancelled() {
-        // Reload data to ensure mistake counts are up to date
+        
         viewModel.loadData()
         
-        // Ensure the collection view is updated
+        
         DispatchQueue.main.async { [weak self] in
-            // Force complete reload to update context menus
+            
             self?.collectionView.reloadData()
         }
     }

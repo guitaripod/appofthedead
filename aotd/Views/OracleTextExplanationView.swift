@@ -7,7 +7,7 @@ protocol OracleTextExplanationViewDelegate: AnyObject {
 
 final class OracleTextExplanationViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
-    // MARK: - Properties
+    
     
     weak var delegate: OracleTextExplanationViewDelegate?
     weak var wrapperView: OracleTextExplanationView?
@@ -20,7 +20,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     private let mlxManager = MLXModelManager.shared
     private var deity: Deity?
     
-    // MARK: - UI Components
+    
     
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -33,14 +33,14 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     private let loadingView = PapyrusLoadingView(style: .oracle)
     private let saveButton = UIButton(type: .system)
     
-    // Download UI components
+    
     private let downloadContainerView = UIView()
     private let downloadLoadingView = PapyrusLoadingView(style: .download)
     private let downloadButton = UIButton(type: .system)
     
     private var gradientLayer: CAGradientLayer?
     
-    // MARK: - Initialization
+    
     
     init(selectedText: String, bookContext: String, deityId: String) {
         self.selectedText = selectedText
@@ -48,7 +48,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         self.deityId = deityId
         super.init(nibName: nil, bundle: nil)
         
-        // Configure for sheet presentation
+        
         if let sheet = sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -61,33 +61,33 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadDeity()
         setupUI()
         
-        // Check if model is loaded
+        
         if mlxManager.isModelLoaded {
-            // Model is loaded, start streaming
+            
             downloadContainerView.isHidden = true
             responseTextView.isHidden = false
             startStreamingExplanation()
         } else {
-            // Model needs to be downloaded
+            
             downloadContainerView.isHidden = false
             responseTextView.isHidden = true
             setupDownloadUI()
         }
         
-        // Set presentation controller delegate to detect actual dismissal
+        
         presentationController?.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // Update gradient frame
+        
         gradientLayer?.frame = headerView.bounds
     }
     
@@ -103,39 +103,39 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         streamingTask?.cancel()
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.background
         
-        // Scroll view setup
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInsetAdjustmentBehavior = .automatic
         view.addSubview(scrollView)
         
-        // Content stack view
+        
         contentStackView.axis = .vertical
         contentStackView.spacing = PapyrusDesignSystem.Spacing.large
         contentStackView.alignment = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentStackView)
         
-        // Header with gradient
+        
         setupHeader()
         
-        // Selected text section
+        
         setupSelectedTextSection()
         
-        // Response section
+        
         setupResponseSection()
         
-        // Save button
+        
         setupSaveButton()
         
-        // Download container
+        
         setupDownloadContainer()
         
-        // Add to content stack
+        
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(selectedTextContainer)
         contentStackView.addArrangedSubview(responseTextView)
@@ -150,7 +150,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         headerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
         headerView.layer.borderWidth = 1
         
-        // Add gradient layer
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
@@ -164,11 +164,11 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(headerStackView)
         
-        // Deity image
+        
         deityImageView.contentMode = .scaleAspectFit
         deityImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Title
+        
         titleLabel.text = "Oracle's Wisdom"
         titleLabel.font = PapyrusDesignSystem.Typography.headline(weight: .bold)
         titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
@@ -176,7 +176,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         
         headerStackView.addArrangedSubview(deityImageView)
         headerStackView.addArrangedSubview(titleLabel)
-        headerStackView.addArrangedSubview(UIView()) // Spacer
+        headerStackView.addArrangedSubview(UIView()) 
         
         NSLayoutConstraint.activate([
             headerStackView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
@@ -226,7 +226,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             right: PapyrusDesignSystem.Spacing.medium
         )
         
-        // Add loading view to response text view
+        
         responseTextView.addSubview(loadingView)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -267,7 +267,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         downloadContainerView.isHidden = true
         downloadContainerView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add download loading view
+        
         downloadContainerView.addSubview(downloadLoadingView)
         downloadLoadingView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -282,7 +282,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     }
     
     private func setupDownloadUI() {
-        // Update download loading view
+        
         if DeviceUtility.isSimulator {
             downloadLoadingView.updateTitle("Simulator Mode")
             downloadLoadingView.updateSubtitle("The Oracle runs on device. Use a physical device to experience divine wisdom.")
@@ -291,7 +291,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             downloadLoadingView.updateSubtitle("Download the Oracle model to unlock divine explanations.")
         }
         
-        // Add download button
+        
         downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Oracle Model", for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = deity?.color != nil ? UIColor(hex: deity!.color) : PapyrusDesignSystem.Colors.goldLeaf
@@ -314,28 +314,28 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Scroll view
+            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            // Content stack view
+            
             contentStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: PapyrusDesignSystem.Spacing.medium),
             contentStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             contentStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -PapyrusDesignSystem.Spacing.medium * 2),
             
-            // Header view
+            
             headerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
         ])
     }
     
-    // MARK: - Data Loading
+    
     
     private func loadDeity() {
-        // Load deity from content loader or use default
+        
         let contentLoader = ContentLoader()
         let loadedDeities = contentLoader.loadDeities()
         if let matchedDeity = loadedDeities.values.first(where: { $0.id.lowercased() == deityId.lowercased() }) {
@@ -347,7 +347,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     private func updateDeityUI() {
         guard let deity = deity else { return }
         
-        // Update deity image
+        
         if let symbolImage = UIImage(systemName: deity.avatar) {
             deityImageView.image = symbolImage
             deityImageView.tintColor = UIColor(hex: deity.color) ?? PapyrusDesignSystem.Colors.goldLeaf
@@ -356,10 +356,10 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             deityImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
         }
         
-        // Update title with deity name
+        
         titleLabel.text = "\(deity.name)'s Wisdom"
         
-        // Update colors
+        
         let deityColor = UIColor(hex: deity.color) ?? PapyrusDesignSystem.Colors.goldLeaf
         loadingView.setDeityColor(deityColor)
         downloadLoadingView.setDeityColor(deityColor)
@@ -370,7 +370,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         let deityColor = deity?.color != nil ? UIColor(hex: deity!.color) : PapyrusDesignSystem.Colors.goldLeaf
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
-        // Update gradient
+        
         if isDarkMode {
             gradientLayer?.colors = [
                 (deityColor?.withAlphaComponent(0.3) ?? UIColor.clear).cgColor,
@@ -383,12 +383,12 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             ]
         }
         
-        // Update borders
+        
         headerView.layer.borderColor = deityColor?.withAlphaComponent(0.3).cgColor ?? PapyrusDesignSystem.Colors.aged.cgColor
         downloadContainerView.layer.borderColor = deityColor?.withAlphaComponent(0.3).cgColor ?? PapyrusDesignSystem.Colors.aged.cgColor
     }
     
-    // MARK: - Oracle Integration
+    
     
     private func startStreamingExplanation() {
         responseTextView.text = ""
@@ -396,10 +396,10 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         
         streamingTask = Task {
             do {
-                // Ensure model is loaded
+                
                 if !mlxService.isModelLoaded {
                     try await mlxService.loadModel { progress in
-                        // Progress handled internally
+                        
                     }
                 }
                 
@@ -431,7 +431,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 let stream = try await mlxService.generate(messages: messages, config: config)
                 
                 await MainActor.run {
-                    // Update title to "The Eternal" when streaming starts
+                    
                     self.titleLabel.text = "The Eternal"
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
@@ -439,7 +439,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 
                 var fullText = ""
                 for try await chunk in stream {
-                    // Check for cancellation
+                    
                     try Task.checkCancellation()
                     guard !Task.isCancelled else { break }
                     
@@ -448,7 +448,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     await MainActor.run {
                         self.responseTextView.text = fullText
                         
-                        // Auto-scroll to bottom as text streams in
+                        
                         if self.responseTextView.contentSize.height > self.responseTextView.bounds.height {
                             let bottomOffset = CGPoint(
                                 x: 0,
@@ -466,7 +466,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 }
                 
             } catch {
-                // Don't show error if task was cancelled
+                
                 if error is CancellationError || Task.isCancelled {
                     return
                 }
@@ -481,7 +481,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func downloadButtonTapped() {
         guard !DeviceUtility.isSimulator else { return }
@@ -517,7 +517,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                         
                         self.downloadLoadingView.updateProgress(progress.progress, withText: statusText)
                         
-                        // Check if download completed
+                        
                         if progress.progress >= 1.0 {
                             UIView.animate(withDuration: 0.3) {
                                 self.downloadContainerView.alpha = 0
@@ -535,7 +535,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     self.downloadButton.isHidden = false
                     self.downloadLoadingView.stopAnimating()
                     
-                    // Show error alert
+                    
                     let alert = UIAlertController(
                         title: "Download Failed",
                         message: "Unable to download the Oracle model. Please check your internet connection and try again.",
@@ -549,10 +549,10 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     }
     
     @objc private func saveTapped() {
-        // Haptic feedback
+        
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
-        // Animate button
+        
         UIView.animate(withDuration: 0.1, animations: {
             self.saveButton.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         }) { _ in
@@ -561,25 +561,25 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             }
         }
         
-        // Notify delegate
+        
         if let wrapper = wrapperView {
             delegate?.oracleTextExplanationView(wrapper, didSaveExplanation: oracleResponse, for: selectedText)
         }
         
-        // Change button state
+        
         var config = saveButton.configuration
         config?.title = "Saved!"
         config?.image = UIImage(systemName: "bookmark.fill")
         saveButton.configuration = config
         saveButton.isEnabled = false
         
-        // Dismiss after delay
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.dismiss(animated: true)
         }
     }
     
-    // MARK: - UIAdaptivePresentationControllerDelegate
+    
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         streamingTask?.cancel()
@@ -594,9 +594,9 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     }
 }
 
-// MARK: - Compatibility Wrapper
 
-/// Legacy wrapper for compatibility with existing code
+
+
 final class OracleTextExplanationView {
     weak var delegate: OracleTextExplanationViewDelegate?
     private let selectedText: String
@@ -610,14 +610,14 @@ final class OracleTextExplanationView {
     }
     
     func show(in parentView: UIView) {
-        // Find the parent view controller
+        
         guard let parentViewController = parentView.parentViewController else { return }
         
-        // Summon The Eternal instead of using deity-specific oracle
+        
         parentViewController.summonTheEternal(for: selectedText, context: bookContext, from: parentViewController)
         
-        // For backwards compatibility with delegate pattern
-        // The Eternal doesn't use delegates, so we simulate the save callback
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
             guard let self = self else { return }
             self.delegate?.oracleTextExplanationView(self, didSaveExplanation: "The Eternal's wisdom has been received", for: self.selectedText)
@@ -625,7 +625,7 @@ final class OracleTextExplanationView {
     }
 }
 
-// MARK: - UIView Extension
+
 
 private extension UIView {
     var parentViewController: UIViewController? {

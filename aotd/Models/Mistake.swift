@@ -28,13 +28,13 @@ struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
         self.correctAnswer = correctAnswer
         self.reviewCount = 0
         self.lastReviewed = nil
-        self.nextReview = Date() // Available for immediate review
+        self.nextReview = Date() 
         self.createdAt = Date()
         self.mastered = false
     }
     
     mutating func didInsert(with rowID: Int64, for column: String?) {
-        // Called after insert
+        
     }
     
     mutating func markReviewed(wasCorrect: Bool) {
@@ -42,13 +42,13 @@ struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
         lastReviewed = Date()
         
         if wasCorrect {
-            // Spaced repetition algorithm
+            
             let intervals: [TimeInterval] = [
-                60 * 60,        // 1 hour
-                60 * 60 * 24,   // 1 day
-                60 * 60 * 24 * 3,  // 3 days
-                60 * 60 * 24 * 7,  // 1 week
-                60 * 60 * 24 * 30  // 1 month
+                60 * 60,        
+                60 * 60 * 24,   
+                60 * 60 * 24 * 3,  
+                60 * 60 * 24 * 7,  
+                60 * 60 * 24 * 30  
             ]
             
             let index = min(reviewCount - 1, intervals.count - 1)
@@ -56,14 +56,14 @@ struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
                 nextReview = Date().addingTimeInterval(intervals[index])
             }
             
-            // Master after 5 successful reviews
+            
             if reviewCount >= 5 {
                 mastered = true
             }
         } else {
-            // Reset on incorrect answer
+            
             reviewCount = 0
-            nextReview = Date() // Available immediately
+            nextReview = Date() 
             mastered = false
         }
     }
@@ -88,7 +88,7 @@ struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
     }
 }
 
-// MARK: - MistakeSession for tracking review sessions
+
 struct MistakeSession: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
@@ -113,7 +113,7 @@ struct MistakeSession: Codable, FetchableRecord, MutablePersistableRecord {
     }
     
     mutating func didInsert(with rowID: Int64, for column: String?) {
-        // Called after insert
+        
     }
     
     mutating func complete(correctCount: Int, xpEarned: Int) {

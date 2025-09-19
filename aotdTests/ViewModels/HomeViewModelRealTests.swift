@@ -10,7 +10,7 @@ final class HomeViewModelRealTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // Create a test database in memory
+        
         testDatabaseManager = DatabaseManager(inMemory: true)
         
         let contentLoader = ContentLoader()
@@ -24,21 +24,21 @@ final class HomeViewModelRealTests: XCTestCase {
     }
     
     func testHomeViewModelLoadsBeliefSystemsAsPathItems() {
-        // Given
+        
         let expectation = XCTestExpectation(description: "Data loaded")
         viewModel.onDataUpdate = {
             expectation.fulfill()
         }
         
-        // When
+        
         viewModel.loadData()
         
-        // Then
+        
         wait(for: [expectation], timeout: 1.0)
         
         XCTAssertGreaterThan(viewModel.pathItems.count, 0, "Should have loaded path items")
         
-        // Verify each path item has required properties
+        
         for pathItem in viewModel.pathItems {
             XCTAssertFalse(pathItem.id.isEmpty, "Path item should have an ID")
             XCTAssertFalse(pathItem.name.isEmpty, "Path item should have a name")
@@ -49,7 +49,7 @@ final class HomeViewModelRealTests: XCTestCase {
     }
     
     func testSelectPathTriggersCallback() {
-        // Given
+        
         viewModel.loadData()
         
         var selectedBeliefSystemId: String?
@@ -60,7 +60,7 @@ final class HomeViewModelRealTests: XCTestCase {
             selectionExpectation.fulfill()
         }
         
-        // When
+        
         guard let firstPath = viewModel.pathItems.first else {
             XCTFail("No path items loaded")
             return
@@ -68,13 +68,13 @@ final class HomeViewModelRealTests: XCTestCase {
         
         viewModel.selectPath(firstPath)
         
-        // Then
+        
         wait(for: [selectionExpectation], timeout: 1.0)
         XCTAssertEqual(selectedBeliefSystemId, firstPath.id, "Should have selected the correct belief system")
     }
     
     func testPathCompletionModalLogic() {
-        // This tests the logic that determines when to show completion modal
+        
         struct CompletionTest {
             let status: aotd.Progress.ProgressStatus
             let shouldShowModal: Bool
@@ -88,7 +88,7 @@ final class HomeViewModelRealTests: XCTestCase {
         ]
         
         for test in tests {
-            // The actual logic from HomeViewController
+            
             let shouldShow = test.status == .completed || test.status == .mastered
             XCTAssertEqual(shouldShow, test.shouldShowModal,
                           "Status \(test.status) should \(test.shouldShowModal ? "show" : "not show") modal")
@@ -96,7 +96,7 @@ final class HomeViewModelRealTests: XCTestCase {
     }
     
     func testMasterTestEligibilityCalculation() {
-        // Test the 80% threshold calculation
+        
         struct EligibilityTest {
             let currentXP: Int
             let totalXP: Int
@@ -123,16 +123,16 @@ final class HomeViewModelRealTests: XCTestCase {
     }
     
     func testDataUpdateCallbackOnLoad() {
-        // Given
+        
         var updateCount = 0
         viewModel.onDataUpdate = {
             updateCount += 1
         }
         
-        // When
+        
         viewModel.loadData()
         
-        // Then
+        
         XCTAssertEqual(updateCount, 1, "Should call data update callback once on load")
     }
 }

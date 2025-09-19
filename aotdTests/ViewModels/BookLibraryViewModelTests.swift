@@ -10,10 +10,10 @@ final class BookLibraryViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // Create test database
+        
         databaseManager = try! DatabaseManager(inMemory: true)
         
-        // Create test user
+        
         var user = User(id: "test-user", name: "Test User", email: "test@example.com")
         try! databaseManager.dbQueue.write { db in
             try user.save(db)
@@ -31,7 +31,7 @@ final class BookLibraryViewModelTests: XCTestCase {
     }
     
     func testBookUnlockStatusCheck() {
-        // Given
+        
         let chapter = Chapter(
             id: "ch1",
             bookId: "test-book",
@@ -43,7 +43,7 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         let book = Book(
             id: "test-book",
-            beliefSystemId: "christianity", // This should be locked by default
+            beliefSystemId: "christianity", 
             title: "Test Book",
             author: "Test Author",
             chapters: [chapter],
@@ -53,15 +53,15 @@ final class BookLibraryViewModelTests: XCTestCase {
             updatedAt: Date()
         )
         
-        // When
+        
         let isUnlocked = viewModel.isBookUnlocked(book)
         
-        // Then
+        
         XCTAssertFalse(isUnlocked, "Book for paid path should be locked")
     }
     
     func testFreePathBooksAreUnlocked() {
-        // Given
+        
         let chapter = Chapter(
             id: "ch1",
             bookId: "test-book",
@@ -73,7 +73,7 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         let book = Book(
             id: "test-book",
-            beliefSystemId: "judaism", // Judaism is free
+            beliefSystemId: "judaism", 
             title: "Test Book",
             author: "Test Author",
             chapters: [chapter],
@@ -83,15 +83,15 @@ final class BookLibraryViewModelTests: XCTestCase {
             updatedAt: Date()
         )
         
-        // When
+        
         let isUnlocked = viewModel.isBookUnlocked(book)
         
-        // Then
+        
         XCTAssertTrue(isUnlocked, "Book for free path should be unlocked")
     }
     
     func testLoadBooksCategorizesCorrectly() {
-        // Given
+        
         let expectation = expectation(description: "Books loaded")
         var booksLoaded = false
         
@@ -100,7 +100,7 @@ final class BookLibraryViewModelTests: XCTestCase {
             expectation.fulfill()
         }
         
-        // Add some test books
+        
         let chapter1 = Chapter(
             id: "ch1",
             bookId: "book1",
@@ -112,7 +112,7 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         var book1 = Book(
             id: "book1",
-            beliefSystemId: "judaism", // Free
+            beliefSystemId: "judaism", 
             title: "Book 1",
             author: "Author 1",
             chapters: [chapter1],
@@ -133,7 +133,7 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         var book2 = Book(
             id: "book2",
-            beliefSystemId: "christianity", // Locked
+            beliefSystemId: "christianity", 
             title: "Book 2",
             author: "Author 2",
             chapters: [chapter2],
@@ -148,15 +148,15 @@ final class BookLibraryViewModelTests: XCTestCase {
             try book2.save(db)
         }
         
-        // When
+        
         viewModel.loadBooks()
         
-        // Then
+        
         waitForExpectations(timeout: 1.0) { error in
             XCTAssertNil(error)
             XCTAssertTrue(booksLoaded)
             
-            // Available books should be sorted with unlocked first
+            
             XCTAssertEqual(self.viewModel.availableBooks.count, 2)
             XCTAssertEqual(self.viewModel.availableBooks.first?.beliefSystemId, "judaism", "Unlocked book should be first")
             XCTAssertEqual(self.viewModel.availableBooks.last?.beliefSystemId, "christianity", "Locked book should be last")
@@ -164,14 +164,14 @@ final class BookLibraryViewModelTests: XCTestCase {
     }
     
     func testReadingBooksIncludeUnlockStatus() {
-        // Given
+        
         let expectation = expectation(description: "Books loaded")
         
         viewModel.onBooksUpdate = {
             expectation.fulfill()
         }
         
-        // Add a book with progress
+        
         let chapter = Chapter(
             id: "ch1",
             bookId: "book1",
@@ -183,7 +183,7 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         var book = Book(
             id: "book1",
-            beliefSystemId: "christianity", // Locked
+            beliefSystemId: "christianity", 
             title: "Book 1",
             author: "Author 1",
             chapters: [chapter],
@@ -197,7 +197,7 @@ final class BookLibraryViewModelTests: XCTestCase {
             try book.save(db)
         }
         
-        // Add reading progress
+        
         var progress = BookProgress(
             id: UUID().uuidString,
             userId: "test-user",
@@ -216,10 +216,10 @@ final class BookLibraryViewModelTests: XCTestCase {
             try progress.save(db)
         }
         
-        // When
+        
         viewModel.loadBooks()
         
-        // Then
+        
         waitForExpectations(timeout: 1.0) { error in
             XCTAssertNil(error)
             

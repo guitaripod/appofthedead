@@ -2,7 +2,7 @@ import UIKit
 
 class TransparentCardCell: UITableViewCell {
     
-    // MARK: - Properties
+    
     
     private let containerView: UIView = {
         let view = UIView()
@@ -12,7 +12,7 @@ class TransparentCardCell: UITableViewCell {
         return view
     }()
     
-    // MARK: - Initialization
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,7 +23,7 @@ class TransparentCardCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         backgroundColor = .clear
@@ -38,19 +38,19 @@ class TransparentCardCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         ])
         
-        // Add flexible height constraint
+        
         let heightConstraint = containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
         heightConstraint.priority = .defaultHigh
         heightConstraint.isActive = true
     }
     
-    // MARK: - Configuration
+    
     
     func configure(text: String, detailText: String? = nil, textColor: UIColor? = nil, accessoryType: UITableViewCell.AccessoryType = .none) {
-        // Clear existing labels
+        
         containerView.subviews.forEach { $0.removeFromSuperview() }
         
-        // Main label
+        
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = text
@@ -58,7 +58,7 @@ class TransparentCardCell: UITableViewCell {
         titleLabel.textColor = textColor ?? UIColor.Papyrus.primaryText
         containerView.addSubview(titleLabel)
         
-        // Detail label if provided
+        
         if let detailText = detailText {
             let detailLabel = UILabel()
             detailLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +74,7 @@ class TransparentCardCell: UITableViewCell {
             ])
         }
         
-        // Accessory view
+        
         if accessoryType == .disclosureIndicator {
             let chevron = UIImageView(image: UIImage(systemName: "chevron.right"))
             chevron.translatesAutoresizingMaskIntoConstraints = false
@@ -115,7 +115,7 @@ class TransparentCardCell: UITableViewCell {
         ])
     }
     
-    // MARK: - Touch Feedback
+    
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
@@ -134,7 +134,7 @@ class TransparentCardCell: UITableViewCell {
     }
 }
 
-// MARK: - Section Header View
+
 
 class TransparentSectionHeaderView: UIView {
     

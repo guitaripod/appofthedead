@@ -1,10 +1,10 @@
 import UIKit
 
-// MARK: - UIColor Hex String Extension
+
 
 extension UIColor {
-    /// Creates a UIColor from a hex string
-    /// - Parameter hex: Hex color string in format "#RRGGBB" or "RRGGBB"
+    
+    
     convenience init?(hex: String) {
         let r, g, b: CGFloat
         
@@ -27,13 +27,13 @@ extension UIColor {
     }
 }
 
-// MARK: - Papyrus Color Convenience
+
 
 extension UIColor {
-    /// Convenience accessor for Papyrus design system colors
-    /// Use PapyrusDesignSystem.Colors for the full color library
+    
+    
     struct Papyrus {
-        // Core colors - map to design system
+        
         static let beige = PapyrusDesignSystem.Colors.Core.beige
         static let ink = PapyrusDesignSystem.Colors.Core.ancientInk
         static let gold = PapyrusDesignSystem.Colors.Core.goldLeaf
@@ -45,7 +45,7 @@ extension UIColor {
         static let mysticPurple = PapyrusDesignSystem.Colors.Core.mysticPurple
         static let scarabGreen = PapyrusDesignSystem.Colors.Core.scarabGreen
         
-        // Dynamic colors - map to design system
+        
         static var primaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.primaryText }
         static var secondaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.secondaryText }
         static var tertiaryText: UIColor { PapyrusDesignSystem.Colors.Dynamic.tertiaryText }

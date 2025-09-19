@@ -65,7 +65,7 @@ final class UserTests: XCTestCase {
     func testLevelCalculation() throws {
         var user = User(name: "Test User", email: "test@example.com")
         
-        // Test various XP levels
+        
         user.addXP(0)
         XCTAssertEqual(user.currentLevel, 1)
         

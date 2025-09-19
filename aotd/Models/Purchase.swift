@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-// MARK: - Purchase Model
+
 struct Purchase: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
@@ -52,9 +52,9 @@ struct Purchase: Codable, FetchableRecord, MutablePersistableRecord {
     }
 }
 
-// MARK: - Product Identifiers
+
 enum ProductIdentifier: String, CaseIterable {
-    // Individual Paths
+    
     case christianity = "com.appofthedead.path.christianity"
     case islam = "com.appofthedead.path.islam"
     case buddhism = "com.appofthedead.path.buddhism"
@@ -77,13 +77,13 @@ enum ProductIdentifier: String, CaseIterable {
     case theosophy = "com.appofthedead.path.theosophy"
     case swedenborgian = "com.appofthedead.path.swedenborgian"
     
-    // Oracle Access
+    
     case oracleWisdom = "com.appofthedead.oracle.wisdom"
     
-    // Ultimate Pack
+    
     case ultimateEnlightenment = "com.appofthedead.ultimate"
     
-    // Deity Packs
+    
     case egyptianPantheon = "com.appofthedead.deities.egyptian"
     case greekGuides = "com.appofthedead.deities.greek"
     case easternWisdom = "com.appofthedead.deities.eastern"
@@ -182,7 +182,7 @@ enum ProductIdentifier: String, CaseIterable {
     }
 }
 
-// MARK: - Entitlement Types
+
 enum EntitlementType: String {
     case pathAccess = "path_access"
     case oracleUnlimited = "oracle_unlimited"

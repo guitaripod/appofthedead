@@ -67,7 +67,7 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
-        // Register custom cells
+        
         tableView.register(ExpandableLayoutCell.self, forCellReuseIdentifier: "ExpandableLayoutCell")
         tableView.register(TransparentCardCell.self, forCellReuseIdentifier: "TransparentCardCell")
     }
@@ -109,7 +109,7 @@ final class SettingsViewController: UIViewController {
     
 }
 
-// MARK: - UITableViewDataSource
+
 
 extension SettingsViewController: UITableViewDataSource {
     
@@ -199,7 +199,7 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
+
 
 extension SettingsViewController: UITableViewDelegate {
     
@@ -222,7 +222,7 @@ extension SettingsViewController: UITableViewDelegate {
                         cell.toggleExpansion()
                     }
                 case .streamingHaptics:
-                    // No action needed for switch cells
+                    
                     break
                 }
             }
@@ -231,7 +231,7 @@ extension SettingsViewController: UITableViewDelegate {
             if let row = AboutRow(rawValue: indexPath.row) {
                 switch row {
                 case .version:
-                    break // No action for version
+                    break 
                 case .privacyPolicy, .termsOfService:
                     showComingSoon(feature: row.title)
                 }
@@ -248,15 +248,15 @@ extension SettingsViewController: UITableViewDelegate {
               sectionType == .experience,
               let row = ExperienceRow(rawValue: indexPath.row),
               row == .viewLayout else {
-            return 52 // Default height with padding
+            return 52 
         }
         
-        // Expandable cell estimated height
+        
         return 52
     }
 }
 
-// MARK: - SwitchTableViewCell
+
 
 private class SwitchTableViewCell: UITableViewCell {
     

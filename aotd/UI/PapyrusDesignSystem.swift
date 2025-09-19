@@ -1,110 +1,110 @@
 import UIKit
 
-// MARK: - Papyrus Design System
-// A comprehensive design framework inspired by ancient papyrus manuscripts
-// while maintaining iOS Human Interface Guidelines
 
-/// A comprehensive design framework inspired by ancient papyrus manuscripts
-/// while maintaining iOS Human Interface Guidelines.
-///
-/// ## Overview
-/// The Papyrus Design System provides a unified visual language for the App of the Dead,
-/// combining ancient aesthetics with modern iOS design principles.
-///
-/// ## Topics
-/// ### Colors
-/// - ``Colors``
-/// ### Typography
-/// - ``Typography``
-/// ### Spacing & Layout
-/// - ``Spacing``
-/// - ``CornerRadius``
-/// ### Visual Effects
-/// - ``Shadow``
-/// - ``Border``
-/// - ``Animation``
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 enum PapyrusDesignSystem {
     
-    // MARK: - Unified Color System
     
-    /// The comprehensive color system for the App of the Dead.
-    ///
-    /// ## Overview
-    /// Colors are organized into semantic groups that adapt to light and dark modes automatically.
-    /// The color system is inspired by ancient Egyptian papyrus manuscripts while maintaining
-    /// excellent readability and accessibility.
-    ///
-    /// ## Color Categories
-    /// - **Core**: Base theme colors inspired by papyrus and ancient inks
-    /// - **Semantic**: Colors with specific UI meanings (success, error, etc.)
-    /// - **Dynamic**: Colors that automatically adapt to light/dark mode
-    /// - **Component**: Pre-configured colors for specific UI components
-    ///
-    /// ## Usage Example
-    /// ```swift
-    /// // Using core colors
-    /// view.backgroundColor = PapyrusDesignSystem.Colors.Core.beige
-    /// 
-    /// // Using dynamic colors (recommended)
-    /// label.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
-    /// 
-    /// // Using semantic colors
-    /// errorView.backgroundColor = PapyrusDesignSystem.Colors.Semantic.error
-    /// ```
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     enum Colors {
-        // MARK: - Core Theme Colors
         
-        /// Core theme colors inspired by ancient papyrus manuscripts.
-        ///
-        /// These colors form the foundation of the Papyrus design system and are
-        /// carefully chosen to evoke the feeling of ancient texts while maintaining
-        /// modern usability standards.
+        
+        
+        
+        
+        
+        
         enum Core {
-            /// The primary papyrus background color - a warm, aged paper tone
+            
             static let beige = UIColor(red: 243/255, green: 237/255, blue: 214/255, alpha: 1.0)
             
-            /// Deep ink color for primary text - inspired by ancient writing implements
+            
             static let ancientInk = UIColor(red: 42/255, green: 32/255, blue: 24/255, alpha: 1.0)
             
-            /// Luxurious gold accent - represents divine knowledge and achievement
+            
             static let goldLeaf = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1.0)
             
-            /// Egyptian blue - used for sacred texts and important UI elements
+            
             static let hieroglyphBlue = UIColor(red: 45/255, green: 85/255, blue: 125/255, alpha: 1.0)
             
-            /// Deep red - for warnings and destructive actions
+            
             static let tombRed = UIColor(red: 139/255, green: 35/255, blue: 35/255, alpha: 1.0)
             
-            /// Light stone color - for secondary backgrounds and cards
+            
             static let sandstone = UIColor(red: 226/255, green: 218/255, blue: 196/255, alpha: 1.0)
             
-            /// Aged papyrus - for borders and disabled states
+            
             static let aged = UIColor(red: 209/255, green: 196/255, blue: 162/255, alpha: 1.0)
             
-            /// Darker gold - for pressed states and emphasis
+            
             static let burnishedGold = UIColor(red: 184/255, green: 134/255, blue: 11/255, alpha: 1.0)
             
-            /// Mystical purple - for special achievements and rare content
+            
             static let mysticPurple = UIColor(red: 102/255, green: 51/255, blue: 153/255, alpha: 1.0)
             
-            /// Sacred scarab green - for success states and positive feedback
+            
             static let scarabGreen = UIColor(red: 60/255, green: 110/255, blue: 60/255, alpha: 1.0)
             
-            // MARK: Dark Mode Base Colors
             
-            /// Dark mode primary background - deep charcoal papyrus
+            
+            
             static let darkBackground = UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0)
             
-            /// Dark mode card background - slightly elevated surface
+            
             static let darkCard = UIColor(red: 38/255, green: 34/255, blue: 30/255, alpha: 1.0)
         }
         
-        // MARK: - Semantic Colors
         
-        /// Colors with specific semantic meaning in the UI.
-        ///
-        /// Use these colors to communicate state and provide consistent feedback
-        /// across the application.
+        
+        
+        
+        
+        
         enum Semantic {
             static let success = Core.scarabGreen
             static let error = Core.tombRed
@@ -113,16 +113,16 @@ enum PapyrusDesignSystem {
             static let disabled = Core.aged.withAlphaComponent(0.6)
         }
         
-        // MARK: - Dynamic Colors
         
-        /// Colors that automatically adapt based on the user's interface style.
-        ///
-        /// These are the recommended colors for most UI elements as they provide
-        /// optimal contrast and readability in both light and dark modes.
-        ///
-        /// ## Important
-        /// Always prefer dynamic colors over static Core colors for text and backgrounds
-        /// to ensure proper dark mode support.
+        
+        
+        
+        
+        
+        
+        
+        
+        
         enum Dynamic {
             static var background: UIColor {
                 UIColor { traitCollection in
@@ -175,12 +175,12 @@ enum PapyrusDesignSystem {
             }
         }
         
-        // MARK: - Component Colors
         
-        /// Pre-configured color combinations for specific UI components.
-        ///
-        /// These color sets ensure consistent styling across similar components
-        /// and maintain the design system's visual coherence.
+        
+        
+        
+        
+        
         enum Component {
             enum Button {
                 static var primaryBackground: UIColor { Core.goldLeaf }
@@ -206,8 +206,8 @@ enum PapyrusDesignSystem {
             }
         }
         
-        // MARK: - Legacy Mappings
-        // For backward compatibility during refactoring
+        
+        
         
         static let beige = Core.beige
         static let ancientInk = Core.ancientInk
@@ -237,14 +237,14 @@ enum PapyrusDesignSystem {
         static var foreground: UIColor { Dynamic.primaryText }
     }
     
-    // MARK: - Typography
+    
     
     enum Typography {
-        // Custom font names (will use system fonts as fallback)
-        static let papyrusFont = "Papyrus" // Will use if available
-        static let hieroglyphicFont = "American Typewriter" // Alternative ancient feel
         
-        // Font Styles
+        static let papyrusFont = "Papyrus" 
+        static let hieroglyphicFont = "American Typewriter" 
+        
+        
         static func largeTitle(weight: UIFont.Weight = .bold) -> UIFont {
             if let font = UIFont(name: papyrusFont, size: 34) {
                 return font
@@ -308,7 +308,7 @@ enum PapyrusDesignSystem {
         }
     }
     
-    // MARK: - Spacing & Layout
+    
     
     enum Spacing {
         static let xxSmall: CGFloat = 4
@@ -320,17 +320,17 @@ enum PapyrusDesignSystem {
         static let xxLarge: CGFloat = 48
     }
     
-    // MARK: - Corner Radius
+    
     
     enum CornerRadius {
         static let small: CGFloat = 8
         static let medium: CGFloat = 12
         static let large: CGFloat = 16
         static let xLarge: CGFloat = 24
-        static let rounded: CGFloat = 9999 // For circular elements
+        static let rounded: CGFloat = 9999 
     }
     
-    // MARK: - Shadows
+    
     
     enum Shadow {
         static func papyrus(color: UIColor = .black) -> (color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
@@ -346,7 +346,7 @@ enum PapyrusDesignSystem {
         }
     }
     
-    // MARK: - Borders
+    
     
     enum Border {
         static let width: CGFloat = 1.5
@@ -361,7 +361,7 @@ enum PapyrusDesignSystem {
         }
     }
     
-    // MARK: - Animations
+    
     
     enum Animation {
         static let quick: TimeInterval = 0.2
@@ -373,11 +373,11 @@ enum PapyrusDesignSystem {
         static let springVelocity: CGFloat = 0.5
     }
     
-    // MARK: - Textures & Patterns
+    
     
     enum Texture {
         static func papyrusPattern() -> UIColor {
-            // Create a subtle papyrus texture pattern
+            
             UIColor(patternImage: createPapyrusTexture())
         }
         
@@ -385,16 +385,16 @@ enum PapyrusDesignSystem {
             let size = CGSize(width: 100, height: 100)
             UIGraphicsBeginImageContextWithOptions(size, false, 0)
             
-            // Base papyrus color
+            
             Colors.beige.setFill()
             UIRectFill(CGRect(origin: .zero, size: size))
             
-            // Add subtle texture lines
+            
             let context = UIGraphicsGetCurrentContext()!
             context.setStrokeColor(Colors.aged.withAlphaComponent(0.1).cgColor)
             context.setLineWidth(0.5)
             
-            // Random papyrus fibers
+            
             for _ in 0..<20 {
                 let startX = CGFloat.random(in: 0...size.width)
                 let startY = CGFloat.random(in: 0...size.height)
@@ -413,10 +413,10 @@ enum PapyrusDesignSystem {
         }
     }
     
-    // MARK: - Component Styles
+    
     
     enum ComponentStyle {
-        // Card Style
+        
         static func applyPapyrusCard(to view: UIView, elevated: Bool = false) {
             view.backgroundColor = Colors.Component.Card.background
             view.layer.cornerRadius = CornerRadius.large
@@ -434,7 +434,7 @@ enum PapyrusDesignSystem {
             }
         }
         
-        // Button Style
+        
         static func applyPapyrusButton(to button: UIButton, style: ButtonStyle = .primary) {
             var config = UIButton.Configuration.filled()
             
@@ -469,7 +469,7 @@ enum PapyrusDesignSystem {
     }
 }
 
-// MARK: - UIView Extensions
+
 
 extension UIView {
     func applyPapyrusBackground() {
@@ -498,7 +498,7 @@ extension UIView {
     }
 }
 
-// MARK: - UILabel Extensions
+
 
 extension UILabel {
     func applyPapyrusStyle(_ style: TextStyle) {

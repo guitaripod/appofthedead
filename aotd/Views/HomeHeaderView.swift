@@ -2,14 +2,14 @@ import UIKit
 
 final class HomeHeaderView: UICollectionReusableView {
     
-    // MARK: - Properties
+    
     
     weak var delegate: HomeHeaderViewDelegate?
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "App of the Dead"
-        // Try to use Papyrus font if available, otherwise use system font
+        
         if let papyrusFont = UIFont(name: "Papyrus", size: 34) {
             label.font = papyrusFont
         } else {
@@ -168,7 +168,7 @@ final class HomeHeaderView: UICollectionReusableView {
         return stack
     }()
     
-    // MARK: - Initialization
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -179,7 +179,7 @@ final class HomeHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         backgroundColor = UIColor.Papyrus.background
@@ -205,7 +205,7 @@ final class HomeHeaderView: UICollectionReusableView {
         ])
     }
     
-    // MARK: - Configuration
+    
     
     func configure(xp: Int, streak: Int, isSignedIn: Bool = false, userName: String? = nil) {
         xpLabel.text = "\(xp)"
@@ -230,14 +230,14 @@ final class HomeHeaderView: UICollectionReusableView {
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func profileButtonTapped() {
         delegate?.profileButtonTapped()
     }
 }
 
-// MARK: - HomeHeaderViewDelegate
+
 
 protocol HomeHeaderViewDelegate: AnyObject {
     func profileButtonTapped()

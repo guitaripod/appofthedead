@@ -2,7 +2,7 @@ import UIKit
 
 final class DeityListCell: UITableViewCell {
     
-    // MARK: - Properties
+    
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -12,7 +12,7 @@ final class DeityListCell: UITableViewCell {
         view.layer.borderColor = UIColor.Papyrus.aged.cgColor
         view.backgroundColor = UIColor.Papyrus.cardBackground
         
-        // Subtle shadow
+        
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.1
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -83,7 +83,7 @@ final class DeityListCell: UITableViewCell {
         return stack
     }()
     
-    // MARK: - Initialization
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,7 +94,7 @@ final class DeityListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         backgroundColor = .clear
@@ -110,36 +110,36 @@ final class DeityListCell: UITableViewCell {
         containerView.addSubview(selectionIndicator)
         
         NSLayoutConstraint.activate([
-            // Container
+            
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
             containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 72),
             
-            // Avatar container
+            
             avatarContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             avatarContainerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             avatarContainerView.widthAnchor.constraint(equalToConstant: 48),
             avatarContainerView.heightAnchor.constraint(equalToConstant: 48),
             
-            // Avatar
+            
             avatarImageView.centerXAnchor.constraint(equalTo: avatarContainerView.centerXAnchor),
             avatarImageView.centerYAnchor.constraint(equalTo: avatarContainerView.centerYAnchor),
             avatarImageView.widthAnchor.constraint(equalToConstant: 28),
             avatarImageView.heightAnchor.constraint(equalToConstant: 28),
             
-            // Text stack
+            
             textStackView.leadingAnchor.constraint(equalTo: avatarContainerView.trailingAnchor, constant: 12),
             textStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             textStackView.trailingAnchor.constraint(lessThanOrEqualTo: traditionLabel.leadingAnchor, constant: -8),
             
-            // Tradition label
+            
             traditionLabel.trailingAnchor.constraint(equalTo: selectionIndicator.leadingAnchor, constant: -12),
             traditionLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             traditionLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 80),
             
-            // Selection indicator
+            
             selectionIndicator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             selectionIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             selectionIndicator.widthAnchor.constraint(equalToConstant: 24),
@@ -147,18 +147,18 @@ final class DeityListCell: UITableViewCell {
         ])
     }
     
-    // MARK: - Configuration
+    
     
     func configure(with deity: OracleViewModel.Deity, isSelected: Bool) {
         nameLabel.text = deity.name
         roleLabel.text = deity.role
         traditionLabel.text = deity.tradition.uppercased()
         
-        // Get deity color
+        
         let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         traditionLabel.textColor = deityColor.withAlphaComponent(0.8)
         
-        // Configure avatar
+        
         avatarContainerView.backgroundColor = deityColor.withAlphaComponent(0.9)
         
         let iconName = deity.avatar
@@ -171,14 +171,14 @@ final class DeityListCell: UITableViewCell {
         }
         avatarImageView.tintColor = .white
         
-        // Selection state
+        
         selectionIndicator.isHidden = !isSelected
         if isSelected {
             containerView.layer.borderColor = UIColor.Papyrus.gold.cgColor
             containerView.layer.borderWidth = 2
             containerView.backgroundColor = UIColor.Papyrus.cardBackground.withAlphaComponent(0.95)
             
-            // Add subtle glow
+            
             containerView.layer.shadowColor = UIColor.Papyrus.gold.cgColor
             containerView.layer.shadowOpacity = 0.2
             containerView.layer.shadowRadius = 10
@@ -191,7 +191,7 @@ final class DeityListCell: UITableViewCell {
             containerView.layer.shadowRadius = 6
         }
         
-        // Create gradient overlay for avatar if bounds are valid
+        
         if avatarContainerView.bounds.width > 0 {
             updateAvatarGradient(with: deityColor)
         }
@@ -200,24 +200,24 @@ final class DeityListCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        // Update shadow path
+        
         containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: 12).cgPath
         
-        // Update gradient when bounds are set
+        
         if avatarContainerView.bounds.width > 0, let deityColor = avatarContainerView.backgroundColor {
             updateAvatarGradient(with: deityColor)
         }
     }
     
     private func updateAvatarGradient(with deityColor: UIColor) {
-        // Remove existing gradient layers
+        
         avatarContainerView.layer.sublayers?.forEach { layer in
             if layer is CAGradientLayer {
                 layer.removeFromSuperlayer()
             }
         }
         
-        // Create gradient
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = avatarContainerView.bounds
         gradientLayer.cornerRadius = 24
@@ -231,7 +231,7 @@ final class DeityListCell: UITableViewCell {
         avatarContainerView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
-    // MARK: - Reuse
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -244,20 +244,20 @@ final class DeityListCell: UITableViewCell {
         containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
         containerView.backgroundColor = UIColor.Papyrus.cardBackground
         
-        // Remove gradient layers
+        
         avatarContainerView.layer.sublayers?.forEach { layer in
             if layer is CAGradientLayer {
                 layer.removeFromSuperlayer()
             }
         }
         
-        // Reset shadow
+        
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.shadowRadius = 6
     }
     
-    // MARK: - Touch Feedback
+    
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)

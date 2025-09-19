@@ -1,9 +1,9 @@
 import UIKit
 
-/// A reusable loading view component that matches the papyrus design system
+
 final class PapyrusLoadingView: UIView {
     
-    // MARK: - Types
+    
     
     enum LoadingStyle {
         case oracle
@@ -11,7 +11,7 @@ final class PapyrusLoadingView: UIView {
         case download
     }
     
-    // MARK: - Properties
+    
     
     private let style: LoadingStyle
     private let deityColor: UIColor?
@@ -75,7 +75,7 @@ final class PapyrusLoadingView: UIView {
         return stack
     }()
     
-    // MARK: - Initialization
+    
     
     init(style: LoadingStyle = .standard, deityColor: UIColor? = nil) {
         self.style = style
@@ -89,14 +89,14 @@ final class PapyrusLoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         backgroundColor = .clear
         
         addSubview(containerStackView)
         
-        // Add components based on style
+        
         if style == .oracle || style == .download {
             containerStackView.addArrangedSubview(iconImageView)
         }
@@ -155,13 +155,13 @@ final class PapyrusLoadingView: UIView {
         }
     }
     
-    // MARK: - Public Methods
+    
     
     func startAnimating() {
         loadingIndicator.startAnimating()
         
         if style == .oracle {
-            // Add subtle pulsing animation to icon
+            
             UIView.animate(withDuration: 1.5, delay: 0, options: [.repeat, .autoreverse], animations: {
                 self.iconImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
                 self.iconImageView.alpha = 0.8
@@ -210,7 +210,7 @@ final class PapyrusLoadingView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            // Update colors for dark mode
+            
             titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
             subtitleLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
             progressLabel.textColor = PapyrusDesignSystem.Colors.secondaryText

@@ -27,7 +27,7 @@ class BaseQuestionViewModel {
     }
     
     var xpReward: Int {
-        // Base XP calculation - can be overridden
+        
         10
     }
     

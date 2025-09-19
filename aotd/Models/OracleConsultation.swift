@@ -36,7 +36,7 @@ struct OracleConsultation: Codable, FetchableRecord, MutablePersistableRecord {
         }
     }
     
-    // Get consultation count for a specific deity
+    
     static func getConsultationCount(for userId: String, deityId: String, in db: Database) throws -> Int {
         return try OracleConsultation
             .filter(Column("userId") == userId)
@@ -44,14 +44,14 @@ struct OracleConsultation: Codable, FetchableRecord, MutablePersistableRecord {
             .fetchCount(db)
     }
     
-    // Get total consultations across all deities
+    
     static func getTotalConsultations(for userId: String, in db: Database) throws -> Int {
         return try OracleConsultation
             .filter(Column("userId") == userId)
             .fetchCount(db)
     }
     
-    // Check if user can consult (3 free per deity)
+    
     static func canConsultForFree(userId: String, deityId: String, in db: Database) throws -> Bool {
         let count = try getConsultationCount(for: userId, deityId: deityId, in: db)
         return count < 3

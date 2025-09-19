@@ -10,19 +10,19 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
     var coverImageName: String?
     var chapters: [Chapter]
     var totalWords: Int
-    var estimatedReadingTime: Int // in minutes
+    var estimatedReadingTime: Int 
     var createdAt: Date
     var updatedAt: Date
     
     static let databaseTableName = "books"
     
-    // GRDB database columns
+    
     enum Columns: String, ColumnExpression {
         case id, beliefSystemId, title, author, coverImageName, chapters
         case totalWords, estimatedReadingTime, createdAt, updatedAt
     }
     
-    // Standard initializer
+    
     init(id: String, beliefSystemId: String, title: String, author: String,
          coverImageName: String? = nil, chapters: [Chapter], totalWords: Int,
          estimatedReadingTime: Int, createdAt: Date, updatedAt: Date) {
@@ -38,7 +38,7 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
         self.updatedAt = updatedAt
     }
     
-    // Custom encoding/decoding for chapters blob
+    
     init(row: Row) throws {
         id = row[Columns.id]
         beliefSystemId = row[Columns.beliefSystemId]
@@ -50,7 +50,7 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
         createdAt = row[Columns.createdAt]
         updatedAt = row[Columns.updatedAt]
         
-        // Decode chapters from JSON blob
+        
         let chaptersData: Data = row[Columns.chapters]
         chapters = try JSONDecoder().decode([Chapter].self, from: chaptersData)
     }
@@ -66,7 +66,7 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
         container[Columns.createdAt] = createdAt
         container[Columns.updatedAt] = updatedAt
         
-        // Encode chapters to JSON blob
+        
         container[Columns.chapters] = try JSONEncoder().encode(chapters)
     }
     
@@ -77,7 +77,7 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
             t.column("title", .text).notNull()
             t.column("author", .text).notNull()
             t.column("coverImageName", .text)
-            t.column("chapters", .blob).notNull() // JSON encoded
+            t.column("chapters", .blob).notNull() 
             t.column("totalWords", .integer).notNull()
             t.column("estimatedReadingTime", .integer).notNull()
             t.column("createdAt", .datetime).notNull()
@@ -100,9 +100,9 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
     var userId: String
     var bookId: String
     var currentChapterId: String?
-    var currentPosition: Int // Character position within chapter
-    var readingProgress: Double // 0.0 to 1.0
-    var totalReadingTime: TimeInterval // Total time spent reading
+    var currentPosition: Int 
+    var readingProgress: Double 
+    var totalReadingTime: TimeInterval 
     var lastReadAt: Date?
     var isCompleted: Bool
     var bookmarks: [Bookmark]
@@ -111,14 +111,14 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
     
     static let databaseTableName = "book_progress"
     
-    // GRDB database columns
+    
     enum Columns: String, ColumnExpression {
         case id, userId, bookId, currentChapterId, currentPosition
         case readingProgress, totalReadingTime, lastReadAt, isCompleted
         case bookmarks, createdAt, updatedAt
     }
     
-    // Standard initializer
+    
     init(id: String, userId: String, bookId: String, currentChapterId: String? = nil,
          currentPosition: Int = 0, readingProgress: Double = 0.0,
          totalReadingTime: TimeInterval = 0, lastReadAt: Date? = nil,
@@ -138,7 +138,7 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
         self.updatedAt = updatedAt
     }
     
-    // Custom encoding/decoding for bookmarks blob
+    
     init(row: Row) throws {
         id = row[Columns.id]
         userId = row[Columns.userId]
@@ -152,7 +152,7 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
         createdAt = row[Columns.createdAt]
         updatedAt = row[Columns.updatedAt]
         
-        // Decode bookmarks from JSON blob
+        
         let bookmarksData: Data = row[Columns.bookmarks]
         bookmarks = try JSONDecoder().decode([Bookmark].self, from: bookmarksData)
     }
@@ -170,7 +170,7 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
         container[Columns.createdAt] = createdAt
         container[Columns.updatedAt] = updatedAt
         
-        // Encode bookmarks to JSON blob
+        
         container[Columns.bookmarks] = try JSONEncoder().encode(bookmarks)
     }
     
@@ -185,7 +185,7 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
             t.column("totalReadingTime", .double).notNull().defaults(to: 0.0)
             t.column("lastReadAt", .datetime)
             t.column("isCompleted", .boolean).notNull().defaults(to: false)
-            t.column("bookmarks", .blob).notNull() // JSON encoded
+            t.column("bookmarks", .blob).notNull() 
             t.column("createdAt", .datetime).notNull()
             t.column("updatedAt", .datetime).notNull()
             
@@ -202,7 +202,7 @@ struct Bookmark: Codable {
     var createdAt: Date
 }
 
-// Highlights and annotations
+
 struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var userId: String
@@ -213,7 +213,7 @@ struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
     var highlightedText: String
     var color: String
     var note: String?
-    var oracleConsultationId: String? // Link to oracle consultation about this text
+    var oracleConsultationId: String? 
     var createdAt: Date
     var updatedAt: Date
     
@@ -241,7 +241,7 @@ struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
     }
 }
 
-// Reading themes
+
 struct ReadingTheme {
     let name: String
     let backgroundColor: UIColor
@@ -294,7 +294,7 @@ struct ReadingTheme {
     ]
 }
 
-// Reading preferences per book
+
 struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var userId: String
@@ -309,18 +309,18 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var autoScrollSpeed: Double?
     var ttsSpeed: Double
     var ttsVoice: String?
-    var textAlignment: String // left, center, right, justified
-    var marginSize: Double // 0-50 points
-    var theme: String // papyrus, sepia, dark, midnight, cream
+    var textAlignment: String 
+    var marginSize: Double 
+    var theme: String 
     var showPageProgress: Bool
     var enableHyphenation: Bool
     var paragraphSpacing: Double
     var firstLineIndent: Double
     var highlightColor: String
-    var pageTransitionStyle: String // scroll, page
+    var pageTransitionStyle: String 
     var keepScreenOn: Bool
     var enableSwipeGestures: Bool
-    var fontWeight: String // regular, medium, semibold, bold
+    var fontWeight: String 
     
     static let databaseTableName = "book_reading_preferences"
     
@@ -364,7 +364,7 @@ struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
             fontSize: 18.0,
             fontFamily: "Georgia",
             lineSpacing: 1.5,
-            backgroundColor: "#FEFDF5", // Papyrus color
+            backgroundColor: "#FEFDF5", 
             textColor: "#2C1810",
             scrollPosition: 0.0,
             brightness: 1.0,

@@ -141,7 +141,7 @@ class PathCompletionOptionsViewController: UIViewController {
         
         titleLabel.text = "\(beliefSystem.name) Path Complete! 🎉"
         
-        // More informative progress text
+        
         if hasPerfectScore {
             progressLabel.text = "Perfect Score! \(currentXP) XP earned"
         } else {
@@ -153,7 +153,7 @@ class PathCompletionOptionsViewController: UIViewController {
         
         optionsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        // Configure replay button text based on score
+        
         if hasPerfectScore {
             replayButton.configuration?.title = "Practice Again"
         } else {

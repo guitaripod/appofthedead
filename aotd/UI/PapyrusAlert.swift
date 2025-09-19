@@ -1,10 +1,10 @@
 import UIKit
 
-// MARK: - PapyrusAlert
+
 
 final class PapyrusAlert {
     
-    // MARK: - Types
+    
     
     enum Style {
         case alert
@@ -29,7 +29,7 @@ final class PapyrusAlert {
         }
     }
     
-    // MARK: - Properties
+    
     
     private let title: String?
     private let message: String?
@@ -38,7 +38,7 @@ final class PapyrusAlert {
     private weak var sourceView: UIView?
     private var sourceRect: CGRect?
     
-    // MARK: - Initialization
+    
     
     init(title: String? = nil, message: String? = nil, style: Style = .alert) {
         self.title = title
@@ -46,7 +46,7 @@ final class PapyrusAlert {
         self.style = style
     }
     
-    // MARK: - Configuration
+    
     
     @discardableResult
     func addAction(_ action: Action) -> Self {
@@ -61,7 +61,7 @@ final class PapyrusAlert {
         return self
     }
     
-    // MARK: - Presentation
+    
     
     func present(from viewController: UIViewController) {
         let alertViewController = PapyrusAlertViewController(
@@ -80,7 +80,7 @@ final class PapyrusAlert {
         viewController.present(alertViewController, animated: true)
     }
     
-    // MARK: - Convenience Methods
+    
     
     static func showSimpleAlert(
         title: String? = nil,
@@ -111,11 +111,11 @@ final class PapyrusAlert {
     }
 }
 
-// MARK: - PapyrusAlertViewController
+
 
 private final class PapyrusAlertViewController: UIViewController {
     
-    // MARK: - Properties
+    
     
     private let alertTitle: String?
     private let message: String?
@@ -130,7 +130,7 @@ private final class PapyrusAlertViewController: UIViewController {
     private var sourceView: UIView?
     private var sourceRect: CGRect?
     
-    // MARK: - Initialization
+    
     
     init(title: String?, message: String?, style: PapyrusAlert.Style, actions: [PapyrusAlert.Action]) {
         self.alertTitle = title
@@ -144,7 +144,7 @@ private final class PapyrusAlertViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,7 +157,7 @@ private final class PapyrusAlertViewController: UIViewController {
         animateIn()
     }
     
-    // MARK: - Setup
+    
     
     func setSourceView(_ view: UIView, rect: CGRect) {
         self.sourceView = view
@@ -167,7 +167,7 @@ private final class PapyrusAlertViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .clear
         
-        // Background
+        
         backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         backgroundView.alpha = 0
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -176,7 +176,7 @@ private final class PapyrusAlertViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
         backgroundView.addGestureRecognizer(tapGesture)
         
-        // Container
+        
         containerView.backgroundColor = UIColor.Papyrus.cardBackground
         containerView.layer.cornerRadius = 16
         containerView.layer.borderWidth = 2
@@ -190,14 +190,14 @@ private final class PapyrusAlertViewController: UIViewController {
         containerView.alpha = 0
         view.addSubview(containerView)
         
-        // Content stack
+        
         contentStackView.axis = .vertical
         contentStackView.spacing = 16
         contentStackView.alignment = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(contentStackView)
         
-        // Title
+        
         if let title = alertTitle {
             let titleLabel = UILabel()
             titleLabel.text = title
@@ -205,7 +205,7 @@ private final class PapyrusAlertViewController: UIViewController {
             titleLabel.textColor = UIColor.Papyrus.primaryText
             titleLabel.textAlignment = .center
             titleLabel.numberOfLines = 0
-            // Add padding wrapper for title
+            
             let titleContainer = UIView()
             titleContainer.addSubview(titleLabel)
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -218,7 +218,7 @@ private final class PapyrusAlertViewController: UIViewController {
             contentStackView.addArrangedSubview(titleContainer)
         }
         
-        // Message
+        
         if let message = message {
             let messageLabel = UILabel()
             messageLabel.text = message
@@ -226,7 +226,7 @@ private final class PapyrusAlertViewController: UIViewController {
             messageLabel.textColor = UIColor.Papyrus.secondaryText
             messageLabel.textAlignment = .center
             messageLabel.numberOfLines = 0
-            // Add padding wrapper for message
+            
             let messageContainer = UIView()
             messageContainer.addSubview(messageLabel)
             messageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -239,17 +239,17 @@ private final class PapyrusAlertViewController: UIViewController {
             contentStackView.addArrangedSubview(messageContainer)
         }
         
-        // Divider
+        
         let divider = UIView()
         divider.backgroundColor = UIColor.Papyrus.aged
         divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
         contentStackView.addArrangedSubview(divider)
         
-        // Buttons
-        // Check if we should use vertical layout for alerts with long button titles
+        
+        
         let totalButtonTextLength = actions.reduce(0) { $0 + $1.title.count }
         let longestButtonTitle = actions.map { $0.title.count }.max() ?? 0
-        // Check if this is a confirmation-style alert (has both cancel and destructive actions)
+        
         let hasConfirmationStyle = actions.contains { $0.style == .cancel } && 
                                   actions.contains { $0.style == .destructive }
         let shouldUseVerticalLayout = style == .actionSheet || 
@@ -259,7 +259,7 @@ private final class PapyrusAlertViewController: UIViewController {
                                      hasConfirmationStyle
         
         if shouldUseVerticalLayout {
-            // Vertical layout - buttons stacked with dividers between
+            
             buttonStackView.axis = .vertical
             buttonStackView.spacing = 0
             buttonStackView.distribution = .fill
@@ -267,7 +267,7 @@ private final class PapyrusAlertViewController: UIViewController {
             
             for (index, action) in actions.enumerated() {
                 if index > 0 {
-                    // Add horizontal divider
+                    
                     let divider = UIView()
                     divider.backgroundColor = UIColor.Papyrus.aged
                     divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -278,7 +278,7 @@ private final class PapyrusAlertViewController: UIViewController {
                 buttonStackView.addArrangedSubview(button)
             }
         } else {
-            // Horizontal layout - buttons side by side
+            
             buttonStackView.axis = .horizontal
             buttonStackView.spacing = 1
             buttonStackView.distribution = .fillEqually
@@ -320,17 +320,17 @@ private final class PapyrusAlertViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Background
+            
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            // Container - different positioning for alert vs action sheet
+            
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.widthAnchor.constraint(equalToConstant: 280),
             
-            // Content
+            
             contentStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
             contentStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -340,9 +340,9 @@ private final class PapyrusAlertViewController: UIViewController {
         if style == .alert {
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         } else {
-            // Action sheet positioning
+            
             if let sourceView = sourceView {
-                // Position near source view
+                
                 let sourceFrame = sourceView.convert(sourceRect ?? sourceView.bounds, to: view)
                 if sourceFrame.midY < view.bounds.midY {
                     containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: sourceFrame.maxY + 8).isActive = true
@@ -350,17 +350,17 @@ private final class PapyrusAlertViewController: UIViewController {
                     containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.bounds.height - sourceFrame.minY) - 8).isActive = true
                 }
             } else {
-                // Default to bottom
+                
                 containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
             }
         }
     }
     
-    // MARK: - Actions
+    
     
     @objc private func backgroundTapped() {
         if style == .actionSheet {
-            // Find cancel action or dismiss
+            
             if let cancelAction = actions.first(where: { $0.style == .cancel }) {
                 handleAction(cancelAction)
             } else {
@@ -376,7 +376,7 @@ private final class PapyrusAlertViewController: UIViewController {
         }
     }
     
-    // MARK: - Animations
+    
     
     private func animateIn() {
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0) {
@@ -385,7 +385,7 @@ private final class PapyrusAlertViewController: UIViewController {
             self.containerView.transform = .identity
         }
         
-        // Haptic feedback
+        
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
     }

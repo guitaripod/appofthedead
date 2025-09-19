@@ -32,34 +32,34 @@ class PathPreviewViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // Calculate the required height based on content
+        
         let targetSize = CGSize(width: 320, height: UIView.layoutFittingCompressedSize.height)
         let size = view.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
         preferredContentSize = CGSize(width: 320, height: size.height)
     }
     
     private func setupViews() {
-        // Use dynamic color that adapts to dark mode
+        
         view.backgroundColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ? 
                 PapyrusDesignSystem.Colors.Core.darkCard : 
                 PapyrusDesignSystem.Colors.Dynamic.background
         }
         
-        // Container view with padding
+        
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         
-        // Icon and title container
+        
         let headerContainer = UIView()
         headerContainer.translatesAutoresizingMaskIntoConstraints = false
         
-        // Icon
+        
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.tintColor = UIColor(hex: beliefSystem.color)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Title
+        
         titleLabel.font = PapyrusDesignSystem.Typography.title2()
         titleLabel.textColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ? .white : PapyrusDesignSystem.Colors.primaryText
@@ -67,7 +67,7 @@ class PathPreviewViewController: UIViewController {
         titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        // Description
+        
         descriptionLabel.font = PapyrusDesignSystem.Typography.body()
         descriptionLabel.textColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ? 
@@ -77,17 +77,17 @@ class PathPreviewViewController: UIViewController {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        // Stats container
+        
         statsContainer.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         statsContainer.layer.cornerRadius = 12
         statsContainer.translatesAutoresizingMaskIntoConstraints = false
         
-        // Topics container
+        
         topicsContainer.backgroundColor = PapyrusDesignSystem.Colors.Core.aged.withAlphaComponent(0.3)
         topicsContainer.layer.cornerRadius = 12
         topicsContainer.translatesAutoresizingMaskIntoConstraints = false
         
-        // Add views
+        
         headerContainer.addSubview(iconImageView)
         headerContainer.addSubview(titleLabel)
         containerView.addSubview(headerContainer)
@@ -95,43 +95,43 @@ class PathPreviewViewController: UIViewController {
         containerView.addSubview(statsContainer)
         containerView.addSubview(topicsContainer)
         
-        // Constraints
+        
         NSLayoutConstraint.activate([
-            // Container view fills the view with padding
+            
             containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
-            // Header container
+            
             headerContainer.topAnchor.constraint(equalTo: containerView.topAnchor),
             headerContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             headerContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             headerContainer.heightAnchor.constraint(equalToConstant: 40),
             
-            // Icon
+            
             iconImageView.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor),
             iconImageView.widthAnchor.constraint(equalToConstant: 40),
             iconImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            // Title
+            
             titleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor),
             
-            // Description
+            
             descriptionLabel.topAnchor.constraint(equalTo: headerContainer.bottomAnchor, constant: 16),
             descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             
-            // Stats container
+            
             statsContainer.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
             statsContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             statsContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             statsContainer.heightAnchor.constraint(equalToConstant: 80),
             
-            // Topics container
+            
             topicsContainer.topAnchor.constraint(equalTo: statsContainer.bottomAnchor, constant: 20),
             topicsContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             topicsContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -140,17 +140,17 @@ class PathPreviewViewController: UIViewController {
     }
     
     private func configure() {
-        // Icon and title
+        
         iconImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf, size: 40)
         titleLabel.text = beliefSystem.name
         
-        // Description
+        
         descriptionLabel.text = beliefSystem.description
         
-        // Stats
+        
         setupStatsView()
         
-        // Topics
+        
         setupTopicsView()
     }
     
@@ -169,14 +169,14 @@ class PathPreviewViewController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: statsContainer.bottomAnchor)
         ])
         
-        // Lessons count
+        
         let lessonsView = createStatView(
             value: "\(beliefSystem.lessons.count)",
             label: "Lessons",
             icon: UIImage(systemName: "book.fill")
         )
         
-        // Total XP
+        
         let totalXP = beliefSystem.totalXP
         let xpView = createStatView(
             value: "\(totalXP)",
@@ -184,7 +184,7 @@ class PathPreviewViewController: UIViewController {
             icon: UIImage(systemName: "star.fill")
         )
         
-        // Progress indicator
+        
         let currentXP = progress?.earnedXP ?? 0
         let progressPercentage = beliefSystem.totalXP > 0 ? Float(currentXP) / Float(beliefSystem.totalXP) * 100 : 0
         let progressView = createStatView(
@@ -277,14 +277,14 @@ class PathPreviewViewController: UIViewController {
             topicsStackView.bottomAnchor.constraint(equalTo: topicsContainer.bottomAnchor, constant: -12)
         ])
         
-        // Add topic items - limit to 3 for space
+        
         let topics = pathPreview?.keyTopics ?? []
         for (index, topic) in topics.prefix(3).enumerated() {
             let topicView = createTopicView(topic: topic, index: index + 1)
             topicsStackView.addArrangedSubview(topicView)
         }
         
-        // If no topics available, show lesson titles
+        
         if topics.isEmpty {
             for (index, lesson) in beliefSystem.lessons.prefix(3).enumerated() {
                 let topicView = createTopicView(topic: lesson.title, index: index + 1)
@@ -310,7 +310,7 @@ class PathPreviewViewController: UIViewController {
                 UIColor(white: 0.85, alpha: 1.0) : 
                 PapyrusDesignSystem.Colors.primaryText
         }
-        topicLabel.numberOfLines = 2  // Limit to 2 lines to save space
+        topicLabel.numberOfLines = 2  
         topicLabel.translatesAutoresizingMaskIntoConstraints = false
         
         container.addSubview(numberLabel)

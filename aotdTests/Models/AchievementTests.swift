@@ -13,7 +13,7 @@ final class AchievementTests: XCTestCase {
             try UserAchievement.createTable(db)
         }
         
-        // Create a test user
+        
         testUser = User(name: "Test User", email: "test@example.com")
         try dbQueue.write { db in
             try testUser.insert(db)

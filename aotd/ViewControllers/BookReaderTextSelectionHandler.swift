@@ -15,13 +15,13 @@ enum TextSelectionAction {
 
 final class BookReaderTextSelectionHandler: NSObject {
     
-    // MARK: - Properties
+    
     
     weak var delegate: BookReaderTextSelectionDelegate?
     private weak var textView: UITextView?
     private var customMenuItems: [UIMenuItem] = []
     
-    // MARK: - Initialization
+    
     
     init(textView: UITextView) {
         self.textView = textView
@@ -29,10 +29,10 @@ final class BookReaderTextSelectionHandler: NSObject {
         setupMenuItems()
     }
     
-    // MARK: - Setup
+    
     
     private func setupMenuItems() {
-        // Create custom menu items
+        
         let askOracleItem = UIMenuItem(title: "Ask Oracle 🔮", action: #selector(askOracle))
         let highlightYellowItem = UIMenuItem(title: "Highlight", action: #selector(highlightYellow))
         let highlightBlueItem = UIMenuItem(title: "Blue", action: #selector(highlightBlue))
@@ -49,24 +49,24 @@ final class BookReaderTextSelectionHandler: NSObject {
             shareItem
         ]
         
-        // Add custom menu items to the shared menu controller
+        
         UIMenuController.shared.menuItems = customMenuItems
     }
     
-    // MARK: - Public Methods
+    
     
     func configureTextView() {
-        // Make sure the text view can become first responder
+        
         textView?.isUserInteractionEnabled = true
         textView?.isSelectable = true
         
-        // Add long press gesture for custom menu
+        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPressGesture.minimumPressDuration = 0.5
         textView?.addGestureRecognizer(longPressGesture)
     }
     
-    // MARK: - Actions
+    
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began,
@@ -74,7 +74,7 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         let point = gesture.location(in: textView)
         
-        // Get the character index at the touch point
+        
         let layoutManager = textView.layoutManager
         let textContainer = textView.textContainer
         
@@ -89,11 +89,11 @@ final class BookReaderTextSelectionHandler: NSObject {
             fractionOfDistanceBetweenInsertionPoints: nil
         )
         
-        // If there's already a selection, show the menu
+        
         if textView.selectedRange.length > 0 {
             showCustomMenu()
         } else {
-            // Otherwise, select the word at the touch point
+            
             selectWord(at: characterIndex)
         }
     }
@@ -104,11 +104,11 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         let text = textView.text as NSString
         
-        // Use text tokenizer to find word boundaries
+        
         let tokenizer = UITextInputStringTokenizer(textInput: textView)
         let position = textView.position(from: textView.beginningOfDocument, offset: index) ?? textView.beginningOfDocument
         
-        // Get word range using tokenizer
+        
         let wordStart = tokenizer.position(from: position, toBoundary: .word, inDirection: .layout(.left)) ?? position
         let wordEnd = tokenizer.position(from: position, toBoundary: .word, inDirection: .layout(.right)) ?? position
         
@@ -117,13 +117,13 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         var wordRange = NSRange(location: startOffset, length: endOffset - startOffset)
         
-        // If no word found, try to find boundaries manually
+        
         if wordRange.length == 0 {
             let range = text.rangeOfComposedCharacterSequence(at: index)
             var start = range.location
             var end = range.location + range.length
             
-            // Find word start
+            
             while start > 0 {
                 let charRange = NSRange(location: start - 1, length: 1)
                 let char = text.substring(with: charRange)
@@ -133,7 +133,7 @@ final class BookReaderTextSelectionHandler: NSObject {
                 start -= 1
             }
             
-            // Find word end
+            
             while end < text.length {
                 let charRange = NSRange(location: end, length: 1)
                 let char = text.substring(with: charRange)
@@ -148,7 +148,7 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         textView.selectedRange = wordRange
         
-        // Show custom menu
+        
         showCustomMenu()
     }
     
@@ -159,7 +159,7 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         let menuController = UIMenuController.shared
         
-        // Calculate menu position
+        
         let selectedRange = textView.selectedRange
         let glyphRange = textView.layoutManager.glyphRange(forCharacterRange: selectedRange, actualCharacterRange: nil)
         let rect = textView.layoutManager.boundingRect(forGlyphRange: glyphRange, in: textView.textContainer)
@@ -211,25 +211,25 @@ final class BookReaderTextSelectionHandler: NSObject {
         
         let selectedText = (textView.text as NSString).substring(with: selectedRange)
         
-        // Dismiss menu
+        
         if #available(iOS 13.0, *) {
             UIMenuController.shared.hideMenu()
         } else {
             UIMenuController.shared.setMenuVisible(false, animated: true)
         }
         
-        // Notify delegate
+        
         delegate?.textSelectionHandler(self, didSelectAction: action, text: selectedText, range: selectedRange)
     }
 }
 
-// MARK: - Custom UITextView for Book Reading
+
 
 class BookReaderTextView: UITextView {
     weak var selectionHandler: BookReaderTextSelectionHandler?
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        // Allow our custom actions
+        
         let customActions: [Selector] = [
             #selector(askOracle),
             #selector(highlightYellow),
@@ -243,7 +243,7 @@ class BookReaderTextView: UITextView {
             return selectedRange.length > 0
         }
         
-        // Allow standard actions
+        
         let standardActions: [Selector] = [
             #selector(copy(_:)),
             #selector(select(_:)),
@@ -254,7 +254,7 @@ class BookReaderTextView: UITextView {
             return super.canPerformAction(action, withSender: sender)
         }
         
-        // Define action is handled by the system
+        
         if action == NSSelectorFromString("_define:") {
             return selectedRange.length > 0
         }
@@ -262,7 +262,7 @@ class BookReaderTextView: UITextView {
         return false
     }
     
-    // Add the action methods that will forward to the text selection handler
+    
     @objc func askOracle() {
         selectionHandler?.askOracle()
     }

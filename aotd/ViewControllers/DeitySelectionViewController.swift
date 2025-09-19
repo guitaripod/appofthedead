@@ -2,7 +2,7 @@ import UIKit
 
 final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurable {
     
-    // MARK: - UI Components
+    
     
     private let headerView = UIView()
     private let grabberView = UIView()
@@ -17,14 +17,14 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         return collectionView
     }()
     
-    // MARK: - Properties
+    
     
     private let deities: [OracleViewModel.Deity]
     private let onSelection: ((OracleViewModel.Deity) -> Void)?
     private let currentDeity: OracleViewModel.Deity?
     var currentLayoutPreference: ViewLayoutPreference = UserDefaults.standard.viewLayoutPreference
     
-    // MARK: - Diffable Data Source
+    
     
     private enum Section {
         case main
@@ -32,7 +32,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     
     private lazy var dataSource = createDataSource()
     
-    // MARK: - Initialization
+    
     
     init(deities: [OracleViewModel.Deity], currentDeity: OracleViewModel.Deity?, onSelection: @escaping (OracleViewModel.Deity) -> Void) {
         AppLogger.ui.debug("[DeitySelectionViewController] Init", metadata: ["deityCount": deities.count])
@@ -45,7 +45,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         
         AppLogger.ui.debug("[DeitySelectionViewController] Super init completed")
         
-        // Set modal presentation style
+        
         modalPresentationStyle = .pageSheet
     }
     
@@ -57,7 +57,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: - Lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Ensure proper initial selection
+        
         if let currentDeity = currentDeity {
             let snapshot = dataSource.snapshot()
             if let index = snapshot.itemIdentifiers.firstIndex(where: { $0.id == currentDeity.id }) {
@@ -88,53 +88,53 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        // Layout will update automatically when bounds change
+        
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        // Update border colors when switching between light/dark mode
+        
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            // Force layout update
+            
             collectionView.collectionViewLayout.invalidateLayout()
             applySnapshot(animatingDifferences: false)
         }
     }
     
-    // MARK: - Setup
+    
     
     private func setupUI() {
         AppLogger.ui.debug("[DeitySelectionViewController] setupUI started")
         
-        // Use dynamic color for background
+        
         view.backgroundColor = UIColor.Papyrus.background
         
-        // Add tap gesture to dismiss keyboard
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
         
-        // Header container
+        
         headerView.backgroundColor = UIColor.Papyrus.background
         headerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(headerView)
         
-        // Custom grabber (make it interactive)
+        
         grabberView.backgroundColor = UIColor.Papyrus.aged
         grabberView.layer.cornerRadius = 2.5
         grabberView.translatesAutoresizingMaskIntoConstraints = false
         grabberView.isUserInteractionEnabled = true
         headerView.addSubview(grabberView)
         
-        // Add gesture recognizers to header for dismissal
+        
         let grabberTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleGrabberTap))
         grabberView.addGestureRecognizer(grabberTapGesture)
         
         let headerPanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleHeaderPan(_:)))
         headerView.addGestureRecognizer(headerPanGesture)
         
-        // Title
+        
         titleLabel.text = "Choose Your Divine Guide"
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = UIColor.Papyrus.primaryText
@@ -142,30 +142,30 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(titleLabel)
         
-        // Collection view
+        
         view.addSubview(collectionView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Header
+            
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            // Grabber
+            
             grabberView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
             grabberView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             grabberView.widthAnchor.constraint(equalToConstant: 36),
             grabberView.heightAnchor.constraint(equalToConstant: 5),
             
-            // Title
+            
             titleLabel.topAnchor.constraint(equalTo: grabberView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
             titleLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -20),
             
-            // Collection view
+            
             collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -173,7 +173,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         ])
     }
     
-    // MARK: - Compositional Layout
+    
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
@@ -183,7 +183,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
             guard let self = self else { return nil }
             
             if self.currentLayoutPreference == .grid {
-                // Grid layout
+                
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
@@ -197,7 +197,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
                 
                 return section
             } else {
-                // List layout
+                
                 var listConfig = UICollectionLayoutListConfiguration(appearance: .plain)
                 listConfig.backgroundColor = .clear
                 listConfig.showsSeparators = false
@@ -210,15 +210,15 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         }, configuration: configuration)
     }
     
-    // MARK: - Diffable Data Source Setup
+    
     
     private func createDataSource() -> UICollectionViewDiffableDataSource<Section, OracleViewModel.Deity> {
-        // Grid cell registration
+        
         let gridCellRegistration = UICollectionView.CellRegistration<DeityCell, OracleViewModel.Deity> { [weak self] cell, indexPath, deity in
             cell.configure(with: deity, isSelected: deity.id == self?.currentDeity?.id)
         }
         
-        // List cell registration
+        
         let listCellRegistration = UICollectionView.CellRegistration<DeityCollectionListCell, OracleViewModel.Deity> { [weak self] cell, indexPath, deity in
             cell.configure(with: deity, isSelected: deity.id == self?.currentDeity?.id)
         }
@@ -243,7 +243,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    // MARK: - Layout Management
+    
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
@@ -260,17 +260,17 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         }
     }
     
-    // MARK: - ViewLayoutConfigurable
+    
     
     func switchToLayout(_ layout: ViewLayoutPreference) {
         currentLayoutPreference = layout
         setupLayout(for: layout)
         
-        // Force layout update
+        
         collectionView.collectionViewLayout.invalidateLayout()
         applySnapshot(animatingDifferences: false)
         
-        // Re-select current deity if needed
+        
         if let currentDeity = currentDeity {
             let snapshot = dataSource.snapshot()
             if let index = snapshot.itemIdentifiers.firstIndex(where: { $0.id == currentDeity.id }) {
@@ -281,12 +281,12 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     }
     
     func setupLayout(for preference: ViewLayoutPreference) {
-        // Layout will be handled by compositional layout
-        // Just update the current preference which the layout uses
+        
+        
         currentLayoutPreference = preference
     }
     
-    // MARK: - Actions
+    
     
     @objc private func handleGrabberTap() {
         dismiss(animated: true)
@@ -297,18 +297,18 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         
         switch gesture.state {
         case .changed:
-            // Only allow downward pan
+            
             if translation.y > 0 {
                 view.transform = CGAffineTransform(translationX: 0, y: translation.y)
             }
         case .ended:
             let velocity = gesture.velocity(in: view)
             
-            // Dismiss if dragged down more than 100 points or with sufficient velocity
+            
             if translation.y > 100 || velocity.y > 800 {
                 dismiss(animated: true)
             } else {
-                // Snap back to original position
+                
                 UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
                     self.view.transform = .identity
                 })
@@ -324,25 +324,25 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
 }
 
 
-// MARK: - UICollectionViewDelegate
+
 
 extension DeitySelectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedDeity = dataSource.itemIdentifier(for: indexPath) else { return }
         
-        // Haptic feedback
+        
         let impact = UIImpactFeedbackGenerator(style: .medium)
         impact.impactOccurred()
         
-        // Dismiss and call selection handler
+        
         dismiss(animated: true) { [weak self] in
             self?.onSelection?(selectedDeity)
         }
     }
 }
 
-// MARK: - DeityCell
+
 
 private class DeityCell: UICollectionViewCell {
     
@@ -374,12 +374,12 @@ private class DeityCell: UICollectionViewCell {
     private func setupUI() {
         contentView.backgroundColor = .clear
         
-        // Container with sophisticated styling
+        
         containerView.layer.cornerRadius = 20
         containerView.layer.borderWidth = 1
         updateColors()
         
-        // Subtle shadow for depth
+        
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
@@ -388,19 +388,19 @@ private class DeityCell: UICollectionViewCell {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
         
-        // Icon container with gradient background
+        
         iconContainerView.layer.cornerRadius = 32
         iconContainerView.clipsToBounds = true
         iconContainerView.translatesAutoresizingMaskIntoConstraints = false
         iconContainerView.widthAnchor.constraint(equalToConstant: 64).isActive = true
         iconContainerView.heightAnchor.constraint(equalToConstant: 64).isActive = true
         
-        // Icon
+        
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconContainerView.addSubview(iconImageView)
         
-        // Name
+        
         nameLabel.font = .systemFont(ofSize: 16, weight: .bold)
         nameLabel.textAlignment = .center
         nameLabel.numberOfLines = 2
@@ -408,18 +408,18 @@ private class DeityCell: UICollectionViewCell {
         nameLabel.minimumScaleFactor = 0.8
         nameLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        // Role
+        
         roleLabel.font = .systemFont(ofSize: 12, weight: .medium)
         roleLabel.textAlignment = .center
         roleLabel.numberOfLines = 2
         roleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        // Tradition
+        
         traditionLabel.font = .systemFont(ofSize: 11, weight: .medium)
         traditionLabel.textAlignment = .center
         traditionLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        // Setup stack view
+        
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
         contentStackView.distribution = .fill
@@ -434,7 +434,7 @@ private class DeityCell: UICollectionViewCell {
         
         containerView.addSubview(contentStackView)
         
-        // Selection indicator
+        
         selectionIndicator.image = UIImage(systemName: "checkmark.circle.fill")
         selectionIndicator.tintColor = UIColor.Papyrus.gold
         selectionIndicator.isHidden = true
@@ -447,7 +447,7 @@ private class DeityCell: UICollectionViewCell {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            // Center stack view with flexible top/bottom
+            
             contentStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             contentStackView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 12),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -12),
@@ -480,48 +480,48 @@ private class DeityCell: UICollectionViewCell {
         roleLabel.text = deity.role
         traditionLabel.text = deity.tradition.uppercased()
         
-        // Safely get the color
+        
         let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         traditionLabel.textColor = deityColor.withAlphaComponent(0.8)
         
-        // Enhanced icon with better configuration
+        
         let iconName = deity.avatar
         let config = UIImage.SymbolConfiguration(pointSize: 28, weight: .medium)
         
-        // Try to load the icon with fallbacks
+        
         if let image = UIImage(systemName: iconName) {
             iconImageView.image = image.withConfiguration(config)
         } else {
-            // Fallback to a generic person icon
+            
             iconImageView.image = UIImage(systemName: "person.circle.fill")?.withConfiguration(config)
         }
         iconImageView.tintColor = .white
         
-        // Store the deity color for gradient creation
+        
         iconContainerView.backgroundColor = deityColor
         
-        // Create gradient immediately if bounds are valid
+        
         if iconContainerView.bounds.width > 0 {
             updateIconGradient(with: deityColor)
         } else {
-            // Force layout to ensure bounds are valid
+            
             setNeedsLayout()
             layoutIfNeeded()
         }
         
-        // Selection state
+        
         selectionIndicator.isHidden = !isSelected
         if isSelected {
             containerView.layer.borderColor = UIColor.Papyrus.gold.cgColor
             containerView.layer.borderWidth = 2
             containerView.backgroundColor = UIColor.Papyrus.cardBackground.withAlphaComponent(0.95)
             
-            // Add glow effect
+            
             containerView.layer.shadowColor = UIColor.Papyrus.gold.cgColor
             containerView.layer.shadowOpacity = 0.3
             containerView.layer.shadowRadius = 12
             
-            // Add floating animation to selected icon
+            
             startFloatingAnimation()
         } else {
             containerView.layer.borderColor = UIColor.Papyrus.aged.cgColor
@@ -531,24 +531,24 @@ private class DeityCell: UICollectionViewCell {
             containerView.layer.shadowOpacity = 0.1
             containerView.layer.shadowRadius = 8
             
-            // Stop floating animation
+            
             iconContainerView.layer.removeAllAnimations()
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        // Update shadow path when bounds are valid
+        
         containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: 20).cgPath
         
-        // Create or update gradient
+        
         if iconContainerView.bounds.width > 0, let deityColor = iconContainerView.backgroundColor {
             updateIconGradient(with: deityColor)
         }
     }
     
     private func updateIconGradient(with deityColor: UIColor) {
-        // Remove existing gradient layers
+        
         if let sublayers = iconContainerView.layer.sublayers {
             for layer in sublayers {
                 if layer is CAGradientLayer {
@@ -557,7 +557,7 @@ private class DeityCell: UICollectionViewCell {
             }
         }
         
-        // Create gradient
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = iconContainerView.bounds
         gradientLayer.cornerRadius = 32
@@ -577,7 +577,7 @@ private class DeityCell: UICollectionViewCell {
         containerView.layer.borderWidth = 1
         updateColors()
         
-        // Safely remove gradient layers
+        
         if let sublayers = iconContainerView.layer.sublayers {
             for layer in sublayers {
                 if layer is CAGradientLayer {
@@ -589,13 +589,13 @@ private class DeityCell: UICollectionViewCell {
         containerView.transform = .identity
         iconContainerView.layer.removeAllAnimations()
         
-        // Reset shadow to default
+        
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.shadowRadius = 8
     }
     
-    // MARK: - Touch Animations
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -624,13 +624,13 @@ private class DeityCell: UICollectionViewCell {
     }
     
     private func startFloatingAnimation() {
-        // Ensure we have valid bounds before animating
+        
         guard iconContainerView.bounds.width > 0 else { return }
         
-        // Remove any existing animations
+        
         iconContainerView.layer.removeAllAnimations()
         
-        // Create a gentle floating animation
+        
         let floatAnimation = CABasicAnimation(keyPath: "transform.translation.y")
         floatAnimation.fromValue = -3
         floatAnimation.toValue = 3

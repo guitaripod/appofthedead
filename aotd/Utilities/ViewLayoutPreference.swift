@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: - ViewLayoutPreference
+
 
 enum ViewLayoutPreference: String, CaseIterable {
     case grid
@@ -25,7 +25,7 @@ enum ViewLayoutPreference: String, CaseIterable {
     }
 }
 
-// MARK: - UserDefaults Extension
+
 
 extension UserDefaults {
     private enum Keys {
@@ -36,7 +36,7 @@ extension UserDefaults {
         get {
             guard let rawValue = string(forKey: Keys.viewLayoutPreference),
                   let preference = ViewLayoutPreference(rawValue: rawValue) else {
-                return .grid // Default to grid view
+                return .grid 
             }
             return preference
         }
@@ -46,7 +46,7 @@ extension UserDefaults {
     }
 }
 
-// MARK: - ViewLayoutConfigurable Protocol
+
 
 protocol ViewLayoutConfigurable: AnyObject {
     var currentLayoutPreference: ViewLayoutPreference { get set }
@@ -54,7 +54,7 @@ protocol ViewLayoutConfigurable: AnyObject {
     func setupLayout(for preference: ViewLayoutPreference)
 }
 
-// MARK: - Notification
+
 
 extension Notification.Name {
     static let viewLayoutPreferenceChanged = Notification.Name("viewLayoutPreferenceChanged")

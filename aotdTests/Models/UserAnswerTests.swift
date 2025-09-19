@@ -13,7 +13,7 @@ final class UserAnswerTests: XCTestCase {
             try UserAnswer.createTable(db)
         }
         
-        // Create a test user
+        
         testUser = User(name: "Test User", email: "test@example.com")
         try dbQueue.write { db in
             try testUser.insert(db)
@@ -170,7 +170,7 @@ final class UserAnswerTests: XCTestCase {
         var answer1 = UserAnswer(userId: testUser.id, questionId: "q1", userAnswer: "A", isCorrect: true, beliefSystemId: "judaism")
         var answer2 = UserAnswer(userId: testUser.id, questionId: "q2", userAnswer: "B", isCorrect: false, beliefSystemId: "judaism")
         
-        // Create another user for filtering test
+        
         var otherUser = User(name: "Other User", email: "other@example.com")
         try dbQueue.write { db in
             try otherUser.insert(db)

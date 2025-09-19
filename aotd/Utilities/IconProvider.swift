@@ -2,21 +2,21 @@ import UIKit
 
 final class IconProvider {
     
-    // MARK: - Icon Mapping
     
-    /// Maps belief system icon names to SF Symbols or custom images
+    
+    
     static func iconImage(for iconName: String) -> UIImage? {
-        // Check icon cache first
+        
         if let cachedIcon = iconCache[iconName] {
             return cachedIcon
         }
         
-        // Check for custom icon in assets
+        
         if let customIcon = UIImage(named: iconName) {
             return customIcon
         }
         
-        // Map to SF Symbols as fallback
+        
         let symbolMapping: [String: String] = [
             "star_of_david": "star.fill",
             "cross": "cross.fill",
@@ -48,24 +48,24 @@ final class IconProvider {
         return UIImage(systemName: symbolName, withConfiguration: config)
     }
     
-    /// Returns a properly configured icon for a belief system
+    
     static func beliefSystemIcon(for iconName: String, color: UIColor, size: CGFloat = 60) -> UIImage? {
-        // Get icon from cache, assets, or SF Symbols
+        
         let icon = iconImage(for: iconName)
         
-        // Apply configuration if it's an SF Symbol
+        
         if icon?.isSymbolImage == true {
             let config = UIImage.SymbolConfiguration(pointSize: size, weight: .medium)
             return icon?.withConfiguration(config).withTintColor(color, renderingMode: .alwaysTemplate)
         }
         
-        // Return custom icon with template rendering
+        
         return icon?.withRenderingMode(.alwaysTemplate)
     }
     
-    // MARK: - Custom Icon Creation
     
-    /// Creates custom vector icons programmatically
+    
+    
     static func createCustomIcons() {
         let icons: [(name: String, creator: (CGSize) -> UIImage?)] = [
             ("star_of_david", createStarOfDavid),
@@ -76,12 +76,12 @@ final class IconProvider {
             ("yin_yang", createYinYang)
         ]
         
-        // Generate icons at runtime if needed
+        
         for (name, creator) in icons {
             if UIImage(named: name) == nil {
-                // Icon doesn't exist, create it programmatically
+                
                 if let image = creator(CGSize(width: 120, height: 120)) {
-                    // Cache the image for this session
+                    
                     cacheIcon(image, name: name)
                 }
             }
@@ -94,7 +94,7 @@ final class IconProvider {
         iconCache[name] = image
     }
     
-    // MARK: - Icon Creators
+    
     
     private static func createStarOfDavid(_ size: CGSize) -> UIImage? {
         UIGraphicsImageRenderer(size: size).image { context in
@@ -110,13 +110,13 @@ final class IconProvider {
             
             let radius = starSize / 2
             
-            // First triangle (pointing up)
+            
             ctx.move(to: CGPoint(x: center.x, y: center.y - radius))
             ctx.addLine(to: CGPoint(x: center.x - radius * 0.866, y: center.y + radius * 0.5))
             ctx.addLine(to: CGPoint(x: center.x + radius * 0.866, y: center.y + radius * 0.5))
             ctx.closePath()
             
-            // Second triangle (pointing down)
+            
             ctx.move(to: CGPoint(x: center.x, y: center.y + radius))
             ctx.addLine(to: CGPoint(x: center.x - radius * 0.866, y: center.y - radius * 0.5))
             ctx.addLine(to: CGPoint(x: center.x + radius * 0.866, y: center.y - radius * 0.5))
@@ -136,10 +136,10 @@ final class IconProvider {
             
             ctx.setFillColor(UIColor.label.cgColor)
             
-            // Vertical bar
+            
             ctx.fill(CGRect(x: center.x - thickness/2, y: padding, width: thickness, height: crossSize))
             
-            // Horizontal bar (positioned at 1/3 from top)
+            
             let horizontalY = padding + crossSize * 0.3
             ctx.fill(CGRect(x: padding, y: horizontalY - thickness/2, width: crossSize, height: thickness))
         }
@@ -154,13 +154,13 @@ final class IconProvider {
             
             ctx.setFillColor(UIColor.label.cgColor)
             
-            // Draw crescent
+            
             let moonCenter = CGPoint(x: center.x - moonRadius * 0.3, y: center.y)
             ctx.addEllipse(in: CGRect(x: moonCenter.x - moonRadius, y: moonCenter.y - moonRadius,
                                       width: moonRadius * 2, height: moonRadius * 2))
             ctx.fillPath()
             
-            // Cut out inner circle to make crescent
+            
             ctx.setBlendMode(.clear)
             let innerRadius = moonRadius * 0.8
             let innerCenter = CGPoint(x: moonCenter.x + moonRadius * 0.3, y: moonCenter.y)
@@ -168,7 +168,7 @@ final class IconProvider {
                                       width: innerRadius * 2, height: innerRadius * 2))
             ctx.fillPath()
             
-            // Draw star
+            
             ctx.setBlendMode(.normal)
             let starCenter = CGPoint(x: center.x + moonRadius * 0.8, y: center.y)
             let starRadius = moonRadius * 0.3
@@ -186,12 +186,12 @@ final class IconProvider {
             ctx.setLineCap(.round)
             ctx.setLineJoin(.round)
             
-            // Simplified Om symbol using bezier curves
+            
             let scale = size.width / 100
             ctx.translateBy(x: size.width * 0.5, y: size.height * 0.5)
             ctx.scaleBy(x: scale, y: scale)
             
-            // Main curve (simplified)
+            
             ctx.move(to: CGPoint(x: -20, y: -10))
             ctx.addCurve(to: CGPoint(x: 0, y: -20),
                         control1: CGPoint(x: -15, y: -20),
@@ -205,7 +205,7 @@ final class IconProvider {
             
             ctx.strokePath()
             
-            // Dot
+            
             ctx.setFillColor(UIColor.label.cgColor)
             ctx.addEllipse(in: CGRect(x: 10, y: -25, width: 8, height: 8))
             ctx.fillPath()
@@ -223,18 +223,18 @@ final class IconProvider {
             ctx.setStrokeColor(UIColor.label.cgColor)
             ctx.setLineWidth(size.width * 0.04)
             
-            // Outer circle
+            
             ctx.addEllipse(in: CGRect(x: center.x - radius, y: center.y - radius,
                                       width: radius * 2, height: radius * 2))
             ctx.strokePath()
             
-            // Inner circle
+            
             let innerRadius = radius * 0.3
             ctx.addEllipse(in: CGRect(x: center.x - innerRadius, y: center.y - innerRadius,
                                       width: innerRadius * 2, height: innerRadius * 2))
             ctx.strokePath()
             
-            // Eight spokes
+            
             for i in 0..<8 {
                 let angle = CGFloat(i) * .pi / 4
                 let startPoint = CGPoint(x: center.x + cos(angle) * innerRadius,
@@ -255,13 +255,13 @@ final class IconProvider {
             let center = CGPoint(x: size.width / 2, y: size.height / 2)
             let radius = size.width * 0.4
             
-            // Outer circle
+            
             ctx.setFillColor(UIColor.label.cgColor)
             ctx.addEllipse(in: CGRect(x: center.x - radius, y: center.y - radius,
                                       width: radius * 2, height: radius * 2))
             ctx.fillPath()
             
-            // White half
+            
             ctx.setFillColor(UIColor.systemBackground.cgColor)
             ctx.move(to: CGPoint(x: center.x, y: center.y - radius))
             ctx.addArc(center: center, radius: radius, startAngle: -.pi/2, endAngle: .pi/2, clockwise: true)
@@ -271,16 +271,16 @@ final class IconProvider {
                       startAngle: -.pi/2, endAngle: .pi/2, clockwise: true)
             ctx.fillPath()
             
-            // Small circles
+            
             let dotRadius = radius * 0.15
             
-            // Black dot in white
+            
             ctx.setFillColor(UIColor.label.cgColor)
             ctx.addEllipse(in: CGRect(x: center.x - dotRadius, y: center.y - radius/2 - dotRadius,
                                       width: dotRadius * 2, height: dotRadius * 2))
             ctx.fillPath()
             
-            // White dot in black
+            
             ctx.setFillColor(UIColor.systemBackground.cgColor)
             ctx.addEllipse(in: CGRect(x: center.x - dotRadius, y: center.y + radius/2 - dotRadius,
                                       width: dotRadius * 2, height: dotRadius * 2))
@@ -288,7 +288,7 @@ final class IconProvider {
         }
     }
     
-    // MARK: - Helper Methods
+    
     
     private static func drawStar(in context: CGContext, center: CGPoint, radius: CGFloat, points: Int) {
         let innerRadius = radius * 0.4

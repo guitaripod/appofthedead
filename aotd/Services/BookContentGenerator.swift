@@ -10,7 +10,7 @@ final class BookContentGenerator {
         self.contentLoader = contentLoader
     }
     
-    // MARK: - Public Methods
+    
     
     func generateBook(for beliefSystem: BeliefSystem) throws -> Book {
         AppLogger.content.info("Generating book for belief system", metadata: [
@@ -20,7 +20,7 @@ final class BookContentGenerator {
         
         let chapters = createChapters(from: beliefSystem)
         
-        // Validate chapters are in correct order and no duplicates
+        
         var seenChapterNumbers = Set<Int>()
         for chapter in chapters {
             if seenChapterNumbers.contains(chapter.chapterNumber) {
@@ -33,7 +33,7 @@ final class BookContentGenerator {
         }
         
         let totalWords = chapters.reduce(0) { $0 + $1.wordCount }
-        let estimatedReadingTime = Int(Double(totalWords) / 200.0) // Assuming 200 words per minute
+        let estimatedReadingTime = Int(Double(totalWords) / 200.0) 
         
         let book = Book(
             id: "book_\(beliefSystem.id)",
@@ -57,7 +57,7 @@ final class BookContentGenerator {
         
         for beliefSystem in beliefSystems {
             do {
-                // Check if book already exists
+                
                 if try databaseManager.getBook(by: "book_\(beliefSystem.id)") != nil {
                     AppLogger.content.info("Book already exists, skipping", metadata: [
                         "beliefSystemId": beliefSystem.id
@@ -86,27 +86,27 @@ final class BookContentGenerator {
         ])
     }
     
-    // MARK: - Private Methods
+    
     
     private func createChapters(from beliefSystem: BeliefSystem) -> [Chapter] {
         var chapters: [Chapter] = []
         var chapterNumber = 1
         
-        // Introduction chapter - FIRST
+        
         chapters.append(createIntroductionChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
         ))
         chapterNumber += 1
         
-        // Overview chapter
+        
         chapters.append(createOverviewChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
         ))
         chapterNumber += 1
         
-        // Create chapters from lessons
+        
         for lesson in beliefSystem.lessons {
             let chapter = createLessonChapter(
                 lesson: lesson,
@@ -117,23 +117,23 @@ final class BookContentGenerator {
             chapterNumber += 1
         }
         
-        // Key concepts chapter
+        
         chapters.append(createKeyConceptsChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
         ))
         chapterNumber += 1
         
-        // Conclusion chapter - LAST
+        
         chapters.append(createConclusionChapter(
             for: beliefSystem,
             chapterNumber: chapterNumber
         ))
         
-        // Ensure chapters are properly ordered
+        
         chapters.sort { $0.chapterNumber < $1.chapterNumber }
         
-        // Validate chapter sequence
+        
         for (index, chapter) in chapters.enumerated() {
             if chapter.chapterNumber != index + 1 {
                 AppLogger.content.warning("Chapter numbering mismatch", metadata: [
@@ -226,11 +226,11 @@ final class BookContentGenerator {
     private func createLessonChapter(lesson: Lesson, beliefSystemId: String, chapterNumber: Int) -> Chapter {
         var content = lesson.content
         
-        // Add context and expansion to the lesson content
+        
         content += "\n\nDeeper Understanding\n\n"
         content += "This aspect of the afterlife teaching reveals important insights about how practitioners view the relationship between this life and the next. "
         
-        // Extract and elaborate on key concepts from questions
+        
         if !lesson.questions.isEmpty {
             content += "\n\nKey Points to Remember\n\n"
             
@@ -241,7 +241,7 @@ final class BookContentGenerator {
             }
         }
         
-        // Add reflection section
+        
         content += "\n\nReflection\n\n"
         content += "As we consider these teachings, it's worth reflecting on how they might influence one's approach to life, death, and spiritual practice. "
         content += "These concepts offer a framework for understanding not just what happens after death, but how to live meaningfully in the present moment."
@@ -259,7 +259,7 @@ final class BookContentGenerator {
     private func createKeyConceptsChapter(for beliefSystem: BeliefSystem, chapterNumber: Int) -> Chapter {
         var content = "Throughout our exploration of \(beliefSystem.name)'s afterlife teachings, several key concepts have emerged that deserve special attention. Understanding these terms and ideas is essential for grasping the full picture of this tradition's vision of life after death.\n\n"
         
-        // Extract key terms from lessons
+        
         var keyTerms: Set<String> = []
         for lesson in beliefSystem.lessons {
             keyTerms.formUnion(lesson.keyTerms)

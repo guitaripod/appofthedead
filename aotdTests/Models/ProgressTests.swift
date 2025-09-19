@@ -13,7 +13,7 @@ final class ProgressTests: XCTestCase {
             try Progress.createTable(db)
         }
         
-        // Create a test user
+        
         testUser = User(name: "Test User", email: "test@example.com")
         try dbQueue.write { db in
             try testUser.insert(db)
@@ -85,7 +85,7 @@ final class ProgressTests: XCTestCase {
     }
     
     func testUniqueConstraint() throws {
-        // Test with both lessonId and questionId to match the unique constraint
+        
         var progress1 = Progress(userId: testUser.id, beliefSystemId: "judaism", lessonId: "lesson1", questionId: "q1")
         var progress2 = Progress(userId: testUser.id, beliefSystemId: "judaism", lessonId: "lesson1", questionId: "q1")
         
@@ -96,7 +96,7 @@ final class ProgressTests: XCTestCase {
         XCTAssertThrowsError(try dbQueue.write { db in
             try progress2.insert(db)
         }) { error in
-            // Verify it's a database error (unique constraint violation)
+            
             XCTAssertTrue(error is DatabaseError)
         }
     }

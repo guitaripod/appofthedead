@@ -2,7 +2,7 @@ import UIKit
 
 class PaywallViewController: UIViewController {
     
-    // MARK: - Properties
+    
     private let dismissButton = UIButton()
     private let scrollView = UIScrollView()
     private let contentStackView = UIStackView()
@@ -48,7 +48,7 @@ class PaywallViewController: UIViewController {
         }
     }
     
-    // MARK: - Initialization
+    
     init(reason: PaywallReason = .generalUpgrade) {
         self.reason = reason
         super.init(nibName: nil, bundle: nil)
@@ -59,7 +59,7 @@ class PaywallViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -67,15 +67,15 @@ class PaywallViewController: UIViewController {
         loadBeliefSystems()
         fetchOfferings()
         
-        // Setup preview animator
+        
         pathPreviewAnimator = PathPreviewAnimator(containerView: view)
     }
     
-    // MARK: - UI Setup
+    
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.background
         
-        // Dismiss button
+        
         dismissButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         dismissButton.tintColor = .secondaryLabel
         dismissButton.addAction(UIAction { [weak self] _ in
@@ -84,27 +84,27 @@ class PaywallViewController: UIViewController {
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dismissButton)
         
-        // ScrollView setup
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        // Content stack view
+        
         contentStackView.axis = .vertical
         contentStackView.spacing = 24
         contentStackView.alignment = .fill
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentStackView)
         
-        // Header
+        
         setupHeader()
         
-        // Features
+        
         setupFeatures()
         
-        // Products
+        
         setupProducts()
         
-        // Restore button
+        
         restoreButton.setTitle("Restore Purchases", for: .normal)
         restoreButton.titleLabel?.font = PapyrusDesignSystem.Typography.subheadline()
         restoreButton.addAction(UIAction { [weak self] _ in
@@ -112,7 +112,7 @@ class PaywallViewController: UIViewController {
         }, for: .touchUpInside)
         contentStackView.addArrangedSubview(restoreButton)
         
-        // Terms
+        
         termsLabel.text = "Payment will be charged to your Apple ID account. By purchasing, you agree to our Terms of Service and Privacy Policy."
         termsLabel.font = UIFont.systemFont(ofSize: 12)
         termsLabel.textColor = .secondaryLabel
@@ -120,7 +120,7 @@ class PaywallViewController: UIViewController {
         termsLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(termsLabel)
         
-        // Constraints
+        
         NSLayoutConstraint.activate([
             dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             dismissButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -239,13 +239,13 @@ class PaywallViewController: UIViewController {
         productsStackView.spacing = 12
         contentStackView.addArrangedSubview(productsStackView)
         
-        // Add loading indicator
+        
         let loadingView = UIActivityIndicatorView(style: .medium)
         loadingView.startAnimating()
         productsStackView.addArrangedSubview(loadingView)
     }
     
-    // MARK: - Data Loading
+    
     private func loadPathPreviews() {
         guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
               let data = try? Data(contentsOf: url) else { return }
@@ -261,7 +261,7 @@ class PaywallViewController: UIViewController {
         beliefSystems = DatabaseManager.shared.loadBeliefSystems()
     }
     
-    // MARK: - Product Cards
+    
     private func createProductCard(for product: ProductIdentifier, price: String, recommended: Bool = false) -> UIView {
         let card = UIView()
         card.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
@@ -295,7 +295,7 @@ class PaywallViewController: UIViewController {
         buyButton.setTitleColor(recommended ? PapyrusDesignSystem.Colors.Core.ancientInk : PapyrusDesignSystem.Colors.Dynamic.primaryText, for: .normal)
         buyButton.layer.cornerRadius = 8
         
-        // Different action based on whether it's a path product
+        
         if case .lockedPath = reason, product.beliefSystemId != nil {
             buyButton.addAction(UIAction { [weak self, weak buyButton] _ in
                 self?.handlePathProductTapped(product, from: buyButton)
@@ -325,7 +325,7 @@ class PaywallViewController: UIViewController {
         return card
     }
     
-    // MARK: - Actions
+    
     
     private func handleProductSelected(_ product: ProductIdentifier) {
         selectedProduct = product
@@ -336,15 +336,15 @@ class PaywallViewController: UIViewController {
         guard let beliefSystemId = product.beliefSystemId,
               let preview = pathPreviews[beliefSystemId],
               let beliefSystem = beliefSystems.first(where: { $0.id == beliefSystemId }) else {
-            // Fallback to direct purchase if preview not available
+            
             handleProductSelected(product)
             return
         }
         
-        // Get price
+        
         let price = StoreManager.shared.formattedPrice(for: product) ?? "$--"
         
-        // Create and show preview
+        
         let previewView = PathPreviewView()
         previewView.configure(with: preview, beliefSystem: beliefSystem, price: price) { [weak self] selectedProduct in
             self?.selectedProduct = selectedProduct
@@ -374,7 +374,7 @@ class PaywallViewController: UIViewController {
         }
     }
     
-    // MARK: - Store Operations
+    
     private func fetchOfferings() {
         StoreManager.shared.fetchOfferings { [weak self] result in
             DispatchQueue.main.async {
@@ -389,25 +389,25 @@ class PaywallViewController: UIViewController {
     }
     
     private func displayProducts(_ offerings: Any) {
-        // Clear loading indicator
+        
         productsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        // Determine which products to show based on reason
+        
         let productsToShow: [ProductIdentifier]
         
         switch reason {
         case .lockedPath(let beliefSystemId):
-            // Show the specific path and ultimate pack
+            
             if let pathProduct = ProductIdentifier.allCases.first(where: { $0.beliefSystemId == beliefSystemId }) {
                 productsToShow = [pathProduct, .ultimateEnlightenment]
             } else {
                 productsToShow = [.ultimateEnlightenment]
             }
         case .oracleLimit(let deityId, _):
-            // Check if deity is in a pack
+            
             var products: [ProductIdentifier] = []
             
-            // Check which pack contains this deity (using exact IDs from UserPurchaseExtensions)
+            
             let egyptianDeities = ["anubis", "kali", "baron_samedi"]
             let greekDeities = ["hermes", "hecate", "pachamama"]
             let easternDeities = ["yama", "meng_po", "izanami"]
@@ -420,7 +420,7 @@ class PaywallViewController: UIViewController {
                 products.append(.easternWisdom)
             }
             
-            // Always add oracle wisdom and ultimate as options
+            
             products.append(.oracleWisdom)
             products.append(.ultimateEnlightenment)
             
@@ -429,7 +429,7 @@ class PaywallViewController: UIViewController {
             productsToShow = [.oracleWisdom, .ultimateEnlightenment]
         }
         
-        // Add product cards
+        
         for productId in productsToShow {
             let price = StoreManager.shared.formattedPrice(for: productId) ?? "$--"
             let isRecommended = productId == .ultimateEnlightenment
@@ -439,10 +439,10 @@ class PaywallViewController: UIViewController {
     }
     
     private func purchaseProduct(_ product: ProductIdentifier) {
-        // Disable UI during purchase
+        
         view.isUserInteractionEnabled = false
         
-        // Show loading
+        
         let loadingView = UIActivityIndicatorView(style: .large)
         loadingView.center = view.center
         loadingView.startAnimating()
@@ -464,7 +464,7 @@ class PaywallViewController: UIViewController {
     }
     
     private func showSuccessAndDismiss() {
-        // Refresh customer info to ensure entitlements are up to date
+        
         StoreManager.shared.refreshCustomerInfo { [weak self] in
             DispatchQueue.main.async {
                 self?.showSuccessAnimation()

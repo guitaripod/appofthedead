@@ -8,13 +8,13 @@ import os.log
 
 final class MLXService {
     
-    // MARK: - Singleton
+    
     
     static let shared = MLXService()
     
     private init() {}
     
-    // MARK: - Logging
+    
     
     private static let logger = Logger(subsystem: "com.appofthedead", category: "MLXService")
     
@@ -24,27 +24,27 @@ final class MLXService {
         #endif
     }
     
-    // MARK: - Haptic Configuration
+    
     
     private struct HapticConfig {
-        static let tokenInterval = 3 // Haptic every 3rd token
-        static let impactIntensity: CGFloat = 0.4 // Medium-subtle intensity
+        static let tokenInterval = 3 
+        static let impactIntensity: CGFloat = 0.4 
         static let impactStyle: UIImpactFeedbackGenerator.FeedbackStyle = .light
         static let userDefaultsKey = "StreamingHapticsEnabled"
         
         static var isStreamingHapticsEnabled: Bool {
-            // Default to true if not set
+            
             return UserDefaults.standard.object(forKey: userDefaultsKey) as? Bool ?? true
         }
     }
     
-    // MARK: - Properties
+    
     
     private var modelContainer: ModelContainer?
     private let modelCache = NSCache<NSString, ModelContainer>()
     private var currentModel: ModelConfiguration?
     
-    // Available models suitable for mobile
+    
     static let availableModels: [(name: String, config: ModelConfiguration)] = [
         ("SmolLM-135M", LLMRegistry.smolLM_135M_4bit),
         ("Qwen3-0.6B", LLMRegistry.qwen3_0_6b_4bit),
@@ -56,8 +56,8 @@ final class MLXService {
         ("Gemma2-9B", LLMRegistry.gemma_2_9b_it_4bit)
     ]
     
-    // Default model for Oracle
-    // Using Llama3.2-3B for good quality with mobile-friendly memory usage
+    
+    
     static let defaultModel = LLMRegistry.llama3_2_3B_4bit
     
     var isModelLoaded: Bool {
@@ -67,31 +67,31 @@ final class MLXService {
         return modelContainer != nil
     }
     
-    // MARK: - Model Management
+    
     
     func loadModel(
         configuration: ModelConfiguration = defaultModel,
         progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
     ) async throws {
-        // Check if running in simulator
+        
         if DeviceUtility.isSimulator {
             Self.debugLog("MLX: Running in simulator - using mock mode")
-            // Simulate loading progress
+            
             let progress = Foundation.Progress(totalUnitCount: 100)
             for i in 0...100 {
                 progress.completedUnitCount = Int64(i)
                 progressHandler(progress)
-                try await Task.sleep(nanoseconds: 10_000_000) // 10ms delay
+                try await Task.sleep(nanoseconds: 10_000_000) 
             }
-            // Mark as loaded without actually loading
+            
             self.currentModel = configuration
             return
         }
         
-        // Set GPU memory limit for iOS
-        MLX.GPU.set(cacheLimit: 512 * 1024 * 1024) // 512MB cache for Llama3.2-3B
         
-        // Check cache first
+        MLX.GPU.set(cacheLimit: 512 * 1024 * 1024) 
+        
+        
         let cacheKey = configuration.name as NSString
         if let cached = modelCache.object(forKey: cacheKey) {
             self.modelContainer = cached
@@ -99,14 +99,14 @@ final class MLXService {
             return
         }
         
-        // Load from hub
+        
         let container = try await LLMModelFactory.shared.loadContainer(
             hub: HubApi(),
             configuration: configuration,
             progressHandler: progressHandler
         )
         
-        // Cache the loaded model
+        
         modelCache.setObject(container, forKey: configuration.name as NSString)
         self.modelContainer = container
         self.currentModel = configuration
@@ -117,11 +117,11 @@ final class MLXService {
         currentModel = nil
         MLX.GPU.set(cacheLimit: 0)
         
-        // Force memory cleanup
+        
         MLX.GPU.clearCache()
     }
     
-    // MARK: - Text Generation
+    
     
     struct GenerationConfig {
         let temperature: Float
@@ -146,7 +146,7 @@ final class MLXService {
         messages: [ChatMessage],
         config: GenerationConfig = GenerationConfig()
     ) async throws -> AsyncThrowingStream<String, Error> {
-        // Handle simulator mode
+        
         if DeviceUtility.isSimulator {
             return createSimulatorResponse(for: messages, config: config)
         }
@@ -155,7 +155,7 @@ final class MLXService {
             throw MLXServiceError.modelNotLoaded
         }
         
-        // Convert to MLX chat format
+        
         let chatMessages = messages.map { message in
             let role: Chat.Message.Role = {
                 switch message.role {
@@ -178,10 +178,10 @@ final class MLXService {
         Self.debugLog("MLX Temperature: \(config.temperature)")
         Self.debugLog("MLX Max Tokens: \(config.maxTokens)")
         
-        // Create user input
+        
         let userInput = UserInput(chat: chatMessages)
         
-        // Generate parameters
+        
         let parameters = MLXLMCommon.GenerateParameters(
             maxTokens: config.maxTokens,
             temperature: config.temperature
@@ -190,7 +190,7 @@ final class MLXService {
         return AsyncThrowingStream { continuation in
             let generationTask = Task {
                 do {
-                    // Prepare haptic generators
+                    
                     let impactGenerator = await MainActor.run {
                         let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
                         generator.prepare()
@@ -203,7 +203,7 @@ final class MLXService {
                         return generator
                     }
                     
-                    // Use the model container to generate
+                    
                     let stream = try await container.perform { context in
                         let input = try await context.processor.prepare(input: userInput)
                         return try MLXLMCommon.generate(
@@ -213,12 +213,12 @@ final class MLXService {
                         )
                     }
                     
-                    // Stream the tokens
+                    
                     var tokenCount = 0
                     var totalText = ""
                     
                     for try await generation in stream {
-                        // Check for cancellation before processing each token
+                        
                         try Task.checkCancellation()
                         
                         switch generation {
@@ -228,7 +228,7 @@ final class MLXService {
                                 totalText += text
                                 Self.debugLog("MLX Token #\(tokenCount): '\(text)'")
                                 
-                                // Subtle impact haptic feedback at configured interval
+                                
                                 if HapticConfig.isStreamingHapticsEnabled && tokenCount % HapticConfig.tokenInterval == 0 {
                                     await MainActor.run {
                                         impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
@@ -246,7 +246,7 @@ final class MLXService {
                     Self.debugLog("MLX Generation Complete - Total tokens: \(tokenCount)")
                     Self.debugLog("MLX Total generated text: \(totalText)")
                     
-                    // Success haptic on completion
+                    
                     await MainActor.run {
                         notificationGenerator.notificationOccurred(.success)
                     }
@@ -262,7 +262,7 @@ final class MLXService {
                 }
             }
             
-            // Handle stream termination on cancellation
+            
             continuation.onTermination = { @Sendable termination in
                 switch termination {
                 case .cancelled:
@@ -275,7 +275,7 @@ final class MLXService {
         }
     }
     
-    // MARK: - Simulator Support
+    
     
     private func createSimulatorResponse(
         for messages: [ChatMessage],
@@ -284,7 +284,7 @@ final class MLXService {
         return AsyncThrowingStream { continuation in
             let simulationTask = Task {
                 do {
-                    // Prepare haptic generators for simulator mode too
+                    
                     let impactGenerator = await MainActor.run {
                         let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
                         generator.prepare()
@@ -297,10 +297,10 @@ final class MLXService {
                         return generator
                     }
                     
-                    // Get the last user message
+                    
                     let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
                     
-                    // Generate a mock response based on the context
+                    
                     let mockResponses = [
                         "[Simulator Mode] The ancient spirits whisper through the digital void...",
                         "[Simulator Mode] In the realm of simulation, all prophecies converge...",
@@ -308,21 +308,21 @@ final class MLXService {
                         "[Simulator Mode] Even in this ethereal plane, guidance can be found..."
                     ]
                     
-                    // Pick a response and add context
+                    
                     let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
                     let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
                     
-                    // Simulate streaming response with haptics
+                    
                     let words = contextualResponse.split(separator: " ")
                     var wordCount = 0
                     
                     for word in words {
-                        // Check for cancellation before each word
+                        
                         try Task.checkCancellation()
                         
                         wordCount += 1
                         
-                        // Subtle impact haptic feedback at configured interval
+                        
                         if HapticConfig.isStreamingHapticsEnabled && wordCount % HapticConfig.tokenInterval == 0 {
                             await MainActor.run {
                                 impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
@@ -330,10 +330,10 @@ final class MLXService {
                         }
                         
                         continuation.yield(String(word) + " ")
-                        try await Task.sleep(nanoseconds: 50_000_000) // 50ms delay
+                        try await Task.sleep(nanoseconds: 50_000_000) 
                     }
                     
-                    // Success haptic on completion
+                    
                     await MainActor.run {
                         notificationGenerator.notificationOccurred(.success)
                     }
@@ -349,7 +349,7 @@ final class MLXService {
                 }
             }
             
-            // Handle stream termination on cancellation
+            
             continuation.onTermination = { @Sendable termination in
                 switch termination {
                 case .cancelled:
@@ -362,7 +362,7 @@ final class MLXService {
         }
     }
     
-    // MARK: - Convenience Methods
+    
     
     func generateResponse(
         prompt: String,
@@ -394,28 +394,28 @@ final class MLXService {
         return response.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    // MARK: - Model Information
+    
     
     func checkModelDownloaded(configuration: ModelConfiguration = defaultModel) async -> Bool {
         if DeviceUtility.isSimulator {
-            // Always return true for simulator
+            
             return true
         }
-        // For now, check if the model is in cache
-        // In production, you'd check the actual file system
+        
+        
         return modelCache.object(forKey: configuration.name as NSString) != nil
     }
     
     func deleteModelCache(configuration: ModelConfiguration = defaultModel) async throws {
-        // Remove from memory cache
+        
         modelCache.removeObject(forKey: configuration.name as NSString)
         
-        // In production, you'd also delete the actual model files from disk
-        // For now, just clear the cache
+        
+        
     }
 }
 
-// MARK: - Supporting Types
+
 
 struct ChatMessage {
     enum Role {
