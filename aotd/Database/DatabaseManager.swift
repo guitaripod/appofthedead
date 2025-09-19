@@ -84,7 +84,7 @@ class DatabaseManager {
     // MARK: - User Management
 
     func createAnonymousUser() throws -> User {
-        let user = User()
+        var user = User()
         try dbQueue.write { db in
             try user.insert(db)
         }
@@ -139,7 +139,7 @@ class DatabaseManager {
             }
 
             // If no user exists, create anonymous one
-            let newUser = User()
+            var newUser = User()
             try dbQueue.write { db in
                 try newUser.insert(db)
             }
@@ -655,7 +655,9 @@ class DatabaseManager {
     
     func getUserStatistics(userId: String) throws -> UserStatistics {
         return try dbQueue.read { db in
-            let user = try User.fetchOne(db, key: userId) ?? User(name: "", email: "")
+            guard let user = try User.fetchOne(db, key: userId) else {
+                throw NSError(domain: "DatabaseManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"])
+            }
             let totalProgress = try Progress.filter(Column("userId") == userId).fetchCount(db)
             let completedProgress = try Progress.filter(Column("userId") == userId && Column("status") == Progress.ProgressStatus.completed.rawValue).fetchCount(db)
             let achievements = try UserAchievement.filter(Column("userId") == userId && Column("isCompleted") == true).fetchCount(db)
@@ -877,7 +879,7 @@ class DatabaseManager {
 
             return Set(completedProgress.map { $0.beliefSystemId })
         } catch {
-            AppLogger.database.error("Failed to get completed belief systems", error: error)
+            AppLogger.logError(error, context: "Failed to get completed belief systems", logger: AppLogger.database)
             return []
         }
     }
@@ -935,7 +937,7 @@ class DatabaseManager {
                 }
 
             } catch {
-                AppLogger.database.error("Failed to apply synced progress", error: error)
+                AppLogger.logError(error, context: "Failed to apply synced progress", logger: AppLogger.database)
             }
         }
     }
