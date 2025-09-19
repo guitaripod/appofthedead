@@ -321,7 +321,7 @@ final class ProfileViewController: UIViewController {
               let stats = viewModel.userStats else { return }
         
         // Update header
-        nameLabel.text = user.name
+        nameLabel.text = "Anonymous User"
         levelLabel.text = "Level \(user.currentLevel)"
         
         // Calculate XP progress to next level
