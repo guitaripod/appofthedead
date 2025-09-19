@@ -343,9 +343,13 @@ final class BookReaderViewModel {
     
     private func awardCompletionXP() {
         let xpAmount = 500 // Large XP reward for completing a book
-        
+
         do {
-            try databaseManager.addXPToUser(userId: userId, xp: xpAmount)
+            guard let user = try databaseManager.getUser(by: userId) else {
+                AppLogger.gamification.error("Failed to find user for book completion XP", metadata: ["userId": userId])
+                return
+            }
+            try databaseManager.addXPToUser(user, xp: xpAmount)
             try databaseManager.addXPToProgress(userId: userId, beliefSystemId: book.beliefSystemId, xp: xpAmount)
             
             AppLogger.gamification.info("Awarded XP for book completion", metadata: [
