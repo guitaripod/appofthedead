@@ -97,7 +97,7 @@ class iCloudSyncManager {
                 "completedPathsCount": completedPaths.count
             ])
         } catch {
-            AppLogger.general.error("Failed to sync progress to iCloud", error: error)
+            AppLogger.logError(error, context: "Failed to sync progress to iCloud", logger: AppLogger.general)
         }
     }
 
@@ -128,7 +128,7 @@ class iCloudSyncManager {
 
             return continuityData
         } catch {
-            AppLogger.general.error("Failed to decode synced progress from iCloud", error: error)
+            AppLogger.logError(error, context: "Failed to decode synced progress from iCloud", logger: AppLogger.general)
             clearSyncedProgress()
             return nil
         }
