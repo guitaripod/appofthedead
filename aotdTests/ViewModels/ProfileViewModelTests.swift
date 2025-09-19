@@ -19,7 +19,7 @@ final class ProfileViewModelTests: XCTestCase {
         
         // Create test user
         do {
-            testUser = try databaseManager.createUser(name: "Test User", email: "test@profile.com")
+            testUser = try databaseManager.createAnonymousUser()
         } catch {
             XCTFail("Failed to create test user: \(error)")
         }
@@ -55,7 +55,7 @@ final class ProfileViewModelTests: XCTestCase {
     func testUserStatsCalculation() {
         // Given - Add some XP to the user
         do {
-            try databaseManager.addXPToUser(userId: testUser.id, xp: 150)
+            try databaseManager.addXPToUser(testUser, xp: 150)
         } catch {
             XCTFail("Failed to add XP: \(error)")
         }
