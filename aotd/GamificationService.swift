@@ -191,9 +191,13 @@ final class GamificationService {
         do {
             // Update streak first
             updateStreakIfNeeded(for: userId)
-            
-            // Award XP to user total
-            try databaseManager.addXPToUser(userId: userId, xp: amount)
+
+            // Fetch user and award XP to user total
+            guard let user = try databaseManager.getUser(by: userId) else {
+                AppLogger.gamification.error("Failed to find user for XP award", metadata: ["userId": userId])
+                return
+            }
+            try databaseManager.addXPToUser(user, xp: amount)
             
             // If belief system is specified, also update belief-system-specific XP
             if let beliefSystemId = beliefSystemId {
