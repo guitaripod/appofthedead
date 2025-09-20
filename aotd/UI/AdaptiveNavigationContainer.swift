@@ -1,4 +1,19 @@
 import UIKit
+
+private enum LayoutConstants {
+    static let sidebarHeaderHeight: CGFloat = 120
+    static let sidebarMinWidth: CGFloat = 280
+    static let sidebarMaxWidth: CGFloat = 400
+    static let sidebarPreferredWidthFraction: CGFloat = 0.3
+    static let headerLogoSize: CGFloat = 60
+    static let headerLogoPointSize: CGFloat = 40
+    static let headerTopPadding: CGFloat = 20
+    static let defaultPadding: CGFloat = 16
+    static let smallPadding: CGFloat = 8
+    static let separatorHeight: CGFloat = 0.5
+    static let tabBarFontSize: CGFloat = 10
+}
+
 final class AdaptiveNavigationContainer: UIViewController {
     private let homeNavigationController: UINavigationController
     private let profileNavigationController: UINavigationController
@@ -32,8 +47,8 @@ final class AdaptiveNavigationContainer: UIViewController {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { _ in
-            self.setupNavigationForCurrentTraits()
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            self?.setupNavigationForCurrentTraits()
         })
     }
     private func setupNavigationForCurrentTraits() {
@@ -102,9 +117,9 @@ final class AdaptiveNavigationContainer: UIViewController {
         splitVC.preferredSplitBehavior = .tile
         splitVC.presentsWithGesture = true
         addSidebarToggleButtons(to: splitVC)
-        splitVC.minimumPrimaryColumnWidth = 280
-        splitVC.preferredPrimaryColumnWidthFraction = 0.3
-        splitVC.maximumPrimaryColumnWidth = 400
+        splitVC.minimumPrimaryColumnWidth = LayoutConstants.sidebarMinWidth
+        splitVC.preferredPrimaryColumnWidthFraction = LayoutConstants.sidebarPreferredWidthFraction
+        splitVC.maximumPrimaryColumnWidth = LayoutConstants.sidebarMaxWidth
         splitVC.view.backgroundColor = PapyrusDesignSystem.Colors.background
         addChild(splitVC)
         view.addSubview(splitVC.view)
@@ -124,12 +139,12 @@ final class AdaptiveNavigationContainer: UIViewController {
         itemAppearance.normal.iconColor = PapyrusDesignSystem.Colors.tertiaryText
         itemAppearance.normal.titleTextAttributes = [
             .foregroundColor: PapyrusDesignSystem.Colors.tertiaryText,
-            .font: UIFont.systemFont(ofSize: 10, weight: .medium)
+            .font: UIFont.systemFont(ofSize: LayoutConstants.tabBarFontSize, weight: .medium)
         ]
         itemAppearance.selected.iconColor = PapyrusDesignSystem.Colors.goldLeaf
         itemAppearance.selected.titleTextAttributes = [
             .foregroundColor: PapyrusDesignSystem.Colors.goldLeaf,
-            .font: UIFont.systemFont(ofSize: 10, weight: .bold)
+            .font: UIFont.systemFont(ofSize: LayoutConstants.tabBarFontSize, weight: .bold)
         ]
         appearance.stackedLayoutAppearance = itemAppearance
         appearance.inlineLayoutAppearance = itemAppearance
@@ -208,7 +223,7 @@ final class SidebarViewController: UIViewController {
         collectionView.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         return collectionView
     }()
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var selectedIndexPath: IndexPath?
     enum Section {
         case main
@@ -233,7 +248,7 @@ final class SidebarViewController: UIViewController {
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 120),
+            headerView.heightAnchor.constraint(equalToConstant: LayoutConstants.sidebarHeaderHeight),
             collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -248,7 +263,7 @@ final class SidebarViewController: UIViewController {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
-        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
+        let config = UIImage.SymbolConfiguration(pointSize: LayoutConstants.headerLogoPointSize, weight: .bold)
         logoImageView.image = UIImage(systemName: "pyramid.fill", withConfiguration: config)
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -260,27 +275,28 @@ final class SidebarViewController: UIViewController {
         headerView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
-            logoImageView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
-            logoImageView.widthAnchor.constraint(equalToConstant: 60),
-            logoImageView.heightAnchor.constraint(equalToConstant: 60),
-            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16)
+            logoImageView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: LayoutConstants.headerTopPadding),
+            logoImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.headerLogoSize),
+            logoImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.headerLogoSize),
+            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: LayoutConstants.smallPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: LayoutConstants.defaultPadding),
+            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -LayoutConstants.defaultPadding)
         ])
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.separator
         headerView.addSubview(separator)
         NSLayoutConstraint.activate([
-            separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
+            separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: LayoutConstants.defaultPadding),
+            separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -LayoutConstants.defaultPadding),
             separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 0.5)
+            separator.heightAnchor.constraint(equalToConstant: LayoutConstants.separatorHeight)
         ])
         return headerView
     }
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, indexPath, item in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { [weak self] cell, indexPath, item in
+            guard let self = self else { return }
             var content = cell.defaultContentConfiguration()
             content.text = item.title
             content.image = item.image
@@ -307,7 +323,7 @@ final class SidebarViewController: UIViewController {
             Item(title: "Settings", image: UIImage(systemName: "gearshape.fill"), index: 4)
         ]
         snapshot.appendItems(items)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource?.apply(snapshot, animatingDifferences: false)
         if let firstItem = items.first {
             selectItem(at: firstItem.index)
         }
@@ -320,7 +336,7 @@ final class SidebarViewController: UIViewController {
 }
 extension SidebarViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let item = dataSource.itemIdentifier(for: indexPath) {
+        if let item = dataSource?.itemIdentifier(for: indexPath) {
             delegate?.sidebar(self, didSelectItemAt: item.index)
             selectedIndexPath = indexPath
         }
