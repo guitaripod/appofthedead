@@ -49,6 +49,19 @@ final class BookReaderViewModel {
         return currentChapterIndex < book.chapters.count - 1
     }
     
+    // iPad support properties
+    var chapterCount: Int {
+        return book.chapters.count
+    }
+    
+    var currentChapterText: String? {
+        return currentChapter?.content
+    }
+    
+    var chapters: [String] {
+        return book.chapters.map { $0.content }
+    }
+    
     var hasBookmarkAtCurrentPosition: Bool {
         guard let chapterId = currentChapter?.id else { return false }
         return bookProgress.bookmarks.contains { $0.chapterId == chapterId }

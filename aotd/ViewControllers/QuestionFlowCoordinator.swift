@@ -48,6 +48,7 @@ final class QuestionFlowCoordinator: NSObject {
     private func createViewController(for question: Question) -> UIViewController {
         let viewModel: BaseQuestionViewModel
         let viewController: BaseQuestionViewController
+        let layoutManager = AdaptiveLayoutManager.shared
         
         switch question.type {
         case .multipleChoice:
@@ -57,7 +58,13 @@ final class QuestionFlowCoordinator: NSObject {
                 currentQuestionIndex: currentQuestionIndex,
                 totalQuestions: questions.count
             )
-            viewController = MultipleChoiceViewController(viewModel: viewModel)
+            
+            // Use iPad-optimized view controller when appropriate
+            if layoutManager.isIPad {
+                viewController = MultipleChoiceViewControllerIPad(viewModel: viewModel)
+            } else {
+                viewController = MultipleChoiceViewController(viewModel: viewModel)
+            }
             
         case .trueFalse:
             viewModel = BaseQuestionViewModel(
@@ -76,7 +83,13 @@ final class QuestionFlowCoordinator: NSObject {
                 currentQuestionIndex: currentQuestionIndex,
                 totalQuestions: questions.count
             )
-            viewController = MultipleChoiceViewController(viewModel: viewModel)
+            
+            // Use iPad-optimized view controller when appropriate
+            if layoutManager.isIPad {
+                viewController = MultipleChoiceViewControllerIPad(viewModel: viewModel)
+            } else {
+                viewController = MultipleChoiceViewController(viewModel: viewModel)
+            }
         }
         
         viewModel.delegate = self

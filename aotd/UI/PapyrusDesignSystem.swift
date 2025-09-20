@@ -244,67 +244,135 @@ enum PapyrusDesignSystem {
         static let papyrusFont = "Papyrus" 
         static let hieroglyphicFont = "American Typewriter" 
         
+        // Adaptive size calculation
+        private static func adaptiveSize(_ baseSize: CGFloat, for traitCollection: UITraitCollection? = nil) -> CGFloat {
+            let traits = traitCollection ?? UITraitCollection.current
+            let layoutManager = AdaptiveLayoutManager.shared
+            let multiplier = layoutManager.fontSizeMultiplier(for: traits)
+            return baseSize * multiplier
+        }
         
-        static func largeTitle(weight: UIFont.Weight = .bold) -> UIFont {
-            if let font = UIFont(name: papyrusFont, size: 34) {
+        static func largeTitle(weight: UIFont.Weight = .bold, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(34, for: traitCollection)
+            if let font = UIFont(name: papyrusFont, size: size) {
                 return font
             }
-            return UIFont.systemFont(ofSize: 34, weight: weight)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func title1(weight: UIFont.Weight = .bold, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(28, for: traitCollection)
+            if let font = UIFont(name: papyrusFont, size: size) {
+                return font
+            }
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func title2(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(22, for: traitCollection)
+            if let font = UIFont(name: papyrusFont, size: size) {
+                return font
+            }
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func title3(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(20, for: traitCollection)
+            if let font = UIFont(name: papyrusFont, size: size) {
+                return font
+            }
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func headline(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(17, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func body(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(17, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func callout(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(16, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func subheadline(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(15, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func footnote(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(13, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func caption1(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(12, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func caption2(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(11, for: traitCollection)
+            return UIFont.systemFont(ofSize: size, weight: weight)
+        }
+        
+        static func bodyItalic(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
+            let size = adaptiveSize(17, for: traitCollection)
+            let descriptor = UIFont.systemFont(ofSize: size, weight: weight).fontDescriptor
+            let italicDescriptor = descriptor.withSymbolicTraits(.traitItalic) ?? descriptor
+            return UIFont(descriptor: italicDescriptor, size: size)
+        }
+        
+        // Backward compatibility - old methods without traitCollection parameter
+        static func largeTitle(weight: UIFont.Weight = .bold) -> UIFont {
+            largeTitle(weight: weight, for: nil)
         }
         
         static func title1(weight: UIFont.Weight = .bold) -> UIFont {
-            if let font = UIFont(name: papyrusFont, size: 28) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: 28, weight: weight)
+            title1(weight: weight, for: nil)
         }
         
         static func title2(weight: UIFont.Weight = .semibold) -> UIFont {
-            if let font = UIFont(name: papyrusFont, size: 22) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: 22, weight: weight)
+            title2(weight: weight, for: nil)
         }
         
         static func title3(weight: UIFont.Weight = .semibold) -> UIFont {
-            if let font = UIFont(name: papyrusFont, size: 20) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: 20, weight: weight)
+            title3(weight: weight, for: nil)
         }
         
         static func headline(weight: UIFont.Weight = .semibold) -> UIFont {
-            return UIFont.systemFont(ofSize: 17, weight: weight)
+            headline(weight: weight, for: nil)
         }
         
         static func body(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 17, weight: weight)
+            body(weight: weight, for: nil)
         }
         
         static func callout(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 16, weight: weight)
+            callout(weight: weight, for: nil)
         }
         
         static func subheadline(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 15, weight: weight)
+            subheadline(weight: weight, for: nil)
         }
         
         static func footnote(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 13, weight: weight)
+            footnote(weight: weight, for: nil)
         }
         
         static func caption1(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 12, weight: weight)
+            caption1(weight: weight, for: nil)
         }
         
         static func caption2(weight: UIFont.Weight = .regular) -> UIFont {
-            return UIFont.systemFont(ofSize: 11, weight: weight)
+            caption2(weight: weight, for: nil)
         }
         
         static func bodyItalic(weight: UIFont.Weight = .regular) -> UIFont {
-            let descriptor = UIFont.systemFont(ofSize: 17, weight: weight).fontDescriptor
-            let italicDescriptor = descriptor.withSymbolicTraits(.traitItalic) ?? descriptor
-            return UIFont(descriptor: italicDescriptor, size: 17)
+            bodyItalic(weight: weight, for: nil)
         }
     }
     
@@ -318,6 +386,43 @@ enum PapyrusDesignSystem {
         static let large: CGFloat = 24
         static let xLarge: CGFloat = 32
         static let xxLarge: CGFloat = 48
+        
+        // iPad-specific spacing
+        static func adaptive(_ base: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
+            let layoutManager = AdaptiveLayoutManager.shared
+            if layoutManager.isIPad && layoutManager.isRegularWidth(traitCollection) {
+                return base * 1.25  // 25% more spacing on iPad
+            }
+            return base
+        }
+        
+        static func xxSmall(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(xxSmall, for: traitCollection)
+        }
+        
+        static func xSmall(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(xSmall, for: traitCollection)
+        }
+        
+        static func small(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(small, for: traitCollection)
+        }
+        
+        static func medium(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(medium, for: traitCollection)
+        }
+        
+        static func large(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(large, for: traitCollection)
+        }
+        
+        static func xLarge(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(xLarge, for: traitCollection)
+        }
+        
+        static func xxLarge(for traitCollection: UITraitCollection) -> CGFloat {
+            adaptive(xxLarge, for: traitCollection)
+        }
     }
     
     

@@ -1,26 +1,16 @@
 import UIKit
 import Combine
-
 final class OracleViewController: UIViewController {
-    
-    
-    
-    private let tableView = UITableView()
-    private let inputContainerView = UIView()
-    private let messageTextView = UITextView()
-    private let sendButton = UIButton(type: .system)
+    let tableView = UITableView()
+    let inputContainerView = UIView()
+    let messageTextView = UITextView()
+    let sendButton = UIButton(type: .system)
     private let deitySelectionButton = UIButton(type: .system)
-    private let promptSuggestionsView = UIView()
-    
-    
-    
+    var promptSuggestionsView = UIView()
     private let viewModel = OracleViewModel()
     private var cancellables = Set<AnyCancellable>()
     private var inputContainerBottomConstraint: NSLayoutConstraint?
     private var typingIndicator: UIActivityIndicatorView?
-    
-    
-    
     private lazy var downloadContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.Papyrus.cardBackground
@@ -35,7 +25,6 @@ final class OracleViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     private lazy var downloadLabel: UILabel = {
         let label = UILabel()
         label.text = "Oracle requires divine knowledge to be downloaded"
@@ -46,7 +35,6 @@ final class OracleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private lazy var oracleIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "sparkles.rectangle.stack.fill")
@@ -55,7 +43,6 @@ final class OracleViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
     private lazy var downloadDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "Download the Qwen3 model (1.7B parameters, ~1GB) to enable on-device AI conversations with ancient deities."
@@ -66,7 +53,6 @@ final class OracleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private lazy var progressView: UIProgressView = {
         let progress = UIProgressView(progressViewStyle: .default)
         progress.progressTintColor = UIColor.Papyrus.gold
@@ -77,7 +63,6 @@ final class OracleViewController: UIViewController {
         progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
     }()
-    
     private lazy var progressLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -87,7 +72,6 @@ final class OracleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private lazy var stageLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
@@ -97,10 +81,8 @@ final class OracleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private lazy var downloadButton: UIButton = {
         let button = UIButton(type: .system)
-        
         var config = UIButton.Configuration.filled()
         config.title = "Download Oracle Model"
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -115,13 +97,11 @@ final class OracleViewController: UIViewController {
         config.baseForegroundColor = UIColor.Papyrus.ink
         config.cornerStyle = .medium
         config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-        
         button.configuration = config
         button.addTarget(self, action: #selector(downloadModel), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = UIColor.Papyrus.gold
@@ -129,17 +109,13 @@ final class OracleViewController: UIViewController {
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupKeyboardObservers()
         setupBindings()
+        updateLayoutForIPad()
         checkModelStatus()
-        
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleMemoryWarning),
@@ -147,64 +123,50 @@ final class OracleViewController: UIViewController {
             object: nil
         )
     }
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
         title = "Oracle"
-        
-        
         checkModelStatus()
     }
-    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             inputContainerView.layer.shadowColor = traitCollection.userInterfaceStyle == .dark ?
                 UIColor.white.cgColor : UIColor.black.cgColor
             inputContainerView.layer.shadowOpacity = traitCollection.userInterfaceStyle == .dark ? 0.05 : 0.1
-            
-            
             messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
         }
     }
-    
-    
-    
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
-        
         setupTableView()
         setupInputContainer()
         setupPromptSuggestions()
         setupConstraints()
-        
         setupDownloadUI()
         updateDeityButton()
     }
-    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.Papyrus.background
         tableView.keyboardDismissMode = .interactive
+        tableView.alwaysBounceHorizontal = false
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.contentInsetAdjustmentBehavior = .automatic
+        tableView.clipsToBounds = true
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: "ChatMessageCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false 
         tableView.addGestureRecognizer(tapGesture)
     }
-    
     private func setupInputContainer() {
         inputContainerView.backgroundColor = UIColor.Papyrus.cardBackground
         inputContainerView.layer.borderWidth = 1
@@ -216,14 +178,10 @@ final class OracleViewController: UIViewController {
         inputContainerView.layer.shadowRadius = 4
         inputContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(inputContainerView)
-        
-        
         deitySelectionButton.tintColor = UIColor.Papyrus.gold
         deitySelectionButton.addTarget(self, action: #selector(selectDeity), for: .touchUpInside)
         deitySelectionButton.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(deitySelectionButton)
-        
-        
         messageTextView.font = .systemFont(ofSize: 16)
         messageTextView.layer.cornerRadius = 18
         messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
@@ -240,73 +198,53 @@ final class OracleViewController: UIViewController {
         messageTextView.keyboardAppearance = .dark 
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(messageTextView)
-        
-        
         sendButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
         sendButton.tintColor = UIColor.Papyrus.gold
         sendButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         inputContainerView.addSubview(sendButton)
     }
-    
     private func setupPromptSuggestions() {
         promptSuggestionsView.backgroundColor = UIColor.Papyrus.background
         promptSuggestionsView.translatesAutoresizingMaskIntoConstraints = false
         promptSuggestionsView.isHidden = true
         view.addSubview(promptSuggestionsView)
-        
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         promptSuggestionsView.addGestureRecognizer(tapGesture)
     }
-    
     private func setupConstraints() {
         inputContainerBottomConstraint = inputContainerView.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor
         )
-        
         NSLayoutConstraint.activate([
-            
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor),
-            
-            
             inputContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             inputContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             inputContainerBottomConstraint!,
-            
-            
             deitySelectionButton.leadingAnchor.constraint(equalTo: inputContainerView.leadingAnchor, constant: 12),
             deitySelectionButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
             deitySelectionButton.widthAnchor.constraint(equalToConstant: 36),
             deitySelectionButton.heightAnchor.constraint(equalToConstant: 36),
-            
-            
             messageTextView.leadingAnchor.constraint(equalTo: deitySelectionButton.trailingAnchor, constant: 8),
             messageTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8),
             messageTextView.topAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: 12),
             messageTextView.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
             messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 36),
             messageTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 120),
-            
-            
             sendButton.trailingAnchor.constraint(equalTo: inputContainerView.trailingAnchor, constant: -12),
             sendButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
             sendButton.widthAnchor.constraint(equalToConstant: 36),
             sendButton.heightAnchor.constraint(equalToConstant: 36),
-            
-            
             promptSuggestionsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             promptSuggestionsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             promptSuggestionsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             promptSuggestionsView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor)
         ])
     }
-    
     private func setupDownloadUI() {
-        
         view.insertSubview(downloadContainerView, belowSubview: promptSuggestionsView)
         downloadContainerView.addSubview(oracleIcon)
         downloadContainerView.addSubview(downloadLabel)
@@ -316,52 +254,40 @@ final class OracleViewController: UIViewController {
         downloadContainerView.addSubview(progressLabel)
         downloadContainerView.addSubview(stageLabel)
         downloadContainerView.addSubview(loadingIndicator)
-        
-        
         NSLayoutConstraint.activate([
             downloadContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             downloadContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             downloadContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 32),
             downloadContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -32),
             downloadContainerView.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
-            
             oracleIcon.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: 32),
             oracleIcon.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             oracleIcon.widthAnchor.constraint(equalToConstant: 60),
             oracleIcon.heightAnchor.constraint(equalToConstant: 60),
-            
             downloadLabel.topAnchor.constraint(equalTo: oracleIcon.bottomAnchor, constant: 16),
             downloadLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             downloadLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            
             downloadDescriptionLabel.topAnchor.constraint(equalTo: downloadLabel.bottomAnchor, constant: 12),
             downloadDescriptionLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             downloadDescriptionLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            
             progressView.topAnchor.constraint(equalTo: downloadDescriptionLabel.bottomAnchor, constant: 24),
             progressView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             progressView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
             progressView.heightAnchor.constraint(equalToConstant: 4),
-            
             progressLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8),
             progressLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             progressLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            
             stageLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 4),
             stageLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
             stageLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            
             downloadButton.topAnchor.constraint(equalTo: stageLabel.bottomAnchor, constant: 20),
             downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -32),
-            
             loadingIndicator.centerXAnchor.constraint(equalTo: downloadButton.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: downloadButton.centerYAnchor)
         ])
     }
-    
     private func setupBindings() {
-        
         viewModel.$messages
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -370,16 +296,12 @@ final class OracleViewController: UIViewController {
                 self?.updatePromptSuggestions()
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$selectedDeity
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.updateDeityButton()
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$isModelLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
@@ -398,57 +320,42 @@ final class OracleViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$downloadProgress
             .receive(on: DispatchQueue.main)
             .sink { [weak self] progress in
                 self?.progressView.setProgress(progress, animated: true)
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$downloadStatus
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
                 self?.progressLabel.text = status
-                
-                
                 if status.contains("Loading Oracle model") {
-                    
                     self?.downloadLabel.text = "Loading Oracle..."
                     self?.downloadDescriptionLabel.text = "Please wait while we restore the divine connection."
                     self?.downloadButton.isHidden = true
                     self?.progressView.isHidden = true
                 } else if status.isEmpty {
-                    
                     self?.downloadLabel.text = "Oracle requires divine knowledge to be downloaded"
                     self?.downloadDescriptionLabel.text = "Download the Llama 3.2 model (~1.8GB) to enable on-device AI conversations with ancient deities."
                 }
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$downloadStage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] stage in
                 self?.stageLabel.text = stage
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$isModelLoaded
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoaded in
                 self?.downloadContainerView.isHidden = isLoaded
                 self?.inputContainerView.isHidden = !isLoaded
                 self?.tableView.isHidden = !isLoaded
-                
                 self?.updatePromptSuggestions()
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$isGenerating
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isGenerating in
@@ -456,8 +363,6 @@ final class OracleViewController: UIViewController {
                 self?.messageTextView.isEditable = !isGenerating
             }
             .store(in: &cancellables)
-        
-        
         viewModel.$modelError
             .compactMap { $0 }
             .receive(on: DispatchQueue.main)
@@ -472,26 +377,20 @@ final class OracleViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-    
     private func checkModelStatus() {
         Task {
-            
             if MLXModelManager.shared.isModelLoaded && !viewModel.isModelLoaded {
                 await MainActor.run {
                     viewModel.syncModelLoadedState()
                 }
             }
         }
-        
-        
         if DeviceUtility.isSimulator {
             downloadLabel.text = "Oracle Simulator Mode"
             downloadDescriptionLabel.text = "You're running in the iOS Simulator. The Oracle will provide mock responses for testing the UI. Deploy to a physical device to experience real AI-powered conversations."
             downloadButton.configuration?.title = "Enable Simulator Oracle"
             oracleIcon.image = UIImage(systemName: "desktopcomputer")
         }
-        
-        
         if viewModel.isModelLoaded {
             downloadContainerView.isHidden = true
             inputContainerView.isHidden = false
@@ -501,11 +400,8 @@ final class OracleViewController: UIViewController {
             inputContainerView.isHidden = true
             tableView.isHidden = true
         }
-        
-        
         updatePromptSuggestions()
     }
-    
     private func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(
             self,
@@ -513,7 +409,6 @@ final class OracleViewController: UIViewController {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),
@@ -521,56 +416,37 @@ final class OracleViewController: UIViewController {
             object: nil
         )
     }
-    
-    
-    
-    @objc private func sendMessage() {
+    @objc func sendMessage() {
         guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty else {
             return
         }
-        
-        
         guard let user = DatabaseManager.shared.fetchUser(),
               let deity = viewModel.selectedDeity else {
             return
         }
-        
         if !user.canConsultOracle(deityId: deity.id) {
-            
             let paywall = PaywallViewController(reason: .oracleLimit(deityId: deity.id, deityName: deity.name))
             present(paywall, animated: true)
             return
         }
-        
-        
         messageTextView.text = ""
         textViewDidChange(messageTextView)
-        
-        
         user.recordOracleConsultation(deityId: deity.id)
-        
-        
         Task {
             await viewModel.sendMessage(text)
         }
     }
-    
     @objc private func downloadModel() {
         Task {
             await viewModel.loadModel()
         }
     }
-    
     @objc private func selectDeity() {
-        
         guard !viewModel.availableDeities.isEmpty else {
             return
         }
-        
-        
         let deitiesArray = viewModel.availableDeities.map { deity in
-            
             return OracleViewModel.Deity(
                 id: deity.id,
                 name: deity.name,
@@ -582,137 +458,85 @@ final class OracleViewController: UIViewController {
                 suggestedPrompts: deity.suggestedPrompts
             )
         }
-        
-        
         let currentDeityCopy = deitiesArray.first { $0.id == viewModel.selectedDeity?.id }
-        
-        
         let deitySelector = DeitySelectionViewController(
             deities: deitiesArray,
             currentDeity: currentDeityCopy
         ) { [weak self] selectedDeity in
             guard let self = self else { return }
-            
-            
             if let originalDeity = self.viewModel.availableDeities.first(where: { $0.id == selectedDeity.id }) {
-                
                 self.animateDeityTransition {
                     self.viewModel.selectDeity(originalDeity)
                 }
             }
         }
-        
-        
         if self.presentedViewController == nil {
             self.present(deitySelector, animated: true)
         }
     }
-    
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
             return
         }
-        
         inputContainerBottomConstraint?.constant = -keyboardFrame.height + view.safeAreaInsets.bottom
-        
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
         }
-        
         scrollToBottom()
     }
-    
     @objc private func keyboardWillHide(_ notification: Notification) {
         guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
             return
         }
-        
         inputContainerBottomConstraint?.constant = 0
-        
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
         }
     }
-    
     @objc private func handleMemoryWarning() {
-        
         URLCache.shared.removeAllCachedResponses()
-        
-        
         tableView.reloadData()
-        
-        
         let memoryStatus = MLXModelManager.shared.checkMemoryStatus()
         let availableMB = memoryStatus.availableMemory / 1024 / 1024
-        
-        
         if !viewModel.isGenerating && viewModel.isModelLoaded {
             MLXModelManager.shared.handleMemoryPressure()
-            
-            
             if availableMB < 500 {
-                
-                
             }
         }
     }
-    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
-    
     private func updateDeityButton() {
         guard let deity = viewModel.selectedDeity else {
             return
         }
-        
-        
         if let iconImage = UIImage(systemName: deity.avatar) {
             let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
             deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
             deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         } else {
-            
             deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
             deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         }
-        
-        
         updatePromptSuggestions()
     }
-    
     private func updatePromptSuggestions() {
-        
         promptSuggestionsView.subviews.forEach { $0.removeFromSuperview() }
-        
-        
         let hasRealMessages = viewModel.messages.filter { !$0.text.isEmpty && $0.isUser }.count > 0
         let shouldShowPrompts = !hasRealMessages && viewModel.selectedDeity != nil && viewModel.isModelLoaded
-        
-        
         promptSuggestionsView.isHidden = !shouldShowPrompts
-        
-        
         if viewModel.isModelLoaded {
             tableView.isHidden = shouldShowPrompts
         }
-        
         guard shouldShowPrompts, let deity = viewModel.selectedDeity else { return }
-        
-        
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         promptSuggestionsView.addSubview(containerView)
-        
-        
         let headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(headerView)
-        
-        
         let iconSize: CGFloat = 32
         let iconContainerView = UIView()
         iconContainerView.backgroundColor = UIColor(hex: deity.color)?.withAlphaComponent(0.15) ?? UIColor.Papyrus.gold.withAlphaComponent(0.15)
@@ -721,7 +545,6 @@ final class OracleViewController: UIViewController {
         iconContainerView.layer.borderColor = (UIColor(hex: deity.color) ?? UIColor.Papyrus.gold).withAlphaComponent(0.3).cgColor
         iconContainerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(iconContainerView)
-        
         let iconImageView = UIImageView()
         if let iconImage = UIImage(systemName: deity.avatar) {
             let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
@@ -730,44 +553,31 @@ final class OracleViewController: UIViewController {
         iconImageView.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconContainerView.addSubview(iconImageView)
-        
-        
         let nameLabel = UILabel()
         nameLabel.text = deity.name
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         nameLabel.textColor = UIColor.Papyrus.primaryText
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(nameLabel)
-        
-        
         let gridContainer = UIView()
         gridContainer.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(gridContainer)
-        
-        
         if let prompts = deity.suggestedPrompts {
             let columns = 2
             let spacing: CGFloat = 8
             let buttonHeight: CGFloat = 48
-            
             for (index, prompt) in prompts.prefix(4).enumerated() {
                 let row = index / columns
                 let col = index % columns
-                
                 let button = createCompactPromptButton(with: prompt, color: deity.color)
                 button.translatesAutoresizingMaskIntoConstraints = false
                 gridContainer.addSubview(button)
-                
-                
                 let isLeftColumn = col == 0
                 let isTopRow = row == 0
                 let isBottomRow = row == 1
-                
                 var constraints: [NSLayoutConstraint] = [
                     button.heightAnchor.constraint(equalToConstant: buttonHeight)
                 ]
-                
-                
                 if isLeftColumn {
                     constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.leadingAnchor))
                     constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: -spacing/2))
@@ -775,52 +585,34 @@ final class OracleViewController: UIViewController {
                     constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: spacing/2))
                     constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.trailingAnchor))
                 }
-                
-                
                 if isTopRow {
                     constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor))
                 } else {
                     constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor, constant: buttonHeight + spacing))
                 }
-                
                 if isBottomRow {
                     constraints.append(button.bottomAnchor.constraint(equalTo: gridContainer.bottomAnchor))
                 }
-                
                 NSLayoutConstraint.activate(constraints)
             }
         }
-        
-        
         let centerYOffset: CGFloat = 0
-        
-        
         NSLayoutConstraint.activate([
-            
             containerView.leadingAnchor.constraint(equalTo: promptSuggestionsView.leadingAnchor, constant: 16),
             containerView.trailingAnchor.constraint(equalTo: promptSuggestionsView.trailingAnchor, constant: -16),
             containerView.centerYAnchor.constraint(equalTo: promptSuggestionsView.centerYAnchor, constant: centerYOffset),
-            
-            
             headerView.topAnchor.constraint(equalTo: containerView.topAnchor),
             headerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             headerView.heightAnchor.constraint(equalToConstant: iconSize),
-            
-            
             iconContainerView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
             iconContainerView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             iconContainerView.widthAnchor.constraint(equalToConstant: iconSize),
             iconContainerView.heightAnchor.constraint(equalToConstant: iconSize),
-            
             iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
             iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
-            
-            
             nameLabel.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 8),
             nameLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            
-            
             gridContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
             gridContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             gridContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -828,10 +620,8 @@ final class OracleViewController: UIViewController {
             gridContainer.heightAnchor.constraint(equalToConstant: 104) 
         ])
     }
-    
     private func createPromptButton(with text: String, color: String, isCompact: Bool = false) -> UIButton {
         let button = UIButton(type: .system)
-        
         var config = UIButton.Configuration.filled()
         config.title = text
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -848,30 +638,22 @@ final class OracleViewController: UIViewController {
             bottom: isCompact ? 12 : 16,
             trailing: isCompact ? 16 : 20
         )
-        
         button.configuration = config
         button.layer.borderWidth = 1
         button.layer.borderColor = (UIColor(hex: color) ?? UIColor.Papyrus.aged).cgColor
         button.layer.cornerRadius = isCompact ? 10 : 12
-        
         button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
-        
         return button
     }
-    
     private func createCompactPromptButton(with text: String, color: String) -> UIButton {
         let button = UIButton(type: .custom)
         button.clipsToBounds = true
         button.backgroundColor = UIColor(hex: color)?.withAlphaComponent(0.08)
         button.layer.cornerRadius = 8
-        
-        
         let shimmerView = ShimmerBorderView(color: UIColor(hex: color) ?? UIColor.Papyrus.gold)
         shimmerView.translatesAutoresizingMaskIntoConstraints = false
         shimmerView.isUserInteractionEnabled = false
         button.addSubview(shimmerView)
-        
-        
         button.setTitle(text, for: .normal)
         button.setTitleColor(UIColor(hex: color)?.withAlphaComponent(0.8) ?? UIColor.Papyrus.primaryText.withAlphaComponent(0.8), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
@@ -880,89 +662,59 @@ final class OracleViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.9
-        
-        
         NSLayoutConstraint.activate([
             shimmerView.topAnchor.constraint(equalTo: button.topAnchor),
             shimmerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
             shimmerView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
             shimmerView.bottomAnchor.constraint(equalTo: button.bottomAnchor)
         ])
-        
         button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
-        
         return button
     }
-    
     @objc private func promptButtonTapped(_ sender: UIButton) {
         guard let prompt = sender.titleLabel?.text else { return }
-        
-        
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
-        
-        
         messageTextView.text = prompt
         textViewDidChange(messageTextView)
-        
-        
         sendMessage()
     }
-    
-    
     private func scrollToBottom() {
         guard viewModel.messages.count > 0 else { return }
-        
         let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
         tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
-    
     private func animateDeityTransition(completion: @escaping () -> Void) {
-        
         let transitionView = UIView(frame: view.bounds)
         transitionView.backgroundColor = UIColor.Papyrus.background
         transitionView.alpha = 0
         view.addSubview(transitionView)
-        
-        
         if let deity = viewModel.selectedDeity {
             let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
-            
-            
             let circleView = UIView()
             circleView.backgroundColor = deityColor.withAlphaComponent(0.3)
             circleView.layer.cornerRadius = 30
             circleView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-            
             let buttonCenter = view.convert(deitySelectionButton.center, from: deitySelectionButton.superview)
             circleView.center = buttonCenter
             transitionView.addSubview(circleView)
-            
-            
             UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut], animations: {
                 circleView.transform = CGAffineTransform(scaleX: 20, y: 20)
                 circleView.alpha = 0.1
             })
         }
-        
-        
         UIView.animate(withDuration: 0.2, animations: {
             transitionView.alpha = 1.0
             self.tableView.alpha = 0.3
             self.promptSuggestionsView.alpha = 0.3
         }) { _ in
-            
             completion()
-            
-            
             UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseInOut], animations: {
                 transitionView.alpha = 0
                 self.tableView.alpha = 1.0
                 self.promptSuggestionsView.alpha = 1.0
             }) { _ in
                 transitionView.removeFromSuperview()
-                
-                
                 UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {
                     self.deitySelectionButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                 }) { _ in
@@ -974,15 +726,10 @@ final class OracleViewController: UIViewController {
         }
     }
 }
-
-
-
 extension OracleViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.messages.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatMessageCell", for: indexPath) as! ChatMessageCell
         let message = viewModel.messages[indexPath.row]
@@ -990,131 +737,84 @@ extension OracleViewController: UITableViewDataSource {
         return cell
     }
 }
-
-
-
 extension OracleViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
-
-
-
 extension OracleViewController: UITextViewDelegate {
-    
     func textViewDidChange(_ textView: UITextView) {
-        
         let hasText = !textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         sendButton.isEnabled = hasText
         sendButton.alpha = hasText ? 1.0 : 0.5
-        
-        
         let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .infinity))
         textView.isScrollEnabled = size.height > 120
     }
 }
-
-
-
 private class ChatMessageCell: UITableViewCell {
-    
     private let bubbleView = UIView()
     private let messageLabel = UILabel()
     private let nameLabel = UILabel()
     private let typingIndicator = UIActivityIndicatorView(style: .medium)
-    
-    
     private var bubbleTopConstraint: NSLayoutConstraint?
     private var bubbleLeadingConstraint: NSLayoutConstraint?
     private var bubbleTrailingConstraint: NSLayoutConstraint?
     private var bubbleBottomConstraint: NSLayoutConstraint?
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        
-        
         contentView.addSubview(nameLabel)
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(messageLabel)
         bubbleView.addSubview(typingIndicator)
-        
-        
         bubbleView.layer.cornerRadius = 16
         bubbleView.layer.borderWidth = 1
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
-        
         messageLabel.numberOfLines = 0
         messageLabel.font = .systemFont(ofSize: 16)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         typingIndicator.translatesAutoresizingMaskIntoConstraints = false
         typingIndicator.hidesWhenStopped = true
         typingIndicator.color = UIColor.Papyrus.aged
-        
-        
         setupConstraints()
     }
-    
     private func setupConstraints() {
-        
         bubbleTopConstraint = bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
         bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
         bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         bubbleBottomConstraint = bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        
-        
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
             messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8),
-            
-            
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            
-            
-            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width * 0.85),
-            
-            
+            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: min(600, UIScreen.main.bounds.width * 0.75)),
             typingIndicator.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor),
             typingIndicator.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor)
         ])
-        
-        
         bubbleTopConstraint?.priority = UILayoutPriority(999)
         bubbleBottomConstraint?.priority = UILayoutPriority(999)
-        
         NSLayoutConstraint.activate([
             bubbleTopConstraint!,
             bubbleBottomConstraint!
         ])
     }
-    
     func configure(with message: OracleViewModel.ChatMessage) {
-        
         if !message.isUser && message.text.isEmpty {
-            
             messageLabel.text = " "  
             messageLabel.isHidden = true
             typingIndicator.startAnimating()
-            
-            
             NSLayoutConstraint.activate([
                 bubbleView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
                 bubbleView.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
@@ -1124,67 +824,45 @@ private class ChatMessageCell: UITableViewCell {
             messageLabel.isHidden = false
             typingIndicator.stopAnimating()
         }
-        
-        
         bubbleLeadingConstraint?.isActive = false
         bubbleTrailingConstraint?.isActive = false
-        
         if message.isUser {
-            
             bubbleView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
             bubbleView.layer.borderColor = UIColor.Papyrus.gold.cgColor
             messageLabel.textColor = UIColor.Papyrus.beige
             nameLabel.isHidden = true
-            
-            
             bubbleTopConstraint?.constant = 8
             bubbleBottomConstraint?.constant = -8
-            
-            
             bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
             bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 60)
-            
             bubbleTrailingConstraint?.isActive = true
             bubbleLeadingConstraint?.isActive = true
         } else {
-            
             bubbleView.backgroundColor = UIColor.Papyrus.cardBackground
             bubbleView.layer.borderColor = UIColor.Papyrus.aged.cgColor
             messageLabel.textColor = UIColor.Papyrus.primaryText
-            
             if let deity = message.deity {
                 nameLabel.isHidden = false
                 nameLabel.text = deity.name
                 nameLabel.textColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
-                
-                
                 bubbleTopConstraint?.constant = 28
                 bubbleBottomConstraint?.constant = -8
-                
-                
                 NSLayoutConstraint.activate([
                     nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4)
                 ])
             } else {
                 nameLabel.isHidden = true
-                
-                
                 bubbleTopConstraint?.constant = 8
                 bubbleBottomConstraint?.constant = -8
             }
-            
-            
             bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
             bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -60)
-            
             bubbleLeadingConstraint?.isActive = true
             bubbleTrailingConstraint?.isActive = true
         }
     }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
         NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
             (constraint.firstItem === nameLabel || constraint.secondItem === nameLabel) &&
             constraint.firstAttribute == .bottom
@@ -1193,44 +871,33 @@ private class ChatMessageCell: UITableViewCell {
             (constraint.firstAttribute == .height || constraint.firstAttribute == .width) &&
             (constraint.firstItem === bubbleView || constraint.secondItem === bubbleView)
         })
-        
         typingIndicator.stopAnimating()
         messageLabel.isHidden = false
     }
 }
-
-
-
 private class ShimmerBorderView: UIView {
     private let borderLayer = CAShapeLayer()
     private let shimmerLayer = CAShapeLayer()
     private let animationDuration: TimeInterval = 3.0
     private let deityColor: UIColor
-    
     init(color: UIColor) {
         self.deityColor = color
         super.init(frame: .zero)
         setupLayers()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         updatePaths()
         startAnimation()
     }
-    
     private func setupLayers() {
-        
         borderLayer.fillColor = UIColor.clear.cgColor
         borderLayer.strokeColor = deityColor.withAlphaComponent(0.15).cgColor
         borderLayer.lineWidth = 1
         layer.addSublayer(borderLayer)
-        
-        
         shimmerLayer.fillColor = UIColor.clear.cgColor
         shimmerLayer.strokeColor = deityColor.cgColor
         shimmerLayer.lineWidth = 1.5
@@ -1238,43 +905,31 @@ private class ShimmerBorderView: UIView {
         shimmerLayer.strokeEnd = 0.0
         layer.addSublayer(shimmerLayer)
     }
-    
     private func updatePaths() {
         let rect = bounds
         let cornerRadius: CGFloat = 8
         let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
-        
-        
         borderLayer.path = path.cgPath
         shimmerLayer.path = path.cgPath
-        
         borderLayer.frame = rect
         shimmerLayer.frame = rect
     }
-    
     private func startAnimation() {
-        
         shimmerLayer.removeAllAnimations()
-        
-        
         let strokeEndAnimation = CAKeyframeAnimation(keyPath: "strokeEnd")
         strokeEndAnimation.values = [0.0, 0.3, 1.0, 1.0]
         strokeEndAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
-        
         let strokeStartAnimation = CAKeyframeAnimation(keyPath: "strokeStart")
         strokeStartAnimation.values = [0.0, 0.0, 0.7, 1.0]
         strokeStartAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
-        
         let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
         opacityAnimation.values = [0.0, 1.0, 1.0, 0.0]
         opacityAnimation.keyTimes = [0.0, 0.2, 0.8, 1.0]
-        
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [strokeEndAnimation, strokeStartAnimation, opacityAnimation]
         animationGroup.duration = animationDuration
         animationGroup.repeatCount = .infinity
         animationGroup.isRemovedOnCompletion = false
-        
         shimmerLayer.add(animationGroup, forKey: "shimmerAnimation")
     }
 }

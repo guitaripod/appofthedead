@@ -22,7 +22,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     private let deities: [OracleViewModel.Deity]
     private let onSelection: ((OracleViewModel.Deity) -> Void)?
     private let currentDeity: OracleViewModel.Deity?
-    var currentLayoutPreference: ViewLayoutPreference = UserDefaults.standard.viewLayoutPreference
+    var currentLayoutPreference: ViewLayoutPreference = .grid
     
     
     
@@ -246,19 +246,10 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     
     
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleLayoutPreferenceChanged(_:)),
-            name: .viewLayoutPreferenceChanged,
-            object: nil
-        )
+        // Layout preference notification removed - now automatic
     }
     
-    @objc private func handleLayoutPreferenceChanged(_ notification: Notification) {
-        if let layout = notification.userInfo?["layout"] as? ViewLayoutPreference {
-            switchToLayout(layout)
-        }
-    }
+
     
     
     

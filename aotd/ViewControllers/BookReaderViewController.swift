@@ -5,12 +5,12 @@ final class BookReaderViewController: UIViewController {
     
     
     
-    private let viewModel: BookReaderViewModel
+    let viewModel: BookReaderViewModel
     private var speechSynthesizer: AVSpeechSynthesizer?
     private var readingTimer: Timer?
     private var panGestureStartPosition: CGFloat = 0
     private var autoScrollTimer: Timer?
-    private var controlsHidden = false
+    var controlsHidden = false
     private var isNavigatingChapter = false
     private var hasRestoredPosition = false
     private var textSelectionHandler: BookReaderTextSelectionHandler?
@@ -20,7 +20,7 @@ final class BookReaderViewController: UIViewController {
     
     
     
-    private lazy var headerView: UIView = {
+    lazy var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         return view
@@ -59,7 +59,7 @@ final class BookReaderViewController: UIViewController {
         return label
     }()
     
-    private lazy var textView: BookReaderTextView = {
+    lazy var textView: BookReaderTextView = {
         let textView = BookReaderTextView()
         textView.isEditable = false
         textView.isSelectable = true
@@ -84,7 +84,7 @@ final class BookReaderViewController: UIViewController {
         return progress
     }()
     
-    private lazy var bottomToolbar: UIView = {
+    lazy var bottomToolbar: UIView = {
         let view = UIView()
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         return view
@@ -98,7 +98,7 @@ final class BookReaderViewController: UIViewController {
         return button
     }()
     
-    private lazy var playPauseButton: UIButton = {
+    lazy var playPauseButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.tintColor = PapyrusDesignSystem.Colors.goldLeaf
@@ -158,6 +158,9 @@ final class BookReaderViewController: UIViewController {
         setupTextSelection()
         bindViewModel()
         startReadingTimer()
+        
+        // iPad-specific layout enhancements
+        updateLayoutForIPad()
         
         
         viewModel.loadCurrentChapter()
@@ -367,7 +370,7 @@ final class BookReaderViewController: UIViewController {
         present(settingsVC, animated: true)
     }
     
-    @objc private func previousChapterTapped() {
+    @objc func previousChapterTapped() {
         stopSpeech()
         stopAutoScroll()
         
@@ -387,7 +390,7 @@ final class BookReaderViewController: UIViewController {
         }
     }
     
-    @objc private func nextChapterTapped() {
+    @objc func nextChapterTapped() {
         stopSpeech()
         stopAutoScroll()
         
@@ -730,6 +733,12 @@ final class BookReaderViewController: UIViewController {
         
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
             applyReadingPreferences()
+        }
+        
+        // Update layout for iPad when size classes change
+        if traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass ||
+           traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
+            updateLayoutForIPad()
         }
     }
 }

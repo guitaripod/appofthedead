@@ -4,24 +4,24 @@ final class ProfileViewController: UIViewController {
     
     private let viewModel: ProfileViewModel
     
-    private let scrollView = UIScrollView()
-    private let contentStackView = UIStackView()
+    let scrollView = UIScrollView()
+    let contentStackView = UIStackView()
     
     
-    private let profileHeaderView = UIView()
-    private let avatarImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let levelLabel = UILabel()
+    let profileHeaderView = UIView()
+    let avatarImageView = UIImageView()
+    let nameLabel = UILabel()
+    let levelLabel = UILabel()
     private let xpProgressView = UIProgressView()
-    private let xpLabel = UILabel()
+    let xpLabel = UILabel()
     
     
-    private let statsContainerView = UIView()
-    private let statsStackView = UIStackView()
+    let statsContainerView = UIView()
+    let statsStackView = UIStackView()
     
     
-    private let achievementsHeaderLabel = UILabel()
-    private lazy var achievementsCollectionView = createAchievementsCollectionView()
+    let achievementsHeaderLabel = UILabel()
+    lazy var achievementsCollectionView = createAchievementsCollectionView()
     
     
     init(viewModel: ProfileViewModel) {
@@ -37,6 +37,10 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        
+        // iPad-specific optimizations
+        updateLayoutForIPad()
+        
         viewModel.loadData()
         
         
@@ -46,6 +50,16 @@ final class ProfileViewController: UIViewController {
             name: Notification.Name("UserDataDidUpdate"),
             object: nil
         )
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        // Update layout when size classes change
+        if traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass ||
+           traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
+            updateLayoutForIPad()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
