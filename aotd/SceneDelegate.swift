@@ -80,45 +80,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppLogger.endActivity("BookLibraryViewController.setup", id: libraryActivity)
         
         
-        let tabBarController = UITabBarController()
-        
-        
-        homeNavigationController.tabBarItem = UITabBarItem(
-            title: "Learn",
-            image: UIImage(systemName: "book.fill"),
-            selectedImage: UIImage(systemName: "book.fill")
+        // Create adaptive navigation container
+        let adaptiveContainer = AdaptiveNavigationContainer(
+            homeNav: homeNavigationController,
+            profileNav: profileNavigationController,
+            oracleNav: oracleNavigationController,
+            libraryNav: libraryNavigationController,
+            settingsNav: settingsNavigationController
         )
-        
-        profileNavigationController.tabBarItem = UITabBarItem(
-            title: "Profile",
-            image: UIImage(systemName: "person.circle.fill"),
-            selectedImage: UIImage(systemName: "person.circle.fill")
-        )
-        
-        oracleNavigationController.tabBarItem = UITabBarItem(
-            title: "Oracle",
-            image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"),
-            selectedImage: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill")
-        )
-        
-        libraryNavigationController.tabBarItem = UITabBarItem(
-            title: "Library",
-            image: UIImage(systemName: "books.vertical"),
-            selectedImage: UIImage(systemName: "books.vertical")
-        )
-        
-        settingsNavigationController.tabBarItem = UITabBarItem(
-            title: "Settings",
-            image: UIImage(systemName: "gearshape.fill"),
-            selectedImage: UIImage(systemName: "gearshape.fill")
-        )
-        
-        
-        tabBarController.viewControllers = [homeNavigationController, profileNavigationController, oracleNavigationController, libraryNavigationController, settingsNavigationController]
         
         
         configureNavigationBarAppearance()
-        configureTabBarAppearance(tabBarController.tabBar)
         
         
         setupNavigationFlow(
@@ -127,14 +99,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             contentLoader: contentLoader
         )
         
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = adaptiveContainer
         self.window?.makeKeyAndVisible()
         
         
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
         
         AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
-            "viewControllerCount": tabBarController.viewControllers?.count ?? 0
+            "viewControllerCount": 5
         ])
         AppLogger.ui.info("Scene setup complete")
     }
@@ -221,48 +193,5 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().tintColor = UIColor.Papyrus.gold
     }
-    
-    private func configureTabBarAppearance(_ tabBar: UITabBar) {
-        
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        
-        
-        appearance.backgroundColor = UIColor.Papyrus.cardBackground
-        
-        
-        appearance.shadowColor = UIColor.Papyrus.aged
-        appearance.shadowImage = UIImage()
-        
-        
-        let itemAppearance = UITabBarItemAppearance()
-        
-        
-        itemAppearance.normal.iconColor = UIColor.Papyrus.tertiaryText
-        itemAppearance.normal.titleTextAttributes = [
-            .foregroundColor: UIColor.Papyrus.tertiaryText,
-            .font: UIFont.systemFont(ofSize: 10, weight: .medium)
-        ]
-        
-        
-        itemAppearance.selected.iconColor = UIColor.Papyrus.gold
-        itemAppearance.selected.titleTextAttributes = [
-            .foregroundColor: UIColor.Papyrus.gold,
-            .font: UIFont.systemFont(ofSize: 10, weight: .bold)
-        ]
-        
-        appearance.stackedLayoutAppearance = itemAppearance
-        appearance.inlineLayoutAppearance = itemAppearance
-        appearance.compactInlineLayoutAppearance = itemAppearance
-        
-        tabBar.standardAppearance = appearance
-        tabBar.scrollEdgeAppearance = appearance
-        
-        
-        tabBar.tintColor = UIColor.Papyrus.gold
-        
-        
-        tabBar.layer.borderWidth = 0.5
-        tabBar.layer.borderColor = UIColor.Papyrus.aged.cgColor
-    }
+
 }
