@@ -1,4 +1,6 @@
 import UIKit
+import SafariServices
+
 final class SettingsViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
@@ -82,6 +84,20 @@ final class SettingsViewController: UIViewController {
             message: "This feature is coming soon!",
             from: self
         )
+    }
+
+    private func openPrivacyPolicy() {
+        guard let url = URL(string: "https://docs.google.com/document/d/1hgyLnTBAPtZC4miv1nEHuvw4_oRhj_gScdCxy7kGePw/edit?usp=sharing") else { return }
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = UIColor.Papyrus.gold
+        present(safariVC, animated: true)
+    }
+
+    private func openTermsOfService() {
+        guard let url = URL(string: "https://docs.google.com/document/d/1txoG5pVgG-pqO1Gesy1kXJjG7ZrqL5Tv6E97azuq1yQ/edit?usp=sharing") else { return }
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = UIColor.Papyrus.gold
+        present(safariVC, animated: true)
     }
 }
 extension SettingsViewController: UITableViewDataSource {
@@ -181,8 +197,10 @@ extension SettingsViewController: UITableViewDelegate {
                 switch row {
                 case .version:
                     break 
-                case .privacyPolicy, .termsOfService:
-                    showComingSoon(feature: row.title)
+                case .privacyPolicy:
+                    openPrivacyPolicy()
+                case .termsOfService:
+                    openTermsOfService()
                 }
             }
         }
