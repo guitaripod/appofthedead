@@ -92,24 +92,8 @@ final class AchievementBadgeCell: UICollectionViewCell {
     func configure(with achievement: Achievement, userAchievement: UserAchievement) {
         titleLabel.text = achievement.name
         progressView.progress = Float(userAchievement.progress)
-        
-        
-        let iconName: String
-        switch achievement.criteria.type {
-        case .totalXP:
-            iconName = "star.fill"
-        case .correctQuestions:
-            iconName = "checkmark.circle.fill"
-        case .completePath:
-            iconName = "flag.fill"
-        case .completeMultiplePaths, .completeAllPaths:
-            iconName = "crown.fill"
-        case .perfectMasteryTest:
-            iconName = "medal.fill"
-        case .completeLesson:
-            iconName = "book.fill"
-        }
-        iconImageView.image = UIImage(systemName: iconName)
+
+        iconImageView.image = UIImage(systemName: achievement.icon)
         
         
         if userAchievement.isCompleted {

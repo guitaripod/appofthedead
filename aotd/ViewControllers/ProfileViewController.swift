@@ -423,12 +423,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AchievementBadgeCell", for: indexPath) as! AchievementBadgeCell
-        
+
         let userAchievement = viewModel.userAchievements[indexPath.item]
         if let achievement = viewModel.achievements.first(where: { $0.id == userAchievement.achievementId }) {
             cell.configure(with: achievement, userAchievement: userAchievement)
         }
-        
+
         return cell
     }
     

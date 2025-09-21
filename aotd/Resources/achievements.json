@@ -3,7 +3,7 @@
     "id": "scholar_of_sheol",
     "name": "Scholar of Sheol",
     "description": "Complete the Judaism path.",
-    "icon": "book",
+    "icon": "flag.fill",
     "criteria": {
       "type": "completePath",
       "value": "judaism"
@@ -13,7 +13,7 @@
     "id": "eternal_student",
     "name": "Eternal Student",
     "description": "Complete 3 belief system paths.",
-    "icon": "scroll",
+    "icon": "crown.fill",
     "criteria": {
       "type": "completeMultiplePaths",
       "value": 3
@@ -23,7 +23,7 @@
     "id": "perfect_understanding",
     "name": "Perfect Understanding",
     "description": "Get 100% on any mastery test.",
-    "icon": "medal",
+    "icon": "medal.fill",
     "criteria": {
       "type": "perfectMasteryTest",
       "value": 1
@@ -33,7 +33,7 @@
     "id": "wisdom_seeker",
     "name": "Wisdom Seeker",
     "description": "Earn 1000 total XP.",
-    "icon": "lightbulb",
+    "icon": "star.fill",
     "criteria": {
       "type": "totalXP",
       "value": 1000
@@ -43,7 +43,7 @@
     "id": "cosmic_explorer",
     "name": "Cosmic Explorer",
     "description": "Complete 5 belief system paths.",
-    "icon": "compass",
+    "icon": "crown.fill",
     "criteria": {
       "type": "completeMultiplePaths",
       "value": 5
@@ -53,7 +53,7 @@
     "id": "afterlife_master",
     "name": "Afterlife Master",
     "description": "Complete all belief system paths.",
-    "icon": "crown",
+    "icon": "crown.fill",
     "criteria": {
       "type": "completeAllPaths",
       "value": true
@@ -63,7 +63,7 @@
     "id": "quiz_whiz",
     "name": "Quiz Whiz",
     "description": "Answer 50 questions correctly.",
-    "icon": "quiz_star",
+    "icon": "checkmark.circle.fill",
     "criteria": {
       "type": "correctQuestions",
       "value": 50
@@ -73,7 +73,7 @@
     "id": "first_step",
     "name": "First Step",
     "description": "Complete your first lesson.",
-    "icon": "footsteps",
+    "icon": "book.fill",
     "criteria": {
       "type": "completeLesson",
       "value": 1
@@ -83,7 +83,7 @@
     "id": "enlightened_one",
     "name": "Enlightened One",
     "description": "Earn 500 total XP.",
-    "icon": "zen",
+    "icon": "star.fill",
     "criteria": {
       "type": "totalXP",
       "value": 500
@@ -93,7 +93,7 @@
     "id": "journey_through_duat",
     "name": "Journey Through Duat",
     "description": "Complete the Egyptian Afterlife path.",
-    "icon": "pyramid",
+    "icon": "flag.fill",
     "criteria": {
       "type": "completePath",
       "value": "egyptian-afterlife"
