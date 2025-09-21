@@ -15,9 +15,9 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
     private let adaptiveLayoutManager = AdaptiveLayoutManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubmitButton()
         setupSplitLayout()
         setupOptionsUI()
-        setupSubmitButton()
         loadLessonContent()
     }
     private func setupSplitLayout() {
