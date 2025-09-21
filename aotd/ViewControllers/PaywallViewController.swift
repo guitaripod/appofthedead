@@ -341,8 +341,7 @@ class PaywallViewController: UIViewController {
             return
         }
         
-        
-        let price = StoreManager.shared.formattedPrice(for: product) ?? "$--"
+        let price = StoreManager.shared.formattedPrice(for: product) ?? "—"
         
         
         let previewView = PathPreviewView()
@@ -429,12 +428,24 @@ class PaywallViewController: UIViewController {
             productsToShow = [.oracleWisdom, .ultimateEnlightenment]
         }
         
-        
         for productId in productsToShow {
-            let price = StoreManager.shared.formattedPrice(for: productId) ?? "$--"
-            let isRecommended = productId == .ultimateEnlightenment
-            let card = createProductCard(for: productId, price: price, recommended: isRecommended)
-            productsStackView.addArrangedSubview(card)
+            if let price = StoreManager.shared.formattedPrice(for: productId) {
+                let isRecommended = productId == .ultimateEnlightenment
+                let card = createProductCard(for: productId, price: price, recommended: isRecommended)
+                productsStackView.addArrangedSubview(card)
+            } else {
+                let isRecommended = productId == .ultimateEnlightenment
+                let card = createProductCard(for: productId, price: "—", recommended: isRecommended)
+                productsStackView.addArrangedSubview(card)
+
+                StoreManager.shared.fetchAndCachePrice(for: productId) { [weak self, weak card] price in
+                    DispatchQueue.main.async {
+                        if let priceLabel = card?.subviews.first?.subviews.compactMap({ $0 as? UIStackView }).first?.arrangedSubviews[2] as? UILabel {
+                            priceLabel.text = price ?? "—"
+                        }
+                    }
+                }
+            }
         }
     }
     

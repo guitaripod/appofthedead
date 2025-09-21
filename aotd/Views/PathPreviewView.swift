@@ -14,6 +14,7 @@ class PathPreviewView: UIView {
     private let priceLabel = UILabel()
     private let ultimateContainer = UIView()
     private let ultimateButton = UIButton()
+    private var ultimatePriceLabel: UILabel?
     
     private var pathColor: UIColor = PapyrusDesignSystem.Colors.goldLeaf
     private var onUnlockTapped: ((ProductIdentifier) -> Void)?
@@ -132,12 +133,12 @@ class PathPreviewView: UIView {
         ultimateTextStack.axis = .vertical
         ultimateTextStack.spacing = 2
         
-        let ultimatePriceLabel = UILabel()
-        ultimatePriceLabel.text = "$19.99"
-        ultimatePriceLabel.font = PapyrusDesignSystem.Typography.headline()
-        ultimatePriceLabel.textColor = PapyrusDesignSystem.Colors.goldLeaf
+        ultimatePriceLabel = UILabel()
+        ultimatePriceLabel?.text = "—"
+        ultimatePriceLabel?.font = PapyrusDesignSystem.Typography.headline()
+        ultimatePriceLabel?.textColor = PapyrusDesignSystem.Colors.goldLeaf
         
-        let ultimateStack = UIStackView(arrangedSubviews: [starIcon, ultimateTextStack, UIView(), ultimatePriceLabel])
+        let ultimateStack = UIStackView(arrangedSubviews: [starIcon, ultimateTextStack, UIView(), ultimatePriceLabel!])
         ultimateStack.axis = .horizontal
         ultimateStack.alignment = .center
         ultimateStack.spacing = 12
@@ -283,10 +284,13 @@ class PathPreviewView: UIView {
         priceLabel.textColor = pathColor
         priceLabel.accessibilityElementsHidden = true 
         
-        
         if let ultimatePrice = StoreManager.shared.formattedPrice(for: .ultimateEnlightenment) {
-            if let ultimatePriceLabel = ultimateContainer.subviews.compactMap({ $0 as? UIStackView }).first?.arrangedSubviews.last as? UILabel {
-                ultimatePriceLabel.text = ultimatePrice
+            ultimatePriceLabel?.text = ultimatePrice
+        } else {
+            StoreManager.shared.fetchAndCachePrice(for: .ultimateEnlightenment) { [weak self] price in
+                DispatchQueue.main.async {
+                    self?.ultimatePriceLabel?.text = price ?? "—"
+                }
             }
         }
     }

@@ -4,10 +4,11 @@ import RevenueCat
 
 class StoreManager: NSObject {
     static let shared = StoreManager()
-    
-    
+
+
     private var offerings: Offerings?
     private var customerInfo: CustomerInfo?
+    private var cachedProducts: [String: StoreProduct] = [:]
     
     
     static let purchaseCompletedNotification = Notification.Name("StoreManagerPurchaseCompleted")
@@ -24,6 +25,19 @@ class StoreManager: NSObject {
         Purchases.configure(withAPIKey: "appl_EPdbsDpeVyslVzSVIWLwbgIGKsc")
         Purchases.shared.delegate = self
         AppLogger.purchases.info("RevenueCat configured successfully")
+
+        prefetchAllPrices()
+    }
+
+    private func prefetchAllPrices() {
+        let allProductIds = ProductIdentifier.allCases.map { $0.rawValue }
+
+        Purchases.shared.getProducts(allProductIds) { [weak self] products in
+            for product in products {
+                self?.cachedProducts[product.productIdentifier] = product
+            }
+            AppLogger.purchases.info("Pre-fetched \(products.count) product prices")
+        }
     }
     
 
@@ -35,6 +49,13 @@ class StoreManager: NSObject {
                 completion(.failure(error))
             } else if let offerings = offerings {
                 self.offerings = offerings
+
+                for offering in offerings.all.values {
+                    for package in offering.availablePackages {
+                        self.cachedProducts[package.storeProduct.productIdentifier] = package.storeProduct
+                    }
+                }
+
                 completion(.success(offerings))
             } else {
                 completion(.failure(NSError(domain: "StoreManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "No offerings found"])))
@@ -175,27 +196,39 @@ class StoreManager: NSObject {
         }
     }
     
-    
+
     func formattedPrice(for productId: ProductIdentifier) -> String? {
-        
+
+        if let cachedProduct = cachedProducts[productId.rawValue] {
+            return cachedProduct.localizedPriceString
+        }
+
+
         if let offerings = offerings,
            let product = offerings.all.values.flatMap({ $0.availablePackages }).first(where: { $0.storeProduct.productIdentifier == productId.rawValue })?.storeProduct {
+            cachedProducts[productId.rawValue] = product
             return product.localizedPriceString
         }
-        
-        
-        switch productId {
-        case .christianity, .islam, .buddhism, .hinduism, .ancientEgyptian, .greek, .norse, .shinto, .zoroastrian,
-             .sikhism, .aztecMictlan, .taoism, .mandaeism, .wicca, .bahai, .tenrikyo, .aboriginalDreamtime,
-             .nativeAmerican, .anthroposophy, .theosophy, .swedenborgian:
-            return "$2.99"
-        case .oracleWisdom:
-            return "$9.99"
-        case .ultimateEnlightenment:
-            return "$19.99"
-        case .egyptianPantheon, .greekGuides, .easternWisdom:
-            return "$1.99"
 
+
+        return nil
+    }
+
+    func fetchAndCachePrice(for productId: ProductIdentifier, completion: @escaping (String?) -> Void) {
+
+        if let cachedPrice = formattedPrice(for: productId) {
+            completion(cachedPrice)
+            return
+        }
+
+
+        Purchases.shared.getProducts([productId.rawValue]) { [weak self] products in
+            if let product = products.first {
+                self?.cachedProducts[productId.rawValue] = product
+                completion(product.localizedPriceString)
+            } else {
+                completion(nil)
+            }
         }
     }
 }
