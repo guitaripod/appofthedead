@@ -84,7 +84,7 @@ final class OracleViewController: UIViewController {
     private lazy var downloadButton: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.filled()
-        config.title = "Download Oracle Model"
+        config.title = "Awaken Oracle Model"
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var updated = incoming
             updated.font = .systemFont(ofSize: 16, weight: .semibold)

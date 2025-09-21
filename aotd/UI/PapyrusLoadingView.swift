@@ -145,7 +145,7 @@ final class PapyrusLoadingView: UIView {
             iconImageView.image = UIImage(systemName: "arrow.down.circle.fill")
             iconImageView.tintColor = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
             loadingIndicator.color = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
-            titleLabel.text = "Downloading Oracle Model"
+            titleLabel.text = "Awakening Oracle Model"
             subtitleLabel.text = "Preparing divine connection..."
             progressView.progressTintColor = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
             progressView.trackTintColor = PapyrusDesignSystem.Colors.aged.withAlphaComponent(0.3)
