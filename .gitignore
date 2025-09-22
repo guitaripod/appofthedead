@@ -9,3 +9,10 @@ testresults.xcresult/
 
 # Xcode user data
 *.xcuserdatad/
+
+# Editor-specific
+.nvim/
+.xcodebuild
+
+# Build server
+buildServer.json
