@@ -21,7 +21,7 @@ class StoreManager: NSObject {
     }
     
     func configure() {
-        Purchases.logLevel = .debug
+        Purchases.logLevel = .error
         Purchases.configure(withAPIKey: "appl_EPdbsDpeVyslVzSVIWLwbgIGKsc")
         Purchases.shared.delegate = self
         AppLogger.purchases.info("RevenueCat configured successfully")
