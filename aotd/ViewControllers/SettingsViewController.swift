@@ -23,11 +23,9 @@ final class SettingsViewController: UIViewController {
         }
     }
     private enum LearningRow: Int, CaseIterable {
-        case notifications
         case dailyReminder
         var title: String {
             switch self {
-            case .notifications: return "Notifications"
             case .dailyReminder: return "Daily Reminder"
             }
         }
@@ -183,7 +181,11 @@ extension SettingsViewController: UITableViewDelegate {
         switch sectionType {
         case .learning:
             if let row = LearningRow(rawValue: indexPath.row) {
-                showComingSoon(feature: row.title)
+                switch row {
+                case .dailyReminder:
+                    let dailyReminderVC = DailyReminderViewController()
+                    navigationController?.pushViewController(dailyReminderVC, animated: true)
+                }
             }
         case .experience:
             if let row = ExperienceRow(rawValue: indexPath.row) {
