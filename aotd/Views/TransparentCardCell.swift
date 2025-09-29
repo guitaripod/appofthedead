@@ -102,16 +102,26 @@ class TransparentCardCell: UITableViewCell {
         switchControl.translatesAutoresizingMaskIntoConstraints = false
         switchControl.isOn = isOn
         switchControl.onTintColor = UIColor.Papyrus.gold
-        
+
         switchControl.addAction(UIAction { _ in
             onToggle(switchControl.isOn)
         }, for: .valueChanged)
-        
+
         containerView.addSubview(switchControl)
-        
+
         NSLayoutConstraint.activate([
             switchControl.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             switchControl.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+        ])
+    }
+
+    func addAccessoryView(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(view)
+
+        NSLayoutConstraint.activate([
+            view.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
         ])
     }
     
@@ -136,8 +146,8 @@ class TransparentCardCell: UITableViewCell {
 
 
 
-class TransparentSectionHeaderView: UIView {
-    
+class TransparentSectionHeaderView: UITableViewHeaderFooterView {
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -145,21 +155,36 @@ class TransparentSectionHeaderView: UIView {
         label.textColor = UIColor.Papyrus.secondaryText
         return label
     }()
-    
-    init(title: String) {
-        super.init(frame: .zero)
-        
-        titleLabel.text = title.uppercased()
-        addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-        ])
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        contentView.backgroundColor = UIColor.Papyrus.background
+        contentView.addSubview(titleLabel)
+
+        let trailingConstraint = titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20)
+        trailingConstraint.priority = .defaultHigh
+
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            trailingConstraint
+        ])
+    }
+
+    func configure(title: String) {
+        titleLabel.text = title.uppercased()
+    }
+
+    convenience init(title: String) {
+        self.init(reuseIdentifier: nil)
+        configure(title: title)
     }
 }
