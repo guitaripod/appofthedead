@@ -34,11 +34,12 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - GRDB for all data persistence (models: User, Progress, Achievement, CompletedLesson)
 - UIKit only - No SwiftUI
 - Analyze `aotd.json` structure before implementing content loading
-- Write and run unit tests for logic when adding new features. 
+- Write and run unit tests for logic when adding new features.
 - Keep view controllers focused - delegate business logic to view models. Use latest UIKit API like diffable datasource etc.
 - Use coordinators for navigation flow between lessons and quizzes
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
 - **Logging**: Use `AppLogger` for all logging - never use `print()` statements. AppLogger provides structured logging with categories (auth, database, content, sync, learning, gamification, purchases, ui, viewModel, mlx, performance, general)
+- **Code Style**: Never use comments or MARK statements - code should be self-documenting through clear naming and structure
 
 ## Test Organization
 - **Tests are organized by feature area in the test target** for better discoverability while remaining in the test bundle
