@@ -140,10 +140,21 @@ class StoreManager: NSObject {
 
     
     func hasAllAccess() -> Bool {
+        if isDemoPremium { return true }
         guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else {
             return false
         }
         return Self.grantsAllAccess(customerInfo)
+    }
+
+    /// Screenshot/QA rig: AOTD_DEMO_PREMIUM=1 renders the fully unlocked app
+    /// without StoreKit. DEBUG builds only.
+    private var isDemoPremium: Bool {
+        #if DEBUG
+        return ProcessInfo.processInfo.environment["AOTD_DEMO_PREMIUM"] == "1"
+        #else
+        return false
+        #endif
     }
 
     /// The premium subscriptions are not yet attached to a RevenueCat entitlement
@@ -166,6 +177,8 @@ class StoreManager: NSObject {
     func hasPathAccess(_ beliefSystemId: String) -> Bool {
 
         if beliefSystemId == "judaism" { return true }
+
+        if isDemoPremium { return true }
 
         guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else {
             return false

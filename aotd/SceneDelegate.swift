@@ -102,7 +102,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = adaptiveContainer
         self.window?.makeKeyAndVisible()
 
-        presentDemoRouteIfRequested(over: adaptiveContainer)
+        presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
 
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
         
@@ -164,19 +164,28 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     /// Screenshot/QA rig: `AOTD_DEMO=paywall|paywall-path|paywall-oracle` presents
-    /// the matching paywall right after launch. DEBUG builds only.
-    private func presentDemoRouteIfRequested(over root: UIViewController) {
+    /// the matching paywall right after launch; `profile|oracle|library` selects
+    /// that tab; `lesson` starts the Judaism path. DEBUG builds only.
+    private func presentDemoRouteIfRequested(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
         #if DEBUG
         guard let route = ProcessInfo.processInfo.environment["AOTD_DEMO"] else { return }
-        let reason: PaywallReason
-        switch route {
-        case "paywall": reason = .generalUpgrade
-        case "paywall-path": reason = .lockedPath(beliefSystemId: "norse")
-        case "paywall-oracle": reason = .oracleLimit(deityId: "anubis", deityName: "Anubis")
-        default: return
-        }
+
+        let paywallReasons: [String: PaywallReason] = [
+            "paywall": .generalUpgrade,
+            "paywall-path": .lockedPath(beliefSystemId: "norse"),
+            "paywall-oracle": .oracleLimit(deityId: "anubis", deityName: "Anubis")
+        ]
+        let tabIndices: [String: Int] = ["profile": 1, "oracle": 2, "library": 3, "settings": 4]
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            root.present(PaywallViewController(reason: reason), animated: false)
+            if let reason = paywallReasons[route] {
+                root.present(PaywallViewController(reason: reason), animated: false)
+            } else if let index = tabIndices[route] {
+                root.selectViewController(at: index)
+            } else if route == "lesson",
+                      let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) {
+                homeViewModel.onPathSelected?(judaism)
+            }
         }
         #endif
     }
