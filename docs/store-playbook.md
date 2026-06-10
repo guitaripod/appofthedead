@@ -57,7 +57,7 @@ Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved no
 
 ## 3. Follow-ups requiring the human (priority order)
 
-1. **RevenueCat v2 secret key for the aotd project**: mint in RC dashboard → add `RC_SECRET_AOTD` to `~/.config/midgar/credentials.env` → attach `premium.annual`/`premium.monthly` to the `ultimate` entitlement and a `Premium` offering. Until then the app's CustomerInfo fallback carries access; RC metrics (MRR/trials) are unavailable to episodes.
+1. ~~RevenueCat v2 secret key~~ **DONE 2026-06-10**: `RC_SECRET_AOTD` in the vault; project `proj7793585f`; both subs attached to `ultimate` (`entlb89a419762`); offering `default` repointed ($rc_annual → annual sub, $rc_monthly → monthly sub, new $rc_lifetime → ultimate; dangling $rc_weekly deleted). RC metrics (`GET /v2/projects/proj7793585f/metrics/overview`) now available to revenue-ops episodes. The app's CustomerInfo fallback remains as belt-and-suspenders.
 2. **Vendor number**: read once from ASC web → Payments and Financial Reports; record here and in OPERATIONS.md.
 3. **Experiment SKUs**: create `com.appofthedead.premium.annual.29` / `.49` ($29.99/$49.99) when starting price tests — test only structural changes at this volume (~200 subs per variant needed).
 4. **Win-back offers** on the annual once churned subscribers exist (iOS 18+ surfaces them automatically).
