@@ -77,6 +77,18 @@ download→trial D30 6.5% · trial→paid 5–9d 37.4% · iOS D35 download→pai
 
 ## 6. Release facts learned the hard way
 
+- ASC API: `subscriptionAvailabilities` must be created BEFORE any `subscriptionPrices` POST — otherwise every price call 409s with `ENTITY_ERROR.RELATIONSHIP.INVALID` on the price point.
+- ASC API: intro offers cannot be created territory-less; loop all 175 territories (`POST /v1/subscriptionIntroductoryOffers` each).
+- ASC API: the 6.9" screenshot slot is `APP_IPHONE_67` — `APP_IPHONE_69` is not a valid enum; 1320×2868 assets upload fine under `APP_IPHONE_67`.
+- ASC API: psywave's `FIRST_SUBSCRIPTION_MUST_BE_SUBMITTED_ON_VERSION` web-UI trap did NOT apply here — standalone `POST /v1/subscriptionSubmissions` worked because the app already had APPROVED products (the gate only bites apps with no approved products of any kind). Both subs rode their own review track alongside the 1.1.0 version submission (2026-06-10).
+
+## 7. 1.1.0 submission record (2026-06-10)
+
+- Build `202606102018` (CI run 27296776132, stable runner) attached to version 1.1.0.
+- Version + Premium Annual (6778911519) + Premium Monthly (6778911344) all WAITING_FOR_REVIEW as of 18:35 UTC; review submission `33f6bb02-05b9-42f3-b611-259e2e0ae70e`.
+- Annual: $39.99 × 175 territories (USA-equalized) + 7-day FREE_TRIAL intro offer × 175. Monthly: $9.99 × 175. Ultimate repriced $19.99 → $89.99; 21 paths $2.99 → $3.99 (immediate, no review needed).
+- Subscription review screenshots: full paywall capture; review notes promise a dismissible paywall — keep it dismissible.
+
 - This Mac runs beta macOS (`26A5353q`) — NEVER archive App Store builds locally (ITMS-90111 post-submission). Use `.github/workflows/testflight.yml` (stable runner, manual signing, beta guard, Metal toolchain step for mlx-swift).
 - Signing lives on the app target's Release config only (manual, iphoneos-scoped) — global xcodebuild overrides break RevenueCat SPM targets.
 - Xcode 26.x ships the Metal compiler as a downloadable component; fresh runners need `xcodebuild -downloadComponent MetalToolchain` before building mlx-swift.
