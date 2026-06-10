@@ -1,4 +1,4 @@
-.claude/
+.claude/settings.local.json
 DerivedData/
 coverage.xcresult/
 node_modules/

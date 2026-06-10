@@ -1,0 +1,55 @@
+# Marketing node: machine-readable manifest for an external marketing agent.
+# Contract: everything an agent needs to market this app autonomously lives here
+# or is pointed to from here. No secrets in this file — env/keychain pointers only.
+
+app:
+  name: "App of the Dead: Religions"
+  apple_id: "6746733380"
+  bundle_id: com.marcusziade.aotd
+  store_url: https://apps.apple.com/app/id6746733380
+  campaign_url_template: "https://apps.apple.com/app/id6746733380?pt=TODO&ct={campaign}"
+  platforms: [ios, ipados]
+  price_model: "free + Premium sub ($39.99/yr w/ 7d trial, $9.99/mo) + $89.99 lifetime + per-path IAPs $3.99"
+
+voice:
+  tone: "curious, respectful, zero proselytizing; equal reverence for every tradition"
+  pillars:
+    - "The ONLY gamified, Duolingo-style way to learn what every world religion believes about the afterlife"
+    - "Judaism path free forever — explore end to end before paying a cent"
+    - "21 paths: Valhalla, the Duat, Mictlan, Olam Ha-Ba, reincarnation, and more"
+    - "On-device Oracle: consult 21 deities, no cloud, no data leaves the phone"
+  never: ["fake urgency", "ranking religions", "doctrine claims beyond cited beliefs", "AI-sounding hashtag walls"]
+
+content_engines:
+  belief_facts:
+    source: aotd/Resources/belief_systems/   # 21+ traditions, lessons + quiz questions
+    description: >
+      Infinite well: one afterlife belief/day — tradition, the belief, a hook
+      question from the quiz content. Respectful, cited, no editorializing.
+  deity_spotlights:
+    source: aotd/Resources/deity_prompts.json   # 21 deities with personas
+    description: one deity/week — who they are, their domain, an Oracle teaser.
+  milestones:
+    description: ratings/downloads/streak milestones become posts
+    source: revenue-ops metrics (docs/metrics.csv)
+
+channels:
+  mastodon: { enabled: false, auth_env: AOTD_MASTODON_TOKEN }
+  bluesky: { enabled: false, auth_env: AOTD_BSKY_APP_PASSWORD }
+  reddit: { enabled: false, note: "manual-first; r/religion & r/mythology rules hostile to promo — agent drafts, human posts" }
+
+cadence:
+  default: "max 1 post/day/channel; quality bar over frequency; stop on engagement < channel floor for 14 days"
+
+assets:
+  screenshot_rig: >
+    No launch-arg rig yet. Capture via simulator (iPhone 17 Pro Max 6.9" + iPad
+    Pro 13" M5) with `xcrun simctl status_bar override --time 9:41`. Candidate
+    screens: Home paths grid, lesson, quiz, Oracle chat, paywall-free shots only.
+  icon: aotd/Resources/Assets.xcassets/AppIcon.appiconset
+
+ops:
+  metrics_skill: .claude/skills/revenue-ops
+  playbook: docs/store-playbook.md
+  release_ci: .github/workflows/testflight.yml
+  asc_api_key_id: DSS2FFU68G   # p8 at ~/.appstoreconnect/private_keys/ on the operator machine

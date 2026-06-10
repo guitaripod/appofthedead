@@ -1,0 +1,82 @@
+name: Release to App Store Connect
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: "CFBundleVersion for this upload"
+        required: true
+
+jobs:
+  upload:
+    name: Archive, sign, and upload
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Guard against beta build host
+        run: |
+          sw_vers
+          BUILD=$(sw_vers -buildVersion)
+          if [[ "$BUILD" =~ [A-Z]5[0-9]+[a-z]$ ]]; then
+            echo "::error::Runner macOS build $BUILD looks like a beta — App Store will reject (ITMS-90111)."
+            exit 1
+          fi
+
+      # mlx-swift compiles Metal shaders; Xcode 26+ ships the Metal compiler as a
+      # separate downloadable component that is absent on fresh runners.
+      - name: Install Metal toolchain
+        run: xcodebuild -downloadComponent MetalToolchain
+
+      - name: Import signing identity
+        run: |
+          KEYCHAIN=$RUNNER_TEMP/build.keychain-db
+          KEYCHAIN_PASSWORD=$(uuidgen)
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          echo -n "${{ secrets.SIGNING_P12_BASE64 }}" | base64 --decode -o $RUNNER_TEMP/signing.p12
+          security import $RUNNER_TEMP/signing.p12 -k "$KEYCHAIN" -P "${{ secrets.P12_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security list-keychains -d user -s "$KEYCHAIN" login.keychain
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo -n "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode -o ~/Library/MobileDevice/Provisioning\ Profiles/aotd-appstore.mobileprovision
+
+      - name: Set build number
+        run: |
+          sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = ${{ github.event.inputs.build_number }};/g" aotd.xcodeproj/project.pbxproj
+
+      - name: Archive
+        run: |
+          # Signing lives on the app target's Release config in the pbxproj
+          # (manual, iphoneos-only) — global xcodebuild overrides would leak onto
+          # RevenueCat's SPM targets, which reject profiles.
+          xcodebuild -project aotd.xcodeproj \
+            -scheme aotd \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath $RUNNER_TEMP/aotd.xcarchive \
+            -scmProvider system \
+            archive
+
+      - name: Package IPA
+        run: |
+          # Manual zip instead of -exportArchive to dodge the Xcode 26.4 rsync bug.
+          mkdir -p $RUNNER_TEMP/export/Payload
+          cp -R "$RUNNER_TEMP/aotd.xcarchive/Products/Applications/aotd.app" $RUNNER_TEMP/export/Payload/
+          cd $RUNNER_TEMP/export && zip -qry aotd.ipa Payload
+
+      - name: Upload to App Store Connect
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          echo -n "${{ secrets.ASC_API_KEY_P8_BASE64 }}" | base64 --decode -o ~/.appstoreconnect/private_keys/AuthKey_DSS2FFU68G.p8
+          xcrun altool --upload-app -f $RUNNER_TEMP/export/aotd.ipa -t ios \
+            --apiKey DSS2FFU68G \
+            --apiIssuer a5ebdab5-0ceb-463c-8151-195b902f117b
