@@ -520,8 +520,28 @@ enum PapyrusDesignSystem {
     
     
     
+    enum Glass {
+
+        static func effect(interactive: Bool = false) -> UIVisualEffect {
+            if #available(iOS 26.0, *) {
+                let glass = UIGlassEffect()
+                glass.isInteractive = interactive
+                return glass
+            }
+            return UIBlurEffect(style: .systemThinMaterial)
+        }
+
+        static func makeCard(cornerRadius: CGFloat = CornerRadius.large, interactive: Bool = false) -> UIVisualEffectView {
+            let card = UIVisualEffectView(effect: effect(interactive: interactive))
+            card.layer.cornerRadius = cornerRadius
+            card.layer.cornerCurve = .continuous
+            card.clipsToBounds = true
+            return card
+        }
+    }
+
     enum ComponentStyle {
-        
+
         static func applyPapyrusCard(to view: UIView, elevated: Bool = false) {
             view.backgroundColor = Colors.Component.Card.background
             view.layer.cornerRadius = CornerRadius.large

@@ -2,8 +2,36 @@ import Foundation
 import UIKit
 import RevenueCat
 
+struct PremiumPlanInfo: Equatable {
+    let productId: ProductIdentifier
+    let localizedPrice: String
+    let monthlyEquivalentPrice: String?
+    let trialDays: Int?
+}
+
+struct PremiumPlans: Equatable {
+    let annual: PremiumPlanInfo?
+    let monthly: PremiumPlanInfo?
+    let lifetime: PremiumPlanInfo?
+
+    static let empty = PremiumPlans(annual: nil, monthly: nil, lifetime: nil)
+}
+
+protocol PaywallProductProviding: AnyObject {
+    func fetchPremiumPlans(completion: @escaping (PremiumPlans) -> Void)
+    func formattedPrice(for productId: ProductIdentifier) -> String?
+    func fetchAndCachePrice(for productId: ProductIdentifier, completion: @escaping (String?) -> Void)
+    func purchase(productId: ProductIdentifier, completion: @escaping (Result<Bool, Error>) -> Void)
+    func restorePurchases(completion: @escaping (Result<Bool, Error>) -> Void)
+}
+
 class StoreManager: NSObject {
     static let shared = StoreManager()
+
+    static let premiumSubscriptionIds: Set<String> = [
+        ProductIdentifier.premiumAnnual.rawValue,
+        ProductIdentifier.premiumMonthly.rawValue
+    ]
 
 
     private var offerings: Offerings?
@@ -111,16 +139,40 @@ class StoreManager: NSObject {
     
 
     
-    func hasPathAccess(_ beliefSystemId: String) -> Bool {
-        
-        if beliefSystemId == "judaism" { return true }
-        
-        guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else { 
-            return false 
+    func hasAllAccess() -> Bool {
+        guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else {
+            return false
         }
-        
-        
+        return Self.grantsAllAccess(customerInfo)
+    }
+
+    /// The premium subscriptions are not yet attached to a RevenueCat entitlement
+    /// (dashboard credentials are not available on this machine), so all-access is
+    /// derived from the raw purchase records in addition to the legacy "ultimate"
+    /// entitlement. Move to a pure entitlement check once the RevenueCat project
+    /// maps both subscription products to "ultimate".
+    static func grantsAllAccess(_ customerInfo: CustomerInfo) -> Bool {
         if customerInfo.entitlements["ultimate"]?.isActive == true {
+            return true
+        }
+        if !premiumSubscriptionIds.isDisjoint(with: customerInfo.activeSubscriptions) {
+            return true
+        }
+        return customerInfo.nonSubscriptions.contains {
+            $0.productIdentifier == ProductIdentifier.ultimateEnlightenment.rawValue
+        }
+    }
+
+    func hasPathAccess(_ beliefSystemId: String) -> Bool {
+
+        if beliefSystemId == "judaism" { return true }
+
+        guard let customerInfo = customerInfo ?? Purchases.shared.cachedCustomerInfo else {
+            return false
+        }
+
+
+        if Self.grantsAllAccess(customerInfo) {
             return true
         }
         
@@ -214,6 +266,73 @@ class StoreManager: NSObject {
         return nil
     }
 
+    func fetchPremiumPlans(completion: @escaping (PremiumPlans) -> Void) {
+        let planProductIds: [ProductIdentifier] = [.premiumAnnual, .premiumMonthly, .ultimateEnlightenment]
+
+        Purchases.shared.getProducts(planProductIds.map(\.rawValue)) { [weak self] products in
+            guard let self else {
+                DispatchQueue.main.async { completion(.empty) }
+                return
+            }
+
+            for product in products {
+                self.cachedProducts[product.productIdentifier] = product
+            }
+
+            let productsById = Dictionary(uniqueKeysWithValues: products.map { ($0.productIdentifier, $0) })
+            let annualProduct = productsById[ProductIdentifier.premiumAnnual.rawValue]
+
+            Purchases.shared.checkTrialOrIntroDiscountEligibility(productIdentifiers: [ProductIdentifier.premiumAnnual.rawValue]) { eligibility in
+                let status = eligibility[ProductIdentifier.premiumAnnual.rawValue]?.status ?? .unknown
+                let trialEligible = status != .ineligible && status != .noIntroOfferExists
+
+                let plans = PremiumPlans(
+                    annual: annualProduct.map {
+                        Self.planInfo(for: $0, id: .premiumAnnual, trialEligible: trialEligible)
+                    },
+                    monthly: productsById[ProductIdentifier.premiumMonthly.rawValue].map {
+                        Self.planInfo(for: $0, id: .premiumMonthly, trialEligible: false)
+                    },
+                    lifetime: productsById[ProductIdentifier.ultimateEnlightenment.rawValue].map {
+                        Self.planInfo(for: $0, id: .ultimateEnlightenment, trialEligible: false)
+                    }
+                )
+
+                DispatchQueue.main.async { completion(plans) }
+            }
+        }
+    }
+
+    private static func planInfo(for product: StoreProduct, id: ProductIdentifier, trialEligible: Bool) -> PremiumPlanInfo {
+        PremiumPlanInfo(
+            productId: id,
+            localizedPrice: product.localizedPriceString,
+            monthlyEquivalentPrice: monthlyEquivalentPrice(for: product, id: id),
+            trialDays: trialEligible ? freeTrialDays(for: product) : nil
+        )
+    }
+
+    private static func monthlyEquivalentPrice(for product: StoreProduct, id: ProductIdentifier) -> String? {
+        guard id == .premiumAnnual, let formatter = product.priceFormatter else { return nil }
+        let monthly = (product.price as NSDecimalNumber)
+            .dividing(by: 12, withBehavior: NSDecimalNumberHandler(
+                roundingMode: .plain, scale: 2,
+                raiseOnExactness: false, raiseOnOverflow: false,
+                raiseOnUnderflow: false, raiseOnDivideByZero: false))
+        return formatter.string(from: monthly)
+    }
+
+    private static func freeTrialDays(for product: StoreProduct) -> Int? {
+        guard let intro = product.introductoryDiscount, intro.paymentMode == .freeTrial else { return nil }
+        let period = intro.subscriptionPeriod
+        switch period.unit {
+        case .day: return period.value
+        case .week: return period.value * 7
+        case .month: return period.value * 30
+        case .year: return period.value * 365
+        }
+    }
+
     func fetchAndCachePrice(for productId: ProductIdentifier, completion: @escaping (String?) -> Void) {
 
         if let cachedPrice = formattedPrice(for: productId) {
@@ -233,6 +352,8 @@ class StoreManager: NSObject {
     }
 }
 
+
+extension StoreManager: PaywallProductProviding {}
 
 extension StoreManager: PurchasesDelegate {
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {

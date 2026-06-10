@@ -180,11 +180,13 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         if isMasterTest {
             handleMasterTestCompletion(results: results)
         } else {
-            
+
             saveLessonCompletion(results: results)
-            
+
             currentLessonIndex += 1
-            
+
+            presentFirstLessonPaywallIfNeeded()
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 self?.showNextLesson()
             }
@@ -194,6 +196,20 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     func questionFlowCoordinatorDidRequestExit(_ coordinator: QuestionFlowCoordinator) {
         questionFlowCoordinator = nil
         exitLearningPath()
+    }
+
+    /// Shown exactly once, right after the user's first completed lesson: the value
+    /// moment converts best on Day 0, and the paywall stays dismissible — the next
+    /// lesson is already waiting underneath it.
+    private func presentFirstLessonPaywallIfNeeded() {
+        let defaultsKey = "aotd.didShowFirstLessonPaywall"
+        guard !UserDefaults.standard.bool(forKey: defaultsKey) else { return }
+        UserDefaults.standard.set(true, forKey: defaultsKey)
+
+        guard !StoreManager.shared.hasAllAccess() else { return }
+
+        let paywall = PaywallViewController(reason: .generalUpgrade)
+        navigationController.present(paywall, animated: true)
     }
     
     private func saveLessonStarted(lesson: Lesson) {

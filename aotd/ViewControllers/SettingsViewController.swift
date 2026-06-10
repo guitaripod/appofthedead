@@ -85,15 +85,13 @@ final class SettingsViewController: UIViewController {
     }
 
     private func openPrivacyPolicy() {
-        guard let url = URL(string: "https://docs.google.com/document/d/1hgyLnTBAPtZC4miv1nEHuvw4_oRhj_gScdCxy7kGePw/edit?usp=sharing") else { return }
-        let safariVC = SFSafariViewController(url: url)
+        let safariVC = SFSafariViewController(url: LegalLinks.privacyPolicy)
         safariVC.preferredControlTintColor = UIColor.Papyrus.gold
         present(safariVC, animated: true)
     }
 
     private func openTermsOfService() {
-        guard let url = URL(string: "https://docs.google.com/document/d/1txoG5pVgG-pqO1Gesy1kXJjG7ZrqL5Tv6E97azuq1yQ/edit?usp=sharing") else { return }
-        let safariVC = SFSafariViewController(url: url)
+        let safariVC = SFSafariViewController(url: LegalLinks.termsOfService)
         safariVC.preferredControlTintColor = UIColor.Papyrus.gold
         present(safariVC, animated: true)
     }

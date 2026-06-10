@@ -79,9 +79,11 @@ enum ProductIdentifier: String, CaseIterable {
     
     
     case oracleWisdom = "com.appofthedead.oracle.wisdom"
-    
-    
+
+
     case ultimateEnlightenment = "com.appofthedead.ultimate"
+    case premiumAnnual = "com.appofthedead.premium.annual"
+    case premiumMonthly = "com.appofthedead.premium.monthly"
     
     
     case egyptianPantheon = "com.appofthedead.deities.egyptian"
@@ -103,6 +105,8 @@ enum ProductIdentifier: String, CaseIterable {
         case .zoroastrian: return "Zoroastrian Path"
         case .oracleWisdom: return "Oracle Wisdom Pack"
         case .ultimateEnlightenment: return "Ultimate Enlightenment"
+        case .premiumAnnual: return "Premium Annual"
+        case .premiumMonthly: return "Premium Monthly"
         case .egyptianPantheon: return "Death Masters Pack"
         case .greekGuides: return "Spirit Guides Pack"
         case .easternWisdom: return "Eastern Guardians Pack"
@@ -135,6 +139,8 @@ enum ProductIdentifier: String, CaseIterable {
         case .zoroastrian: return "Learn about the Bridge of Judgment and cosmic dualism"
         case .oracleWisdom: return "Unlimited consultations with all 21 divine guides"
         case .ultimateEnlightenment: return "All paths, unlimited Oracle, and exclusive features"
+        case .premiumAnnual: return "Every path and unlimited Oracle, billed yearly"
+        case .premiumMonthly: return "Every path and unlimited Oracle, billed monthly"
         case .egyptianPantheon: return "Consult Anubis, Kali, and Baron Samedi - Masters of Death"
         case .greekGuides: return "Speak with Hermes, Hecate, and Pachamama - Guides & Nature Spirits"
         case .easternWisdom: return "Connect with Yama, Meng Po, and Izanami - Eastern Afterlife Guardians"
@@ -154,6 +160,24 @@ enum ProductIdentifier: String, CaseIterable {
         }
     }
     
+    static func deityPack(for deityId: String) -> ProductIdentifier? {
+        switch deityId {
+        case "anubis", "kali", "baron_samedi": return .egyptianPantheon
+        case "hermes", "hecate", "pachamama": return .greekGuides
+        case "yama", "meng_po", "izanami": return .easternWisdom
+        default: return nil
+        }
+    }
+
+    var deityPackEntitlement: String? {
+        switch self {
+        case .egyptianPantheon: return "deity_egyptian"
+        case .greekGuides: return "deity_greek"
+        case .easternWisdom: return "deity_eastern"
+        default: return nil
+        }
+    }
+
     var beliefSystemId: String? {
         switch self {
         case .christianity: return "christianity"

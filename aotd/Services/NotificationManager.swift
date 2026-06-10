@@ -7,6 +7,7 @@ final class NotificationManager: NSObject {
 
     private let notificationCenter = UNUserNotificationCenter.current()
     private let dailyReminderIdentifier = "com.aotd.dailyReminder"
+    private let trialReminderIdentifier = "com.aotd.trialReminder"
 
     private override init() {
         super.init()
@@ -65,6 +66,43 @@ final class NotificationManager: NSObject {
     func cancelDailyReminder() {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderIdentifier])
         AppLogger.general.info("Daily reminder cancelled")
+    }
+
+    /// Honest-paywall promise: the trial timeline tells the user we remind them two
+    /// days before their free trial converts, so this must actually fire.
+    func scheduleTrialEndingReminder(trialDays: Int) {
+        requestAuthorization { [weak self] granted in
+            guard let self, granted else {
+                AppLogger.general.warning("Trial reminder not scheduled: notifications not authorized")
+                return
+            }
+
+            let content = UNMutableNotificationContent()
+            content.title = "Your free trial ends in 2 days"
+            content.body = "Keep exploring every path and the Oracle, or cancel anytime in Settings. No surprises."
+            content.sound = .default
+
+            let reminderDays = max(1, trialDays - 2)
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: TimeInterval(reminderDays) * 86_400,
+                repeats: false
+            )
+
+            let request = UNNotificationRequest(
+                identifier: self.trialReminderIdentifier,
+                content: content,
+                trigger: trigger
+            )
+
+            self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [self.trialReminderIdentifier])
+            self.notificationCenter.add(request) { error in
+                if let error = error {
+                    AppLogger.general.error("Failed to schedule trial reminder: \(error)")
+                } else {
+                    AppLogger.general.info("Trial ending reminder scheduled for day \(reminderDays)")
+                }
+            }
+        }
     }
 
     func clearBadge() {

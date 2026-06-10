@@ -130,7 +130,13 @@ final class AdaptiveNavigationContainer: UIViewController {
         self.sidebarViewController = sidebar
         self.embeddedTabBarController = nil
     }
+    /// On iOS 26+ the system's floating Liquid Glass tab bar is used as-is; forcing
+    /// an opaque background would suppress the material entirely.
     private func configureTabBarAppearance(_ tabBar: UITabBar) {
+        if #available(iOS 26.0, *) {
+            tabBar.tintColor = PapyrusDesignSystem.Colors.goldLeaf
+            return
+        }
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground

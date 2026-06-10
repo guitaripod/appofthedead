@@ -9,7 +9,7 @@ extension User {
     }
     
     func hasUltimateAccess() -> Bool {
-        return hasAccess(to: .ultimateEnlightenment)
+        return hasAccess(to: .ultimateEnlightenment) || StoreManager.shared.hasAllAccess()
     }
     
     func hasOracleAccess() -> Bool {
@@ -40,38 +40,26 @@ extension User {
 
     
     func canConsultOracle(deityId: String) -> Bool {
-        
+
         if Purchases.shared.cachedCustomerInfo?.entitlements["oracle_unlimited"]?.isActive == true { return true }
-        if Purchases.shared.cachedCustomerInfo?.entitlements["ultimate"]?.isActive == true { return true }
-        
-        
+        if StoreManager.shared.hasAllAccess() { return true }
+
+
         if hasDeityPackAccessFromRevenueCat(for: deityId) { return true }
-        
-        
+
+
         if hasOracleAccess() { return true }
         if hasDeityPackAccess(for: deityId) { return true }
-        
-        
+
+
         return DatabaseManager.shared.canConsultOracleForFree(userId: id, deityId: deityId)
     }
-    
+
     private func hasDeityPackAccessFromRevenueCat(for deityId: String) -> Bool {
-        
-        let egyptianDeities = ["anubis", "kali", "baron_samedi"]
-        let greekDeities = ["hermes", "hecate", "pachamama"]
-        let easternDeities = ["yama", "meng_po", "izanami"]
-        
-        if egyptianDeities.contains(deityId) {
-            return Purchases.shared.cachedCustomerInfo?.entitlements["deity_egyptian"]?.isActive == true
+        guard let entitlement = ProductIdentifier.deityPack(for: deityId)?.deityPackEntitlement else {
+            return false
         }
-        if greekDeities.contains(deityId) {
-            return Purchases.shared.cachedCustomerInfo?.entitlements["deity_greek"]?.isActive == true
-        }
-        if easternDeities.contains(deityId) {
-            return Purchases.shared.cachedCustomerInfo?.entitlements["deity_eastern"]?.isActive == true
-        }
-        
-        return false
+        return Purchases.shared.cachedCustomerInfo?.entitlements[entitlement]?.isActive == true
     }
     
     func getRemainingFreeConsultations(for deityId: String) -> Int {
@@ -89,21 +77,7 @@ extension User {
     }
     
     private func hasDeityPackAccess(for deityId: String) -> Bool {
-        
-        let egyptianDeities = ["anubis", "kali", "baron_samedi"] 
-        let greekDeities = ["hermes", "hecate", "pachamama"] 
-        let easternDeities = ["yama", "meng_po", "izanami"] 
-        
-        if egyptianDeities.contains(deityId) && hasAccess(to: .egyptianPantheon) {
-            return true
-        }
-        if greekDeities.contains(deityId) && hasAccess(to: .greekGuides) {
-            return true
-        }
-        if easternDeities.contains(deityId) && hasAccess(to: .easternWisdom) {
-            return true
-        }
-        
-        return false
+        guard let pack = ProductIdentifier.deityPack(for: deityId) else { return false }
+        return hasAccess(to: pack)
     }
 }

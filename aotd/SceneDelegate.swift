@@ -162,7 +162,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppLogger.ui.info("Scene did become active")
     }
     
+    /// On iOS 26+ navigation bars keep the system Liquid Glass material; only the
+    /// tint is branded. Forcing an opaque background would suppress the glass.
     private func configureNavigationBarAppearance() {
+        if #available(iOS 26.0, *) {
+            UINavigationBar.appearance().tintColor = UIColor.Papyrus.gold
+            return
+        }
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         
