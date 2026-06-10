@@ -17,10 +17,10 @@ curl -s "https://itunes.apple.com/lookup?id=6746733380&country=us" | python3 -c 
 
 ASC sales/downloads (API key `DSS2FFU68G`, issuer in `~/.config/midgar/credentials.env`, p8 in `~/.appstoreconnect/private_keys/`). Mint an ES256 JWT (pyjwt) and call:
 
-- `GET /v1/salesReports?filter[frequency]=WEEKLY&filter[reportType]=SALES&filter[reportSubType]=SUMMARY&filter[vendorNumber]=<VENDOR>&filter[reportDate]=<YYYY-MM-DD>` — gzip TSV; units by SKU separate app downloads from path/premium/ultimate units and proceeds.
-- VENDOR number: still TODO (playbook §0). If unknown, record `vendor=TODO` in the row and continue with iTunes data.
+- `GET /v1/salesReports?filter[frequency]=WEEKLY&filter[reportType]=SALES&filter[reportSubType]=SUMMARY&filter[vendorNumber]=93803823&filter[reportDate]=<YYYY-MM-DD>` — gzip TSV; units by SKU separate app downloads from path/premium/ultimate units and proceeds.
+- VENDOR number: 93803823 (account-level, all Midgar apps).
 
-Subscription funnel (trial starts, trial→paid): RevenueCat dashboard data needs `RC_SECRET_AOTD` (playbook follow-up 1). Until provisioned, derive sub units from the sales report SKU rows.
+Subscription funnel (trial starts, trial→paid, MRR): `GET https://api.revenuecat.com/v2/projects/proj7793585f/metrics/overview` with Bearer `$RC_SECRET_AOTD` from `~/.config/midgar/credentials.env`.
 
 Review texts (reply-within-48h duty):
 

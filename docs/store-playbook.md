@@ -1,12 +1,12 @@
 # App of the Dead — Store & Revenue Playbook (1.1.0)
 
-App ID `6746733380` · bundle `com.marcusziade.aotd` · subscription group "Premium" · RevenueCat public key in `StoreManager.swift` (no v2 secret key in the vault yet — see follow-ups).
+App ID `6746733380` · bundle `com.marcusziade.aotd` · subscription group "Premium" (22148452) · RC project `proj7793585f` (`RC_SECRET_AOTD` in the vault; `ultimate` = `entlb89a419762`).
 
 Written 2026-06-10 from primary research (RevenueCat *State of Subscription Apps 2026*, Adapty *State of In-App Subscriptions 2026*, Superwall, live store teardowns of the faith/education comp set, live ASC audit, 87 findings with 24 adversarially verified). Every decision cites its evidence.
 
 ## 0. Baseline (2026-06-10)
 
-Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved non-consumables (21 paths at $2.99, 3 deity packs at $1.99, Oracle Wisdom $9.99, Ultimate lifetime $19.99), zero subscriptions, zero trials, zero ratings, zero reviews. Judaism path free forever. Oracle: 3 free consultations per deity (on-device MLX — zero marginal cost). Vendor number: TODO (read once from ASC web → Payments and Financial Reports).
+Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved non-consumables (21 paths at $2.99, 3 deity packs at $1.99, Oracle Wisdom $9.99, Ultimate lifetime $19.99), zero subscriptions, zero trials, zero ratings, zero reviews. Judaism path free forever. Oracle: 3 free consultations per deity (on-device MLX — zero marginal cost). Vendor number: 93803823 (account-level, shared by all Midgar apps).
 
 **Live 1.0.2 likely crashes at launch on iOS 26.5 devices**: RevenueCat 5.29.0 reads `Bundle.main.appStoreReceiptURL` on a background queue during configure (purchases-ios#6886, the exact bug that got DreamEater 1.3.0 rejected). 1.1.0 ships RC 5.78.0 + main-thread pre-warm.
 
@@ -58,7 +58,7 @@ Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved no
 ## 3. Follow-ups requiring the human (priority order)
 
 1. ~~RevenueCat v2 secret key~~ **DONE 2026-06-10**: `RC_SECRET_AOTD` in the vault; project `proj7793585f`; both subs attached to `ultimate` (`entlb89a419762`); offering `default` repointed ($rc_annual → annual sub, $rc_monthly → monthly sub, new $rc_lifetime → ultimate; dangling $rc_weekly deleted). RC metrics (`GET /v2/projects/proj7793585f/metrics/overview`) now available to revenue-ops episodes. The app's CustomerInfo fallback remains as belt-and-suspenders.
-2. **Vendor number**: read once from ASC web → Payments and Financial Reports; record here and in OPERATIONS.md.
+2. ~~Vendor number~~ DONE 2026-06-10: 93803823 (account-level; verified against /v1/salesReports).
 3. **Experiment SKUs**: create `com.appofthedead.premium.annual.29` / `.49` ($29.99/$49.99) when starting price tests — test only structural changes at this volume (~200 subs per variant needed).
 4. **Win-back offers** on the annual once churned subscribers exist (iOS 18+ surfaces them automatically).
 5. **Exit offer experiment** (24h discounted annual on paywall dismissal — drove 17% of revenue in an 18-app study) — needs remote config to stay honest; owner voice forbids fake urgency, so design carefully or skip.
