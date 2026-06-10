@@ -1,0 +1,159 @@
+{
+  "identifier" : "8F1F8A4E-2B7D-4C3A-9E5F-AOTD20260610",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "89.99",
+      "familyShareable" : false,
+      "internalID" : "A0000001",
+      "localizations" : [
+        {
+          "description" : "All paths, unlimited Oracle, and exclusive features",
+          "displayName" : "Ultimate Enlightenment",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.ultimate",
+      "referenceName" : "Ultimate Enlightenment",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "A0000002",
+      "localizations" : [
+        {
+          "description" : "Unlimited consultations with all 21 divine guides",
+          "displayName" : "Oracle Wisdom Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.oracle.wisdom",
+      "referenceName" : "Oracle Wisdom Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000003",
+      "localizations" : [
+        {
+          "description" : "Explore Valhalla, Hel, and Norse afterlife beliefs",
+          "displayName" : "Norse Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.norse",
+      "referenceName" : "Norse Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000004",
+      "localizations" : [
+        {
+          "description" : "Explore Heaven, Hell, and salvation through Christian teachings",
+          "displayName" : "Christianity Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.christianity",
+      "referenceName" : "Christianity Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "A0000005",
+      "localizations" : [
+        {
+          "description" : "Consult Anubis, Kali, and Baron Samedi - Masters of Death",
+          "displayName" : "Death Masters Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.deities.egyptian",
+      "referenceName" : "Death Masters Pack",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "B0000001",
+      "localizations" : [
+
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B0000002",
+          "introductoryOffer" : {
+            "internalID" : "B0000004",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Every path and unlimited Oracle, billed yearly",
+              "displayName" : "Premium Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.appofthedead.premium.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Premium Annual",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B0000003",
+          "localizations" : [
+            {
+              "description" : "Every path and unlimited Oracle, billed monthly",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.appofthedead.premium.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

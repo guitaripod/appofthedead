@@ -101,8 +101,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window?.rootViewController = adaptiveContainer
         self.window?.makeKeyAndVisible()
-        
-        
+
+        presentDemoRouteIfRequested(over: adaptiveContainer)
+
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
         
         AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
@@ -162,6 +163,24 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppLogger.ui.info("Scene did become active")
     }
     
+    /// Screenshot/QA rig: `AOTD_DEMO=paywall|paywall-path|paywall-oracle` presents
+    /// the matching paywall right after launch. DEBUG builds only.
+    private func presentDemoRouteIfRequested(over root: UIViewController) {
+        #if DEBUG
+        guard let route = ProcessInfo.processInfo.environment["AOTD_DEMO"] else { return }
+        let reason: PaywallReason
+        switch route {
+        case "paywall": reason = .generalUpgrade
+        case "paywall-path": reason = .lockedPath(beliefSystemId: "norse")
+        case "paywall-oracle": reason = .oracleLimit(deityId: "anubis", deityName: "Anubis")
+        default: return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            root.present(PaywallViewController(reason: reason), animated: false)
+        }
+        #endif
+    }
+
     /// On iOS 26+ navigation bars keep the system Liquid Glass material; only the
     /// tint is branded. Forcing an opaque background would suppress the glass.
     private func configureNavigationBarAppearance() {

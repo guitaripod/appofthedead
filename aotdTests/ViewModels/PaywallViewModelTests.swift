@@ -136,6 +136,19 @@ final class PaywallViewModelTests: XCTestCase {
         XCTAssertTrue(sut.disclosureText.contains("Auto-renews"))
     }
 
+    func testSelectionFallsBackToFirstAvailablePlanWhenAnnualMissing() {
+        store.plans = PremiumPlans(
+            annual: nil,
+            monthly: nil,
+            lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", monthlyEquivalentPrice: nil, trialDays: nil))
+        let sut = makeSut()
+
+        sut.loadProducts()
+
+        XCTAssertEqual(sut.selectedPlan, .lifetime)
+        XCTAssertEqual(sut.ctaTitle, "Unlock Lifetime")
+    }
+
     func testALaCarteProductForLockedPath() {
         let sut = makeSut(reason: .lockedPath(beliefSystemId: "norse"))
 

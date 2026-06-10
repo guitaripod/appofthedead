@@ -97,6 +97,14 @@ final class PaywallViewModel {
     }
 
     func loadProducts() {
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["AOTD_DEMO_PLANS"] == "1" {
+            plans = Self.demoPlans
+            rebuildPlanCards()
+            onPlansUpdated?()
+            return
+        }
+        #endif
         store.fetchPremiumPlans { [weak self] plans in
             guard let self else { return }
             self.plans = plans
@@ -286,7 +294,23 @@ final class PaywallViewModel {
         }
 
         planCards = cards
+
+        if !cards.contains(where: { $0.plan == selectedPlan }), let fallback = cards.first?.plan {
+            selectedPlan = fallback
+        }
     }
 }
+
+#if DEBUG
+extension PaywallViewModel {
+    /// Mirrors the live ASC configuration so screenshot runs render the full
+    /// paywall without StoreKit (AOTD_DEMO_PLANS=1).
+    static let demoPlans = PremiumPlans(
+        annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", monthlyEquivalentPrice: "$3.33", trialDays: 7),
+        monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", monthlyEquivalentPrice: nil, trialDays: nil),
+        lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", monthlyEquivalentPrice: nil, trialDays: nil)
+    )
+}
+#endif
 
 extension NotificationManager: TrialReminderScheduling {}
