@@ -78,10 +78,21 @@ class iCloudSyncManager {
             return
         }
 
+        let cloudData = storedContinuityData()
+        let mergedPaths = completedPaths.union(cloudData?.completedPaths ?? [])
+
+        if let cloudData,
+           user.totalXP <= cloudData.xp,
+           user.currentLevel <= cloudData.level,
+           mergedPaths == cloudData.completedPaths {
+            AppLogger.general.debug("Skipping iCloud sync: cloud snapshot is ahead of local progress")
+            return
+        }
+
         let continuityData = ContinuityData(
-            level: user.currentLevel,
-            xp: user.totalXP,
-            completedPaths: completedPaths,
+            level: max(user.currentLevel, cloudData?.level ?? 0),
+            xp: max(user.totalXP, cloudData?.xp ?? 0),
+            completedPaths: mergedPaths,
             syncTimestamp: Date()
         )
 
@@ -92,13 +103,22 @@ class iCloudSyncManager {
 
             lastSyncDate = Date()
             AppLogger.general.info("Progress synced to iCloud", metadata: [
-                "level": user.currentLevel,
-                "xp": user.totalXP,
-                "completedPathsCount": completedPaths.count
+                "level": continuityData.level,
+                "xp": continuityData.xp,
+                "completedPathsCount": continuityData.completedPaths.count
             ])
         } catch {
             AppLogger.logError(error, context: "Failed to sync progress to iCloud", logger: AppLogger.general)
         }
+    }
+
+    private func storedContinuityData() -> ContinuityData? {
+        guard let data = keyValueStore.data(forKey: syncKey),
+              let cloudData = try? JSONDecoder().decode(ContinuityData.self, from: data),
+              !cloudData.isExpired else {
+            return nil
+        }
+        return cloudData
     }
 
     
@@ -134,8 +154,37 @@ class iCloudSyncManager {
         }
     }
 
-    
-    
+
+
+    func startMonitoringCloudChanges() {
+        keyValueStore.synchronize()
+    }
+
+    /// A user's explicit path reset must win over the merge-on-push union, or the
+    /// reset path resurrects on every restore; rewrite the snapshot without it.
+    func removeCompletedPath(_ beliefSystemId: String) {
+        guard let cloudData = storedContinuityData(),
+              cloudData.completedPaths.contains(beliefSystemId) else { return }
+
+        let updated = ContinuityData(
+            level: cloudData.level,
+            xp: cloudData.xp,
+            completedPaths: cloudData.completedPaths.subtracting([beliefSystemId]),
+            syncTimestamp: Date()
+        )
+
+        do {
+            let data = try JSONEncoder().encode(updated)
+            keyValueStore.set(data, forKey: syncKey)
+            keyValueStore.synchronize()
+            AppLogger.general.info("Removed reset path from iCloud snapshot", metadata: ["beliefSystemId": beliefSystemId])
+        } catch {
+            AppLogger.logError(error, context: "Failed to remove path from iCloud snapshot", logger: AppLogger.general)
+        }
+    }
+
+
+
     func clearSyncedProgress() {
         keyValueStore.removeObject(forKey: syncKey)
         keyValueStore.synchronize()

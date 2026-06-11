@@ -90,8 +90,9 @@ final class DailyReminderViewController: UIViewController {
                 timePicker.datePickerMode = .time
                 timePicker.preferredDatePickerStyle = .compact
                 timePicker.date = self.reminderTime
-                timePicker.addAction(UIAction { [weak self] _ in
-                    self?.updateReminderTime(timePicker.date)
+                timePicker.addAction(UIAction { [weak self] action in
+                    guard let picker = action.sender as? UIDatePicker else { return }
+                    self?.updateReminderTime(picker.date)
                 }, for: .valueChanged)
                 cell.addAccessoryView(timePicker)
             }
@@ -100,7 +101,7 @@ final class DailyReminderViewController: UIViewController {
         }
     }
 
-    private func applySnapshot(animatingDifferences: Bool = false) {
+    private func applySnapshot(animatingDifferences: Bool = false, reloadingToggle: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
 
         snapshot.appendSections([.toggle])
@@ -109,6 +110,10 @@ final class DailyReminderViewController: UIViewController {
         if isReminderEnabled {
             snapshot.appendSections([.time])
             snapshot.appendItems([.timePicker], toSection: .time)
+        }
+
+        if reloadingToggle {
+            snapshot.reloadItems([.enableToggle])
         }
 
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
@@ -125,7 +130,7 @@ final class DailyReminderViewController: UIViewController {
                 } else {
                     self.isReminderEnabled = false
                     self.showPermissionDeniedAlert()
-                    self.applySnapshot(animatingDifferences: true)
+                    self.applySnapshot(animatingDifferences: true, reloadingToggle: true)
                 }
             }
         } else {
@@ -144,11 +149,17 @@ final class DailyReminderViewController: UIViewController {
     }
 
     private func showPermissionDeniedAlert() {
-        PapyrusAlert.showSimpleAlert(
+        PapyrusAlert(
             title: "Notifications Disabled",
-            message: "Please enable notifications in Settings to receive daily reminders.",
-            from: self
+            message: "Enable notifications for App of the Dead in Settings to receive daily reminders.",
+            style: .alert
         )
+        .addAction(PapyrusAlert.Action(title: "Open Settings", style: .default) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            UIApplication.shared.open(url)
+        })
+        .addAction(PapyrusAlert.Action(title: "Not Now", style: .cancel))
+        .present(from: self)
     }
 
     private func updateReminderTime(_ time: Date) {

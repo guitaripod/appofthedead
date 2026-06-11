@@ -21,6 +21,10 @@ final class OracleViewModel: ObservableObject {
     
     private let modelManager = MLXModelManager.shared
     private var cancellables = Set<AnyCancellable>()
+    private var generationTask: Task<Void, Never>?
+    private var activeGenerationID: UUID?
+    private var activeGenerationDeityId: String?
+    private var activeGenerationDelivered = false
     
     
     private var lastBytesDownloaded: Int64 = 0
@@ -167,35 +171,45 @@ final class OracleViewModel: ObservableObject {
     }
     
     func sendMessage(_ text: String) async {
-        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              let deity = selectedDeity else {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return
         }
-        
-        
-        let userMessage = ChatMessage(
-            text: text,
-            isUser: true,
-            deity: nil,
-            timestamp: Date()
-        )
-        
-        await MainActor.run {
-            messages.append(userMessage)
+
+        guard let task = await MainActor.run(body: { startGeneration(for: text) }) else {
+            AppLogger.viewModel.debug("Oracle send ignored: no deity selected or generation already in progress")
+            return
         }
-        
-        
-        await generateResponse(to: text, deity: deity)
+
+        await task.value
     }
-    
+
     func selectDeity(_ deity: Deity) {
-        
+
         guard deity.id != selectedDeity?.id else { return }
-        
+
+        cancelActiveGeneration()
+
         selectedDeity = deity
-        
+
         messages.removeAll()
-        
+
+    }
+
+    /// A cancelled stream the user already read still counts as a consultation,
+    /// or switching deities mid-answer would make the free quota unlimited.
+    private func cancelActiveGeneration() {
+        if activeGenerationDelivered, let deityId = activeGenerationDeityId,
+           let user = DatabaseManager.shared.fetchUser() {
+            user.recordOracleConsultation(deityId: deityId)
+        }
+        activeGenerationDeityId = nil
+        activeGenerationDelivered = false
+        generationTask?.cancel()
+        generationTask = nil
+        activeGenerationID = nil
+        if isGenerating {
+            isGenerating = false
+        }
     }
     
     
@@ -310,90 +324,161 @@ final class OracleViewModel: ObservableObject {
         messages.append(message)
     }
     
-    private func generateResponse(to userMessage: String, deity: Deity) async {
-        
-        await MainActor.run {
-            isGenerating = true
-        }
-        
-        do {
-            
-            let responseMessage = ChatMessage(
-                text: "",
-                isUser: false,
+    @MainActor
+    private func startGeneration(for text: String) -> Task<Void, Never>? {
+        guard !isGenerating, let deity = selectedDeity else { return nil }
+
+        let userMessage = ChatMessage(
+            text: text,
+            isUser: true,
+            deity: nil,
+            timestamp: Date()
+        )
+
+        let placeholderMessage = ChatMessage(
+            text: "",
+            isUser: false,
+            deity: deity,
+            timestamp: Date()
+        )
+
+        isGenerating = true
+        activeGenerationID = placeholderMessage.id
+        activeGenerationDeityId = deity.id
+        activeGenerationDelivered = false
+        messages.append(userMessage)
+        messages.append(placeholderMessage)
+
+        let task = Task {
+            await self.runGeneration(
+                userMessage: text,
                 deity: deity,
-                timestamp: Date()
+                generationID: placeholderMessage.id,
+                placeholderTimestamp: placeholderMessage.timestamp
             )
-            
-            await MainActor.run {
-                messages.append(responseMessage)
-            }
-            
-            let messageIndex = messages.count - 1
-            var fullResponse = ""
-            
-            
-            
-            
-            _ = try await modelManager.generate(
+        }
+        generationTask = task
+        return task
+    }
+
+    private func runGeneration(
+        userMessage: String,
+        deity: Deity,
+        generationID: UUID,
+        placeholderTimestamp: Date
+    ) async {
+        do {
+            var streamedResponse = ""
+
+            let generatedText = try await modelManager.generate(
                 prompt: userMessage,
                 systemPrompt: deity.systemPrompt,
-                maxTokens: 800,  
+                maxTokens: 800,
                 temperature: 0.7,
-                useSystemPrompt: true 
+                useSystemPrompt: true
             ) { token in
-                
                 Task { @MainActor in
-                    fullResponse += token
-                    
-                    
-                    if !fullResponse.contains("<think>") || fullResponse.contains("</think>") {
-                        let cleanedResponse = self.removeThinkTags(from: fullResponse)
-                        if messageIndex < self.messages.count && !cleanedResponse.isEmpty {
-                            self.messages[messageIndex] = ChatMessage(
-                                id: responseMessage.id,
-                                text: cleanedResponse,
-                                isUser: false,
-                                deity: deity,
-                                timestamp: responseMessage.timestamp
-                            )
-                        }
-                    }
-                }
-            }
-            
-            
-            let cleanedResponse = removeThinkTags(from: fullResponse)
-            
-            
-            await MainActor.run {
-                if messageIndex < messages.count {
-                    messages[messageIndex] = ChatMessage(
-                        id: responseMessage.id,
-                        text: cleanedResponse.trimmingCharacters(in: .whitespacesAndNewlines),
-                        isUser: false,
+                    streamedResponse += token
+                    self.applyStreamedResponse(
+                        streamedResponse,
+                        generationID: generationID,
                         deity: deity,
-                        timestamp: responseMessage.timestamp
+                        timestamp: placeholderTimestamp
                     )
                 }
-                isGenerating = false
             }
-            
-        } catch {
-            
-            let errorMessage = ChatMessage(
-                text: "I apologize, but I'm having trouble connecting to the divine realm. Please try again.",
-                isUser: false,
-                deity: deity,
-                timestamp: Date()
-            )
-            
+
+            try Task.checkCancellation()
+
+            let finalText = removeThinkTags(from: generatedText)
+
             await MainActor.run {
-                messages.append(errorMessage)
-                modelError = error.localizedDescription
-                isGenerating = false
+                self.completeGeneration(
+                    generationID: generationID,
+                    deity: deity,
+                    timestamp: placeholderTimestamp,
+                    finalText: finalText
+                )
+            }
+        } catch is CancellationError {
+            AppLogger.viewModel.debug("Oracle generation cancelled for deity \(deity.id)")
+        } catch {
+            AppLogger.logError(error, context: "Oracle generation", logger: AppLogger.mlx)
+
+            await MainActor.run {
+                self.failGeneration(generationID: generationID, deity: deity, error: error)
             }
         }
+    }
+
+    @MainActor
+    private func applyStreamedResponse(_ rawResponse: String, generationID: UUID, deity: Deity, timestamp: Date) {
+        guard activeGenerationID == generationID else { return }
+        guard !rawResponse.contains("<think>") || rawResponse.contains("</think>") else { return }
+
+        let cleanedResponse = removeThinkTags(from: rawResponse)
+        guard !cleanedResponse.isEmpty else { return }
+
+        activeGenerationDelivered = true
+        updateGeneratedMessage(id: generationID, text: cleanedResponse, deity: deity, timestamp: timestamp)
+    }
+
+    @MainActor
+    private func completeGeneration(generationID: UUID, deity: Deity, timestamp: Date, finalText: String) {
+        guard activeGenerationID == generationID else { return }
+
+        updateGeneratedMessage(
+            id: generationID,
+            text: finalText.trimmingCharacters(in: .whitespacesAndNewlines),
+            deity: deity,
+            timestamp: timestamp
+        )
+        recordSuccessfulConsultation(deityId: deity.id)
+        activeGenerationID = nil
+        activeGenerationDeityId = nil
+        activeGenerationDelivered = false
+        generationTask = nil
+        isGenerating = false
+    }
+
+    @MainActor
+    private func failGeneration(generationID: UUID, deity: Deity, error: Error) {
+        guard activeGenerationID == generationID else { return }
+
+        updateGeneratedMessage(
+            id: generationID,
+            text: "I apologize, but I'm having trouble connecting to the divine realm. Please try again.",
+            deity: deity,
+            timestamp: Date()
+        )
+        modelError = error.localizedDescription
+        activeGenerationID = nil
+        activeGenerationDeityId = nil
+        activeGenerationDelivered = false
+        generationTask = nil
+        isGenerating = false
+    }
+
+    @MainActor
+    private func updateGeneratedMessage(id: UUID, text: String, deity: Deity, timestamp: Date) {
+        guard let index = messages.firstIndex(where: { $0.id == id }) else { return }
+
+        messages[index] = ChatMessage(
+            id: id,
+            text: text,
+            isUser: false,
+            deity: deity,
+            timestamp: timestamp
+        )
+    }
+
+    @MainActor
+    private func recordSuccessfulConsultation(deityId: String) {
+        guard let user = DatabaseManager.shared.fetchUser() else {
+            AppLogger.viewModel.error("Cannot record Oracle consultation: no user found")
+            return
+        }
+        user.recordOracleConsultation(deityId: deityId)
     }
     
     private func removeThinkTags(from text: String) -> String {

@@ -12,6 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         preWarmAppStoreReceiptURL()
 
+        NotificationManager.shared.clearBadge()
+
         let storeActivity = AppLogger.beginActivity("StoreManager.configure")
         StoreManager.shared.configure()
         AppLogger.endActivity("StoreManager.configure", id: storeActivity)
@@ -23,9 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppLogger.endActivity("ContentLoader.initialize", id: contentActivity)
 
         let syncActivity = AppLogger.beginActivity("iCloudSync.initialize")
-        if let user = DatabaseManager.shared.fetchUser() {
-            DatabaseManager.shared.applySyncedProgressIfNeeded(userId: user.id)
-        }
+        iCloudSyncManager.shared.startMonitoringCloudChanges()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(cloudSyncDataChanged),
+            name: .iCloudSyncDataChanged,
+            object: nil
+        )
+        applyCloudProgressToCurrentUser()
         AppLogger.endActivity("iCloudSync.initialize", id: syncActivity)
 
         AppLogger.general.info("App initialization complete")
@@ -35,6 +42,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         AppLogger.logMemoryWarning()
+    }
+
+    @objc private func cloudSyncDataChanged() {
+        DispatchQueue.main.async {
+            self.applyCloudProgressToCurrentUser()
+        }
+    }
+
+    private func applyCloudProgressToCurrentUser() {
+        guard let user = DatabaseManager.shared.fetchUser() else { return }
+        DatabaseManager.shared.applySyncedProgressIfNeeded(userId: user.id)
     }
 
     /// RevenueCat reads `Bundle.main.appStoreReceiptURL` on its background queue during

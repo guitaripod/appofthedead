@@ -421,6 +421,9 @@ final class OracleViewController: UIViewController {
               !text.isEmpty else {
             return
         }
+        guard !viewModel.isGenerating else {
+            return
+        }
         guard let user = DatabaseManager.shared.fetchUser(),
               let deity = viewModel.selectedDeity else {
             return
@@ -432,7 +435,6 @@ final class OracleViewController: UIViewController {
         }
         messageTextView.text = ""
         textViewDidChange(messageTextView)
-        user.recordOracleConsultation(deityId: deity.id)
         Task {
             await viewModel.sendMessage(text)
         }
@@ -760,6 +762,10 @@ private class ChatMessageCell: UITableViewCell {
     private var bubbleLeadingConstraint: NSLayoutConstraint?
     private var bubbleTrailingConstraint: NSLayoutConstraint?
     private var bubbleBottomConstraint: NSLayoutConstraint?
+    private lazy var typingIndicatorSizeConstraints = [
+        bubbleView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
+        bubbleView.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
+    ]
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -812,17 +818,15 @@ private class ChatMessageCell: UITableViewCell {
     }
     func configure(with message: OracleViewModel.ChatMessage) {
         if !message.isUser && message.text.isEmpty {
-            messageLabel.text = " "  
+            messageLabel.text = " "
             messageLabel.isHidden = true
             typingIndicator.startAnimating()
-            NSLayoutConstraint.activate([
-                bubbleView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
-                bubbleView.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
-            ])
+            NSLayoutConstraint.activate(typingIndicatorSizeConstraints)
         } else {
             messageLabel.text = message.text
             messageLabel.isHidden = false
             typingIndicator.stopAnimating()
+            NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
         }
         bubbleLeadingConstraint?.isActive = false
         bubbleTrailingConstraint?.isActive = false
@@ -867,10 +871,7 @@ private class ChatMessageCell: UITableViewCell {
             (constraint.firstItem === nameLabel || constraint.secondItem === nameLabel) &&
             constraint.firstAttribute == .bottom
         })
-        NSLayoutConstraint.deactivate(bubbleView.constraints.filter { constraint in
-            (constraint.firstAttribute == .height || constraint.firstAttribute == .width) &&
-            (constraint.firstItem === bubbleView || constraint.secondItem === bubbleView)
-        })
+        NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
         typingIndicator.stopAnimating()
         messageLabel.isHidden = false
     }

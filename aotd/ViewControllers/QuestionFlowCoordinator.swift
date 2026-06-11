@@ -33,8 +33,6 @@ final class QuestionFlowCoordinator: NSObject {
     
     private func showNextQuestion() {
         guard currentQuestionIndex < questions.count else {
-            
-            awardLessonCompletionXP()
             delegate?.questionFlowCoordinatorDidComplete(self, results: results)
             return
         }
@@ -76,20 +74,13 @@ final class QuestionFlowCoordinator: NSObject {
             viewController = TrueFalseViewController(viewModel: viewModel)
             
         case .matching:
-            
-            viewModel = MultipleChoiceViewModel(
+            viewModel = MatchingQuestionViewModel(
                 question: question,
                 beliefSystem: beliefSystem,
                 currentQuestionIndex: currentQuestionIndex,
                 totalQuestions: questions.count
             )
-            
-            // Use iPad-optimized view controller when appropriate
-            if layoutManager.isIPad {
-                viewController = MultipleChoiceViewControllerIPad(viewModel: viewModel)
-            } else {
-                viewController = MultipleChoiceViewController(viewModel: viewModel)
-            }
+            viewController = MatchingQuestionViewController(viewModel: viewModel)
         }
         
         viewModel.delegate = self
@@ -132,8 +123,7 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         GamificationService.shared.awardXP(
             to: user.id,
             amount: totalXP,
-            reason: "Correct answer",
-            beliefSystemId: viewModel.beliefSystem.id
+            reason: "Correct answer"
         )
     }
     
@@ -145,22 +135,6 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
         case 14...29: return 1.5    
         default: return 2.0         
         }
-    }
-    
-    private func awardLessonCompletionXP() {
-        guard let user = DatabaseManager.shared.fetchUser() else { return }
-        
-        
-        let lessonBaseXP = 15
-        let streakMultiplier = calculateStreakMultiplier(streakDays: user.streakDays)
-        let totalXP = Int(Double(lessonBaseXP) * streakMultiplier)
-        
-        GamificationService.shared.awardXP(
-            to: user.id,
-            amount: totalXP,
-            reason: "Lesson completion",
-            beliefSystemId: beliefSystem.id
-        )
     }
     
     private func saveMistake(for viewModel: BaseQuestionViewModel) {

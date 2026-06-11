@@ -371,8 +371,9 @@ private final class PapyrusAlertViewController: UIViewController {
     
     private func handleAction(_ action: PapyrusAlert.Action) {
         animateOut { [weak self] in
-            action.handler?()
-            self?.dismiss(animated: false)
+            self?.dismiss(animated: false) {
+                action.handler?()
+            }
         }
     }
     

@@ -96,21 +96,6 @@ final class HomeViewController: UIViewController {
                 self?.updateHeader()
             }
         }
-        viewModel.onPathSelected = { [weak self] beliefSystem in
-            guard let self = self else { return }
-            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let sceneDelegate = scene.delegate as? SceneDelegate else { return }
-            let coordinator = sceneDelegate.learningPathCoordinator ?? {
-                let newCoordinator = LearningPathCoordinator(
-                    navigationController: self.navigationController ?? UINavigationController(),
-                    beliefSystem: beliefSystem,
-                    contentLoader: self.viewModel.contentLoader
-                )
-                sceneDelegate.learningPathCoordinator = newCoordinator
-                return newCoordinator
-            }()
-            coordinator.start()
-        }
     }
     private func updateHeader() {
         let snapshot = collectionDataSource.snapshot()
@@ -380,23 +365,66 @@ extension HomeViewController: UICollectionViewDelegate {
 }
 extension HomeViewController {
     private func showLockedPathAlert(for item: PathItem) {
-        let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: item.id))
+        guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }),
+              canPreviewFirstLesson(of: beliefSystem) else {
+            presentLockedPathPaywall(for: item.id)
+            return
+        }
+
+        PapyrusAlert(
+            title: "Preview \(beliefSystem.name)",
+            message: "Try the first lesson free. Unlock the full path whenever you're ready.",
+            style: .alert
+        )
+        .addAction(PapyrusAlert.Action(title: "Start Free Lesson", style: .default) { [weak self] in
+            self?.startFirstLessonPreview(for: beliefSystem)
+        })
+        .addAction(PapyrusAlert.Action(title: "See Unlock Options", style: .default) { [weak self] in
+            self?.presentLockedPathPaywall(for: item.id)
+        })
+        .addAction(PapyrusAlert.Action(title: "Not Now", style: .cancel))
+        .present(from: self)
+    }
+
+    private func presentLockedPathPaywall(for beliefSystemId: String) {
+        let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: beliefSystemId))
         present(paywall, animated: true)
+    }
+
+    private func canPreviewFirstLesson(of beliefSystem: BeliefSystem) -> Bool {
+        guard let firstLesson = beliefSystem.lessons.first,
+              let user = viewModel.currentUser else { return false }
+        let progress = try? DatabaseManager.shared.getProgress(
+            userId: user.id,
+            beliefSystemId: beliefSystem.id,
+            lessonId: firstLesson.id
+        )
+        return progress?.status != .completed
+    }
+
+    private func startFirstLessonPreview(for beliefSystem: BeliefSystem) {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = scene.delegate as? SceneDelegate else { return }
+        let coordinator = LearningPathCoordinator(
+            navigationController: navigationController ?? UINavigationController(),
+            beliefSystem: beliefSystem,
+            contentLoader: viewModel.contentLoader
+        )
+        sceneDelegate.learningPathCoordinator = coordinator
+        AppLogger.logUserAction("startFirstLessonPreview", parameters: ["beliefSystemId": beliefSystem.id])
+        coordinator.startPreview()
     }
     private func showCompletionOptions(for item: PathItem) {
         guard let beliefSystem = viewModel.beliefSystems.first(where: { $0.id == item.id }),
               let progress = viewModel.userProgress[item.id] else { return }
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let sceneDelegate = scene.delegate as? SceneDelegate else { return }
-        let coordinator = sceneDelegate.learningPathCoordinator ?? {
-            let newCoordinator = LearningPathCoordinator(
-                navigationController: self.navigationController ?? UINavigationController(),
-                beliefSystem: beliefSystem,
-                contentLoader: viewModel.contentLoader
-            )
-            sceneDelegate.learningPathCoordinator = newCoordinator
-            return newCoordinator
-        }()
+        let coordinator = LearningPathCoordinator(
+            navigationController: self.navigationController ?? UINavigationController(),
+            beliefSystem: beliefSystem,
+            contentLoader: viewModel.contentLoader
+        )
+        sceneDelegate.learningPathCoordinator = coordinator
         let completionVC = PathCompletionOptionsViewController(
             beliefSystem: beliefSystem,
             progress: progress,

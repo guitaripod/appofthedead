@@ -73,10 +73,11 @@ final class HomeViewModel {
         AppLogger.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
         
         do {
-            
+
             try databaseManager.deleteProgress(userId: userId, beliefSystemId: beliefSystemId)
-            
-            
+
+            iCloudSyncManager.shared.removeCompletedPath(beliefSystemId)
+
             userProgress.removeValue(forKey: beliefSystemId)
             
             
@@ -160,7 +161,7 @@ final class HomeViewModel {
             let progress = userProgress[beliefSystem.id]
             let currentXP = progress?.earnedXP ?? 0
             let isUnlocked = checkIfUnlocked(beliefSystem)
-            let progressPercentage = Float(currentXP) / Float(beliefSystem.totalXP)
+            let progressPercentage = min(1.0, Float(currentXP) / Float(beliefSystem.totalXP))
             let status = progress?.status ?? .notStarted
             
             

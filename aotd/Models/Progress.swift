@@ -45,7 +45,9 @@ struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
     
     mutating func markCompleted(score: Int? = nil) {
         self.status = .completed
-        self.score = score
+        if let score = score {
+            self.score = score
+        }
         self.completedAt = Date()
         self.updatedAt = Date()
     }

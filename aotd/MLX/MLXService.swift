@@ -43,6 +43,8 @@ final class MLXService {
     private var modelContainer: ModelContainer?
     private let modelCache = NSCache<NSString, ModelContainer>()
     private var currentModel: ModelConfiguration?
+    private var inFlightLoadTask: Task<Void, Error>?
+    private let loadStateLock = NSLock()
     
     
     static let availableModels: [(name: String, config: ModelConfiguration)] = [
@@ -87,26 +89,59 @@ final class MLXService {
             self.currentModel = configuration
             return
         }
-        
-        
-        MLX.GPU.set(cacheLimit: 512 * 1024 * 1024) 
-        
-        
+
+        try await sharedLoadTask(configuration: configuration, progressHandler: progressHandler).value
+    }
+
+    private func sharedLoadTask(
+        configuration: ModelConfiguration,
+        progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
+    ) -> Task<Void, Error> {
+        loadStateLock.lock()
+        defer { loadStateLock.unlock() }
+
+        if let inFlightLoadTask {
+            Self.debugLog("MLX: Load already in flight - awaiting existing task")
+            return inFlightLoadTask
+        }
+
+        let task = Task {
+            defer { self.clearInFlightLoadTask() }
+            try await self.performLoad(configuration: configuration, progressHandler: progressHandler)
+        }
+        inFlightLoadTask = task
+        return task
+    }
+
+    private func clearInFlightLoadTask() {
+        loadStateLock.lock()
+        inFlightLoadTask = nil
+        loadStateLock.unlock()
+    }
+
+    private func performLoad(
+        configuration: ModelConfiguration,
+        progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
+    ) async throws {
+
+        MLX.GPU.set(cacheLimit: 512 * 1024 * 1024)
+
+
         let cacheKey = configuration.name as NSString
         if let cached = modelCache.object(forKey: cacheKey) {
             self.modelContainer = cached
             self.currentModel = configuration
             return
         }
-        
-        
+
+
         let container = try await LLMModelFactory.shared.loadContainer(
             hub: HubApi(),
             configuration: configuration,
             progressHandler: progressHandler
         )
-        
-        
+
+
         modelCache.setObject(container, forKey: configuration.name as NSString)
         self.modelContainer = container
         self.currentModel = configuration
@@ -398,20 +433,33 @@ final class MLXService {
     
     func checkModelDownloaded(configuration: ModelConfiguration = defaultModel) async -> Bool {
         if DeviceUtility.isSimulator {
-            
+
             return true
         }
-        
-        
-        return modelCache.object(forKey: configuration.name as NSString) != nil
+
+
+        let modelDirectory = configuration.modelDirectory(hub: HubApi())
+        guard let fileURLs = try? FileManager.default.contentsOfDirectory(
+            at: modelDirectory,
+            includingPropertiesForKeys: nil
+        ) else {
+            return false
+        }
+
+        let hasConfig = fileURLs.contains { $0.lastPathComponent == "config.json" }
+        let hasWeights = fileURLs.contains { $0.pathExtension == "safetensors" }
+        return hasConfig && hasWeights
     }
-    
+
     func deleteModelCache(configuration: ModelConfiguration = defaultModel) async throws {
-        
+
         modelCache.removeObject(forKey: configuration.name as NSString)
-        
-        
-        
+
+
+        let modelDirectory = configuration.modelDirectory(hub: HubApi())
+        if FileManager.default.fileExists(atPath: modelDirectory.path) {
+            try FileManager.default.removeItem(at: modelDirectory)
+        }
     }
 }
 

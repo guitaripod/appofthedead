@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import UserNotifications
 
 final class NotificationManager: NSObject {
@@ -12,6 +13,16 @@ final class NotificationManager: NSObject {
     private override init() {
         super.init()
         notificationCenter.delegate = self
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+
+    @objc private func applicationDidBecomeActive() {
+        clearBadge()
     }
 
     func requestAuthorization(completion: @escaping (Bool) -> Void) {

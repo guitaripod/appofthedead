@@ -96,6 +96,9 @@ final class GamificationService {
         
         do {
             let progress = try databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystemId)
+            if let status = progress?.status, status == .completed || status == .mastered {
+                return 1.0
+            }
             let currentXP = progress?.currentXP ?? 0
             return min(1.0, Double(currentXP) / Double(beliefSystem.totalXP))
         } catch {
@@ -110,8 +113,7 @@ final class GamificationService {
         for beliefSystem in beliefSystems {
             do {
                 let progress = try databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystem.id)
-                let currentXP = progress?.currentXP ?? 0
-                if currentXP >= beliefSystem.totalXP {
+                if let status = progress?.status, status == .completed || status == .mastered {
                     completedPaths += 1
                 }
             } catch {
@@ -130,9 +132,17 @@ final class GamificationService {
     }
     
     private func calculatePerfectMasteryProgress(_ achievement: Achievement, for user: User) -> Double {
-        
-        
-        return 0.0
+        guard case .int(let targetCount) = achievement.criteria.value, targetCount > 0 else { return 0.0 }
+
+        do {
+            let allProgress = try databaseManager.getUserProgress(userId: user.id)
+            let perfectMasteries = allProgress.filter {
+                $0.lessonId == nil && $0.status == .mastered && $0.score == 100
+            }.count
+            return min(1.0, Double(perfectMasteries) / Double(targetCount))
+        } catch {
+            return 0.0
+        }
     }
     
     private func calculateLessonCompletionProgress(_ achievement: Achievement, for user: User) -> Double {
@@ -157,7 +167,11 @@ final class GamificationService {
         let today = Date()
         
         if let lastActiveDate = user.lastActiveDate {
-            let daysBetween = calendar.dateComponents([.day], from: lastActiveDate, to: today).day ?? 0
+            let daysBetween = calendar.dateComponents(
+                [.day],
+                from: calendar.startOfDay(for: lastActiveDate),
+                to: calendar.startOfDay(for: today)
+            ).day ?? 0
             
             switch daysBetween {
             case 0:

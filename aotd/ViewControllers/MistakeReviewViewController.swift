@@ -133,8 +133,8 @@ final class MistakeReviewViewController: UIViewController {
     }
     
     private func loadQuestions() {
-        
-        let allQuestions = beliefSystem.lessons.flatMap { $0.questions }
+
+        let allQuestions = beliefSystem.lessons.flatMap { $0.questions } + beliefSystem.masteryTest.questions
         
         
         questionToMistakeMap.removeAll()
@@ -225,14 +225,13 @@ final class MistakeReviewViewController: UIViewController {
             viewController = TrueFalseViewController(viewModel: viewModel)
             
         case .matching:
-            
-            viewModel = MultipleChoiceViewModel(
+            viewModel = MatchingQuestionViewModel(
                 question: question,
                 beliefSystem: beliefSystem,
                 currentQuestionIndex: currentQuestionIndex,
                 totalQuestions: questions.count
             )
-            viewController = MultipleChoiceViewController(viewModel: viewModel)
+            viewController = MatchingQuestionViewController(viewModel: viewModel)
         }
         
         viewModel.delegate = self

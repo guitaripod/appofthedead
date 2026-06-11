@@ -102,6 +102,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = adaptiveContainer
         self.window?.makeKeyAndVisible()
 
+        _ = AchievementNotificationManager.shared
+
         presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
 
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)

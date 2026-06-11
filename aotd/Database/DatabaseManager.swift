@@ -177,6 +177,9 @@ class DatabaseManager {
             }
             
             if var progress = try query.fetchOne(db) {
+                if progress.status == .mastered && status == .completed {
+                    return
+                }
                 progress.status = status
                 if let score = score {
                     progress.score = score
@@ -243,6 +246,9 @@ class DatabaseManager {
                 
                 let oldXP = existingProgress.earnedXP
                 existingProgress.addXP(xp)
+                if let totalXP = self.getBeliefSystem(by: beliefSystemId)?.totalXP {
+                    existingProgress.earnedXP = min(existingProgress.earnedXP, totalXP)
+                }
                 try existingProgress.update(db)
                 AppLogger.database.info("Updated progress for belief system", metadata: [
                     "beliefSystemId": beliefSystemId,
@@ -872,8 +878,9 @@ class DatabaseManager {
             let completedProgress = try dbQueue.read { db in
                 try Progress
                     .filter(Column("userId") == userId)
-                    .filter(Column("status") == Progress.ProgressStatus.completed.rawValue)
-                    .filter(Column("lessonId") == nil) 
+                    .filter([Progress.ProgressStatus.completed.rawValue,
+                             Progress.ProgressStatus.mastered.rawValue].contains(Column("status")))
+                    .filter(Column("lessonId") == nil)
                     .fetchAll(db)
             }
 

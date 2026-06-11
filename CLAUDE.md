@@ -7,7 +7,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 
 ## Build Commands
 - **Build project**: `xcodebuild -project aotd.xcodeproj -scheme aotd build`
-- **Run tests**: `xcodebuild test -project aotd.xcodeproj -scheme aotd -destination 'platform=iOS Simulator,name=iPhone 16'`
+- **Run tests**: `xcodebuild test -project aotd.xcodeproj -scheme aotd -destination 'platform=iOS Simulator,name=iPhone 17'`
 
 ## Key Technical Details
 - **Database**: Uses GRDB.swift for SQLite database operations

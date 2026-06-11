@@ -7,6 +7,9 @@ final class BookReaderViewController: UIViewController {
     
     let viewModel: BookReaderViewModel
     private var speechSynthesizer: AVSpeechSynthesizer?
+    private var speechTextBase = 0
+    private var spokenCharacterOffset = 0
+    private var speechRestartWorkItem: DispatchWorkItem?
     private var readingTimer: Timer?
     private var panGestureStartPosition: CGFloat = 0
     private var autoScrollTimer: Timer?
@@ -14,9 +17,10 @@ final class BookReaderViewController: UIViewController {
     private var isNavigatingChapter = false
     private var hasRestoredPosition = false
     private var textSelectionHandler: BookReaderTextSelectionHandler?
+    private var activeOracleExplanation: OracleTextExplanationView?
     private var currentHighlights: [BookHighlight] = []
     private var highlightViews: [UIView] = []
-    private var chapterStartPositions: [Int] = []
+    var chapterStartPositions: [Int] = []
     
     
     
@@ -122,6 +126,15 @@ final class BookReaderViewController: UIViewController {
         button.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
         return button
     }()
+
+    private lazy var speechButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "speaker.wave.2"), for: .normal)
+        button.tintColor = PapyrusDesignSystem.Colors.ancientInk
+        button.accessibilityLabel = "Listen to chapter"
+        button.addTarget(self, action: #selector(speechTapped), for: .touchUpInside)
+        return button
+    }()
     
     private lazy var percentageLabel: UILabel = {
         let label = UILabel()
@@ -180,8 +193,9 @@ final class BookReaderViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopSpeech()
+        stopAutoScroll()
         stopReadingTimer()
-        viewModel.saveAll() 
+        viewModel.saveAll()
     }
     
     deinit {
@@ -212,6 +226,7 @@ final class BookReaderViewController: UIViewController {
         bottomToolbar.addSubview(playPauseButton)
         bottomToolbar.addSubview(nextChapterButton)
         bottomToolbar.addSubview(bookmarkButton)
+        bottomToolbar.addSubview(speechButton)
         bottomToolbar.addSubview(readingTimeLabel)
         bottomToolbar.addSubview(percentageLabel)
         
@@ -228,6 +243,7 @@ final class BookReaderViewController: UIViewController {
         playPauseButton.translatesAutoresizingMaskIntoConstraints = false
         nextChapterButton.translatesAutoresizingMaskIntoConstraints = false
         bookmarkButton.translatesAutoresizingMaskIntoConstraints = false
+        speechButton.translatesAutoresizingMaskIntoConstraints = false
         readingTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         percentageLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -293,7 +309,10 @@ final class BookReaderViewController: UIViewController {
             
             bookmarkButton.trailingAnchor.constraint(equalTo: bottomToolbar.trailingAnchor, constant: -20),
             bookmarkButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
-            
+
+            speechButton.leadingAnchor.constraint(equalTo: bottomToolbar.leadingAnchor, constant: 20),
+            speechButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
+
             readingTimeLabel.leadingAnchor.constraint(equalTo: bottomToolbar.leadingAnchor, constant: 20),
             readingTimeLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             
@@ -421,6 +440,19 @@ final class BookReaderViewController: UIViewController {
             stopAutoScroll()
         } else {
             startAutoScroll()
+        }
+    }
+
+    @objc private func speechTapped() {
+        guard let synthesizer = speechSynthesizer, synthesizer.isSpeaking else {
+            startSpeech()
+            return
+        }
+
+        if synthesizer.isPaused {
+            continueSpeech()
+        } else {
+            pauseSpeech()
         }
     }
     
@@ -638,33 +670,55 @@ final class BookReaderViewController: UIViewController {
     
     
     
-    private func startSpeech() {
+    private func startSpeech(fromOffset offset: Int = 0) {
         if speechSynthesizer == nil {
             speechSynthesizer = AVSpeechSynthesizer()
             speechSynthesizer?.delegate = self
         }
-        
-        let utterance = AVSpeechUtterance(string: viewModel.currentContent)
-        utterance.rate = Float(viewModel.preferences.ttsSpeed)
-        
-        if let voice = viewModel.preferences.ttsVoice {
-            utterance.voice = AVSpeechSynthesisVoice(identifier: voice)
-        } else {
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        }
-        
+
+        let content = viewModel.currentContent as NSString
+        let clampedOffset = min(max(0, offset), content.length)
+        speechTextBase = clampedOffset
+        spokenCharacterOffset = clampedOffset
+
+        let utterance = AVSpeechUtterance(string: content.substring(from: clampedOffset))
+        utterance.rate = speechRate()
+        utterance.voice = resolveSpeechVoice()
+
         speechSynthesizer?.speak(utterance)
-        playPauseButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        speechButton.setImage(UIImage(systemName: "speaker.wave.2.fill"), for: .normal)
     }
-    
+
     private func pauseSpeech() {
         speechSynthesizer?.pauseSpeaking(at: .immediate)
-        playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        speechButton.setImage(UIImage(systemName: "speaker.wave.2"), for: .normal)
     }
-    
+
+    private func continueSpeech() {
+        speechSynthesizer?.continueSpeaking()
+        speechButton.setImage(UIImage(systemName: "speaker.wave.2.fill"), for: .normal)
+    }
+
     private func stopSpeech() {
         speechSynthesizer?.stopSpeaking(at: .immediate)
-        playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        speechButton.setImage(UIImage(systemName: "speaker.wave.2"), for: .normal)
+    }
+
+    /// Maps the user-facing 0.5x-2.0x TTS speed multiplier onto AVSpeechUtterance's
+    /// 0.0-1.0 rate scale, where the default rate represents 1.0x.
+    private func speechRate() -> Float {
+        let rate = AVSpeechUtteranceDefaultSpeechRate * Float(viewModel.preferences.ttsSpeed)
+        return min(AVSpeechUtteranceMaximumSpeechRate, max(AVSpeechUtteranceMinimumSpeechRate, rate))
+    }
+
+    /// Resolves the persisted voice display name (as stored by the settings sheet)
+    /// to an installed voice, falling back to the system US English voice.
+    private func resolveSpeechVoice() -> AVSpeechSynthesisVoice? {
+        if let voiceName = viewModel.preferences.ttsVoice,
+           let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.name == voiceName }) {
+            return voice
+        }
+        return AVSpeechSynthesisVoice(language: "en-US")
     }
     
     
@@ -822,13 +876,16 @@ extension BookReaderViewController: UIGestureRecognizerDelegate {
 
 extension BookReaderViewController: AVSpeechSynthesizerDelegate {
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        
-        
         if viewModel.canGoNext {
             viewModel.goToNextChapter()
             startSpeech()
+        } else {
+            speechButton.setImage(UIImage(systemName: "speaker.wave.2"), for: .normal)
         }
+    }
+
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+        spokenCharacterOffset = speechTextBase + characterRange.location
     }
 }
 
@@ -846,6 +903,20 @@ extension BookReaderViewController: BookReaderSettingsDelegate {
     
     func settingsDidUpdateTTSSpeed(_ speed: Float) {
         viewModel.updateTTSSpeed(speed)
+
+        speechRestartWorkItem?.cancel()
+        guard let synthesizer = speechSynthesizer, synthesizer.isSpeaking, !synthesizer.isPaused else { return }
+
+        let restart = DispatchWorkItem { [weak self] in
+            guard let self,
+                  let synthesizer = self.speechSynthesizer,
+                  synthesizer.isSpeaking, !synthesizer.isPaused else { return }
+            let resumeOffset = self.spokenCharacterOffset
+            self.stopSpeech()
+            self.startSpeech(fromOffset: resumeOffset)
+        }
+        speechRestartWorkItem = restart
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: restart)
     }
     
     func settingsDidUpdateAutoScrollSpeed(_ speed: Double) {
@@ -1018,24 +1089,26 @@ extension BookReaderViewController {
     }
     
     private func showOracleExplanation(for text: String, range: NSRange) {
-        
+
         let contextRange = NSRange(
             location: max(0, range.location - 100),
             length: min(textView.text.count - range.location, range.length + 200)
         )
         let context = (textView.text as NSString).substring(with: contextRange)
-        
-        
-        let deityId = viewModel.preferences.ttsVoice ?? "thoth" 
-        
-        
+
+
         let oracleView = OracleTextExplanationView(
             selectedText: text,
             bookContext: context,
-            deityId: deityId
+            deityId: oracleDeityId()
         )
         oracleView.delegate = self
+        activeOracleExplanation = oracleView
         oracleView.show(in: view)
+    }
+
+    private func oracleDeityId() -> String {
+        ContentLoader().getDeityForBeliefSystem(viewModel.book.beliefSystemId)?.id ?? "the_eternal"
     }
     
     private func shareText(_ text: String) {
@@ -1105,6 +1178,7 @@ extension BookReaderViewController {
         previousChapterButton.tintColor = controlTint
         nextChapterButton.tintColor = controlTint
         bookmarkButton.tintColor = controlTint
+        speechButton.tintColor = controlTint
         playPauseButton.tintColor = theme.isDark ? theme.highlightColor : PapyrusDesignSystem.Colors.goldLeaf
         
         
@@ -1273,25 +1347,26 @@ extension BookReaderViewController: BookReaderTextSelectionDelegate {
 
 extension BookReaderViewController: OracleTextExplanationViewDelegate {
     func oracleTextExplanationViewDidDismiss(_ view: OracleTextExplanationView) {
-        
+        activeOracleExplanation = nil
     }
-    
+
     func oracleTextExplanationView(_ view: OracleTextExplanationView, didSaveExplanation explanation: String, for text: String) {
-        
+        activeOracleExplanation = nil
+
         if let range = textView.text.range(of: text) {
             let nsRange = NSRange(range, in: textView.text)
-            
-            
+
+
             Task {
                 do {
                 guard let user = DatabaseManager.shared.fetchUser() else { return }
-                    
-                    
+
+
                     let consultation = OracleConsultation(
                         userId: user.id,
-                        deityId: viewModel.preferences.ttsVoice ?? "thoth"
+                        deityId: oracleDeityId()
                     )
-                    
+
                     try DatabaseManager.shared.saveOracleConsultation(consultation)
                     
                     

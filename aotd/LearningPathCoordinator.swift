@@ -10,6 +10,9 @@ final class LearningPathCoordinator {
     private let databaseManager = DatabaseManager.shared
     private var isReplayMode = false
     private var isMasterTest = false
+    private var isPreviewMode = false
+
+    private static let firstLessonPaywallShownKey = "aotd.didShowFirstLessonPaywall"
     
     init(
         navigationController: UINavigationController,
@@ -22,11 +25,13 @@ final class LearningPathCoordinator {
     }
     
     func start() {
+        isMasterTest = false
         currentLessonIndex = findResumePoint()
         showNextLesson()
     }
-    
+
     func startLearningPath(for beliefSystem: BeliefSystem, replay: Bool = false) {
+        isMasterTest = false
         isReplayMode = replay
         if replay {
             currentLessonIndex = 0
@@ -36,6 +41,15 @@ final class LearningPathCoordinator {
         showNextLesson()
     }
     
+    /// Free taste of a locked path: lesson 1 plays in full, then the path-specific
+    /// paywall appears at the value moment instead of the lesson list.
+    func startPreview() {
+        isMasterTest = false
+        isPreviewMode = true
+        currentLessonIndex = 0
+        showNextLesson()
+    }
+
     func startMasterTest(for beliefSystem: BeliefSystem) {
         isMasterTest = true
         
@@ -136,7 +150,7 @@ final class LearningPathCoordinator {
     }
     
     private func completeLearningPath() {
-        
+
         if let user = databaseManager.fetchUser() {
             do {
                 try databaseManager.createOrUpdateProgress(
@@ -146,6 +160,9 @@ final class LearningPathCoordinator {
                     status: .completed,
                     score: nil
                 )
+
+                GamificationService.shared.checkAchievements(for: user.id)
+                NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
             } catch {
                 AppLogger.logError(error, context: "Marking belief system as completed", logger: AppLogger.learning)
             }
@@ -179,6 +196,10 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         
         if isMasterTest {
             handleMasterTestCompletion(results: results)
+        } else if isPreviewMode {
+
+            saveLessonCompletion(results: results)
+            finishPreview()
         } else {
 
             saveLessonCompletion(results: results)
@@ -192,6 +213,17 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             }
         }
     }
+
+    private func finishPreview() {
+        UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
+        UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
+        navigationController.popToRootViewController(animated: true)
+
+        guard !StoreManager.shared.hasAllAccess() else { return }
+
+        let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: beliefSystem.id))
+        navigationController.present(paywall, animated: true)
+    }
     
     func questionFlowCoordinatorDidRequestExit(_ coordinator: QuestionFlowCoordinator) {
         questionFlowCoordinator = nil
@@ -202,9 +234,8 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     /// moment converts best on Day 0, and the paywall stays dismissible — the next
     /// lesson is already waiting underneath it.
     private func presentFirstLessonPaywallIfNeeded() {
-        let defaultsKey = "aotd.didShowFirstLessonPaywall"
-        guard !UserDefaults.standard.bool(forKey: defaultsKey) else { return }
-        UserDefaults.standard.set(true, forKey: defaultsKey)
+        guard !UserDefaults.standard.bool(forKey: Self.firstLessonPaywallShownKey) else { return }
+        UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
 
         guard !StoreManager.shared.hasAllAccess() else { return }
 
@@ -236,7 +267,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         let correctAnswers = results.filter { $0.wasCorrect }.count
         let totalQuestions = results.count
         let score = totalQuestions > 0 ? Int((Double(correctAnswers) / Double(totalQuestions)) * 100) : 0
-        
+
         do {
             try databaseManager.createOrUpdateProgress(
                 userId: user.id,
@@ -244,6 +275,13 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 lessonId: lesson.id,
                 status: .completed,
                 score: score
+            )
+
+            GamificationService.shared.awardXP(
+                to: user.id,
+                amount: lesson.xpReward,
+                reason: "Lesson completed",
+                beliefSystemId: isReplayMode ? nil : beliefSystem.id
             )
         } catch {
             AppLogger.logError(error, context: "Saving lesson completion", logger: AppLogger.learning)
@@ -265,23 +303,29 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         
         do {
             if passed {
-                
+                let existingProgress = try databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystem.id)
+                let isFirstMastery = existingProgress?.status != .mastered
+                let bestScore = isFirstMastery ? score : max(score, existingProgress?.score ?? 0)
+
                 try databaseManager.createOrUpdateProgress(
                     userId: user.id,
                     beliefSystemId: beliefSystem.id,
                     lessonId: nil,
                     status: .mastered,
-                    score: score
+                    score: bestScore
                 )
-                
-                
-                try databaseManager.addXPToProgress(
-                    userId: user.id,
-                    beliefSystemId: beliefSystem.id,
-                    xp: masteryTest.xpReward
-                )
-                
-                
+
+                if isFirstMastery {
+                    GamificationService.shared.awardXP(
+                        to: user.id,
+                        amount: masteryTest.xpReward,
+                        reason: "Mastery test passed",
+                        beliefSystemId: beliefSystem.id
+                    )
+                } else {
+                    GamificationService.shared.checkAchievements(for: user.id)
+                }
+
                 showMasterTestSuccessAlert(score: score)
             } else {
                 

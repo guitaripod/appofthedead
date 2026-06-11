@@ -222,14 +222,14 @@ extension BookTableOfContentsViewController: UITableViewDataSource, UITableViewD
     }
 }
 protocol BookSearchDelegate: AnyObject {
-    func didSelectSearchResult(at position: Int)
+    func didSelectSearchResult(inChapter chapterIndex: Int, at range: NSRange)
 }
 final class BookSearchViewController: UIViewController {
     weak var delegate: BookSearchDelegate?
     private let viewModel: BookReaderViewModel
     private let searchBar = UISearchBar()
     private let tableView = UITableView(frame: .zero, style: .plain)
-    private var searchResults: [(chapter: Int, snippet: String, position: Int)] = []
+    private var searchResults: [(chapter: Int, snippet: String, range: NSRange)] = []
     init(viewModel: BookReaderViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -276,16 +276,19 @@ final class BookSearchViewController: UIViewController {
     }
     private func performSearch(query: String) {
         searchResults = []
-        if let currentText = viewModel.currentChapterText,
-           let range = currentText.lowercased().range(of: query.lowercased()) {
-            let startIndex = currentText.distance(from: currentText.startIndex, to: range.lowerBound)
-            let snippetStart = max(0, startIndex - 50)
-            let snippetEnd = min(currentText.count, startIndex + query.count + 50)
-            let snippet = String(currentText[currentText.index(currentText.startIndex, offsetBy: snippetStart)..<currentText.index(currentText.startIndex, offsetBy: snippetEnd)])
+        for (index, chapter) in viewModel.book.chapters.enumerated() {
+            let content = chapter.content as NSString
+            let matchRange = content.range(of: query, options: .caseInsensitive)
+            guard matchRange.location != NSNotFound else { continue }
+            let snippetStart = max(0, matchRange.location - 50)
+            let snippetEnd = min(content.length, NSMaxRange(matchRange) + 50)
+            let snippetRange = content.rangeOfComposedCharacterSequences(
+                for: NSRange(location: snippetStart, length: snippetEnd - snippetStart)
+            )
             searchResults.append((
-                chapter: viewModel.currentChapterIndex,
-                snippet: "..." + snippet + "...",
-                position: startIndex
+                chapter: index,
+                snippet: "..." + content.substring(with: snippetRange) + "...",
+                range: matchRange
             ))
         }
         tableView.reloadData()
@@ -322,8 +325,7 @@ extension BookSearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let result = searchResults[indexPath.row]
-        viewModel.currentChapterIndex = result.chapter
-        delegate?.didSelectSearchResult(at: result.position)
+        delegate?.didSelectSearchResult(inChapter: result.chapter, at: result.range)
         dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -337,12 +339,18 @@ extension BookReaderViewController: BookTableOfContentsDelegate {
     }
 }
 extension BookReaderViewController: BookSearchDelegate {
-    func didSelectSearchResult(at position: Int) {
-        if let text = textView.text, position < text.count {
-            let range = NSRange(location: position, length: 1)
-            textView.scrollRangeToVisible(range)
-            highlightSearchResult(at: range)
-        }
+    func didSelectSearchResult(inChapter chapterIndex: Int, at range: NSRange) {
+        guard chapterIndex < chapterStartPositions.count,
+              chapterIndex < viewModel.book.chapters.count,
+              let text = textView.text else { return }
+        let renderedTitlePrefixLength = ("\(viewModel.book.chapters[chapterIndex].title)\n\n" as NSString).length
+        let globalRange = NSRange(
+            location: chapterStartPositions[chapterIndex] + renderedTitlePrefixLength + range.location,
+            length: range.length
+        )
+        guard NSMaxRange(globalRange) <= (text as NSString).length else { return }
+        textView.scrollRangeToVisible(globalRange)
+        highlightSearchResult(at: globalRange)
     }
     private func highlightSearchResult(at range: NSRange) {
         let highlight = UIView()

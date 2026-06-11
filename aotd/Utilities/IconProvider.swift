@@ -34,6 +34,7 @@ final class IconProvider {
             "nine_pointed_star": "star.circle.fill",
             "sacred_fan": "fan.fill",
             "boomerang": "arrow.turn.up.right",
+            "mjolnir": "hammer.fill",
             "dreamcatcher": "circle.hexagongrid.circle.fill",
             "flower_of_life": "sparkles",
             "seal_of_theosophy": "seal.fill",

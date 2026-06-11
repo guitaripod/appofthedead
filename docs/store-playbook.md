@@ -94,3 +94,46 @@ download→trial D30 6.5% · trial→paid 5–9d 37.4% · iOS D35 download→pai
 - Xcode 26.x ships the Metal compiler as a downloadable component; fresh runners need `xcodebuild -downloadComponent MetalToolchain` before building mlx-swift.
 - Intro offers on APPROVED subscriptions go live without app review; Apple applies them automatically at purchase.
 - ASC: one iOS version in the pipeline at a time; Waiting for Review locks metadata; canceling a submission restarts the queue clock (~24h).
+
+## 8. 1.2.0 — the quality release (2026-06-11)
+
+1.1.0 never reached users: Apple moved it to IN_REVIEW on 2026-06-11 while a deep audit
+of the codebase was underway, and the audit found that **every mastery test was
+impossible to finish** (matching questions rendered through the multiple-choice screen
+with zero answer options — `question.options` is nil for type `matching`). Shipping that
+to a reviewer poking at a mastery test was rejection bait, so submission `33f6bb02` was
+cancelled from IN_REVIEW, the version was renamed in place 1.1.0 → 1.2.0
+(DEVELOPER_REJECTED unlocks `versionString` PATCH), and the improved build went back in.
+The two subscriptions were standalone submissions and kept their own review-queue
+position through the cancellation.
+
+What 1.2.0 adds on top of 1.1.0 (audit: 10-dimension fan-out, 41 raw findings, 37
+adversarially confirmed; diff itself re-reviewed by a second 5-lens adversarial pass):
+
+- **Matching question UI** (`MatchingQuestionViewModel`/`ViewController`): tap-to-pair,
+  per-pair colors, full feedback — unblocks all 22 mastery tests + 5 Dreamtime lessons.
+- **XP economy aligned with content**: per-question XP → user only; `lesson.xpReward`
+  on completion and `masteryTest.xpReward` on first mastery → user + path; path XP
+  clamped at `totalXP` (every path: 600 lessons + 100 mastery = 700). Path achievements
+  are now status-based, so they actually unlock.
+- **Critical data fixes**: mastered paths can no longer be silently downgraded to
+  "completed" with the score wiped (replay or iCloud apply); streaks count calendar
+  days, not 24h windows; stale `LearningPathCoordinator` no longer opens the wrong
+  path's lessons.
+- **Revenue-surface fixes**: restore actually dismisses the paywall and reports
+  "nothing to restore" honestly; sheet cancellation is silent; product-fetch failure
+  gets a retry state instead of a dead paywall; first-lesson-free previews of locked
+  paths (playbook follow-up 6) with the path-specific paywall at the value moment.
+- Achievement banners wired (singleton was never instantiated); iCloud restore
+  observers added + reset-aware snapshot merging; Oracle stream fencing/cancellation;
+  TTS made reachable with position-preserving speed changes; portrait-only on iPhone
+  restored (Info.plist base key was overriding the build setting with all 4
+  orientations).
+
+Release facts added the hard way:
+- A reviewSubmission can be PATCHed `canceled: true` even from IN_REVIEW; the version
+  flips to DEVELOPER_REJECTED asynchronously (psybeam trap) and `versionString` is then
+  editable in place — no need to create a new appStoreVersion.
+- `INFOPLIST_KEY_*` build settings only fill keys ABSENT from the INFOPLIST_FILE; a key
+  present in the file silently wins (the `~ipad` variant still merges from settings).
+  Verify orientation/etc. on the built artifact, not the source.

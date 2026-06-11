@@ -97,6 +97,7 @@ class PaywallViewController: UIViewController {
         view.addSubview(bottomBar)
 
         configureCTAButton()
+        ctaButton.isEnabled = false
         ctaButton.addAction(UIAction { [weak self] _ in
             self?.viewModel.purchaseSelectedPlan()
         }, for: .touchUpInside)
@@ -293,6 +294,11 @@ class PaywallViewController: UIViewController {
         plansStackView.spacing = PapyrusDesignSystem.Spacing.small
         contentStackView.addArrangedSubview(plansStackView)
 
+        showPlansLoadingIndicator()
+    }
+
+    private func showPlansLoadingIndicator() {
+        plansStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         let loadingView = UIActivityIndicatorView(style: .medium)
         loadingView.startAnimating()
         plansStackView.addArrangedSubview(loadingView)
@@ -353,7 +359,34 @@ class PaywallViewController: UIViewController {
             plansStackView.addArrangedSubview(cardView)
             return cardView
         }
+        ctaButton.isEnabled = !planCardViews.isEmpty
+        if planCardViews.isEmpty {
+            showPlansUnavailableState()
+        }
         refreshALaCarteButton()
+    }
+
+    private func showPlansUnavailableState() {
+        let label = UILabel()
+        label.text = "Plans couldn't be loaded. Check your connection and try again."
+        label.font = PapyrusDesignSystem.Typography.subheadline()
+        label.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
+        label.textAlignment = .center
+        label.numberOfLines = 0
+
+        var config = UIButton.Configuration.plain()
+        config.attributedTitle = AttributedString("Retry", attributes: AttributeContainer([
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .foregroundColor: PapyrusDesignSystem.Colors.goldLeaf
+        ]))
+        let retryButton = UIButton(configuration: config)
+        retryButton.addAction(UIAction { [weak self] _ in
+            self?.showPlansLoadingIndicator()
+            self?.viewModel.loadProducts()
+        }, for: .touchUpInside)
+
+        plansStackView.addArrangedSubview(label)
+        plansStackView.addArrangedSubview(retryButton)
     }
 
     private func refreshSelectionDependentUI() {
@@ -433,6 +466,9 @@ class PaywallViewController: UIViewController {
             view.isUserInteractionEnabled = true
             notificationFeedback.notificationOccurred(.success)
             showSuccessAndDismiss()
+        case .cancelled:
+            purchaseLoadingView?.removeFromSuperview()
+            view.isUserInteractionEnabled = true
         case .failure(let error):
             purchaseLoadingView?.removeFromSuperview()
             view.isUserInteractionEnabled = true
@@ -444,12 +480,26 @@ class PaywallViewController: UIViewController {
     private func handleRestorePurchases() {
         viewModel.restore { [weak self] result in
             DispatchQueue.main.async {
+                guard let self else { return }
                 switch result {
-                case .success:
-                    self?.showAlert(title: "Success", message: "Purchases restored successfully!")
-                    self?.dismiss(animated: true)
+                case .success(true):
+                    self.notificationFeedback.notificationOccurred(.success)
+                    let alert = UIAlertController(
+                        title: "Purchases Restored",
+                        message: "Welcome back. Everything you own is unlocked again.",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                        self.dismiss(animated: true)
+                    })
+                    self.present(alert, animated: true)
+                case .success(false):
+                    self.showAlert(
+                        title: "Nothing to Restore",
+                        message: "No previous purchases were found for this Apple Account."
+                    )
                 case .failure(let error):
-                    self?.showAlert(title: "Error", message: error.localizedDescription)
+                    self.showAlert(title: "Error", message: error.localizedDescription)
                 }
             }
         }

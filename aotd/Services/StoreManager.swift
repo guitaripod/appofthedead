@@ -100,10 +100,11 @@ class StoreManager: NSObject {
             }
             
             Purchases.shared.purchase(product: product) { transaction, customerInfo, error, userCancelled in
-                if let error = error {
+                if userCancelled {
+                    AppLogger.purchases.info("Purchase cancelled by user: \(productId.rawValue)")
+                    completion(.success(false))
+                } else if let error = error {
                     completion(.failure(error))
-                } else if userCancelled {
-                    completion(.failure(NSError(domain: "StoreManager", code: -3, userInfo: [NSLocalizedDescriptionKey: "Purchase cancelled"])))
                 } else {
                     self.customerInfo = customerInfo
                     completion(.success(true))
@@ -120,10 +121,18 @@ class StoreManager: NSObject {
                 completion(.failure(error))
             } else {
                 self.customerInfo = customerInfo
-                completion(.success(true))
+                let restored = customerInfo.map(Self.hasRestorablePurchases) ?? false
+                AppLogger.purchases.info("Restore completed, restored purchases found: \(restored)")
+                completion(.success(restored))
                 NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
             }
         }
+    }
+
+    private static func hasRestorablePurchases(_ customerInfo: CustomerInfo) -> Bool {
+        grantsAllAccess(customerInfo)
+            || !customerInfo.entitlements.active.isEmpty
+            || !customerInfo.nonSubscriptions.isEmpty
     }
     
     
@@ -284,6 +293,12 @@ class StoreManager: NSObject {
 
         Purchases.shared.getProducts(planProductIds.map(\.rawValue)) { [weak self] products in
             guard let self else {
+                DispatchQueue.main.async { completion(.empty) }
+                return
+            }
+
+            guard !products.isEmpty else {
+                AppLogger.purchases.error("Failed to fetch premium plan products from the App Store")
                 DispatchQueue.main.async { completion(.empty) }
                 return
             }
