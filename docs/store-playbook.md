@@ -137,3 +137,13 @@ Release facts added the hard way:
 - `INFOPLIST_KEY_*` build settings only fill keys ABSENT from the INFOPLIST_FILE; a key
   present in the file silently wins (the `~ipad` variant still merges from settings).
   Verify orientation/etc. on the built artifact, not the source.
+
+### 1.2.0 submission record (2026-06-11)
+
+- Build `202606111504` (CI run 27356484803, stable runner, commit `bec1a17`) attached to
+  version 1.2.0 (same appStoreVersion `227c980a`, renamed in place from 1.1.0).
+- Review submission `351e349b-bd84-4752-92d2-50dc8dfd279e` WAITING_FOR_REVIEW as of
+  ~15:45 UTC. Premium Annual (6778911519) + Monthly (6778911344) still
+  WAITING_FOR_REVIEW on their original standalone submissions from 2026-06-10.
+- What's New rewritten for 1.2.0 (matching questions, free previews, Premium w/ trial,
+  achievement banners, TTS, iCloud restore + fix list).
