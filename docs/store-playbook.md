@@ -147,3 +147,51 @@ Release facts added the hard way:
   WAITING_FOR_REVIEW on their original standalone submissions from 2026-06-10.
 - What's New rewritten for 1.2.0 (matching questions, free previews, Premium w/ trial,
   achievement banners, TTS, iCloud restore + fix list).
+
+## 9. 1.3.0 — Profile remaster + the subscription recovery (2026-06-13)
+
+1.2.0 reached the store (READY_FOR_SALE). 1.3.0 ships the **Profile remaster
+("The Scroll of Ascension"**: XP ring, editable Seeker name + rank, Eternal Flame
+streak card, Scribe's Ledger stat grid, Halls-of-the-Dead per-path mastery rail,
+themed Ascend card) + an app-wide **emoji → SF Symbol sweep** (10 emoji removed;
+emoji render as tofu on fresh sims and are off-brand — standing rule now: never
+emoji, always SF Symbols + color).
+
+- Build `202606131944` (commit `83ccad7`, stable-runner CI) attached to version
+  1.3.0 (`948bafc9`); reviewSubmission `e4ae2aa2-…` WAITING_FOR_REVIEW 2026-06-13 18:42 UTC.
+- Marketing assets: 5 NEW captioned 6.9" iPhone screenshots (`APP_IPHONE_67`,
+  1320×2868 — hero Profile, home, lesson, Halls, library) generated from the
+  simulator (seeded mid-journey data) + composited with Pillow (Georgia Bold caption
+  on a papyrus gradient, rounded device + shadow). Replaced the old iPhone set; the
+  stale pre-remaster iPad profile shot was deleted (iPad set kept its 4 still-accurate
+  shots — fresh iPad capture is blocked by the AdaptiveNavigationContainer sidebar
+  overlapping content, and there's no touch-injection to collapse it). What's New +
+  promotional text refreshed; **subtitle and keywords kept** (already strong).
+
+### 9a. REVENUE-CRITICAL: Premium subs were OFFLINE the whole time 1.2.0 was live
+The two Premium subs (annual $39.99 + 7-day trial, monthly $9.99) were never approved —
+when 1.1.0 was cancelled from IN_REVIEW, the **subscription group localization AND both
+subscription display-name localizations were stranded `REJECTED`**, leaving the subs in
+`DEVELOPER_ACTION_NEEDED` (not on sale). So 1.2.0 sold only the 26 one-time IAPs; the
+entire trial→annual funnel the redesign was built around was dead. Recovery mechanics
+(learned the hard way — the public API can NOT fully fix this):
+
+- `POST /v1/subscriptionSubmissions` returns 201 but is **INERT** while any
+  localization is REJECTED — it never flips the subscription state.
+- A REJECTED **subscriptionLocalization** is NOT API-editable: `PATCH` → 409
+  `ENTITY_ERROR.ATTRIBUTE.INVALID.UNMODIFIABLE`. (The subscriptionGROUPLocalization
+  *is* PATCHable (200), but re-saving it alone doesn't unblock the subs.)
+- `reviewSubmissionItems` rejects a `subscription` relationship (409
+  RELATIONSHIP.UNKNOWN) — subscriptions can NOT ride a version's API reviewSubmission.
+- **THE FIX (web UI only):** open each REJECTED localization in App Store Connect →
+  the **"Add App Store Localization"** modal → keep the values → **Save**. This
+  *replaces* the rejected localization (new id) and flips it to
+  PREPARE_FOR_SUBMISSION → then the subs submit and go WAITING_FOR_REVIEW. There is no
+  API equivalent for re-saving the rejected per-subscription localizations; the web
+  Save is the only path. Verified 2026-06-13: group loc + both subs → WAITING_FOR_REVIEW.
+- Mechanically: re-saving the localizations created a draft reviewSubmission for the
+  version; the version (1.3.0) was added as the single item and submitted via API.
+- LESSON: after ANY cancel-from-review, re-check subscription + group + per-sub
+  localization states (`/v1/subscriptions/{id}` state, `…/subscriptionLocalizations`
+  state) — a cancellation silently strands subs in REJECTED/DEVELOPER_ACTION_NEEDED
+  even when the app version sails through.
