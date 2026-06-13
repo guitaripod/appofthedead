@@ -1,4 +1,5 @@
 import UIKit
+
 extension ProfileViewController {
     func updateLayoutForIPad() {
         guard AdaptiveLayoutManager.shared.isIPad else { return }
@@ -8,6 +9,7 @@ extension ProfileViewController {
             addPointerInteractions()
         }
     }
+
     private func setupIPadLayout() {
         let layoutManager = AdaptiveLayoutManager.shared
         let insets = layoutManager.contentInsets(for: traitCollection)
@@ -17,32 +19,21 @@ extension ProfileViewController {
             bottom: insets.bottom,
             right: 0
         )
-        if layoutManager.screenWidth > 1024 {
-            let maxWidth: CGFloat = 800
-            let horizontalPadding = (layoutManager.screenWidth - maxWidth) / 2
-            contentStackView.constraints.forEach { constraint in
-                if constraint.firstAttribute == .leading {
-                    constraint.constant = max(20, horizontalPadding)
-                } else if constraint.firstAttribute == .trailing {
-                    constraint.constant = min(-20, -horizontalPadding)
-                }
-            }
-        }
+        contentMaxWidthConstraint?.constant = layoutManager.screenWidth > 1024 ? 800 : ProfileViewController.uncappedContentWidth
         contentStackView.spacing = layoutManager.spacing(for: .extraLarge, traitCollection: traitCollection)
     }
+
     private func enhanceVisualElements() {
         let layoutManager = AdaptiveLayoutManager.shared
         if layoutManager.isIPad {
-            for constraint in avatarImageView.superview?.constraints ?? [] {
-                if (constraint.firstItem as? UIView) == avatarImageView {
-                    if constraint.firstAttribute == .width || constraint.firstAttribute == .height {
-                        constraint.constant = 120 
-                    }
-                }
-            }
-            avatarImageView.layer.cornerRadius = 60
+            ringWidthConstraint?.constant = 120
+            ringHeightConstraint?.constant = 120
+            avatarWidthConstraint?.constant = 80
+            avatarHeightConstraint?.constant = 80
+            avatarImageView.layer.cornerRadius = 40
+            xpRingView.setNeedsLayout()
         }
-        for view in [profileHeaderView, statsContainerView] {
+        for view in [profileHeaderView, statsContainerView, streakCard] {
             let shadow = PapyrusDesignSystem.Shadow.elevated()
             view.layer.shadowColor = shadow.color
             view.layer.shadowOpacity = shadow.opacity
@@ -51,36 +42,24 @@ extension ProfileViewController {
         }
         updateFontsForIPad()
     }
+
     private func updateFontsForIPad() {
         nameLabel.font = PapyrusDesignSystem.Typography.largeTitle(for: traitCollection)
-        levelLabel.font = PapyrusDesignSystem.Typography.title2(for: traitCollection)
-        xpLabel.font = PapyrusDesignSystem.Typography.headline(for: traitCollection)
+        levelLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold, for: traitCollection)
+        xpLabel.font = PapyrusDesignSystem.Typography.subheadline(for: traitCollection)
         achievementsHeaderLabel.font = PapyrusDesignSystem.Typography.title1(for: traitCollection)
-        statsStackView.arrangedSubviews.forEach { statCard in
-            if let stackView = statCard as? UIStackView {
-                stackView.arrangedSubviews.forEach { view in
-                    if let label = view as? UILabel {
-                        if label.font.pointSize > 20 {
-                            label.font = PapyrusDesignSystem.Typography.largeTitle(for: traitCollection)
-                        } else {
-                            label.font = PapyrusDesignSystem.Typography.headline(for: traitCollection)
-                        }
-                    }
-                }
-            }
-        }
     }
+
     private func addPointerInteractions() {
-        if #available(iOS 13.4, *) {
-            statsStackView.arrangedSubviews.forEach { view in
-                view.addCardPointerInteraction()
-            }
-            achievementsCollectionView.visibleCells.forEach { cell in
-                cell.addCardPointerInteraction()
-            }
-            profileHeaderView.addCardPointerInteraction()
+        profileHeaderView.addCardPointerInteraction()
+        streakCard.addCardPointerInteraction()
+        statsStackView.arrangedSubviews.forEach { row in
+            (row as? UIStackView)?.arrangedSubviews.forEach { $0.addCardPointerInteraction() }
         }
+        pathTrophyCollectionView.visibleCells.forEach { $0.addCardPointerInteraction() }
+        achievementsCollectionView.visibleCells.forEach { $0.addCardPointerInteraction() }
     }
+
     func updateForTraitCollection() {
         updateLayoutForIPad()
     }
