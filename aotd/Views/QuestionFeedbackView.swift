@@ -3,7 +3,7 @@ import UIKit
 final class QuestionFeedbackView: UIView {
     
     private let containerView = UIView()
-    private let iconLabel = UILabel()
+    private let iconView = UIImageView()
     private let resultLabel = UILabel()
     private let explanationLabel = UILabel()
     private let xpLabel = UILabel()
@@ -30,11 +30,11 @@ final class QuestionFeedbackView: UIView {
         
         addSubview(containerView)
         
-        iconLabel.translatesAutoresizingMaskIntoConstraints = false
-        iconLabel.text = isCorrect ? "✓" : "✗"
-        iconLabel.font = .systemFont(ofSize: 48, weight: .bold)
-        iconLabel.textColor = UIColor.Papyrus.beige
-        iconLabel.textAlignment = .center
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.image = UIImage(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
+        iconView.tintColor = UIColor.Papyrus.beige
+        iconView.contentMode = .scaleAspectFit
+        iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 48, weight: .bold)
         
         resultLabel.translatesAutoresizingMaskIntoConstraints = false
         resultLabel.text = isCorrect ? "Correct!" : "Not quite right"
@@ -49,7 +49,7 @@ final class QuestionFeedbackView: UIView {
         explanationLabel.textAlignment = .center
         explanationLabel.numberOfLines = 0
         
-        let stackView = UIStackView(arrangedSubviews: [iconLabel, resultLabel, explanationLabel])
+        let stackView = UIStackView(arrangedSubviews: [iconView, resultLabel, explanationLabel])
         stackView.axis = .vertical
         stackView.spacing = 12
         stackView.alignment = .center

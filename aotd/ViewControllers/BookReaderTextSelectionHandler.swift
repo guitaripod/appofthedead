@@ -33,11 +33,11 @@ final class BookReaderTextSelectionHandler: NSObject {
     
     private func setupMenuItems() {
         
-        let askOracleItem = UIMenuItem(title: "Ask Oracle 🔮", action: #selector(askOracle))
+        let askOracleItem = UIMenuItem(title: "Ask Oracle", action: #selector(askOracle))
         let highlightYellowItem = UIMenuItem(title: "Highlight", action: #selector(highlightYellow))
         let highlightBlueItem = UIMenuItem(title: "Blue", action: #selector(highlightBlue))
         let highlightGreenItem = UIMenuItem(title: "Green", action: #selector(highlightGreen))
-        let addNoteItem = UIMenuItem(title: "Add Note 📝", action: #selector(addNote))
+        let addNoteItem = UIMenuItem(title: "Add Note", action: #selector(addNote))
         let shareItem = UIMenuItem(title: "Share", action: #selector(share))
         
         customMenuItems = [

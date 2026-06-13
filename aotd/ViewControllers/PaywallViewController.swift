@@ -312,10 +312,16 @@ class PaywallViewController: UIViewController {
     }
 
     private func setupNoPaymentLabel() {
-        noPaymentLabel.text = "✓ No payment due now"
         noPaymentLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         noPaymentLabel.textColor = PapyrusDesignSystem.Colors.Core.scarabGreen
         noPaymentLabel.textAlignment = .center
+        let checkConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .semibold)
+        let checkAttachment = NSTextAttachment()
+        checkAttachment.image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: checkConfig)?
+            .withTintColor(PapyrusDesignSystem.Colors.Core.scarabGreen, renderingMode: .alwaysOriginal)
+        let noPaymentText = NSMutableAttributedString(attachment: checkAttachment)
+        noPaymentText.append(NSAttributedString(string: " No payment due now"))
+        noPaymentLabel.attributedText = noPaymentText
         noPaymentLabel.isHidden = true
         contentStackView.addArrangedSubview(noPaymentLabel)
     }

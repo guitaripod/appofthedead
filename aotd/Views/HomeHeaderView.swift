@@ -75,11 +75,12 @@ final class HomeHeaderView: UICollectionReusableView {
         return view
     }()
     
-    private lazy var xpIconLabel: UILabel = {
-        let label = UILabel()
-        label.text = "⭐"
-        label.font = .systemFont(ofSize: 24)
-        return label
+    private lazy var xpIconView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
+        imageView.tintColor = UIColor.Papyrus.gold
+        imageView.contentMode = .scaleAspectFit
+        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold)
+        return imageView
     }()
     
     private lazy var xpLabel: UILabel = {
@@ -99,7 +100,7 @@ final class HomeHeaderView: UICollectionReusableView {
     }()
     
     private lazy var xpStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [xpIconLabel, xpLabel, xpDescriptionLabel])
+        let stack = UIStackView(arrangedSubviews: [xpIconView, xpLabel, xpDescriptionLabel])
         stack.axis = .horizontal
         stack.spacing = 8
         stack.alignment = .center
@@ -115,11 +116,12 @@ final class HomeHeaderView: UICollectionReusableView {
         return view
     }()
     
-    private lazy var streakIconLabel: UILabel = {
-        let label = UILabel()
-        label.text = "🔥"
-        label.font = .systemFont(ofSize: 24)
-        return label
+    private lazy var streakIconView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "flame.fill"))
+        imageView.tintColor = UIColor.Papyrus.tombRed
+        imageView.contentMode = .scaleAspectFit
+        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold)
+        return imageView
     }()
     
     private lazy var streakLabel: UILabel = {
@@ -139,7 +141,7 @@ final class HomeHeaderView: UICollectionReusableView {
     }()
     
     private lazy var streakStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [streakIconLabel, streakLabel, streakDescriptionLabel])
+        let stack = UIStackView(arrangedSubviews: [streakIconView, streakLabel, streakDescriptionLabel])
         stack.axis = .horizontal
         stack.spacing = 8
         stack.alignment = .center
@@ -221,10 +223,10 @@ final class HomeHeaderView: UICollectionReusableView {
         
         if streak > 0 {
             UIView.animate(withDuration: 0.3) {
-                self.streakIconLabel.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.streakIconView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             } completion: { _ in
                 UIView.animate(withDuration: 0.2) {
-                    self.streakIconLabel.transform = .identity
+                    self.streakIconView.transform = .identity
                 }
             }
         }

@@ -3,7 +3,7 @@ import UIKit
 final class StreakFlameCard: UIView {
 
     private let flameDisc = UIView()
-    private let flameLabel = UILabel()
+    private let flameView = UIImageView()
     private let countLabel = UILabel()
     private let captionLabel = UILabel()
     private let multiplierBadge = CountPillView()
@@ -26,11 +26,12 @@ final class StreakFlameCard: UIView {
         flameDisc.layer.cornerRadius = 28
         flameDisc.translatesAutoresizingMaskIntoConstraints = false
 
-        flameLabel.text = "🔥"
-        flameLabel.font = .systemFont(ofSize: 30)
-        flameLabel.textAlignment = .center
-        flameLabel.translatesAutoresizingMaskIntoConstraints = false
-        flameDisc.addSubview(flameLabel)
+        flameView.image = UIImage(systemName: "flame.fill")
+        flameView.tintColor = UIColor.Papyrus.tombRed
+        flameView.contentMode = .scaleAspectFit
+        flameView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 26, weight: .semibold)
+        flameView.translatesAutoresizingMaskIntoConstraints = false
+        flameDisc.addSubview(flameView)
 
         countLabel.font = PapyrusDesignSystem.Typography.title1(weight: .bold)
         countLabel.textColor = UIColor.Papyrus.tombRed
@@ -58,8 +59,8 @@ final class StreakFlameCard: UIView {
         NSLayoutConstraint.activate([
             flameDisc.widthAnchor.constraint(equalToConstant: 56),
             flameDisc.heightAnchor.constraint(equalToConstant: 56),
-            flameLabel.centerXAnchor.constraint(equalTo: flameDisc.centerXAnchor),
-            flameLabel.centerYAnchor.constraint(equalTo: flameDisc.centerYAnchor),
+            flameView.centerXAnchor.constraint(equalTo: flameDisc.centerXAnchor),
+            flameView.centerYAnchor.constraint(equalTo: flameDisc.centerYAnchor),
 
             rowStack.topAnchor.constraint(equalTo: topAnchor, constant: 14),
             rowStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
@@ -92,10 +93,10 @@ final class StreakFlameCard: UIView {
 
     func pulse() {
         UIView.animate(withDuration: 0.3, animations: {
-            self.flameLabel.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.flameView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: { _ in
             UIView.animate(withDuration: 0.2) {
-                self.flameLabel.transform = .identity
+                self.flameView.transform = .identity
             }
         })
     }

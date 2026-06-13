@@ -139,7 +139,7 @@ class PathCompletionOptionsViewController: UIViewController {
         let completionPercentage = min(100, Int((Double(currentXP) / Double(totalXP)) * 100))
         let hasPerfectScore = currentXP >= totalXP
         
-        titleLabel.text = "\(beliefSystem.name) Path Complete! 🎉"
+        titleLabel.text = "\(beliefSystem.name) Path Complete!"
         
         
         if hasPerfectScore {
@@ -167,7 +167,7 @@ class PathCompletionOptionsViewController: UIViewController {
             optionsStackView.addArrangedSubview(masterTestButton)
             if progress.status == .mastered {
                 masterTestButton.configuration?.title = "Retake Master Test"
-                masterTestInfoLabel.text = "You've mastered this path! 🏆"
+                masterTestInfoLabel.text = "You've mastered this path!"
             } else {
                 masterTestInfoLabel.text = "Master Test unlocked! Score 80% or higher to earn the crown badge."
             }

@@ -338,7 +338,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     
     private func showMasterTestSuccessAlert(score: Int) {
         let alert = UIAlertController(
-            title: "Congratulations! 🎉",
+            title: "Congratulations!",
             message: "You've mastered \(beliefSystem.name) with a score of \(score)%!",
             preferredStyle: .alert
         )
