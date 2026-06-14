@@ -64,6 +64,7 @@ jobs:
             -destination 'generic/platform=iOS' \
             -archivePath $RUNNER_TEMP/aotd.xcarchive \
             -scmProvider system \
+            -skipMacroValidation \
             archive
 
       - name: Package IPA

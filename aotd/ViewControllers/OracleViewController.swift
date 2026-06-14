@@ -337,7 +337,8 @@ final class OracleViewController: UIViewController {
                     self?.progressView.isHidden = true
                 } else if status.isEmpty {
                     self?.downloadLabel.text = "Oracle requires divine knowledge to be downloaded"
-                    self?.downloadDescriptionLabel.text = "Download the Llama 3.2 model (~1.8GB) to enable on-device AI conversations with ancient deities."
+                    let model = MLXModelManager.shared.activeModel
+                    self?.downloadDescriptionLabel.text = "Download the \(model.displayName) model (~\(String(format: "%.1f", model.approximateDownloadGB))GB) to enable on-device AI conversations with ancient deities."
                 }
             }
             .store(in: &cancellables)

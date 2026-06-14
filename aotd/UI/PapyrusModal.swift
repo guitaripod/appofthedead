@@ -26,8 +26,8 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private let mlxManager = MLXModelManager.shared
     
     
-    private let modelSizeGB: Double = 1.8
-    private var modelSizeBytes: Int64 { Int64(modelSizeGB * 1024 * 1024 * 1024) }
+    private var modelSizeGB: Double { mlxManager.activeModel.approximateDownloadGB }
+    private var modelSizeBytes: Int64 { mlxManager.activeModel.approximateDownloadBytes }
     private var progressTimer: Timer?
     
     

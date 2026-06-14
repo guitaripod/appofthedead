@@ -110,12 +110,12 @@ final class OracleViewModel: ObservableObject {
             let isDownloaded = await modelManager.isModelDownloaded
             if !isDownloaded {
                 
-                let modelSizeGB: Double = 1.8
-                let estimatedTotalSize: Int64 = Int64(modelSizeGB * 1024 * 1024 * 1024)
-                
+                let activeModel = modelManager.activeModel
+                let estimatedTotalSize: Int64 = activeModel.approximateDownloadBytes
+
                 await MainActor.run {
                     self.downloadStatus = "Preparing divine connection..."
-                    self.downloadStage = "Downloading Llama 3.2 (3B) model"
+                    self.downloadStage = "Downloading \(activeModel.displayName) model"
                     self.downloadProgress = 0.0
                 }
                 

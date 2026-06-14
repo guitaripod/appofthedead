@@ -2,112 +2,84 @@ import Foundation
 import MLX
 import MLXLLM
 import MLXLMCommon
-import Hub
+import MLXHuggingFace
+import HuggingFace
+import Tokenizers
 import UIKit
 import os.log
 
 final class MLXService {
-    
-    
-    
+
     static let shared = MLXService()
-    
+
     private init() {}
-    
-    
-    
+
     private static let logger = Logger(subsystem: "com.appofthedead", category: "MLXService")
-    
+
     private static func debugLog(_ message: String) {
         #if targetEnvironment(simulator) || DEBUG
         logger.debug("\(message)")
         #endif
     }
-    
-    
-    
+
     private struct HapticConfig {
-        static let tokenInterval = 3 
-        static let impactIntensity: CGFloat = 0.4 
+        static let tokenInterval = 3
+        static let impactIntensity: CGFloat = 0.4
         static let impactStyle: UIImpactFeedbackGenerator.FeedbackStyle = .light
         static let userDefaultsKey = "StreamingHapticsEnabled"
-        
+
         static var isStreamingHapticsEnabled: Bool {
-            
-            return UserDefaults.standard.object(forKey: userDefaultsKey) as? Bool ?? true
+            UserDefaults.standard.object(forKey: userDefaultsKey) as? Bool ?? true
         }
     }
-    
-    
-    
+
     private var modelContainer: ModelContainer?
     private let modelCache = NSCache<NSString, ModelContainer>()
-    private var currentModel: ModelConfiguration?
+    private(set) var loadedModel: OnDeviceModel?
     private var inFlightLoadTask: Task<Void, Error>?
     private let loadStateLock = NSLock()
-    
-    
-    static let availableModels: [(name: String, config: ModelConfiguration)] = [
-        ("SmolLM-135M", LLMRegistry.smolLM_135M_4bit),
-        ("Qwen3-0.6B", LLMRegistry.qwen3_0_6b_4bit),
-        ("Qwen3-1.7B", LLMRegistry.qwen3_1_7b_4bit),
-        ("Llama3.2-1B", LLMRegistry.llama3_2_1B_4bit),
-        ("Llama3.2-3B", LLMRegistry.llama3_2_3B_4bit),
-        ("Qwen2.5-7B", LLMRegistry.qwen2_5_7b),
-        ("Mistral-Nemo", LLMRegistry.mistralNeMo4bit),
-        ("Gemma2-9B", LLMRegistry.gemma_2_9b_it_4bit)
-    ]
-    
-    
-    
-    static let defaultModel = LLMRegistry.llama3_2_3B_4bit
-    
+
+    static var defaultModel: OnDeviceModel { OnDeviceModelCatalog.preferred() }
+
     var isModelLoaded: Bool {
         if DeviceUtility.isSimulator {
-            return currentModel != nil
+            return loadedModel != nil
         }
         return modelContainer != nil
     }
-    
-    
-    
+
     func loadModel(
-        configuration: ModelConfiguration = defaultModel,
-        progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
+        _ model: OnDeviceModel = defaultModel,
+        progressHandler: @escaping @Sendable (Foundation.Progress) -> Void = { _ in }
     ) async throws {
-        
         if DeviceUtility.isSimulator {
-            Self.debugLog("MLX: Running in simulator - using mock mode")
-            
             let progress = Foundation.Progress(totalUnitCount: 100)
             for i in 0...100 {
                 progress.completedUnitCount = Int64(i)
                 progressHandler(progress)
-                try await Task.sleep(nanoseconds: 10_000_000) 
+                try await Task.sleep(nanoseconds: 10_000_000)
             }
-            
-            self.currentModel = configuration
+            self.loadedModel = model
             return
         }
 
-        try await sharedLoadTask(configuration: configuration, progressHandler: progressHandler).value
+        try await sharedLoadTask(model: model, progressHandler: progressHandler).value
     }
 
     private func sharedLoadTask(
-        configuration: ModelConfiguration,
+        model: OnDeviceModel,
         progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
     ) -> Task<Void, Error> {
         loadStateLock.lock()
         defer { loadStateLock.unlock() }
 
         if let inFlightLoadTask {
-            Self.debugLog("MLX: Load already in flight - awaiting existing task")
             return inFlightLoadTask
         }
 
         let task = Task {
             defer { self.clearInFlightLoadTask() }
-            try await self.performLoad(configuration: configuration, progressHandler: progressHandler)
+            try await self.performLoad(model: model, progressHandler: progressHandler)
         }
         inFlightLoadTask = task
         return task
@@ -120,50 +92,82 @@ final class MLXService {
     }
 
     private func performLoad(
-        configuration: ModelConfiguration,
+        model: OnDeviceModel,
         progressHandler: @escaping @Sendable (Foundation.Progress) -> Void
     ) async throws {
-
         MLX.GPU.set(cacheLimit: 512 * 1024 * 1024)
 
-
-        let cacheKey = configuration.name as NSString
+        let cacheKey = model.id as NSString
         if let cached = modelCache.object(forKey: cacheKey) {
             self.modelContainer = cached
-            self.currentModel = configuration
+            self.loadedModel = model
             return
         }
 
+        let container: ModelContainer
+        do {
+            container = try await LLMModelFactory.shared.loadContainer(
+                from: #hubDownloader(),
+                using: #huggingFaceTokenizerLoader(),
+                configuration: model.configuration,
+                progressHandler: progressHandler
+            )
+        } catch {
+            throw OnDeviceLLMError.loadFailed(underlying: error)
+        }
 
-        let container = try await LLMModelFactory.shared.loadContainer(
-            hub: HubApi(),
-            configuration: configuration,
-            progressHandler: progressHandler
-        )
-
-
-        modelCache.setObject(container, forKey: configuration.name as NSString)
         self.modelContainer = container
-        self.currentModel = configuration
+        self.loadedModel = model
+
+        do {
+            try await runSanityProbe(on: container)
+        } catch {
+            self.modelContainer = nil
+            self.loadedModel = nil
+            throw OnDeviceLLMError.sanityCheckFailed(modelID: model.id)
+        }
+
+        modelCache.setObject(container, forKey: cacheKey)
     }
-    
+
+    /// Generates a handful of tokens and verifies the model emits coherent, printable
+    /// text — catching quantization regressions (e.g. early Gemma 4 PLE-quant garbage)
+    /// before the model is shown to the user.
+    private func runSanityProbe(on container: ModelContainer) async throws {
+        let session = ChatSession(
+            container,
+            instructions: "You are a helpful assistant.",
+            generateParameters: GenerateParameters(maxTokens: 24, temperature: 0.0)
+        )
+        var output = ""
+        for try await chunk in session.streamResponse(to: "Reply with exactly: OK") {
+            output += chunk
+            if output.count > 64 { break }
+        }
+        let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            throw OnDeviceLLMError.sanityCheckFailed(modelID: loadedModel?.id ?? "unknown")
+        }
+        let printable = trimmed.unicodeScalars.filter { $0.value >= 32 || $0 == "\n" }.count
+        let ratio = Double(printable) / Double(max(trimmed.unicodeScalars.count, 1))
+        guard ratio > 0.8 else {
+            throw OnDeviceLLMError.sanityCheckFailed(modelID: loadedModel?.id ?? "unknown")
+        }
+    }
+
     func unloadModel() {
         modelContainer = nil
-        currentModel = nil
+        loadedModel = nil
         MLX.GPU.set(cacheLimit: 0)
-        
-        
         MLX.GPU.clearCache()
     }
-    
-    
-    
+
     struct GenerationConfig {
         let temperature: Float
         let maxTokens: Int
         let topP: Float
         let repetitionPenalty: Float
-        
+
         init(
             temperature: Float = 0.7,
             maxTokens: Int = 512,
@@ -175,295 +179,133 @@ final class MLXService {
             self.topP = topP
             self.repetitionPenalty = repetitionPenalty
         }
+
+        var parameters: GenerateParameters {
+            GenerateParameters(
+                maxTokens: maxTokens,
+                temperature: temperature,
+                topP: topP,
+                repetitionPenalty: repetitionPenalty
+            )
+        }
     }
-    
+
     func generate(
         messages: [ChatMessage],
         config: GenerationConfig = GenerationConfig()
     ) async throws -> AsyncThrowingStream<String, Error> {
-        
+        let system = messages.first { $0.role == .system }?.content
+        let user = messages.last { $0.role == .user }?.content ?? ""
+        return try await generate(systemPrompt: system, userPrompt: user, config: config)
+    }
+
+    func generate(
+        systemPrompt: String?,
+        userPrompt: String,
+        config: GenerationConfig = GenerationConfig()
+    ) async throws -> AsyncThrowingStream<String, Error> {
         if DeviceUtility.isSimulator {
-            return createSimulatorResponse(for: messages, config: config)
+            return createSimulatorResponse(for: userPrompt)
         }
-        
+
         guard let container = modelContainer else {
-            throw MLXServiceError.modelNotLoaded
+            throw OnDeviceLLMError.notReady
         }
-        
-        
-        let chatMessages = messages.map { message in
-            let role: Chat.Message.Role = {
-                switch message.role {
-                case .system:
-                    return .system
-                case .user:
-                    return .user
-                case .assistant:
-                    return .assistant
-                }
-            }()
-            
-            return Chat.Message(role: role, content: message.content)
-        }
-        
-        Self.debugLog("MLX Chat Messages:")
-        for (index, msg) in chatMessages.enumerated() {
-            Self.debugLog("  [\(index)] Role: \(msg.role), Content: \(msg.content)")
-        }
-        Self.debugLog("MLX Temperature: \(config.temperature)")
-        Self.debugLog("MLX Max Tokens: \(config.maxTokens)")
-        
-        
-        let userInput = UserInput(chat: chatMessages)
-        
-        
-        let parameters = MLXLMCommon.GenerateParameters(
-            maxTokens: config.maxTokens,
-            temperature: config.temperature
+
+        let session = ChatSession(
+            container,
+            instructions: systemPrompt,
+            generateParameters: config.parameters
         )
-        
+        let upstream = session.streamResponse(to: userPrompt)
+
         return AsyncThrowingStream { continuation in
-            let generationTask = Task {
+            let task = Task {
+                let impactGenerator = await MainActor.run { () -> UIImpactFeedbackGenerator in
+                    let g = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
+                    g.prepare()
+                    return g
+                }
+                let notificationGenerator = await MainActor.run { () -> UINotificationFeedbackGenerator in
+                    let g = UINotificationFeedbackGenerator()
+                    g.prepare()
+                    return g
+                }
+
                 do {
-                    
-                    let impactGenerator = await MainActor.run {
-                        let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
-                        generator.prepare()
-                        return generator
-                    }
-                    
-                    let notificationGenerator = await MainActor.run {
-                        let generator = UINotificationFeedbackGenerator()
-                        generator.prepare()
-                        return generator
-                    }
-                    
-                    
-                    let stream = try await container.perform { context in
-                        let input = try await context.processor.prepare(input: userInput)
-                        return try MLXLMCommon.generate(
-                            input: input,
-                            parameters: parameters,
-                            context: context
-                        )
-                    }
-                    
-                    
                     var tokenCount = 0
-                    var totalText = ""
-                    
-                    for try await generation in stream {
-                        
+                    for try await chunk in upstream {
                         try Task.checkCancellation()
-                        
-                        switch generation {
-                        case .chunk(let text):
-                            if !text.isEmpty {
-                                tokenCount += 1
-                                totalText += text
-                                Self.debugLog("MLX Token #\(tokenCount): '\(text)'")
-                                
-                                
-                                if HapticConfig.isStreamingHapticsEnabled && tokenCount % HapticConfig.tokenInterval == 0 {
-                                    await MainActor.run {
-                                        impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
-                                    }
-                                }
-                                
-                                continuation.yield(text)
-                            }
-                        case .info(let info):
-                            Self.debugLog("MLX Generation Info: \(info)")
-                            break
+                        guard !chunk.isEmpty else { continue }
+                        tokenCount += 1
+                        if HapticConfig.isStreamingHapticsEnabled && tokenCount % HapticConfig.tokenInterval == 0 {
+                            await MainActor.run { impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity) }
                         }
+                        continuation.yield(chunk)
                     }
-                    
-                    Self.debugLog("MLX Generation Complete - Total tokens: \(tokenCount)")
-                    Self.debugLog("MLX Total generated text: \(totalText)")
-                    
-                    
-                    await MainActor.run {
-                        notificationGenerator.notificationOccurred(.success)
-                    }
-                    
+                    await MainActor.run { notificationGenerator.notificationOccurred(.success) }
                     continuation.finish()
+                } catch is CancellationError {
+                    continuation.finish(throwing: CancellationError())
                 } catch {
-                    if error is CancellationError {
-                        Self.debugLog("MLX Generation cancelled")
-                        continuation.finish(throwing: CancellationError())
-                    } else {
-                        continuation.finish(throwing: error)
-                    }
+                    continuation.finish(throwing: OnDeviceLLMError.generationFailed(underlying: error))
                 }
             }
-            
-            
+
             continuation.onTermination = { @Sendable termination in
-                switch termination {
-                case .cancelled:
-                    generationTask.cancel()
-                    Self.debugLog("MLX Stream terminated - cancelling generation task")
-                default:
-                    break
-                }
+                if case .cancelled = termination { task.cancel() }
             }
         }
     }
-    
-    
-    
-    private func createSimulatorResponse(
-        for messages: [ChatMessage],
-        config: GenerationConfig
-    ) -> AsyncThrowingStream<String, Error> {
-        return AsyncThrowingStream { continuation in
-            let simulationTask = Task {
-                do {
-                    
-                    let impactGenerator = await MainActor.run {
-                        let generator = UIImpactFeedbackGenerator(style: HapticConfig.impactStyle)
-                        generator.prepare()
-                        return generator
-                    }
-                    
-                    let notificationGenerator = await MainActor.run {
-                        let generator = UINotificationFeedbackGenerator()
-                        generator.prepare()
-                        return generator
-                    }
-                    
-                    
-                    let lastUserMessage = messages.last { $0.role == .user }?.content ?? ""
-                    
-                    
-                    let mockResponses = [
-                        "[Simulator Mode] The ancient spirits whisper through the digital void...",
-                        "[Simulator Mode] In the realm of simulation, all prophecies converge...",
-                        "[Simulator Mode] The oracle's wisdom transcends physical hardware...",
-                        "[Simulator Mode] Even in this ethereal plane, guidance can be found..."
-                    ]
-                    
-                    
-                    let baseResponse = mockResponses.randomElement() ?? mockResponses[0]
-                    let contextualResponse = "\(baseResponse)\n\nRegarding your question: '\(lastUserMessage)'\n\nThe true oracle requires a physical device to channel the divine wisdom. This is merely a shadow of what could be..."
-                    
-                    
-                    let words = contextualResponse.split(separator: " ")
-                    var wordCount = 0
-                    
-                    for word in words {
-                        
-                        try Task.checkCancellation()
-                        
-                        wordCount += 1
-                        
-                        
-                        if HapticConfig.isStreamingHapticsEnabled && wordCount % HapticConfig.tokenInterval == 0 {
-                            await MainActor.run {
-                                impactGenerator.impactOccurred(intensity: HapticConfig.impactIntensity)
-                            }
-                        }
-                        
-                        continuation.yield(String(word) + " ")
-                        try await Task.sleep(nanoseconds: 50_000_000) 
-                    }
-                    
-                    
-                    await MainActor.run {
-                        notificationGenerator.notificationOccurred(.success)
-                    }
-                    
-                    continuation.finish()
-                } catch {
-                    if error is CancellationError {
-                        Self.debugLog("Simulator generation cancelled")
-                        continuation.finish(throwing: CancellationError())
-                    } else {
-                        continuation.finish(throwing: error)
-                    }
+
+    private func createSimulatorResponse(for prompt: String) -> AsyncThrowingStream<String, Error> {
+        AsyncThrowingStream { continuation in
+            let task = Task {
+                let response = "[Simulator Mode] The Oracle speaks only on a physical device. Regarding '\(prompt)': the divine wisdom requires real hardware to channel."
+                for word in response.split(separator: " ") {
+                    try Task.checkCancellation()
+                    continuation.yield(String(word) + " ")
+                    try await Task.sleep(nanoseconds: 40_000_000)
                 }
+                continuation.finish()
             }
-            
-            
             continuation.onTermination = { @Sendable termination in
-                switch termination {
-                case .cancelled:
-                    simulationTask.cancel()
-                    Self.debugLog("Simulator stream terminated - cancelling simulation task")
-                default:
-                    break
-                }
+                if case .cancelled = termination { task.cancel() }
             }
         }
     }
-    
-    
-    
-    func generateResponse(
-        prompt: String,
-        systemPrompt: String? = nil,
-        maxTokens: Int = 300
-    ) async throws -> String {
-        var messages: [ChatMessage] = []
-        
-        if let systemPrompt = systemPrompt {
-            messages.append(ChatMessage(role: .system, content: systemPrompt))
-        }
-        
-        messages.append(ChatMessage(role: .user, content: prompt))
-        
-        let config = GenerationConfig(
-            temperature: 0.7,
-            maxTokens: maxTokens,
-            topP: 0.95,
-            repetitionPenalty: 1.1
-        )
-        
-        var response = ""
-        let stream = try await generate(messages: messages, config: config)
-        
-        for try await chunk in stream {
-            response += chunk
-        }
-        
-        return response.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
-    
-    
-    func checkModelDownloaded(configuration: ModelConfiguration = defaultModel) async -> Bool {
-        if DeviceUtility.isSimulator {
 
-            return true
-        }
-
-
-        let modelDirectory = configuration.modelDirectory(hub: HubApi())
-        guard let fileURLs = try? FileManager.default.contentsOfDirectory(
-            at: modelDirectory,
-            includingPropertiesForKeys: nil
-        ) else {
-            return false
-        }
-
-        let hasConfig = fileURLs.contains { $0.lastPathComponent == "config.json" }
-        let hasWeights = fileURLs.contains { $0.pathExtension == "safetensors" }
-        return hasConfig && hasWeights
+    func checkModelDownloaded(_ model: OnDeviceModel = defaultModel) async -> Bool {
+        if DeviceUtility.isSimulator { return true }
+        return UserDefaults.standard.bool(forKey: Self.downloadedKey(model))
     }
 
-    func deleteModelCache(configuration: ModelConfiguration = defaultModel) async throws {
+    func markModelDownloaded(_ model: OnDeviceModel) {
+        UserDefaults.standard.set(true, forKey: Self.downloadedKey(model))
+    }
 
-        modelCache.removeObject(forKey: configuration.name as NSString)
+    static func downloadedKey(_ model: OnDeviceModel) -> String {
+        "OnDeviceModelDownloaded-\(model.id)"
+    }
 
+    func diskUsageBytes() -> Int64 {
+        let fm = FileManager.default
+        guard let caches = fm.urls(for: .cachesDirectory, in: .userDomainMask).first else { return 0 }
+        let hub = caches.appendingPathComponent("huggingface", isDirectory: true)
+        return Self.directorySize(at: hub)
+    }
 
-        let modelDirectory = configuration.modelDirectory(hub: HubApi())
-        if FileManager.default.fileExists(atPath: modelDirectory.path) {
-            try FileManager.default.removeItem(at: modelDirectory)
+    private static func directorySize(at url: URL) -> Int64 {
+        let fm = FileManager.default
+        guard let enumerator = fm.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey]) else { return 0 }
+        var total: Int64 = 0
+        for case let fileURL as URL in enumerator {
+            let size = (try? fileURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+            total += Int64(size)
         }
+        return total
     }
 }
-
-
 
 struct ChatMessage {
     enum Role {
@@ -471,24 +313,7 @@ struct ChatMessage {
         case user
         case assistant
     }
-    
+
     let role: Role
     let content: String
-}
-
-enum MLXServiceError: LocalizedError {
-    case modelNotLoaded
-    case invalidConfiguration
-    case downloadFailed(String)
-    
-    var errorDescription: String? {
-        switch self {
-        case .modelNotLoaded:
-            return "Model not loaded. Please load a model first."
-        case .invalidConfiguration:
-            return "Invalid model configuration"
-        case .downloadFailed(let reason):
-            return "Model download failed: \(reason)"
-        }
-    }
 }
