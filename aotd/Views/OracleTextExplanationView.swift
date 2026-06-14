@@ -516,18 +516,16 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                         }
                         
                         self.downloadLoadingView.updateProgress(progress.progress, withText: statusText)
-                        
-                        
-                        if progress.progress >= 1.0 {
-                            UIView.animate(withDuration: 0.3) {
-                                self.downloadContainerView.alpha = 0
-                                self.responseTextView.alpha = 1
-                            } completion: { _ in
-                                self.downloadContainerView.isHidden = true
-                                self.responseTextView.isHidden = false
-                                self.startStreamingExplanation()
-                            }
-                        }
+                    }
+                }
+                await MainActor.run {
+                    UIView.animate(withDuration: 0.3) {
+                        self.downloadContainerView.alpha = 0
+                        self.responseTextView.alpha = 1
+                    } completion: { _ in
+                        self.downloadContainerView.isHidden = true
+                        self.responseTextView.isHidden = false
+                        self.startStreamingExplanation()
                     }
                 }
             } catch {

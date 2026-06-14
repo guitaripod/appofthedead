@@ -13,9 +13,17 @@ final class MLXModelManager {
 
     private let service = MLXService.shared
 
-    /// The model this device will run: the heaviest catalog entry it can handle.
+    private static let lastLoadedModelKey = "MLXLastLoadedModelID"
+
+    /// The model this device will run: the one currently loaded, else the one that
+    /// succeeded last time, else the heaviest catalog entry the device can handle.
     var activeModel: OnDeviceModel {
-        service.loadedModel ?? OnDeviceModelCatalog.preferred()
+        if let loaded = service.loadedModel { return loaded }
+        if let lastID = UserDefaults.standard.string(forKey: Self.lastLoadedModelKey),
+           let last = OnDeviceModelCatalog.model(withID: lastID) {
+            return last
+        }
+        return OnDeviceModelCatalog.preferred()
     }
 
     var isModelDownloaded: Bool {
@@ -52,8 +60,8 @@ final class MLXModelManager {
     }
 
     func downloadModel(onProgress: @escaping (DownloadProgress) -> Void) async throws {
-        let preferred = OnDeviceModelCatalog.preferred()
-        try ensureSufficientStorage(for: preferred)
+        let preferred = activeModel
+        try ensureSufficientStorage(for: OnDeviceModelCatalog.smallestInChain())
 
         try await loadWithFallback { progress in
             let total: Int64 = progress.totalUnitCount > 0
@@ -72,14 +80,15 @@ final class MLXModelManager {
     /// burning through the chain on an offline error would be pointless.
     private func loadWithFallback(progressHandler: @escaping @Sendable (Foundation.Progress) -> Void) async throws {
         guard !isModelLoaded else { return }
-        let chain = OnDeviceModelCatalog.fallbackChain(from: OnDeviceModelCatalog.preferred())
 
-        for model in chain {
+        for model in resolvedChain() {
             do {
                 try await service.loadModel(model, progressHandler: progressHandler)
-                service.markModelDownloaded(model)
+                let actual = service.loadedModel ?? model
+                service.markModelDownloaded(actual)
+                UserDefaults.standard.set(actual.id, forKey: Self.lastLoadedModelKey)
                 UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
-                AppLogger.mlx.info("Loaded on-device model \(model.id, privacy: .public)")
+                AppLogger.mlx.info("Loaded on-device model \(actual.id, privacy: .public)")
                 return
             } catch let error as OnDeviceLLMError {
                 switch error {
@@ -92,6 +101,17 @@ final class MLXModelManager {
             }
         }
         throw OnDeviceLLMError.allModelsExhausted
+    }
+
+    /// Prefer the model that actually succeeded last time, so a device that fell back
+    /// to a smaller model doesn't re-attempt (and re-fail the sanity probe on) the
+    /// heavier one on every launch.
+    private func resolvedChain() -> [OnDeviceModel] {
+        if let lastID = UserDefaults.standard.string(forKey: Self.lastLoadedModelKey),
+           let last = OnDeviceModelCatalog.model(withID: lastID) {
+            return OnDeviceModelCatalog.fallbackChain(from: last)
+        }
+        return OnDeviceModelCatalog.fallbackChain(from: OnDeviceModelCatalog.preferred())
     }
 
     func generate(

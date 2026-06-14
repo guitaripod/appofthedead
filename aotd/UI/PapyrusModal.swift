@@ -387,10 +387,24 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 
                 try await mlxManager.downloadModel { [weak self] progress in
                     guard let self = self else { return }
-                    
+
                     Task { @MainActor in
-                        
+
                         self.handleProgressUpdate(progress.progress)
+                    }
+                }
+                await MainActor.run {
+                    self.progressAnimator?.invalidate()
+                    self.progressAnimator = nil
+                    self.progressTimer?.invalidate()
+                    self.progressTimer = nil
+                    UIView.animate(withDuration: 0.3) {
+                        self.downloadContainerView.alpha = 0
+                        self.contentTextView.alpha = 1
+                    } completion: { _ in
+                        self.downloadContainerView.isHidden = true
+                        self.contentTextView.isHidden = false
+                        self.startStreamingExplanation()
                     }
                 }
             } catch {
@@ -649,21 +663,6 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         downloadLoadingView.updateProgress(smoothedProgress, withText: "\(statusText)\n\(sizeText)")
         
         
-        if smoothedProgress >= 0.99 && lastReportedProgress >= 1.0 {
-            progressAnimator?.invalidate()
-            progressAnimator = nil
-            progressTimer?.invalidate()
-            progressTimer = nil
-            
-            UIView.animate(withDuration: 0.3) {
-                self.downloadContainerView.alpha = 0
-                self.contentTextView.alpha = 1
-            } completion: { _ in
-                self.downloadContainerView.isHidden = true
-                self.contentTextView.isHidden = false
-                self.startStreamingExplanation()
-            }
-        }
     }
 }
 

@@ -45,7 +45,8 @@ final class OracleViewController: UIViewController {
     }()
     private lazy var downloadDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Download the Qwen3 model (1.7B parameters, ~1GB) to enable on-device AI conversations with ancient deities."
+        let model = MLXModelManager.shared.activeModel
+        label.text = "Download the \(model.displayName) model (~\(String(format: "%.1f", model.approximateDownloadGB))GB) to enable on-device AI conversations with ancient deities."
         label.font = .systemFont(ofSize: 14)
         label.textColor = UIColor.Papyrus.secondaryText
         label.textAlignment = .center

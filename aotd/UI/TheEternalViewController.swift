@@ -482,19 +482,16 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                         }
                         
                         self.downloadLoadingView.updateProgress(progress.progress, withText: statusText)
-                        
-                        
-                        if progress.progress >= 1.0 {
-                            
-                            UIView.animate(withDuration: 0.5, animations: {
-                                self.downloadContainerView.alpha = 0
-                                self.responseTextView.alpha = 1
-                            }) { _ in
-                                self.downloadContainerView.isHidden = true
-                                self.responseTextView.isHidden = false
-                                self.startStreamingWisdom()
-                            }
-                        }
+                    }
+                }
+                await MainActor.run {
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.downloadContainerView.alpha = 0
+                        self.responseTextView.alpha = 1
+                    }) { _ in
+                        self.downloadContainerView.isHidden = true
+                        self.responseTextView.isHidden = false
+                        self.startStreamingWisdom()
                     }
                 }
             } catch {

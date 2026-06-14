@@ -68,4 +68,15 @@ enum OnDeviceModelCatalog {
         guard let index = all.firstIndex(of: model) else { return [model, gemma3_text_4b] }
         return Array(all[index...])
     }
+
+    static func model(withID id: String) -> OnDeviceModel? {
+        ([gemma4_e4b] + all).first { $0.id == id }
+    }
+
+    /// The smallest download in the device's fallback chain — used to decide whether
+    /// *any* model can fit before refusing the download outright.
+    static func smallestInChain(physicalMemory: UInt64 = physicalMemoryBytes) -> OnDeviceModel {
+        fallbackChain(from: preferred(physicalMemory: physicalMemory))
+            .min { $0.approximateDownloadBytes < $1.approximateDownloadBytes } ?? gemma3_text_4b
+    }
 }

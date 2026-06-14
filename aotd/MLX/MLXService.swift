@@ -36,7 +36,10 @@ final class MLXService {
     private var modelContainer: ModelContainer?
     private let modelCache = NSCache<NSString, ModelContainer>()
     private(set) var loadedModel: OnDeviceModel?
-    private var inFlightLoadTask: Task<Void, Error>?
+    private struct InFlightLoad { let modelID: String; let generation: Int; let task: Task<Void, Error> }
+    private var inFlightLoad: InFlightLoad?
+    private var loadGeneration = 0
+    private var progressObservers: [@Sendable (Foundation.Progress) -> Void] = []
     private let loadStateLock = NSLock()
 
     static var defaultModel: OnDeviceModel { OnDeviceModelCatalog.preferred() }
@@ -73,21 +76,38 @@ final class MLXService {
         loadStateLock.lock()
         defer { loadStateLock.unlock() }
 
-        if let inFlightLoadTask {
-            return inFlightLoadTask
+        if let inFlightLoad, inFlightLoad.modelID == model.id {
+            progressObservers.append(progressHandler)
+            return inFlightLoad.task
         }
 
+        loadGeneration += 1
+        let generation = loadGeneration
+        progressObservers = [progressHandler]
+
         let task = Task {
-            defer { self.clearInFlightLoadTask() }
-            try await self.performLoad(model: model, progressHandler: progressHandler)
+            defer { self.clearInFlightLoadTask(generation: generation) }
+            try await self.performLoad(model: model) { [weak self] progress in
+                self?.notifyProgress(progress)
+            }
         }
-        inFlightLoadTask = task
+        inFlightLoad = InFlightLoad(modelID: model.id, generation: generation, task: task)
         return task
     }
 
-    private func clearInFlightLoadTask() {
+    private func notifyProgress(_ progress: Foundation.Progress) {
         loadStateLock.lock()
-        inFlightLoadTask = nil
+        let observers = progressObservers
+        loadStateLock.unlock()
+        for observer in observers { observer(progress) }
+    }
+
+    private func clearInFlightLoadTask(generation: Int) {
+        loadStateLock.lock()
+        if inFlightLoad?.generation == generation {
+            inFlightLoad = nil
+            progressObservers = []
+        }
         loadStateLock.unlock()
     }
 
@@ -277,7 +297,28 @@ final class MLXService {
 
     func checkModelDownloaded(_ model: OnDeviceModel = defaultModel) async -> Bool {
         if DeviceUtility.isSimulator { return true }
-        return UserDefaults.standard.bool(forKey: Self.downloadedKey(model))
+        guard UserDefaults.standard.bool(forKey: Self.downloadedKey(model)) else { return false }
+        if Self.modelFilesPresent(model) { return true }
+        UserDefaults.standard.set(false, forKey: Self.downloadedKey(model))
+        return false
+    }
+
+    /// iOS can purge `Library/Caches` (where the Hub stores weights) under disk
+    /// pressure, so a stored "downloaded" flag is not enough — verify the weights
+    /// are actually on disk and self-heal the flag if they were evicted.
+    private static func modelFilesPresent(_ model: OnDeviceModel) -> Bool {
+        let fm = FileManager.default
+        guard let caches = fm.urls(for: .cachesDirectory, in: .userDomainMask).first else { return false }
+        let dirName = "models--" + model.configuration.name.replacingOccurrences(of: "/", with: "--")
+        let modelDir = caches
+            .appendingPathComponent("huggingface", isDirectory: true)
+            .appendingPathComponent("hub", isDirectory: true)
+            .appendingPathComponent(dirName, isDirectory: true)
+        guard let enumerator = fm.enumerator(at: modelDir, includingPropertiesForKeys: nil) else { return false }
+        for case let url as URL in enumerator where url.pathExtension == "safetensors" {
+            return true
+        }
+        return false
     }
 
     func markModelDownloaded(_ model: OnDeviceModel) {
