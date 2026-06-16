@@ -74,10 +74,17 @@ jobs:
           cp -R "$RUNNER_TEMP/aotd.xcarchive/Products/Applications/aotd.app" $RUNNER_TEMP/export/Payload/
           cd $RUNNER_TEMP/export && zip -qry aotd.ipa Payload
 
-      - name: Upload to App Store Connect
+      - name: Validate IPA (surface ITMS errors synchronously)
         run: |
           mkdir -p ~/.appstoreconnect/private_keys
           echo -n "${{ secrets.ASC_API_KEY_P8_BASE64 }}" | base64 --decode -o ~/.appstoreconnect/private_keys/AuthKey_DSS2FFU68G.p8
+          xcrun altool --validate-app -f $RUNNER_TEMP/export/aotd.ipa -t ios \
+            --apiKey DSS2FFU68G \
+            --apiIssuer a5ebdab5-0ceb-463c-8151-195b902f117b \
+            --output-format json
+
+      - name: Upload to App Store Connect
+        run: |
           xcrun altool --upload-app -f $RUNNER_TEMP/export/aotd.ipa -t ios \
             --apiKey DSS2FFU68G \
             --apiIssuer a5ebdab5-0ceb-463c-8151-195b902f117b
