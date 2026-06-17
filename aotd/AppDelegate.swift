@@ -44,6 +44,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppLogger.logMemoryWarning()
     }
 
+    /// Wakes the background model-download session when iOS relaunches the app after
+    /// finishing transfers while it was suspended/terminated. Store the handler and
+    /// recreate the same-identifier session; the downloader calls it back from
+    /// `urlSessionDidFinishEvents`.
+    func application(
+        _ application: UIApplication,
+        handleEventsForBackgroundURLSession identifier: String,
+        completionHandler: @escaping () -> Void
+    ) {
+        guard identifier == BackgroundModelDownloader.sessionIdentifier else {
+            completionHandler()
+            return
+        }
+        BackgroundModelDownloader.shared.setBackgroundCompletion(completionHandler)
+        BackgroundModelDownloader.shared.ensureSessionAlive()
+    }
+
     @objc private func cloudSyncDataChanged() {
         DispatchQueue.main.async {
             self.applyCloudProgressToCurrentUser()

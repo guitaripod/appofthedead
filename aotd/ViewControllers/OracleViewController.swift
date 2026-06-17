@@ -319,12 +319,15 @@ final class OracleViewController: UIViewController {
                     self?.progressLabel.isHidden = true
                     self?.stageLabel.isHidden = true
                 }
+                self?.setAwakeningActive(isLoading)
             }
             .store(in: &cancellables)
         viewModel.$downloadProgress
             .receive(on: DispatchQueue.main)
             .sink { [weak self] progress in
                 self?.progressView.setProgress(progress, animated: true)
+                self?.awakeningView?.update(progress: progress)
+                self?.hapticConductor.update(progress: progress)
             }
             .store(in: &cancellables)
         viewModel.$downloadStatus
@@ -356,6 +359,11 @@ final class OracleViewController: UIViewController {
                 self?.inputContainerView.isHidden = !isLoaded
                 self?.tableView.isHidden = !isLoaded
                 self?.updatePromptSuggestions()
+                if isLoaded {
+                    self?.awakeningView?.update(progress: 1)
+                    self?.hapticConductor.complete()
+                    self?.setAwakeningActive(false)
+                }
             }
             .store(in: &cancellables)
         viewModel.$isGenerating
@@ -379,6 +387,40 @@ final class OracleViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
+
+    private var awakeningView: OracleAwakeningView?
+    private let hapticConductor = OracleHapticConductor()
+
+    /// Swaps in the full-screen Metal "awakening" visual during download. Falls back to
+    /// the existing plain progress UI when Metal is unavailable (Simulator / no GPU).
+    private func setAwakeningActive(_ active: Bool) {
+        if active {
+            guard awakeningView == nil else { return }
+            var deityColor: UIColor?
+            if let hex = viewModel.selectedDeity?.color { deityColor = UIColor(hex: hex) }
+            guard let metal = OracleAwakeningView(deityColor: deityColor) else { return }
+            metal.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(metal, belowSubview: downloadContainerView)
+            NSLayoutConstraint.activate([
+                metal.topAnchor.constraint(equalTo: view.topAnchor),
+                metal.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                metal.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                metal.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+            downloadContainerView.backgroundColor = .clear
+            oracleIcon.isHidden = true
+            progressView.isHidden = true
+            metal.update(progress: viewModel.downloadProgress)
+            awakeningView = metal
+            hapticConductor.start()
+        } else {
+            awakeningView?.removeFromSuperview()
+            awakeningView = nil
+            oracleIcon.isHidden = false
+            hapticConductor.stop()
+        }
+    }
+
     private func checkModelStatus() {
         Task {
             if MLXModelManager.shared.isModelLoaded && !viewModel.isModelLoaded {

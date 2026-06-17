@@ -127,7 +127,7 @@ final class MLXService {
         let container: ModelContainer
         do {
             container = try await LLMModelFactory.shared.loadContainer(
-                from: #hubDownloader(),
+                from: BackgroundModelDownloader.shared,
                 using: #huggingFaceTokenizerLoader(),
                 configuration: model.configuration,
                 progressHandler: progressHandler
@@ -297,54 +297,13 @@ final class MLXService {
 
     func checkModelDownloaded(_ model: OnDeviceModel = defaultModel) async -> Bool {
         if DeviceUtility.isSimulator { return true }
-        guard UserDefaults.standard.bool(forKey: Self.downloadedKey(model)) else { return false }
-        if Self.modelFilesPresent(model) { return true }
-        UserDefaults.standard.set(false, forKey: Self.downloadedKey(model))
-        return false
+        return BackgroundModelDownloader.verifiedDirectory(repo: model.configuration.name) != nil
     }
 
-    /// iOS can purge `Library/Caches` (where the Hub stores weights) under disk
-    /// pressure, so a stored "downloaded" flag is not enough — verify the weights
-    /// are actually on disk and self-heal the flag if they were evicted.
-    private static func modelFilesPresent(_ model: OnDeviceModel) -> Bool {
-        let fm = FileManager.default
-        guard let caches = fm.urls(for: .cachesDirectory, in: .userDomainMask).first else { return false }
-        let dirName = "models--" + model.configuration.name.replacingOccurrences(of: "/", with: "--")
-        let modelDir = caches
-            .appendingPathComponent("huggingface", isDirectory: true)
-            .appendingPathComponent("hub", isDirectory: true)
-            .appendingPathComponent(dirName, isDirectory: true)
-        guard let enumerator = fm.enumerator(at: modelDir, includingPropertiesForKeys: nil) else { return false }
-        for case let url as URL in enumerator where url.pathExtension == "safetensors" {
-            return true
-        }
-        return false
-    }
-
-    func markModelDownloaded(_ model: OnDeviceModel) {
-        UserDefaults.standard.set(true, forKey: Self.downloadedKey(model))
-    }
-
-    static func downloadedKey(_ model: OnDeviceModel) -> String {
-        "OnDeviceModelDownloaded-\(model.id)"
-    }
+    func markModelDownloaded(_ model: OnDeviceModel) {}
 
     func diskUsageBytes() -> Int64 {
-        let fm = FileManager.default
-        guard let caches = fm.urls(for: .cachesDirectory, in: .userDomainMask).first else { return 0 }
-        let hub = caches.appendingPathComponent("huggingface", isDirectory: true)
-        return Self.directorySize(at: hub)
-    }
-
-    private static func directorySize(at url: URL) -> Int64 {
-        let fm = FileManager.default
-        guard let enumerator = fm.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey]) else { return 0 }
-        var total: Int64 = 0
-        for case let fileURL as URL in enumerator {
-            let size = (try? fileURL.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
-            total += Int64(size)
-        }
-        return total
+        BackgroundModelDownloader.diskUsageBytes()
     }
 }
 
