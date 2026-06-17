@@ -67,12 +67,39 @@ jobs:
             -skipMacroValidation \
             archive
 
-      - name: Package IPA
+      - name: Export IPA (App Store, generates SwiftSupport)
         run: |
-          # Manual zip instead of -exportArchive to dodge the Xcode 26.4 rsync bug.
-          mkdir -p $RUNNER_TEMP/export/Payload
-          cp -R "$RUNNER_TEMP/aotd.xcarchive/Products/Applications/aotd.app" $RUNNER_TEMP/export/Payload/
-          cd $RUNNER_TEMP/export && zip -qry aotd.ipa Payload
+          # -exportArchive (not a manual zip) so the IPA carries the SwiftSupport
+          # folder Apple requires (ITMS-90426) now that the app embeds many Swift
+          # dylibs (mlx-swift-lm, swift-nio, swift-crypto, swift-syntax macros).
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>teamID</key><string>P4DQK6SRKR</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.marcusziade.aotd</key>
+              <string>aotd App Store 2026</string>
+            </dict>
+            <key>stripSwiftSymbols</key><true/>
+            <key>uploadSymbols</key><true/>
+            <key>destination</key><string>export</string>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/aotd.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+          echo "--- export contents ---"; ls -la "$RUNNER_TEMP/export"
+          IPA=$(ls "$RUNNER_TEMP/export"/*.ipa | head -1)
+          echo "IPA=$IPA"
+          echo "--- SwiftSupport present? ---"; unzip -l "$IPA" | grep -i SwiftSupport | head -5 || echo "WARNING: no SwiftSupport in IPA"
+          cp "$IPA" "$RUNNER_TEMP/export/aotd.ipa" 2>/dev/null || true
 
       - name: Validate IPA (surface ITMS errors synchronously)
         run: |
