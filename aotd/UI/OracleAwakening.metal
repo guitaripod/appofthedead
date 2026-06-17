@@ -69,6 +69,7 @@ fragment float4 awakening_fragment(VSOut in [[stage_in]],
     float reveal = u.progress * 1.25;
     float frontier = reveal + 0.04 * fbm(uv * 6.0 + t);
     float mask = smoothstep(frontier + 0.14, frontier - 0.02, r);
+    mask = max(mask, (1.0 - u.progress * 8.0) * smoothstep(0.34, 0.0, r) * 0.6);
 
     float k = clamp(n * 1.15 + (1.0 - r), 0.0, 1.0);
     float3 col = mix(u.colorA.rgb, u.colorB.rgb, k);
@@ -84,6 +85,7 @@ fragment float4 awakening_fragment(VSOut in [[stage_in]],
     float swell = smoothstep(0.97, 1.0, u.progress) * (0.5 + 0.5 * sin(t * 6.0));
     col += u.colorB.rgb * swell * 0.4;
 
+    col *= mix(1.0, 0.5, smoothstep(0.15, -0.55, uv.y));
     col = col / (1.0 + col);
     col *= u.intensity;
 

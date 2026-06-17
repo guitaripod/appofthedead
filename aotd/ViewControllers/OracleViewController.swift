@@ -11,105 +11,7 @@ final class OracleViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var inputContainerBottomConstraint: NSLayoutConstraint?
     private var typingIndicator: UIActivityIndicatorView?
-    private lazy var downloadContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Papyrus.cardBackground
-        view.layer.cornerRadius = 16
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowRadius = 8
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.isHidden = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    private lazy var downloadLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Oracle requires divine knowledge to be downloaded"
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = UIColor.Papyrus.primaryText
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    private lazy var oracleIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "sparkles.rectangle.stack.fill")
-        imageView.tintColor = UIColor.Papyrus.gold
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    private lazy var downloadDescriptionLabel: UILabel = {
-        let label = UILabel()
-        let model = MLXModelManager.shared.activeModel
-        label.text = "Download the \(model.displayName) model (~\(String(format: "%.1f", model.approximateDownloadGB))GB) to enable on-device AI conversations with ancient deities."
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor.Papyrus.secondaryText
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    private lazy var progressView: UIProgressView = {
-        let progress = UIProgressView(progressViewStyle: .default)
-        progress.progressTintColor = UIColor.Papyrus.gold
-        progress.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
-        progress.layer.cornerRadius = 2
-        progress.clipsToBounds = true
-        progress.isHidden = true
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        return progress
-    }()
-    private lazy var progressLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor.Papyrus.secondaryText
-        label.textAlignment = .center
-        label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    private lazy var stageLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = UIColor.Papyrus.secondaryText.withAlphaComponent(0.8)
-        label.textAlignment = .center
-        label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    private lazy var downloadButton: UIButton = {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.filled()
-        config.title = "Awaken Oracle Model"
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var updated = incoming
-            updated.font = .systemFont(ofSize: 16, weight: .semibold)
-            return updated
-        }
-        config.image = UIImage(systemName: "arrow.down.circle.fill")
-        config.imagePadding = 8
-        config.imagePlacement = .leading
-        config.baseBackgroundColor = UIColor.Papyrus.gold
-        config.baseForegroundColor = UIColor.Papyrus.ink
-        config.cornerStyle = .medium
-        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-        button.configuration = config
-        button.addTarget(self, action: #selector(downloadModel), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.color = UIColor.Papyrus.gold
-        indicator.hidesWhenStopped = true
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
+    private var summonView: OracleSummonView?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -148,7 +50,7 @@ final class OracleViewController: UIViewController {
         setupInputContainer()
         setupPromptSuggestions()
         setupConstraints()
-        setupDownloadUI()
+        setupSummon()
         updateDeityButton()
     }
     private func setupTableView() {
@@ -245,48 +147,36 @@ final class OracleViewController: UIViewController {
             promptSuggestionsView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor)
         ])
     }
-    private func setupDownloadUI() {
-        view.insertSubview(downloadContainerView, belowSubview: promptSuggestionsView)
-        downloadContainerView.addSubview(oracleIcon)
-        downloadContainerView.addSubview(downloadLabel)
-        downloadContainerView.addSubview(downloadDescriptionLabel)
-        downloadContainerView.addSubview(downloadButton)
-        downloadContainerView.addSubview(progressView)
-        downloadContainerView.addSubview(progressLabel)
-        downloadContainerView.addSubview(stageLabel)
-        downloadContainerView.addSubview(loadingIndicator)
+    private func setupSummon() {
+        let summon = OracleSummonView(
+            deityColor: viewModel.selectedDeity.flatMap { UIColor(hex: $0.color) },
+            isSimulator: DeviceUtility.isSimulator
+        )
+        summon.translatesAutoresizingMaskIntoConstraints = false
+        summon.isHidden = true
+        let model = MLXModelManager.shared.activeModel
+        summon.configure(modelName: model.displayName, sizeGB: model.approximateDownloadGB)
+        summon.onAwaken = { [weak self] in
+            Task { await self?.viewModel.loadModel() }
+        }
+        summon.onWhy = { [weak self] in
+            guard let self else { return }
+            let alert = PapyrusAlert(
+                title: "Why the download?",
+                message: "The Oracle is a private AI that runs entirely on your iPhone, never on a server. The model is downloaded once and kept on your device.",
+                style: .alert
+            )
+            alert.addAction(PapyrusAlert.Action(title: "Understood", style: .default))
+            alert.present(from: self)
+        }
+        view.insertSubview(summon, belowSubview: promptSuggestionsView)
         NSLayoutConstraint.activate([
-            downloadContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            downloadContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            downloadContainerView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 32),
-            downloadContainerView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -32),
-            downloadContainerView.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
-            oracleIcon.topAnchor.constraint(equalTo: downloadContainerView.topAnchor, constant: 32),
-            oracleIcon.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
-            oracleIcon.widthAnchor.constraint(equalToConstant: 60),
-            oracleIcon.heightAnchor.constraint(equalToConstant: 60),
-            downloadLabel.topAnchor.constraint(equalTo: oracleIcon.bottomAnchor, constant: 16),
-            downloadLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            downloadLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            downloadDescriptionLabel.topAnchor.constraint(equalTo: downloadLabel.bottomAnchor, constant: 12),
-            downloadDescriptionLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            downloadDescriptionLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            progressView.topAnchor.constraint(equalTo: downloadDescriptionLabel.bottomAnchor, constant: 24),
-            progressView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            progressView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            progressView.heightAnchor.constraint(equalToConstant: 4),
-            progressLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8),
-            progressLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            progressLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            stageLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 4),
-            stageLabel.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor, constant: 24),
-            stageLabel.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor, constant: -24),
-            downloadButton.topAnchor.constraint(equalTo: stageLabel.bottomAnchor, constant: 20),
-            downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
-            downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -32),
-            loadingIndicator.centerXAnchor.constraint(equalTo: downloadButton.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: downloadButton.centerYAnchor)
+            summon.topAnchor.constraint(equalTo: view.topAnchor),
+            summon.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            summon.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            summon.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        summonView = summon
     }
     private func setupBindings() {
         viewModel.$messages
@@ -306,63 +196,58 @@ final class OracleViewController: UIViewController {
         viewModel.$isModelLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
+                guard let self else { return }
                 if isLoading {
-                    self?.loadingIndicator.startAnimating()
-                    self?.downloadButton.isHidden = true
-                    self?.progressView.isHidden = false
-                    self?.progressLabel.isHidden = false
-                    self?.stageLabel.isHidden = false
-                } else {
-                    self?.loadingIndicator.stopAnimating()
-                    self?.downloadButton.isHidden = false
-                    self?.progressView.isHidden = true
-                    self?.progressLabel.isHidden = true
-                    self?.stageLabel.isHidden = true
+                    self.summonView?.apply(.downloading)
+                    self.hapticConductor.start()
                 }
-                self?.setAwakeningActive(isLoading)
             }
             .store(in: &cancellables)
         viewModel.$downloadProgress
             .receive(on: DispatchQueue.main)
             .sink { [weak self] progress in
-                self?.progressView.setProgress(progress, animated: true)
-                self?.awakeningView?.update(progress: progress)
+                self?.summonView?.update(progress: progress)
                 self?.hapticConductor.update(progress: progress)
             }
             .store(in: &cancellables)
         viewModel.$downloadStatus
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
-                self?.progressLabel.text = status
+                guard let self else { return }
                 if status.contains("Loading Oracle model") {
-                    self?.downloadLabel.text = "Loading Oracle..."
-                    self?.downloadDescriptionLabel.text = "Please wait while we restore the divine connection."
-                    self?.downloadButton.isHidden = true
-                    self?.progressView.isHidden = true
-                } else if status.isEmpty {
-                    self?.downloadLabel.text = "Oracle requires divine knowledge to be downloaded"
-                    let model = MLXModelManager.shared.activeModel
-                    self?.downloadDescriptionLabel.text = "Download the \(model.displayName) model (~\(String(format: "%.1f", model.approximateDownloadGB))GB) to enable on-device AI conversations with ancient deities."
+                    self.summonView?.apply(.preparing)
+                } else if !status.isEmpty {
+                    self.summonView?.setStatus(status)
                 }
             }
             .store(in: &cancellables)
         viewModel.$downloadStage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] stage in
-                self?.stageLabel.text = stage
+                guard let self, !stage.isEmpty else { return }
+                self.summonView?.setStatus(stage)
+            }
+            .store(in: &cancellables)
+        viewModel.$selectedDeity
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] deity in
+                guard let hex = deity?.color, let color = UIColor(hex: hex) else { return }
+                self?.summonView?.setDeity(color: color)
             }
             .store(in: &cancellables)
         viewModel.$isModelLoaded
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoaded in
-                self?.downloadContainerView.isHidden = isLoaded
-                self?.inputContainerView.isHidden = !isLoaded
-                self?.tableView.isHidden = !isLoaded
-                self?.updatePromptSuggestions()
-                if isLoaded, self?.awakeningView != nil {
-                    self?.awakeningView?.update(progress: 1)
-                    self?.hapticConductor.complete()
-                    self?.setAwakeningActive(false)
+                guard let self else { return }
+                self.inputContainerView.isHidden = !isLoaded
+                self.tableView.isHidden = !isLoaded
+                self.updatePromptSuggestions()
+                if isLoaded {
+                    self.summonView?.update(progress: 1)
+                    self.hapticConductor.complete()
+                    self.dismissSummon()
+                } else {
+                    self.showSummon()
                 }
             }
             .store(in: &cancellables)
@@ -388,40 +273,24 @@ final class OracleViewController: UIViewController {
             .store(in: &cancellables)
     }
 
-    private var awakeningView: OracleAwakeningView?
-    private var savedCardBackground: UIColor?
     private let hapticConductor = OracleHapticConductor()
 
-    /// Swaps in the full-screen Metal "awakening" visual during download. Falls back to
-    /// the existing plain progress UI when Metal is unavailable (Simulator / no GPU).
-    private func setAwakeningActive(_ active: Bool) {
-        if active {
-            guard awakeningView == nil else { return }
-            var deityColor: UIColor?
-            if let hex = viewModel.selectedDeity?.color { deityColor = UIColor(hex: hex) }
-            guard let metal = OracleAwakeningView(deityColor: deityColor) else { return }
-            metal.translatesAutoresizingMaskIntoConstraints = false
-            view.insertSubview(metal, belowSubview: downloadContainerView)
-            NSLayoutConstraint.activate([
-                metal.topAnchor.constraint(equalTo: view.topAnchor),
-                metal.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                metal.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                metal.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
-            savedCardBackground = downloadContainerView.backgroundColor
-            downloadContainerView.backgroundColor = .clear
-            oracleIcon.isHidden = true
-            progressView.isHidden = true
-            metal.update(progress: viewModel.downloadProgress)
-            awakeningView = metal
-            hapticConductor.start()
-        } else {
-            awakeningView?.removeFromSuperview()
-            awakeningView = nil
-            oracleIcon.isHidden = false
-            if let saved = savedCardBackground { downloadContainerView.backgroundColor = saved }
-            hapticConductor.stop()
-        }
+    private func showSummon() {
+        summonView?.isHidden = false
+        summonView?.alpha = 1
+        summonView?.resume()
+        summonView?.apply(.idle)
+    }
+
+    private func dismissSummon() {
+        hapticConductor.stop()
+        guard let summon = summonView, !summon.isHidden else { return }
+        UIView.animate(withDuration: 0.5, animations: {
+            summon.alpha = 0
+        }, completion: { _ in
+            summon.pause()
+            summon.isHidden = true
+        })
     }
 
     private func checkModelStatus() {
@@ -432,18 +301,12 @@ final class OracleViewController: UIViewController {
                 }
             }
         }
-        if DeviceUtility.isSimulator {
-            downloadLabel.text = "Oracle Simulator Mode"
-            downloadDescriptionLabel.text = "You're running in the iOS Simulator. The Oracle will provide mock responses for testing the UI. Deploy to a physical device to experience real AI-powered conversations."
-            downloadButton.configuration?.title = "Enable Simulator Oracle"
-            oracleIcon.image = UIImage(systemName: "desktopcomputer")
-        }
         if viewModel.isModelLoaded {
-            downloadContainerView.isHidden = true
+            summonView?.isHidden = true
             inputContainerView.isHidden = false
             tableView.isHidden = false
         } else {
-            downloadContainerView.isHidden = false
+            showSummon()
             inputContainerView.isHidden = true
             tableView.isHidden = true
         }
