@@ -359,7 +359,7 @@ final class OracleViewController: UIViewController {
                 self?.inputContainerView.isHidden = !isLoaded
                 self?.tableView.isHidden = !isLoaded
                 self?.updatePromptSuggestions()
-                if isLoaded {
+                if isLoaded, self?.awakeningView != nil {
                     self?.awakeningView?.update(progress: 1)
                     self?.hapticConductor.complete()
                     self?.setAwakeningActive(false)
@@ -389,6 +389,7 @@ final class OracleViewController: UIViewController {
     }
 
     private var awakeningView: OracleAwakeningView?
+    private var savedCardBackground: UIColor?
     private let hapticConductor = OracleHapticConductor()
 
     /// Swaps in the full-screen Metal "awakening" visual during download. Falls back to
@@ -407,6 +408,7 @@ final class OracleViewController: UIViewController {
                 metal.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 metal.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
+            savedCardBackground = downloadContainerView.backgroundColor
             downloadContainerView.backgroundColor = .clear
             oracleIcon.isHidden = true
             progressView.isHidden = true
@@ -417,6 +419,7 @@ final class OracleViewController: UIViewController {
             awakeningView?.removeFromSuperview()
             awakeningView = nil
             oracleIcon.isHidden = false
+            if let saved = savedCardBackground { downloadContainerView.backgroundColor = saved }
             hapticConductor.stop()
         }
     }

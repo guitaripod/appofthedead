@@ -121,8 +121,13 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
 
         try ensureSpace(for: manifest.totalBytes)
 
-        return try await withCheckedThrowingContinuation { continuation in
-            startDownloads(repo: repo, manifest: manifest, dir: dir, onProgress: onProgress, continuation: continuation)
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                startDownloads(repo: repo, manifest: manifest, dir: dir, onProgress: onProgress, continuation: continuation)
+            }
+        } onCancel: {
+            self.lock.lock(); let active = self.job; self.lock.unlock()
+            if let active { self.complete(job: active, result: .failure(CancellationError())) }
         }
     }
 
@@ -151,7 +156,14 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
             onProgress: onProgress, continuation: continuation
         )
 
-        lock.lock(); self.job = job; lock.unlock()
+        lock.lock()
+        if let existing = self.job, !existing.finished {
+            lock.unlock()
+            continuation.resume(throwing: OnDeviceLLMError.downloadFailed(underlying: HFModelManifestError.badResponse(-9)))
+            return
+        }
+        self.job = job
+        lock.unlock()
 
         if toDownload.isEmpty {
             verifyAndFinish(job: job)
@@ -207,11 +219,11 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
 
     private func complete(job: Job, result: Result<URL, Error>) {
         lock.lock()
-        guard !job.finished, self.job === job else { lock.unlock(); return }
+        guard !job.finished else { lock.unlock(); return }
         job.finished = true
         let continuation = job.continuation
         job.continuation = nil
-        self.job = nil
+        if self.job === job { self.job = nil }
         lock.unlock()
         continuation?.resume(with: result)
     }
@@ -350,12 +362,18 @@ extension BackgroundModelDownloader: URLSessionDownloadDelegate {
         let dest = job.dir.appendingPathComponent(file.path)
         lock.unlock()
 
+        if let code = (downloadTask.response as? HTTPURLResponse)?.statusCode, code != 200 {
+            AppLogger.mlx.error("Download for \(file.path, privacy: .public) returned HTTP \(code)")
+            complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: HFModelManifestError.badResponse(code))))
+            return
+        }
         do {
             try FileManager.default.createDirectory(at: dest.deletingLastPathComponent(), withIntermediateDirectories: true)
             try? FileManager.default.removeItem(at: dest)
             try FileManager.default.moveItem(at: location, to: dest)
         } catch {
             AppLogger.mlx.error("Model file move failed for \(file.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: error)))
         }
     }
 
