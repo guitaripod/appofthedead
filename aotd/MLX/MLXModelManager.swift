@@ -30,6 +30,14 @@ final class MLXModelManager {
         get async { await service.checkModelDownloaded(activeModel) }
     }
 
+    /// Synchronous "is a verified model on disk" check (no `await`), so the UI can pick
+    /// the right state on the very first render at cold launch — before the async load
+    /// finishes — instead of briefly flashing the "not downloaded" screen.
+    var isModelDownloadedSync: Bool {
+        if DeviceUtility.isSimulator { return true }
+        return BackgroundModelDownloader.verifiedDirectory(repo: activeModel.configuration.name) != nil
+    }
+
     var isModelLoaded: Bool { service.isModelLoaded }
 
     var supportsSystemPrompts: Bool { true }

@@ -2,6 +2,8 @@ import UIKit
 import Combine
 final class OracleViewController: UIViewController {
     let tableView = UITableView()
+    private var displayedMessageCount = 0
+    private var isUserNearBottom = true
     let inputContainerView = UIView()
     let messageTextView = UITextView()
     let sendButton = UIButton(type: .system)
@@ -181,10 +183,8 @@ final class OracleViewController: UIViewController {
     private func setupBindings() {
         viewModel.$messages
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-                self?.scrollToBottom()
-                self?.updatePromptSuggestions()
+            .sink { [weak self] messages in
+                self?.applyMessages(messages)
             }
             .store(in: &cancellables)
         viewModel.$selectedDeity
@@ -198,7 +198,7 @@ final class OracleViewController: UIViewController {
             .sink { [weak self] isLoading in
                 guard let self else { return }
                 if isLoading {
-                    self.summonView?.apply(.downloading)
+                    self.summonView?.apply(MLXModelManager.shared.isModelDownloadedSync ? .preparing : .downloading)
                     self.hapticConductor.start()
                 }
             }
@@ -279,7 +279,14 @@ final class OracleViewController: UIViewController {
         summonView?.isHidden = false
         summonView?.alpha = 1
         summonView?.resume()
-        summonView?.apply(.idle)
+        if MLXModelManager.shared.isModelDownloadedSync {
+            summonView?.apply(.preparing)
+            if !viewModel.isModelLoading && !viewModel.isModelLoaded {
+                Task { await viewModel.loadModel() }
+            }
+        } else {
+            summonView?.apply(.idle)
+        }
     }
 
     private func dismissSummon() {
@@ -591,10 +598,32 @@ final class OracleViewController: UIViewController {
         textViewDidChange(messageTextView)
         sendMessage()
     }
-    private func scrollToBottom() {
+    /// Structural changes (a message added/removed) reload + force-scroll once; per-token
+    /// streaming updates patch only the last cell in place (no reloadData, so the user can
+    /// still scroll) and pin to the latest text only if they were already near the bottom.
+    private func applyMessages(_ messages: [OracleViewModel.ChatMessage]) {
+        if messages.count != displayedMessageCount {
+            displayedMessageCount = messages.count
+            tableView.reloadData()
+            updatePromptSuggestions()
+            DispatchQueue.main.async { [weak self] in
+                self?.scrollToBottom(animated: false, force: true)
+            }
+        } else if let last = messages.indices.last {
+            let indexPath = IndexPath(row: last, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) as? ChatMessageCell {
+                cell.updateStreamingText(messages[last])
+                UIView.performWithoutAnimation { tableView.performBatchUpdates(nil) }
+            }
+            scrollToBottom(animated: false, force: false)
+        }
+    }
+
+    private func scrollToBottom(animated: Bool = true, force: Bool = false) {
         guard viewModel.messages.count > 0 else { return }
+        guard force || isUserNearBottom else { return }
         let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
     }
     private func animateDeityTransition(completion: @escaping () -> Void) {
         let transitionView = UIView(frame: view.bounds)
@@ -653,6 +682,15 @@ extension OracleViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let viewportBottom = scrollView.bounds.height - scrollView.adjustedContentInset.bottom - scrollView.adjustedContentInset.top
+        if scrollView.contentSize.height <= viewportBottom {
+            isUserNearBottom = true
+            return
+        }
+        let maxOffsetY = scrollView.contentSize.height - scrollView.bounds.height + scrollView.adjustedContentInset.bottom
+        isUserNearBottom = (maxOffsetY - scrollView.contentOffset.y) < 120
+    }
 }
 extension OracleViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
@@ -710,12 +748,12 @@ private class ChatMessageCell: UITableViewCell {
         bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         bubbleBottomConstraint = bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 8),
-            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 12),
-            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -12),
-            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -8),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: min(600, UIScreen.main.bounds.width * 0.75)),
+            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 7),
+            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 13),
+            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -13),
+            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -7),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 14),
+            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: min(720, UIScreen.main.bounds.width * 0.88)),
             typingIndicator.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor),
             typingIndicator.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor)
         ])
@@ -748,7 +786,7 @@ private class ChatMessageCell: UITableViewCell {
             bubbleTopConstraint?.constant = 8
             bubbleBottomConstraint?.constant = -8
             bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 60)
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 40)
             bubbleTrailingConstraint?.isActive = true
             bubbleLeadingConstraint?.isActive = true
         } else {
@@ -770,9 +808,23 @@ private class ChatMessageCell: UITableViewCell {
                 bubbleBottomConstraint?.constant = -8
             }
             bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -60)
+            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
             bubbleLeadingConstraint?.isActive = true
             bubbleTrailingConstraint?.isActive = true
+        }
+    }
+    func updateStreamingText(_ message: OracleViewModel.ChatMessage) {
+        if !message.isUser && message.text.isEmpty {
+            messageLabel.isHidden = true
+            typingIndicator.startAnimating()
+            NSLayoutConstraint.activate(typingIndicatorSizeConstraints)
+        } else {
+            if messageLabel.isHidden {
+                messageLabel.isHidden = false
+                typingIndicator.stopAnimating()
+                NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
+            }
+            messageLabel.text = message.text
         }
     }
     override func prepareForReuse() {
