@@ -1,64 +1,35 @@
-# App of the Dead — App Store Marketing Assets — Release 1.4.0
+# App of the Dead — 1.4.0 App Store Assets (FINAL, applied to ASC)
 
-App ID 6746733380 · bundle `com.marcusziade.aotd` · 2026-06-14
+App ID 6746733380 · bundle `com.marcusziade.aotd` · applied to the 1.4.0 draft version. Revenue/ASO-optimized + Apple-compliance verified (subtitle 29/30, keywords 99/100, promo 170/170; no emoji, no prices, no competitor names; zero keyword/name overlap).
 
-Headline: the Oracle now runs Google **Gemma 4** (E2B), a 2026-generation on-device model, with a Gemma 3 (4B) graceful fallback for lower-RAM iPhones. Inference stays 100% on-device. Verified against `aotd/MLX/OnDeviceModelCatalog.swift`, `MLXModelManager.swift`, `OnDeviceLLMError.swift`, `MLXService.swift`.
+## Subtitle (30) — APPLIED
+`Faiths, Gods & Afterlife Quiz`
+(was "World Faiths & Afterlife Quiz" — traded weak "World" for the high-relevance ranking+selling head "Gods", which sells the Oracle deity-chat; world intent still covered by Name's "Religions" + "Faiths".)
 
----
+## Keywords (100) — APPLIED
+`comparative,reincarnation,karma,heaven,hell,mythology,norse,egyptian,death,sacred,soul,deity,ritual`
+(dropped low-value `underworld`/`belief`/`studies`/`learn`; reclaimed for `death,sacred,soul,deity,ritual`; moved `gods` to subtitle. Zero token overlap with name/subtitle. AI/Gemma/Google never in keywords.)
 
-## 1. What's New in 1.4.0 (release notes)
+## Promotional Text (170) — APPLIED
+`Now smarter than ever: speak with Anubis, Odin, Kali and more as the Oracle's on-device AI is reborn on Google Gemma 4. Explore 22 faiths in 5-minute lessons. Start free.`
 
-A smarter Oracle. The on-device AI behind your conversations with Anubis, Hermes, Kali, Odin, Azrael, and the rest now runs Google's Gemma 4 — a 2026-generation model. Expect deeper, more in-character, more knowledgeable answers about how each tradition sees death and the afterlife.
+## Description (1949) — APPLIED
+Refined the converting structure; sharpened the above-the-fold hook and added a "MEET THE ORACLE" block high up (Gemma 4 + on-device-private as a benefit). Full text is live on the 1.4.0 version.
 
-Still 100% private: the Oracle runs entirely on your iPhone. Your conversations are never sent to a server.
+## What's New (718) — APPLIED
+Leads with the user benefit ("The Oracle just became dramatically smarter"); Gemma 4 as a supporting bullet; privacy-as-benefit; the redesigned full-screen summon. No version number/benchmarks/prices. Full text live on 1.4.0.
 
-The first-time setup is also more dependable — clearer download progress that resumes where it left off, and broader iPhone support so more devices can summon the Oracle.
+## Screenshots — RECOMMENDED REFRESH (not yet produced; old screenshots carried over and are valid for submission)
+Eight 6.9" frames (1320×2868), papyrus house style, Georgia Bold caption top-third, one ≤5-word benefit line each. Keep frames 1–3 strongest (most users never scroll past #3):
+1. Home/path map (real mid-journey XP+streak) — "What happens after we die?"
+2. Oracle chat with a deity (Anubis/Odin) — "Speak with the gods themselves"
+3. **GEMMA HERO** — the redesigned full-screen "Threshold" summon mid-animation — "The Oracle, now powered by Gemma 4"
+4. Oracle + on-device/offline glyph — "100% private, runs on your iPhone"
+5. Tradition grid in theme colors — "22 faiths, side by side"
+6. A lesson card — "Learn in 5-minute lessons"
+7. Quiz with correct-answer feedback + XP — "Streaks, XP and mastery tests"
+8. Free Judaism path — "Start free, no account needed"
+Frame 3 needs a real-device capture of the Metal nebula (the simulator shows the gradient fallback).
 
----
-
-## 2. Promotional Text (<=170 chars)
-
-The Oracle just got smarter. Powered by Google Gemma 4, your deity conversations now run on a sharper, more in-character mind — entirely on your iPhone, fully private.
-
-(165 chars. Promotional text updates without a new build.)
-
----
-
-## 3. Keywords (<=100 chars)
-
-Recommendation: keep the current tuned keyword field unchanged for 1.4.0 — this is an upgrade to an existing feature, not a new searchable concept, and churning a tuned field with no data is downside-only. Only if "oracle"/"ai" are absent and there is dead weight to swap, candidate (96 chars):
-
-`afterlife,comparative religion,theology,mythology,world religions,quiz,ai oracle,on-device,beliefs`
-
-Audit the live field in ASC before applying; do not duplicate subtitle words.
-
----
-
-## 4. Description — revised Oracle section (splice-in)
-
-Insert after "LEARN THROUGH PLAY", before "EVERY BELIEF, SIDE BY SIDE":
-
-CONSULT THE ORACLE
-Have a real conversation with the guides of the dead — Anubis, Hermes, Kali, Odin, Azrael, and more — each speaking in their own voice about their tradition's view of the afterlife. The Oracle is powered by Google Gemma 4 and runs entirely on your iPhone, so your conversations stay private and never leave your device. Every account gets free consultations to start; Premium unlocks unlimited.
-
-(Full rewrite not warranted; the rest of the description is recent and converting.)
-
----
-
-## 5. Screenshot caption concepts
-
-1. Talk to the gods of the dead — now with a sharper mind
-2. Powered by Google Gemma 4, running on your iPhone
-3. Your conversations never leave your device
-
----
-
-## 6. Positioning rationale
-
-Lead with the Oracle: it is the only feature in the comparative-religion comp set that lets users talk to a deity. A 2026 on-device-AI upgrade turns a differentiator no competitor has into the headline, and "private AI that runs on your iPhone" is exactly the trust-forward, premium-justifying story that converts the curious and reassures the cautious.
-
----
-
-## Compliance
-
-No emoji. No pricing/competitor names in keywords. Lengths respected (promo 165≤170; keyword candidate 96≤100; What's New ~560; description well under 4000). "Google Gemma 4" appears in description/promo/What's New only, not keywords. Metadata (promo text, description, keywords) can ship without a new build.
+## Compliance note for App Review
+The on-device/private claims are literally true (Gemma 4 E2B runs entirely on-device, no server). Keep model attribution handy if a reviewer queries the "Google Gemma 4" reference.
