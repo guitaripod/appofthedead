@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# pyright: reportArgumentType=false, reportIndexIssue=false, reportOptionalSubscript=false
 """Provision App of the Dead's Game Center configuration via the App Store Connect API.
 
 Reads ASC creds from the environment (source ~/.config/midgar/credentials.env first):
@@ -247,6 +248,82 @@ def create_achievements(detail_id, existing):
         print(f"  + achievement {vid} ({ach_id}) loc->{s2}", "" if s2 in (200, 201) else first_error(p2))
 
 
+def ach_localization_id(ach_id):
+    s, p = req("GET", f"/v1/gameCenterAchievements/{ach_id}/localizations?limit=10")
+    if s != 200:
+        return None
+    for d in p.get("data", []):
+        if d["attributes"].get("locale") == "en-US":
+            return d["id"]
+    return None
+
+
+def existing_image(loc_id):
+    s, p = req("GET", f"/v1/gameCenterAchievementLocalizations/{loc_id}/gameCenterAchievementImage")
+    if s == 200 and p.get("data"):
+        d = p["data"]
+        return d["id"], d["attributes"].get("assetDeliveryState", {}).get("state")
+    return None, None
+
+
+def raw_put(op, chunk):
+    r = urllib.request.Request(op["url"], data=chunk, method=op.get("method", "PUT"))
+    for h in op.get("requestHeaders", []):
+        r.add_header(h["name"], h["value"])
+    with urllib.request.urlopen(r) as resp:
+        return resp.status
+
+
+def upload_images(detail_id, art_dir):
+    boards, achs = list_existing(detail_id)
+    for vid, name, points, desc in ACHIEVEMENTS:
+        ach_id = achs.get(vid)
+        if not ach_id:
+            print(f"  ! no achievement record for {vid}"); continue
+        loc_id = ach_localization_id(ach_id)
+        if not loc_id:
+            print(f"  ! no en-US localization for {vid}"); continue
+        img_id, state = existing_image(loc_id)
+        if img_id and state in ("COMPLETE", "UPLOAD_COMPLETE"):
+            print(f"  = image complete: {vid}"); continue
+        if img_id:
+            req("DELETE", f"/v1/gameCenterAchievementImages/{img_id}", expect=(204,))
+        path = os.path.join(art_dir, f"{vid}.png")
+        if not os.path.exists(path):
+            print(f"  ! missing art {path}"); continue
+        data = open(path, "rb").read()
+        s, p = req("POST", "/v1/gameCenterAchievementImages", {
+            "data": {
+                "type": "gameCenterAchievementImages",
+                "attributes": {"fileName": f"{vid}.png", "fileSize": len(data)},
+                "relationships": {
+                    "gameCenterAchievementLocalization": {
+                        "data": {"type": "gameCenterAchievementLocalizations", "id": loc_id}
+                    }
+                },
+            }
+        })
+        if s not in (200, 201):
+            print(f"  ! reserve image {vid} FAILED:", first_error(p)); continue
+        img_id = p["data"]["id"]
+        ops = p["data"]["attributes"]["uploadOperations"]
+        try:
+            for op in ops:
+                raw_put(op, data[op["offset"]:op["offset"] + op["length"]])
+        except urllib.error.HTTPError as e:
+            print(f"  ! upload {vid} FAILED: {e.code} {e.read()[:200]}"); continue
+        s2, p2 = req("PATCH", f"/v1/gameCenterAchievementImages/{img_id}", {
+            "data": {
+                "type": "gameCenterAchievementImages",
+                "id": img_id,
+                "attributes": {"uploaded": True},
+            }
+        })
+        st = p2.get("data", {}).get("attributes", {}).get("assetDeliveryState", {}) if s2 == 200 else {}
+        print(f"  + image {vid} ({img_id}) commit->{s2} {st.get('state', '')}",
+              "" if s2 in (200, 201) else first_error(p2))
+
+
 def main():
     phase = sys.argv[1] if len(sys.argv) > 1 else "discover"
     if phase == "discover":
@@ -260,6 +337,10 @@ def main():
             print("Leaderboards:"); create_leaderboards(detail_id, boards)
         if phase in ("achievements", "all"):
             print("Achievements:"); create_achievements(detail_id, achs)
+    if phase == "images":
+        detail_id = ensure_detail()
+        art_dir = sys.argv[2] if len(sys.argv) > 2 else "build/gc-art"
+        print("Achievement images:"); upload_images(detail_id, art_dir)
 
 
 if __name__ == "__main__":
