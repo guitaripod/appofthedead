@@ -21,10 +21,13 @@ final class AppLogger {
   
   static let learning = Logger(subsystem: subsystem, category: "Learning")
 
-  
+
   static let gamification = Logger(subsystem: subsystem, category: "Gamification")
 
-  
+
+  static let gameCenter = Logger(subsystem: subsystem, category: "GameCenter")
+
+
   static let purchases = Logger(subsystem: subsystem, category: "Purchases")
 
   

@@ -104,6 +104,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         _ = AchievementNotificationManager.shared
 
+        GameCenterManager.shared.authenticate()
+
         presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
 
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
@@ -158,7 +160,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         AppLogger.ui.info("Scene will enter foreground")
-        
+        GameCenterManager.shared.synchronize()
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {

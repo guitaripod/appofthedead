@@ -63,6 +63,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupGameCenterButton()
         bindViewModel()
 
         updateLayoutForIPad()
@@ -101,6 +102,35 @@ final class ProfileViewController: UIViewController {
         title = "Profile"
         hasAnimatedStreak = false
         viewModel.loadData()
+        GameCenterManager.shared.setAccessPointActive(true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        GameCenterManager.shared.setAccessPointActive(false)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        GameCenterManager.shared.setAccessPointActive(false)
+    }
+
+    private func setupGameCenterButton() {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "trophy.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(showGameCenter)
+        )
+        button.tintColor = UIColor.Papyrus.gold
+        button.accessibilityLabel = "Game Center"
+        button.accessibilityHint = "Opens leaderboards and honors"
+        navigationItem.rightBarButtonItem = button
+    }
+
+    @objc private func showGameCenter() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        GameCenterManager.shared.presentDashboard(from: self)
     }
 
     private func setupUI() {
