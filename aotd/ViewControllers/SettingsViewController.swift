@@ -1,6 +1,6 @@
 import UIKit
 import SafariServices
-import Midgar
+import MidgarKit
 
 final class SettingsViewController: UIViewController {
     private let tableView: UITableView = {
