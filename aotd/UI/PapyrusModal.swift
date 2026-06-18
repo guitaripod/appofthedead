@@ -335,9 +335,9 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
             downloadLoadingView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor),
             downloadLoadingView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor),
             downloadLoadingView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor),
-            downloadLoadingView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor),
-            
-            
+            downloadLoadingView.bottomAnchor.constraint(equalTo: downloadButton.topAnchor, constant: -PapyrusDesignSystem.Spacing.large),
+
+
             downloadButton.centerXAnchor.constraint(equalTo: downloadContainerView.centerXAnchor),
             downloadButton.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -PapyrusDesignSystem.Spacing.xLarge),
             downloadButton.widthAnchor.constraint(equalToConstant: 250),

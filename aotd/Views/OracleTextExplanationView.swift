@@ -277,7 +277,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             downloadLoadingView.topAnchor.constraint(equalTo: downloadContainerView.topAnchor),
             downloadLoadingView.leadingAnchor.constraint(equalTo: downloadContainerView.leadingAnchor),
             downloadLoadingView.trailingAnchor.constraint(equalTo: downloadContainerView.trailingAnchor),
-            downloadLoadingView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor)
+            downloadLoadingView.bottomAnchor.constraint(equalTo: downloadContainerView.bottomAnchor, constant: -90)
         ])
     }
     
