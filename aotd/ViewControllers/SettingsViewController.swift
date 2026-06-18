@@ -1,5 +1,6 @@
 import UIKit
 import SafariServices
+import Midgar
 
 final class SettingsViewController: UIViewController {
     private let tableView: UITableView = {
@@ -42,11 +43,13 @@ final class SettingsViewController: UIViewController {
         case version
         case privacyPolicy
         case termsOfService
+        case moreApps
         var title: String {
             switch self {
             case .version: return "Version"
             case .privacyPolicy: return "Privacy Policy"
             case .termsOfService: return "Terms of Service"
+            case .moreApps: return "More Apps"
             }
         }
     }
@@ -201,6 +204,8 @@ extension SettingsViewController: UITableViewDelegate {
                     openPrivacyPolicy()
                 case .termsOfService:
                     openTermsOfService()
+                case .moreApps:
+                    Midgar.present(from: self)
                 }
             }
         }
