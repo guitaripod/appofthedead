@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# pyright: reportArgumentType=false, reportIndexIssue=false, reportOptionalSubscript=false
+# pyright: reportArgumentType=false, reportIndexIssue=false, reportOptionalSubscript=false, reportAttributeAccessIssue=false, reportCallIssue=false
 """Provision App of the Dead's Game Center configuration via the App Store Connect API.
 
 Reads ASC creds from the environment (source ~/.config/midgar/credentials.env first):
@@ -95,10 +95,14 @@ def first_error(payload):
 
 
 def get_bundle():
-    s, p = req("GET", f"/v1/bundleIds?filter[identifier]={BUNDLE_ID}&include=bundleIdCapabilities")
-    if s != 200 or not p.get("data"):
+    # filter[identifier] is a PREFIX match — it also returns com.marcusziade.aotd.webservice
+    # and any junk "aotd--" ids. Match the identifier EXACTLY; never take [0].
+    s, p = req("GET", f"/v1/bundleIds?filter[identifier]={BUNDLE_ID}&include=bundleIdCapabilities&limit=200")
+    if s != 200:
         return None, []
-    bid = p["data"][0]
+    bid = next((d for d in p.get("data", []) if d["attributes"]["identifier"] == BUNDLE_ID), None)
+    if not bid:
+        return None, []
     caps = [i["attributes"]["capabilityType"]
             for i in p.get("included", []) if i["type"] == "bundleIdCapabilities"]
     return bid["id"], caps
