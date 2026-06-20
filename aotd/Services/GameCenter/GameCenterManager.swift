@@ -46,7 +46,6 @@ final class GameCenterManager: NSObject {
         case .authenticated:
             AppLogger.gameCenter.info("Game Center authenticated")
             observeUserDataUpdatesIfNeeded()
-            configureAccessPoint()
             synchronize()
         case .failed(let error):
             if let error {
@@ -104,20 +103,6 @@ final class GameCenterManager: NSObject {
                 self?.isSyncScheduled = false
                 self?.synchronize()
             }
-        }
-    }
-
-    private func configureAccessPoint() {
-        runOnMain {
-            GKAccessPoint.shared.location = .topTrailing
-            GKAccessPoint.shared.showHighlights = true
-        }
-    }
-
-    func setAccessPointActive(_ active: Bool) {
-        runOnMain { [weak self] in
-            guard let self else { return }
-            GKAccessPoint.shared.isActive = active && self.gameKit.isAuthenticated
         }
     }
 

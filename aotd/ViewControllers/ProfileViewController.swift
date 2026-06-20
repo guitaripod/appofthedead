@@ -102,17 +102,6 @@ final class ProfileViewController: UIViewController {
         title = "Profile"
         hasAnimatedStreak = false
         viewModel.loadData()
-        GameCenterManager.shared.setAccessPointActive(true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        GameCenterManager.shared.setAccessPointActive(false)
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        GameCenterManager.shared.setAccessPointActive(false)
     }
 
     private func setupGameCenterButton() {
