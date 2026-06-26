@@ -423,7 +423,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 
                 let config = MLXService.GenerationConfig(
                     temperature: 0.7,
-                    maxTokens: 400,
+                    maxTokens: OracleTokenBudget.explanation,
                     topP: 0.95,
                     repetitionPenalty: 1.1
                 )

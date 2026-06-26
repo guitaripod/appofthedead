@@ -317,3 +317,14 @@ struct ChatMessage {
     let role: Role
     let content: String
 }
+
+/// Upper bounds on how many tokens the Oracle may stream before generation is
+/// force-stopped. These are safety ceilings, not targets — an instruction-tuned
+/// model emits an end-of-turn token and stops well before the limit on most
+/// answers. They exist only so a runaway generation can't stream indefinitely.
+/// Sized generously (Gemma's context window is 32K) so a complete divine reply
+/// is never truncated mid-sentence, which previously happened at 800/400.
+enum OracleTokenBudget {
+    static let conversation = 2048
+    static let explanation = 1024
+}

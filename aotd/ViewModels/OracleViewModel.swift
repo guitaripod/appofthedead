@@ -373,7 +373,7 @@ final class OracleViewModel: ObservableObject {
             let generatedText = try await modelManager.generate(
                 prompt: userMessage,
                 systemPrompt: deity.systemPrompt,
-                maxTokens: 800,
+                maxTokens: OracleTokenBudget.conversation,
                 temperature: 0.7,
                 useSystemPrompt: true
             ) { token in

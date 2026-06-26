@@ -63,23 +63,38 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        
+        presentationController?.delegate = self
+
+        if renderCachedExplanationIfAvailable() { return }
+
         if mlxManager.isModelLoaded {
-            
+
             downloadContainerView.isHidden = true
             contentTextView.isHidden = false
             startStreamingExplanation()
         } else {
-            
+
             downloadContainerView.isHidden = false
             contentTextView.isHidden = true
             setupDownloadUI()
             updateDownloadUI()
         }
-        
-        
-        presentationController?.delegate = self
+    }
+
+    private func renderCachedExplanationIfAvailable() -> Bool {
+        guard let cached = OracleExplanationCache.cachedResponse(
+            kind: .keyword,
+            modelId: mlxManager.activeModel.id,
+            deityId: deity.id,
+            input: keyword
+        ) else { return false }
+
+        downloadContainerView.isHidden = true
+        contentTextView.isHidden = false
+        loadingView.stopAnimating()
+        loadingView.isHidden = true
+        contentTextView.text = cached
+        return true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -451,7 +466,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 
                 let config = MLXService.GenerationConfig(
                     temperature: 0.7,
-                    maxTokens: 400,
+                    maxTokens: OracleTokenBudget.explanation,
                     topP: 0.95,
                     repetitionPenalty: 1.1
                 )
@@ -484,12 +499,21 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                         }
                     }
                 }
+
+                guard !Task.isCancelled else { return }
+                OracleExplanationCache.storeResponse(
+                    kind: .keyword,
+                    modelId: mlxManager.activeModel.id,
+                    deityId: deity.id,
+                    input: keyword,
+                    text: fullText
+                )
             } catch {
-                
+
                 if error is CancellationError || Task.isCancelled {
                     return
                 }
-                
+
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true

@@ -72,21 +72,43 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        
+        presentationController?.delegate = self
+
+        if renderCachedWisdomIfAvailable() { return }
+
         if mlxManager.isModelLoaded {
-            
+
             downloadContainerView.isHidden = true
             responseTextView.isHidden = false
             startStreamingWisdom()
         } else {
-            
+
             downloadContainerView.isHidden = false
             responseTextView.isHidden = true
         }
-        
-        
-        presentationController?.delegate = self
+    }
+
+    private var cacheInput: String {
+        [selectedText, context ?? ""].joined(separator: "\u{1f}")
+    }
+
+    private func renderCachedWisdomIfAvailable() -> Bool {
+        guard let cached = OracleExplanationCache.cachedResponse(
+            kind: .eternal,
+            modelId: mlxManager.activeModel.id,
+            deityId: nil,
+            input: cacheInput
+        ) else { return false }
+
+        downloadContainerView.isHidden = true
+        responseTextView.isHidden = false
+        loadingView.stopAnimating()
+        loadingView.isHidden = true
+        titleLabel.text = "The Eternal"
+        responseTextView.text = cached
+        eternalResponse = cached
+        saveButton.isHidden = false
+        return true
     }
     
     override func viewDidLayoutSubviews() {
@@ -389,7 +411,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 
                 let config = MLXService.GenerationConfig(
                     temperature: 0.7,
-                    maxTokens: 400,
+                    maxTokens: OracleTokenBudget.explanation,
                     topP: 0.95,
                     repetitionPenalty: 1.1
                 )
@@ -426,11 +448,20 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 }
                 
                 self.eternalResponse = fullText
-                
+
+                guard !Task.isCancelled else { return }
+                OracleExplanationCache.storeResponse(
+                    kind: .eternal,
+                    modelId: mlxManager.activeModel.id,
+                    deityId: nil,
+                    input: cacheInput,
+                    text: fullText
+                )
+
                 await MainActor.run {
                     self.saveButton.isHidden = false
                 }
-                
+
             } catch {
                 
                 if error is CancellationError || Task.isCancelled {
