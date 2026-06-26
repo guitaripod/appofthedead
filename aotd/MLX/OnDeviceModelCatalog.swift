@@ -28,7 +28,7 @@ enum OnDeviceModelCatalog {
     static let gemma4_e4b = OnDeviceModel(
         id: "gemma-4-e4b-it-4bit",
         displayName: "Gemma 4 (E4B)",
-        configuration: LLMRegistry.gemma4_e4b_it_4bit,
+        configuration: gemma4WithCorrectStopToken(LLMRegistry.gemma4_e4b_it_4bit),
         approximateDownloadBytes: 5_217_000_000,
         minimumPhysicalMemoryBytes: 7_800_000_000
     )
@@ -36,10 +36,21 @@ enum OnDeviceModelCatalog {
     static let gemma4_e2b = OnDeviceModel(
         id: "gemma-4-e2b-it-4bit",
         displayName: "Gemma 4 (E2B)",
-        configuration: LLMRegistry.gemma4_e2b_it_4bit,
+        configuration: gemma4WithCorrectStopToken(LLMRegistry.gemma4_e2b_it_4bit),
         approximateDownloadBytes: 3_581_000_000,
         minimumPhysicalMemoryBytes: 7_000_000_000
     )
+
+    /// The pinned mlx-swift-lm registry ships Gemma 4 with a typo'd end-of-turn
+    /// stop token (`<turn|>` instead of `<end_of_turn>`), unlike its correct
+    /// Gemma 3 entries. Left as-is, the model's turn boundary isn't a stop token
+    /// and generation can run to the token ceiling instead of ending naturally.
+    /// Correct it on the configuration the app actually loads.
+    private static func gemma4WithCorrectStopToken(_ base: ModelConfiguration) -> ModelConfiguration {
+        var configuration = base
+        configuration.extraEOSTokens = ["<end_of_turn>"]
+        return configuration
+    }
 
     static let gemma3_text_4b = OnDeviceModel(
         id: "gemma-3-text-4b-it-4bit",

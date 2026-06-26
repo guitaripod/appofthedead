@@ -8,6 +8,14 @@ final class OnDeviceModelCatalogTests: XCTestCase {
         XCTAssertEqual(model.id, OnDeviceModelCatalog.gemma4_e2b.id)
     }
 
+    func testGemma4ConfigsUseCorrectEndOfTurnStopToken() {
+        for model in [OnDeviceModelCatalog.gemma4_e2b, OnDeviceModelCatalog.gemma4_e4b] {
+            let tokens = model.configuration.extraEOSTokens
+            XCTAssertTrue(tokens.contains("<end_of_turn>"), "\(model.id) must stop at end-of-turn")
+            XCTAssertFalse(tokens.contains("<turn|>"), "\(model.id) must not carry the SDK typo stop token")
+        }
+    }
+
     func testPreferredModelOnSixGBDeviceFallsBackToGemma3Text() {
         let model = OnDeviceModelCatalog.preferred(physicalMemory: 6_000_000_000)
         XCTAssertEqual(model.id, OnDeviceModelCatalog.gemma3_text_4b.id)
