@@ -283,6 +283,12 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 reason: "Lesson completed",
                 beliefSystemId: isReplayMode ? nil : beliefSystem.id
             )
+            if !isReplayMode && !isPreviewMode {
+                let navigation = navigationController
+                Task { @MainActor in
+                    ReviewPrompt.recordCompletedLesson(in: navigation.view.window?.windowScene)
+                }
+            }
         } catch {
             AppLogger.logError(error, context: "Saving lesson completion", logger: AppLogger.learning)
         }
