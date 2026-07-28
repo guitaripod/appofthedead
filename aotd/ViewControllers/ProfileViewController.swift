@@ -546,12 +546,12 @@ final class ProfileViewController: UIViewController {
     }
 
     private static func studyTimeString(_ interval: TimeInterval) -> String {
-        guard interval >= 60 else { return interval > 0 ? "<1m" : "0m" }
+        guard interval >= 60 else { return interval > 0 ? String(localized: "<1m") : String(localized: "0m") }
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .abbreviated
         formatter.allowedUnits = interval >= 3600 ? [.hour, .minute] : [.minute]
         formatter.maximumUnitCount = 2
-        return formatter.string(from: interval) ?? "0m"
+        return formatter.string(from: interval) ?? String(localized: "0m")
     }
 
     @objc private func handleDataUpdate() {

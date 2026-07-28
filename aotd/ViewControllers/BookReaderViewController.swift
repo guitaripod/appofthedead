@@ -729,9 +729,9 @@ final class BookReaderViewController: UIViewController {
         let remainingMinutes = minutes % 60
         
         if hours > 0 {
-            return "\(hours)h \(remainingMinutes)m"
+            return String(localized: "\(hours)h \(remainingMinutes)m")
         } else {
-            return "\(minutes)m"
+            return String(localized: "\(minutes)m")
         }
     }
     

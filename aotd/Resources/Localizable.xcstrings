@@ -2405,6 +2405,58 @@
         }
       }
     },
+    "%lldh %lldm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld Std. %2$lld Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld h %2$lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld h %2$lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld h %2$lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld時間%2$lld分"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld시간 %2$lld분"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld h %2$lld min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小时 %2$lld 分钟"
+          }
+        }
+      }
+    },
     "%lldh %lldm estimated reading time": {
       "localizations": {
         "de": {
@@ -2453,6 +2505,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "预计阅读时间 %1$lld 小时 %2$lld 分钟"
+          }
+        }
+      }
+    },
+    "%lldm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld分"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld분"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
           }
         }
       }
@@ -2613,6 +2717,58 @@
         }
       }
     },
+    "0m": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0分"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0분"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 分钟"
+          }
+        }
+      }
+    },
     "12 lessons": {
       "localizations": {
         "de": {
@@ -2661,6 +2817,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "12 节课"
+          }
+        }
+      }
+    },
+    "<1m": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 Min."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1分未満"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1분 미만"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 min"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 分钟"
           }
         }
       }
@@ -8598,25 +8806,25 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Entdecke Jenseitsvorstellungen aus aller Welt"
+            "value": "Jenseitsvorstellungen aus aller Welt"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explora las creencias sobre el más allá de cada cultura"
+            "value": "Explora el más allá en cada cultura"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explorez les visions de l'au-delà à travers les cultures"
+            "value": "Explorez l'au-delà à travers les cultures"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esplora le visioni dell'aldilà nelle culture del mondo"
+            "value": "Esplora l'aldilà nelle culture del mondo"
           }
         },
         "ja": {
@@ -8634,7 +8842,7 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explore as crenças sobre o além em várias culturas"
+            "value": "Explore o além em várias culturas"
           }
         },
         "zh-Hans": {
