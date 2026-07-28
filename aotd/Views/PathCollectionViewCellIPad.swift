@@ -151,11 +151,11 @@ final class PathCollectionViewCellIPad: UICollectionViewCell {
         titleLabel.text = item.name
         iconImageView.image = UIImage(systemName: item.icon)
         if layoutManager.isIPad {
-            descriptionLabel.text = "Explore the ancient wisdom"
+            descriptionLabel.text = String(localized: "Explore the ancient wisdom")
             descriptionLabel.isHidden = false
-            lessonsLabel.text = "12 lessons"
-            xpLabel.text = "\(item.totalXP) XP"
-            difficultyLabel.text = "Intermediate"
+            lessonsLabel.text = String(localized: "12 lessons")
+            xpLabel.text = String(localized: "\(item.totalXP) XP")
+            difficultyLabel.text = String(localized: "Intermediate")
             statsStackView.isHidden = false
         }
         let color = item.color
@@ -165,7 +165,7 @@ final class PathCollectionViewCellIPad: UICollectionViewCell {
             color.withAlphaComponent(0.3).cgColor : 
             PapyrusDesignSystem.Colors.Dynamic.border.cgColor
         progressView.setProgress(item.progress, animated: false)
-        progressLabel.text = "\(Int(item.progress * 100))% Complete"
+        progressLabel.text = String(localized: "\(Int(item.progress * 100))% Complete")
         lockOverlay.isHidden = item.isUnlocked
         containerView.alpha = item.isUnlocked ? 1.0 : 0.7
         updateStatusBadge(for: item.status)
@@ -174,12 +174,12 @@ final class PathCollectionViewCellIPad: UICollectionViewCell {
     private func updateStatusBadge(for status: Progress.ProgressStatus) {
         switch status {
         case .completed:
-            statusBadge.text = "DONE"
+            statusBadge.text = String(localized: "DONE")
             statusBadge.backgroundColor = PapyrusDesignSystem.Colors.scarabGreen
             statusBadge.textColor = .white
             statusBadge.isHidden = false
         case .mastered:
-            statusBadge.text = "MASTER"
+            statusBadge.text = String(localized: "MASTER")
             statusBadge.backgroundColor = PapyrusDesignSystem.Colors.goldLeaf
             statusBadge.textColor = PapyrusDesignSystem.Colors.ancientInk
             statusBadge.isHidden = false

@@ -130,14 +130,14 @@ final class PapyrusLoadingView: UIView {
             iconImageView.image = UIImage(systemName: "sparkles")
             iconImageView.tintColor = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
             loadingIndicator.color = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
-            titleLabel.text = "Consulting the Oracle..."
-            subtitleLabel.text = "Divine wisdom is being channeled"
+            titleLabel.text = String(localized: "Consulting the Oracle...")
+            subtitleLabel.text = String(localized: "Divine wisdom is being channeled")
             titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
             subtitleLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
             
         case .standard:
             loadingIndicator.color = PapyrusDesignSystem.Colors.goldLeaf
-            titleLabel.text = "Loading..."
+            titleLabel.text = String(localized: "Loading...")
             subtitleLabel.isHidden = true
             titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
             
@@ -145,8 +145,8 @@ final class PapyrusLoadingView: UIView {
             iconImageView.image = UIImage(systemName: "arrow.down.circle.fill")
             iconImageView.tintColor = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
             loadingIndicator.color = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
-            titleLabel.text = "Awakening Oracle Model"
-            subtitleLabel.text = "Preparing divine connection..."
+            titleLabel.text = String(localized: "Awakening Oracle Model")
+            subtitleLabel.text = String(localized: "Preparing divine connection...")
             progressView.progressTintColor = deityColor ?? PapyrusDesignSystem.Colors.goldLeaf
             progressView.trackTintColor = PapyrusDesignSystem.Colors.aged.withAlphaComponent(0.3)
             titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText

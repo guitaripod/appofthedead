@@ -169,7 +169,7 @@ final class BookTableOfContentsViewController: UIViewController {
         setupUI()
     }
     private func setupUI() {
-        title = "Table of Contents"
+        title = String(localized: "Table of Contents")
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
@@ -199,7 +199,7 @@ extension BookTableOfContentsViewController: UITableViewDataSource, UITableViewD
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChapterCell", for: indexPath)
-        cell.textLabel?.text = "Chapter \(indexPath.row + 1)"
+        cell.textLabel?.text = String(localized: "Chapter \(indexPath.row + 1)")
         cell.textLabel?.font = PapyrusDesignSystem.Typography.body(for: traitCollection)
         cell.textLabel?.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         if indexPath.row == viewModel.currentChapterIndex {
@@ -242,7 +242,7 @@ final class BookSearchViewController: UIViewController {
         setupUI()
     }
     private func setupUI() {
-        title = "Search Book"
+        title = String(localized: "Search Book")
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -250,7 +250,7 @@ final class BookSearchViewController: UIViewController {
         )
         view.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.background
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.placeholder = "Search for text..."
+        searchBar.placeholder = String(localized: "Search for text...")
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         searchBar.becomeFirstResponder()
@@ -315,7 +315,7 @@ extension BookSearchViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.font = PapyrusDesignSystem.Typography.footnote(for: traitCollection)
         cell.textLabel?.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         cell.textLabel?.numberOfLines = 3
-        cell.detailTextLabel?.text = "Chapter \(result.chapter + 1)"
+        cell.detailTextLabel?.text = String(localized: "Chapter \(result.chapter + 1)")
         cell.detailTextLabel?.font = PapyrusDesignSystem.Typography.caption1(for: traitCollection)
         cell.detailTextLabel?.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         cell.backgroundColor = .clear

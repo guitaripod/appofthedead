@@ -16,23 +16,23 @@ enum OnDeviceLLMError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case let .insufficientStorage(required, available):
-            return "Not enough space. The Oracle needs \(Self.gb(required)) free, but only \(Self.gb(available)) is available."
+            return String(localized: "Not enough space. The Oracle needs \(Self.gb(required)) free, but only \(Self.gb(available)) is available.")
         case .offline:
-            return "The Oracle's mind must be summoned over the network. Connect to Wi-Fi and try again."
+            return String(localized: "The Oracle's mind must be summoned over the network. Connect to Wi-Fi and try again.")
         case .downloadFailed:
-            return "The summoning was interrupted. Check your connection and try again — progress is kept."
+            return String(localized: "The summoning was interrupted. Check your connection and try again — progress is kept.")
         case .loadFailed:
-            return "The Oracle could not awaken on this device."
+            return String(localized: "The Oracle could not awaken on this device.")
         case .sanityCheckFailed:
-            return "The Oracle awoke confused. Trying a more compatible mind…"
+            return String(localized: "The Oracle awoke confused. Trying a more compatible mind…")
         case .allModelsExhausted:
-            return "No compatible Oracle could awaken on this device."
+            return String(localized: "No compatible Oracle could awaken on this device.")
         case .notReady:
-            return "The Oracle is not yet ready."
+            return String(localized: "The Oracle is not yet ready.")
         case .generationFailed:
-            return "The Oracle lost its voice mid-thought. Please try again."
+            return String(localized: "The Oracle lost its voice mid-thought. Please try again.")
         case .cancelled:
-            return "Cancelled."
+            return String(localized: "Cancelled.")
         }
     }
 

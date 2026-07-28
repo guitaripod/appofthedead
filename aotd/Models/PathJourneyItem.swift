@@ -18,10 +18,10 @@ struct PathJourneyItem {
 
     var statusLabel: String {
         switch status {
-        case .notStarted: return "Not Started"
-        case .inProgress: return "In Progress"
-        case .completed: return "Completed"
-        case .mastered: return "Mastered"
+        case .notStarted: return String(localized: "Not Started")
+        case .inProgress: return String(localized: "In Progress")
+        case .completed: return String(localized: "Completed")
+        case .mastered: return String(localized: "Mastered")
         }
     }
 }

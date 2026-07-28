@@ -255,7 +255,7 @@ final class OracleSummonView: UIView {
 
     private func configureCTA() {
         var config = UIButton.Configuration.plain()
-        config.title = isSimulator ? "Enter the Simulator Oracle" : "Awaken the Oracle"
+        config.title = isSimulator ? String(localized: "Enter the Simulator Oracle") : String(localized: "Awaken the Oracle")
         config.image = UIImage(systemName: isSimulator ? "desktopcomputer" : "sparkles")
         config.imagePadding = 8
         config.imagePlacement = .leading
@@ -271,7 +271,7 @@ final class OracleSummonView: UIView {
         cta.translatesAutoresizingMaskIntoConstraints = false
         cta.addTarget(self, action: #selector(awakenTapped), for: .touchUpInside)
 
-        whyButton.setTitle("Why ~\(String(format: "%.1f", sizeGB)) GB?", for: .normal)
+        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", sizeGB)) GB?"), for: .normal)
         whyButton.titleLabel?.font = PapyrusDesignSystem.Typography.caption1()
         whyButton.setTitleColor(Self.ink.withAlphaComponent(0.55), for: .normal)
         whyButton.contentHorizontalAlignment = .leading
@@ -299,7 +299,7 @@ final class OracleSummonView: UIView {
     func configure(modelName: String, sizeGB: Double) {
         self.modelName = modelName
         self.sizeGB = sizeGB
-        whyButton.setTitle("Why ~\(String(format: "%.1f", sizeGB)) GB?", for: .normal)
+        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", sizeGB)) GB?"), for: .normal)
     }
 
     func update(progress: Float) {
@@ -316,19 +316,19 @@ final class OracleSummonView: UIView {
         let changes = {
             switch state {
             case .idle:
-                self.kicker.attributedText = self.kickerAttributed("THE ORACLE SLEEPS")
-                self.titleLabel.text = "Consult the divine."
-                self.supporting.text = "\(self.modelName) runs entirely on your iPhone. About \(String(format: "%.1f", self.sizeGB)) GB, downloaded once."
+                self.kicker.attributedText = self.kickerAttributed(String(localized: "THE ORACLE SLEEPS"))
+                self.titleLabel.text = String(localized: "Consult the divine.")
+                self.supporting.text = String(localized: "\(self.modelName) runs entirely on your iPhone. About \(String(format: "%.1f", self.sizeGB)) GB, downloaded once.")
                 self.setHidden([self.progressRow, self.status], true)
                 self.setHidden([self.cta, self.whyButton], false)
             case .downloading:
-                self.kicker.attributedText = self.kickerAttributed("AWAKENING")
-                self.titleLabel.text = "Consult the divine."
+                self.kicker.attributedText = self.kickerAttributed(String(localized: "AWAKENING"))
+                self.titleLabel.text = String(localized: "Consult the divine.")
                 self.setHidden([self.cta, self.whyButton], true)
                 self.setHidden([self.progressRow, self.status, self.supporting], false)
             case .preparing:
-                self.kicker.attributedText = self.kickerAttributed("CROSSING THE THRESHOLD")
-                self.setStatus("Restoring the divine connection…")
+                self.kicker.attributedText = self.kickerAttributed(String(localized: "CROSSING THE THRESHOLD"))
+                self.setStatus(String(localized: "Restoring the divine connection…"))
                 self.setHidden([self.cta, self.whyButton], true)
                 self.setHidden([self.progressRow, self.status], false)
             }

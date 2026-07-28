@@ -109,8 +109,8 @@ final class PathTrophyCell: UICollectionViewCell {
 
         isAccessibilityElement = true
         accessibilityTraits = .button
-        accessibilityLabel = "\(item.name), \(item.statusLabel), \(Int((item.progressFraction * 100).rounded())) percent complete"
-        accessibilityHint = "Double tap for details"
+        accessibilityLabel = String(localized: "\(item.name), \(item.statusLabel), \(Int((item.progressFraction * 100).rounded())) percent complete")
+        accessibilityHint = String(localized: "Double tap for details")
     }
 
     override func prepareForReuse() {

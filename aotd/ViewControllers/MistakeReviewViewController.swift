@@ -45,7 +45,7 @@ final class MistakeReviewViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Mistake Review"
+        label.text = String(localized: "Mistake Review")
         if let papyrusFont = UIFont(name: "Papyrus", size: 24) {
             label.font = papyrusFont
         } else {
@@ -59,7 +59,7 @@ final class MistakeReviewViewController: UIViewController {
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "\(beliefSystem.name) • \(mistakes.count) mistakes"
+        label.text = String(localized: "\(beliefSystem.name) • \(mistakes.count) mistakes")
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.Papyrus.secondaryText
         label.textAlignment = .center
@@ -288,9 +288,9 @@ final class MistakeReviewViewController: UIViewController {
     
     
     @objc private func cancelTapped() {
-        PapyrusAlert(title: "Exit Review?", message: "Your progress will not be saved if you exit now.")
-            .addAction(PapyrusAlert.Action(title: "Continue Review", style: .cancel))
-            .addAction(PapyrusAlert.Action(title: "Exit", style: .destructive) { [weak self] in
+        PapyrusAlert(title: String(localized: "Exit Review?"), message: String(localized: "Your progress will not be saved if you exit now."))
+            .addAction(PapyrusAlert.Action(title: String(localized: "Continue Review"), style: .cancel))
+            .addAction(PapyrusAlert.Action(title: String(localized: "Exit"), style: .destructive) { [weak self] in
                 self?.exitReview()
             })
             .present(from: self)

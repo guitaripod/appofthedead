@@ -12,7 +12,7 @@ final class ExpandableLayoutCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "View Layout"
+        label.text = String(localized: "View Layout")
         label.font = .systemFont(ofSize: 17)
         return label
     }()

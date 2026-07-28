@@ -8,22 +8,22 @@ enum PaywallReason {
     var title: String {
         switch self {
         case .lockedPath:
-            return "Unlock Your Journey"
+            return String(localized: "Unlock Your Journey")
         case .oracleLimit:
-            return "Continue the Conversation"
+            return String(localized: "Continue the Conversation")
         case .generalUpgrade:
-            return "Unlock Everything"
+            return String(localized: "Unlock Everything")
         }
     }
 
     var subtitle: String {
         switch self {
         case .lockedPath:
-            return "Every path, every deity, every lesson — one membership"
+            return String(localized: "Every path, every deity, every lesson — one membership")
         case .oracleLimit:
-            return "Unlimited wisdom from all 21 divine guides"
+            return String(localized: "Unlimited wisdom from all 21 divine guides")
         case .generalUpgrade:
-            return "All 21 paths, unlimited Oracle, every future addition"
+            return String(localized: "All 21 paths, unlimited Oracle, every future addition")
         }
     }
 }
@@ -134,13 +134,13 @@ final class PaywallViewModel {
         switch selectedPlan {
         case .annual:
             if let days = annualTrialDays {
-                return "Start My \(days)-Day Free Trial"
+                return String(localized: "Start My \(days)-Day Free Trial")
             }
-            return "Subscribe"
+            return String(localized: "Subscribe")
         case .monthly:
-            return "Subscribe"
+            return String(localized: "Subscribe")
         case .lifetime:
-            return "Unlock Lifetime"
+            return String(localized: "Unlock Lifetime")
         }
     }
 
@@ -153,15 +153,15 @@ final class PaywallViewModel {
         case .annual:
             guard let annual = plans.annual else { return "" }
             if let days = annual.trialDays {
-                return "\(days) days free, then \(annual.localizedPrice) per year. Auto-renews until cancelled in Settings at least a day before each renewal."
+                return String(localized: "\(days) days free, then \(annual.localizedPrice) per year. Auto-renews until cancelled in Settings at least a day before each renewal.")
             }
-            return "\(annual.localizedPrice) per year. Auto-renews until cancelled in Settings at least a day before each renewal."
+            return String(localized: "\(annual.localizedPrice) per year. Auto-renews until cancelled in Settings at least a day before each renewal.")
         case .monthly:
             guard let monthly = plans.monthly else { return "" }
-            return "\(monthly.localizedPrice) per month. Auto-renews until cancelled in Settings at least a day before each renewal."
+            return String(localized: "\(monthly.localizedPrice) per month. Auto-renews until cancelled in Settings at least a day before each renewal.")
         case .lifetime:
             guard let lifetime = plans.lifetime else { return "" }
-            return "One-time payment of \(lifetime.localizedPrice). Yours forever, no subscription."
+            return String(localized: "One-time payment of \(lifetime.localizedPrice). Yours forever, no subscription.")
         }
     }
 
@@ -173,16 +173,16 @@ final class PaywallViewModel {
         return [
             TimelineStep(
                 icon: "lock.open.fill",
-                title: "Today",
-                detail: "Unlock all 21 paths and unlimited Oracle instantly"),
+                title: String(localized: "Today"),
+                detail: String(localized: "Unlock all 21 paths and unlimited Oracle instantly")),
             TimelineStep(
                 icon: "bell.fill",
-                title: "Day \(reminderDay)",
-                detail: "We remind you before your trial ends"),
+                title: String(localized: "Day \(reminderDay)"),
+                detail: String(localized: "We remind you before your trial ends")),
             TimelineStep(
                 icon: "creditcard.fill",
-                title: "Day \(days)",
-                detail: "Annual plan starts at \(annual.localizedPrice)/year. Cancel anytime before.")
+                title: String(localized: "Day \(days)"),
+                detail: String(localized: "Annual plan starts at \(annual.localizedPrice)/year. Cancel anytime before."))
         ]
     }
 
@@ -190,21 +190,21 @@ final class PaywallViewModel {
         switch reason {
         case .lockedPath:
             return [
-                ("book.fill", "All 21 Learning Paths", "Every lesson, quiz, and achievement"),
-                ("bubble.left.and.bubble.right.fill", "Unlimited Oracle", "Consult all 21 divine guides freely"),
-                ("sparkles", "Everything We Add Next", "New paths and features included")
+                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson, quiz, and achievement")),
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "Consult all 21 divine guides freely")),
+                ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths and features included"))
             ]
         case .oracleLimit:
             return [
-                ("bubble.left.and.bubble.right.fill", "Unlimited Consultations", "No limits with any deity"),
-                ("book.fill", "All 21 Learning Paths", "Every lesson and quiz included"),
-                ("clock.fill", "Conversation History", "Revisit past wisdom anytime")
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), String(localized: "No limits with any deity")),
+                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson and quiz included")),
+                ("clock.fill", String(localized: "Conversation History"), String(localized: "Revisit past wisdom anytime"))
             ]
         case .generalUpgrade:
             return [
-                ("book.fill", "All 21 Learning Paths", "From Valhalla to the Duat"),
-                ("bubble.left.and.bubble.right.fill", "Unlimited Oracle", "All 21 divine guides, no limits"),
-                ("star.fill", "Every Achievement", "Nothing locked, ever")
+                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "From Valhalla to the Duat")),
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "All 21 divine guides, no limits")),
+                ("star.fill", String(localized: "Every Achievement"), String(localized: "Nothing locked, ever"))
             ]
         }
     }
@@ -225,9 +225,9 @@ final class PaywallViewModel {
         let price = store.formattedPrice(for: product) ?? "…"
         switch reason {
         case .lockedPath:
-            return "Or unlock just this path for \(price)"
+            return String(localized: "Or unlock just this path for \(price)")
         case .oracleLimit:
-            return "Or get the \(product.displayName) for \(price)"
+            return String(localized: "Or get the \(product.displayName) for \(price)")
         case .generalUpgrade:
             return nil
         }
@@ -269,11 +269,11 @@ final class PaywallViewModel {
         var cards: [PlanCard] = []
 
         if let annual = plans.annual {
-            let detail = annual.monthlyEquivalentPrice.map { "≈ \($0)/month, billed yearly" }
+            let detail = annual.monthlyEquivalentPrice.map { String(localized: "≈ \($0)/month, billed yearly") }
             cards.append(PlanCard(
                 plan: .annual,
-                title: "Annual",
-                billedPrice: "\(annual.localizedPrice)/year",
+                title: String(localized: "Annual"),
+                billedPrice: String(localized: "\(annual.localizedPrice)/year"),
                 detail: detail,
                 badge: annual.trialDays.map { .freeTrial(days: $0) }))
         }
@@ -281,17 +281,17 @@ final class PaywallViewModel {
         if let lifetime = plans.lifetime {
             cards.append(PlanCard(
                 plan: .lifetime,
-                title: "Lifetime",
-                billedPrice: "\(lifetime.localizedPrice) once",
-                detail: "Pay once, keep everything forever",
+                title: String(localized: "Lifetime"),
+                billedPrice: String(localized: "\(lifetime.localizedPrice) once"),
+                detail: String(localized: "Pay once, keep everything forever"),
                 badge: .ownForever))
         }
 
         if let monthly = plans.monthly {
             cards.append(PlanCard(
                 plan: .monthly,
-                title: "Monthly",
-                billedPrice: "\(monthly.localizedPrice)/month",
+                title: String(localized: "Monthly"),
+                billedPrice: String(localized: "\(monthly.localizedPrice)/month"),
                 detail: nil,
                 badge: nil))
         }

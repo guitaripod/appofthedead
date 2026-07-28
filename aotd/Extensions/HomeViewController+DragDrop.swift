@@ -40,8 +40,8 @@ extension HomeViewController: UIDropInteractionDelegate {
         generator.prepare()
         generator.notificationOccurred(.success)
         PapyrusAlert.showSimpleAlert(
-            title: "Added to Favorites",
-            message: "\(data.name) has been added to your favorites",
+            title: String(localized: "Added to Favorites"),
+            message: String(localized: "\(data.name) has been added to your favorites"),
             from: self
         )
     }

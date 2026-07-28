@@ -154,7 +154,7 @@ final class LessonViewController: UIViewController {
     
     private func setupKeyTermsSection() {
         let keyTermsLabel = UILabel()
-        keyTermsLabel.text = "Key Terms"
+        keyTermsLabel.text = String(localized: "Key Terms")
         keyTermsLabel.font = .systemFont(ofSize: 20, weight: .bold)
         keyTermsLabel.textColor = UIColor.Papyrus.primaryText
         
@@ -170,7 +170,7 @@ final class LessonViewController: UIViewController {
     }
     
     private func setupContinueButton() {
-        continueButton.setTitle("Continue to Quiz", for: .normal)
+        continueButton.setTitle(String(localized: "Continue to Quiz"), for: .normal)
         continueButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         continueButton.backgroundColor = UIColor.Papyrus.gold
         continueButton.setTitleColor(UIColor.Papyrus.ink, for: .normal)

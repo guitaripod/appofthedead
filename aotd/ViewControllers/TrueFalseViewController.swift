@@ -19,8 +19,8 @@ final class TrueFalseViewController: BaseQuestionViewController {
         buttonsStackView.distribution = .fillEqually
         contentStackView.addArrangedSubview(buttonsStackView)
         
-        trueButton = createTrueFalseButton(title: "True", isTrue: true)
-        falseButton = createTrueFalseButton(title: "False", isTrue: false)
+        trueButton = createTrueFalseButton(title: String(localized: "True"), isTrue: true)
+        falseButton = createTrueFalseButton(title: String(localized: "False"), isTrue: false)
         
         buttonsStackView.addArrangedSubview(trueButton)
         buttonsStackView.addArrangedSubview(falseButton)

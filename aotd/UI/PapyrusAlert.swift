@@ -85,7 +85,7 @@ final class PapyrusAlert {
     static func showSimpleAlert(
         title: String? = nil,
         message: String? = nil,
-        buttonTitle: String = "OK",
+        buttonTitle: String = String(localized: "OK"),
         from viewController: UIViewController,
         completion: (() -> Void)? = nil
     ) {
@@ -97,8 +97,8 @@ final class PapyrusAlert {
     static func showConfirmationAlert(
         title: String? = nil,
         message: String? = nil,
-        confirmTitle: String = "Confirm",
-        cancelTitle: String = "Cancel",
+        confirmTitle: String = String(localized: "Confirm"),
+        cancelTitle: String = String(localized: "Cancel"),
         confirmStyle: ActionStyle = .default,
         from viewController: UIViewController,
         onConfirm: @escaping () -> Void,

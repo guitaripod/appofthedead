@@ -65,6 +65,6 @@ final class StatTileView: UIView {
         iconView.image = UIImage(systemName: systemIcon)
         valueLabel.text = value
         captionLabel.text = caption
-        accessibilityLabel = "\(caption), \(value)"
+        accessibilityLabel = String(localized: "\(caption), \(value)")
     }
 }

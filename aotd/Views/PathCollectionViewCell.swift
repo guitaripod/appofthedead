@@ -271,7 +271,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
         }
         
         progressView.progress = item.progress
-        xpLabel.text = "\(item.currentXP) / \(item.totalXP) XP"
+        xpLabel.text = String(localized: "\(item.currentXP) / \(item.totalXP) XP")
         
         lockOverlay.isHidden = item.isUnlocked
         

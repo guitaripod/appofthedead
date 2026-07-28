@@ -105,7 +105,7 @@ class BaseQuestionViewController: UIViewController {
     
     func setupSubmitButton() {
         let button = UIButton(type: .system)
-        button.setTitle("Check Answer", for: .normal)
+        button.setTitle(String(localized: "Check Answer"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         button.backgroundColor = UIColor.Papyrus.aged
         button.setTitleColor(UIColor.Papyrus.beige, for: .normal)
@@ -131,7 +131,7 @@ class BaseQuestionViewController: UIViewController {
     }
     
     private func configureWithViewModel() {
-        questionNumberLabel.text = "Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.totalQuestions)"
+        questionNumberLabel.text = String(localized: "Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.totalQuestions)")
         questionLabel.text = viewModel.questionText
         progressView.progress = viewModel.progress
         progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)

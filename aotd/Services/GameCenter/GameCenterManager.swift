@@ -126,8 +126,8 @@ final class GameCenterManager: NSObject {
 
     private func presentUnavailableAlert(from presenter: UIViewController) {
         PapyrusAlert.showSimpleAlert(
-            title: "Game Center",
-            message: "Sign in to Game Center in the Settings app to climb the leaderboards and earn honors across the realms of the dead.",
+            title: String(localized: "Game Center"),
+            message: String(localized: "Sign in to Game Center in the Settings app to climb the leaderboards and earn honors across the realms of the dead."),
             from: presenter
         )
     }

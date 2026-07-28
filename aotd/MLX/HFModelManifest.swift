@@ -33,9 +33,9 @@ enum HFModelManifestError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .badResponse(let code): return "HuggingFace returned HTTP \(code)."
-        case .noCommit: return "Could not resolve the model revision."
-        case .emptyManifest: return "The model manifest was empty."
+        case .badResponse(let code): return String(localized: "HuggingFace returned HTTP \(code).")
+        case .noCommit: return String(localized: "Could not resolve the model revision.")
+        case .emptyManifest: return String(localized: "The model manifest was empty.")
         }
     }
 }

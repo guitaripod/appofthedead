@@ -4,53 +4,53 @@ extension HomeViewController {
         guard AdaptiveLayoutManager.shared.isIPad else { return nil }
         return [
             UIKeyCommand(
-                title: "Search Paths",
+                title: String(localized: "Search Paths"),
                 action: #selector(searchPaths),
                 input: "f",
                 modifierFlags: .command,
-                discoverabilityTitle: "Search Paths"
+                discoverabilityTitle: String(localized: "Search Paths")
             ),
             UIKeyCommand(
-                title: "Refresh",
+                title: String(localized: "Refresh"),
                 action: #selector(refreshData),
                 input: "r",
                 modifierFlags: .command,
-                discoverabilityTitle: "Refresh"
+                discoverabilityTitle: String(localized: "Refresh")
             ),
             UIKeyCommand(
-                title: "Grid View",
+                title: String(localized: "Grid View"),
                 action: #selector(switchToGrid),
                 input: "1",
                 modifierFlags: .command,
-                discoverabilityTitle: "Grid View"
+                discoverabilityTitle: String(localized: "Grid View")
             ),
             UIKeyCommand(
-                title: "List View",
+                title: String(localized: "List View"),
                 action: #selector(switchToList),
                 input: "2",
                 modifierFlags: .command,
-                discoverabilityTitle: "List View"
+                discoverabilityTitle: String(localized: "List View")
             ),
             UIKeyCommand(
-                title: "Next Path",
+                title: String(localized: "Next Path"),
                 action: #selector(selectNextPath),
                 input: UIKeyCommand.inputDownArrow,
                 modifierFlags: [],
-                discoverabilityTitle: "Next Path"
+                discoverabilityTitle: String(localized: "Next Path")
             ),
             UIKeyCommand(
-                title: "Previous Path",
+                title: String(localized: "Previous Path"),
                 action: #selector(selectPreviousPath),
                 input: UIKeyCommand.inputUpArrow,
                 modifierFlags: [],
-                discoverabilityTitle: "Previous Path"
+                discoverabilityTitle: String(localized: "Previous Path")
             ),
             UIKeyCommand(
-                title: "Open Path",
+                title: String(localized: "Open Path"),
                 action: #selector(openSelectedPath),
                 input: "\r",
                 modifierFlags: [],
-                discoverabilityTitle: "Open Path"
+                discoverabilityTitle: String(localized: "Open Path")
             )
         ]
     }

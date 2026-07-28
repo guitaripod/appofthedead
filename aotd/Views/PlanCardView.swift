@@ -53,10 +53,10 @@ final class PlanCardView: UIControl {
 
         switch card.badge {
         case .freeTrial(let days):
-            badgeLabel.text = "\(days) DAYS FREE"
+            badgeLabel.text = String(localized: "\(days) DAYS FREE")
             badgeLabel.backgroundColor = PapyrusDesignSystem.Colors.Core.scarabGreen
         case .ownForever:
-            badgeLabel.text = "NO SUBSCRIPTION"
+            badgeLabel.text = String(localized: "NO SUBSCRIPTION")
             badgeLabel.backgroundColor = PapyrusDesignSystem.Colors.Core.hieroglyphBlue
         case nil:
             badgeLabel.isHidden = true

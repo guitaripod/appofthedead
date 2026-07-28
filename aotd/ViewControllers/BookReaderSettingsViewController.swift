@@ -33,10 +33,10 @@ final class BookReaderSettingsViewController: UIViewController {
         
         var title: String {
             switch self {
-            case .appearance: return "Appearance"
-            case .textLayout: return "Text Layout"
-            case .readingFeatures: return "Reading Features"
-            case .automation: return "Automation"
+            case .appearance: return String(localized: "Appearance")
+            case .textLayout: return String(localized: "Text Layout")
+            case .readingFeatures: return String(localized: "Reading Features")
+            case .automation: return String(localized: "Automation")
             }
         }
     }
@@ -77,7 +77,7 @@ final class BookReaderSettingsViewController: UIViewController {
         view.backgroundColor = PapyrusDesignSystem.Colors.beige
         
         let titleLabel = UILabel()
-        titleLabel.text = "Reading Settings"
+        titleLabel.text = String(localized: "Reading Settings")
         titleLabel.font = PapyrusDesignSystem.Typography.title3()
         titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
         titleLabel.textAlignment = .center
@@ -290,82 +290,82 @@ final class BookReaderSettingsViewController: UIViewController {
                 
             case .fontSize(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Font Size", value: value, min: 12, max: 32, format: { "\(Int($0))pt" }, delegate: self)
+                cell.configure(title: String(localized: "Font Size"), value: value, min: 12, max: 32, format: { "\(Int($0))pt" }, delegate: self)
                 return cell
                 
             case .fontWeight(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
-                cell.configure(title: "Font Weight", value: value, options: ["Light", "Regular", "Medium", "Semibold", "Bold"], delegate: self)
+                cell.configure(title: SegmentedSettingCell.fontWeightTitle, value: value, options: [String(localized: "Light"), String(localized: "Regular"), String(localized: "Medium"), String(localized: "Semibold"), String(localized: "Bold")], delegate: self)
                 return cell
                 
             case .brightness(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Brightness", value: value, min: 0.3, max: 1.0, format: { "\(Int($0 * 100))%" }, delegate: self)
+                cell.configure(title: String(localized: "Brightness"), value: value, min: 0.3, max: 1.0, format: { "\(Int($0 * 100))%" }, delegate: self)
                 return cell
                 
             case .textAlignment(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
-                cell.configure(title: "Text Alignment", value: value, options: ["Left", "Center", "Right", "Justified"], delegate: self)
+                cell.configure(title: SegmentedSettingCell.textAlignmentTitle, value: value, options: [String(localized: "Left"), String(localized: "Center"), String(localized: "Right"), String(localized: "Justified")], delegate: self)
                 return cell
                 
             case .lineSpacing(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Line Spacing", value: value, min: 1.0, max: 2.5, format: { String(format: "%.1f", $0) }, delegate: self)
+                cell.configure(title: String(localized: "Line Spacing"), value: value, min: 1.0, max: 2.5, format: { String(format: "%.1f", $0) }, delegate: self)
                 return cell
                 
             case .paragraphSpacing(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Paragraph Spacing", value: value, min: 1.0, max: 2.0, format: { String(format: "%.1f", $0) }, delegate: self)
+                cell.configure(title: String(localized: "Paragraph Spacing"), value: value, min: 1.0, max: 2.0, format: { String(format: "%.1f", $0) }, delegate: self)
                 return cell
                 
             case .firstLineIndent(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "First Line Indent", value: value, min: 0, max: 50, format: { "\(Int($0))" }, delegate: self)
+                cell.configure(title: String(localized: "First Line Indent"), value: value, min: 0, max: 50, format: { "\(Int($0))" }, delegate: self)
                 return cell
                 
             case .margins(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Margins", value: value, min: 10, max: 50, format: { "\(Int($0))" }, delegate: self)
+                cell.configure(title: String(localized: "Margins"), value: value, min: 10, max: 50, format: { "\(Int($0))" }, delegate: self)
                 return cell
                 
             case .hyphenation(let enabled):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
-                cell.configure(title: "Enable Hyphenation", value: enabled, delegate: self)
+                cell.configure(title: String(localized: "Enable Hyphenation"), value: enabled, delegate: self)
                 return cell
                 
             case .pageTransition(let style):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
-                cell.configure(title: "Page Transition", value: style, options: ["Scroll", "Page Turn"], delegate: self)
+                cell.configure(title: SegmentedSettingCell.pageTransitionTitle, value: style, options: [String(localized: "Scroll"), String(localized: "Page Turn")], delegate: self)
                 return cell
                 
             case .pageProgress(let enabled):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
-                cell.configure(title: "Show Page Progress", value: enabled, delegate: self)
+                cell.configure(title: String(localized: "Show Page Progress"), value: enabled, delegate: self)
                 return cell
                 
             case .keepScreenOn(let enabled):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
-                cell.configure(title: "Keep Screen On", value: enabled, delegate: self)
+                cell.configure(title: String(localized: "Keep Screen On"), value: enabled, delegate: self)
                 return cell
                 
             case .swipeGestures(let enabled):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwitchCell", for: indexPath) as! SwitchSettingCell
-                cell.configure(title: "Enable Swipe Gestures", value: enabled, delegate: self)
+                cell.configure(title: String(localized: "Enable Swipe Gestures"), value: enabled, delegate: self)
                 return cell
                 
             case .autoScrollSpeed(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "Auto-Scroll Speed", value: value, min: 10, max: 100, format: { "\(Int($0))" }, delegate: self)
+                cell.configure(title: String(localized: "Auto-Scroll Speed"), value: value, min: 10, max: 100, format: { "\(Int($0))" }, delegate: self)
                 return cell
                 
             case .ttsSpeed(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: "TTS Speed", value: value, min: 0.5, max: 2.0, format: { String(format: "%.1fx", $0) }, delegate: self)
+                cell.configure(title: String(localized: "TTS Speed"), value: value, min: 0.5, max: 2.0, format: { String(format: "%.1fx", $0) }, delegate: self)
                 return cell
                 
             case .ttsVoice(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SegmentedCell", for: indexPath) as! SegmentedSettingCell
-                cell.configure(title: "TTS Voice", value: value, options: getAvailableVoices(), delegate: self)
+                cell.configure(title: String(localized: "TTS Voice"), value: value, options: getAvailableVoices(), delegate: self)
                 return cell
             }
         }
@@ -607,7 +607,7 @@ class ThemeSettingCell: BaseSettingCell {
     private var currentValue: String = ""
     
     override func setupUI() {
-        titleLabel.text = "Theme"
+        titleLabel.text = String(localized: "Theme")
         titleLabel.font = PapyrusDesignSystem.Typography.body()
         titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
         
@@ -728,7 +728,7 @@ class FontFamilySettingCell: BaseSettingCell {
     }
     
     override func setupUI() {
-        titleLabel.text = "Font Family"
+        titleLabel.text = String(localized: "Font Family")
         titleLabel.font = PapyrusDesignSystem.Typography.body()
         titleLabel.textColor = PapyrusDesignSystem.Colors.ancientInk
         
@@ -933,13 +933,17 @@ class SegmentedSettingCell: BaseSettingCell {
         }
     }
     
+    static let textAlignmentTitle = String(localized: "Text Alignment")
+    static let fontWeightTitle = String(localized: "Font Weight")
+    static let pageTransitionTitle = String(localized: "Page Transition")
+    
     private func mapValueToSegmentIndex(value: String, for title: String) -> Int? {
         switch title {
-        case "Text Alignment":
+        case Self.textAlignmentTitle:
             return ["left", "center", "right", "justified"].firstIndex(of: value)
-        case "Font Weight":
+        case Self.fontWeightTitle:
             return ["light", "regular", "medium", "semibold", "bold"].firstIndex(of: value)
-        case "Page Transition":
+        case Self.pageTransitionTitle:
             return ["scroll", "page"].firstIndex(of: value)
         default:
             return nil
@@ -948,11 +952,11 @@ class SegmentedSettingCell: BaseSettingCell {
     
     private func mapSegmentIndexToValue(index: Int, for title: String) -> String {
         switch title {
-        case "Text Alignment":
+        case Self.textAlignmentTitle:
             return ["left", "center", "right", "justified"][index]
-        case "Font Weight":
+        case Self.fontWeightTitle:
             return ["light", "regular", "medium", "semibold", "bold"][index]
-        case "Page Transition":
+        case Self.pageTransitionTitle:
             return ["scroll", "page"][index]
         default:
             return ""

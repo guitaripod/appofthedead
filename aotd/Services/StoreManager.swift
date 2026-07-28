@@ -86,7 +86,7 @@ class StoreManager: NSObject {
 
                 completion(.success(offerings))
             } else {
-                completion(.failure(NSError(domain: "StoreManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "No offerings found"])))
+                completion(.failure(NSError(domain: "StoreManager", code: -1, userInfo: [NSLocalizedDescriptionKey: String(localized: "No offerings found")])))
             }
         }
     }
@@ -95,7 +95,7 @@ class StoreManager: NSObject {
     func purchase(productId: ProductIdentifier, completion: @escaping (Result<Bool, Error>) -> Void) {
         Purchases.shared.getProducts([productId.rawValue]) { products in
             guard let product = products.first else {
-                completion(.failure(NSError(domain: "StoreManager", code: -2, userInfo: [NSLocalizedDescriptionKey: "Product not found"])))
+                completion(.failure(NSError(domain: "StoreManager", code: -2, userInfo: [NSLocalizedDescriptionKey: String(localized: "Product not found")])))
                 return
             }
             

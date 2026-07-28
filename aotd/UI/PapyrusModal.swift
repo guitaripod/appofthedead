@@ -203,7 +203,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         titleStackView.axis = .vertical
         titleStackView.spacing = PapyrusDesignSystem.Spacing.xxSmall
         
-        titleLabel.text = "\(deity.name), \(deity.role)"
+        titleLabel.text = String(localized: "\(deity.name), \(deity.role)")
         titleLabel.font = PapyrusDesignSystem.Typography.subheadline()
         titleLabel.textColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark
@@ -321,15 +321,15 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         
         if DeviceUtility.isSimulator {
-            downloadLoadingView.updateTitle("Simulator Mode")
-            downloadLoadingView.updateSubtitle("The Oracle runs on device. Use a physical device to experience divine wisdom.")
+            downloadLoadingView.updateTitle(String(localized: "Simulator Mode"))
+            downloadLoadingView.updateSubtitle(String(localized: "The Oracle runs on device. Use a physical device to experience divine wisdom."))
         } else {
-            downloadLoadingView.updateTitle("Oracle Model Required")
-            downloadLoadingView.updateSubtitle("Download the Oracle model to unlock divine explanations from \(deity.name).")
+            downloadLoadingView.updateTitle(String(localized: "Oracle Model Required"))
+            downloadLoadingView.updateSubtitle(String(localized: "Download the Oracle model to unlock divine explanations from \(deity.name)."))
         }
         
         
-        downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Oracle Model", for: .normal)
+        downloadButton.setTitle(DeviceUtility.isSimulator ? String(localized: "Use Physical Device") : String(localized: "Download Oracle Model"), for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = baseColor
         downloadButton.setTitleColor(.white, for: .normal)
@@ -374,7 +374,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         downloadButton.isHidden = true
         downloadLoadingView.startAnimating()
-        downloadLoadingView.updateProgress(0, withText: "Preparing divine connection...")
+        downloadLoadingView.updateProgress(0, withText: String(localized: "Preparing divine connection..."))
         
         downloadStartTime = Date()
         lastReportedProgress = 0.0
@@ -432,11 +432,11 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     
                     
                     let alert = UIAlertController(
-                        title: "Download Failed",
-                        message: "Unable to download the Oracle model. Please check your internet connection and try again.",
+                        title: String(localized: "Download Failed"),
+                        message: String(localized: "Unable to download the Oracle model. Please check your internet connection and try again."),
                         preferredStyle: .alert
                     )
-                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
                     self.present(alert, animated: true)
                 }
             }
@@ -517,7 +517,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
-                    self.contentTextView.text = "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later."
+                    self.contentTextView.text = String(localized: "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later.")
                 }
             }
         }
@@ -663,17 +663,17 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         let statusText: String
         
         if progressPercent < 10 {
-            statusText = "Gathering sacred texts..."
+            statusText = String(localized: "Gathering sacred texts...")
         } else if progressPercent < 30 {
-            statusText = "Channeling divine wisdom..."
+            statusText = String(localized: "Channeling divine wisdom...")
         } else if progressPercent < 50 {
-            statusText = "Deciphering ancient knowledge..."
+            statusText = String(localized: "Deciphering ancient knowledge...")
         } else if progressPercent < 70 {
-            statusText = "Binding ethereal essence..."
+            statusText = String(localized: "Binding ethereal essence...")
         } else if progressPercent < 90 {
-            statusText = "Preparing the Oracle..."
+            statusText = String(localized: "Preparing the Oracle...")
         } else {
-            statusText = "Finalizing divine connection..."
+            statusText = String(localized: "Finalizing divine connection...")
         }
         
         

@@ -52,7 +52,7 @@ final class DailyReminderViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        title = "Daily Reminder"
+        title = String(localized: "Daily Reminder")
     }
 
     private func setupUI() {
@@ -80,12 +80,12 @@ final class DailyReminderViewController: UIViewController {
 
             switch item {
             case .enableToggle:
-                cell.configure(text: "Enable Daily Reminder")
+                cell.configure(text: String(localized: "Enable Daily Reminder"))
                 cell.addSwitch(isOn: self.isReminderEnabled) { [weak self] isOn in
                     self?.toggleReminder(enabled: isOn)
                 }
             case .timePicker:
-                cell.configure(text: "Reminder Time")
+                cell.configure(text: String(localized: "Reminder Time"))
                 let timePicker = UIDatePicker()
                 timePicker.datePickerMode = .time
                 timePicker.preferredDatePickerStyle = .compact
@@ -150,15 +150,15 @@ final class DailyReminderViewController: UIViewController {
 
     private func showPermissionDeniedAlert() {
         PapyrusAlert(
-            title: "Notifications Disabled",
-            message: "Enable notifications for App of the Dead in Settings to receive daily reminders.",
+            title: String(localized: "Notifications Disabled"),
+            message: String(localized: "Enable notifications for App of the Dead in Settings to receive daily reminders."),
             style: .alert
         )
-        .addAction(PapyrusAlert.Action(title: "Open Settings", style: .default) {
+        .addAction(PapyrusAlert.Action(title: String(localized: "Open Settings"), style: .default) {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             UIApplication.shared.open(url)
         })
-        .addAction(PapyrusAlert.Action(title: "Not Now", style: .cancel))
+        .addAction(PapyrusAlert.Action(title: String(localized: "Not Now"), style: .cancel))
         .present(from: self)
     }
 
@@ -177,9 +177,9 @@ extension DailyReminderViewController: UITableViewDelegate {
 
         switch sectionType {
         case .toggle:
-            headerView.configure(title: "Reminder")
+            headerView.configure(title: String(localized: "Reminder"))
         case .time:
-            headerView.configure(title: "Time")
+            headerView.configure(title: String(localized: "Time"))
         }
 
         return headerView

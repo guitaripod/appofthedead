@@ -201,8 +201,8 @@ enum MLXError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .modelNotDownloaded: return "Model has not been downloaded yet"
-        case .modelNotLoaded: return "Model has not been loaded into memory"
+        case .modelNotDownloaded: return String(localized: "Model has not been downloaded yet")
+        case .modelNotLoaded: return String(localized: "Model has not been loaded into memory")
         }
     }
 }

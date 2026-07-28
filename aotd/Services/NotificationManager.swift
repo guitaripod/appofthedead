@@ -49,8 +49,8 @@ final class NotificationManager: NSObject {
         cancelDailyReminder()
 
         let content = UNMutableNotificationContent()
-        content.title = "Time to Learn"
-        content.body = "Continue your journey through the afterlife. Come explore today's lesson!"
+        content.title = String(localized: "Time to Learn")
+        content.body = String(localized: "Continue your journey through the afterlife. Come explore today's lesson!")
         content.sound = .default
         content.badge = 1
 
@@ -89,8 +89,8 @@ final class NotificationManager: NSObject {
             }
 
             let content = UNMutableNotificationContent()
-            content.title = "Your free trial ends in 2 days"
-            content.body = "Keep exploring every path and the Oracle, or cancel anytime in Settings. No surprises."
+            content.title = String(localized: "Your free trial ends in 2 days")
+            content.body = String(localized: "Keep exploring every path and the Oracle, or cancel anytime in Settings. No surprises.")
             content.sound = .default
 
             let reminderDays = max(1, trialDays - 2)

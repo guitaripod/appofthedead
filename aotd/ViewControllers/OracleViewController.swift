@@ -34,7 +34,7 @@ final class OracleViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        title = "Oracle"
+        title = String(localized: "Oracle")
         checkModelStatus()
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -164,11 +164,11 @@ final class OracleViewController: UIViewController {
         summon.onWhy = { [weak self] in
             guard let self else { return }
             let alert = PapyrusAlert(
-                title: "Why the download?",
-                message: "The Oracle is a private AI that runs entirely on your iPhone, never on a server. The model is downloaded once and kept on your device.",
+                title: String(localized: "Why the download?"),
+                message: String(localized: "The Oracle is a private AI that runs entirely on your iPhone, never on a server. The model is downloaded once and kept on your device."),
                 style: .alert
             )
-            alert.addAction(PapyrusAlert.Action(title: "Understood", style: .default))
+            alert.addAction(PapyrusAlert.Action(title: String(localized: "Understood"), style: .default))
             alert.present(from: self)
         }
         view.insertSubview(summon, belowSubview: promptSuggestionsView)
@@ -263,11 +263,11 @@ final class OracleViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
                 let alert = PapyrusAlert(
-                    title: "Oracle Error",
+                    title: String(localized: "Oracle Error"),
                     message: error,
                     style: .alert
                 )
-                alert.addAction(PapyrusAlert.Action(title: "OK", style: .default))
+                alert.addAction(PapyrusAlert.Action(title: String(localized: "OK"), style: .default))
                 alert.present(from: self!)
             }
             .store(in: &cancellables)

@@ -317,14 +317,14 @@ final class PathListCell: UICollectionViewCell {
         
         switch item.status {
         case .notStarted:
-            descriptionLabel.text = "Ready to begin your journey"
+            descriptionLabel.text = String(localized: "Ready to begin your journey")
         case .inProgress:
             let percentage = Int(item.progress * 100)
-            descriptionLabel.text = "\(percentage)% complete"
+            descriptionLabel.text = String(localized: "\(percentage)% complete")
         case .completed:
-            descriptionLabel.text = "Path completed"
+            descriptionLabel.text = String(localized: "Path completed")
         case .mastered:
-            descriptionLabel.text = "Path mastered"
+            descriptionLabel.text = String(localized: "Path mastered")
         }
         
         if item.isUnlocked {
@@ -347,7 +347,7 @@ final class PathListCell: UICollectionViewCell {
             containerView.layer.borderColor = UIColor.Papyrus.aged.withAlphaComponent(0.5).cgColor
             containerView.layer.borderWidth = 1
             nameLabel.textColor = UIColor.Papyrus.tertiaryText
-            descriptionLabel.text = "Locked"
+            descriptionLabel.text = String(localized: "Locked")
             progressView.progressTintColor = UIColor.Papyrus.aged
             chevronImageView.tintColor = UIColor.Papyrus.aged
             
@@ -359,7 +359,7 @@ final class PathListCell: UICollectionViewCell {
         }
         
         progressView.progress = item.progress
-        xpLabel.text = "\(item.currentXP) / \(item.totalXP) XP"
+        xpLabel.text = String(localized: "\(item.currentXP) / \(item.totalXP) XP")
         
         
         switch item.status {

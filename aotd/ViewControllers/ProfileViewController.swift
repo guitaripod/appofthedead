@@ -99,7 +99,7 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        title = "Profile"
+        title = String(localized: "Profile")
         hasAnimatedStreak = false
         viewModel.loadData()
     }
@@ -112,8 +112,8 @@ final class ProfileViewController: UIViewController {
             action: #selector(showGameCenter)
         )
         button.tintColor = UIColor.Papyrus.gold
-        button.accessibilityLabel = "Game Center"
-        button.accessibilityHint = "Opens leaderboards and honors"
+        button.accessibilityLabel = String(localized: "Game Center")
+        button.accessibilityHint = String(localized: "Opens leaderboards and honors")
         navigationItem.rightBarButtonItem = button
     }
 
@@ -186,7 +186,7 @@ final class ProfileViewController: UIViewController {
 
         xpRingView.translatesAutoresizingMaskIntoConstraints = false
         xpRingView.isAccessibilityElement = true
-        xpRingView.accessibilityLabel = "Experience progress"
+        xpRingView.accessibilityLabel = String(localized: "Experience progress")
         xpRingView.addSubview(avatarImageView)
 
         nameLabel.font = UIFont(name: "Papyrus", size: 24) ?? .systemFont(ofSize: 24, weight: .bold)
@@ -199,8 +199,8 @@ final class ProfileViewController: UIViewController {
         renameButton.setImage(UIImage(systemName: "pencil.circle.fill"), for: .normal)
         renameButton.tintColor = UIColor.Papyrus.secondaryText
         renameButton.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 20), forImageIn: .normal)
-        renameButton.accessibilityLabel = "Edit name"
-        renameButton.accessibilityHint = "Changes your Seeker name"
+        renameButton.accessibilityLabel = String(localized: "Edit name")
+        renameButton.accessibilityHint = String(localized: "Changes your Seeker name")
         renameButton.setContentHuggingPriority(.required, for: .horizontal)
         renameButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         renameButton.addTarget(self, action: #selector(renameTapped), for: .touchUpInside)
@@ -275,7 +275,7 @@ final class ProfileViewController: UIViewController {
         contentStackView.addArrangedSubview(statsContainerView)
 
         let titleLabel = UILabel()
-        titleLabel.text = "The Scribe's Ledger"
+        titleLabel.text = String(localized: "The Scribe's Ledger")
         titleLabel.font = PapyrusDesignSystem.Typography.title2()
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -309,7 +309,7 @@ final class ProfileViewController: UIViewController {
 
     private func setupHallsSection() {
         let titleLabel = UILabel()
-        titleLabel.text = "Halls of the Dead"
+        titleLabel.text = String(localized: "Halls of the Dead")
         titleLabel.font = PapyrusDesignSystem.Typography.title2()
         titleLabel.textColor = UIColor.Papyrus.primaryText
 
@@ -328,7 +328,7 @@ final class ProfileViewController: UIViewController {
     }
 
     private func setupAchievementsSection() {
-        achievementsHeaderLabel.text = "Hall of Honors"
+        achievementsHeaderLabel.text = String(localized: "Hall of Honors")
         achievementsHeaderLabel.font = PapyrusDesignSystem.Typography.title2()
         achievementsHeaderLabel.textColor = UIColor.Papyrus.primaryText
 
@@ -364,22 +364,22 @@ final class ProfileViewController: UIViewController {
         iconView.translatesAutoresizingMaskIntoConstraints = false
 
         let titleLabel = UILabel()
-        titleLabel.text = "Ascend to The Eternal"
+        titleLabel.text = String(localized: "Ascend to The Eternal")
         titleLabel.font = PapyrusDesignSystem.Typography.headline(weight: .semibold)
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .center
 
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Unlock every path, unlimited Oracle, and the full Hall of Mastery"
+        descriptionLabel.text = String(localized: "Unlock every path, unlimited Oracle, and the full Hall of Mastery")
         descriptionLabel.font = PapyrusDesignSystem.Typography.footnote()
         descriptionLabel.textColor = UIColor.Papyrus.secondaryText
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
 
         let upgradeButton = UIButton(type: .system)
-        upgradeButton.setTitle("View Paths to Ascension", for: .normal)
+        upgradeButton.setTitle(String(localized: "View Paths to Ascension"), for: .normal)
         PapyrusDesignSystem.ComponentStyle.applyPapyrusButton(to: upgradeButton, style: .primary)
-        upgradeButton.accessibilityLabel = "Ascend to The Eternal, view subscription options"
+        upgradeButton.accessibilityLabel = String(localized: "Ascend to The Eternal, view subscription options")
         upgradeButton.addTarget(self, action: #selector(showPaywall), for: .touchUpInside)
 
         let stack = UIStackView(arrangedSubviews: [iconView, titleLabel, descriptionLabel, upgradeButton])
@@ -409,15 +409,15 @@ final class ProfileViewController: UIViewController {
 
     @objc private func renameTapped() {
         UISelectionFeedbackGenerator().selectionChanged()
-        let alert = UIAlertController(title: "Your Seeker Name", message: "How shall the scrolls record you?", preferredStyle: .alert)
+        let alert = UIAlertController(title: String(localized: "Your Seeker Name"), message: String(localized: "How shall the scrolls record you?"), preferredStyle: .alert)
         alert.addTextField { [weak self] textField in
             textField.text = self?.viewModel.displayName
             textField.placeholder = ProfileViewModel.defaultDisplayName
             textField.autocapitalizationType = .words
             textField.clearButtonMode = .whileEditing
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Save", style: .default) { [weak self, weak alert] _ in
+        alert.addAction(UIAlertAction(title: String(localized: "Cancel"), style: .cancel))
+        alert.addAction(UIAlertAction(title: String(localized: "Save"), style: .default) { [weak self, weak alert] _ in
             guard let name = alert?.textFields?.first?.text else { return }
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             self?.viewModel.updateDisplayName(name)
@@ -472,12 +472,12 @@ final class ProfileViewController: UIViewController {
         guard let user = viewModel.user else { return }
 
         nameLabel.text = viewModel.displayName
-        levelLabel.text = "Level \(user.currentLevel) · \(viewModel.rankTitle)"
+        levelLabel.text = String(localized: "Level \(user.currentLevel) · \(viewModel.rankTitle)")
 
         let xpIntoLevel = user.totalXP % 100
         xpRingView.setProgress(CGFloat(xpIntoLevel) / 100.0, animated: true)
-        xpLabel.text = "\(xpIntoLevel) / 100 XP to ascend"
-        xpRingView.accessibilityValue = "Level \(user.currentLevel), \(xpIntoLevel) of 100 XP to next level"
+        xpLabel.text = String(localized: "\(xpIntoLevel) / 100 XP to ascend")
+        xpRingView.accessibilityValue = String(localized: "Level \(user.currentLevel), \(xpIntoLevel) of 100 XP to next level")
 
         let memberSince = Self.memberSinceFormatter.string(from: user.createdAt)
         streakCard.configure(streakDays: user.streakDays, multiplier: viewModel.streakMultiplier, memberSince: memberSince)
@@ -499,31 +499,31 @@ final class ProfileViewController: UIViewController {
 
     private func updateStatsTiles(user: User, memberSince: String) {
         if let accuracy = viewModel.accuracy {
-            accuracyTile.configure(systemIcon: "checkmark.seal.fill", value: "\(Int((accuracy * 100).rounded()))%", caption: "Accuracy")
+            accuracyTile.configure(systemIcon: "checkmark.seal.fill", value: "\(Int((accuracy * 100).rounded()))%", caption: String(localized: "Accuracy"))
         } else {
-            accuracyTile.configure(systemIcon: "checkmark.seal.fill", value: "—", caption: "Accuracy")
+            accuracyTile.configure(systemIcon: "checkmark.seal.fill", value: "—", caption: String(localized: "Accuracy"))
         }
-        studyTimeTile.configure(systemIcon: "hourglass", value: Self.studyTimeString(viewModel.totalStudyTime), caption: "Time in the Duat")
-        masteredTile.configure(systemIcon: "crown.fill", value: "\(viewModel.masteredPathsCount)", caption: "Realms Mastered")
-        awakenedTile.configure(systemIcon: "sun.max.fill", value: memberSince, caption: "Awakened")
+        studyTimeTile.configure(systemIcon: "hourglass", value: Self.studyTimeString(viewModel.totalStudyTime), caption: String(localized: "Time in the Duat"))
+        masteredTile.configure(systemIcon: "crown.fill", value: "\(viewModel.masteredPathsCount)", caption: String(localized: "Realms Mastered"))
+        awakenedTile.configure(systemIcon: "sun.max.fill", value: memberSince, caption: String(localized: "Awakened"))
     }
 
     private func updateHallsSection() {
         let summary = viewModel.journeySummary
-        hallsCountPill.setText("\(summary.gatesWalked) of \(summary.gatesTotal)")
+        hallsCountPill.setText(String(localized: "\(summary.gatesWalked) of \(summary.gatesTotal)"))
 
         if viewModel.pathJourney.isEmpty {
             pathTrophyCollectionView.isHidden = true
-            hallsSummaryLabel.text = "Begin your first path to walk the gates of the Duat."
+            hallsSummaryLabel.text = String(localized: "Begin your first path to walk the gates of the Duat.")
         } else {
             pathTrophyCollectionView.isHidden = false
-            hallsSummaryLabel.text = "You have walked \(summary.gatesWalked) of \(summary.gatesTotal) gates · \(summary.mastered) mastered"
+            hallsSummaryLabel.text = String(localized: "You have walked \(summary.gatesWalked) of \(summary.gatesTotal) gates · \(summary.mastered) mastered")
         }
     }
 
     private func updateHonorsSection() {
         let earned = viewModel.userAchievements.filter { $0.isCompleted }.count
-        honorsCountPill.setText("\(earned) / \(viewModel.achievements.count) earned")
+        honorsCountPill.setText(String(localized: "\(earned) / \(viewModel.achievements.count) earned"))
     }
 
     private func refreshDynamicColors() {
@@ -604,18 +604,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     private func showPathDetail(_ item: PathJourneyItem) {
         let percent = Int((item.progressFraction * 100).rounded())
         var lines = [
-            "Status: \(item.statusLabel)",
-            "\(item.earnedXP) / \(item.totalXP) XP · \(percent)%",
-            "Attempts: \(item.totalAttempts)"
+            String(localized: "Status: \(item.statusLabel)"),
+            String(localized: "\(item.earnedXP) / \(item.totalXP) XP · \(percent)%"),
+            String(localized: "Attempts: \(item.totalAttempts)")
         ]
         if let completedAt = item.completedAt {
-            lines.append("Sealed \(Self.memberSinceFormatter.string(from: completedAt))")
+            lines.append(String(localized: "Sealed \(Self.memberSinceFormatter.string(from: completedAt))"))
         }
         PapyrusAlert.showSimpleAlert(title: item.name, message: lines.joined(separator: "\n"), from: self)
     }
 
     private func showAchievementDetail(achievement: Achievement, userAchievement: UserAchievement) {
-        let progressText = userAchievement.isCompleted ? "Completed!" : "Progress: \(Int(userAchievement.progress * 100))%"
+        let progressText = userAchievement.isCompleted ? String(localized: "Completed!") : String(localized: "Progress: \(Int(userAchievement.progress * 100))%")
         PapyrusAlert.showSimpleAlert(
             title: achievement.name,
             message: "\(achievement.description)\n\n\(progressText)",

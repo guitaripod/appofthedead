@@ -94,35 +94,35 @@ enum ProductIdentifier: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .christianity: return "Christianity Path"
-        case .islam: return "Islam Path"
-        case .buddhism: return "Buddhism Path"
-        case .hinduism: return "Hinduism Path"
-        case .ancientEgyptian: return "Ancient Egyptian Path"
-        case .greek: return "Greek Path"
-        case .norse: return "Norse Path"
-        case .shinto: return "Shinto Path"
-        case .zoroastrian: return "Zoroastrian Path"
-        case .oracleWisdom: return "Oracle Wisdom Pack"
-        case .ultimateEnlightenment: return "Ultimate Enlightenment"
-        case .premiumAnnual: return "Premium Annual"
-        case .premiumMonthly: return "Premium Monthly"
-        case .egyptianPantheon: return "Death Masters Pack"
-        case .greekGuides: return "Spirit Guides Pack"
-        case .easternWisdom: return "Eastern Guardians Pack"
+        case .christianity: return String(localized: "Christianity Path")
+        case .islam: return String(localized: "Islam Path")
+        case .buddhism: return String(localized: "Buddhism Path")
+        case .hinduism: return String(localized: "Hinduism Path")
+        case .ancientEgyptian: return String(localized: "Ancient Egyptian Path")
+        case .greek: return String(localized: "Greek Path")
+        case .norse: return String(localized: "Norse Path")
+        case .shinto: return String(localized: "Shinto Path")
+        case .zoroastrian: return String(localized: "Zoroastrian Path")
+        case .oracleWisdom: return String(localized: "Oracle Wisdom Pack")
+        case .ultimateEnlightenment: return String(localized: "Ultimate Enlightenment")
+        case .premiumAnnual: return String(localized: "Premium Annual")
+        case .premiumMonthly: return String(localized: "Premium Monthly")
+        case .egyptianPantheon: return String(localized: "Death Masters Pack")
+        case .greekGuides: return String(localized: "Spirit Guides Pack")
+        case .easternWisdom: return String(localized: "Eastern Guardians Pack")
 
-        case .sikhism: return "Sikhism Path"
-        case .aztecMictlan: return "Aztec Mictlan Path"
-        case .taoism: return "Taoism Path"
-        case .mandaeism: return "Mandaeism Path"
-        case .wicca: return "Wicca Path"
-        case .bahai: return "Baha'i Path"
-        case .tenrikyo: return "Tenrikyo Path"
-        case .aboriginalDreamtime: return "Aboriginal Dreamtime Path"
-        case .nativeAmerican: return "Native American Visions Path"
-        case .anthroposophy: return "Anthroposophy Path"
-        case .theosophy: return "Theosophy Path"
-        case .swedenborgian: return "Swedenborgian Visions Path"
+        case .sikhism: return String(localized: "Sikhism Path")
+        case .aztecMictlan: return String(localized: "Aztec Mictlan Path")
+        case .taoism: return String(localized: "Taoism Path")
+        case .mandaeism: return String(localized: "Mandaeism Path")
+        case .wicca: return String(localized: "Wicca Path")
+        case .bahai: return String(localized: "Baha'i Path")
+        case .tenrikyo: return String(localized: "Tenrikyo Path")
+        case .aboriginalDreamtime: return String(localized: "Aboriginal Dreamtime Path")
+        case .nativeAmerican: return String(localized: "Native American Visions Path")
+        case .anthroposophy: return String(localized: "Anthroposophy Path")
+        case .theosophy: return String(localized: "Theosophy Path")
+        case .swedenborgian: return String(localized: "Swedenborgian Visions Path")
         }
     }
     

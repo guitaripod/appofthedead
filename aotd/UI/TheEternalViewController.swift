@@ -104,7 +104,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         responseTextView.isHidden = false
         loadingView.stopAnimating()
         loadingView.isHidden = true
-        titleLabel.text = "The Eternal"
+        titleLabel.text = String(localized: "The Eternal")
         responseTextView.text = cached
         eternalResponse = cached
         saveButton.isHidden = false
@@ -199,7 +199,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         titleStackView.spacing = PapyrusDesignSystem.Spacing.xxSmall
         
         
-        titleLabel.text = "The Eternal, Cosmic Consciousness"
+        titleLabel.text = String(localized: "The Eternal, Cosmic Consciousness")
         titleLabel.font = PapyrusDesignSystem.Typography.subheadline()
         titleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         
@@ -258,7 +258,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
     }
     
     private func setupSaveButton() {
-        saveButton.setTitle("Save Wisdom", for: .normal)
+        saveButton.setTitle(String(localized: "Save Wisdom"), for: .normal)
         saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         saveButton.tintColor = .white
         saveButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
@@ -288,15 +288,15 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         
         
         if DeviceUtility.isSimulator {
-            downloadLoadingView.updateTitle("Simulator Mode")
-            downloadLoadingView.updateSubtitle("The Eternal requires a physical device to manifest divine wisdom.")
+            downloadLoadingView.updateTitle(String(localized: "Simulator Mode"))
+            downloadLoadingView.updateSubtitle(String(localized: "The Eternal requires a physical device to manifest divine wisdom."))
         } else {
-            downloadLoadingView.updateTitle("Summon The Eternal")
-            downloadLoadingView.updateSubtitle("Download the divine consciousness to receive eternal wisdom.")
+            downloadLoadingView.updateTitle(String(localized: "Summon The Eternal"))
+            downloadLoadingView.updateSubtitle(String(localized: "Download the divine consciousness to receive eternal wisdom."))
         }
         
         
-        downloadButton.setTitle(DeviceUtility.isSimulator ? "Use Physical Device" : "Download Divine Essence", for: .normal)
+        downloadButton.setTitle(DeviceUtility.isSimulator ? String(localized: "Use Physical Device") : String(localized: "Download Divine Essence"), for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = UIColor.systemPurple
         downloadButton.setTitleColor(.white, for: .normal)
@@ -420,7 +420,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 
                 await MainActor.run {
                     
-                    self.titleLabel.text = "The Eternal"
+                    self.titleLabel.text = String(localized: "The Eternal")
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
                 }
@@ -471,7 +471,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
-                    self.responseTextView.text = "The Eternal's wisdom cannot be reached at this time. Please try again later."
+                    self.responseTextView.text = String(localized: "The Eternal's wisdom cannot be reached at this time. Please try again later.")
                     AppLogger.mlx.error("Failed to receive The Eternal's wisdom: \(error)")
                 }
             }
@@ -487,7 +487,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         
         downloadButton.isHidden = true
         downloadLoadingView.startAnimating()
-        downloadLoadingView.updateProgress(0, withText: "Opening the cosmic gateway...")
+        downloadLoadingView.updateProgress(0, withText: String(localized: "Opening the cosmic gateway..."))
         
         Task {
             do {
@@ -499,17 +499,17 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                         let statusText: String
                         
                         if progressPercent < 10 {
-                            statusText = "Gathering cosmic essence..."
+                            statusText = String(localized: "Gathering cosmic essence...")
                         } else if progressPercent < 30 {
-                            statusText = "Channeling eternal wisdom..."
+                            statusText = String(localized: "Channeling eternal wisdom...")
                         } else if progressPercent < 50 {
-                            statusText = "Transcending mortal boundaries..."
+                            statusText = String(localized: "Transcending mortal boundaries...")
                         } else if progressPercent < 70 {
-                            statusText = "Binding universal consciousness..."
+                            statusText = String(localized: "Binding universal consciousness...")
                         } else if progressPercent < 90 {
-                            statusText = "Manifesting The Eternal..."
+                            statusText = String(localized: "Manifesting The Eternal...")
                         } else {
-                            statusText = "Completing divine connection..."
+                            statusText = String(localized: "Completing divine connection...")
                         }
                         
                         self.downloadLoadingView.updateProgress(progress.progress, withText: statusText)
@@ -531,11 +531,11 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                     self.downloadButton.isHidden = false
                     
                     let alert = UIAlertController(
-                        title: "Connection Failed",
-                        message: "Unable to establish divine connection. Please try again.",
+                        title: String(localized: "Connection Failed"),
+                        message: String(localized: "Unable to establish divine connection. Please try again."),
                         preferredStyle: .alert
                     )
-                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
                     self.present(alert, animated: true)
                 }
             }
@@ -560,7 +560,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         saveEternalWisdom()
         
         
-        saveButton.setTitle("Wisdom Saved", for: .normal)
+        saveButton.setTitle(String(localized: "Wisdom Saved"), for: .normal)
         saveButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         saveButton.isEnabled = false
         

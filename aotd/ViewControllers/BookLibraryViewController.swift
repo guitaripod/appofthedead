@@ -15,11 +15,11 @@ final class BookLibraryViewController: UIViewController {
         var title: String {
             switch self {
             case .available:
-                return "Available Books"
+                return String(localized: "Available Books")
             case .reading:
-                return "Currently Reading"
+                return String(localized: "Currently Reading")
             case .completed:
-                return "Completed"
+                return String(localized: "Completed")
             }
         }
     }
@@ -63,7 +63,7 @@ final class BookLibraryViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         
         let label = UILabel()
-        label.text = "No books available yet"
+        label.text = String(localized: "No books available yet")
         label.font = PapyrusDesignSystem.Typography.body()
         label.textColor = PapyrusDesignSystem.Colors.secondaryText
         label.textAlignment = .center
@@ -95,8 +95,8 @@ final class BookLibraryViewController: UIViewController {
     init(viewModel: BookLibraryViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        title = "Library"
-        tabBarItem = UITabBarItem(title: "Library", image: UIImage(systemName: "books.vertical"), tag: 3)
+        title = String(localized: "Library")
+        tabBarItem = UITabBarItem(title: String(localized: "Library"), image: UIImage(systemName: "books.vertical"), tag: 3)
     }
     
     required init?(coder: NSCoder) {
@@ -516,16 +516,16 @@ private class BookCollectionViewCell: UICollectionViewCell {
             
             if progress.isCompleted {
                 statusLabel.isHidden = false
-                statusLabel.text = "Completed"
+                statusLabel.text = String(localized: "Completed")
                 statusLabel.textColor = PapyrusDesignSystem.Colors.goldLeaf
             } else {
                 statusLabel.isHidden = false
-                statusLabel.text = "\(Int(progress.readingProgress * 100))% Complete"
+                statusLabel.text = String(localized: "\(Int(progress.readingProgress * 100))% Complete")
             }
         } else if !isUnlocked {
             progressView.isHidden = true
             statusLabel.isHidden = false
-            statusLabel.text = "Locked"
+            statusLabel.text = String(localized: "Locked")
         } else {
             progressView.isHidden = true
             statusLabel.isHidden = true

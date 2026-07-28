@@ -73,10 +73,10 @@ final class StreakFlameCard: UIView {
         countLabel.text = "\(streakDays)"
 
         if streakDays > 0 {
-            captionLabel.text = "Day Streak"
+            captionLabel.text = String(localized: "Day Streak")
             layer.borderColor = UIColor.Papyrus.tombRed.cgColor
         } else {
-            captionLabel.text = "Active since \(memberSince)"
+            captionLabel.text = String(localized: "Active since \(memberSince)")
             layer.borderColor = UIColor.Papyrus.aged.cgColor
         }
 
@@ -87,8 +87,8 @@ final class StreakFlameCard: UIView {
             multiplierBadge.isHidden = true
         }
 
-        let multiplierSpoken = multiplier > 1.0 ? ", XP multiplier \(String(format: "%g", multiplier)) times" : ""
-        accessibilityLabel = "\(streakDays) day streak\(multiplierSpoken)"
+        let multiplierSpoken = multiplier > 1.0 ? String(localized: ", XP multiplier \(String(format: "%g", multiplier)) times") : ""
+        accessibilityLabel = String(localized: "\(streakDays) day streak\(multiplierSpoken)")
     }
 
     func pulse() {

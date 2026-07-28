@@ -17,9 +17,9 @@ final class SettingsViewController: UIViewController {
         case about
         var title: String {
             switch self {
-            case .learning: return "Learning"
-            case .experience: return "Experience"
-            case .about: return "About"
+            case .learning: return String(localized: "Learning")
+            case .experience: return String(localized: "Experience")
+            case .about: return String(localized: "About")
             }
         }
     }
@@ -27,7 +27,7 @@ final class SettingsViewController: UIViewController {
         case dailyReminder
         var title: String {
             switch self {
-            case .dailyReminder: return "Daily Reminder"
+            case .dailyReminder: return String(localized: "Daily Reminder")
             }
         }
     }
@@ -35,7 +35,7 @@ final class SettingsViewController: UIViewController {
         case streamingHaptics
         var title: String {
             switch self {
-            case .streamingHaptics: return "AI Streaming Haptics"
+            case .streamingHaptics: return String(localized: "AI Streaming Haptics")
             }
         }
     }
@@ -46,10 +46,10 @@ final class SettingsViewController: UIViewController {
         case moreApps
         var title: String {
             switch self {
-            case .version: return "Version"
-            case .privacyPolicy: return "Privacy Policy"
-            case .termsOfService: return "Terms of Service"
-            case .moreApps: return "More Apps"
+            case .version: return String(localized: "Version")
+            case .privacyPolicy: return String(localized: "Privacy Policy")
+            case .termsOfService: return String(localized: "Terms of Service")
+            case .moreApps: return String(localized: "More Apps")
             }
         }
     }
@@ -62,7 +62,7 @@ final class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        title = "Settings"
+        title = String(localized: "Settings")
     }
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
@@ -82,7 +82,7 @@ final class SettingsViewController: UIViewController {
     private func showComingSoon(feature: String) {
         PapyrusAlert.showSimpleAlert(
             title: feature,
-            message: "This feature is coming soon!",
+            message: String(localized: "This feature is coming soon!"),
             from: self
         )
     }

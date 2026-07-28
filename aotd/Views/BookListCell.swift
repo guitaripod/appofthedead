@@ -238,16 +238,16 @@ final class BookListCell: UICollectionViewCell {
             let hours = book.estimatedReadingTime / 60
             let minutes = book.estimatedReadingTime % 60
             if hours > 0 {
-                subtitleLabel.text = "\(hours)h \(minutes)m estimated reading time"
+                subtitleLabel.text = String(localized: "\(hours)h \(minutes)m estimated reading time")
             } else {
-                subtitleLabel.text = "\(minutes)m estimated reading time"
+                subtitleLabel.text = String(localized: "\(minutes)m estimated reading time")
             }
         } else {
             containerView.backgroundColor = PapyrusDesignSystem.Colors.aged.withAlphaComponent(0.2)
             containerView.layer.shadowOpacity = 0.04
             titleLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
             subtitleLabel.textColor = PapyrusDesignSystem.Colors.tertiaryText
-            subtitleLabel.text = "Locked"
+            subtitleLabel.text = String(localized: "Locked")
             chevronImageView.tintColor = PapyrusDesignSystem.Colors.aged
             coverImageView.alpha = 0.3
             lockIconImageView.isHidden = false
@@ -268,7 +268,7 @@ final class BookListCell: UICollectionViewCell {
             
             if progress.isCompleted {
                 statusLabel.isHidden = false
-                statusLabel.text = "Completed"
+                statusLabel.text = String(localized: "Completed")
                 statusLabel.textColor = PapyrusDesignSystem.Colors.goldLeaf
             } else {
                 statusLabel.isHidden = false

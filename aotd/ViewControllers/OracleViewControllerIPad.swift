@@ -84,12 +84,12 @@ final class PromptSuggestionsPanel: UIView {
     private let titleLabel = UILabel()
     private let stackView = UIStackView()
     private let suggestions = [
-        "What happens after death?",
-        "Tell me about the afterlife journey",
-        "What is the meaning of life?",
-        "How do I prepare for death?",
-        "What are the different realms?",
-        "Tell me about reincarnation"
+        String(localized: "What happens after death?"),
+        String(localized: "Tell me about the afterlife journey"),
+        String(localized: "What is the meaning of life?"),
+        String(localized: "How do I prepare for death?"),
+        String(localized: "What are the different realms?"),
+        String(localized: "Tell me about reincarnation")
     ]
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -108,7 +108,7 @@ final class PromptSuggestionsPanel: UIView {
         layer.shadowOpacity = shadow.opacity
         layer.shadowOffset = shadow.offset
         layer.shadowRadius = shadow.radius
-        titleLabel.text = "Suggested Questions"
+        titleLabel.text = String(localized: "Suggested Questions")
         titleLabel.font = PapyrusDesignSystem.Typography.headline(for: traitCollection)
         titleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -244,12 +244,12 @@ final class OracleMessageCellIPad: UITableViewCell {
     }
     func configure(with message: OracleViewModel.ChatMessage) {
         if message.isUser {
-            nameLabel.text = "You"
+            nameLabel.text = String(localized: "You")
             avatarImageView.image = UIImage(systemName: "person.circle.fill")
             avatarImageView.tintColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
             messageContainerView.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.background
         } else {
-            nameLabel.text = "Oracle"
+            nameLabel.text = String(localized: "Oracle")
             avatarImageView.image = UIImage(systemName: "sparkles")
             avatarImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
             messageContainerView.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground

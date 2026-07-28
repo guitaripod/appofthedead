@@ -38,7 +38,7 @@ final class HomeViewController: UIViewController {
             navigationController?.setNavigationBarHidden(true, animated: animated)
         } else {
             navigationController?.setNavigationBarHidden(false, animated: animated)
-            title = "Learn"
+            title = String(localized: "Learn")
         }
         updateLayoutForCurrentDevice()
         viewModel.loadData()
@@ -288,7 +288,7 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     private func createContextMenuActions(for item: PathItem, beliefSystem: BeliefSystem, progress: Progress?) -> UIMenu? {
         var actions: [UIMenuElement] = []
-        let primaryTitle = (progress?.earnedXP ?? 0) > 0 ? "Continue Learning" : "Start Path"
+        let primaryTitle = (progress?.earnedXP ?? 0) > 0 ? String(localized: "Continue Learning") : String(localized: "Start Path")
         let primaryAction = UIAction(
             title: primaryTitle,
             image: UIImage(systemName: "play.fill"),
@@ -306,7 +306,7 @@ extension HomeViewController: UICollectionViewDelegate {
                 ])
                 if mistakeCount > 0 {
                     let mistakeAction = UIAction(
-                        title: "Review Mistakes (\(mistakeCount))",
+                        title: String(localized: "Review Mistakes (\(mistakeCount))"),
                         image: UIImage(systemName: "exclamationmark.circle.fill"),
                         attributes: []
                     ) { [weak self] _ in
@@ -320,7 +320,7 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         if let progress = progress, progress.earnedXP > 0 {
             let resetAction = UIAction(
-                title: "Reset Progress",
+                title: String(localized: "Reset Progress"),
                 image: UIImage(systemName: "arrow.counterclockwise"),
                 attributes: .destructive
             ) { [weak self] _ in
@@ -329,7 +329,7 @@ extension HomeViewController: UICollectionViewDelegate {
             actions.append(resetAction)
         }
         let shareAction = UIAction(
-            title: "Share Path",
+            title: String(localized: "Share Path"),
             image: UIImage(systemName: "square.and.arrow.up"),
             attributes: []
         ) { [weak self] _ in
@@ -340,18 +340,18 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     private func showResetProgressConfirmation(for item: PathItem, beliefSystem: BeliefSystem) {
         PapyrusAlert(
-            title: "Reset Progress?",
-            message: "This will reset all your progress for \(beliefSystem.name). You'll lose your XP and completed lessons.",
+            title: String(localized: "Reset Progress?"),
+            message: String(localized: "This will reset all your progress for \(beliefSystem.name). You'll lose your XP and completed lessons."),
             style: .alert
         )
-        .addAction(PapyrusAlert.Action(title: "Cancel", style: .cancel))
-        .addAction(PapyrusAlert.Action(title: "Reset", style: .destructive) { [weak self] in
+        .addAction(PapyrusAlert.Action(title: String(localized: "Cancel"), style: .cancel))
+        .addAction(PapyrusAlert.Action(title: String(localized: "Reset"), style: .destructive) { [weak self] in
             self?.viewModel.resetProgress(for: item.id)
         })
         .present(from: self)
     }
     private func sharePath(_ beliefSystem: BeliefSystem) {
-        let shareText = "I'm learning about \(beliefSystem.name) in App of the Dead!"
+        let shareText = String(localized: "I'm learning about \(beliefSystem.name) in App of the Dead!")
         let activityVC = UIActivityViewController(
             activityItems: [shareText],
             applicationActivities: nil
@@ -372,17 +372,17 @@ extension HomeViewController {
         }
 
         PapyrusAlert(
-            title: "Preview \(beliefSystem.name)",
-            message: "Try the first lesson free. Unlock the full path whenever you're ready.",
+            title: String(localized: "Preview \(beliefSystem.name)"),
+            message: String(localized: "Try the first lesson free. Unlock the full path whenever you're ready."),
             style: .alert
         )
-        .addAction(PapyrusAlert.Action(title: "Start Free Lesson", style: .default) { [weak self] in
+        .addAction(PapyrusAlert.Action(title: String(localized: "Start Free Lesson"), style: .default) { [weak self] in
             self?.startFirstLessonPreview(for: beliefSystem)
         })
-        .addAction(PapyrusAlert.Action(title: "See Unlock Options", style: .default) { [weak self] in
+        .addAction(PapyrusAlert.Action(title: String(localized: "See Unlock Options"), style: .default) { [weak self] in
             self?.presentLockedPathPaywall(for: item.id)
         })
-        .addAction(PapyrusAlert.Action(title: "Not Now", style: .cancel))
+        .addAction(PapyrusAlert.Action(title: String(localized: "Not Now"), style: .cancel))
         .present(from: self)
     }
 
@@ -438,8 +438,8 @@ extension HomeViewController {
             let mistakes = try DatabaseManager.shared.getMistakes(userId: user.id, beliefSystemId: item.id)
             guard !mistakes.isEmpty else {
                 PapyrusAlert.showSimpleAlert(
-                    title: "No Mistakes",
-                    message: "Great job! You haven't made any mistakes in this path.",
+                    title: String(localized: "No Mistakes"),
+                    message: String(localized: "Great job! You haven't made any mistakes in this path."),
                     from: self
                 )
                 return
@@ -462,8 +462,8 @@ extension HomeViewController {
         } catch {
             AppLogger.logError(error, context: "Starting mistake review", logger: AppLogger.learning)
             PapyrusAlert.showSimpleAlert(
-                title: "Error",
-                message: "Unable to start mistake review. Please try again.",
+                title: String(localized: "Error"),
+                message: String(localized: "Unable to start mistake review. Please try again."),
                 from: self
             )
         }
@@ -491,8 +491,8 @@ extension HomeViewController: MistakeReviewViewControllerDelegate {
         }
         let accuracy = Int((Double(correctCount) / Double(totalCount)) * 100)
         PapyrusAlert.showSimpleAlert(
-            title: "Review Complete!",
-            message: "You got \(correctCount) out of \(totalCount) correct (\(accuracy)%). Earned \(xpEarned) XP!",
+            title: String(localized: "Review Complete!"),
+            message: String(localized: "You got \(correctCount) out of \(totalCount) correct (\(accuracy)%). Earned \(xpEarned) XP!"),
             from: self
         )
     }

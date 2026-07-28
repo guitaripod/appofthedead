@@ -8,7 +8,7 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "App of the Dead"
+        label.text = String(localized: "App of the Dead")
         
         if let papyrusFont = UIFont(name: "Papyrus", size: 34) {
             label.font = papyrusFont
@@ -25,7 +25,7 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Explore afterlife beliefs across cultures"
+        label.text = String(localized: "Explore afterlife beliefs across cultures")
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.textColor = UIColor.Papyrus.secondaryText
         return label
@@ -93,7 +93,7 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var xpDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "XP"
+        label.text = String(localized: "XP")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = UIColor.Papyrus.secondaryText
         return label
@@ -134,7 +134,7 @@ final class HomeHeaderView: UICollectionReusableView {
     
     private lazy var streakDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Day Streak"
+        label.text = String(localized: "Day Streak")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = UIColor.Papyrus.secondaryText
         return label

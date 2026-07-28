@@ -114,8 +114,8 @@ final class OracleViewModel: ObservableObject {
                 let estimatedTotalSize: Int64 = activeModel.approximateDownloadBytes
 
                 await MainActor.run {
-                    self.downloadStatus = "Preparing divine connection..."
-                    self.downloadStage = "Downloading \(activeModel.displayName) model"
+                    self.downloadStatus = String(localized: "Preparing divine connection...")
+                    self.downloadStage = String(localized: "Downloading \(activeModel.displayName) model")
                     self.downloadProgress = 0.0
                 }
                 
@@ -143,14 +143,14 @@ final class OracleViewModel: ObservableObject {
                 
                 await MainActor.run {
                     self.downloadProgress = 1.0
-                    self.downloadStatus = "Download complete! Awakening the oracle..."
+                    self.downloadStatus = String(localized: "Download complete! Awakening the oracle...")
                     self.downloadStage = ""
                 }
             }
             
             
             await MainActor.run {
-                self.downloadStatus = "Oracle awakening..."
+                self.downloadStatus = String(localized: "Oracle awakening...")
             }
             
             try await modelManager.loadModel()
@@ -241,7 +241,7 @@ final class OracleViewModel: ObservableObject {
                 }
             } catch {
                 await MainActor.run {
-                    modelError = "Failed to auto-load model: \(error.localizedDescription)"
+                    modelError = String(localized: "Failed to auto-load model: \(error.localizedDescription)")
                     isModelLoading = false
                     downloadStatus = ""
                 }
@@ -447,7 +447,7 @@ final class OracleViewModel: ObservableObject {
 
         updateGeneratedMessage(
             id: generationID,
-            text: "I apologize, but I'm having trouble connecting to the divine realm. Please try again.",
+            text: String(localized: "I apologize, but I'm having trouble connecting to the divine realm. Please try again."),
             deity: deity,
             timestamp: Date()
         )
@@ -607,17 +607,17 @@ final class OracleViewModel: ObservableObject {
         
         let progressPercent = Int(smoothedProgressValue * 100)
         if progressPercent < 10 {
-            downloadStatus = "Gathering sacred texts..."
+            downloadStatus = String(localized: "Gathering sacred texts...")
         } else if progressPercent < 30 {
-            downloadStatus = "Channeling divine wisdom..."
+            downloadStatus = String(localized: "Channeling divine wisdom...")
         } else if progressPercent < 50 {
-            downloadStatus = "Deciphering ancient knowledge..."
+            downloadStatus = String(localized: "Deciphering ancient knowledge...")
         } else if progressPercent < 70 {
-            downloadStatus = "Binding ethereal essence..."
+            downloadStatus = String(localized: "Binding ethereal essence...")
         } else if progressPercent < 90 {
-            downloadStatus = "Preparing the Oracle..."
+            downloadStatus = String(localized: "Preparing the Oracle...")
         } else {
-            downloadStatus = "Finalizing divine connection..."
+            downloadStatus = String(localized: "Finalizing divine connection...")
         }
         
         
@@ -628,7 +628,7 @@ final class OracleViewModel: ObservableObject {
             progressAnimator?.invalidate()
             progressAnimator = nil
             downloadProgress = 1.0
-            downloadStatus = "Download complete! Awakening the oracle..."
+            downloadStatus = String(localized: "Download complete! Awakening the oracle...")
             downloadStage = ""
         }
     }

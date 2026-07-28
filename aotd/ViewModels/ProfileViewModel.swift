@@ -19,7 +19,7 @@ final class ProfileViewModel {
     private(set) var totalBeliefSystems: Int = 0
 
     private static let displayNameKey = "profileDisplayName"
-    static let defaultDisplayName = "Anonymous Seeker"
+    static let defaultDisplayName = String(localized: "Anonymous Seeker")
 
     init(databaseManager: DatabaseManager = DatabaseManager.shared) {
         self.databaseManager = databaseManager
@@ -47,14 +47,14 @@ final class ProfileViewModel {
 
     var rankTitle: String {
         switch user?.currentLevel ?? 1 {
-        case ..<2: return "First Step"
-        case 2...3: return "Seeker"
-        case 4...6: return "Wisdom Seeker"
-        case 7...9: return "Eternal Student"
-        case 10...14: return "Cosmic Explorer"
-        case 15...24: return "Enlightened One"
-        case 25...39: return "Afterlife Master"
-        default: return "Approaching The Eternal"
+        case ..<2: return String(localized: "First Step")
+        case 2...3: return String(localized: "Seeker")
+        case 4...6: return String(localized: "Wisdom Seeker")
+        case 7...9: return String(localized: "Eternal Student")
+        case 10...14: return String(localized: "Cosmic Explorer")
+        case 15...24: return String(localized: "Enlightened One")
+        case 25...39: return String(localized: "Afterlife Master")
+        default: return String(localized: "Approaching The Eternal")
         }
     }
 

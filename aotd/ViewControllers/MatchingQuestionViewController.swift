@@ -33,7 +33,7 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
     }
 
     private func setupMatchingUI() {
-        instructionLabel.text = "Tap an item, then tap its match"
+        instructionLabel.text = String(localized: "Tap an item, then tap its match")
         instructionLabel.font = .systemFont(ofSize: 14, weight: .medium)
         instructionLabel.textColor = UIColor.Papyrus.secondaryText
         contentStackView.addArrangedSubview(instructionLabel)
@@ -106,7 +106,7 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         button.layer.borderColor = UIColor.clear.cgColor
         button.layer.cornerRadius = 12
 
-        button.accessibilityHint = "Tap to select, then tap an item in the other column to form a pair"
+        button.accessibilityHint = String(localized: "Tap to select, then tap an item in the other column to form a pair")
         button.addTarget(self, action: action, for: .touchUpInside)
         return button
     }
@@ -162,7 +162,7 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         for (index, button) in leftButtons.enumerated() {
             if let rightIndex = matchedRightByLeft[index] {
                 style(button, selected: selectedLeftIndex == index, pairColor: pairColor(forLeftIndex: index))
-                button.accessibilityValue = "Matched with \(matchingViewModel.rightItems[rightIndex])"
+                button.accessibilityValue = String(localized: "Matched with \(matchingViewModel.rightItems[rightIndex])")
             } else {
                 style(button, selected: selectedLeftIndex == index, pairColor: nil)
                 button.accessibilityValue = nil
@@ -171,7 +171,7 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         for (index, button) in rightButtons.enumerated() {
             if let pairedLeft = matchedRightByLeft.first(where: { $0.value == index })?.key {
                 style(button, selected: selectedRightIndex == index, pairColor: pairColor(forLeftIndex: pairedLeft))
-                button.accessibilityValue = "Matched with \(matchingViewModel.leftItems[pairedLeft])"
+                button.accessibilityValue = String(localized: "Matched with \(matchingViewModel.leftItems[pairedLeft])")
             } else {
                 style(button, selected: selectedRightIndex == index, pairColor: nil)
                 button.accessibilityValue = nil

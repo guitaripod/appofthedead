@@ -131,7 +131,7 @@ final class BookReaderViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "speaker.wave.2"), for: .normal)
         button.tintColor = PapyrusDesignSystem.Colors.ancientInk
-        button.accessibilityLabel = "Listen to chapter"
+        button.accessibilityLabel = String(localized: "Listen to chapter")
         button.addTarget(self, action: #selector(speechTapped), for: .touchUpInside)
         return button
     }()
@@ -612,16 +612,16 @@ final class BookReaderViewController: UIViewController {
         
         let timeRemaining = calculateTimeRemaining()
         if timeRemaining > 0 {
-            readingTimeLabel.text = "~\(formatReadingTime(timeRemaining)) left"
+            readingTimeLabel.text = String(localized: "~\(formatReadingTime(timeRemaining)) left")
         } else {
             
             if viewModel.readingProgress > 0.95 {
-                readingTimeLabel.text = "Almost done!"
+                readingTimeLabel.text = String(localized: "Almost done!")
             } else if viewModel.totalReadingTime < 60 {
                 
-                readingTimeLabel.text = "Reading \(formatReadingTime(viewModel.totalReadingTime))"
+                readingTimeLabel.text = String(localized: "Reading \(formatReadingTime(viewModel.totalReadingTime))")
             } else {
-                readingTimeLabel.text = "Calculating..."
+                readingTimeLabel.text = String(localized: "Calculating...")
             }
         }
     }
@@ -830,7 +830,7 @@ extension BookReaderViewController: UITextViewDelegate {
         
         if currentChapter != viewModel.currentChapterIndex && currentChapter < viewModel.book.chapters.count {
             viewModel.updateCurrentChapter(currentChapter)
-            chapterLabel.text = "Chapter \(currentChapter + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)"
+            chapterLabel.text = String(localized: "Chapter \(currentChapter + 1) of \(viewModel.book.chapters.count): \(viewModel.currentChapterTitle)")
             updateChapterInfo()
             
             
@@ -1113,7 +1113,7 @@ extension BookReaderViewController {
     
     private func shareText(_ text: String) {
         let activityVC = UIActivityViewController(
-            activityItems: [text, "From \"\(viewModel.book.title)\" in App of the Dead"],
+            activityItems: [text, String(localized: "From \"\(viewModel.book.title)\" in App of the Dead")],
             applicationActivities: nil
         )
         
@@ -1126,15 +1126,15 @@ extension BookReaderViewController {
     }
     
     private func showNoteEditor(for text: String, range: NSRange) {
-        let alert = UIAlertController(title: "Add Note", message: "Add a note for this highlighted text", preferredStyle: .alert)
+        let alert = UIAlertController(title: String(localized: "Add Note"), message: String(localized: "Add a note for this highlighted text"), preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.placeholder = "Enter your note..."
+            textField.placeholder = String(localized: "Enter your note...")
             textField.autocapitalizationType = .sentences
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: String(localized: "Cancel"), style: .cancel))
+        alert.addAction(UIAlertAction(title: String(localized: "Save"), style: .default) { [weak self] _ in
             if let note = alert.textFields?.first?.text, !note.isEmpty {
                 self?.saveHighlight(text: text, range: range, color: PapyrusDesignSystem.Colors.goldLeaf, note: note)
             }

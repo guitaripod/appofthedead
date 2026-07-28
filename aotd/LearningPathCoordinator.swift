@@ -344,12 +344,12 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     
     private func showMasterTestSuccessAlert(score: Int) {
         let alert = UIAlertController(
-            title: "Congratulations!",
-            message: "You've mastered \(beliefSystem.name) with a score of \(score)%!",
+            title: String(localized: "Congratulations!"),
+            message: String(localized: "You've mastered \(beliefSystem.name) with a score of \(score)%!"),
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Continue", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: String(localized: "Continue"), style: .default) { [weak self] _ in
             self?.exitLearningPath()
         })
         
@@ -358,17 +358,17 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     
     private func showMasterTestFailureAlert(score: Int, requiredScore: Int) {
         let alert = UIAlertController(
-            title: "Almost There!",
-            message: "You scored \(score)%, but need \(requiredScore)% to pass the master test.",
+            title: String(localized: "Almost There!"),
+            message: String(localized: "You scored \(score)%, but need \(requiredScore)% to pass the master test."),
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Try Again", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
             guard let self = self else { return }
             self.startMasterTest(for: self.beliefSystem)
         })
         
-        alert.addAction(UIAlertAction(title: "Review Path", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: String(localized: "Review Path"), style: .default) { [weak self] _ in
             self?.exitLearningPath()
         })
         

@@ -172,7 +172,7 @@ class PathPreviewViewController: UIViewController {
         
         let lessonsView = createStatView(
             value: "\(beliefSystem.lessons.count)",
-            label: "Lessons",
+            label: String(localized: "Lessons"),
             icon: UIImage(systemName: "book.fill")
         )
         
@@ -180,7 +180,7 @@ class PathPreviewViewController: UIViewController {
         let totalXP = beliefSystem.totalXP
         let xpView = createStatView(
             value: "\(totalXP)",
-            label: "Total XP",
+            label: String(localized: "Total XP"),
             icon: UIImage(systemName: "star.fill")
         )
         
@@ -189,7 +189,7 @@ class PathPreviewViewController: UIViewController {
         let progressPercentage = beliefSystem.totalXP > 0 ? Float(currentXP) / Float(beliefSystem.totalXP) * 100 : 0
         let progressView = createStatView(
             value: "\(Int(progressPercentage))%",
-            label: "Progress",
+            label: String(localized: "Progress"),
             icon: UIImage(systemName: "chart.pie.fill")
         )
         
@@ -251,7 +251,7 @@ class PathPreviewViewController: UIViewController {
     
     private func setupTopicsView() {
         let titleLabel = UILabel()
-        titleLabel.text = "Key Topics"
+        titleLabel.text = String(localized: "Key Topics")
         titleLabel.font = PapyrusDesignSystem.Typography.headline()
         titleLabel.textColor = UIColor { traitCollection in
             traitCollection.userInterfaceStyle == .dark ? .white : PapyrusDesignSystem.Colors.primaryText

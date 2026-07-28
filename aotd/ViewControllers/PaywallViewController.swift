@@ -158,13 +158,13 @@ class PaywallViewController: UIViewController {
         legalStackView.spacing = PapyrusDesignSystem.Spacing.medium
         legalStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        let restore = makeFooterLink(title: "Restore Purchases") { [weak self] in
+        let restore = makeFooterLink(title: String(localized: "Restore Purchases")) { [weak self] in
             self?.handleRestorePurchases()
         }
-        let terms = makeFooterLink(title: "Terms of Use") { [weak self] in
+        let terms = makeFooterLink(title: String(localized: "Terms of Use")) { [weak self] in
             self?.openLegalLink(LegalLinks.termsOfService)
         }
-        let privacy = makeFooterLink(title: "Privacy Policy") { [weak self] in
+        let privacy = makeFooterLink(title: String(localized: "Privacy Policy")) { [weak self] in
             self?.openLegalLink(LegalLinks.privacyPolicy)
         }
 
@@ -320,7 +320,7 @@ class PaywallViewController: UIViewController {
         checkAttachment.image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: checkConfig)?
             .withTintColor(PapyrusDesignSystem.Colors.Core.scarabGreen, renderingMode: .alwaysOriginal)
         let noPaymentText = NSMutableAttributedString(attachment: checkAttachment)
-        noPaymentText.append(NSAttributedString(string: " No payment due now"))
+        noPaymentText.append(NSAttributedString(string: " " + String(localized: "No payment due now")))
         noPaymentLabel.attributedText = noPaymentText
         noPaymentLabel.isHidden = true
         contentStackView.addArrangedSubview(noPaymentLabel)
@@ -374,14 +374,14 @@ class PaywallViewController: UIViewController {
 
     private func showPlansUnavailableState() {
         let label = UILabel()
-        label.text = "Plans couldn't be loaded. Check your connection and try again."
+        label.text = String(localized: "Plans couldn't be loaded. Check your connection and try again.")
         label.font = PapyrusDesignSystem.Typography.subheadline()
         label.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         label.textAlignment = .center
         label.numberOfLines = 0
 
         var config = UIButton.Configuration.plain()
-        config.attributedTitle = AttributedString("Retry", attributes: AttributeContainer([
+        config.attributedTitle = AttributedString(String(localized: "Retry"), attributes: AttributeContainer([
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
             .foregroundColor: PapyrusDesignSystem.Colors.goldLeaf
         ]))
@@ -479,7 +479,7 @@ class PaywallViewController: UIViewController {
             purchaseLoadingView?.removeFromSuperview()
             view.isUserInteractionEnabled = true
             notificationFeedback.notificationOccurred(.error)
-            showAlert(title: "Purchase Failed", message: error.localizedDescription)
+            showAlert(title: String(localized: "Purchase Failed"), message: error.localizedDescription)
         }
     }
 
@@ -491,21 +491,21 @@ class PaywallViewController: UIViewController {
                 case .success(true):
                     self.notificationFeedback.notificationOccurred(.success)
                     let alert = UIAlertController(
-                        title: "Purchases Restored",
-                        message: "Welcome back. Everything you own is unlocked again.",
+                        title: String(localized: "Purchases Restored"),
+                        message: String(localized: "Welcome back. Everything you own is unlocked again."),
                         preferredStyle: .alert
                     )
-                    alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                    alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default) { _ in
                         self.dismiss(animated: true)
                     })
                     self.present(alert, animated: true)
                 case .success(false):
                     self.showAlert(
-                        title: "Nothing to Restore",
-                        message: "No previous purchases were found for this Apple Account."
+                        title: String(localized: "Nothing to Restore"),
+                        message: String(localized: "No previous purchases were found for this Apple Account.")
                     )
                 case .failure(let error):
-                    self.showAlert(title: "Error", message: error.localizedDescription)
+                    self.showAlert(title: String(localized: "Error"), message: error.localizedDescription)
                 }
             }
         }
@@ -553,7 +553,7 @@ class PaywallViewController: UIViewController {
         checkmark.translatesAutoresizingMaskIntoConstraints = false
 
         let label = UILabel()
-        label.text = "Welcome to the Journey"
+        label.text = String(localized: "Welcome to the Journey")
         label.font = PapyrusDesignSystem.Typography.title2()
         label.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         label.textAlignment = .center
@@ -583,7 +583,7 @@ class PaywallViewController: UIViewController {
 
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
         present(alert, animated: true)
     }
 }

@@ -75,7 +75,7 @@ class PathCompletionOptionsViewController: UIViewController {
         replayButton.configuration?.baseBackgroundColor = UIColor.Papyrus.cardBackground
         replayButton.addTarget(self, action: #selector(replayTapped), for: .touchUpInside)
         
-        masterTestButton.configuration?.title = "Take Master Test"
+        masterTestButton.configuration?.title = String(localized: "Take Master Test")
         masterTestButton.configuration?.image = UIImage(systemName: "crown.fill")
         masterTestButton.configuration?.imagePadding = 8
         masterTestButton.configuration?.baseForegroundColor = .white
@@ -139,14 +139,14 @@ class PathCompletionOptionsViewController: UIViewController {
         let completionPercentage = min(100, Int((Double(currentXP) / Double(totalXP)) * 100))
         let hasPerfectScore = currentXP >= totalXP
         
-        titleLabel.text = "\(beliefSystem.name) Path Complete!"
+        titleLabel.text = String(localized: "\(beliefSystem.name) Path Complete!")
         
         
         if hasPerfectScore {
-            progressLabel.text = "Perfect Score! \(currentXP) XP earned"
+            progressLabel.text = String(localized: "Perfect Score! \(currentXP) XP earned")
         } else {
             let missedXP = totalXP - currentXP
-            progressLabel.text = "\(completionPercentage)% complete • \(missedXP) XP available to earn"
+            progressLabel.text = String(localized: "\(completionPercentage)% complete • \(missedXP) XP available to earn")
         }
         
         progressView.progress = Float(currentXP) / Float(totalXP)
@@ -155,9 +155,9 @@ class PathCompletionOptionsViewController: UIViewController {
         
         
         if hasPerfectScore {
-            replayButton.configuration?.title = "Practice Again"
+            replayButton.configuration?.title = String(localized: "Practice Again")
         } else {
-            replayButton.configuration?.title = "Review & Improve Score"
+            replayButton.configuration?.title = String(localized: "Review & Improve Score")
         }
         
         optionsStackView.addArrangedSubview(replayButton)
@@ -166,14 +166,14 @@ class PathCompletionOptionsViewController: UIViewController {
         if canTakeMasterTest {
             optionsStackView.addArrangedSubview(masterTestButton)
             if progress.status == .mastered {
-                masterTestButton.configuration?.title = "Retake Master Test"
-                masterTestInfoLabel.text = "You've mastered this path!"
+                masterTestButton.configuration?.title = String(localized: "Retake Master Test")
+                masterTestInfoLabel.text = String(localized: "You've mastered this path!")
             } else {
-                masterTestInfoLabel.text = "Master Test unlocked! Score 80% or higher to earn the crown badge."
+                masterTestInfoLabel.text = String(localized: "Master Test unlocked! Score 80% or higher to earn the crown badge.")
             }
         } else {
             let xpNeeded = Int(ceil(Double(totalXP) * 0.8)) - currentXP
-            masterTestInfoLabel.text = "Earn \(xpNeeded) more XP to unlock the Master Test (\(80 - completionPercentage)% to go)"
+            masterTestInfoLabel.text = String(localized: "Earn \(xpNeeded) more XP to unlock the Master Test (\(80 - completionPercentage)% to go)")
         }
     }
     

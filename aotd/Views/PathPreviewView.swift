@@ -120,12 +120,12 @@ class PathPreviewView: UIView {
         starIcon.translatesAutoresizingMaskIntoConstraints = false
         
         let ultimateLabel = UILabel()
-        ultimateLabel.text = "Unlock Everything"
+        ultimateLabel.text = String(localized: "Unlock Everything")
         ultimateLabel.font = PapyrusDesignSystem.Typography.subheadline()
         ultimateLabel.textColor = .label
         
         let ultimateSubtitle = UILabel()
-        ultimateSubtitle.text = "All 21 paths • Unlimited Oracle"
+        ultimateSubtitle.text = String(localized: "All 21 paths • Unlimited Oracle")
         ultimateSubtitle.font = PapyrusDesignSystem.Typography.caption1()
         ultimateSubtitle.textColor = .secondaryLabel
         
@@ -151,8 +151,8 @@ class PathPreviewView: UIView {
         
         
         ultimateContainer.isAccessibilityElement = true
-        ultimateContainer.accessibilityLabel = "Unlock Everything: All 21 paths and unlimited Oracle access"
-        ultimateContainer.accessibilityHint = "Purchase the ultimate enlightenment package"
+        ultimateContainer.accessibilityLabel = String(localized: "Unlock Everything: All 21 paths and unlimited Oracle access")
+        ultimateContainer.accessibilityHint = String(localized: "Purchase the ultimate enlightenment package")
         ultimateContainer.accessibilityTraits = .button
         
         
@@ -244,12 +244,12 @@ class PathPreviewView: UIView {
         self.productId = ProductIdentifier.allCases.first { $0.beliefSystemId == beliefSystem.id }
         
         
-        titleLabel.text = "\(beliefSystem.name) Journey"
+        titleLabel.text = String(localized: "\(beliefSystem.name) Journey")
         
         
         titleLabel.accessibilityTraits = .header
-        containerView.accessibilityLabel = "\(beliefSystem.name) learning path preview"
-        containerView.accessibilityHint = "Shows the journey through \(beliefSystem.name) beliefs"
+        containerView.accessibilityLabel = String(localized: "\(beliefSystem.name) learning path preview")
+        containerView.accessibilityHint = String(localized: "Shows the journey through \(beliefSystem.name) beliefs")
         
         
         milestonesStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -265,19 +265,19 @@ class PathPreviewView: UIView {
         }
         
         
-        let achievementText = preview.unlockCount == 1 ? "achievement" : "achievements"
-        statsLabel.text = "\(preview.totalLessons) lessons • \(preview.unlockCount) \(achievementText)"
-        statsLabel.accessibilityLabel = "\(preview.totalLessons) lessons and \(preview.unlockCount) \(achievementText) to unlock"
+        let achievementText = preview.unlockCount == 1 ? String(localized: "achievement") : String(localized: "achievements")
+        statsLabel.text = String(localized: "\(preview.totalLessons) lessons • \(preview.unlockCount) \(achievementText)")
+        statsLabel.accessibilityLabel = String(localized: "\(preview.totalLessons) lessons and \(preview.unlockCount) \(achievementText) to unlock")
         
         
         topicsLabel.text = preview.keyTopics.joined(separator: " • ")
-        topicsLabel.accessibilityLabel = "Key topics include: \(preview.keyTopics.joined(separator: ", "))"
+        topicsLabel.accessibilityLabel = String(localized: "Key topics include: \(preview.keyTopics.joined(separator: ", "))")
         
         
-        unlockButton.setTitle("Unlock This Path", for: .normal)
+        unlockButton.setTitle(String(localized: "Unlock This Path"), for: .normal)
         unlockButton.backgroundColor = pathColor
-        unlockButton.accessibilityLabel = "Unlock \(beliefSystem.name) path"
-        unlockButton.accessibilityHint = "Purchase for \(price)"
+        unlockButton.accessibilityLabel = String(localized: "Unlock \(beliefSystem.name) path")
+        unlockButton.accessibilityHint = String(localized: "Purchase for \(price)")
         
         
         priceLabel.text = price
@@ -333,7 +333,7 @@ class PathPreviewView: UIView {
         
         
         container.isAccessibilityElement = true
-        container.accessibilityLabel = "Milestone \(index + 1) of \(total): \(stop.title)"
+        container.accessibilityLabel = String(localized: "Milestone \(index + 1) of \(total): \(stop.title)")
         container.accessibilityTraits = .none
         
         let labelWidth: CGFloat = isSmallScreen ? 70 : 80

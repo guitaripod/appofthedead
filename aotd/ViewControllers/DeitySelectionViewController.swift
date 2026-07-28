@@ -135,7 +135,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         headerView.addGestureRecognizer(headerPanGesture)
         
         
-        titleLabel.text = "Choose Your Divine Guide"
+        titleLabel.text = String(localized: "Choose Your Divine Guide")
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .center

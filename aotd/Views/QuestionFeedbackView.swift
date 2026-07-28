@@ -37,7 +37,7 @@ final class QuestionFeedbackView: UIView {
         iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 48, weight: .bold)
         
         resultLabel.translatesAutoresizingMaskIntoConstraints = false
-        resultLabel.text = isCorrect ? "Correct!" : "Not quite right"
+        resultLabel.text = isCorrect ? String(localized: "Correct!") : String(localized: "Not quite right")
         resultLabel.font = .systemFont(ofSize: 24, weight: .bold)
         resultLabel.textColor = UIColor.Papyrus.beige
         resultLabel.textAlignment = .center
@@ -57,7 +57,7 @@ final class QuestionFeedbackView: UIView {
         
         if isCorrect && xpReward > 0 {
             xpLabel.translatesAutoresizingMaskIntoConstraints = false
-            xpLabel.text = "+\(xpReward) XP"
+            xpLabel.text = String(localized: "+\(xpReward) XP")
             xpLabel.font = .systemFont(ofSize: 20, weight: .bold)
             xpLabel.textColor = UIColor.Papyrus.gold
             xpLabel.layer.shadowColor = UIColor.black.cgColor

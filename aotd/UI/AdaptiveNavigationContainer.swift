@@ -66,27 +66,27 @@ final class AdaptiveNavigationContainer: UIViewController {
     private func setupTabBarController() {
         let tabBar = UITabBarController()
         homeNavigationController.tabBarItem = UITabBarItem(
-            title: "Learn",
+            title: String(localized: "Learn"),
             image: UIImage(systemName: "book.fill"),
             selectedImage: UIImage(systemName: "book.fill")
         )
         profileNavigationController.tabBarItem = UITabBarItem(
-            title: "Profile",
+            title: String(localized: "Profile"),
             image: UIImage(systemName: "person.circle.fill"),
             selectedImage: UIImage(systemName: "person.circle.fill")
         )
         oracleNavigationController.tabBarItem = UITabBarItem(
-            title: "Oracle",
+            title: String(localized: "Oracle"),
             image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"),
             selectedImage: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill")
         )
         libraryNavigationController.tabBarItem = UITabBarItem(
-            title: "Library",
+            title: String(localized: "Library"),
             image: UIImage(systemName: "books.vertical"),
             selectedImage: UIImage(systemName: "books.vertical")
         )
         settingsNavigationController.tabBarItem = UITabBarItem(
-            title: "Settings",
+            title: String(localized: "Settings"),
             image: UIImage(systemName: "gearshape.fill"),
             selectedImage: UIImage(systemName: "gearshape.fill")
         )
@@ -273,7 +273,7 @@ final class SidebarViewController: UIViewController {
         logoImageView.image = UIImage(systemName: "pyramid.fill", withConfiguration: config)
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "App of the Dead"
+        titleLabel.text = String(localized: "App of the Dead")
         titleLabel.font = PapyrusDesignSystem.Typography.title2(for: traitCollection)
         titleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         titleLabel.textAlignment = .center
@@ -322,11 +322,11 @@ final class SidebarViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         let items = [
-            Item(title: "Learn", image: UIImage(systemName: "book.fill"), index: 0),
-            Item(title: "Profile", image: UIImage(systemName: "person.circle.fill"), index: 1),
-            Item(title: "Oracle", image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"), index: 2),
-            Item(title: "Library", image: UIImage(systemName: "books.vertical"), index: 3),
-            Item(title: "Settings", image: UIImage(systemName: "gearshape.fill"), index: 4)
+            Item(title: String(localized: "Learn"), image: UIImage(systemName: "book.fill"), index: 0),
+            Item(title: String(localized: "Profile"), image: UIImage(systemName: "person.circle.fill"), index: 1),
+            Item(title: String(localized: "Oracle"), image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"), index: 2),
+            Item(title: String(localized: "Library"), image: UIImage(systemName: "books.vertical"), index: 3),
+            Item(title: String(localized: "Settings"), image: UIImage(systemName: "gearshape.fill"), index: 4)
         ]
         snapshot.appendItems(items)
         dataSource?.apply(snapshot, animatingDifferences: false)

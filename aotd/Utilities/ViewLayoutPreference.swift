@@ -9,15 +9,15 @@ enum ViewLayoutPreference: String, CaseIterable {
     var title: String {
         switch self {
         case .grid:
-            return "Grid View"
+            return String(localized: "Grid View")
         case .list:
-            return "List View"
+            return String(localized: "List View")
         case .compactGrid:
-            return "Compact Grid"
+            return String(localized: "Compact Grid")
         case .wideGrid:
-            return "Wide Grid"
+            return String(localized: "Wide Grid")
         case .sidebarList:
-            return "Sidebar View"
+            return String(localized: "Sidebar View")
         }
     }
     var iconName: String {
