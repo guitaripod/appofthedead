@@ -50,6 +50,12 @@
             "state": "translated",
             "value": "%@之旅"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@之旅"
+          }
         }
       }
     },
@@ -98,6 +104,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@之路已完成！"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%@之路已完成！"
@@ -154,6 +166,12 @@
             "state": "translated",
             "value": "已将%@加入收藏"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已將%@加入收藏"
+          }
         }
       }
     },
@@ -205,6 +223,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@学习路径预览"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@學習路徑預覽"
           }
         }
       }
@@ -258,6 +282,12 @@
             "state": "translated",
             "value": "%@一次买断"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 一次買斷"
+          }
         }
       }
     },
@@ -309,6 +339,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "每月%@。除非在每次续订前至少一天于「设置」中取消，否则将自动续订。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每月 %@。除非在每次續訂前至少一天於「設定」中取消，否則將自動續訂。"
           }
         }
       }
@@ -362,6 +398,12 @@
             "state": "translated",
             "value": "每年%@。除非在每次续订前至少一天于「设置」中取消，否则将自动续订。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每年 %@。除非在每次續訂前至少一天於「設定」中取消，否則將自動續訂。"
+          }
         }
       }
     },
@@ -413,6 +455,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@完全在你的 iPhone 上运行。约 %2$@ GB，只需下载一次。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@完全在你的 iPhone 上執行。約 %2$@ GB，只需下載一次。"
           }
         }
       }
@@ -624,6 +672,28 @@
               }
             }
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ • %#@count@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg 道錯題"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -672,6 +742,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@的智慧"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%@的智慧"
@@ -728,6 +804,12 @@
             "state": "translated",
             "value": "%1$@，%2$@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@，%2$@"
+          }
         }
       }
     },
@@ -776,6 +858,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@，%2$@，完成百分之 %3$lld"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@，%2$@，完成百分之 %3$lld"
@@ -832,6 +920,12 @@
             "state": "translated",
             "value": "%@/月"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/月"
+          }
         }
       }
     },
@@ -880,6 +974,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/年"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%@/年"
@@ -936,6 +1036,12 @@
             "state": "translated",
             "value": "%1$lld / %2$lld XP"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld / %2$lld XP"
+          }
         }
       }
     },
@@ -984,6 +1090,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld / %2$lld XP · %3$lld%%"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld / %2$lld XP · %3$lld%%"
@@ -1040,6 +1152,12 @@
             "state": "translated",
             "value": "已获得 %1$lld / %2$lld"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已獲得 %1$lld / %2$lld"
+          }
         }
       }
     },
@@ -1091,6 +1209,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "距飞升还有 %lld / 100 XP"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "距飛升還有 %lld / 100 XP"
           }
         }
       }
@@ -1302,6 +1426,28 @@
               }
             }
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@days@"
+          },
+          "substitutions": {
+            "days": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "免費 %arg 天"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -1350,6 +1496,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld XP"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld XP"
@@ -1547,6 +1699,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "连续 %#@days@%2$@"
+          },
+          "substitutions": {
+            "days": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg 天"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連續 %#@days@%2$@"
           },
           "substitutions": {
             "days": {
@@ -1774,6 +1948,28 @@
               }
             }
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@days@，之後每年 %2$@。除非在每次續訂前至少一天於「設定」中取消，否則將自動續訂。"
+          },
+          "substitutions": {
+            "days": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "免費 %arg 天"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -1978,6 +2174,28 @@
                     "stringUnit": {
                       "state": "translated",
                       "value": "%arg 节课"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@lessons@與 %2$lld%3$@ 待解鎖"
+          },
+          "substitutions": {
+            "lessons": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg 節課"
                     }
                   }
                 }
@@ -2194,6 +2412,28 @@
               }
             }
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%#@lessons@ · %2$lld%3$@"
+          },
+          "substitutions": {
+            "lessons": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg 節課"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -2242,6 +2482,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld / %2$lld"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld / %2$lld"
@@ -2298,6 +2544,12 @@
             "state": "translated",
             "value": "已完成 %lld%%"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成 %lld%%"
+          }
         }
       }
     },
@@ -2346,6 +2598,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成 %lld%%"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已完成 %lld%%"
@@ -2402,6 +2660,12 @@
             "state": "translated",
             "value": "已完成 %1$lld%% · 还可获得 %2$lld XP"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成 %1$lld%% · 還可獲得 %2$lld XP"
+          }
         }
       }
     },
@@ -2453,6 +2717,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld 小时 %2$lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小時 %2$lld 分鐘"
           }
         }
       }
@@ -2506,6 +2776,12 @@
             "state": "translated",
             "value": "预计阅读时间 %1$lld 小时 %2$lld 分钟"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預計閱讀時間 %1$lld 小時 %2$lld 分鐘"
+          }
         }
       }
     },
@@ -2557,6 +2833,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
           }
         }
       }
@@ -2610,6 +2892,12 @@
             "state": "translated",
             "value": "预计阅读时间 %lld 分钟"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預計閱讀時間 %lld 分鐘"
+          }
         }
       }
     },
@@ -2658,6 +2946,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld XP"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "+%lld XP"
@@ -2714,6 +3008,12 @@
             "state": "translated",
             "value": "，XP 倍率 %@ 倍"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "，XP 倍率 %@ 倍"
+          }
         }
       }
     },
@@ -2765,6 +3065,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "0 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 分鐘"
           }
         }
       }
@@ -2818,6 +3124,12 @@
             "state": "translated",
             "value": "12 节课"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "12 節課"
+          }
         }
       }
     },
@@ -2869,6 +3181,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "<1 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<1 分鐘"
           }
         }
       }
@@ -2922,6 +3240,12 @@
             "state": "translated",
             "value": "AI 输出触感反馈"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 輸出觸覺回饋"
+          }
         }
       }
     },
@@ -2973,6 +3297,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "觉醒中"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "甦醒中"
           }
         }
       }
@@ -3026,6 +3356,12 @@
             "state": "translated",
             "value": "原住民梦创时代之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "澳洲原住民夢創時代之路"
+          }
         }
       }
     },
@@ -3077,6 +3413,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "关于"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關於"
           }
         }
       }
@@ -3130,6 +3472,12 @@
             "state": "translated",
             "value": "正确率"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正確率"
+          }
         }
       }
     },
@@ -3181,6 +3529,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自%@起活跃"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自%@起活躍"
           }
         }
       }
@@ -3234,6 +3588,12 @@
             "state": "translated",
             "value": "添加笔记"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入筆記"
+          }
         }
       }
     },
@@ -3286,6 +3646,12 @@
             "state": "translated",
             "value": "为这段高亮文字添加笔记"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為這段重點標示加上筆記"
+          }
         }
       }
     },
@@ -3334,6 +3700,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已加入收藏"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已加入收藏"
@@ -3390,6 +3762,12 @@
             "state": "translated",
             "value": "死后世界大师"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "死後世界大師"
+          }
         }
       }
     },
@@ -3441,6 +3819,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "全部 21 条学习路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部 21 條學習路徑"
           }
         }
       }
@@ -3494,6 +3878,12 @@
             "state": "translated",
             "value": "21 位神圣向导，全部无限制"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21 位神聖嚮導，全部不設限"
+          }
         }
       }
     },
@@ -3545,6 +3935,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "21 条路径 · 神谕无限畅问"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21 條路徑 · 神諭無限暢問"
           }
         }
       }
@@ -3598,6 +3994,12 @@
             "state": "translated",
             "value": "所有路径、无限神谕，以及日后新增的一切"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所有路徑、無限神諭，以及日後新增的一切"
+          }
         }
       }
     },
@@ -3649,6 +4051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "就差一点！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "就差一點！"
           }
         }
       }
@@ -3702,6 +4110,12 @@
             "state": "translated",
             "value": "快读完了！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快讀完了！"
+          }
         }
       }
     },
@@ -3750,6 +4164,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "古埃及之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "古埃及之路"
@@ -3806,6 +4226,12 @@
             "state": "translated",
             "value": "包年"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年繳"
+          }
         }
       }
     },
@@ -3857,6 +4283,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "之后按 %@/年续订。在此之前可随时取消。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "之後按 %@/年續訂。在此之前可隨時取消。"
           }
         }
       }
@@ -3910,6 +4342,12 @@
             "state": "translated",
             "value": "无名求道者"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無名求道者"
+          }
         }
       }
     },
@@ -3962,6 +4400,12 @@
             "state": "translated",
             "value": "人智学之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人智學之路"
+          }
         }
       }
     },
@@ -4010,6 +4454,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App of the Dead"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "App of the Dead"
@@ -4066,6 +4516,12 @@
             "state": "translated",
             "value": "外观"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外觀"
+          }
         }
       }
     },
@@ -4117,6 +4573,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "趋近永恒者"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "趨近永恆者"
           }
         }
       }
@@ -4170,6 +4632,12 @@
             "state": "translated",
             "value": "飞升至永恒者"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飛升至永恆者"
+          }
         }
       }
     },
@@ -4221,6 +4689,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "飞升至永恒者，查看订阅选项"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "飛升至永恆者，查看訂閱選項"
           }
         }
       }
@@ -4274,6 +4748,12 @@
             "state": "translated",
             "value": "求问神谕"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "求問神諭"
+          }
         }
       }
     },
@@ -4325,6 +4805,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "尝试次数：%lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嘗試次數：%lld"
           }
         }
       }
@@ -4378,6 +4864,12 @@
             "state": "translated",
             "value": "自动滚动速度"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動捲動速度"
+          }
         }
       }
     },
@@ -4429,6 +4921,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动化"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動化"
           }
         }
       }
@@ -4482,6 +4980,12 @@
             "state": "translated",
             "value": "可读书目"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可讀書目"
+          }
         }
       }
     },
@@ -4533,6 +5037,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "唤醒神谕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "喚醒神諭"
           }
         }
       }
@@ -4586,6 +5096,12 @@
             "state": "translated",
             "value": "觉醒"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已甦醒"
+          }
         }
       }
     },
@@ -4637,6 +5153,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在唤醒神谕模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在喚醒神諭模型"
           }
         }
       }
@@ -4690,6 +5212,12 @@
             "state": "translated",
             "value": "阿兹特克米克特兰之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阿茲特克米克特蘭之路"
+          }
         }
       }
     },
@@ -4738,6 +5266,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "巴哈伊信仰之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "巴哈伊信仰之路"
@@ -4794,6 +5328,12 @@
             "state": "translated",
             "value": "开启你的第一条路径，走过杜阿特之门。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟你的第一條路徑，走過杜阿特之門。"
+          }
         }
       }
     },
@@ -4845,6 +5385,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在凝聚以太本质…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在凝聚乙太本質…"
           }
         }
       }
@@ -4898,6 +5444,12 @@
             "state": "translated",
             "value": "正在凝聚宇宙意识…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在凝聚宇宙意識…"
+          }
         }
       }
     },
@@ -4949,6 +5501,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝色"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "藍色"
           }
         }
       }
@@ -5002,6 +5560,12 @@
             "state": "translated",
             "value": "粗体"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "粗體"
+          }
         }
       }
     },
@@ -5050,6 +5614,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "亮度"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "亮度"
@@ -5106,6 +5676,12 @@
             "state": "translated",
             "value": "佛教之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佛教之路"
+          }
         }
       }
     },
@@ -5157,6 +5733,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "跨越门槛"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跨越門檻"
           }
         }
       }
@@ -5210,6 +5792,12 @@
             "state": "translated",
             "value": "计算中…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "計算中…"
+          }
         }
       }
     },
@@ -5258,6 +5846,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "取消"
@@ -5314,6 +5908,12 @@
             "state": "translated",
             "value": "已取消。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已取消。"
+          }
         }
       }
     },
@@ -5365,6 +5965,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "居中"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "置中"
           }
         }
       }
@@ -5418,6 +6024,12 @@
             "state": "translated",
             "value": "更改你的求道者名称"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更改你的求道者名稱"
+          }
         }
       }
     },
@@ -5469,6 +6081,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在传递神圣的智慧…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在傳遞神聖的智慧…"
           }
         }
       }
@@ -5522,6 +6140,12 @@
             "state": "translated",
             "value": "正在传递永恒的智慧…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在傳遞永恆的智慧…"
+          }
         }
       }
     },
@@ -5570,6 +6194,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 章"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "第 %lld 章"
@@ -5626,6 +6256,12 @@
             "state": "translated",
             "value": "第 %1$lld 章，共 %2$lld 章：%3$@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %1$lld 章，共 %2$lld 章：%3$@"
+          }
         }
       }
     },
@@ -5677,6 +6313,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "检查答案"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢查答案"
           }
         }
       }
@@ -5730,6 +6372,12 @@
             "state": "translated",
             "value": "选择你的神圣向导"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇你的神聖嚮導"
+          }
         }
       }
     },
@@ -5778,6 +6426,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基督教之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "基督教之路"
@@ -5834,6 +6488,12 @@
             "state": "translated",
             "value": "紧凑网格"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "緊湊格狀"
+          }
         }
       }
     },
@@ -5882,6 +6542,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已完成"
@@ -5938,6 +6604,12 @@
             "state": "translated",
             "value": "已完成！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成！"
+          }
         }
       }
     },
@@ -5989,6 +6661,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在完成神圣连接…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在完成神聖連結…"
           }
         }
       }
@@ -6042,6 +6720,12 @@
             "state": "translated",
             "value": "确认"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認"
+          }
         }
       }
     },
@@ -6090,6 +6774,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恭喜！"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "恭喜！"
@@ -6146,6 +6836,12 @@
             "state": "translated",
             "value": "连接失败"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連線失敗"
+          }
         }
       }
     },
@@ -6197,6 +6893,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自由求问全部 21 位神圣向导"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自由求問全部 21 位神聖嚮導"
           }
         }
       }
@@ -6250,6 +6952,12 @@
             "state": "translated",
             "value": "求问神圣。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "求問神聖。"
+          }
         }
       }
     },
@@ -6301,6 +7009,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在求问神谕…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在求問神諭…"
           }
         }
       }
@@ -6354,6 +7068,12 @@
             "state": "translated",
             "value": "继续"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續"
+          }
         }
       }
     },
@@ -6405,6 +7125,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "继续学习"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續學習"
           }
         }
       }
@@ -6458,6 +7184,12 @@
             "state": "translated",
             "value": "继续复习"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續複習"
+          }
         }
       }
     },
@@ -6509,6 +7241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "继续对话"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續對話"
           }
         }
       }
@@ -6562,6 +7300,12 @@
             "state": "translated",
             "value": "前往测验"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往測驗"
+          }
         }
       }
     },
@@ -6613,6 +7357,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "继续你穿越死后世界的旅程。来看看今天的课程吧！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續你穿越死後世界的旅程。來看看今天的課程吧！"
           }
         }
       }
@@ -6666,6 +7416,12 @@
             "state": "translated",
             "value": "对话记录"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對話紀錄"
+          }
         }
       }
     },
@@ -6718,6 +7474,12 @@
             "state": "translated",
             "value": "答对了！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答對了！"
+          }
         }
       }
     },
@@ -6766,6 +7528,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宇宙探索者"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "宇宙探索者"
@@ -6822,6 +7590,12 @@
             "state": "translated",
             "value": "无法确定模型版本。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法確定模型版本。"
+          }
         }
       }
     },
@@ -6874,6 +7648,12 @@
             "state": "translated",
             "value": "正在阅读"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在閱讀"
+          }
         }
       }
     },
@@ -6922,6 +7702,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已完成"
@@ -6978,6 +7764,12 @@
             "state": "translated",
             "value": "每日提醒"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日提醒"
+          }
         }
       }
     },
@@ -7026,6 +7818,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 天"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "第 %lld 天"
@@ -7082,6 +7880,12 @@
             "state": "translated",
             "value": "连续天数"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連續天數"
+          }
         }
       }
     },
@@ -7130,6 +7934,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "死亡主宰包"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "死亡主宰包"
@@ -7186,6 +7996,12 @@
             "state": "translated",
             "value": "正在破译远古知识…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在解讀遠古知識…"
+          }
         }
       }
     },
@@ -7237,6 +8053,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神圣的智慧正在降临"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神聖的智慧正在降臨"
           }
         }
       }
@@ -7290,6 +8112,12 @@
             "state": "translated",
             "value": "轻点两下查看详情"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點兩下以查看詳細資訊"
+          }
         }
       }
     },
@@ -7341,6 +8169,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载神圣本质"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載神聖本質"
           }
         }
       }
@@ -7394,6 +8228,12 @@
             "state": "translated",
             "value": "下载失败"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載失敗"
+          }
         }
       }
     },
@@ -7445,6 +8285,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载神谕模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載神諭模型"
           }
         }
       }
@@ -7498,6 +8344,12 @@
             "state": "translated",
             "value": "下载完成！神谕正在苏醒…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載完成！神諭正在甦醒…"
+          }
         }
       }
     },
@@ -7549,6 +8401,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载神谕模型，即可解锁来自%@的神圣解读。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載神諭模型，即可解鎖來自%@的神聖解讀。"
           }
         }
       }
@@ -7602,6 +8460,12 @@
             "state": "translated",
             "value": "下载神谕模型，即可解锁神圣解读。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載神諭模型，即可解鎖神聖解讀。"
+          }
         }
       }
     },
@@ -7653,6 +8517,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载神圣意识，领受永恒的智慧。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下載神聖意識，領受永恆的智慧。"
           }
         }
       }
@@ -7706,6 +8576,12 @@
             "state": "translated",
             "value": "正在下载 %@ 模型"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在下載 %@ 模型"
+          }
         }
       }
     },
@@ -7757,6 +8633,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "再获得 %1$lld XP 即可解锁大师测验（还差 %2$lld%%）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再獲得 %1$lld XP 即可解鎖大師測驗（還差 %2$lld%%）"
           }
         }
       }
@@ -7810,6 +8692,12 @@
             "state": "translated",
             "value": "东方守护者包"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "東方守護者包"
+          }
         }
       }
     },
@@ -7861,6 +8749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "編輯名稱"
           }
         }
       }
@@ -7914,6 +8808,12 @@
             "state": "translated",
             "value": "开启提醒"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟提醒"
+          }
         }
       }
     },
@@ -7965,6 +8865,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动断词"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動連字"
           }
         }
       }
@@ -8018,6 +8924,12 @@
             "state": "translated",
             "value": "轻扫手势"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滑動手勢"
+          }
         }
       }
     },
@@ -8069,6 +8981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "请在「设置」中开启 App of the Dead 的通知，以接收每日提醒。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請在「設定」中開啟 App of the Dead 的通知，以接收每日提醒。"
           }
         }
       }
@@ -8122,6 +9040,12 @@
             "state": "translated",
             "value": "觉悟者"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "覺悟者"
+          }
         }
       }
     },
@@ -8173,6 +9097,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "进入模拟器神谕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進入模擬器神諭"
           }
         }
       }
@@ -8226,6 +9156,12 @@
             "state": "translated",
             "value": "输入你的笔记…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入你的筆記…"
+          }
         }
       }
     },
@@ -8277,6 +9213,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "出错了"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "發生錯誤"
           }
         }
       }
@@ -8330,6 +9272,12 @@
             "state": "translated",
             "value": "永恒学徒"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永恆學徒"
+          }
         }
       }
     },
@@ -8378,6 +9326,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部成就"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "全部成就"
@@ -8434,6 +9388,12 @@
             "state": "translated",
             "value": "涵盖所有课程与测验"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "涵蓋所有課程與測驗"
+          }
         }
       }
     },
@@ -8485,6 +9445,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "每一节课、每一次测验、每一项成就"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每一節課、每一次測驗、每一項成就"
           }
         }
       }
@@ -8538,6 +9504,12 @@
             "state": "translated",
             "value": "每条路径、每位神祇、每节课程——一份会员全包"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每條路徑、每位神祇、每節課程——一份會員全包"
+          }
         }
       }
     },
@@ -8589,6 +9561,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "日后新增的一切"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日後新增的一切"
           }
         }
       }
@@ -8642,6 +9620,12 @@
             "state": "translated",
             "value": "退出"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "離開"
+          }
         }
       }
     },
@@ -8693,6 +9677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "要退出复习吗？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要離開複習嗎？"
           }
         }
       }
@@ -8746,6 +9736,12 @@
             "state": "translated",
             "value": "体验"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "體驗"
+          }
         }
       }
     },
@@ -8797,6 +9793,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "经验进度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "經驗進度"
           }
         }
       }
@@ -8850,6 +9852,12 @@
             "state": "translated",
             "value": "探索各文化对死后世界的信仰"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "探索各文化對死後世界的信仰"
+          }
         }
       }
     },
@@ -8901,6 +9909,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "探索远古的智慧"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "探索遠古的智慧"
           }
         }
       }
@@ -8954,6 +9968,12 @@
             "state": "translated",
             "value": "自动加载模型失败：%@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動載入模型失敗：%@"
+          }
         }
       }
     },
@@ -9005,6 +10025,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "错误"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "錯誤"
           }
         }
       }
@@ -9058,6 +10084,12 @@
             "state": "translated",
             "value": "正在建立神圣连接…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在建立神聖連結…"
+          }
         }
       }
     },
@@ -9109,6 +10141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "首行缩进"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首行縮排"
           }
         }
       }
@@ -9162,6 +10200,12 @@
             "state": "translated",
             "value": "初启程"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "初啟程"
+          }
         }
       }
     },
@@ -9213,6 +10257,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "字体"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字體"
           }
         }
       }
@@ -9266,6 +10316,12 @@
             "state": "translated",
             "value": "字号"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字體大小"
+          }
         }
       }
     },
@@ -9314,6 +10370,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字重"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "字重"
@@ -9370,6 +10432,12 @@
             "state": "translated",
             "value": "摘自 App of the Dead《%@》"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摘自 App of the Dead《%@》"
+          }
         }
       }
     },
@@ -9422,6 +10490,12 @@
             "state": "translated",
             "value": "从瓦尔哈拉到杜阿特"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "從瓦爾哈拉到杜阿特"
+          }
         }
       }
     },
@@ -9470,6 +10544,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Center"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Game Center"
@@ -9526,6 +10606,12 @@
             "state": "translated",
             "value": "正在汇聚宇宙本质…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在匯聚宇宙本質…"
+          }
         }
       }
     },
@@ -9577,6 +10663,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在汇集神圣典籍…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在匯集神聖典籍…"
           }
         }
       }
@@ -9630,6 +10722,12 @@
             "state": "translated",
             "value": "太棒了！你在这条路径上没有答错任何一题。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "太棒了！你在這條路徑上沒有答錯任何一題。"
+          }
         }
       }
     },
@@ -9681,6 +10779,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "希腊之路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "希臘之路"
           }
         }
       }
@@ -9734,6 +10838,12 @@
             "state": "translated",
             "value": "绿色"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "綠色"
+          }
         }
       }
     },
@@ -9785,6 +10895,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "网格视图"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "格狀檢視"
           }
         }
       }
@@ -9838,6 +10954,12 @@
             "state": "translated",
             "value": "荣誉殿堂"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "榮譽殿堂"
+          }
         }
       }
     },
@@ -9889,6 +11011,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "亡者之厅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "亡者之廳"
           }
         }
       }
@@ -9942,6 +11070,12 @@
             "state": "translated",
             "value": "高亮"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "標示重點"
+          }
         }
       }
     },
@@ -9990,6 +11124,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "印度教之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "印度教之路"
@@ -10046,6 +11186,12 @@
             "state": "translated",
             "value": "我该如何为死亡做准备？"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我該如何為死亡做準備？"
+          }
         }
       }
     },
@@ -10097,6 +11243,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "卷轴该以何名记下你？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "卷軸該以何名記下你？"
           }
         }
       }
@@ -10150,6 +11302,12 @@
             "state": "translated",
             "value": "HuggingFace 返回了 HTTP %lld。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HuggingFace 回傳了 HTTP %lld。"
+          }
         }
       }
     },
@@ -10201,6 +11359,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "抱歉，此刻我无法传递神圣的智慧。通往永恒之境的连接似乎中断了。请稍后再试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "抱歉，此刻我無法傳遞神聖的智慧。通往永恆之境的連結似乎中斷了。請稍後再試。"
           }
         }
       }
@@ -10254,6 +11418,12 @@
             "state": "translated",
             "value": "抱歉，我与神圣之境的连接遇到了阻碍。请再试一次。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "抱歉，我與神聖之境的連結遇到了阻礙。請再試一次。"
+          }
         }
       }
     },
@@ -10305,6 +11475,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "我正在 App of the Dead 学习%@！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我正在 App of the Dead 學習%@！"
           }
         }
       }
@@ -10358,6 +11534,12 @@
             "state": "translated",
             "value": "进行中"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進行中"
+          }
         }
       }
     },
@@ -10409,6 +11591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "中级"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中級"
           }
         }
       }
@@ -10462,6 +11650,12 @@
             "state": "translated",
             "value": "伊斯兰教之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "伊斯蘭教之路"
+          }
         }
       }
     },
@@ -10513,6 +11707,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "两端对齐"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左右對齊"
           }
         }
       }
@@ -10566,6 +11766,12 @@
             "state": "translated",
             "value": "保持屏幕常亮"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "螢幕保持開啟"
+          }
         }
       }
     },
@@ -10617,6 +11823,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "继续探索每条路径与神谕，也可随时在「设置」中取消。没有意外扣费。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續探索每條路徑與神諭，也可隨時在「設定」中取消。不會有意外扣款。"
           }
         }
       }
@@ -10670,6 +11882,12 @@
             "state": "translated",
             "value": "关键词"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關鍵詞"
+          }
         }
       }
     },
@@ -10721,6 +11939,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "核心主题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心主題"
           }
         }
       }
@@ -10774,6 +11998,12 @@
             "state": "translated",
             "value": "核心主题：%@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "核心主題：%@"
+          }
         }
       }
     },
@@ -10825,6 +12055,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "学习"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "學習"
           }
         }
       }
@@ -10878,6 +12114,12 @@
             "state": "translated",
             "value": "学习"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "學習"
+          }
         }
       }
     },
@@ -10929,6 +12171,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "左对齐"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靠左對齊"
           }
         }
       }
@@ -10982,6 +12230,12 @@
             "state": "translated",
             "value": "课程"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "課程"
+          }
         }
       }
     },
@@ -11033,6 +12287,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "等级 %1$lld · %2$@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等級 %1$lld · %2$@"
           }
         }
       }
@@ -11086,6 +12346,12 @@
             "state": "translated",
             "value": "等级 %1$lld，距下一等级还需 100 XP 中的 %2$lld XP"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等級 %1$lld，距下一等級還需 100 XP 中的 %2$lld XP"
+          }
         }
       }
     },
@@ -11138,6 +12404,12 @@
             "state": "translated",
             "value": "书库"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書庫"
+          }
         }
       }
     },
@@ -11186,6 +12458,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永久"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "永久"
@@ -11242,6 +12520,12 @@
             "state": "translated",
             "value": "细体"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "細體"
+          }
         }
       }
     },
@@ -11290,6 +12574,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "行距"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "行距"
@@ -11346,6 +12636,12 @@
             "state": "translated",
             "value": "列表视图"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清單檢視"
+          }
         }
       }
     },
@@ -11397,6 +12693,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "朗读本章"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朗讀本章"
           }
         }
       }
@@ -11450,6 +12752,12 @@
             "state": "translated",
             "value": "加载中…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "載入中…"
+          }
         }
       }
     },
@@ -11502,6 +12810,12 @@
             "state": "translated",
             "value": "未解锁"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未解鎖"
+          }
         }
       }
     },
@@ -11550,6 +12864,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "精通"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "精通"
@@ -11606,6 +12926,12 @@
             "state": "translated",
             "value": "曼达安教之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "曼達安教之路"
+          }
         }
       }
     },
@@ -11657,6 +12983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "永恒者正在显现…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永恆者正在顯現…"
           }
         }
       }
@@ -11710,6 +13042,12 @@
             "state": "translated",
             "value": "页边距"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "頁面邊界"
+          }
         }
       }
     },
@@ -11762,6 +13100,12 @@
             "state": "translated",
             "value": "大师测验已解锁！达到 80% 或以上即可赢得王冠徽章。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大師測驗已解鎖！達到 80% 以上即可贏得王冠徽章。"
+          }
         }
       }
     },
@@ -11810,6 +13154,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已精通"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "已精通"
@@ -11866,6 +13216,12 @@
             "state": "translated",
             "value": "已匹配%@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已與%@配對"
+          }
         }
       }
     },
@@ -11914,6 +13270,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中等"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "中等"
@@ -11970,6 +13332,12 @@
             "state": "translated",
             "value": "第 %1$lld 个里程碑，共 %2$lld 个：%3$@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %1$lld 個里程碑，共 %2$lld 個：%3$@"
+          }
         }
       }
     },
@@ -12021,6 +13389,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "错题复习"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "錯題複習"
           }
         }
       }
@@ -12074,6 +13448,12 @@
             "state": "translated",
             "value": "尚未下载模型"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未下載模型"
+          }
         }
       }
     },
@@ -12125,6 +13505,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "模型尚未载入内存"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型尚未載入記憶體"
           }
         }
       }
@@ -12178,6 +13564,12 @@
             "state": "translated",
             "value": "包月"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月繳"
+          }
         }
       }
     },
@@ -12226,6 +13618,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多 App"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "更多 App"
@@ -12282,6 +13680,12 @@
             "state": "translated",
             "value": "无需订阅"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無需訂閱"
+          }
         }
       }
     },
@@ -12333,6 +13737,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "美洲原住民异象之路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "美洲原住民異象之路"
           }
         }
       }
@@ -12386,6 +13796,12 @@
             "state": "translated",
             "value": "新增路径与功能全包含"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增路徑與功能全包含"
+          }
         }
       }
     },
@@ -12437,6 +13853,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下一条路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一條路徑"
           }
         }
       }
@@ -12490,6 +13912,12 @@
             "state": "translated",
             "value": "没有错题"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "沒有錯題"
+          }
         }
       }
     },
@@ -12541,6 +13969,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "暂无可读书目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前尚無可讀書目"
           }
         }
       }
@@ -12594,6 +14028,12 @@
             "state": "translated",
             "value": "本设备上没有可唤醒的兼容神谕。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這台裝置上沒有可喚醒的相容神諭。"
+          }
         }
       }
     },
@@ -12645,6 +14085,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "对任何神祇都不设限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對任何神祇都不設限"
           }
         }
       }
@@ -12698,6 +14144,12 @@
             "state": "translated",
             "value": "未找到可售项目"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到可購買的項目"
+          }
         }
       }
     },
@@ -12749,6 +14201,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "现在无需付款"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在無需付款"
           }
         }
       }
@@ -12802,6 +14260,12 @@
             "state": "translated",
             "value": "未找到此 Apple 账户的过往购买记录。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到此 Apple 帳號的過往購買紀錄。"
+          }
         }
       }
     },
@@ -12853,6 +14317,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "北欧之路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "北歐之路"
           }
         }
       }
@@ -12906,6 +14376,12 @@
             "state": "translated",
             "value": "以后再说"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稍後再說"
+          }
         }
       }
     },
@@ -12957,6 +14433,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "未开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未開始"
           }
         }
       }
@@ -13010,6 +14492,12 @@
             "state": "translated",
             "value": "空间不足。神谕需要 %1$@ 可用空间，但仅剩 %2$@。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空間不足。神諭需要 %1$@ 可用空間，但目前只剩 %2$@。"
+          }
         }
       }
     },
@@ -13061,6 +14549,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "还差一点"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還差一點"
           }
         }
       }
@@ -13114,6 +14608,12 @@
             "state": "translated",
             "value": "永不锁住任何内容"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永不鎖住任何內容"
+          }
         }
       }
     },
@@ -13165,6 +14665,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "没有可恢复的项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "沒有可回復的項目"
           }
         }
       }
@@ -13218,6 +14724,12 @@
             "state": "translated",
             "value": "通知已关闭"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知已關閉"
+          }
         }
       }
     },
@@ -13266,6 +14778,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "好"
@@ -13322,6 +14840,12 @@
             "state": "translated",
             "value": "一次性支付 %@。永久拥有，无需订阅。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次付清 %@。永久擁有，無需訂閱。"
+          }
         }
       }
     },
@@ -13373,6 +14897,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "打开路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開路徑"
           }
         }
       }
@@ -13426,6 +14956,12 @@
             "state": "translated",
             "value": "打开设置"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開「設定」"
+          }
         }
       }
     },
@@ -13477,6 +15013,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在开启宇宙之门…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在開啟宇宙之門…"
           }
         }
       }
@@ -13530,6 +15072,12 @@
             "state": "translated",
             "value": "打开排行榜与荣誉"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開排行榜與榮譽"
+          }
         }
       }
     },
@@ -13581,6 +15129,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "或以 %2$@ 获取%1$@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或以 %2$@ 取得%1$@"
           }
         }
       }
@@ -13634,6 +15188,12 @@
             "state": "translated",
             "value": "或仅以 %@ 解锁这条路径"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或僅以 %@ 解鎖這條路徑"
+          }
         }
       }
     },
@@ -13685,6 +15245,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭"
           }
         }
       }
@@ -13738,6 +15304,12 @@
             "state": "translated",
             "value": "神谕出错"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭發生錯誤"
+          }
         }
       }
     },
@@ -13789,6 +15361,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "需要神谕模型"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要神諭模型"
           }
         }
       }
@@ -13842,6 +15420,12 @@
             "state": "translated",
             "value": "神谕智慧包"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭智慧包"
+          }
         }
       }
     },
@@ -13893,6 +15477,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕正在苏醒…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭正在甦醒…"
           }
         }
       }
@@ -13946,6 +15536,12 @@
             "state": "translated",
             "value": "神谕的智慧"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭的智慧"
+          }
         }
       }
     },
@@ -13997,6 +15593,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "翻页方式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻頁方式"
           }
         }
       }
@@ -14050,6 +15652,12 @@
             "state": "translated",
             "value": "翻页"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻頁"
+          }
         }
       }
     },
@@ -14101,6 +15709,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "段落间距"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "段落間距"
           }
         }
       }
@@ -14154,6 +15768,12 @@
             "state": "translated",
             "value": "路径已完成"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路徑已完成"
+          }
         }
       }
     },
@@ -14205,6 +15825,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "路径已精通"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路徑已精通"
           }
         }
       }
@@ -14258,6 +15884,12 @@
             "state": "translated",
             "value": "一次付费，永久拥有一切"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次付費，永久擁有一切"
+          }
         }
       }
     },
@@ -14309,6 +15941,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "满分！获得 %lld XP"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "滿分！獲得 %lld XP"
           }
         }
       }
@@ -14362,6 +16000,12 @@
             "state": "translated",
             "value": "无法载入订阅方案。请检查网络连接后重试。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法載入訂閱方案。請檢查網路連線後再試一次。"
+          }
         }
       }
     },
@@ -14413,6 +16057,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "再练一次"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再練一次"
           }
         }
       }
@@ -14466,6 +16116,12 @@
             "state": "translated",
             "value": "高级版包年"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高級版年繳"
+          }
         }
       }
     },
@@ -14517,6 +16173,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "高级版包月"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高級版月繳"
           }
         }
       }
@@ -14570,6 +16232,12 @@
             "state": "translated",
             "value": "正在准备神圣连接…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在準備神聖連結…"
+          }
         }
       }
     },
@@ -14621,6 +16289,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在准备神谕…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在準備神諭…"
           }
         }
       }
@@ -14674,6 +16348,12 @@
             "state": "translated",
             "value": "预览：%@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預覽：%@"
+          }
         }
       }
     },
@@ -14725,6 +16405,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "上一条路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上一條路徑"
           }
         }
       }
@@ -14778,6 +16464,12 @@
             "state": "translated",
             "value": "隐私政策"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱私權政策"
+          }
         }
       }
     },
@@ -14829,6 +16521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "未找到该项目"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到此項目"
           }
         }
       }
@@ -14882,6 +16580,12 @@
             "state": "translated",
             "value": "个人资料"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "個人檔案"
+          }
         }
       }
     },
@@ -14933,6 +16637,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "进度"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進度"
           }
         }
       }
@@ -14986,6 +16696,12 @@
             "state": "translated",
             "value": "进度：%lld%%"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "進度：%lld%%"
+          }
         }
       }
     },
@@ -15037,6 +16753,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "购买失败"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "購買失敗"
           }
         }
       }
@@ -15090,6 +16812,12 @@
             "state": "translated",
             "value": "以 %@ 购买"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以 %@ 購買"
+          }
         }
       }
     },
@@ -15141,6 +16869,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "购买终极觉悟礼包"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "購買終極覺悟禮包"
           }
         }
       }
@@ -15194,6 +16928,12 @@
             "state": "translated",
             "value": "购买已恢复"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已回復購買項目"
+          }
         }
       }
     },
@@ -15245,6 +16985,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "第 %1$lld 题，共 %2$lld 题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %1$lld 題，共 %2$lld 題"
           }
         }
       }
@@ -15298,6 +17044,12 @@
             "state": "translated",
             "value": "阅读时长 %@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閱讀時長 %@"
+          }
         }
       }
     },
@@ -15349,6 +17101,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "阅读功能"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閱讀功能"
           }
         }
       }
@@ -15402,6 +17160,12 @@
             "state": "translated",
             "value": "阅读设置"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閱讀設定"
+          }
         }
       }
     },
@@ -15453,6 +17217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "准备启程"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "準備啟程"
           }
         }
       }
@@ -15506,6 +17276,12 @@
             "state": "translated",
             "value": "已精通的国度"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已精通的國度"
+          }
         }
       }
     },
@@ -15557,6 +17333,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "刷新"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新整理"
           }
         }
       }
@@ -15610,6 +17392,12 @@
             "state": "translated",
             "value": "常规"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一般"
+          }
         }
       }
     },
@@ -15658,6 +17446,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "提醒"
@@ -15714,6 +17508,12 @@
             "state": "translated",
             "value": "提醒时间"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒時間"
+          }
         }
       }
     },
@@ -15762,6 +17562,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "重置"
@@ -15818,6 +17624,12 @@
             "state": "translated",
             "value": "重置进度"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置進度"
+          }
         }
       }
     },
@@ -15869,6 +17681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "要重置进度吗？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要重置進度嗎？"
           }
         }
       }
@@ -15922,6 +17740,12 @@
             "state": "translated",
             "value": "恢复购买"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回復購買項目"
+          }
         }
       }
     },
@@ -15973,6 +17797,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在恢复神圣连接…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重建神聖連結…"
           }
         }
       }
@@ -16026,6 +17856,12 @@
             "state": "translated",
             "value": "重考大师测验"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重考大師測驗"
+          }
         }
       }
     },
@@ -16077,6 +17913,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "重试"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重試"
           }
         }
       }
@@ -16130,6 +17972,12 @@
             "state": "translated",
             "value": "复习并提高分数"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複習並提高分數"
+          }
         }
       }
     },
@@ -16181,6 +18029,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "复习完成！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複習完成！"
           }
         }
       }
@@ -16234,6 +18088,12 @@
             "state": "translated",
             "value": "复习错题（%lld）"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "複習錯題（%lld）"
+          }
         }
       }
     },
@@ -16285,6 +18145,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "重温路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重溫路徑"
           }
         }
       }
@@ -16338,6 +18204,12 @@
             "state": "translated",
             "value": "随时重温过往的智慧"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隨時重溫過往的智慧"
+          }
         }
       }
     },
@@ -16389,6 +18261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "右对齐"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靠右對齊"
           }
         }
       }
@@ -16442,6 +18320,12 @@
             "state": "translated",
             "value": "存储"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
         }
       }
     },
@@ -16493,6 +18377,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存这份智慧"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存這份智慧"
           }
         }
       }
@@ -16546,6 +18436,12 @@
             "state": "translated",
             "value": "存入高亮"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存入重點標示"
+          }
         }
       }
     },
@@ -16597,6 +18493,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "已存储！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已儲存！"
           }
         }
       }
@@ -16650,6 +18552,12 @@
             "state": "translated",
             "value": "滚动"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捲動"
+          }
         }
       }
     },
@@ -16701,6 +18609,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "于%@封缄"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "於%@封緘"
           }
         }
       }
@@ -16754,6 +18668,12 @@
             "state": "translated",
             "value": "在书中搜索"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在書中搜尋"
+          }
         }
       }
     },
@@ -16805,6 +18725,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "搜索路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋路徑"
           }
         }
       }
@@ -16858,6 +18784,12 @@
             "state": "translated",
             "value": "搜索文字…"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜尋文字…"
+          }
         }
       }
     },
@@ -16910,6 +18842,12 @@
             "state": "translated",
             "value": "查看解锁选项"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看解鎖選項"
+          }
         }
       }
     },
@@ -16958,6 +18896,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "求道者"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "求道者"
@@ -17014,6 +18958,12 @@
             "state": "translated",
             "value": "半粗体"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "半粗體"
+          }
         }
       }
     },
@@ -17066,6 +19016,12 @@
             "state": "translated",
             "value": "设置"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
         }
       }
     },
@@ -17114,6 +19070,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "分享"
@@ -17170,6 +19132,12 @@
             "state": "translated",
             "value": "分享路径"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享路徑"
+          }
         }
       }
     },
@@ -17218,6 +19186,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神道教之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "神道教之路"
@@ -17274,6 +19248,12 @@
             "state": "translated",
             "value": "显示页面进度"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示頁面進度"
+          }
         }
       }
     },
@@ -17322,6 +19302,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展示穿越%@信仰的旅程"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "展示穿越%@信仰的旅程"
@@ -17378,6 +19364,12 @@
             "state": "translated",
             "value": "边栏视图"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "側邊欄檢視"
+          }
         }
       }
     },
@@ -17429,6 +19421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "请在「设置」App 中登录 Game Center，在亡者的国度中攀登排行榜、赢取荣誉。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請在「設定」App 中登入 Game Center，在亡者的國度中攀登排行榜、贏取榮譽。"
           }
         }
       }
@@ -17482,6 +19480,12 @@
             "state": "translated",
             "value": "锡克教之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "錫克教之路"
+          }
         }
       }
     },
@@ -17533,6 +19537,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "模拟器模式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模擬器模式"
           }
         }
       }
@@ -17586,6 +19596,12 @@
             "state": "translated",
             "value": "灵性向导包"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "靈性嚮導包"
+          }
         }
       }
     },
@@ -17637,6 +19653,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "开始免费课程"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始免費課程"
           }
         }
       }
@@ -17848,6 +19870,28 @@
               }
             }
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免費試用 %#@days@"
+          },
+          "substitutions": {
+            "days": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg 天"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -17899,6 +19943,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "开始路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始路徑"
           }
         }
       }
@@ -17952,6 +20002,12 @@
             "state": "translated",
             "value": "状态：%@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狀態：%@"
+          }
         }
       }
     },
@@ -18003,6 +20059,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "订阅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "訂閱"
           }
         }
       }
@@ -18056,6 +20118,12 @@
             "state": "translated",
             "value": "推荐提问"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推薦提問"
+          }
         }
       }
     },
@@ -18107,6 +20175,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "召唤永恒者"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "召喚永恆者"
           }
         }
       }
@@ -18160,6 +20234,12 @@
             "state": "translated",
             "value": "斯威登堡异象之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "史威登堡異象之路"
+          }
         }
       }
     },
@@ -18211,6 +20291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕正在沉睡"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭正在沉睡"
           }
         }
       }
@@ -18264,6 +20350,12 @@
             "state": "translated",
             "value": "朗读速度"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朗讀速度"
+          }
         }
       }
     },
@@ -18315,6 +20407,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "朗读语音"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朗讀語音"
           }
         }
       }
@@ -18368,6 +20466,12 @@
             "state": "translated",
             "value": "目录"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目錄"
+          }
         }
       }
     },
@@ -18420,6 +20524,12 @@
             "state": "translated",
             "value": "参加大师测验"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "參加大師測驗"
+          }
         }
       }
     },
@@ -18468,6 +20578,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "道教之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "道教之路"
@@ -18524,6 +20640,12 @@
             "state": "translated",
             "value": "轻点一项，再轻点与之配对的一项"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點一下項目，再點一下與它配對的項目"
+          }
         }
       }
     },
@@ -18575,6 +20697,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "轻点选择，然后轻点另一列中的项目即可配对"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點一下以選取，再點一下另一欄中的項目即可配對"
           }
         }
       }
@@ -18628,6 +20756,12 @@
             "state": "translated",
             "value": "跟我讲讲轮回"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟我說說輪迴"
+          }
         }
       }
     },
@@ -18680,6 +20814,12 @@
             "state": "translated",
             "value": "跟我讲讲死后的旅程"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟我說說死後的旅程"
+          }
         }
       }
     },
@@ -18728,6 +20868,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "天理教之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "天理教之路"
@@ -18784,6 +20930,12 @@
             "state": "translated",
             "value": "服务条款"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服務條款"
+          }
         }
       }
     },
@@ -18835,6 +20987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用条款"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用條款"
           }
         }
       }
@@ -18888,6 +21046,12 @@
             "state": "translated",
             "value": "文本对齐"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字對齊"
+          }
         }
       }
     },
@@ -18939,6 +21103,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "文本排版"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字排版"
           }
         }
       }
@@ -18992,6 +21162,12 @@
             "state": "translated",
             "value": "永恒者"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永恆者"
+          }
         }
       }
     },
@@ -19043,6 +21219,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "永恒者需要真机才能显现神圣的智慧。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永恆者需要實體裝置才能顯現神聖的智慧。"
           }
         }
       }
@@ -19096,6 +21278,12 @@
             "state": "translated",
             "value": "此刻无法触及永恒者的智慧。请稍后再试。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此刻無法觸及永恆者的智慧。請稍後再試。"
+          }
         }
       }
     },
@@ -19147,6 +21335,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "已领受永恒者的智慧"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已領受永恆者的智慧"
           }
         }
       }
@@ -19200,6 +21394,12 @@
             "state": "translated",
             "value": "永恒者，宇宙意识"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永恆者，宇宙意識"
+          }
         }
       }
     },
@@ -19251,6 +21451,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕苏醒时神志不清。正在尝试更合适的心智…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭甦醒時神智混亂。正在嘗試更相容的心智…"
           }
         }
       }
@@ -19304,6 +21510,12 @@
             "state": "translated",
             "value": "神谕无法在本设备上苏醒。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭無法在這台裝置上甦醒。"
+          }
         }
       }
     },
@@ -19355,6 +21567,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕是完全在你 iPhone 上运行的私密 AI，绝不上传服务器。模型只需下载一次，并保存在你的设备上。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭是完全在你 iPhone 上執行的私密 AI，絕不經過伺服器。模型只需下載一次，並保存在你的裝置上。"
           }
         }
       }
@@ -19408,6 +21626,12 @@
             "state": "translated",
             "value": "神谕尚未就绪。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭尚未就緒。"
+          }
         }
       }
     },
@@ -19459,6 +21683,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕在思绪中途失声。请再试一次。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭在思緒中途失聲。請再試一次。"
           }
         }
       }
@@ -19512,6 +21742,12 @@
             "state": "translated",
             "value": "神谕在设备本地运行。请使用真机体验神圣的智慧。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭在裝置本機執行。請使用實體裝置體驗神聖的智慧。"
+          }
         }
       }
     },
@@ -19563,6 +21799,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕的心智须经由网络召唤。请连接 Wi-Fi 后重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭的心智必須透過網路召喚。請連上 Wi-Fi 後再試一次。"
           }
         }
       }
@@ -19616,6 +21858,12 @@
             "state": "translated",
             "value": "书记的簿册"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書記的簿冊"
+          }
         }
       }
     },
@@ -19667,6 +21915,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "模型清单为空。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型清單是空的。"
           }
         }
       }
@@ -19720,6 +21974,12 @@
             "state": "translated",
             "value": "此刻未能触及神谕的智慧。请稍后再试。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此刻未能觸及神諭的智慧。請稍後再試。"
+          }
         }
       }
     },
@@ -19771,6 +22031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "召唤被中断。请检查网络连接后重试——进度会保留。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "召喚被中斷。請檢查網路連線後再試一次——進度會保留。"
           }
         }
       }
@@ -19824,6 +22090,12 @@
             "state": "translated",
             "value": "主题"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主題"
+          }
         }
       }
     },
@@ -19875,6 +22147,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神智学之路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神智學之路"
           }
         }
       }
@@ -19928,6 +22206,12 @@
             "state": "translated",
             "value": "该功能即将推出！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此功能即將推出！"
+          }
         }
       }
     },
@@ -19979,6 +22263,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "这将重置你在%@的全部进度。你将失去已获得的 XP 与已完成的课程。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這將重置你在%@的全部進度。你將失去已獲得的 XP 與已完成的課程。"
           }
         }
       }
@@ -20032,6 +22322,12 @@
             "state": "translated",
             "value": "时间"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間"
+          }
         }
       }
     },
@@ -20083,6 +22379,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "杜阿特中的时光"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "杜阿特中的時光"
           }
         }
       }
@@ -20136,6 +22438,12 @@
             "state": "translated",
             "value": "该学习了"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "該學習了"
+          }
         }
       }
     },
@@ -20184,6 +22492,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "今天"
@@ -20240,6 +22554,12 @@
             "state": "translated",
             "value": "总 XP"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "總 XP"
+          }
         }
       }
     },
@@ -20291,6 +22611,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在超越凡俗的边界…"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在超越凡俗的邊界…"
           }
         }
       }
@@ -20344,6 +22670,12 @@
             "state": "translated",
             "value": "正确"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正確"
+          }
         }
       }
     },
@@ -20395,6 +22727,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "重试"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再試一次"
           }
         }
       }
@@ -20448,6 +22786,12 @@
             "state": "translated",
             "value": "免费试听第一节课。想解锁整条路径时随时都可以。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免費試上第一節課。想解鎖整條路徑時隨時都可以。"
+          }
         }
       }
     },
@@ -20499,6 +22843,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "终极觉悟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "終極覺悟"
           }
         }
       }
@@ -20552,6 +22902,12 @@
             "state": "translated",
             "value": "无法下载神谕模型。请检查网络连接后重试。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法下載神諭模型。請檢查網路連線後再試一次。"
+          }
         }
       }
     },
@@ -20603,6 +22959,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "无法建立神圣连接。请再试一次。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法建立神聖連結。請再試一次。"
           }
         }
       }
@@ -20656,6 +23018,12 @@
             "state": "translated",
             "value": "无法开始错题复习。请再试一次。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法開始錯題複習。請再試一次。"
+          }
         }
       }
     },
@@ -20704,6 +23072,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明白了"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "明白了"
@@ -20760,6 +23134,12 @@
             "state": "translated",
             "value": "无限次求问"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無限次求問"
+          }
         }
       }
     },
@@ -20811,6 +23191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "神谕无限畅问"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神諭無限暢問"
           }
         }
       }
@@ -20864,6 +23250,12 @@
             "state": "translated",
             "value": "21 位神圣向导的智慧，无限畅享"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21 位神聖嚮導的智慧，無限暢享"
+          }
         }
       }
     },
@@ -20915,6 +23307,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "解锁%@路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖%@路徑"
           }
         }
       }
@@ -20968,6 +23366,12 @@
             "state": "translated",
             "value": "解锁全部"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖全部"
+          }
         }
       }
     },
@@ -21019,6 +23423,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "解锁全部：21 条路径与无限神谕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖全部：21 條路徑與無限神諭"
           }
         }
       }
@@ -21072,6 +23482,12 @@
             "state": "translated",
             "value": "永久解锁"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永久解鎖"
+          }
         }
       }
     },
@@ -21123,6 +23539,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "解锁这条路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖這條路徑"
           }
         }
       }
@@ -21176,6 +23598,12 @@
             "state": "translated",
             "value": "解锁你的旅程"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖你的旅程"
+          }
         }
       }
     },
@@ -21227,6 +23655,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "立即解锁 21 条路径与无限神谕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即解鎖 21 條路徑與無限神諭"
           }
         }
       }
@@ -21280,6 +23714,12 @@
             "state": "translated",
             "value": "解锁每条路径、无限神谕，以及完整的精通殿堂"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解鎖每條路徑、無限神諭，以及完整的精通殿堂"
+          }
         }
       }
     },
@@ -21332,6 +23772,12 @@
             "state": "translated",
             "value": "使用真机"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用實體裝置"
+          }
         }
       }
     },
@@ -21380,6 +23826,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "版本"
@@ -21436,6 +23888,12 @@
             "state": "translated",
             "value": "视图布局"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢視版面"
+          }
         }
       }
     },
@@ -21487,6 +23945,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "查看飞升之路"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看飛升之路"
           }
         }
       }
@@ -21540,6 +24004,12 @@
             "state": "translated",
             "value": "试用结束前我们会提醒你"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "試用結束前我們會提醒你"
+          }
         }
       }
     },
@@ -21591,6 +24061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "欢迎回来。你拥有的一切已重新解锁。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歡迎回來。你擁有的一切已重新解鎖。"
           }
         }
       }
@@ -21644,6 +24120,12 @@
             "state": "translated",
             "value": "欢迎踏上旅程"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歡迎踏上旅程"
+          }
         }
       }
     },
@@ -21695,6 +24177,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "有哪些不同的国度？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有哪些不同的國度？"
           }
         }
       }
@@ -21748,6 +24236,12 @@
             "state": "translated",
             "value": "人死后会发生什么？"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "人死後會發生什麼事？"
+          }
         }
       }
     },
@@ -21799,6 +24293,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "生命的意义是什么？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生命的意義是什麼？"
           }
         }
       }
@@ -21852,6 +24352,12 @@
             "state": "translated",
             "value": "为什么需要下载？"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為什麼需要下載？"
+          }
         }
       }
     },
@@ -21904,6 +24410,12 @@
             "state": "translated",
             "value": "为什么约 %@ GB？"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為什麼約 %@ GB？"
+          }
         }
       }
     },
@@ -21952,6 +24464,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "威卡之路"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "威卡之路"
@@ -22008,6 +24526,12 @@
             "state": "translated",
             "value": "宽幅网格"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寬版格狀"
+          }
         }
       }
     },
@@ -22060,6 +24584,12 @@
             "state": "translated",
             "value": "智慧已保存"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "智慧已儲存"
+          }
         }
       }
     },
@@ -22108,6 +24638,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "智慧求道者"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "智慧求道者"
@@ -22164,6 +24700,12 @@
             "state": "translated",
             "value": "XP"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XP"
+          }
         }
       }
     },
@@ -22212,6 +24754,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "你"
@@ -22268,6 +24816,12 @@
             "state": "translated",
             "value": "你答对了 %2$lld 题中的 %1$lld 题（%3$lld%%），获得 %4$lld XP！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你答對了 %2$lld 題中的 %1$lld 題（%3$lld%%），獲得 %4$lld XP！"
+          }
         }
       }
     },
@@ -22319,6 +24873,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "你已走过 %2$lld 道门中的 %1$lld 道 · 精通 %3$lld 道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已走過 %2$lld 道門中的 %1$lld 道 · 精通 %3$lld 道"
           }
         }
       }
@@ -22372,6 +24932,12 @@
             "state": "translated",
             "value": "你得了 %1$lld%%，但通过大师测验需要 %2$lld%%。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你得了 %1$lld%%，但通過大師測驗需要 %2$lld%%。"
+          }
         }
       }
     },
@@ -22423,6 +24989,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "你以 %2$lld%% 的成绩精通了%1$@！"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你以 %2$lld%% 的成績精通了%1$@！"
           }
         }
       }
@@ -22476,6 +25048,12 @@
             "state": "translated",
             "value": "你已精通这条路径！"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已精通這條路徑！"
+          }
         }
       }
     },
@@ -22527,6 +25105,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "你的求道者名称"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的求道者名稱"
           }
         }
       }
@@ -22580,6 +25164,12 @@
             "state": "translated",
             "value": "免费试用将在 2 天后结束"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免費試用將在 2 天後結束"
+          }
         }
       }
     },
@@ -22631,6 +25221,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "现在退出将不会保存你的进度。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在離開將不會儲存你的進度。"
           }
         }
       }
@@ -22684,6 +25280,12 @@
             "state": "translated",
             "value": "琐罗亚斯德教之路"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "瑣羅亞斯德教之路"
+          }
         }
       }
     },
@@ -22735,6 +25337,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "项成就"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "項成就"
           }
         }
       }
@@ -22788,6 +25396,12 @@
             "state": "translated",
             "value": "项成就"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "項成就"
+          }
         }
       }
     },
@@ -22840,6 +25454,12 @@
             "state": "translated",
             "value": "约剩 %@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "約剩 %@"
+          }
         }
       }
     },
@@ -22891,6 +25511,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "≈ %@/月，按年计费"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@/月，按年計費"
           }
         }
       }
