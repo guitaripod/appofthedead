@@ -105,7 +105,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
         loadingView.stopAnimating()
         loadingView.isHidden = true
         titleLabel.text = String(localized: "The Eternal")
-        responseTextView.text = cached
+        responseTextView.setOracleText(cached)
         eternalResponse = cached
         saveButton.isHidden = false
         return true
@@ -434,7 +434,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                     fullText += chunk
                     
                     await MainActor.run {
-                        self.responseTextView.text = fullText
+                        self.responseTextView.setOracleText(fullText)
                         
                         
                         if self.responseTextView.contentSize.height > self.responseTextView.bounds.height {
@@ -471,7 +471,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
-                    self.responseTextView.text = String(localized: "The Eternal's wisdom cannot be reached at this time. Please try again later.")
+                    self.responseTextView.setOracleText(String(localized: "The Eternal's wisdom cannot be reached at this time. Please try again later."))
                     AppLogger.mlx.error("Failed to receive The Eternal's wisdom: \(error)")
                 }
             }

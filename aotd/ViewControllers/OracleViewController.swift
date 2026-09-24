@@ -771,7 +771,7 @@ private class ChatMessageCell: UITableViewCell {
             typingIndicator.startAnimating()
             NSLayoutConstraint.activate(typingIndicatorSizeConstraints)
         } else {
-            messageLabel.text = message.text
+            showText(of: message)
             messageLabel.isHidden = false
             typingIndicator.stopAnimating()
             NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
@@ -824,7 +824,24 @@ private class ChatMessageCell: UITableViewCell {
                 typingIndicator.stopAnimating()
                 NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
             }
+            showText(of: message)
+        }
+    }
+
+    /// User messages stay plain; deity replies render the model's Markdown so emphasis shows as
+    /// bold and italics rather than asterisks.
+    private func showText(of message: OracleViewModel.ChatMessage) {
+        if message.isUser {
+            messageLabel.attributedText = nil
+            messageLabel.font = .systemFont(ofSize: 16)
+            messageLabel.textColor = UIColor.Papyrus.beige
             messageLabel.text = message.text
+        } else {
+            messageLabel.attributedText = OracleTextFormatter.attributedText(
+                from: message.text,
+                font: .systemFont(ofSize: 16),
+                color: UIColor.Papyrus.primaryText
+            )
         }
     }
     override func prepareForReuse() {

@@ -93,7 +93,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         contentTextView.isHidden = false
         loadingView.stopAnimating()
         loadingView.isHidden = true
-        contentTextView.text = cached
+        contentTextView.setOracleText(cached)
         return true
     }
     
@@ -487,7 +487,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     fullText += chunk
                     
                     await MainActor.run {
-                        self.contentTextView.text = fullText
+                        self.contentTextView.setOracleText(fullText)
                         
                         
                         if self.contentTextView.contentSize.height > self.contentTextView.bounds.height {
@@ -517,7 +517,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
-                    self.contentTextView.text = String(localized: "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later.")
+                    self.contentTextView.setOracleText(String(localized: "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later."))
                 }
             }
         }

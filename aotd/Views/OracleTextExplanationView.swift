@@ -446,7 +446,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     fullText += chunk
                     
                     await MainActor.run {
-                        self.responseTextView.text = fullText
+                        self.responseTextView.setOracleText(fullText)
                         
                         
                         if self.responseTextView.contentSize.height > self.responseTextView.bounds.height {
@@ -474,7 +474,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 await MainActor.run {
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
-                    self.responseTextView.text = String(localized: "The oracle's wisdom could not be reached at this time. Please try again later.")
+                    self.responseTextView.setOracleText(String(localized: "The oracle's wisdom could not be reached at this time. Please try again later."))
                     AppLogger.mlx.error("Failed to get oracle explanation: \(error)")
                 }
             }
