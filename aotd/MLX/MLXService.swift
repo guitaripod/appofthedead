@@ -14,7 +14,7 @@ final class MLXService {
 
     private init() {}
 
-    private static let logger = Logger(subsystem: "com.appofthedead", category: "MLXService")
+    private static let logger = AppLogCategory(subsystem: "com.appofthedead", category: "MLXService")
 
     private static func debugLog(_ message: String) {
         #if targetEnvironment(simulator) || DEBUG

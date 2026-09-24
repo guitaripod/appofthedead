@@ -13,37 +13,37 @@ final class AppLogger {
   
 
   
-  static let database = Logger(subsystem: subsystem, category: "Database")
+  static let database = AppLogCategory(subsystem: subsystem, category: "Database")
 
   
-  static let content = Logger(subsystem: subsystem, category: "Content")
+  static let content = AppLogCategory(subsystem: subsystem, category: "Content")
 
   
-  static let learning = Logger(subsystem: subsystem, category: "Learning")
+  static let learning = AppLogCategory(subsystem: subsystem, category: "Learning")
 
 
-  static let gamification = Logger(subsystem: subsystem, category: "Gamification")
+  static let gamification = AppLogCategory(subsystem: subsystem, category: "Gamification")
 
 
-  static let gameCenter = Logger(subsystem: subsystem, category: "GameCenter")
+  static let gameCenter = AppLogCategory(subsystem: subsystem, category: "GameCenter")
 
 
-  static let purchases = Logger(subsystem: subsystem, category: "Purchases")
-
-  
-  static let ui = Logger(subsystem: subsystem, category: "UI")
+  static let purchases = AppLogCategory(subsystem: subsystem, category: "Purchases")
 
   
-  static let viewModel = Logger(subsystem: subsystem, category: "ViewModel")
+  static let ui = AppLogCategory(subsystem: subsystem, category: "UI")
 
   
-  static let mlx = Logger(subsystem: subsystem, category: "MLX")
+  static let viewModel = AppLogCategory(subsystem: subsystem, category: "ViewModel")
 
   
-  static let performance = Logger(subsystem: subsystem, category: "Performance")
+  static let mlx = AppLogCategory(subsystem: subsystem, category: "MLX")
 
   
-  static let general = Logger(subsystem: subsystem, category: "General")
+  static let performance = AppLogCategory(subsystem: subsystem, category: "Performance")
+
+  
+  static let general = AppLogCategory(subsystem: subsystem, category: "General")
 
   
 
@@ -66,14 +66,14 @@ final class AppLogger {
   }
 
   
-  static func beginActivity(_ name: StaticString, logger: Logger = performance) -> OSSignpostID {
+  static func beginActivity(_ name: StaticString, logger: AppLogCategory = performance) -> OSSignpostID {
     
     return OSSignpostID(log: .default)
   }
 
   
   static func endActivity(
-    _ name: StaticString, id: OSSignpostID, logger: Logger = performance,
+    _ name: StaticString, id: OSSignpostID, logger: AppLogCategory = performance,
     metadata: [String: Any] = [:]
   ) {
     
@@ -91,7 +91,7 @@ final class AppLogger {
   static func logError(
     _ error: Error,
     context: String,
-    logger: Logger = general,
+    logger: AppLogCategory = general,
     additionalInfo: [String: Any] = [:]
   ) {
     var metadataComponents: [String] = []
@@ -130,7 +130,7 @@ final class AppLogger {
   
 
   
-  static func logNetworkRequest(url: String, method: String, logger: Logger = general) {
+  static func logNetworkRequest(url: String, method: String, logger: AppLogCategory = general) {
     logger.debug("Network Request | method: \(method), url: \(url, privacy: .private)")
   }
 
@@ -139,7 +139,7 @@ final class AppLogger {
     url: String,
     statusCode: Int,
     duration: TimeInterval,
-    logger: Logger = general
+    logger: AppLogCategory = general
   ) {
     let success = statusCode < 400
     let durationStr = String(format: "%.3f", duration)
@@ -161,7 +161,7 @@ final class AppLogger {
   static func logUserAction(
     _ action: String,
     parameters: [String: Any] = [:],
-    logger: Logger = ui
+    logger: AppLogCategory = ui
   ) {
     var metadataComponents: [String] = ["action: \(action)"]
 
@@ -240,39 +240,5 @@ final class AppLogger {
     }
 
     return (0, 0, 0)
-  }
-}
-
-
-
-extension Logger {
-  
-  func debug(_ message: String, metadata: [String: Any]) {
-    let formattedMetadata = formatMetadata(metadata)
-    self.debug("\(message) | \(formattedMetadata)")
-  }
-
-  func info(_ message: String, metadata: [String: Any]) {
-    let formattedMetadata = formatMetadata(metadata)
-    self.info("\(message) | \(formattedMetadata)")
-  }
-
-  func warning(_ message: String, metadata: [String: Any]) {
-    let formattedMetadata = formatMetadata(metadata)
-    self.warning("\(message) | \(formattedMetadata)")
-  }
-
-  func error(_ message: String, metadata: [String: Any]) {
-    let formattedMetadata = formatMetadata(metadata)
-    self.error("\(message) | \(formattedMetadata)")
-  }
-
-  func log(level: OSLogType, _ message: String, metadata: [String: Any]) {
-    let formattedMetadata = formatMetadata(metadata)
-    self.log(level: level, "\(message) | \(formattedMetadata)")
-  }
-
-  private func formatMetadata(_ metadata: [String: Any]) -> String {
-    metadata.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
   }
 }
