@@ -64,6 +64,27 @@ Keywords, name and subtitle change only with a new version. 1.4.7 exists in ASC 
 ### A5: featuring nomination
 Pitch: on-device Gemma 4 god-chat (private, offline), 22 faiths, 10 languages, VoiceOver and Dynamic Type. Target the new-year window (editorial plans 8–12 weeks ahead). Halloween is realistically too late for featuring but not for the event.
 
+## 2b. Status (2026-09-25)
+
+- **A1** done 2026-09-24.
+- **A2 + A3 + A4 submitted together**: review submission `bb861fe0-44ba-49e8-9ef5-ba55b1c12e63` has been WAITING_FOR_REVIEW since 2026-09-24 21:30 UTC. It contains:
+  - version 1.4.7, build `202609250045` (buildvm, stable host `25F71`);
+  - in-app event `6815839274`, "Journey to Mictlan": SPECIAL_EVENT, promoted from Oct 10, runs Oct 24 – Nov 2, available in 175 territories and 10 locales, deep link `appofthedead://path/aztec-mictlan`.
+- **Listing changes in the submission**: the new en-US subtitle "Mythology Quiz & Talk to Gods", the A3 keyword set (with "world"), What's New in 10 locales, and an authentic Oracle chat as en-US screenshot #1. The chat text is Gemma 4 E2B output generated with thinking off, as the app runs it.
+- **A5**: two nominations submitted.
+  - `fe80c7e3` (APP_ENHANCEMENTS): on-device Oracle, publish from 2027-01-05.
+  - `282b4685` (NEW_CONTENT): the Mictlan event, Oct 24 – Nov 2.
+- **Fixed on the way**:
+  - Oracle replies showed raw Markdown asterisks. They now render as formatted text.
+  - The June stop-token "fix" (ee53051) replaced Gemma 4's real `<turn|>` token with a token that doesn't exist in Gemma 4's vocabulary. Reverted in 0504fb9.
+  - AOTD had no file logger. It now writes `Library/Logs/aotd.log`.
+  - The age-rating social-media answers were missing and blocked submission. Both are now set to false.
+  - Copyright changed to "2025 Midgar Oy".
+- **Open**:
+  - A6: post `marketing/outreach-2026-10.md` (b)/(c) from Marcus's accounts once 1.4.7 is live.
+  - A7: Search Ads spend is Marcus's call.
+  - Run revenue-ops on 2026-10-24 against the Day-30 gate.
+
 ## 3. Rejected
 
 - **"Fix wrong prices on the Terms page, then submit 1.4.7's pending build."** Wrong on both counts. The Terms page matches the live prices. Build 202608170200, which carries the legal-link fix (0855f96), is already live as 1.4.6. 1.4.7 is an empty shell with nothing in git since.

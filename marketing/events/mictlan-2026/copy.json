@@ -1,0 +1,84 @@
+{
+ "eventId": null,
+ "referenceName": "Dia de los Muertos 2026 - Mictlan",
+ "eventType": "SPECIAL_EVENT",
+ "priority": "HIGH",
+ "purpose": "APPROPRIATE_FOR_ALL_USERS",
+ "purchaseRequirement": "NO_COST_ASSOCIATED",
+ "primaryLocale": "en-US",
+ "deepLink": "appofthedead://path/aztec-mictlan",
+ "eventStart": "2026-10-24T00:00:00Z",
+ "eventEnd": "2026-11-02T23:59:59Z",
+ "publishStart": "2026-10-10T00:00:00Z",
+ "territories": "ALL",
+ "assets": {
+  "eventCard": {
+   "file": "card.png",
+   "size": [
+    1920,
+    1080
+   ],
+   "assetType": "EVENT_CARD"
+  },
+  "eventDetailsPage": {
+   "file": "detail.png",
+   "size": [
+    1080,
+    1920
+   ],
+   "assetType": "EVENT_DETAILS_PAGE"
+  }
+ },
+ "localizations": {
+  "en-US": {
+   "name": "Journey to Mictlan",
+   "shortDescription": "Nine levels of the Aztec afterlife, open to all.",
+   "longDescription": "The Aztec Mictlan path is open to everyone through Nov 2. Start a lesson in the window and it's yours to keep for good."
+  },
+  "de-DE": {
+   "name": "Reise nach Mictlán",
+   "shortDescription": "Neun Ebenen des aztekischen Totenreichs, für alle.",
+   "longDescription": "Der Pfad Mictlán ist bis 2. November für alle offen. Wer in diesem Zeitraum eine Lektion beginnt, behält ihn dauerhaft."
+  },
+  "fr-FR": {
+   "name": "Voyage vers Mictlán",
+   "shortDescription": "Neuf niveaux de l'au-delà aztèque, ouverts à tous.",
+   "longDescription": "Le parcours Mictlán est ouvert à tous jusqu'au 2 novembre. Commencez une leçon durant cette période pour le garder."
+  },
+  "es-ES": {
+   "name": "Viaje a Mictlán",
+   "shortDescription": "Nueve niveles del más allá azteca, para todos.",
+   "longDescription": "La ruta Mictlán está abierta a todos hasta el 2 de noviembre. Empieza una lección y la conservas para siempre."
+  },
+  "it": {
+   "name": "Viaggio a Mictlán",
+   "shortDescription": "Nove livelli dell'aldilà azteco, aperti a tutti.",
+   "longDescription": "Il percorso Mictlán è aperto a tutti fino al 2 novembre. Inizia una lezione in questo periodo e resterà tuo per sempre."
+  },
+  "pt-BR": {
+   "name": "Jornada a Mictlán",
+   "shortDescription": "Nove níveis do além asteca, abertos a todos.",
+   "longDescription": "A trilha Mictlán fica aberta a todos até 2 de novembro. Comece uma lição nesse período e ela será sua para sempre."
+  },
+  "ja": {
+   "name": "ミクトランへの旅",
+   "shortDescription": "アステカの冥界ミクトラン、九つの層を全員が探索可能に。",
+   "longDescription": "ミクトランの道は11月2日まで誰でも進めます。期間中にレッスンを始めれば、その後もずっと自分のものになります。"
+  },
+  "ko": {
+   "name": "믹틀란으로의 여정",
+   "shortDescription": "아스텍 저승 믹틀란, 아홉 단계가 전원에게 열립니다.",
+   "longDescription": "믹틀란 경로가 11월 2일까지 모두에게 열립니다. 이 기간에 레슨을 시작하면 이후에도 계속 내 것이 됩니다."
+  },
+  "zh-Hans": {
+   "name": "米克特兰冥界之旅",
+   "shortDescription": "阿兹特克冥界米克特兰,九重关卡向所有人开放。",
+   "longDescription": "米克特兰之路在11月2日前向所有人开放。活动期间开始一课,即可永久保留该路径。"
+  },
+  "zh-Hant": {
+   "name": "米克特蘭冥界之旅",
+   "shortDescription": "阿茲特克冥界米克特蘭,九重關卡向所有人開放。",
+   "longDescription": "米克特蘭之路在11月2日前向所有人開放。活動期間開始一課,即可永久保留該路徑。"
+  }
+ }
+}
