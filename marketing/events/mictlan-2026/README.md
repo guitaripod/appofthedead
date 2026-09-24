@@ -1,5 +1,7 @@
 # Dia de los Muertos in-app event: "Journey to Mictlan"
 
+Created 2026-09-24 as event `6815839274` and submitted with 1.4.7. The art was redrawn by `render.py` (marigold pom-poms and a petal trail descending the nine levels) after the first version's flowers read as generic pinwheels.
+
 App Store in-app event kit for the 2026 Aztec Mictlan path event. Nothing in
 this directory has been sent to App Store Connect - `create-event.sh` is
 written and verified against `asc --help` output but has not been run.

@@ -4,12 +4,10 @@
 # Store Connect: the event, all 10 locale localizations, and the two event
 # images (EVENT_CARD + EVENT_DETAILS_PAGE) uploaded per locale.
 #
-# NOT RUN YET. Read marketing/events/mictlan-2026/README.md first: it
-# verifies every flag below against `asc app-events ... --help` and the
-# current App Store Connect in-app event rules. This script only creates
-# and populates the event in DRAFT/READY_FOR_REVIEW state - it deliberately
-# stops short of `asc app-events submit`, which is a separate, explicit
-# human step once the event has been eyeballed in the App Store Connect UI.
+# Ran 2026-09-24: created event 6815839274 (all 10 localizations, card and
+# detail images COMPLETE), then submitted it in review submission
+# bb861fe0-44ba-49e8-9ef5-ba55b1c12e63 together with version 1.4.7, whose
+# binary handles the deep link. Re-running creates a second event.
 #
 # Requires: asc (authenticated), jq.
 
