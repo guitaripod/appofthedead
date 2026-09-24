@@ -1,29 +1,30 @@
 import StoreKit
 import UIKit
 
-/// Asks for an App Store rating once the user has finished a few lessons, and at most once per
-/// app version.
+/// Asks for an App Store rating after a lesson the user did well in, at most once per app version.
 ///
 /// Rating count is both an App Store ranking input and the strongest conversion signal on a
-/// product page, and this app shipped with no way to request one. A completed lesson is the unit
-/// of value here — the prompt never fires on a launch, a tap, or a lesson the user abandoned.
+/// product page. A completed lesson is the unit of value here — the prompt never fires on a
+/// launch, a tap, or a lesson the user abandoned.
 @MainActor
 enum ReviewPrompt {
-    private static let lessonsBeforeAsking = 3
-    private static let countKey = "aotd.review.completedLessons"
+    nonisolated static let minimumScore = 80
     private static let versionKey = "aotd.review.promptedVersion"
 
-    /// Call when a lesson has been recorded as completed.
-    static func recordCompletedLesson(in scene: UIWindowScene?) {
+    /// Call when a lesson has been recorded as completed, with its percentage score.
+    static func recordCompletedLesson(score: Int, in scene: UIWindowScene?) {
         let defaults = UserDefaults.standard
-        let completed = defaults.integer(forKey: countKey) + 1
-        defaults.set(completed, forKey: countKey)
-
-        guard completed >= lessonsBeforeAsking else { return }
-        guard defaults.string(forKey: versionKey) != currentVersion, let scene else { return }
+        guard shouldAsk(score: score, promptedVersion: defaults.string(forKey: versionKey), currentVersion: currentVersion),
+              let scene else { return }
         defaults.set(currentVersion, forKey: versionKey)
-        AppLogger.learning.info("Review prompt requested after \(completed) lessons")
+        AppLogger.learning.info("Review prompt requested after a lesson scored \(score)%")
         AppStore.requestReview(in: scene)
+    }
+
+    /// Most new users never reach a third lesson, so the first lesson scoring at least
+    /// `minimumScore` qualifies: a satisfied moment, early enough that the user is still here.
+    nonisolated static func shouldAsk(score: Int, promptedVersion: String?, currentVersion: String) -> Bool {
+        score >= minimumScore && promptedVersion != currentVersion
     }
 
     private static var currentVersion: String {

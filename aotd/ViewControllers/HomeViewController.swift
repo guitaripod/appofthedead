@@ -250,6 +250,23 @@ extension HomeViewController: UICollectionViewDelegate {
             "isUnlocked": item.isUnlocked,
             "status": "\(item.status)"
         ])
+        open(item)
+    }
+
+    /// Opens a path from outside the list, such as an App Store in-app event link, exactly as if
+    /// its card had been tapped: unlocked paths start or resume, locked ones offer the preview.
+    func openPath(withId beliefSystemId: String) {
+        loadViewIfNeeded()
+        navigationController?.popToRootViewController(animated: false)
+        viewModel.loadData()
+        guard let item = viewModel.pathItems.first(where: { $0.id == beliefSystemId }) else {
+            AppLogger.ui.warning("Deep link names unknown path \(beliefSystemId, privacy: .public)")
+            return
+        }
+        open(item)
+    }
+
+    private func open(_ item: PathItem) {
         if item.isUnlocked {
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.prepare()
@@ -353,7 +370,7 @@ extension HomeViewController: UICollectionViewDelegate {
     private func sharePath(_ beliefSystem: BeliefSystem) {
         let shareText = String(localized: "I'm learning about \(beliefSystem.name) in App of the Dead!")
         let activityVC = UIActivityViewController(
-            activityItems: [shareText],
+            activityItems: [shareText, AppStoreListing.url],
             applicationActivities: nil
         )
         if let popover = activityVC.popoverPresentationController {

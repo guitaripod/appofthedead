@@ -244,6 +244,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     }
     
     private func saveLessonStarted(lesson: Lesson) {
+        FreePaths.shared.recordLessonStarted(in: beliefSystem.id)
         guard let user = databaseManager.fetchUser() else { return }
         
         do {
@@ -286,7 +287,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             if !isReplayMode && !isPreviewMode {
                 let navigation = navigationController
                 Task { @MainActor in
-                    ReviewPrompt.recordCompletedLesson(in: navigation.view.window?.windowScene)
+                    ReviewPrompt.recordCompletedLesson(score: score, in: navigation.view.window?.windowScene)
                 }
             }
         } catch {

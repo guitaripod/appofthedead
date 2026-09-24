@@ -18,7 +18,7 @@ extension User {
     
     func hasPathAccess(beliefSystemId: String) -> Bool {
         
-        if beliefSystemId == "judaism" { return true }
+        if FreePaths.shared.isOpen(beliefSystemId) { return true }
         
         
         if hasUltimateAccess() { return true }

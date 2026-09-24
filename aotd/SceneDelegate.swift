@@ -5,6 +5,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var learningPathCoordinator: LearningPathCoordinator?
     private let databaseManager = DatabaseManager.shared
+    private weak var rootContainer: AdaptiveNavigationContainer?
+    private weak var homeViewController: HomeViewController?
     
     private struct SessionState {
         static let currentBeliefSystemKey = "currentBeliefSystemId"
@@ -101,6 +103,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window?.rootViewController = adaptiveContainer
         self.window?.makeKeyAndVisible()
+        rootContainer = adaptiveContainer
+        self.homeViewController = homeViewController
 
         _ = AchievementNotificationManager.shared
 
@@ -109,6 +113,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
 
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
+
+        if let url = connectionOptions.urlContexts.first?.url {
+            DispatchQueue.main.async { [weak self] in
+                self?.open(url)
+            }
+        }
         
         AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
             "viewControllerCount": 5
@@ -153,6 +163,27 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         learningPathCoordinator?.start()
     }
     
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        open(url)
+    }
+
+    /// Clears whatever is on screen and routes to the linked destination, so an in-app event card
+    /// lands on its path no matter where the app was left.
+    private func open(_ url: URL) {
+        guard let link = DeepLink(url: url) else {
+            AppLogger.ui.warning("Ignored unrecognized URL \(url.absoluteString, privacy: .public)")
+            return
+        }
+        AppLogger.logUserAction("openDeepLink", parameters: ["url": url.absoluteString])
+        switch link {
+        case .path(let beliefSystemId):
+            rootContainer?.dismiss(animated: false)
+            rootContainer?.selectViewController(at: 0)
+            homeViewController?.openPath(withId: beliefSystemId)
+        }
+    }
+
     func sceneDidEnterBackground(_ scene: UIScene) {
         AppLogger.ui.info("Scene did enter background")
         

@@ -1113,7 +1113,7 @@ extension BookReaderViewController {
     
     private func shareText(_ text: String) {
         let activityVC = UIActivityViewController(
-            activityItems: [text, String(localized: "From \"\(viewModel.book.title)\" in App of the Dead")],
+            activityItems: [text, String(localized: "From \"\(viewModel.book.title)\" in App of the Dead"), AppStoreListing.url],
             applicationActivities: nil
         )
         

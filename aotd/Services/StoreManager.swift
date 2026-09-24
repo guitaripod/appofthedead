@@ -185,7 +185,7 @@ class StoreManager: NSObject {
 
     func hasPathAccess(_ beliefSystemId: String) -> Bool {
 
-        if beliefSystemId == "judaism" { return true }
+        if FreePaths.shared.isOpen(beliefSystemId) { return true }
 
         if isDemoPremium { return true }
 
