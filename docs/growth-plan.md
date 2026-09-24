@@ -31,7 +31,7 @@ Education benchmarks: download→trial 6.5%, trial→paid 37%, so ~2.4% of downl
 |---|---|---|---|---|---|
 | A1 | en-US promotional text (was empty; the other 9 locales had one) | done 2026-09-24 | – | $0 | – |
 | A2 | ASO release 1.4.7: keywords + rating-prompt trigger + share link (details below) | claude, Marcus approves | 4 | $0 | submit by 2026-10-03 |
-| A3 | Rename + reposition around "talk to the gods" (folds into A2 if approved) | **Marcus decides** | +2 | $0 | with A2 |
+| A3 | Keep the name (decided 2026-09-24); move the subtitle to "talk to the gods" (folds into A2 if approved) | **Marcus decides** | +1 | $0 | with A2 |
 | A4 | In-app event "Journey to Mictlan" (Día de los Muertos) | claude builds, Marcus approves | 4 | $0 | submit by 2026-10-06 |
 | A5 | Featuring nomination (`asc nominations create`) | claude drafts, Marcus approves | 1 | $0 | this week |
 | A6 | Show HN + r/LocalLLaMA post: shipping Gemma 4 on-device in a consumer iOS app | Marcus posts | 3 | $0 | after A2 is live |
@@ -49,11 +49,11 @@ Keywords, name and subtitle change only with a new version. 1.4.7 exists in ASC 
 4. **First screenshot** leads with an Oracle chat (for example Anubis answering "what happens when I die?"). Screenshots 2–5 keep the current order.
 5. What's New lists everything since 1.4.6, translated into all 10 locales.
 
-### A3: rename (Marcus's decision)
-- Proposed: name **"Afterlife: World Religions"** (26 chars) and subtitle **"Mythology Quiz & Talk to Gods"** (29). This keeps "Religions" (US #8) and "Mythology", adds "Afterlife" (already #16 without trying) and claims the empty "talk to gods" query. Keywords then become `trivia,pantheon,egyptian,norse,greek,buddhism,hinduism,deity,theology,soul,ai,chat,heaven,hell` (94/100).
-- Why now: the switching cost is at its lowest it will ever be (0 ratings, 67 downloads, no brand equity).
-- Cost: the "App of the Dead" identity. Keep the home-screen name in step with the store name, or App Review can flag the mismatch.
-- A more conservative alternative: keep "App of the Dead: Religions", ship only the A2 keywords, and re-check the ranking at Day 30.
+### A3: subtitle (Marcus's decision; the name stays)
+- The name stays **"App of the Dead: Religions"**. A rename was rejected on 2026-09-24.
+- Proposed subtitle: **"Mythology Quiz & Talk to Gods"** (29 chars), replacing "World Religions & Mythology". It keeps "Religions" (from the name) and "Mythology", and claims the empty "talk to gods" query.
+- "world" moves into the keywords to keep the "world religions" ranking (US #8). The keywords become `afterlife,trivia,world,pantheon,egyptian,norse,greek,buddhism,hinduism,deity,theology,chat,ai,soul` (98/100).
+- If the subtitle stays too, ship only the A2 keywords and re-check the ranking at Day 30.
 
 ### A4: in-app event
 - Event: "Journey to Mictlan", a Challenge type running Oct 24 – Nov 2 with promotion from Oct 10. It uses existing content: the Aztec Mictlan path (first lesson is a free preview) plus Mictlantecuhtli in the Oracle, who is in no deity pack and so gets the 3 free consultations (`UserPurchaseExtensions.canConsultOracle`).
@@ -77,6 +77,6 @@ Pitch: on-device Gemma 4 god-chat (private, offline), 22 faiths, 10 languages, V
 
 | Checkpoint | Target | If missed |
 |---|---|---|
-| Day 30 (2026-10-24) | A2 live; ≥ 50 downloads in 30 days; top-50 US for "mythology" or "gods"; ≥ 1 rating | Ship A3 if it was deferred. If A3 already shipped, stop investing and hold AOTD in maintenance |
+| Day 30 (2026-10-24) | A2 live; ≥ 50 downloads in 30 days; top-50 US for "mythology" or "gods"; ≥ 1 rating | Ship the A3 subtitle if it was deferred. If it already shipped, stop investing and hold AOTD in maintenance |
 | Day 60 (2026-11-23) | ≥ 100 downloads in 30 days; first trial or IAP | Run A7 to tell apart "keywords don't rank" from "traffic doesn't convert" |
 | Day 90 (2026-12-23) | proceeds ≥ $100/mo (≈ 8 downloads/day) | Explicit continue-or-redirect call against Master of Flags (189 dl/90d), Solar Beam (193) and Flaccy (239), which already out-pull AOTD (58) by 3–4x |
