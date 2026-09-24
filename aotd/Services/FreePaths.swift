@@ -77,7 +77,7 @@ struct FreePaths {
         let date = now()
         return events.contains { event in
             event.beliefSystemId == beliefSystemId
-                && (event.isRunning(at: date, calendar: calendar) || claims.hasClaimed(event.claimKey))
+                && (isRunning(event, at: date) || claims.hasClaimed(event.claimKey))
         }
     }
 
@@ -85,10 +85,23 @@ struct FreePaths {
     func recordLessonStarted(in beliefSystemId: String) {
         let date = now()
         for event in events where event.beliefSystemId == beliefSystemId
-            && event.isRunning(at: date, calendar: calendar)
+            && isRunning(event, at: date)
             && !claims.hasClaimed(event.claimKey) {
             claims.recordClaim(event.claimKey)
             AppLogger.purchases.info("Claimed event path \(beliefSystemId, privacy: .public)")
         }
     }
+
+    /// The App Store schedules the event card on UTC days while users live on local ones, so the
+    /// path is open whenever either day falls inside the event. Nobody who taps the card finds it
+    /// locked, and nobody loses the last evening of the event to a time-zone offset.
+    private func isRunning(_ event: PathGiftEvent, at date: Date) -> Bool {
+        event.isRunning(at: date, calendar: calendar) || event.isRunning(at: date, calendar: Self.utcCalendar)
+    }
+
+    private static let utcCalendar: Calendar = {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        return calendar
+    }()
 }
