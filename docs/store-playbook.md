@@ -24,6 +24,8 @@ Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved no
 
 ## 2. The 1.1.0 monetization design (decision → evidence)
 
+> **Live prices differ from this table (verified 2026-09-24):** annual **$19.99** (7-day trial), monthly **$2.99**, lifetime $89.99, paths $3.99, Oracle Wisdom $9.99. The subscription prices were lowered in ASC outside this repo; the hosted Terms page matches the live prices. Growth plan: `docs/growth-plan.md`.
+
 | # | Decision | Evidence |
 |---|---|---|
 | 1 | Add subscription group "Premium": annual `com.appofthedead.premium.annual` **$39.99/yr** + monthly `com.appofthedead.premium.monthly` **$9.99/mo** | Category medians ($9.99/$44.99) and the entire faith comp set; $39.99 undercuts Ascend/Hallow annuals while staying in the credible band. The old internal plan ($14.99/yr, $3.99/mo) was 2.5–4x below verified norms |
