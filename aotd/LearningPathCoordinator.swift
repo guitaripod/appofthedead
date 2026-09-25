@@ -287,7 +287,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             if !isReplayMode && !isPreviewMode {
                 let navigation = navigationController
                 Task { @MainActor in
-                    ReviewPrompt.recordCompletedLesson(score: score, in: navigation.view.window?.windowScene)
+                    ReviewPrompt.recordSuccess(in: navigation.view.window?.windowScene)
                 }
             }
         } catch {
