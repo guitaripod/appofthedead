@@ -2402,7 +2402,7 @@
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "%#@lessons@ i %2$lld %3$@ do odblokowania"
+            "value": "%#@lessons@ i %#@achievements@ do odblokowania"
           },
           "substitutions": {
             "lessons": {
@@ -2432,6 +2432,38 @@
                     "stringUnit": {
                       "state": "translated",
                       "value": "%arg lekcji"
+                    }
+                  }
+                }
+              }
+            },
+            "achievements": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "few": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcia"
+                    }
+                  },
+                  "many": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięć"
+                    }
+                  },
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcie"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcia"
                     }
                   }
                 }
@@ -2674,7 +2706,7 @@
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "%#@lessons@ • %2$lld %3$@"
+            "value": "%#@lessons@ • %#@achievements@"
           },
           "substitutions": {
             "lessons": {
@@ -2704,6 +2736,38 @@
                     "stringUnit": {
                       "state": "translated",
                       "value": "%arg lekcji"
+                    }
+                  }
+                }
+              }
+            },
+            "achievements": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "few": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcia"
+                    }
+                  },
+                  "many": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięć"
+                    }
+                  },
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcie"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg osiągnięcia"
                     }
                   }
                 }
