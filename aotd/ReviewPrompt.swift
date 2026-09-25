@@ -14,13 +14,13 @@ enum ReviewPrompt {
     private static let successCountAtLastAskKey = "aotd.review.successCountAtLastAsk"
     private static let legacyPromptedVersionKey = "aotd.review.promptedVersion"
 
-    static let firstAskThreshold = 2
-    static let minimumNewSuccessesForReask = 3
-    static let minimumDaysBetweenAsks = 14
-    static let maximumAsksPerRollingYear = 3
+    nonisolated static let firstAskThreshold = 2
+    nonisolated static let minimumNewSuccessesForReask = 3
+    nonisolated static let minimumDaysBetweenAsks = 14
+    nonisolated static let maximumAsksPerRollingYear = 3
 
-    private static let rollingYear: TimeInterval = 365 * 24 * 60 * 60
-    private static let minimumAskInterval: TimeInterval = TimeInterval(minimumDaysBetweenAsks) * 24 * 60 * 60
+    private nonisolated static let rollingYear: TimeInterval = 365 * 24 * 60 * 60
+    private nonisolated static let minimumAskInterval: TimeInterval = TimeInterval(minimumDaysBetweenAsks) * 24 * 60 * 60
     private static let promptDelay: TimeInterval = 1.5
 
     /// Call when a lesson (or its quiz) has been marked complete outside a preview or a replay.
@@ -49,21 +49,33 @@ enum ReviewPrompt {
             return
         }
 
-        let updatedAskDates = askDates + [now]
-        defaults.set(updatedAskDates, forKey: askDatesKey)
-        defaults.set(successCount, forKey: successCountAtLastAskKey)
-
-        let askNumber = updatedAskDates.count
-        AppLogger.learning.info("Review prompt asked (#\(askNumber)) | successCount: \(successCount)")
+        let askNumber = askDates.count + 1
 
         DispatchQueue.main.asyncAfter(deadline: .now() + promptDelay) {
             guard scene.activationState == .foregroundActive,
-                  scene.keyWindow?.rootViewController?.presentedViewController == nil else {
+                  !isSomethingPresented(in: scene) else {
                 AppLogger.learning.info("Review prompt (#\(askNumber)) dropped | reason: scene not eligible at fire time")
                 return
             }
+            defaults.set(askDates + [now], forKey: askDatesKey)
+            defaults.set(successCount, forKey: successCountAtLastAskKey)
+            AppLogger.learning.info("Review prompt asked (#\(askNumber)) | successCount: \(successCount)")
             AppStore.requestReview(in: scene)
         }
+    }
+
+    /// Walks the full presentation chain rather than checking the root alone: a tab's own
+    /// navigation controller (not the window's root container) is what actually presents the
+    /// paywall and other sheets in this app, so only the root's `presentedViewController` would
+    /// miss them.
+    private static func isSomethingPresented(in scene: UIWindowScene) -> Bool {
+        var top = scene.keyWindow?.rootViewController
+        var foundSomething = false
+        while let presented = top?.presentedViewController {
+            foundSomething = true
+            top = presented
+        }
+        return foundSomething
     }
 
     /// Pure eligibility check: the first ask fires the moment `successCount` reaches
