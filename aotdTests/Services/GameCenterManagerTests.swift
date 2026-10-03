@@ -5,12 +5,14 @@ private final class MockGameKitInterface: GameKitInterface {
     var isAuthenticated: Bool
     private(set) var submittedScores: [(score: Int, leaderboardID: String)] = []
     private(set) var reportedAchievements: [[GameCenterAchievementReport]] = []
+    private(set) var authenticateCallCount = 0
 
     init(isAuthenticated: Bool) {
         self.isAuthenticated = isAuthenticated
     }
 
     func authenticate(_ handler: @escaping (GameCenterAuthEvent) -> Void) {
+        authenticateCallCount += 1
         handler(isAuthenticated ? .authenticated : .failed(nil))
     }
 
@@ -110,5 +112,28 @@ final class GameCenterManagerTests: XCTestCase {
 
         XCTAssertEqual(gameKit.submittedScores.count, GameCenterLeaderboard.allCases.count)
         XCTAssertTrue(gameKit.reportedAchievements.isEmpty)
+    }
+
+    func testDeferredAuthenticationWaitsForResume() {
+        let gameKit = MockGameKitInterface(isAuthenticated: false)
+        let manager = GameCenterManager(gameKit: gameKit, statsProvider: StubStatsProvider(snapshot: nil))
+
+        manager.deferAuthentication()
+        XCTAssertEqual(gameKit.authenticateCallCount, 0)
+
+        manager.resumeDeferredAuthentication()
+        XCTAssertEqual(gameKit.authenticateCallCount, 1)
+
+        manager.resumeDeferredAuthentication()
+        XCTAssertEqual(gameKit.authenticateCallCount, 1)
+    }
+
+    func testResumeWithoutDeferralDoesNotAuthenticate() {
+        let gameKit = MockGameKitInterface(isAuthenticated: false)
+        let manager = GameCenterManager(gameKit: gameKit, statsProvider: StubStatsProvider(snapshot: nil))
+
+        manager.resumeDeferredAuthentication()
+
+        XCTAssertEqual(gameKit.authenticateCallCount, 0)
     }
 }

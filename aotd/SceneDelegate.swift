@@ -108,7 +108,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         _ = AchievementNotificationManager.shared
 
-        GameCenterManager.shared.authenticate()
+        if shouldPresentWelcome() {
+            GameCenterManager.shared.deferAuthentication()
+            presentWelcome(over: adaptiveContainer, homeViewModel: homeViewModel)
+        } else {
+            GameCenterManager.shared.authenticate()
+        }
 
         presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
 
@@ -126,6 +131,43 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppLogger.ui.info("Scene setup complete")
     }
     
+    private func shouldPresentWelcome() -> Bool {
+        guard !isRunningDemoRoute else { return false }
+        return FirstRunWelcome().shouldPresent(hasExistingProgress: hasExistingProgress())
+    }
+
+    private var isRunningDemoRoute: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.environment["AOTD_DEMO"] != nil
+        #else
+        false
+        #endif
+    }
+
+    private func hasExistingProgress() -> Bool {
+        guard let user = databaseManager.fetchUser() else { return false }
+        return user.totalXP > 0 || !databaseManager.fetchProgress(for: user.id).isEmpty
+    }
+
+    /// Presents the welcome after the first frame is on screen, then hands the user to the free
+    /// Judaism path's first lesson. If that path can't be found the user simply lands on Home.
+    private func presentWelcome(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
+        let welcome = WelcomeViewController { [weak root, weak homeViewModel] in
+            FirstRunWelcome().markCompleted()
+            AppLogger.logUserAction("welcomeStarted")
+            root?.dismiss(animated: true) {
+                guard let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) else {
+                    AppLogger.ui.error("Welcome could not find the Judaism path; landing on Home")
+                    GameCenterManager.shared.resumeDeferredAuthentication()
+                    return
+                }
+                homeViewModel?.onPathSelected?(judaism)
+            }
+        }
+        root.present(welcome, animated: false)
+        AppLogger.ui.info("Presented first-run welcome")
+    }
+
     private func setupNavigationFlow(
         homeViewModel: HomeViewModel,
         navigationController: UINavigationController,
@@ -200,7 +242,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     /// Screenshot/QA rig: `AOTD_DEMO=paywall|paywall-path|paywall-oracle` presents
     /// the matching paywall right after launch; `profile|oracle|library` selects
-    /// that tab; `lesson` starts the Judaism path. DEBUG builds only.
+    /// that tab; `lesson` starts the Judaism path; `welcome` and `lesson-complete` show the
+    /// first-run screens without touching stored state. DEBUG builds only.
     private func presentDemoRouteIfRequested(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
         #if DEBUG
         guard let route = ProcessInfo.processInfo.environment["AOTD_DEMO"] else { return }
@@ -217,6 +260,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 root.present(PaywallViewController(reason: reason), animated: false)
             } else if let index = tabIndices[route] {
                 root.selectViewController(at: index)
+            } else if route == "welcome" {
+                root.present(WelcomeViewController(onStart: { root.dismiss(animated: true) }), animated: false)
+            } else if route == "lesson-complete" {
+                let summary = LessonCompleteViewController.Summary(
+                    lessonTitle: "Judaism: The Sanctity of This Life",
+                    correctAnswers: 5,
+                    totalQuestions: 6,
+                    xpReward: 86
+                )
+                let screen = LessonCompleteViewController(summary: summary, onContinue: {}, onClose: {})
+                root.present(UINavigationController(rootViewController: screen), animated: false)
             } else if route == "lesson",
                       let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) {
                 homeViewModel.onPathSelected?(judaism)

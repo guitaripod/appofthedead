@@ -11,6 +11,7 @@ final class LearningPathCoordinator {
     private var isReplayMode = false
     private var isMasterTest = false
     private var isPreviewMode = false
+    private let reminderOffer = ReminderOffer()
 
     private static let firstLessonPaywallShownKey = "aotd.didShowFirstLessonPaywall"
     
@@ -170,7 +171,12 @@ final class LearningPathCoordinator {
         
         
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
+        returnToHome()
+    }
+
+    private func returnToHome() {
         navigationController.popToRootViewController(animated: true)
+        GameCenterManager.shared.resumeDeferredAuthentication()
     }
 }
 
@@ -186,7 +192,7 @@ extension LearningPathCoordinator: LessonViewModelDelegate {
     private func exitLearningPath() {
         
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
-        navigationController.popToRootViewController(animated: true)
+        returnToHome()
     }
 }
 
@@ -202,6 +208,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             finishPreview()
         } else {
 
+            let completionSummary = reminderOfferSummaryIfEligible(results: results)
             saveLessonCompletion(results: results)
 
             currentLessonIndex += 1
@@ -209,15 +216,50 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             presentFirstLessonPaywallIfNeeded()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.showNextLesson()
+                if let completionSummary {
+                    self?.showLessonComplete(completionSummary)
+                } else {
+                    self?.showNextLesson()
+                }
             }
         }
+    }
+
+    /// The first completed lesson earns a calm completion screen carrying the reminder opt-in.
+    /// It sits in the navigation stack, so a paywall presented at the same moment simply covers
+    /// it and the card is waiting once the paywall is dismissed.
+    private func reminderOfferSummaryIfEligible(results: [QuestionResult]) -> LessonCompleteViewController.Summary? {
+        guard !isReplayMode,
+              currentLessonIndex < beliefSystem.lessons.count,
+              reminderOffer.shouldPresent(
+                priorSuccesses: ReviewPrompt.recordedSuccessCount,
+                reminderEnabled: DailyReminder.shared.isEnabled
+              ) else { return nil }
+
+        let lesson = beliefSystem.lessons[currentLessonIndex]
+        return LessonCompleteViewController.Summary(
+            lessonTitle: lesson.title,
+            correctAnswers: results.filter { $0.wasCorrect }.count,
+            totalQuestions: results.count,
+            xpReward: lesson.xpReward
+        )
+    }
+
+    private func showLessonComplete(_ summary: LessonCompleteViewController.Summary) {
+        reminderOffer.markShown()
+        AppLogger.learning.info("Showing lesson complete with reminder offer")
+        let viewController = LessonCompleteViewController(
+            summary: summary,
+            onContinue: { [weak self] in self?.showNextLesson() },
+            onClose: { [weak self] in self?.exitLearningPath() }
+        )
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     private func finishPreview() {
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
         UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
-        navigationController.popToRootViewController(animated: true)
+        returnToHome()
 
         guard !StoreManager.shared.hasAllAccess() else { return }
 

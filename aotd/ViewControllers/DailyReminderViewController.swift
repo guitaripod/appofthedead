@@ -24,23 +24,11 @@ final class DailyReminderViewController: UIViewController {
 
     private var dataSource: UITableViewDiffableDataSource<Section, Item>!
 
-    private var isReminderEnabled: Bool {
-        get { UserDefaults.standard.bool(forKey: "DailyReminderEnabled") }
-        set { UserDefaults.standard.set(newValue, forKey: "DailyReminderEnabled") }
-    }
+    private let reminder = DailyReminder.shared
 
-    private var reminderTime: Date {
-        get {
-            if let savedTime = UserDefaults.standard.object(forKey: "DailyReminderTime") as? Date {
-                return savedTime
-            }
-            var components = DateComponents()
-            components.hour = 9
-            components.minute = 0
-            return Calendar.current.date(from: components) ?? Date()
-        }
-        set { UserDefaults.standard.set(newValue, forKey: "DailyReminderTime") }
-    }
+    private var isReminderEnabled: Bool { reminder.isEnabled }
+
+    private var reminderTime: Date { reminder.time }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,31 +108,17 @@ final class DailyReminderViewController: UIViewController {
     }
 
     private func toggleReminder(enabled: Bool) {
-        if enabled {
-            requestNotificationPermission { [weak self] granted in
-                guard let self = self else { return }
-                if granted {
-                    self.isReminderEnabled = true
-                    NotificationManager.shared.scheduleDailyReminder(at: self.reminderTime)
-                    self.applySnapshot(animatingDifferences: true)
-                } else {
-                    self.isReminderEnabled = false
-                    self.showPermissionDeniedAlert()
-                    self.applySnapshot(animatingDifferences: true, reloadingToggle: true)
-                }
-            }
-        } else {
-            isReminderEnabled = false
-            NotificationManager.shared.cancelDailyReminder()
+        guard enabled else {
+            reminder.disable()
             applySnapshot(animatingDifferences: true)
+            return
         }
-    }
-
-    private func requestNotificationPermission(completion: @escaping (Bool) -> Void) {
-        NotificationManager.shared.requestAuthorization { granted in
-            DispatchQueue.main.async {
-                completion(granted)
+        reminder.enable { [weak self] granted in
+            guard let self = self else { return }
+            if !granted {
+                self.showPermissionDeniedAlert()
             }
+            self.applySnapshot(animatingDifferences: true, reloadingToggle: !granted)
         }
     }
 
@@ -163,10 +137,7 @@ final class DailyReminderViewController: UIViewController {
     }
 
     private func updateReminderTime(_ time: Date) {
-        reminderTime = time
-        if isReminderEnabled {
-            NotificationManager.shared.scheduleDailyReminder(at: time)
-        }
+        reminder.updateTime(time)
     }
 }
 

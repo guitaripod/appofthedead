@@ -10,6 +10,7 @@ final class GameCenterManager: NSObject {
 
     private var isObservingUpdates = false
     private var isSyncScheduled = false
+    private var isAuthenticationDeferred = false
 
     private static let userDataDidUpdateName = Notification.Name("UserDataDidUpdate")
 
@@ -36,6 +37,19 @@ final class GameCenterManager: NSObject {
                 self?.handleAuthEvent(event)
             }
         }
+    }
+
+    /// Holds back the sign-in sheet until `resumeDeferredAuthentication()`, so it can't cover a
+    /// brand-new user's first screens.
+    func deferAuthentication() {
+        isAuthenticationDeferred = true
+        AppLogger.gameCenter.info("Game Center sign-in deferred until first run settles")
+    }
+
+    func resumeDeferredAuthentication() {
+        guard isAuthenticationDeferred else { return }
+        isAuthenticationDeferred = false
+        authenticate()
     }
 
     private func handleAuthEvent(_ event: GameCenterAuthEvent) {

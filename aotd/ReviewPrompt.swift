@@ -9,7 +9,7 @@ import UIKit
 /// or other UI already on screen.
 @MainActor
 enum ReviewPrompt {
-    private static let successCountKey = "aotd.review.successCount"
+    private nonisolated static let successCountKey = "aotd.review.successCount"
     private static let askDatesKey = "aotd.review.askDates"
     private static let successCountAtLastAskKey = "aotd.review.successCountAtLastAsk"
     private static let legacyPromptedVersionKey = "aotd.review.promptedVersion"
@@ -22,6 +22,10 @@ enum ReviewPrompt {
     private nonisolated static let rollingYear: TimeInterval = 365 * 24 * 60 * 60
     private nonisolated static let minimumAskInterval: TimeInterval = TimeInterval(minimumDaysBetweenAsks) * 24 * 60 * 60
     private static let promptDelay: TimeInterval = 1.5
+
+    nonisolated static var recordedSuccessCount: Int {
+        UserDefaults.standard.integer(forKey: successCountKey)
+    }
 
     /// Call when a lesson (or its quiz) has been marked complete outside a preview or a replay.
     static func recordSuccess(in scene: UIWindowScene?) {
