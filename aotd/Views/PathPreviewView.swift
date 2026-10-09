@@ -295,13 +295,17 @@ class PathPreviewView: UIView {
         }
     }
     
+    private var isNarrowWindow: Bool {
+        let width = window?.bounds.width ?? bounds.width
+        return width > 0 && width <= 375
+    }
+
     private func createMilestone(stop: PathPreview.PreviewStop, index: Int, total: Int) -> UIView {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
         
         
-        let screenWidth = UIScreen.main.bounds.width
-        let isSmallScreen = screenWidth <= 375 
+        let isSmallScreen = isNarrowWindow
         let circleSize: CGFloat = isSmallScreen ? 50 : 60
         let iconSize: CGFloat = isSmallScreen ? 20 : 24
         

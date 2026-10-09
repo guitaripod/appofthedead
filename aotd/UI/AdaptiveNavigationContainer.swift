@@ -24,6 +24,19 @@ final class AdaptiveNavigationContainer: UIViewController {
     private var embeddedSplitViewController: UISplitViewController?
     private var sidebarViewController: SidebarViewController?
     private let adaptiveLayoutManager = AdaptiveLayoutManager.shared
+    private var isSplitLayout: Bool?
+    private var isRebuildScheduled = false
+    private var selectedIndex = 0
+    private var sidebarToggleButtons: [UIBarButtonItem] = []
+    private var navigationControllers: [UINavigationController] {
+        [
+            homeNavigationController,
+            profileNavigationController,
+            oracleNavigationController,
+            libraryNavigationController,
+            settingsNavigationController
+        ]
+    }
     init(
         homeNav: UINavigationController,
         profileNav: UINavigationController,
@@ -41,27 +54,62 @@ final class AdaptiveNavigationContainer: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavigationForCurrentTraits()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        rebuildNavigationIfLayoutChanged()
     }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [weak self] _ in
-            self?.setupNavigationForCurrentTraits()
-        })
+    /// The arrangement follows the width this window has right now, so a fold, a rotation or a
+    /// resized window can swap the tab bar for the sidebar and back. The selected section and the
+    /// navigation stacks survive the swap.
+    private func rebuildNavigationIfLayoutChanged() {
+        guard isSplitLayout != wantsSplitLayout, !isRebuildScheduled else { return }
+        guard isSplitLayout != nil else {
+            applyLayout(split: wantsSplitLayout)
+            return
+        }
+        isRebuildScheduled = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            isRebuildScheduled = false
+            guard isSplitLayout != wantsSplitLayout else { return }
+            applyLayout(split: wantsSplitLayout)
+        }
     }
-    private func setupNavigationForCurrentTraits() {
+    private var wantsSplitLayout: Bool {
+        adaptiveLayoutManager.shouldUseSplitView(for: traitCollection, windowWidth: view.bounds.width)
+    }
+    private func applyLayout(split: Bool) {
+        isSplitLayout = split
+        detachEmbeddedControllers()
+        if split {
+            setupSplitViewController()
+        } else {
+            setupTabBarController()
+        }
+        selectViewController(at: selectedIndex)
+    }
+    private func detachEmbeddedControllers() {
         children.forEach { child in
             child.willMove(toParent: nil)
             child.view.removeFromSuperview()
             child.removeFromParent()
         }
-        if adaptiveLayoutManager.shouldUseSplitView(for: traitCollection) {
-            setupSplitViewController()
-        } else {
-            setupTabBarController()
+        navigationControllers.forEach { navigationController in
+            navigationController.willMove(toParent: nil)
+            navigationController.view.removeFromSuperview()
+            navigationController.removeFromParent()
         }
+        clearSidebarToggleButtons()
+    }
+    private func clearSidebarToggleButtons() {
+        for navigationController in navigationControllers {
+            guard let item = navigationController.viewControllers.first?.navigationItem,
+                  let button = item.leftBarButtonItem,
+                  sidebarToggleButtons.contains(button) else { continue }
+            item.leftBarButtonItem = nil
+            item.leftItemsSupplementBackButton = false
+        }
+        sidebarToggleButtons = []
     }
     private func setupTabBarController() {
         let tabBar = UITabBarController()
@@ -97,6 +145,7 @@ final class AdaptiveNavigationContainer: UIViewController {
             libraryNavigationController,
             settingsNavigationController
         ]
+        tabBar.delegate = self
         configureTabBarAppearance(tabBar.tabBar)
         addChild(tabBar)
         view.addSubview(tabBar.view)
@@ -116,10 +165,10 @@ final class AdaptiveNavigationContainer: UIViewController {
         splitVC.preferredDisplayMode = .oneBesideSecondary
         splitVC.preferredSplitBehavior = .tile
         splitVC.presentsWithGesture = true
-        addSidebarToggleButtons(to: splitVC)
-        splitVC.minimumPrimaryColumnWidth = LayoutConstants.sidebarMinWidth
-        splitVC.preferredPrimaryColumnWidthFraction = LayoutConstants.sidebarPreferredWidthFraction
-        splitVC.maximumPrimaryColumnWidth = LayoutConstants.sidebarMaxWidth
+        applySidebarWidths(to: splitVC)
+        if adaptiveLayoutManager.isIPad {
+            addSidebarToggleButtons(to: splitVC)
+        }
         splitVC.view.backgroundColor = PapyrusDesignSystem.Colors.background
         addChild(splitVC)
         view.addSubview(splitVC.view)
@@ -129,6 +178,14 @@ final class AdaptiveNavigationContainer: UIViewController {
         self.embeddedSplitViewController = splitVC
         self.sidebarViewController = sidebar
         self.embeddedTabBarController = nil
+    }
+    /// iPad keeps its tuned sidebar widths. Everywhere else the system sizes the columns, which is
+    /// what lets a folding iPhone rebalance them around the fold.
+    private func applySidebarWidths(to splitViewController: UISplitViewController) {
+        guard adaptiveLayoutManager.isIPad else { return }
+        splitViewController.minimumPrimaryColumnWidth = LayoutConstants.sidebarMinWidth
+        splitViewController.preferredPrimaryColumnWidthFraction = LayoutConstants.sidebarPreferredWidthFraction
+        splitViewController.maximumPrimaryColumnWidth = LayoutConstants.sidebarMaxWidth
     }
     /// On iOS 26+ the system's floating Liquid Glass tab bar is used as-is; forcing
     /// an opaque background would suppress the material entirely.
@@ -171,24 +228,25 @@ final class AdaptiveNavigationContainer: UIViewController {
             if let rootVC = navController.viewControllers.first {
                 rootVC.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
                 rootVC.navigationItem.leftItemsSupplementBackButton = true
+                sidebarToggleButtons.append(splitViewController.displayModeButtonItem)
             }
         }
     }
     func selectViewController(at index: Int) {
+        guard navigationControllers.indices.contains(index) else { return }
+        selectedIndex = index
         if let tabBar = embeddedTabBarController {
             tabBar.selectedIndex = index
         } else if let sidebar = sidebarViewController {
             sidebar.selectItem(at: index)
-            let viewControllers = [
-                homeNavigationController,
-                profileNavigationController,
-                oracleNavigationController,
-                libraryNavigationController,
-                settingsNavigationController
-            ]
-            if index < viewControllers.count {
-                embeddedSplitViewController?.setViewController(viewControllers[index], for: .secondary)
-            }
+            embeddedSplitViewController?.setViewController(navigationControllers[index], for: .secondary)
+        }
+    }
+}
+extension AdaptiveNavigationContainer: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let index = navigationControllers.firstIndex(where: { $0 === viewController }) {
+            selectedIndex = index
         }
     }
 }
@@ -202,9 +260,10 @@ extension AdaptiveNavigationContainer: SidebarViewControllerDelegate {
             settingsNavigationController
         ]
         if index < viewControllers.count {
+            selectedIndex = index
             let selectedNavController = viewControllers[index]
             embeddedSplitViewController?.setViewController(selectedNavController, for: .secondary)
-            if let rootVC = selectedNavController.viewControllers.first {
+            if adaptiveLayoutManager.isIPad, let rootVC = selectedNavController.viewControllers.first {
                 rootVC.navigationItem.leftBarButtonItem = embeddedSplitViewController?.displayModeButtonItem
                 rootVC.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -310,9 +369,14 @@ final class SidebarViewController: UIViewController {
             content.textProperties.font = PapyrusDesignSystem.Typography.headline(for: self.traitCollection)
             content.textProperties.color = PapyrusDesignSystem.Colors.Dynamic.primaryText
             cell.contentConfiguration = content
-            var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
-            backgroundConfig.backgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
-            cell.backgroundConfiguration = backgroundConfig
+            cell.configurationUpdateHandler = { cell, state in
+                var backgroundConfig = UIBackgroundConfiguration.listPlainCell()
+                backgroundConfig.backgroundColor = state.isSelected
+                    ? PapyrusDesignSystem.Colors.goldLeaf.withAlphaComponent(0.22)
+                    : PapyrusDesignSystem.Colors.Dynamic.cardBackground
+                backgroundConfig.cornerRadius = 10
+                cell.backgroundConfiguration = backgroundConfig
+            }
         }
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
@@ -334,9 +398,16 @@ final class SidebarViewController: UIViewController {
             selectItem(at: firstItem.index)
         }
     }
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        if let selectedIndexPath {
+            collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: [])
+        }
+    }
     func selectItem(at index: Int) {
+        loadViewIfNeeded()
         let indexPath = IndexPath(item: index, section: 0)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         selectedIndexPath = indexPath
     }
 }

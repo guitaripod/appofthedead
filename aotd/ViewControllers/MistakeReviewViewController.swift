@@ -88,8 +88,16 @@ final class MistakeReviewViewController: UIViewController {
     
     
     
+    private let foldAvoiding = FoldAvoidingLayout()
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foldAvoiding.update(in: view)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        foldAvoiding.install(in: view)
         setupUI()
         loadQuestions()
         showNextQuestion()
@@ -118,16 +126,16 @@ final class MistakeReviewViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             headerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            headerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            headerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            headerStackView.leadingAnchor.constraint(equalTo: foldAvoiding.guide.leadingAnchor, constant: 20),
+            headerStackView.trailingAnchor.constraint(equalTo: foldAvoiding.guide.trailingAnchor, constant: -20),
             
             
             progressView.heightAnchor.constraint(equalToConstant: 8),
             
             
             containerView.topAnchor.constraint(equalTo: headerStackView.bottomAnchor, constant: 30),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.leadingAnchor.constraint(equalTo: foldAvoiding.guide.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: foldAvoiding.guide.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

@@ -21,7 +21,6 @@ extension OracleViewController {
         tableView.scrollIndicatorInsets = contentInset
         tableView.alwaysBounceHorizontal = false
         tableView.showsHorizontalScrollIndicator = false
-        tableView.contentInsetAdjustmentBehavior = .never
         tableView.clipsToBounds = true
         if layoutManager.isRegularWidth(traitCollection) {
             setupPromptSuggestionsPanel()

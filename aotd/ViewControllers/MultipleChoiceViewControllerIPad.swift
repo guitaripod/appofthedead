@@ -35,7 +35,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
         updatedConfig.baseBackgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
         updatedConfig.baseForegroundColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         let touchSize = adaptiveLayoutManager.touchTargetSize(for: traitCollection)
-        let insets = adaptiveLayoutManager.isIPad ? 
+        let insets = adaptiveLayoutManager.usesTabletLayout(traitCollection) ? 
             NSDirectionalEdgeInsets(top: 20, leading: 24, bottom: 20, trailing: 24) :
             NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         updatedConfig.contentInsets = insets
@@ -45,7 +45,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
             outgoing.font = PapyrusDesignSystem.Typography.headline(for: self?.traitCollection)
             return outgoing
         }
-        if adaptiveLayoutManager.isIPad {
+        if adaptiveLayoutManager.usesTabletLayout(traitCollection) {
             let circleConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
             updatedConfig.image = UIImage(systemName: "circle", withConfiguration: circleConfig)
             updatedConfig.imagePlacement = .leading
@@ -64,7 +64,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
             if index == sender.tag {
                 config?.baseBackgroundColor = PapyrusDesignSystem.Colors.goldLeaf.withAlphaComponent(0.2)
                 config?.baseForegroundColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
-                if adaptiveLayoutManager.isIPad {
+                if adaptiveLayoutManager.usesTabletLayout(traitCollection) {
                     let circleConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                     config?.image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: circleConfig)
                     config?.imageColorTransformer = UIConfigurationColorTransformer { _ in
@@ -74,7 +74,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
             } else {
                 config?.baseBackgroundColor = PapyrusDesignSystem.Colors.Dynamic.cardBackground
                 config?.baseForegroundColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
-                if adaptiveLayoutManager.isIPad {
+                if adaptiveLayoutManager.usesTabletLayout(traitCollection) {
                     let circleConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
                     config?.image = UIImage(systemName: "circle", withConfiguration: circleConfig)
                     config?.imageColorTransformer = UIConfigurationColorTransformer { _ in
@@ -110,7 +110,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
             if option == correctAnswer {
                 config?.baseBackgroundColor = PapyrusDesignSystem.Colors.scarabGreen.withAlphaComponent(0.3)
                 config?.baseForegroundColor = PapyrusDesignSystem.Colors.beige
-                if adaptiveLayoutManager.isIPad {
+                if adaptiveLayoutManager.usesTabletLayout(traitCollection) {
                     let checkConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                     config?.image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: checkConfig)
                     config?.imageColorTransformer = UIConfigurationColorTransformer { _ in
@@ -123,7 +123,7 @@ final class MultipleChoiceViewControllerIPad: BaseQuestionViewController {
             } else if option == selectedAnswer && !isCorrect {
                 config?.baseBackgroundColor = PapyrusDesignSystem.Colors.tombRed.withAlphaComponent(0.3)
                 config?.baseForegroundColor = PapyrusDesignSystem.Colors.beige
-                if adaptiveLayoutManager.isIPad {
+                if adaptiveLayoutManager.usesTabletLayout(traitCollection) {
                     let xConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                     config?.image = UIImage(systemName: "xmark.circle.fill", withConfiguration: xConfig)
                     config?.imageColorTransformer = UIConfigurationColorTransformer { _ in

@@ -11,13 +11,12 @@ final class OracleViewController: UIViewController {
     var promptSuggestionsView = UIView()
     private let viewModel = OracleViewModel()
     private var cancellables = Set<AnyCancellable>()
-    private var inputContainerBottomConstraint: NSLayoutConstraint?
+    private var lastInputContainerTop: CGFloat = 0
     private var typingIndicator: UIActivityIndicatorView?
     private var summonView: OracleSummonView?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupKeyboardObservers()
         setupBindings()
         updateLayoutForIPad()
         checkModelStatus()
@@ -37,6 +36,19 @@ final class OracleViewController: UIViewController {
         title = String(localized: "Oracle")
         checkModelStatus()
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        followInputContainerWhenKeyboardMoves()
+    }
+
+    /// The keyboard layout guide moves the input bar; the newest message stays above it.
+    private func followInputContainerWhenKeyboardMoves() {
+        let top = inputContainerView.frame.minY
+        defer { lastInputContainerTop = top }
+        guard lastInputContainerTop != 0, top < lastInputContainerTop else { return }
+        scrollToBottom()
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
@@ -118,17 +130,14 @@ final class OracleViewController: UIViewController {
         promptSuggestionsView.addGestureRecognizer(tapGesture)
     }
     private func setupConstraints() {
-        inputContainerBottomConstraint = inputContainerView.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor
-        )
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor),
-            inputContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            inputContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            inputContainerBottomConstraint!,
+            inputContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            inputContainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            inputContainerView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             deitySelectionButton.leadingAnchor.constraint(equalTo: inputContainerView.leadingAnchor, constant: 12),
             deitySelectionButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
             deitySelectionButton.widthAnchor.constraint(equalToConstant: 36),
@@ -144,8 +153,8 @@ final class OracleViewController: UIViewController {
             sendButton.widthAnchor.constraint(equalToConstant: 36),
             sendButton.heightAnchor.constraint(equalToConstant: 36),
             promptSuggestionsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            promptSuggestionsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            promptSuggestionsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            promptSuggestionsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            promptSuggestionsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             promptSuggestionsView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor)
         ])
     }
@@ -319,20 +328,6 @@ final class OracleViewController: UIViewController {
         }
         updatePromptSuggestions()
     }
-    private func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
     @objc func sendMessage() {
         guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty else {
@@ -391,26 +386,6 @@ final class OracleViewController: UIViewController {
         }
         if self.presentedViewController == nil {
             self.present(deitySelector, animated: true)
-        }
-    }
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
-            return
-        }
-        inputContainerBottomConstraint?.constant = -keyboardFrame.height + view.safeAreaInsets.bottom
-        UIView.animate(withDuration: duration) {
-            self.view.layoutIfNeeded()
-        }
-        scrollToBottom()
-    }
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
-            return
-        }
-        inputContainerBottomConstraint?.constant = 0
-        UIView.animate(withDuration: duration) {
-            self.view.layoutIfNeeded()
         }
     }
     @objc private func handleMemoryWarning() {
@@ -753,7 +728,8 @@ private class ChatMessageCell: UITableViewCell {
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -13),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -7),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 14),
-            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: min(720, UIScreen.main.bounds.width * 0.88)),
+            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 720),
+            bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.88),
             typingIndicator.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor),
             typingIndicator.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor)
         ])

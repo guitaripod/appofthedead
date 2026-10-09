@@ -39,8 +39,16 @@ class PaywallViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private let foldAvoiding = FoldAvoidingLayout()
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foldAvoiding.update(in: view)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        foldAvoiding.install(in: view)
         setupUI()
         bindViewModel()
         loadPathPreviews()
@@ -83,7 +91,7 @@ class PaywallViewController: UIViewController {
             glassCircle.bottomAnchor.constraint(equalTo: dismissButton.bottomAnchor),
 
             dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: PapyrusDesignSystem.Spacing.medium),
-            dismissButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
+            dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -PapyrusDesignSystem.Spacing.medium),
             dismissButton.widthAnchor.constraint(equalToConstant: 36),
             dismissButton.heightAnchor.constraint(equalToConstant: 36)
         ])
@@ -116,8 +124,8 @@ class PaywallViewController: UIViewController {
         bottomBar.contentView.addSubview(legalStackView)
 
         NSLayoutConstraint.activate([
-            bottomBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomBar.leadingAnchor.constraint(equalTo: foldAvoiding.guide.leadingAnchor),
+            bottomBar.trailingAnchor.constraint(equalTo: foldAvoiding.guide.trailingAnchor),
             bottomBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             ctaButton.topAnchor.constraint(equalTo: bottomBar.contentView.topAnchor, constant: PapyrusDesignSystem.Spacing.small),
@@ -204,8 +212,8 @@ class PaywallViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: dismissButton.bottomAnchor, constant: PapyrusDesignSystem.Spacing.xSmall),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: foldAvoiding.guide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: foldAvoiding.guide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomBar.topAnchor),
 
             contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: PapyrusDesignSystem.Spacing.small),

@@ -26,6 +26,8 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         viewModel as! MatchingQuestionViewModel
     }
 
+    override var scrollsContent: Bool { false }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubmitButton()
@@ -72,8 +74,8 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         guard let submitButton else { return }
         NSLayoutConstraint.activate([
             columnsScrollView.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 24),
-            columnsScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            columnsScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            columnsScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            columnsScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             columnsScrollView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -16),
             columnsStackView.topAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.topAnchor),
             columnsStackView.leadingAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.leadingAnchor),

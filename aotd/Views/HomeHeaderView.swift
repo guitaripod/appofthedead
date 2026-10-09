@@ -20,6 +20,8 @@ final class HomeHeaderView: UICollectionReusableView {
         label.layer.shadowOffset = CGSize(width: 0, height: 1)
         label.layer.shadowOpacity = 0.3
         label.layer.shadowRadius = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.6
         return label
     }()
     
@@ -28,6 +30,8 @@ final class HomeHeaderView: UICollectionReusableView {
         label.text = String(localized: "Explore afterlife beliefs across cultures")
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.textColor = UIColor.Papyrus.secondaryText
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.75
         return label
     }()
     

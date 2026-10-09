@@ -46,11 +46,19 @@ final class WelcomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private let foldAvoiding = FoldAvoidingLayout()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.Papyrus.background
+        foldAvoiding.install(in: view)
         setupContent()
         setupFooter()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foldAvoiding.update(in: view)
     }
 
     private func setupContent() {
@@ -67,8 +75,8 @@ final class WelcomeViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            scrollView.leadingAnchor.constraint(equalTo: foldAvoiding.guide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: foldAvoiding.guide.trailingAnchor)
         ])
     }
 
@@ -87,12 +95,12 @@ final class WelcomeViewController: UIViewController {
         startButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(startButton)
 
-        let preferredWidth = startButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -56)
+        let preferredWidth = startButton.widthAnchor.constraint(equalTo: foldAvoiding.guide.widthAnchor, constant: -56)
         preferredWidth.priority = .defaultHigh
 
         NSLayoutConstraint.activate([
             scrollView.bottomAnchor.constraint(equalTo: startButton.topAnchor, constant: -12),
-            startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            startButton.centerXAnchor.constraint(equalTo: foldAvoiding.guide.centerXAnchor),
             startButton.widthAnchor.constraint(lessThanOrEqualToConstant: 520),
             preferredWidth,
             startButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)

@@ -58,8 +58,7 @@ final class QuestionFlowCoordinator: NSObject {
                 totalQuestions: questions.count
             )
             
-            // Use iPad-optimized view controller when appropriate
-            if layoutManager.isIPad {
+            if layoutManager.usesTabletLayout(navigationController.traitCollection) {
                 viewController = MultipleChoiceViewControllerIPad(viewModel: viewModel)
             } else {
                 viewController = MultipleChoiceViewController(viewModel: viewModel)

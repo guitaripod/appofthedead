@@ -390,7 +390,7 @@ enum PapyrusDesignSystem {
         // iPad-specific spacing
         static func adaptive(_ base: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
             let layoutManager = AdaptiveLayoutManager.shared
-            if layoutManager.isIPad && layoutManager.isRegularWidth(traitCollection) {
+            if layoutManager.usesTabletLayout(traitCollection) && layoutManager.isRegularWidth(traitCollection) {
                 return base * 1.25  // 25% more spacing on iPad
             }
             return base

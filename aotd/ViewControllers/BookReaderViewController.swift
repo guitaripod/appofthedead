@@ -165,8 +165,11 @@ final class BookReaderViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let foldAvoiding = FoldAvoidingLayout()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        foldAvoiding.install(in: view)
         setupUI()
         setupTextSelection()
         bindViewModel()
@@ -258,8 +261,8 @@ final class BookReaderViewController: UIViewController {
             
             
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             headerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             
             backButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
@@ -287,18 +290,18 @@ final class BookReaderViewController: UIViewController {
             
             
             textView.topAnchor.constraint(equalTo: view.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             
-            bottomToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomToolbar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bottomToolbar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             bottomToolbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
             bottomToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             
-            playPauseButton.centerXAnchor.constraint(equalTo: bottomToolbar.centerXAnchor),
+            playPauseButton.centerXAnchor.constraint(equalTo: foldAvoiding.guide.centerXAnchor),
             playPauseButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
             
             previousChapterButton.trailingAnchor.constraint(equalTo: playPauseButton.leadingAnchor, constant: -40),
@@ -1191,6 +1194,24 @@ extension BookReaderViewController {
         papyrusBackgroundView.alpha = theme.isDark ? 0.05 : 0.3
     }
     
+    private static let readableTextWidth: CGFloat = 640
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        foldAvoiding.update(in: view)
+        keepTextColumnReadable()
+    }
+
+    /// A wide window keeps the text to a comfortable measure and centres the column, instead of
+    /// running lines across the whole display.
+    private func keepTextColumnReadable() {
+        guard !AdaptiveLayoutManager.shared.isIPad else { return }
+        let current = textView.textContainerInset
+        let margin = max(CGFloat(viewModel.preferences.marginSize), (textView.bounds.width - Self.readableTextWidth) / 2)
+        guard abs(current.left - margin) > 0.5 else { return }
+        textView.textContainerInset = UIEdgeInsets(top: current.top, left: margin, bottom: current.bottom, right: margin)
+    }
+
     private func applyTextAlignment() {
         let margin = CGFloat(viewModel.preferences.marginSize)
         textView.textContainerInset = UIEdgeInsets(top: 120, left: margin, bottom: 100, right: margin)

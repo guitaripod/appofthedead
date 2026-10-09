@@ -43,16 +43,14 @@ enum ViewLayoutPreference: String, CaseIterable {
         case .compactGrid:
             return 2
         case .wideGrid:
-            return UIDevice.current.userInterfaceIdiom == .pad && 
-                   UIScreen.main.bounds.width > 1024 ? 4 : 3
+            return 3
         }
     }
     static func preferredLayout(for traitCollection: UITraitCollection) -> ViewLayoutPreference {
-        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
-        let isRegularWidth = traitCollection.horizontalSizeClass == .regular
-        let isRegularHeight = traitCollection.verticalSizeClass == .regular
-        let screenWidth = UIScreen.main.bounds.width
-        if isIPad {
+        let layoutManager = AdaptiveLayoutManager.shared
+        let isRegularWidth = layoutManager.isRegularWidth(traitCollection)
+        let isRegularHeight = layoutManager.isRegularHeight(traitCollection)
+        if layoutManager.usesTabletLayout(traitCollection) {
             if isRegularWidth && isRegularHeight {
                 return .wideGrid
             } else if isRegularWidth {

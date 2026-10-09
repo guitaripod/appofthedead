@@ -99,8 +99,8 @@ class PathPreviewViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             
             

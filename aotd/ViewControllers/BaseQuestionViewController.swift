@@ -10,11 +10,16 @@ class BaseQuestionViewController: UIViewController {
     let contentStackView = UIStackView()
     
     var submitButton: UIButton?
+    private let contentScrollView = UIScrollView()
+    private var contentScrollBottomConstraint: NSLayoutConstraint?
+    private let foldClearance = UIView()
+    private let foldClearanceHeight: NSLayoutConstraint
     var hideProgressView = false
     var hideQuestionNumber = false
     
     init(viewModel: BaseQuestionViewModel) {
         self.viewModel = viewModel
+        self.foldClearanceHeight = foldClearance.heightAnchor.constraint(equalToConstant: 0)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,19 +59,81 @@ class BaseQuestionViewController: UIViewController {
         contentStackView.axis = .vertical
         contentStackView.spacing = 24
         contentStackView.alignment = .fill
-        view.addSubview(contentStackView)
         
         setupProgressView()
         setupQuestionNumberLabel()
         setupQuestionLabel()
+        setupFoldClearance()
         
+        if scrollsContent {
+            embedContentInScrollView()
+        } else {
+            embedContentDirectly()
+        }
+    }
+
+    /// Questions whose answers can outgrow a short window scroll them above the submit button.
+    /// A screen that scrolls its own answer area opts out.
+    var scrollsContent: Bool { true }
+
+    private func embedContentDirectly() {
+        view.addSubview(contentStackView)
         NSLayoutConstraint.activate([
             contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            contentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
+    }
+
+    private func embedContentInScrollView() {
+        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentScrollView.alwaysBounceVertical = false
+        contentScrollView.showsVerticalScrollIndicator = false
+        view.addSubview(contentScrollView)
+        contentScrollView.addSubview(contentStackView)
+        let bottom = contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        contentScrollBottomConstraint = bottom
+        NSLayoutConstraint.activate([
+            contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            bottom,
+            contentStackView.topAnchor.constraint(equalTo: contentScrollView.contentLayoutGuide.topAnchor, constant: 20),
+            contentStackView.bottomAnchor.constraint(equalTo: contentScrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+            contentStackView.leadingAnchor.constraint(equalTo: contentScrollView.frameLayoutGuide.leadingAnchor, constant: 20),
+            contentStackView.trailingAnchor.constraint(equalTo: contentScrollView.frameLayoutGuide.trailingAnchor, constant: -20)
         ])
     }
     
+    private func setupFoldClearance() {
+        foldClearance.translatesAutoresizingMaskIntoConstraints = false
+        foldClearanceHeight.isActive = true
+        foldClearance.isHidden = true
+        contentStackView.addArrangedSubview(foldClearance)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        keepAnswersBelowFold()
+    }
+
+    /// With the device half open and the fold running across the screen, the question stays in the
+    /// upper half and every answer control sits in the lower half, so no control crosses the fold.
+    private func keepAnswersBelowFold() {
+        let required = requiredFoldClearance()
+        guard abs(required - foldClearanceHeight.constant) > 0.5 else { return }
+        foldClearanceHeight.constant = required
+        foldClearance.isHidden = required == 0
+        view.setNeedsLayout()
+    }
+
+    private func requiredFoldClearance() -> CGFloat {
+        guard let fold = FoldRegion.activeFrame(in: view), fold.width > fold.height else { return 0 }
+        let questionBottom = questionLabel.convert(questionLabel.bounds, to: view).maxY
+        let answersTop = questionBottom + contentStackView.spacing * 2
+        return max(0, fold.maxY - answersTop)
+    }
+
     private func setupProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.addArrangedSubview(progressView)
@@ -123,11 +190,14 @@ class BaseQuestionViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             button.heightAnchor.constraint(equalToConstant: 56)
         ])
+        contentScrollBottomConstraint?.isActive = false
+        contentScrollBottomConstraint = contentScrollView.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -16)
+        contentScrollBottomConstraint?.isActive = scrollsContent
     }
     
     private func configureWithViewModel() {

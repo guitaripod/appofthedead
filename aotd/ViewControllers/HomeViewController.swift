@@ -34,7 +34,7 @@ final class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewWillAppear")
         let adaptiveManager = AdaptiveLayoutManager.shared
-        if !adaptiveManager.shouldUseSplitView(for: traitCollection) {
+        if !adaptiveManager.shouldUseSplitView(for: traitCollection, windowWidth: view.window?.bounds.width ?? view.bounds.width) {
             navigationController?.setNavigationBarHidden(true, animated: animated)
         } else {
             navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -108,12 +108,15 @@ final class HomeViewController: UIViewController {
             guard let self = self else { return nil }
             let layoutManager = AdaptiveLayoutManager.shared
             let traitCollection = layoutEnvironment.traitCollection
+            let containerWidth = layoutEnvironment.container.effectiveContentSize.width
+            let windowWidth = self.view.window?.bounds.width ?? containerWidth
+            let tabletLayout = layoutManager.usesTabletLayout(traitCollection)
             let columnCount: Int
             switch self.currentLayoutPreference {
             case .wideGrid:
-                columnCount = layoutManager.gridColumnCount(for: traitCollection)
+                columnCount = layoutManager.gridColumnCount(for: traitCollection, windowWidth: windowWidth, containerWidth: containerWidth)
             case .compactGrid:
-                columnCount = min(3, layoutManager.gridColumnCount(for: traitCollection))
+                columnCount = min(3, layoutManager.gridColumnCount(for: traitCollection, windowWidth: windowWidth, containerWidth: containerWidth))
             case .grid:
                 columnCount = 2
             case .list, .sidebarList:
@@ -132,7 +135,7 @@ final class HomeViewController: UIViewController {
                     top: spacing/2, leading: spacing/2,
                     bottom: spacing/2, trailing: spacing/2
                 )
-                let groupHeight: CGFloat = layoutManager.isIPad ? 220 : 190
+                let groupHeight: CGFloat = tabletLayout ? 220 : 190
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .absolute(groupHeight)
@@ -150,7 +153,7 @@ final class HomeViewController: UIViewController {
                     trailing: insets.right
                 )
                 section.interGroupSpacing = spacing
-                let headerHeight: CGFloat = layoutManager.isIPad ? 140 : 120
+                let headerHeight: CGFloat = tabletLayout ? 140 : 120
                 let headerSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .estimated(headerHeight)
@@ -164,7 +167,7 @@ final class HomeViewController: UIViewController {
                 section.boundarySupplementaryItems = [header]
                 return section
             } else {
-                let itemHeight: CGFloat = layoutManager.isIPad ? 120 : 100
+                let itemHeight: CGFloat = tabletLayout ? 120 : 100
                 let itemSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .estimated(itemHeight)
@@ -186,7 +189,7 @@ final class HomeViewController: UIViewController {
                     trailing: insets.right
                 )
                 section.interGroupSpacing = spacing/2
-                let headerHeight: CGFloat = layoutManager.isIPad ? 140 : 120
+                let headerHeight: CGFloat = tabletLayout ? 140 : 120
                 let headerSize = NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
                     heightDimension: .estimated(headerHeight)
