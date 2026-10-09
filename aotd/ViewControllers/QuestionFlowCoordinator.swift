@@ -17,13 +17,14 @@ final class QuestionFlowCoordinator: NSObject {
     private let navigationController: UINavigationController
     private let questions: [Question]
     private let beliefSystem: BeliefSystem
-    private var currentQuestionIndex = 0
+    private var currentQuestionIndex: Int
     private var results: [QuestionResult] = []
     
-    init(navigationController: UINavigationController, questions: [Question], beliefSystem: BeliefSystem) {
+    init(navigationController: UINavigationController, questions: [Question], beliefSystem: BeliefSystem, startingAt startIndex: Int = 0) {
         self.navigationController = navigationController
         self.questions = questions
         self.beliefSystem = beliefSystem
+        self.currentQuestionIndex = startIndex
         super.init()
     }
     

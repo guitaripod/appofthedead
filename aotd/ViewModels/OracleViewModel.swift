@@ -86,10 +86,24 @@ final class OracleViewModel: ObservableObject {
         
         isModelLoaded = modelManager.isModelLoaded
         
+        if seedDemoConversation() { return }
         
         Task {
             await checkAndAutoLoadModel()
         }
+    }
+
+    /// The screenshot rig fills the chat from a canned conversation and skips the model.
+    private func seedDemoConversation() -> Bool {
+        #if DEBUG
+        guard let conversation = DemoOracle.conversation(for: availableDeities) else { return false }
+        selectedDeity = conversation.deity
+        messages = conversation.messages
+        isModelLoaded = true
+        return true
+        #else
+        return false
+        #endif
     }
     
     

@@ -37,13 +37,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         databaseManager.setContentLoader(contentLoader)
         
         
-        DispatchQueue.global(qos: .background).async {
-            let bookGenerator = BookContentGenerator(
-                databaseManager: self.databaseManager,
-                contentLoader: contentLoader
-            )
-            bookGenerator.generateAndSaveAllBooks()
-        }
+        generateBooksInBackgroundUnlessDemo(contentLoader: contentLoader)
         
         
         let homeActivity = AppLogger.beginActivity("HomeViewController.setup")
@@ -111,11 +105,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if shouldPresentWelcome() {
             GameCenterManager.shared.deferAuthentication()
             presentWelcome(over: adaptiveContainer, homeViewModel: homeViewModel)
-        } else {
+        } else if !isRunningDemoRoute {
             GameCenterManager.shared.authenticate()
         }
 
-        presentDemoRouteIfRequested(over: adaptiveContainer, homeViewModel: homeViewModel)
+        presentDemoRouteIfRequested(
+            over: adaptiveContainer,
+            homeNavigation: homeNavigationController,
+            oracleNavigation: oracleNavigationController,
+            homeViewModel: homeViewModel,
+            contentLoader: contentLoader
+        )
 
         UserDefaults.standard.removeObject(forKey: SessionState.currentBeliefSystemKey)
 
@@ -138,10 +138,28 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private var isRunningDemoRoute: Bool {
         #if DEBUG
-        ProcessInfo.processInfo.environment["AOTD_DEMO"] != nil
+        DemoWorld.isActive
         #else
         false
         #endif
+    }
+
+    /// Books are generated once, off the main thread. The screenshot rig builds them up front
+    /// instead, so the library is complete on the first frame.
+    private func generateBooksInBackgroundUnlessDemo(contentLoader: ContentLoader) {
+        #if DEBUG
+        if DemoWorld.isActive {
+            DemoWorld.prepare(database: databaseManager, contentLoader: contentLoader)
+            return
+        }
+        #endif
+        DispatchQueue.global(qos: .background).async {
+            let bookGenerator = BookContentGenerator(
+                databaseManager: self.databaseManager,
+                contentLoader: contentLoader
+            )
+            bookGenerator.generateAndSaveAllBooks()
+        }
     }
 
     private func hasExistingProgress() -> Bool {
@@ -240,42 +258,21 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppLogger.ui.info("Scene did become active")
     }
     
-    /// Screenshot/QA rig: `AOTD_DEMO=paywall|paywall-path|paywall-oracle` presents
-    /// the matching paywall right after launch; `profile|oracle|library` selects
-    /// that tab; `lesson` starts the Judaism path; `welcome` and `lesson-complete` show the
-    /// first-run screens without touching stored state. DEBUG builds only.
-    private func presentDemoRouteIfRequested(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
+    private func presentDemoRouteIfRequested(
+        over root: AdaptiveNavigationContainer,
+        homeNavigation: UINavigationController,
+        oracleNavigation: UINavigationController,
+        homeViewModel: HomeViewModel,
+        contentLoader: ContentLoader
+    ) {
         #if DEBUG
-        guard let route = ProcessInfo.processInfo.environment["AOTD_DEMO"] else { return }
-
-        let paywallReasons: [String: PaywallReason] = [
-            "paywall": .generalUpgrade,
-            "paywall-path": .lockedPath(beliefSystemId: "norse"),
-            "paywall-oracle": .oracleLimit(deityId: "anubis", deityName: "Anubis")
-        ]
-        let tabIndices: [String: Int] = ["profile": 1, "oracle": 2, "library": 3, "settings": 4]
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            if let reason = paywallReasons[route] {
-                root.present(PaywallViewController(reason: reason), animated: false)
-            } else if let index = tabIndices[route] {
-                root.selectViewController(at: index)
-            } else if route == "welcome" {
-                root.present(WelcomeViewController(onStart: { root.dismiss(animated: true) }), animated: false)
-            } else if route == "lesson-complete" {
-                let summary = LessonCompleteViewController.Summary(
-                    lessonTitle: "Judaism: The Sanctity of This Life",
-                    correctAnswers: 5,
-                    totalQuestions: 6,
-                    xpReward: 86
-                )
-                let screen = LessonCompleteViewController(summary: summary, onContinue: {}, onClose: {})
-                root.present(UINavigationController(rootViewController: screen), animated: false)
-            } else if route == "lesson",
-                      let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) {
-                homeViewModel.onPathSelected?(judaism)
-            }
-        }
+        DemoWorld.present(DemoContext(
+            root: root,
+            homeNavigation: homeNavigation,
+            oracleNavigation: oracleNavigation,
+            homeViewModel: homeViewModel,
+            contentLoader: contentLoader
+        ))
         #endif
     }
 
