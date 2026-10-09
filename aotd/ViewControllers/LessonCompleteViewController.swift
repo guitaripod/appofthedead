@@ -134,12 +134,12 @@ final class LessonCompleteViewController: UIViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(continueButton)
 
-        let preferredWidth = continueButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -48)
+        let preferredWidth = continueButton.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, constant: -48)
         preferredWidth.priority = .defaultHigh
 
         NSLayoutConstraint.activate([
             scrollView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -12),
-            continueButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            continueButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             continueButton.widthAnchor.constraint(lessThanOrEqualToConstant: 520),
             preferredWidth,
             continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
