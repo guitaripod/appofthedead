@@ -12,11 +12,13 @@ final class SettingsViewController: UIViewController {
         return table
     }()
     private enum Section: Int, CaseIterable {
+        case midgar
         case learning
         case experience
         case about
         var title: String {
             switch self {
+            case .midgar: return ""
             case .learning: return String(localized: "Learning")
             case .experience: return String(localized: "Experience")
             case .about: return String(localized: "About")
@@ -43,13 +45,11 @@ final class SettingsViewController: UIViewController {
         case version
         case privacyPolicy
         case termsOfService
-        case moreApps
         var title: String {
             switch self {
             case .version: return String(localized: "Version")
             case .privacyPolicy: return String(localized: "Privacy Policy")
             case .termsOfService: return String(localized: "Terms of Service")
-            case .moreApps: return String(localized: "More Apps")
             }
         }
     }
@@ -58,6 +58,7 @@ final class SettingsViewController: UIViewController {
         setupUI()
         tableView.register(ExpandableLayoutCell.self, forCellReuseIdentifier: "ExpandableLayoutCell")
         tableView.register(TransparentCardCell.self, forCellReuseIdentifier: "TransparentCardCell")
+        tableView.register(MidgarEntryCell.self, forCellReuseIdentifier: "MidgarEntryCell")
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -101,7 +102,7 @@ final class SettingsViewController: UIViewController {
 }
 extension SettingsViewController: UITableViewDataSource {
     private func visibleSections() -> [Section] {
-        var sections: [Section] = [.learning]
+        var sections: [Section] = [.midgar, .learning]
         if DeviceUtility.supportsTapticEngine {
             sections.append(.experience)
         }
@@ -119,6 +120,8 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = sectionType(for: section) else { return 0 }
         switch sectionType {
+        case .midgar:
+            return 1
         case .learning:
             return LearningRow.allCases.count
         case .experience:
@@ -128,18 +131,20 @@ extension SettingsViewController: UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let sectionType = sectionType(for: section) else { return nil }
+        guard let sectionType = sectionType(for: section), sectionType != .midgar else { return nil }
         let headerView = TransparentSectionHeaderView(title: sectionType.title)
         return headerView
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return sectionType(for: section) == .midgar ? 0 : 40
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let sectionType = sectionType(for: indexPath.section) else { 
             return tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) 
         }
         switch sectionType {
+        case .midgar:
+            return tableView.dequeueReusableCell(withIdentifier: "MidgarEntryCell", for: indexPath)
         case .learning:
             let cell = tableView.dequeueReusableCell(withIdentifier: "TransparentCardCell", for: indexPath) as! TransparentCardCell
             if let row = LearningRow(rawValue: indexPath.row) {
@@ -180,6 +185,8 @@ extension SettingsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let sectionType = sectionType(for: indexPath.section) else { return }
         switch sectionType {
+        case .midgar:
+            break
         case .learning:
             if let row = LearningRow(rawValue: indexPath.row) {
                 switch row {
@@ -204,17 +211,35 @@ extension SettingsViewController: UITableViewDelegate {
                     openPrivacyPolicy()
                 case .termsOfService:
                     openTermsOfService()
-                case .moreApps:
-                    Midgar.present(from: self)
                 }
             }
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if sectionType(for: indexPath.section) == .midgar {
+            return MidgarEntryView.preferredHeight + 16
+        }
         return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if sectionType(for: indexPath.section) == .midgar {
+            return MidgarEntryView.preferredHeight + 16
+        }
         return 52
+    }
+}
+private class MidgarEntryCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    private func setupUI() {
+        selectionStyle = .none
+        backgroundColor = .clear
+        MidgarEntryView().embed(in: contentView, verticalInset: 8, horizontalInset: 16)
     }
 }
 private class SwitchTableViewCell: UITableViewCell {
