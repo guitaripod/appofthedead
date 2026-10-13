@@ -600,8 +600,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/guitaripod/MidgarKit";
 			requirement = {
-				branch = "portal-3.0";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
 			};
 		};
 		D0DA00012E0000000000A001 /* XCRemoteSwiftPackageReference "swift-huggingface" */ = {
