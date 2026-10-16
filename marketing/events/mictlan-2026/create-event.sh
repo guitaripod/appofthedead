@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Superseded by `midgar events` (Midgar decision D13); kept until this app's store flow moves to it. See ops/runbooks/store-commands.md in guitaripod/midgar-platform.
 #
 # Creates the "Journey to Mictlan" Dia de los Muertos in-app event in App
 # Store Connect: the event, all 10 locale localizations, and the two event

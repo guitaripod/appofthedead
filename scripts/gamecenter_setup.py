@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # pyright: reportArgumentType=false, reportIndexIssue=false, reportOptionalSubscript=false, reportAttributeAccessIssue=false, reportCallIssue=false
-"""Provision App of the Dead's Game Center configuration via the App Store Connect API.
+"""Superseded by `midgar gamecenter` (Midgar decision D13); kept until this app's store flow moves to it. See ops/runbooks/store-commands.md in guitaripod/midgar-platform.
+
+Provision App of the Dead's Game Center configuration via the App Store Connect API.
 
 Reads ASC creds from the environment (source ~/.config/midgar/credentials.env first):
   ASC_KEY_ID, ASC_ISSUER_ID, ASC_PRIVATE_KEY_PATH
