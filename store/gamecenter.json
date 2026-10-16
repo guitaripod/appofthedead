@@ -1,0 +1,260 @@
+{
+  "app": "6746733380",
+  "locales": [
+    "en-US"
+  ],
+  "leaderboards": [
+    {
+      "id": "com.marcusziade.aotd.leaderboard.total_xp",
+      "referenceName": "Total Enlightenment",
+      "formatter": "INTEGER",
+      "sort": "DESC",
+      "submission": "BEST_SCORE",
+      "localizations": {
+        "en-US": {
+          "name": "Total Enlightenment"
+        }
+      }
+    },
+    {
+      "id": "com.marcusziade.aotd.leaderboard.current_streak",
+      "referenceName": "Days of Devotion",
+      "formatter": "INTEGER",
+      "sort": "DESC",
+      "submission": "BEST_SCORE",
+      "localizations": {
+        "en-US": {
+          "name": "Days of Devotion"
+        }
+      }
+    },
+    {
+      "id": "com.marcusziade.aotd.leaderboard.paths_mastered",
+      "referenceName": "Realms Mastered",
+      "formatter": "INTEGER",
+      "sort": "DESC",
+      "submission": "BEST_SCORE",
+      "localizations": {
+        "en-US": {
+          "name": "Realms Mastered"
+        }
+      }
+    },
+    {
+      "id": "com.marcusziade.aotd.leaderboard.paths_completed",
+      "referenceName": "Gates Walked",
+      "formatter": "INTEGER",
+      "sort": "DESC",
+      "submission": "BEST_SCORE",
+      "localizations": {
+        "en-US": {
+          "name": "Gates Walked"
+        }
+      }
+    },
+    {
+      "id": "com.marcusziade.aotd.leaderboard.correct_answers",
+      "referenceName": "Sacred Knowledge",
+      "formatter": "INTEGER",
+      "sort": "DESC",
+      "submission": "BEST_SCORE",
+      "localizations": {
+        "en-US": {
+          "name": "Sacred Knowledge"
+        }
+      }
+    }
+  ],
+  "achievements": [
+    {
+      "id": "first_step",
+      "referenceName": "First Step",
+      "points": 20,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "1a324de9-13b4-4b1b-98c5-a8e83fc4ed6a"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "First Step",
+          "before": "Complete your first lesson.",
+          "after": "Complete your first lesson."
+        }
+      }
+    },
+    {
+      "id": "quiz_whiz",
+      "referenceName": "Quiz Whiz",
+      "points": 40,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "59bf2957-20ba-4fdf-bd8d-5e79c4631e82"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Quiz Whiz",
+          "before": "Answer 50 questions correctly.",
+          "after": "Answer 50 questions correctly."
+        }
+      }
+    },
+    {
+      "id": "enlightened_one",
+      "referenceName": "Enlightened One",
+      "points": 60,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "c56641e9-6cb6-4c6d-b952-d3d37774931b"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Enlightened One",
+          "before": "Earn 500 total XP.",
+          "after": "Earn 500 total XP."
+        }
+      }
+    },
+    {
+      "id": "perfect_understanding",
+      "referenceName": "Perfect Understanding",
+      "points": 60,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "63495e42-22b1-4311-8a58-2a30fd0f63e5"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Perfect Understanding",
+          "before": "Get 100% on any mastery test.",
+          "after": "Get 100% on any mastery test."
+        }
+      }
+    },
+    {
+      "id": "scholar_of_sheol",
+      "referenceName": "Scholar of Sheol",
+      "points": 70,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "56aaebaf-d43f-4168-8dfc-075c2f862721"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Scholar of Sheol",
+          "before": "Complete the Judaism path.",
+          "after": "Complete the Judaism path."
+        }
+      }
+    },
+    {
+      "id": "journey_through_duat",
+      "referenceName": "Journey Through Duat",
+      "points": 70,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "f56fbab3-513e-46cb-8e26-6341a9b74e4c"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Journey Through Duat",
+          "before": "Complete the Egyptian Afterlife path.",
+          "after": "Complete the Egyptian Afterlife path."
+        }
+      }
+    },
+    {
+      "id": "wisdom_seeker",
+      "referenceName": "Wisdom Seeker",
+      "points": 80,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "e2cf1bfe-f1bf-4007-89be-b2918023383f"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Wisdom Seeker",
+          "before": "Earn 1000 total XP.",
+          "after": "Earn 1000 total XP."
+        }
+      }
+    },
+    {
+      "id": "eternal_student",
+      "referenceName": "Eternal Student",
+      "points": 100,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "3c041b64-feac-40c6-8da9-7389c68b66b5"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Eternal Student",
+          "before": "Complete 3 belief system paths.",
+          "after": "Complete 3 belief system paths."
+        }
+      }
+    },
+    {
+      "id": "cosmic_explorer",
+      "referenceName": "Cosmic Explorer",
+      "points": 100,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "b1b30e94-74c2-494c-8feb-075099c980ff"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Cosmic Explorer",
+          "before": "Complete 5 belief system paths.",
+          "after": "Complete 5 belief system paths."
+        }
+      }
+    },
+    {
+      "id": "afterlife_master",
+      "referenceName": "Afterlife Master",
+      "points": 100,
+      "showBeforeEarned": true,
+      "repeatable": false,
+      "image": {
+        "remote": {
+          "en-US": "57c1b345-77c3-4c6c-a258-b87dba63ae88"
+        }
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Afterlife Master",
+          "before": "Complete all belief system paths.",
+          "after": "Complete all belief system paths."
+        }
+      }
+    }
+  ]
+}

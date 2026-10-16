@@ -1,0 +1,595 @@
+{
+  "version": 1,
+  "subscriptionGroups": [
+    {
+      "referenceName": "Premium",
+      "localizations": {
+        "en-US": {
+          "name": "Premium"
+        },
+        "pl": {
+          "name": "Premium"
+        }
+      },
+      "subscriptions": [
+        {
+          "productId": "com.appofthedead.premium.annual",
+          "referenceName": "Premium Annual",
+          "duration": "ONE_YEAR",
+          "groupLevel": 1,
+          "familySharable": false,
+          "price": {
+            "territory": "USA",
+            "amount": "19.99"
+          },
+          "introductoryOffers": [
+            {
+              "mode": "FREE_TRIAL",
+              "duration": "ONE_WEEK",
+              "periods": 1,
+              "territories": "ALL"
+            }
+          ],
+          "localizations": {
+            "en-US": {
+              "name": "Premium Annual",
+              "description": "Every path and unlimited Oracle, billed yearly."
+            },
+            "pl": {
+              "name": "Premium roczne",
+              "description": "Ścieżki i Wyrocznia bez limitu, rocznie."
+            }
+          },
+          "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
+          "reviewNote": "Premium (annual with 7-day free trial, and monthly) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears once after the user's first completed lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, and from Profile > Upgrade. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+        },
+        {
+          "productId": "com.appofthedead.premium.monthly",
+          "referenceName": "Premium Monthly",
+          "duration": "ONE_MONTH",
+          "groupLevel": 2,
+          "familySharable": false,
+          "price": {
+            "territory": "USA",
+            "amount": "2.99"
+          },
+          "introductoryOffers": [],
+          "localizations": {
+            "en-US": {
+              "name": "Premium Monthly",
+              "description": "Every path and unlimited Oracle, billed monthly."
+            },
+            "pl": {
+              "name": "Premium miesięczne",
+              "description": "Ścieżki i Wyrocznia bez limitu, co miesiąc."
+            }
+          },
+          "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
+          "reviewNote": "Premium (annual with 7-day free trial, and monthly) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears once after the user's first completed lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, and from Profile > Upgrade. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+        }
+      ]
+    }
+  ],
+  "inAppPurchases": [
+    {
+      "productId": "com.appofthedead.deities.eastern",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Eastern Wisdom",
+      "price": {
+        "territory": "USA",
+        "amount": "1.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Eastern Wisdom Pack",
+          "description": "Premium collection of Asian philosophies"
+        },
+        "pl": {
+          "name": "Pakiet: mądrość Wschodu",
+          "description": "Zbiór filozofii Azji w wersji Premium"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.deities.egyptian",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Egyptian Pantheon",
+      "price": {
+        "territory": "USA",
+        "amount": "1.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Egyptian Pantheon",
+          "description": "Meet the gods of ancient Egyptian afterlife"
+        },
+        "pl": {
+          "name": "Panteon egipski",
+          "description": "Poznaj bogów egipskich zaświatów"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.deities.greek",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Greek Guides",
+      "price": {
+        "territory": "USA",
+        "amount": "1.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Greek Guides",
+          "description": "Underworld deities Hades Charon & more"
+        },
+        "pl": {
+          "name": "Greccy przewodnicy",
+          "description": "Bóstwa podziemia: Hades, Charon i inni"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.oracle.wisdom",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Oracle Wisdom Pack",
+      "price": {
+        "territory": "USA",
+        "amount": "9.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Oracle Wisdom Pack",
+          "description": "Mystical insights & prophetic visions"
+        },
+        "pl": {
+          "name": "Pakiet: mądrość Wyroczni",
+          "description": "Mistyczne spostrzeżenia i wizje przyszłości"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.aboriginaldreamtime",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Aboriginal Dreamtime Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Aboriginal Dreamtime Path",
+          "description": "Ancient Australian spiritual wisdom & stories"
+        },
+        "pl": {
+          "name": "Ścieżka czasu snu Aborygenów",
+          "description": "Duchowa mądrość i legendy Aborygenów"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.anthroposophy",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Anthroposophy Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Anthroposophy Path",
+          "description": "Rudolf Steiner's spiritual science insights"
+        },
+        "pl": {
+          "name": "Ścieżka antropozofii",
+          "description": "Duchowa nauka Rudolfa Steinera"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.aztecmictlan",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Aztec Mictlan Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Aztec Mictlan Path",
+          "description": "Navigate the nine levels of Aztec underworld"
+        },
+        "pl": {
+          "name": "Ścieżka azteckiego Mictlanu",
+          "description": "Przejdź dziewięć poziomów Mictlanu"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.bahai",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Baha'i Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Baha'i Path",
+          "description": "Unity of religions & progressive revelation"
+        },
+        "pl": {
+          "name": "Ścieżka bahaizmu",
+          "description": "Jedność religii i postępujące objawienie"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.buddhism",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Buddhism Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Buddhism Path",
+          "description": "Achieve nirvana through enlightenment"
+        },
+        "pl": {
+          "name": "Ścieżka buddyzmu",
+          "description": "Osiągnij nirwanę przez oświecenie"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.christianity",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Christianity Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Christianity Path",
+          "description": "Heaven hell & eternal salvation journey"
+        },
+        "pl": {
+          "name": "Ścieżka chrześcijaństwa",
+          "description": "Niebo, piekło i droga do zbawienia"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.egyptian",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Ancient Egyptian Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Ancient Egyptian Path",
+          "description": "Journey through pyramids to the afterlife"
+        },
+        "pl": {
+          "name": "Ścieżka starożytnego Egiptu",
+          "description": "Podróż przez piramidy do zaświatów"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.greek",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Greek Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Greek Path",
+          "description": "Cross the River Styx to Elysium fields"
+        },
+        "pl": {
+          "name": "Ścieżka grecka",
+          "description": "Przepłyń Styks do Pól Elizejskich"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.hinduism",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Hinduism Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Hinduism Path",
+          "description": "Karma dharma & the cycle of rebirth"
+        },
+        "pl": {
+          "name": "Ścieżka hinduizmu",
+          "description": "Karma, dharma i koło odrodzeń"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.islam",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Islam Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Islam Path",
+          "description": "Paradise gardens & the Bridge of Sirat"
+        },
+        "pl": {
+          "name": "Ścieżka islamu",
+          "description": "Ogrody raju i Most Sirat"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.mandaeism",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Mandaeism Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Mandaeism Path",
+          "description": "Gnostic journey to the World of Light"
+        },
+        "pl": {
+          "name": "Ścieżka mandeizmu",
+          "description": "Gnostycka podróż do Świata Światła"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.nativeamerican",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Native American Visions Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Native American Path",
+          "description": "Spirit world visions & ancestor wisdom"
+        },
+        "pl": {
+          "name": "Ścieżka rdzennych Amerykanów",
+          "description": "Wizje świata duchów i mądrość przodków"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.norse",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Norse Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Norse Path",
+          "description": "Valhalla Ragnarok & Viking afterlife"
+        },
+        "pl": {
+          "name": "Ścieżka nordycka",
+          "description": "Walhalla, Ragnarok i zaświaty Wikingów"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.shinto",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Shinto Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Shinto Path",
+          "description": "Japanese spirits & ancestor veneration"
+        },
+        "pl": {
+          "name": "Ścieżka shintoizmu",
+          "description": "Japońskie duchy i kult przodków"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.sikhism",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Sikhism Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Sikhism Path",
+          "description": "Liberation through divine remembrance"
+        },
+        "pl": {
+          "name": "Ścieżka sikhizmu",
+          "description": "Wyzwolenie przez pamięć o Bogu"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.swedenborgian",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Swedenborgian Visions Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Swedenborgian Path",
+          "description": "Emanuel Swedenborg's heaven revelations"
+        },
+        "pl": {
+          "name": "Ścieżka Swedenborga",
+          "description": "Objawienia nieba Emanuela Swedenborga"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.taoism",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Taoism Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Taoism Path",
+          "description": "Immortality through balance & harmony"
+        },
+        "pl": {
+          "name": "Ścieżka taoizmu",
+          "description": "Nieśmiertelność przez równowagę i harmonię"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.tenrikyo",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Tenrikyo Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Tenrikyo Path",
+          "description": "Joyous life & return to divine parent"
+        },
+        "pl": {
+          "name": "Ścieżka Tenrikyo",
+          "description": "Radosne życie i powrót do Boga Rodzica"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.theosophy",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Theosophy Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Theosophy Path",
+          "description": "Esoteric wisdom & spiritual evolution"
+        },
+        "pl": {
+          "name": "Ścieżka teozofii",
+          "description": "Ezoteryczna mądrość i duchowa ewolucja"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.wicca",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Wicca Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Wicca Path",
+          "description": "Pagan afterlife & the Summerland realm"
+        },
+        "pl": {
+          "name": "Ścieżka Wicca",
+          "description": "Pogańskie zaświaty i kraina Summerland"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.path.zoroastrian",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Zoroastrian Path",
+      "price": {
+        "territory": "USA",
+        "amount": "3.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Zoroastrian Path",
+          "description": "Good vs evil & the Chinvat Bridge test"
+        },
+        "pl": {
+          "name": "Ścieżka zoroastryzmu",
+          "description": "Dobro kontra zło i próba Mostu Czinwat"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    },
+    {
+      "productId": "com.appofthedead.ultimate",
+      "type": "NON_CONSUMABLE",
+      "referenceName": "Ultimate Enlightenment",
+      "price": {
+        "territory": "USA",
+        "amount": "89.99"
+      },
+      "localizations": {
+        "en-US": {
+          "name": "Ultimate Enlightenment",
+          "description": "Unlock all paths & exclusive content"
+        },
+        "pl": {
+          "name": "Ultimate: oświecenie",
+          "description": "Wszystkie ścieżki i treści ekskluzywne"
+        }
+      },
+      "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
+    }
+  ]
+}
