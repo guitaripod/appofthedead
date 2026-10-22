@@ -17,6 +17,13 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - **Scene Management**: Root view controller set programmatically in `SceneDelegate.scene(_:willConnectTo:options:)`
 - **Content Source**: `aotd.json` contains all learning paths, lessons, and quiz questions
 
+## Midgar platform
+- **MidgarKit 4.2.0** by URL (exact version, pinned in `aotd.xcodeproj`). The app target links the `MidgarKit` umbrella product.
+- **Midgar ID**: `AotdMidgar` (aotd/Services) builds the identity, the gateway client and the read-only ledger store. The keychain group `cc.midgarcorp.shared` and App Attest are in `aotd/aotd.entitlements`.
+- **Commerce**: registry engine `rc-full`. RevenueCat (`StoreManager`) keeps purchasing, restoring and finishing; `MidgarStore` runs in `Mode.readOnly` and only reads the ledger. Do not change the RevenueCat app user id or product ids without the founder.
+- **Review prompt**: `ReviewPrompt` reports lesson completions to `MidgarReviewPolicy`; `LegacyReviewState` carries the old ask history over.
+- **Privacy**: `aotd/Resources/PrivacyInfo.xcprivacy`, `store/privacy-label.md` and the policy at `web/midgarcorp/src/content/legal/app-of-the-dead/privacy.html` move together.
+
 ## Core Features to Implement
 1. **Learning Paths**: Multiple belief system tracks (Judaism, Christianity, Islam, Buddhism, etc.)
 2. **Lesson Flow**: Content screen → Quiz questions → Progress update
@@ -38,7 +45,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Keep view controllers focused - delegate business logic to view models. Use latest UIKit API like diffable datasource etc.
 - Use coordinators for navigation flow between lessons and quizzes
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
-- **Logging**: Use `AppLogger` for all logging - never use `print()` statements. AppLogger provides structured logging with categories (auth, database, content, sync, learning, gamification, purchases, ui, viewModel, mlx, performance, general)
+- **Logging**: Use `MidgarLog` (MidgarCore) for all logging, with the categories in `aotd/Utilities/LogCategories.swift` (`.database`, `.content`, `.learning`, `.gamification`, `.gameCenter`, `.purchases`, `.ui`, `.viewModel`, `.mlx`, `.performance`, `.general`); `Diagnostics` adds `logError`, `logUserAction` and timed activities on top. Never use `print()` statements. The file log is `Library/Logs/aotd.log`.
 - **Code Style**: Never use comments or MARK statements - code should be self-documenting through clear naming and structure
 
 ## Test Organization

@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import UserNotifications
+import MidgarCore
 
 final class NotificationManager: NSObject {
 
@@ -31,7 +32,7 @@ final class NotificationManager: NSObject {
             case .notDetermined:
                 self.notificationCenter.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                     if let error = error {
-                        AppLogger.general.error("Failed to request notification authorization: \(error)")
+                        MidgarLog.error("Failed to request notification authorization: \(error)", category: .general)
                     }
                     completion(granted)
                 }
@@ -67,16 +68,16 @@ final class NotificationManager: NSObject {
 
         notificationCenter.add(request) { error in
             if let error = error {
-                AppLogger.general.error("Failed to schedule daily reminder: \(error)")
+                MidgarLog.error("Failed to schedule daily reminder: \(error)", category: .general)
             } else {
-                AppLogger.general.info("Daily reminder scheduled for \(components.hour ?? 0):\(components.minute ?? 0)")
+                MidgarLog.info("Daily reminder scheduled for \(components.hour ?? 0):\(components.minute ?? 0)", category: .general)
             }
         }
     }
 
     func cancelDailyReminder() {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dailyReminderIdentifier])
-        AppLogger.general.info("Daily reminder cancelled")
+        MidgarLog.info("Daily reminder cancelled", category: .general)
     }
 
     /// Honest-paywall promise: the trial timeline tells the user we remind them two
@@ -84,7 +85,7 @@ final class NotificationManager: NSObject {
     func scheduleTrialEndingReminder(trialDays: Int) {
         requestAuthorization { [weak self] granted in
             guard let self, granted else {
-                AppLogger.general.warning("Trial reminder not scheduled: notifications not authorized")
+                MidgarLog.notice("Trial reminder not scheduled: notifications not authorized", category: .general)
                 return
             }
 
@@ -108,9 +109,9 @@ final class NotificationManager: NSObject {
             self.notificationCenter.removePendingNotificationRequests(withIdentifiers: [self.trialReminderIdentifier])
             self.notificationCenter.add(request) { error in
                 if let error = error {
-                    AppLogger.general.error("Failed to schedule trial reminder: \(error)")
+                    MidgarLog.error("Failed to schedule trial reminder: \(error)", category: .general)
                 } else {
-                    AppLogger.general.info("Trial ending reminder scheduled for day \(reminderDays)")
+                    MidgarLog.info("Trial ending reminder scheduled for day \(reminderDays)", category: .general)
                 }
             }
         }

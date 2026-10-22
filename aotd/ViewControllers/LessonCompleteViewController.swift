@@ -157,7 +157,7 @@ final class LessonCompleteViewController: UIViewController {
     }
 
     private func enableReminder() {
-        AppLogger.logUserAction("reminderOfferAccepted", parameters: [:], logger: AppLogger.general)
+        Diagnostics.logUserAction("reminderOfferAccepted", parameters: [:], category: .general)
         reminder.enable { [weak self] granted in
             guard let self else { return }
             UIView.animate(withDuration: PapyrusDesignSystem.Animation.normal) {

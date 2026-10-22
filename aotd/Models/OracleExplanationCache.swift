@@ -1,6 +1,7 @@
 import Foundation
 import GRDB
 import CryptoKit
+import MidgarCore
 
 /// Persisted, deterministic Oracle explanations that are worth reusing verbatim
 /// instead of re-running the on-device model every time.
@@ -110,7 +111,7 @@ extension OracleExplanationCache {
                 try upsert(db, key: key, kind: kind, modelId: modelId, text: trimmed)
             }
         } catch {
-            AppLogger.database.error("Oracle explanation cache write failed: \(error.localizedDescription)")
+            MidgarLog.error("Oracle explanation cache write failed: \(error.localizedDescription)", category: .database)
         }
     }
 }

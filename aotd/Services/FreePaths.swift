@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 protocol PathGiftClaimStore {
     func hasClaimed(_ key: String) -> Bool
@@ -88,7 +89,7 @@ struct FreePaths {
             && isRunning(event, at: date)
             && !claims.hasClaimed(event.claimKey) {
             claims.recordClaim(event.claimKey)
-            AppLogger.purchases.info("Claimed event path \(beliefSystemId, privacy: .public)")
+            MidgarLog.info("Claimed event path \(beliefSystemId)", category: .purchases)
         }
     }
 

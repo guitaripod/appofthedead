@@ -1,69 +1,97 @@
-import XCTest
+import Foundation
+import MidgarCommerce
+import Testing
+
 @testable import aotd
 
-final class ReviewPromptTests: XCTestCase {
+/// Every read and write of the state happens under one lock.
+private final class MemoryReviewStorage: MidgarReviewStorage, @unchecked Sendable {
+    private let lock = NSLock()
+    private var state: MidgarReviewState
 
-    private let now = Date()
-
-    private func daysAgo(_ days: Int, from reference: Date? = nil) -> Date {
-        (reference ?? now).addingTimeInterval(-Double(days) * 24 * 60 * 60)
+    init(_ state: MidgarReviewState = MidgarReviewState()) {
+        self.state = state
     }
 
-    func testNoAskAtFirstSuccess() {
-        XCTAssertFalse(ReviewPrompt.shouldAsk(successCount: 1, askDates: [], successCountAtLastAsk: 0, now: now))
+    func load() -> MidgarReviewState {
+        lock.lock(); defer { lock.unlock() }
+        return state
     }
 
-    func testAsksAtSecondSuccess() {
-        XCTAssertTrue(ReviewPrompt.shouldAsk(successCount: 2, askDates: [], successCountAtLastAsk: 0, now: now))
+    @discardableResult
+    func save(_ state: MidgarReviewState) -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        self.state = state
+        return true
+    }
+}
+
+struct ReviewPromptTests {
+    private func defaults() -> UserDefaults {
+        UserDefaults(suiteName: "aotd.review.\(UUID().uuidString)")!
     }
 
-    func testNoReaskBeforeFourteenDaysEvenWithEnoughNewSuccesses() {
-        let lastAsk = daysAgo(13)
-        XCTAssertFalse(ReviewPrompt.shouldAsk(
-            successCount: 5,
-            askDates: [lastAsk],
-            successCountAtLastAsk: 2,
-            now: now
-        ))
+    @Test func theNewestOldAskBecomesTheLastPrompt() {
+        let defaults = defaults()
+        let older = Date(timeIntervalSince1970: 1_700_000_000)
+        let newer = Date(timeIntervalSince1970: 1_750_000_000)
+        defaults.set([older, newer], forKey: LegacyReviewState.askDatesKey)
+        let storage = MemoryReviewStorage()
+
+        LegacyReviewState.migrate(from: defaults, into: storage)
+
+        #expect(storage.load().lastPrompt == newer)
     }
 
-    func testNoReaskBeforeThreeNewSuccessesEvenAfterFourteenDays() {
-        let lastAsk = daysAgo(20)
-        XCTAssertFalse(ReviewPrompt.shouldAsk(
-            successCount: 4,
-            askDates: [lastAsk],
-            successCountAtLastAsk: 2,
-            now: now
-        ))
+    @Test func theOldPerVersionFlagCountsAsAnAskNow() {
+        let defaults = defaults()
+        defaults.set("1.4.7", forKey: LegacyReviewState.legacyPromptedVersionKey)
+        let storage = MemoryReviewStorage()
+        let now = Date(timeIntervalSince1970: 1_760_000_000)
+
+        LegacyReviewState.migrate(from: defaults, into: storage, now: now)
+
+        #expect(storage.load().lastPrompt == now)
+        #expect(storage.load().lastPromptedVersion == "1.4.7")
     }
 
-    func testReasksAfterBothFourteenDaysAndThreeNewSuccesses() {
-        let lastAsk = daysAgo(14)
-        XCTAssertTrue(ReviewPrompt.shouldAsk(
-            successCount: 5,
-            askDates: [lastAsk],
-            successCountAtLastAsk: 2,
-            now: now
-        ))
+    @Test func someoneNeverAskedStaysUntouched() {
+        let storage = MemoryReviewStorage()
+        LegacyReviewState.migrate(from: defaults(), into: storage)
+        #expect(storage.load() == MidgarReviewState())
     }
 
-    func testNeverAFourthAskWithinARollingYear() {
-        let askDates = [daysAgo(300), daysAgo(60), daysAgo(15)]
-        XCTAssertFalse(ReviewPrompt.shouldAsk(
-            successCount: 20,
-            askDates: askDates,
-            successCountAtLastAsk: 10,
-            now: now
-        ))
+    @Test func migrationRunsOnceAndNeverOverwritesAPolicyPrompt() {
+        let defaults = defaults()
+        let prompted = Date(timeIntervalSince1970: 1_770_000_000)
+        defaults.set([Date(timeIntervalSince1970: 1_700_000_000)], forKey: LegacyReviewState.askDatesKey)
+        let storage = MemoryReviewStorage(MidgarReviewState(lastPrompt: prompted))
+
+        LegacyReviewState.migrate(from: defaults, into: storage)
+        #expect(storage.load().lastPrompt == prompted)
+
+        defaults.set([Date(timeIntervalSince1970: 1_800_000_000)], forKey: LegacyReviewState.askDatesKey)
+        storage.save(MidgarReviewState())
+        LegacyReviewState.migrate(from: defaults, into: storage)
+        #expect(storage.load().lastPrompt == nil)
     }
 
-    func testAFourthAskIsAllowedOnceTheOldestAgesOutOfTheRollingYear() {
-        let askDates = [daysAgo(370), daysAgo(60), daysAgo(15)]
-        XCTAssertTrue(ReviewPrompt.shouldAsk(
-            successCount: 20,
-            askDates: askDates,
-            successCountAtLastAsk: 10,
-            now: now
-        ))
+    @Test func aMigratedAskHoldsTheMidgarPolicyBack() {
+        let defaults = defaults()
+        let clock = Date(timeIntervalSince1970: 1_800_000_000)
+        defaults.set([clock.addingTimeInterval(-86_400 * 10)], forKey: LegacyReviewState.askDatesKey)
+        let storage = MemoryReviewStorage(MidgarReviewState(firstLaunch: clock.addingTimeInterval(-86_400 * 200), sessions: 20))
+
+        LegacyReviewState.migrate(from: defaults, into: storage, now: clock)
+        let policy = MidgarReviewPolicy(storage: storage, appVersion: "2.0", clock: { clock })
+        policy.noteSuccess()
+
+        #expect(policy.evaluate() == .hold(.promptedRecently))
+    }
+
+    @Test func theRatingPromptWaitsForTheSecondCompletedLesson() {
+        #expect(ReviewPrompt.firstAskThreshold == 2)
+        #expect(ReminderOffer(defaults: defaults()).shouldPresent(priorSuccesses: 0, reminderEnabled: false))
+        #expect(!ReminderOffer(defaults: defaults()).shouldPresent(priorSuccesses: ReviewPrompt.firstAskThreshold - 1, reminderEnabled: false))
     }
 }

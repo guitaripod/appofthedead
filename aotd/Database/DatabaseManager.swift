@@ -1,5 +1,6 @@
 import Foundation
 import GRDB
+import MidgarCore
 
 class DatabaseManager {
     static let shared = DatabaseManager()
@@ -232,10 +233,10 @@ class DatabaseManager {
                 .filter(Column("beliefSystemId") == beliefSystemId)
                 .deleteAll(db)
             
-            AppLogger.database.info("Deleted progress and mistakes", metadata: [
+            MidgarLog.info("Deleted progress and mistakes", metadata: [
                 "userId": userId,
                 "beliefSystemId": beliefSystemId
-            ])
+            ], category: .database)
         }
     }
     
@@ -252,21 +253,21 @@ class DatabaseManager {
                     existingProgress.earnedXP = min(existingProgress.earnedXP, totalXP)
                 }
                 try existingProgress.update(db)
-                AppLogger.database.info("Updated progress for belief system", metadata: [
+                MidgarLog.info("Updated progress for belief system", metadata: [
                     "beliefSystemId": beliefSystemId,
                     "previousXP": oldXP,
                     "currentXP": existingProgress.earnedXP,
                     "xpAdded": xp
-                ])
+                ], category: .database)
             } else {
                 
                 var newProgress = Progress(userId: userId, beliefSystemId: beliefSystemId)
                 newProgress.addXP(xp)
                 try newProgress.insert(db)
-                AppLogger.database.info("Created new progress for belief system", metadata: [
+                MidgarLog.info("Created new progress for belief system", metadata: [
                     "beliefSystemId": beliefSystemId,
                     "earnedXP": newProgress.earnedXP
-                ])
+                ], category: .database)
             }
         }
 
@@ -339,7 +340,7 @@ class DatabaseManager {
     
     func loadBeliefSystems() -> [BeliefSystem] {
         guard let contentLoader = contentLoader else {
-            AppLogger.content.warning("ContentLoader not set in DatabaseManager")
+            MidgarLog.notice("ContentLoader not set in DatabaseManager", category: .content)
             return []
         }
         return contentLoader.loadBeliefSystems()
@@ -347,7 +348,7 @@ class DatabaseManager {
     
     func loadAchievements() -> [Achievement] {
         guard let contentLoader = contentLoader else {
-            AppLogger.content.warning("ContentLoader not set in DatabaseManager")
+            MidgarLog.notice("ContentLoader not set in DatabaseManager", category: .content)
             return []
         }
         return contentLoader.loadAchievements()
@@ -508,7 +509,7 @@ class DatabaseManager {
                 return purchase != nil
             }
         } catch {
-            AppLogger.logError(error, context: "Checking purchase access", logger: AppLogger.purchases, additionalInfo: ["userId": userId, "productId": productId.rawValue])
+            Diagnostics.logError(error, context: "Checking purchase access", category: .purchases, additionalInfo: ["userId": userId, "productId": productId.rawValue])
             return false
         }
     }
@@ -521,7 +522,7 @@ class DatabaseManager {
                 try OracleConsultation.getConsultationCount(for: userId, deityId: deityId, in: db)
             }
         } catch {
-            AppLogger.logError(error, context: "Getting oracle consultation count", logger: AppLogger.database, additionalInfo: ["userId": userId, "deityId": deityId])
+            Diagnostics.logError(error, context: "Getting oracle consultation count", category: .database, additionalInfo: ["userId": userId, "deityId": deityId])
             return 0
         }
     }
@@ -532,7 +533,7 @@ class DatabaseManager {
                 try OracleConsultation.canConsultForFree(userId: userId, deityId: deityId, in: db)
             }
         } catch {
-            AppLogger.logError(error, context: "Checking oracle consultation availability", logger: AppLogger.database, additionalInfo: ["userId": userId, "deityId": deityId])
+            Diagnostics.logError(error, context: "Checking oracle consultation availability", category: .database, additionalInfo: ["userId": userId, "deityId": deityId])
             return false
         }
     }
@@ -559,10 +560,10 @@ class DatabaseManager {
                     correctAnswer: correctAnswer
                 )
                 try mistake.insert(db)
-                AppLogger.learning.info("Saved new mistake", metadata: [
+                MidgarLog.info("Saved new mistake", metadata: [
                     "questionId": questionId,
                     "beliefSystemId": beliefSystemId
-                ])
+                ], category: .learning)
             }
         }
     }
@@ -596,12 +597,12 @@ class DatabaseManager {
                 mistake.markReviewed(wasCorrect: wasCorrect)
                 try mistake.update(db)
                 
-                AppLogger.learning.info("Updated mistake review", metadata: [
+                MidgarLog.info("Updated mistake review", metadata: [
                     "mistakeId": mistakeId,
                     "wasCorrect": wasCorrect,
                     "reviewCount": mistake.reviewCount,
                     "mastered": mistake.mastered
-                ])
+                ], category: .learning)
             }
         }
     }
@@ -624,11 +625,11 @@ class DatabaseManager {
             return session
         }
         
-        AppLogger.learning.info("Started mistake session", metadata: [
+        MidgarLog.info("Started mistake session", metadata: [
             "sessionId": session.id,
             "beliefSystemId": beliefSystemId,
             "mistakeCount": session.mistakeCount
-        ])
+        ], category: .learning)
         
         return session
     }
@@ -639,12 +640,12 @@ class DatabaseManager {
                 session.complete(correctCount: correctCount, xpEarned: xpEarned)
                 try session.update(db)
                 
-                AppLogger.learning.info("Completed mistake session", metadata: [
+                MidgarLog.info("Completed mistake session", metadata: [
                     "sessionId": sessionId,
                     "correctCount": correctCount,
                     "xpEarned": xpEarned,
                     "accuracy": Double(correctCount) / Double(session.mistakeCount)
-                ])
+                ], category: .learning)
             }
         }
     }
@@ -888,7 +889,7 @@ class DatabaseManager {
 
             return Set(completedProgress.map { $0.beliefSystemId })
         } catch {
-            AppLogger.logError(error, context: "Failed to get completed belief systems", logger: AppLogger.database)
+            Diagnostics.logError(error, context: "Failed to get completed belief systems", category: .database)
             return []
         }
     }
@@ -926,13 +927,13 @@ class DatabaseManager {
                         existingUser.updatedAt = Date()
                         try existingUser.update(db)
 
-                        AppLogger.database.info("Applied synced progress to user", metadata: [
+                        MidgarLog.info("Applied synced progress to user", metadata: [
                             "userId": userId,
                             "syncedXP": syncedData.xp,
                             "syncedLevel": syncedData.level,
                             "localXP": user.totalXP,
                             "localLevel": user.currentLevel
-                        ])
+                        ], category: .database)
                     }
                 }
 
@@ -946,7 +947,7 @@ class DatabaseManager {
                 }
 
             } catch {
-                AppLogger.logError(error, context: "Failed to apply synced progress", logger: AppLogger.database)
+                Diagnostics.logError(error, context: "Failed to apply synced progress", category: .database)
             }
         }
     }

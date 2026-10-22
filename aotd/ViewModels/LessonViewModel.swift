@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 protocol LessonViewModelDelegate: AnyObject {
     func lessonViewModelDidRequestQuiz(_ viewModel: LessonViewModel, questions: [Question])
@@ -50,9 +51,9 @@ final class LessonViewModel {
     }
     
     func exitLearningPath() {
-        AppLogger.viewModel.debug("LessonViewModel - exitLearningPath called", metadata: ["delegateExists": delegate != nil])
+        MidgarLog.debug("LessonViewModel - exitLearningPath called", metadata: ["delegateExists": delegate != nil], category: .viewModel)
         delegate?.lessonViewModelDidRequestExit(self)
-        AppLogger.viewModel.debug("LessonViewModel - Called delegate.lessonViewModelDidRequestExit")
+        MidgarLog.debug("LessonViewModel - Called delegate.lessonViewModelDidRequestExit", category: .viewModel)
     }
 }
 

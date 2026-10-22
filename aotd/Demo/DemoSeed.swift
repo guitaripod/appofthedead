@@ -61,7 +61,7 @@ enum DemoSeed {
                 try insertConsultations(db, userId: user.id)
             }
         } catch {
-            AppLogger.logError(error, context: "Seeding demo world", logger: AppLogger.database)
+            Diagnostics.logError(error, context: "Seeding demo world", category: .database)
         }
         applyDefaults()
     }
@@ -93,7 +93,7 @@ enum DemoSeed {
                 }
             }
         } catch {
-            AppLogger.logError(error, context: "Seeding demo book progress", logger: AppLogger.database)
+            Diagnostics.logError(error, context: "Seeding demo book progress", category: .database)
         }
     }
 

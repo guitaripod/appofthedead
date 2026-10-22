@@ -1,5 +1,6 @@
 import UIKit
 import UniformTypeIdentifiers
+import MidgarCore
 extension HomeViewController: UIDropInteractionDelegate {
     func setupDropInteraction() {
         guard AdaptiveLayoutManager.shared.isIPad else { return }
@@ -32,10 +33,10 @@ extension HomeViewController: UIDropInteractionDelegate {
         }
     }
     private func handleDroppedBeliefSystem(_ data: BeliefSystemDragData, at location: CGPoint) {
-        AppLogger.ui.info("Dropped belief system", metadata: [
+        MidgarLog.info("Dropped belief system", metadata: [
             "id": data.id,
             "name": data.name
-        ])
+        ], category: .ui)
         let generator = UINotificationFeedbackGenerator()
         generator.prepare()
         generator.notificationOccurred(.success)

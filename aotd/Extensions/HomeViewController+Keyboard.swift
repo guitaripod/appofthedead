@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 extension HomeViewController {
     override var keyCommands: [UIKeyCommand]? {
         guard AdaptiveLayoutManager.shared.isIPad else { return nil }
@@ -55,24 +56,24 @@ extension HomeViewController {
         ]
     }
     @objc private func searchPaths() {
-        AppLogger.ui.info("Search paths keyboard shortcut triggered")
+        MidgarLog.info("Search paths keyboard shortcut triggered", category: .ui)
     }
     @objc private func refreshData() {
         viewModel.loadData()
     }
     @objc private func switchToGrid() {
-        AppLogger.ui.info("Grid view keyboard shortcut (layout is automatic)")
+        MidgarLog.info("Grid view keyboard shortcut (layout is automatic)", category: .ui)
     }
     @objc private func switchToList() {
-        AppLogger.ui.info("List view keyboard shortcut (layout is automatic)")
+        MidgarLog.info("List view keyboard shortcut (layout is automatic)", category: .ui)
     }
     @objc private func selectNextPath() {
-        AppLogger.ui.info("Select next path keyboard shortcut triggered")
+        MidgarLog.info("Select next path keyboard shortcut triggered", category: .ui)
     }
     @objc private func selectPreviousPath() {
-        AppLogger.ui.info("Select previous path keyboard shortcut triggered")
+        MidgarLog.info("Select previous path keyboard shortcut triggered", category: .ui)
     }
     @objc private func openSelectedPath() {
-        AppLogger.ui.info("Open selected path keyboard shortcut triggered")
+        MidgarLog.info("Open selected path keyboard shortcut triggered", category: .ui)
     }
 }

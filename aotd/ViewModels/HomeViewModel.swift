@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import GRDB
+import MidgarCore
 
 
 
@@ -70,7 +71,7 @@ final class HomeViewModel {
     func resetProgress(for beliefSystemId: String) {
         guard let userId = user?.id else { return }
         
-        AppLogger.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
+        Diagnostics.logUserAction("resetProgress", parameters: ["beliefSystemId": beliefSystemId])
         
         do {
 
@@ -84,12 +85,12 @@ final class HomeViewModel {
             loadUserProgress()
             updatePathItems()
             
-            AppLogger.learning.info("Progress reset", metadata: [
+            MidgarLog.info("Progress reset", metadata: [
                 "userId": userId,
                 "beliefSystemId": beliefSystemId
-            ])
+            ], category: .learning)
         } catch {
-            AppLogger.logError(error, context: "Resetting progress", logger: AppLogger.learning, additionalInfo: [
+            Diagnostics.logError(error, context: "Resetting progress", category: .learning, additionalInfo: [
                 "userId": userId,
                 "beliefSystemId": beliefSystemId
             ])
@@ -150,7 +151,7 @@ final class HomeViewModel {
         guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let previews = try? JSONDecoder().decode([String: PathPreview].self, from: data) else {
-            AppLogger.content.error("Failed to load path previews")
+            MidgarLog.error("Failed to load path previews", category: .content)
             return
         }
         pathPreviews = previews

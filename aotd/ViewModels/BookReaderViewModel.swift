@@ -1,5 +1,6 @@
 import Foundation
 import GRDB
+import MidgarCore
 
 final class BookReaderViewModel {
     
@@ -106,7 +107,7 @@ final class BookReaderViewModel {
                 try databaseManager.saveBookProgress(bookProgress)
             }
         } catch {
-            AppLogger.logError(error, context: "Loading book progress", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading book progress", category: .viewModel)
             
             self.bookProgress = BookProgress(
                 id: UUID().uuidString,
@@ -140,7 +141,7 @@ final class BookReaderViewModel {
                 try databaseManager.saveBookReadingPreferences(preferences)
             }
         } catch {
-            AppLogger.logError(error, context: "Loading reading preferences", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading reading preferences", category: .viewModel)
             
             self.preferences = BookReadingPreferences.defaultPreferences(userId: userId, bookId: book.id)
             
@@ -286,7 +287,7 @@ final class BookReaderViewModel {
         do {
             try databaseManager.saveBookProgress(bookProgress)
         } catch {
-            AppLogger.logError(error, context: "Saving book progress", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Saving book progress", category: .viewModel)
         }
     }
     
@@ -350,7 +351,7 @@ final class BookReaderViewModel {
         do {
             try databaseManager.updateBookReadingPreferences(preferences)
         } catch {
-            AppLogger.logError(error, context: "Saving reading preferences", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Saving reading preferences", category: .viewModel)
         }
     }
     
@@ -359,18 +360,18 @@ final class BookReaderViewModel {
 
         do {
             guard let user = try databaseManager.getUser(by: userId) else {
-                AppLogger.gamification.error("Failed to find user for book completion XP", metadata: ["userId": userId])
+                MidgarLog.error("Failed to find user for book completion XP", metadata: ["userId": userId], category: .gamification)
                 return
             }
             try databaseManager.addXPToUser(user, xp: xpAmount)
             try databaseManager.addXPToProgress(userId: userId, beliefSystemId: book.beliefSystemId, xp: xpAmount)
             
-            AppLogger.gamification.info("Awarded XP for book completion", metadata: [
+            MidgarLog.info("Awarded XP for book completion", metadata: [
                 "bookId": book.id,
                 "xpAmount": xpAmount
-            ])
+            ], category: .gamification)
         } catch {
-            AppLogger.logError(error, context: "Awarding book completion XP", logger: AppLogger.gamification)
+            Diagnostics.logError(error, context: "Awarding book completion XP", category: .gamification)
         }
     }
 }

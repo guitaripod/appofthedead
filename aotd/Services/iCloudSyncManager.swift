@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 
 
@@ -63,7 +64,7 @@ class iCloudSyncManager {
         keyValueStore.synchronize()
         isObservingChanges = true
 
-        AppLogger.general.info("iCloud sync manager initialized")
+        MidgarLog.info("iCloud sync manager initialized", category: .general)
     }
 
     
@@ -85,7 +86,7 @@ class iCloudSyncManager {
            user.totalXP <= cloudData.xp,
            user.currentLevel <= cloudData.level,
            mergedPaths == cloudData.completedPaths {
-            AppLogger.general.debug("Skipping iCloud sync: cloud snapshot is ahead of local progress")
+            MidgarLog.debug("Skipping iCloud sync: cloud snapshot is ahead of local progress", category: .general)
             return
         }
 
@@ -102,13 +103,13 @@ class iCloudSyncManager {
             keyValueStore.synchronize()
 
             lastSyncDate = Date()
-            AppLogger.general.info("Progress synced to iCloud", metadata: [
+            MidgarLog.info("Progress synced to iCloud", metadata: [
                 "level": continuityData.level,
                 "xp": continuityData.xp,
                 "completedPathsCount": continuityData.completedPaths.count
-            ])
+            ], category: .general)
         } catch {
-            AppLogger.logError(error, context: "Failed to sync progress to iCloud", logger: AppLogger.general)
+            Diagnostics.logError(error, context: "Failed to sync progress to iCloud", category: .general)
         }
     }
 
@@ -126,7 +127,7 @@ class iCloudSyncManager {
     
     func retrieveSyncedProgress() -> ContinuityData? {
         guard let data = keyValueStore.data(forKey: syncKey) else {
-            AppLogger.general.debug("No synced progress found in iCloud")
+            MidgarLog.debug("No synced progress found in iCloud", category: .general)
             return nil
         }
 
@@ -134,21 +135,21 @@ class iCloudSyncManager {
             let continuityData = try JSONDecoder().decode(ContinuityData.self, from: data)
 
             if continuityData.isExpired {
-                AppLogger.general.info("Synced progress expired, clearing")
+                MidgarLog.info("Synced progress expired, clearing", category: .general)
                 clearSyncedProgress()
                 return nil
             }
 
-            AppLogger.general.info("Retrieved synced progress from iCloud", metadata: [
+            MidgarLog.info("Retrieved synced progress from iCloud", metadata: [
                 "level": continuityData.level,
                 "xp": continuityData.xp,
                 "completedPathsCount": continuityData.completedPaths.count,
                 "syncAge": Date().timeIntervalSince(continuityData.syncTimestamp)
-            ])
+            ], category: .general)
 
             return continuityData
         } catch {
-            AppLogger.logError(error, context: "Failed to decode synced progress from iCloud", logger: AppLogger.general)
+            Diagnostics.logError(error, context: "Failed to decode synced progress from iCloud", category: .general)
             clearSyncedProgress()
             return nil
         }
@@ -177,9 +178,9 @@ class iCloudSyncManager {
             let data = try JSONEncoder().encode(updated)
             keyValueStore.set(data, forKey: syncKey)
             keyValueStore.synchronize()
-            AppLogger.general.info("Removed reset path from iCloud snapshot", metadata: ["beliefSystemId": beliefSystemId])
+            MidgarLog.info("Removed reset path from iCloud snapshot", metadata: ["beliefSystemId": beliefSystemId], category: .general)
         } catch {
-            AppLogger.logError(error, context: "Failed to remove path from iCloud snapshot", logger: AppLogger.general)
+            Diagnostics.logError(error, context: "Failed to remove path from iCloud snapshot", category: .general)
         }
     }
 
@@ -188,7 +189,7 @@ class iCloudSyncManager {
     func clearSyncedProgress() {
         keyValueStore.removeObject(forKey: syncKey)
         keyValueStore.synchronize()
-        AppLogger.general.info("Cleared synced progress from iCloud")
+        MidgarLog.info("Cleared synced progress from iCloud", category: .general)
     }
 
     
@@ -208,7 +209,7 @@ class iCloudSyncManager {
             return
         }
 
-        AppLogger.general.info("iCloud sync data changed externally")
+        MidgarLog.info("iCloud sync data changed externally", category: .general)
 
         NotificationCenter.default.post(
             name: .iCloudSyncDataChanged,

@@ -2,6 +2,7 @@ import Foundation
 import CryptoKit
 import Network
 import MLXLMCommon
+import MidgarCore
 
 /// SOTA on-device model downloader: one shared **background** `URLSession` so the
 /// 3.6 GB model keeps downloading while the app is suspended/killed, commit-pinned
@@ -363,7 +364,7 @@ extension BackgroundModelDownloader: URLSessionDownloadDelegate {
         lock.unlock()
 
         if let code = (downloadTask.response as? HTTPURLResponse)?.statusCode, code != 200 {
-            AppLogger.mlx.error("Download for \(file.path, privacy: .public) returned HTTP \(code)")
+            MidgarLog.error("Download for \(file.path) returned HTTP \(code)", category: .mlx)
             complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: HFModelManifestError.badResponse(code))))
             return
         }
@@ -372,7 +373,7 @@ extension BackgroundModelDownloader: URLSessionDownloadDelegate {
             try? FileManager.default.removeItem(at: dest)
             try FileManager.default.moveItem(at: location, to: dest)
         } catch {
-            AppLogger.mlx.error("Model file move failed for \(file.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            MidgarLog.error("Model file move failed for \(file.path): \(error.localizedDescription)", category: .mlx)
             complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: error)))
         }
     }
@@ -387,7 +388,7 @@ extension BackgroundModelDownloader: URLSessionDownloadDelegate {
             let nsError = error as NSError
             let code = (task.response as? HTTPURLResponse)?.statusCode ?? -1
             lock.unlock()
-            AppLogger.mlx.error("Download error for \(file.path, privacy: .public) http=\(code): \(nsError.localizedDescription, privacy: .public)")
+            MidgarLog.error("Download error for \(file.path) http=\(code): \(nsError.localizedDescription)", category: .mlx)
             complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: error)))
             return
         }

@@ -30,7 +30,7 @@ struct DatabaseGameCenterStatsProvider: GameCenterStatsProviding {
                 achievements: achievements
             )
         } catch {
-            AppLogger.logError(error, context: "Building Game Center snapshot", logger: AppLogger.gameCenter)
+            Diagnostics.logError(error, context: "Building Game Center snapshot", category: .gameCenter)
             return nil
         }
     }

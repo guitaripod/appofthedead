@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,20 +19,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        AppLogger.ui.info("Scene will connect to session")
-        let sceneSetupActivity = AppLogger.beginActivity("SceneSetup")
+        MidgarLog.info("Scene will connect to session", category: .ui)
+        let sceneSetupActivity = Diagnostics.beginActivity("SceneSetup")
         
         self.window = UIWindow(windowScene: windowScene)
         
         
-        let iconsActivity = AppLogger.beginActivity("IconProvider.createCustomIcons")
+        let iconsActivity = Diagnostics.beginActivity("IconProvider.createCustomIcons")
         IconProvider.createCustomIcons()
-        AppLogger.endActivity("IconProvider.createCustomIcons", id: iconsActivity)
+        Diagnostics.endActivity("IconProvider.createCustomIcons", since: iconsActivity)
         
         
-        let contentLoaderActivity = AppLogger.beginActivity("ContentLoader.init")
+        let contentLoaderActivity = Diagnostics.beginActivity("ContentLoader.init")
         let contentLoader = ContentLoader()
-        AppLogger.endActivity("ContentLoader.init", id: contentLoaderActivity)
+        Diagnostics.endActivity("ContentLoader.init", since: contentLoaderActivity)
         
         
         databaseManager.setContentLoader(contentLoader)
@@ -40,21 +41,21 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         generateBooksInBackgroundUnlessDemo(contentLoader: contentLoader)
         
         
-        let homeActivity = AppLogger.beginActivity("HomeViewController.setup")
+        let homeActivity = Diagnostics.beginActivity("HomeViewController.setup")
         let homeViewModel = HomeViewModel(
             databaseManager: databaseManager,
             contentLoader: contentLoader
         )
         let homeViewController = HomeViewController(viewModel: homeViewModel)
         let homeNavigationController = UINavigationController(rootViewController: homeViewController)
-        AppLogger.endActivity("HomeViewController.setup", id: homeActivity)
+        Diagnostics.endActivity("HomeViewController.setup", since: homeActivity)
         
         
-        let profileActivity = AppLogger.beginActivity("ProfileViewController.setup")
+        let profileActivity = Diagnostics.beginActivity("ProfileViewController.setup")
         let profileViewModel = ProfileViewModel(databaseManager: databaseManager)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
-        AppLogger.endActivity("ProfileViewController.setup", id: profileActivity)
+        Diagnostics.endActivity("ProfileViewController.setup", since: profileActivity)
         
         
         let settingsViewController = SettingsViewController()
@@ -65,7 +66,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let oracleNavigationController = UINavigationController(rootViewController: oracleViewController)
         
         
-        let libraryActivity = AppLogger.beginActivity("BookLibraryViewController.setup")
+        let libraryActivity = Diagnostics.beginActivity("BookLibraryViewController.setup")
         let libraryViewModel = BookLibraryViewModel(
             userId: databaseManager.fetchUser()?.id ?? "",
             databaseManager: databaseManager,
@@ -73,7 +74,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
         let libraryViewController = BookLibraryViewController(viewModel: libraryViewModel)
         let libraryNavigationController = UINavigationController(rootViewController: libraryViewController)
-        AppLogger.endActivity("BookLibraryViewController.setup", id: libraryActivity)
+        Diagnostics.endActivity("BookLibraryViewController.setup", since: libraryActivity)
         
         
         // Create adaptive navigation container
@@ -125,10 +126,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         
-        AppLogger.endActivity("SceneSetup", id: sceneSetupActivity, metadata: [
+        Diagnostics.endActivity("SceneSetup", since: sceneSetupActivity, metadata: [
             "viewControllerCount": 5
         ])
-        AppLogger.ui.info("Scene setup complete")
+        MidgarLog.info("Scene setup complete", category: .ui)
     }
     
     private func shouldPresentWelcome() -> Bool {
@@ -172,10 +173,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func presentWelcome(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
         let welcome = WelcomeViewController { [weak root, weak homeViewModel] in
             FirstRunWelcome().markCompleted()
-            AppLogger.logUserAction("welcomeStarted")
+            Diagnostics.logUserAction("welcomeStarted")
             root?.dismiss(animated: true) {
                 guard let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) else {
-                    AppLogger.ui.error("Welcome could not find the Judaism path; landing on Home")
+                    MidgarLog.error("Welcome could not find the Judaism path; landing on Home", category: .ui)
                     GameCenterManager.shared.resumeDeferredAuthentication()
                     return
                 }
@@ -183,7 +184,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         root.present(welcome, animated: false)
-        AppLogger.ui.info("Presented first-run welcome")
+        MidgarLog.info("Presented first-run welcome", category: .ui)
     }
 
     private func setupNavigationFlow(
@@ -206,10 +207,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController: UINavigationController,
         contentLoader: ContentLoader
     ) {
-        AppLogger.logUserAction("startLearningPath", parameters: [
+        Diagnostics.logUserAction("startLearningPath", parameters: [
             "beliefSystemId": beliefSystem.id,
             "beliefSystemName": beliefSystem.name
-        ], logger: AppLogger.learning)
+        ], category: .learning)
         
         
         UserDefaults.standard.set(beliefSystem.id, forKey: SessionState.currentBeliefSystemKey)
@@ -232,10 +233,10 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// lands on its path no matter where the app was left.
     private func open(_ url: URL) {
         guard let link = DeepLink(url: url) else {
-            AppLogger.ui.warning("Ignored unrecognized URL \(url.absoluteString, privacy: .public)")
+            MidgarLog.notice("Ignored unrecognized URL \(url.absoluteString)", category: .ui)
             return
         }
-        AppLogger.logUserAction("openDeepLink", parameters: ["url": url.absoluteString])
+        Diagnostics.logUserAction("openDeepLink", parameters: ["url": url.absoluteString])
         switch link {
         case .path(let beliefSystemId):
             rootContainer?.dismiss(animated: false)
@@ -245,17 +246,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        AppLogger.ui.info("Scene did enter background")
+        MidgarLog.info("Scene did enter background", category: .ui)
         
     }
     
     func sceneWillEnterForeground(_ scene: UIScene) {
-        AppLogger.ui.info("Scene will enter foreground")
+        MidgarLog.info("Scene will enter foreground", category: .ui)
         GameCenterManager.shared.synchronize()
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        AppLogger.ui.info("Scene did become active")
+        MidgarLog.info("Scene did become active", category: .ui)
     }
     
     private func presentDemoRouteIfRequested(

@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import RevenueCat
+import MidgarCore
 
 struct PremiumPlanInfo: Equatable {
     let productId: ProductIdentifier
@@ -52,7 +53,7 @@ class StoreManager: NSObject {
         Purchases.logLevel = .error
         Purchases.configure(withAPIKey: "appl_EPdbsDpeVyslVzSVIWLwbgIGKsc")
         Purchases.shared.delegate = self
-        AppLogger.purchases.info("RevenueCat configured successfully")
+        MidgarLog.info("RevenueCat configured successfully", category: .purchases)
 
         prefetchAllPrices()
     }
@@ -64,7 +65,7 @@ class StoreManager: NSObject {
             for product in products {
                 self?.cachedProducts[product.productIdentifier] = product
             }
-            AppLogger.purchases.info("Pre-fetched \(products.count) product prices")
+            MidgarLog.info("Pre-fetched \(products.count) product prices", category: .purchases)
         }
     }
     
@@ -101,9 +102,10 @@ class StoreManager: NSObject {
             
             Purchases.shared.purchase(product: product) { transaction, customerInfo, error, userCancelled in
                 if userCancelled {
-                    AppLogger.purchases.info("Purchase cancelled by user: \(productId.rawValue)")
+                    MidgarLog.info("Purchase cancelled by user: \(productId.rawValue)", category: .purchases)
                     completion(.success(false))
                 } else if let error = error {
+                    ReviewPrompt.notePurchaseFailure()
                     completion(.failure(error))
                 } else {
                     self.customerInfo = customerInfo
@@ -122,7 +124,7 @@ class StoreManager: NSObject {
             } else {
                 self.customerInfo = customerInfo
                 let restored = customerInfo.map(Self.hasRestorablePurchases) ?? false
-                AppLogger.purchases.info("Restore completed, restored purchases found: \(restored)")
+                MidgarLog.info("Restore completed, restored purchases found: \(restored)", category: .purchases)
                 completion(.success(restored))
                 NotificationCenter.default.post(name: Self.entitlementsUpdatedNotification, object: nil)
             }
@@ -298,7 +300,7 @@ class StoreManager: NSObject {
             }
 
             guard !products.isEmpty else {
-                AppLogger.purchases.error("Failed to fetch premium plan products from the App Store")
+                MidgarLog.error("Failed to fetch premium plan products from the App Store", category: .purchases)
                 DispatchQueue.main.async { completion(.empty) }
                 return
             }

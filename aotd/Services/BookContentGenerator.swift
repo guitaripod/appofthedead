@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 final class BookContentGenerator {
     
@@ -13,10 +14,10 @@ final class BookContentGenerator {
     
     
     func generateBook(for beliefSystem: BeliefSystem) throws -> Book {
-        AppLogger.content.info("Generating book for belief system", metadata: [
+        MidgarLog.info("Generating book for belief system", metadata: [
             "beliefSystemId": beliefSystem.id,
             "beliefSystemName": beliefSystem.name
-        ])
+        ], category: .content)
         
         let chapters = createChapters(from: beliefSystem)
         
@@ -24,10 +25,10 @@ final class BookContentGenerator {
         var seenChapterNumbers = Set<Int>()
         for chapter in chapters {
             if seenChapterNumbers.contains(chapter.chapterNumber) {
-                AppLogger.content.error("Duplicate chapter number found", metadata: [
+                MidgarLog.error("Duplicate chapter number found", metadata: [
                     "chapterNumber": chapter.chapterNumber,
                     "chapterTitle": chapter.title
-                ])
+                ], category: .content)
             }
             seenChapterNumbers.insert(chapter.chapterNumber)
         }
@@ -59,9 +60,9 @@ final class BookContentGenerator {
             do {
                 
                 if try databaseManager.getBook(by: "book_\(beliefSystem.id)") != nil {
-                    AppLogger.content.info("Book already exists, skipping", metadata: [
+                    MidgarLog.info("Book already exists, skipping", metadata: [
                         "beliefSystemId": beliefSystem.id
-                    ])
+                    ], category: .content)
                     continue
                 }
                 
@@ -69,21 +70,21 @@ final class BookContentGenerator {
                 try databaseManager.saveBook(book)
                 generatedCount += 1
                 
-                AppLogger.content.info("Generated and saved book", metadata: [
+                MidgarLog.info("Generated and saved book", metadata: [
                     "bookId": book.id,
                     "beliefSystemName": beliefSystem.name,
                     "chapterCount": book.chapters.count,
                     "totalWords": book.totalWords
-                ])
+                ], category: .content)
             } catch {
-                AppLogger.logError(error, context: "Generating book for \(beliefSystem.name)", logger: AppLogger.content)
+                Diagnostics.logError(error, context: "Generating book for \(beliefSystem.name)", category: .content)
             }
         }
         
-        AppLogger.content.info("Book generation complete", metadata: [
+        MidgarLog.info("Book generation complete", metadata: [
             "totalBeliefSystems": beliefSystems.count,
             "booksGenerated": generatedCount
-        ])
+        ], category: .content)
     }
     
     
@@ -136,11 +137,11 @@ final class BookContentGenerator {
         
         for (index, chapter) in chapters.enumerated() {
             if chapter.chapterNumber != index + 1 {
-                AppLogger.content.warning("Chapter numbering mismatch", metadata: [
+                MidgarLog.notice("Chapter numbering mismatch", metadata: [
                     "expected": index + 1,
                     "actual": chapter.chapterNumber,
                     "title": chapter.title
-                ])
+                ], category: .content)
             }
         }
         

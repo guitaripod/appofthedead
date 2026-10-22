@@ -1,5 +1,6 @@
 import GameKit
 import UIKit
+import MidgarCore
 
 final class GameCenterManager: NSObject {
 
@@ -43,7 +44,7 @@ final class GameCenterManager: NSObject {
     /// brand-new user's first screens.
     func deferAuthentication() {
         isAuthenticationDeferred = true
-        AppLogger.gameCenter.info("Game Center sign-in deferred until first run settles")
+        MidgarLog.info("Game Center sign-in deferred until first run settles", category: .gameCenter)
     }
 
     func resumeDeferredAuthentication() {
@@ -55,24 +56,24 @@ final class GameCenterManager: NSObject {
     private func handleAuthEvent(_ event: GameCenterAuthEvent) {
         switch event {
         case .requiresPresentation(let viewController):
-            AppLogger.gameCenter.info("Presenting Game Center sign-in")
+            MidgarLog.info("Presenting Game Center sign-in", category: .gameCenter)
             present(viewController)
         case .authenticated:
-            AppLogger.gameCenter.info("Game Center authenticated")
+            MidgarLog.info("Game Center authenticated", category: .gameCenter)
             observeUserDataUpdatesIfNeeded()
             synchronize()
         case .failed(let error):
             if let error {
-                AppLogger.logError(error, context: "Game Center authentication", logger: AppLogger.gameCenter)
+                Diagnostics.logError(error, context: "Game Center authentication", category: .gameCenter)
             } else {
-                AppLogger.gameCenter.info("Game Center unavailable; player not signed in")
+                MidgarLog.info("Game Center unavailable; player not signed in", category: .gameCenter)
             }
         }
     }
 
     func synchronize() {
         guard gameKit.isAuthenticated else {
-            AppLogger.gameCenter.debug("Skipping Game Center sync; player not authenticated")
+            MidgarLog.debug("Skipping Game Center sync; player not authenticated", category: .gameCenter)
             return
         }
         guard let snapshot = statsProvider.currentSnapshot() else { return }
@@ -80,10 +81,10 @@ final class GameCenterManager: NSObject {
         for (leaderboard, score) in snapshot.leaderboardScores {
             gameKit.submitScore(score, leaderboardID: leaderboard.id) { error in
                 if let error {
-                    AppLogger.logError(
+                    Diagnostics.logError(
                         error,
                         context: "Submitting Game Center score for \(leaderboard.id)",
-                        logger: AppLogger.gameCenter
+                        category: .gameCenter
                     )
                 }
             }
@@ -93,7 +94,7 @@ final class GameCenterManager: NSObject {
         guard !reports.isEmpty else { return }
         gameKit.reportAchievements(reports) { error in
             if let error {
-                AppLogger.logError(error, context: "Reporting Game Center achievements", logger: AppLogger.gameCenter)
+                Diagnostics.logError(error, context: "Reporting Game Center achievements", category: .gameCenter)
             }
         }
     }
@@ -148,7 +149,7 @@ final class GameCenterManager: NSObject {
 
     private func present(_ viewController: UIViewController) {
         guard let top = Self.topViewController() else {
-            AppLogger.gameCenter.error("No top view controller to present Game Center sign-in")
+            MidgarLog.error("No top view controller to present Game Center sign-in", category: .gameCenter)
             return
         }
         guard top.presentedViewController == nil else { return }

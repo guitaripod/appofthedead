@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 protocol OracleTextExplanationViewDelegate: AnyObject {
     func oracleTextExplanationViewDidDismiss(_ view: OracleTextExplanationView)
@@ -475,7 +476,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
                     self.responseTextView.setOracleText(String(localized: "The oracle's wisdom could not be reached at this time. Please try again later."))
-                    AppLogger.mlx.error("Failed to get oracle explanation: \(error)")
+                    MidgarLog.error("Failed to get oracle explanation: \(error)", category: .mlx)
                 }
             }
         }

@@ -1,6 +1,6 @@
 import UIKit
 import SafariServices
-import MidgarKit
+import MidgarPortal
 
 final class SettingsViewController: UIViewController {
     private let tableView: UITableView = {
@@ -239,7 +239,7 @@ private class MidgarEntryCell: UITableViewCell {
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
-        MidgarEntryView().embed(in: contentView, verticalInset: 8, horizontalInset: 16)
+        MidgarEntryView(config: AotdMidgar.shared.portalConfig).embed(in: contentView, verticalInset: 8, horizontalInset: 16)
     }
 }
 private class SwitchTableViewCell: UITableViewCell {

@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 protocol QuestionFlowCoordinatorDelegate: AnyObject {
     func questionFlowCoordinatorDidComplete(_ coordinator: QuestionFlowCoordinator, results: [QuestionResult])
@@ -160,12 +161,12 @@ extension QuestionFlowCoordinator: QuestionViewModelDelegate {
                 correctAnswer: correctAnswer
             )
             
-            AppLogger.learning.info("Saved mistake for review", metadata: [
+            MidgarLog.info("Saved mistake for review", metadata: [
                 "questionId": question.id,
                 "beliefSystemId": beliefSystem.id
-            ])
+            ], category: .learning)
         } catch {
-            AppLogger.logError(error, context: "Saving mistake", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Saving mistake", category: .learning)
         }
     }
 }

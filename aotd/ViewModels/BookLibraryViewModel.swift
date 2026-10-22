@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 final class BookLibraryViewModel {
     
@@ -75,14 +76,14 @@ final class BookLibraryViewModel {
             
             onBooksUpdate?()
             
-            AppLogger.viewModel.info("Loaded books", metadata: [
+            MidgarLog.info("Loaded books", metadata: [
                 "available": availableBooks.count,
                 "reading": readingBooks.count,
                 "completed": completedBooks.count
-            ])
+            ], category: .viewModel)
             
         } catch {
-            AppLogger.logError(error, context: "Loading books", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading books", category: .viewModel)
         }
     }
     

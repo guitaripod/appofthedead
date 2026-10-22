@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 
 
@@ -262,10 +263,10 @@ final class LessonViewController: UIViewController {
     }
     
     @objc private func backButtonTapped() {
-        AppLogger.ui.debug("LessonViewController - Back button tapped")
+        MidgarLog.debug("LessonViewController - Back button tapped", category: .ui)
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         viewModel.exitLearningPath()
-        AppLogger.ui.debug("LessonViewController - Called viewModel.exitLearningPath()")
+        MidgarLog.debug("LessonViewController - Called viewModel.exitLearningPath()", category: .ui)
     }
     
     

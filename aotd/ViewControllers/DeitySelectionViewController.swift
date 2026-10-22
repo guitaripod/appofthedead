@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurable {
     
@@ -35,7 +36,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     
     
     init(deities: [OracleViewModel.Deity], currentDeity: OracleViewModel.Deity?, onSelection: @escaping (OracleViewModel.Deity) -> Void) {
-        AppLogger.ui.debug("[DeitySelectionViewController] Init", metadata: ["deityCount": deities.count])
+        MidgarLog.debug("[DeitySelectionViewController] Init", metadata: ["deityCount": deities.count], category: .ui)
         
         self.deities = deities
         self.currentDeity = currentDeity
@@ -43,7 +44,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
         
         super.init(nibName: nil, bundle: nil)
         
-        AppLogger.ui.debug("[DeitySelectionViewController] Super init completed")
+        MidgarLog.debug("[DeitySelectionViewController] Super init completed", category: .ui)
         
         
         modalPresentationStyle = .pageSheet
@@ -105,7 +106,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     
     
     private func setupUI() {
-        AppLogger.ui.debug("[DeitySelectionViewController] setupUI started")
+        MidgarLog.debug("[DeitySelectionViewController] setupUI started", category: .ui)
         
         
         view.backgroundColor = UIColor.Papyrus.background

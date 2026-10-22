@@ -532,7 +532,7 @@ class PaywallViewController: UIViewController {
         do {
             pathPreviews = try JSONDecoder().decode([String: PathPreview].self, from: data)
         } catch {
-            AppLogger.logError(error, context: "Loading path previews", logger: AppLogger.content)
+            Diagnostics.logError(error, context: "Loading path previews", category: .content)
         }
     }
 

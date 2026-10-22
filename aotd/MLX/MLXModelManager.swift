@@ -1,5 +1,6 @@
 import Foundation
 import MLX
+import MidgarCore
 
 final class MLXModelManager {
 
@@ -96,12 +97,12 @@ final class MLXModelManager {
                 service.markModelDownloaded(actual)
                 UserDefaults.standard.set(actual.id, forKey: Self.lastLoadedModelKey)
                 UserDefaults.standard.set(true, forKey: "MLXModelLoadedOnce")
-                AppLogger.mlx.info("Loaded on-device model \(actual.id, privacy: .public)")
+                MidgarLog.info("Loaded on-device model \(actual.id)", category: .mlx)
                 return
             } catch let error as OnDeviceLLMError {
                 switch error {
                 case .loadFailed, .sanityCheckFailed:
-                    AppLogger.mlx.error("Model \(model.id, privacy: .public) failed (\(error.localizedDescription, privacy: .public)); trying fallback")
+                    MidgarLog.error("Model \(model.id) failed (\(error.localizedDescription)); trying fallback", category: .mlx)
                     continue
                 default:
                     throw error
@@ -152,7 +153,7 @@ final class MLXModelManager {
     }
 
     func handleMemoryPressure() {
-        AppLogger.mlx.warning("Memory pressure — unloading on-device model")
+        MidgarLog.notice("Memory pressure — unloading on-device model", category: .mlx)
         service.unloadModel()
     }
 

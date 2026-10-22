@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 final class HomeViewController: UIViewController {
     let viewModel: HomeViewModel
     var currentLayoutPreference: ViewLayoutPreference = .grid
@@ -23,7 +24,7 @@ final class HomeViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewDidLoad")
+        Diagnostics.logViewControllerLifecycle("HomeViewController", event: "viewDidLoad")
         currentLayoutPreference = ViewLayoutPreference.preferredLayout(for: traitCollection)
         setupUI()
         bindViewModel()
@@ -32,7 +33,7 @@ final class HomeViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AppLogger.logViewControllerLifecycle("HomeViewController", event: "viewWillAppear")
+        Diagnostics.logViewControllerLifecycle("HomeViewController", event: "viewWillAppear")
         let adaptiveManager = AdaptiveLayoutManager.shared
         if !adaptiveManager.shouldUseSplitView(for: traitCollection, windowWidth: view.window?.bounds.width ?? view.bounds.width) {
             navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -247,7 +248,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = collectionDataSource.itemIdentifier(for: indexPath) else { return }
-        AppLogger.logUserAction("selectPath", parameters: [
+        Diagnostics.logUserAction("selectPath", parameters: [
             "pathId": item.id,
             "pathName": item.name,
             "isUnlocked": item.isUnlocked,
@@ -263,7 +264,7 @@ extension HomeViewController: UICollectionViewDelegate {
         navigationController?.popToRootViewController(animated: false)
         viewModel.loadData()
         guard let item = viewModel.pathItems.first(where: { $0.id == beliefSystemId }) else {
-            AppLogger.ui.warning("Deep link names unknown path \(beliefSystemId, privacy: .public)")
+            MidgarLog.notice("Deep link names unknown path \(beliefSystemId)", category: .ui)
             return
         }
         open(item)
@@ -320,10 +321,10 @@ extension HomeViewController: UICollectionViewDelegate {
         if let user = viewModel.currentUser {
             do {
                 let mistakeCount = try DatabaseManager.shared.getMistakeCount(userId: user.id, beliefSystemId: item.id)
-                AppLogger.ui.info("Context menu mistake count", metadata: [
+                MidgarLog.info("Context menu mistake count", metadata: [
                     "beliefSystemId": item.id,
                     "mistakeCount": mistakeCount
-                ])
+                ], category: .ui)
                 if mistakeCount > 0 {
                     let mistakeAction = UIAction(
                         title: String(localized: "Review Mistakes (\(mistakeCount))"),
@@ -335,7 +336,7 @@ extension HomeViewController: UICollectionViewDelegate {
                     actions.append(mistakeAction)
                 }
             } catch {
-                AppLogger.logError(error, context: "Getting mistake count for context menu", logger: AppLogger.ui)
+                Diagnostics.logError(error, context: "Getting mistake count for context menu", category: .ui)
             }
         }
         if let progress = progress, progress.earnedXP > 0 {
@@ -431,7 +432,7 @@ extension HomeViewController {
             contentLoader: viewModel.contentLoader
         )
         sceneDelegate.learningPathCoordinator = coordinator
-        AppLogger.logUserAction("startFirstLessonPreview", parameters: ["beliefSystemId": beliefSystem.id])
+        Diagnostics.logUserAction("startFirstLessonPreview", parameters: ["beliefSystemId": beliefSystem.id])
         coordinator.startPreview()
     }
     private func showCompletionOptions(for item: PathItem) {
@@ -475,12 +476,12 @@ extension HomeViewController {
             let navController = UINavigationController(rootViewController: mistakeReviewVC)
             navController.modalPresentationStyle = .fullScreen
             present(navController, animated: true)
-            AppLogger.learning.info("Started mistake review", metadata: [
+            MidgarLog.info("Started mistake review", metadata: [
                 "beliefSystemId": item.id,
                 "mistakeCount": mistakes.count
-            ])
+            ], category: .learning)
         } catch {
-            AppLogger.logError(error, context: "Starting mistake review", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Starting mistake review", category: .learning)
             PapyrusAlert.showSimpleAlert(
                 title: String(localized: "Error"),
                 message: String(localized: "Unable to start mistake review. Please try again."),
@@ -496,7 +497,7 @@ extension HomeViewController {
 }
 extension HomeViewController: HomeHeaderViewDelegate {
     func profileButtonTapped() {
-        AppLogger.logUserAction("profileButtonTapped")
+        Diagnostics.logUserAction("profileButtonTapped")
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 1
         }

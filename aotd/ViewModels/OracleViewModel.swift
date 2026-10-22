@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import Combine
+import MidgarCore
 
 final class OracleViewModel: ObservableObject {
     
@@ -190,7 +191,7 @@ final class OracleViewModel: ObservableObject {
         }
 
         guard let task = await MainActor.run(body: { startGeneration(for: text) }) else {
-            AppLogger.viewModel.debug("Oracle send ignored: no deity selected or generation already in progress")
+            MidgarLog.debug("Oracle send ignored: no deity selected or generation already in progress", category: .viewModel)
             return
         }
 
@@ -415,9 +416,9 @@ final class OracleViewModel: ObservableObject {
                 )
             }
         } catch is CancellationError {
-            AppLogger.viewModel.debug("Oracle generation cancelled for deity \(deity.id)")
+            MidgarLog.debug("Oracle generation cancelled for deity \(deity.id)", category: .viewModel)
         } catch {
-            AppLogger.logError(error, context: "Oracle generation", logger: AppLogger.mlx)
+            Diagnostics.logError(error, context: "Oracle generation", category: .mlx)
 
             await MainActor.run {
                 self.failGeneration(generationID: generationID, deity: deity, error: error)
@@ -489,7 +490,7 @@ final class OracleViewModel: ObservableObject {
     @MainActor
     private func recordSuccessfulConsultation(deityId: String) {
         guard let user = DatabaseManager.shared.fetchUser() else {
-            AppLogger.viewModel.error("Cannot record Oracle consultation: no user found")
+            MidgarLog.error("Cannot record Oracle consultation: no user found", category: .viewModel)
             return
         }
         user.recordOracleConsultation(deityId: deityId)

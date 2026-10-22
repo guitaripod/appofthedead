@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 final class LearningPathCoordinator {
     
@@ -108,7 +109,7 @@ final class LearningPathCoordinator {
             return min(furthestIndex, beliefSystem.lessons.count)
             
         } catch {
-            AppLogger.logError(error, context: "Finding resume point", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Finding resume point", category: .learning)
             return 0
         }
     }
@@ -165,7 +166,7 @@ final class LearningPathCoordinator {
                 GamificationService.shared.checkAchievements(for: user.id)
                 NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
             } catch {
-                AppLogger.logError(error, context: "Marking belief system as completed", logger: AppLogger.learning)
+                Diagnostics.logError(error, context: "Marking belief system as completed", category: .learning)
             }
         }
         
@@ -247,7 +248,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
 
     private func showLessonComplete(_ summary: LessonCompleteViewController.Summary) {
         reminderOffer.markShown()
-        AppLogger.learning.info("Showing lesson complete with reminder offer")
+        MidgarLog.info("Showing lesson complete with reminder offer", category: .learning)
         let viewController = LessonCompleteViewController(
             summary: summary,
             onContinue: { [weak self] in self?.showNextLesson() },
@@ -298,7 +299,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 score: nil
             )
         } catch {
-            AppLogger.logError(error, context: "Saving lesson started", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Saving lesson started", category: .learning)
         }
     }
     
@@ -333,7 +334,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 }
             }
         } catch {
-            AppLogger.logError(error, context: "Saving lesson completion", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Saving lesson completion", category: .learning)
         }
     }
     
@@ -381,7 +382,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 showMasterTestFailureAlert(score: score, requiredScore: requiredScore)
             }
         } catch {
-            AppLogger.logError(error, context: "Saving master test completion", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Saving master test completion", category: .learning)
         }
     }
     

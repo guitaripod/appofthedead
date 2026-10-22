@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,24 +8,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
-        AppLogger.logAppLaunch()
+        AotdMidgar.configureLogging()
+        Diagnostics.logAppLaunch()
 
         preWarmAppStoreReceiptURL()
 
         NotificationManager.shared.clearBadge()
 
-        let storeActivity = AppLogger.beginActivity("StoreManager.configure")
+        let storeActivity = Diagnostics.beginActivity("StoreManager.configure")
         StoreManager.shared.configure()
-        AppLogger.endActivity("StoreManager.configure", id: storeActivity)
+        Diagnostics.endActivity("StoreManager.configure", since: storeActivity)
+        AotdMidgar.shared.start()
+        ReviewPrompt.beginSession()
         
         
-        let contentActivity = AppLogger.beginActivity("ContentLoader.initialize")
+        let contentActivity = Diagnostics.beginActivity("ContentLoader.initialize")
         let contentLoader = ContentLoader()
         DatabaseManager.shared.setContentLoader(contentLoader)
-        AppLogger.endActivity("ContentLoader.initialize", id: contentActivity)
+        Diagnostics.endActivity("ContentLoader.initialize", since: contentActivity)
 
-        let syncActivity = AppLogger.beginActivity("iCloudSync.initialize")
+        let syncActivity = Diagnostics.beginActivity("iCloudSync.initialize")
         iCloudSyncManager.shared.startMonitoringCloudChanges()
         NotificationCenter.default.addObserver(
             self,
@@ -33,15 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             object: nil
         )
         applyCloudProgressToCurrentUser()
-        AppLogger.endActivity("iCloudSync.initialize", id: syncActivity)
+        Diagnostics.endActivity("iCloudSync.initialize", since: syncActivity)
 
-        AppLogger.general.info("App initialization complete")
+        MidgarLog.info("App initialization complete", category: .general)
         
         return true
     }
     
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        AppLogger.logMemoryWarning()
+        Diagnostics.logMemoryWarning()
     }
 
     /// Wakes the background model-download session when iOS relaunches the app after

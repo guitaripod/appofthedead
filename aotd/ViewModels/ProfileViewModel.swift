@@ -90,7 +90,7 @@ final class ProfileViewModel {
         do {
             userStats = try databaseManager.getUserStatistics(userId: userId)
         } catch {
-            AppLogger.logError(error, context: "Loading user statistics", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading user statistics", category: .viewModel)
         }
     }
 
@@ -103,7 +103,7 @@ final class ProfileViewModel {
         do {
             userAchievements = try databaseManager.getUserAchievements(userId: userId)
         } catch {
-            AppLogger.logError(error, context: "Loading user achievements", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading user achievements", category: .viewModel)
         }
     }
 
@@ -140,7 +140,7 @@ final class ProfileViewModel {
                 )
             }.sorted(by: Self.journeyOrder)
         } catch {
-            AppLogger.logError(error, context: "Loading profile journey metrics", logger: AppLogger.viewModel)
+            Diagnostics.logError(error, context: "Loading profile journey metrics", category: .viewModel)
         }
     }
 

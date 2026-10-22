@@ -1,5 +1,6 @@
 import CoreHaptics
 import UIKit
+import MidgarCore
 
 /// Subtle haptic accompaniment to the awakening visual: one continuous low hum whose
 /// intensity rises with download progress (Core Haptics, live-modulated), discrete
@@ -55,7 +56,7 @@ final class OracleHapticConductor {
             self.engine = engine
             startHum()
         } catch {
-            AppLogger.ui.error("Haptic engine start failed: \(error.localizedDescription, privacy: .public)")
+            MidgarLog.error("Haptic engine start failed: \(error.localizedDescription)", category: .ui)
         }
     }
 
@@ -75,7 +76,7 @@ final class OracleHapticConductor {
             player = try engine.makeAdvancedPlayer(with: pattern)
             try player?.start(atTime: CHHapticTimeImmediate)
         } catch {
-            AppLogger.ui.error("Haptic hum failed: \(error.localizedDescription, privacy: .public)")
+            MidgarLog.error("Haptic hum failed: \(error.localizedDescription)", category: .ui)
         }
     }
 

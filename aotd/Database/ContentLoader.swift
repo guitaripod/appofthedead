@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 class ContentLoader {
     private var cachedBeliefSystems: [BeliefSystem]?
@@ -36,8 +37,8 @@ class ContentLoader {
                     let beliefSystem = try decoder.decode(BeliefSystem.self, from: jsonData)
                     beliefSystems.append(beliefSystem)
                 } catch {
-                    AppLogger.logError(error, context: "ContentLoader.loadBeliefSystems",
-                                     logger: AppLogger.content,
+                    Diagnostics.logError(error, context: "ContentLoader.loadBeliefSystems",
+                                     category: .content,
                                      additionalInfo: ["beliefSystemId": beliefSystemId])
                 }
             }
@@ -59,7 +60,7 @@ class ContentLoader {
         
         guard let path = bundle.path(forResource: "achievements", ofType: "json"),
               let jsonData = NSData(contentsOfFile: path) as Data? else {
-            AppLogger.content.error("Could not find achievements.json file in bundle")
+            MidgarLog.error("Could not find achievements.json file in bundle", category: .content)
             return []
         }
         
@@ -69,7 +70,7 @@ class ContentLoader {
             cachedAchievements = achievements
             return achievements
         } catch {
-            AppLogger.logError(error, context: "ContentLoader.loadAchievements", logger: AppLogger.content)
+            Diagnostics.logError(error, context: "ContentLoader.loadAchievements", category: .content)
             return []
         }
     }
@@ -97,7 +98,7 @@ class ContentLoader {
         
         guard let validPath = path,
               let jsonData = NSData(contentsOfFile: validPath) as Data? else {
-            AppLogger.content.error("Could not find deity_prompts.json file in any bundle")
+            MidgarLog.error("Could not find deity_prompts.json file in any bundle", category: .content)
             return [:]
         }
         
@@ -107,7 +108,7 @@ class ContentLoader {
             cachedDeities = deityData.deities
             return deityData.deities
         } catch {
-            AppLogger.logError(error, context: "ContentLoader.loadDeities", logger: AppLogger.content)
+            Diagnostics.logError(error, context: "ContentLoader.loadDeities", category: .content)
             return [:]
         }
     }

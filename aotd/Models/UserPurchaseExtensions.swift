@@ -72,7 +72,7 @@ extension User {
         do {
             try DatabaseManager.shared.saveOracleConsultation(consultation)
         } catch {
-            AppLogger.logError(error, context: "Recording oracle consultation", logger: AppLogger.database)
+            Diagnostics.logError(error, context: "Recording oracle consultation", category: .database)
         }
     }
     

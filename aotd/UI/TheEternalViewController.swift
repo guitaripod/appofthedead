@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 
 
@@ -472,7 +473,7 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
                     self.responseTextView.setOracleText(String(localized: "The Eternal's wisdom cannot be reached at this time. Please try again later."))
-                    AppLogger.mlx.error("Failed to receive The Eternal's wisdom: \(error)")
+                    MidgarLog.error("Failed to receive The Eternal's wisdom: \(error)", category: .mlx)
                 }
             }
         }
@@ -583,10 +584,10 @@ final class TheEternalViewController: UIViewController, UIAdaptivePresentationCo
                 
                 try DatabaseManager.shared.saveOracleConsultation(consultation)
                 
-                AppLogger.database.info("Saved wisdom from The Eternal")
+                MidgarLog.info("Saved wisdom from The Eternal", category: .database)
                 
             } catch {
-                AppLogger.database.error("Failed to save The Eternal's wisdom: \(error)")
+                MidgarLog.error("Failed to save The Eternal's wisdom: \(error)", category: .database)
             }
         }
     }

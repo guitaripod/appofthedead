@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 protocol MistakeReviewViewControllerDelegate: AnyObject {
     func mistakeReviewCompleted(correctCount: Int, totalCount: Int, xpEarned: Int)
@@ -157,11 +158,11 @@ final class MistakeReviewViewController: UIViewController {
         
         questions.shuffle()
         
-        AppLogger.learning.info("Loaded questions for mistake review", metadata: [
+        MidgarLog.info("Loaded questions for mistake review", metadata: [
             "mistakeCount": mistakes.count,
             "questionCount": questions.count,
             "mappingCount": questionToMistakeMap.count
-        ])
+        ], category: .learning)
     }
     
     
@@ -174,10 +175,10 @@ final class MistakeReviewViewController: UIViewController {
         
         let question = questions[currentQuestionIndex]
         guard let mistake = questionToMistakeMap[question.id] else {
-            AppLogger.logError(
+            Diagnostics.logError(
                 NSError(domain: "MistakeReview", code: 0, userInfo: [NSLocalizedDescriptionKey: "No mistake found for question"]),
                 context: "showNextQuestion",
-                logger: AppLogger.learning
+                category: .learning
             )
             currentQuestionIndex += 1
             showNextQuestion()
@@ -279,7 +280,7 @@ final class MistakeReviewViewController: UIViewController {
                 xpEarned: totalXP
             )
         } catch {
-            AppLogger.logError(error, context: "Completing mistake session", logger: AppLogger.learning)
+            Diagnostics.logError(error, context: "Completing mistake session", category: .learning)
         }
         
         
@@ -341,10 +342,10 @@ extension MistakeReviewViewController: QuestionViewModelDelegate {
         guard currentQuestionIndex < questions.count else { return }
         let question = questions[currentQuestionIndex]
         guard let mistake = questionToMistakeMap[question.id] else {
-            AppLogger.logError(
+            Diagnostics.logError(
                 NSError(domain: "MistakeReview", code: 0, userInfo: [NSLocalizedDescriptionKey: "No mistake found for answered question"]),
                 context: "questionViewModel:didAnswerCorrectly:",
-                logger: AppLogger.learning
+                category: .learning
             )
             return
         }
@@ -363,7 +364,7 @@ extension MistakeReviewViewController: QuestionViewModelDelegate {
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.success)
             } catch {
-                AppLogger.logError(error, context: "Updating mistake review", logger: AppLogger.learning)
+                Diagnostics.logError(error, context: "Updating mistake review", category: .learning)
             }
         } else {
             
@@ -377,7 +378,7 @@ extension MistakeReviewViewController: QuestionViewModelDelegate {
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.error)
             } catch {
-                AppLogger.logError(error, context: "Updating mistake review", logger: AppLogger.learning)
+                Diagnostics.logError(error, context: "Updating mistake review", category: .learning)
             }
         }
         

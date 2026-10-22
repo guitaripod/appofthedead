@@ -2,6 +2,7 @@ import Foundation
 import MLX
 import MLXLLM
 import MLXLMCommon
+import MidgarCore
 import MLXHuggingFace
 import HuggingFace
 import Tokenizers
@@ -14,11 +15,9 @@ final class MLXService {
 
     private init() {}
 
-    private static let logger = AppLogCategory(subsystem: "com.appofthedead", category: "MLXService")
-
     private static func debugLog(_ message: String) {
         #if targetEnvironment(simulator) || DEBUG
-        logger.debug("\(message)")
+        MidgarLog.debug(message, category: .mlx)
         #endif
     }
 

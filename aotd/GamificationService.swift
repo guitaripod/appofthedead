@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 protocol GamificationServiceDelegate: AnyObject {
     func gamificationService(_ service: GamificationService, didUnlockAchievement achievementId: String)
@@ -54,7 +55,7 @@ final class GamificationService {
             }
             
         } catch {
-            AppLogger.logError(error, context: "Checking achievement \(achievement.id)", logger: AppLogger.gamification)
+            Diagnostics.logError(error, context: "Checking achievement \(achievement.id)", category: .gamification)
         }
     }
     
@@ -195,7 +196,7 @@ final class GamificationService {
         do {
             try databaseManager.updateUser(user)
         } catch {
-            AppLogger.logError(error, context: "Updating user streak", logger: AppLogger.gamification)
+            Diagnostics.logError(error, context: "Updating user streak", category: .gamification)
         }
     }
     
@@ -208,7 +209,7 @@ final class GamificationService {
 
             
             guard let user = try databaseManager.getUser(by: userId) else {
-                AppLogger.gamification.error("Failed to find user for XP award", metadata: ["userId": userId])
+                MidgarLog.error("Failed to find user for XP award", metadata: ["userId": userId], category: .gamification)
                 return
             }
             try databaseManager.addXPToUser(user, xp: amount)
@@ -219,9 +220,9 @@ final class GamificationService {
             }
             
             
-            AppLogger.gamification.info("XP Awarded", metadata: ["amount": amount, "userId": userId, "reason": reason])
+            MidgarLog.info("XP Awarded", metadata: ["amount": amount, "userId": userId, "reason": reason], category: .gamification)
             if let beliefSystemId = beliefSystemId {
-                AppLogger.gamification.debug("XP also awarded to belief system", metadata: ["beliefSystemId": beliefSystemId])
+                MidgarLog.debug("XP also awarded to belief system", metadata: ["beliefSystemId": beliefSystemId], category: .gamification)
             }
             
             
@@ -231,7 +232,7 @@ final class GamificationService {
             NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
             
         } catch {
-            AppLogger.logError(error, context: "Awarding XP for \(reason)", logger: AppLogger.gamification)
+            Diagnostics.logError(error, context: "Awarding XP for \(reason)", category: .gamification)
         }
     }
 }
