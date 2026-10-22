@@ -23,7 +23,7 @@ Everything else is "Data Not Collected".
 ## Data types answered "not collected", and why
 
 - Contact Info, Contacts, User Content, Browsing History, Search History, Sensitive Info, Financial Info, Health & Fitness, Location: none. Oracle questions and answers are generated and kept on the device and never leave it.
-- Identifiers, Device ID: the app reads no advertising identifier and no vendor identifier. MidgarKit's App Attest key id is per app and per device and is used only to prove the app is genuine when the Midgar ID is created or joined. If App Review reads it as a Device ID, the fallback is Device ID, App Functionality, linked.
+- Identifiers, Device ID: the app reads no advertising identifier and no vendor identifier. This release ships without the App Attest entitlement, so no key id is created yet. Once it is enabled, MidgarKit's App Attest key id is per app and per device and is used only to prove the app is genuine when the Midgar ID is created or joined. If App Review reads it as a Device ID, the fallback is Device ID, App Functionality, linked.
 - Diagnostics: the session log (`Library/Logs/aotd.log`) stays on the device. MetricKit is not collected.
 - Other: the on-device model file is downloaded from Hugging Face, which receives an ordinary file request and the IP address; that is a download, not data the app collects, so it adds no data type.
 
