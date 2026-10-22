@@ -73,7 +73,7 @@ extension BookReaderViewController: UIGestureRecognizerDelegate {
     }
 }
 
-extension BookReaderViewController: AVSpeechSynthesizerDelegate {
+extension BookReaderViewController: @preconcurrency AVSpeechSynthesizerDelegate {
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         if viewModel.canGoNext {
             viewModel.goToNextChapter()

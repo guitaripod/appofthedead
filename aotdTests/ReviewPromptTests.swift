@@ -26,7 +26,7 @@ private final class MemoryReviewStorage: MidgarReviewStorage, @unchecked Sendabl
     }
 }
 
-struct ReviewPromptTests {
+@MainActor struct ReviewPromptTests {
     private func defaults() -> UserDefaults {
         UserDefaults(suiteName: "aotd.review.\(UUID().uuidString)")!
     }

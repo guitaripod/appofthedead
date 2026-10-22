@@ -1,14 +1,14 @@
 import XCTest
 @testable import aotd
 
-final class MultipleChoiceViewModelTests: XCTestCase {
+@MainActor final class MultipleChoiceViewModelTests: XCTestCase {
     
     private var sut: MultipleChoiceViewModel!
     private var question: Question!
     private var beliefSystem: BeliefSystem!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         question = Question(
             id: "q1",
@@ -47,11 +47,11 @@ final class MultipleChoiceViewModelTests: XCTestCase {
         )
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         sut = nil
         question = nil
         beliefSystem = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testOptions() {

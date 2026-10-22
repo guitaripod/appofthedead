@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class HomeViewModelCompletionTests: XCTestCase {
+@MainActor final class HomeViewModelCompletionTests: XCTestCase {
     
     func testHomeViewModelCreatesCorrectPathItems() {
         

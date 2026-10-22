@@ -11,7 +11,7 @@ import MidgarCore
 /// readings. The open-ended deity chat is deliberately NOT cached; its value is
 /// in a fresh response each time. A hit lets the caller skip loading the model
 /// entirely, which is the bulk of the cost on these surfaces.
-struct OracleExplanationCache: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct OracleExplanationCache: Codable, FetchableRecord, MutablePersistableRecord {
     var cacheKey: String
     var kind: String
     var modelId: String

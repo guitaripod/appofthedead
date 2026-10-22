@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct Progress: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var beliefSystemId: String

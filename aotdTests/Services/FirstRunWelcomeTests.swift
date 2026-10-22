@@ -1,20 +1,20 @@
 import XCTest
 @testable import aotd
 
-final class FirstRunWelcomeTests: XCTestCase {
+@MainActor final class FirstRunWelcomeTests: XCTestCase {
 
     private var defaults: UserDefaults!
     private let suiteName = "FirstRunWelcomeTests"
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         defaults = UserDefaults(suiteName: suiteName)
         defaults.removePersistentDomain(forName: suiteName)
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         defaults.removePersistentDomain(forName: suiteName)
-        super.tearDown()
+        try await super.tearDown()
     }
 
     func testBrandNewInstallPresentsWelcome() {

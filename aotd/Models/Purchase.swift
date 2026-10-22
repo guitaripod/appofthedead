@@ -2,7 +2,7 @@ import Foundation
 import GRDB
 
 
-struct Purchase: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct Purchase: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var productId: String
@@ -53,7 +53,7 @@ struct Purchase: Codable, FetchableRecord, MutablePersistableRecord {
 }
 
 
-enum ProductIdentifier: String, CaseIterable {
+nonisolated enum ProductIdentifier: String, CaseIterable {
     
     case christianity = "com.appofthedead.path.christianity"
     case islam = "com.appofthedead.path.islam"
@@ -207,7 +207,7 @@ enum ProductIdentifier: String, CaseIterable {
 }
 
 
-enum EntitlementType: String {
+nonisolated enum EntitlementType: String {
     case pathAccess = "path_access"
     case oracleUnlimited = "oracle_unlimited"
 

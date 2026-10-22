@@ -8,7 +8,7 @@ import MLXLMCommon
 /// `OnDeviceModelCatalog` selects the best entry a given device can run, and the
 /// runtime falls back down the list automatically when a heavier model fails to
 /// load or fails its post-load sanity probe.
-struct OnDeviceModel: Sendable, Equatable {
+nonisolated struct OnDeviceModel: Sendable, Equatable {
     let id: String
     let displayName: String
     let configuration: ModelConfiguration
@@ -23,7 +23,7 @@ struct OnDeviceModel: Sendable, Equatable {
     }
 }
 
-enum OnDeviceModelCatalog {
+nonisolated enum OnDeviceModelCatalog {
 
     static let gemma4_e4b = OnDeviceModel(
         id: "gemma-4-e4b-it-4bit",

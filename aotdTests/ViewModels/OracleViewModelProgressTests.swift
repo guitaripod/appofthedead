@@ -1,17 +1,17 @@
 import XCTest
 @testable import aotd
 
-final class OracleViewModelProgressTests: XCTestCase {
+@MainActor final class OracleViewModelProgressTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         UserDefaults.standard.removeObject(forKey: "MLXModelLoadedOnce")
         UserDefaults.standard.synchronize()
     }
     
-    override func tearDown() {
-        super.tearDown()
+    override func tearDown() async throws {
+        try await super.tearDown()
         
         UserDefaults.standard.removeObject(forKey: "MLXModelLoadedOnce")
         UserDefaults.standard.synchronize()

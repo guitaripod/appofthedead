@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class DeepLinkTests: XCTestCase {
+@MainActor final class DeepLinkTests: XCTestCase {
 
     private func link(_ string: String) -> DeepLink? {
         DeepLink(url: URL(string: string)!)

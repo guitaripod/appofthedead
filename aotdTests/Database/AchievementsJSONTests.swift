@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class AchievementsJSONTests: XCTestCase {
+@MainActor final class AchievementsJSONTests: XCTestCase {
     
     func testAchievementsJSONFileExists() throws {
         let bundle = Bundle(for: type(of: self))

@@ -1,13 +1,13 @@
 import XCTest
 @testable import aotd
 
-final class MatchingQuestionViewModelTests: XCTestCase {
+@MainActor final class MatchingQuestionViewModelTests: XCTestCase {
 
     private var question: Question!
     private var beliefSystem: BeliefSystem!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
 
         question = Question(
             id: "q-match",
@@ -39,10 +39,10 @@ final class MatchingQuestionViewModelTests: XCTestCase {
         )
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         question = nil
         beliefSystem = nil
-        super.tearDown()
+        try await super.tearDown()
     }
 
     private func makeViewModel(shuffler: @escaping ([String]) -> [String] = { $0.shuffled() }) -> MatchingQuestionViewModel {

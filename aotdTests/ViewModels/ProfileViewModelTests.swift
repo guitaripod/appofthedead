@@ -1,14 +1,14 @@
 import XCTest
 @testable import aotd
 
-final class ProfileViewModelTests: XCTestCase {
+@MainActor final class ProfileViewModelTests: XCTestCase {
     
     var viewModel: ProfileViewModel!
     var databaseManager: DatabaseManager!
     var testUser: User!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = DatabaseManager(inMemory: true)
@@ -27,11 +27,11 @@ final class ProfileViewModelTests: XCTestCase {
         viewModel = ProfileViewModel(databaseManager: databaseManager)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         testUser = nil
         viewModel = nil
         databaseManager = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testLoadData() {

@@ -2,7 +2,7 @@ import Foundation
 import MidgarCore
 import UIKit
 
-extension MidgarLog {
+nonisolated extension MidgarLog {
     /// Logs `message` followed by `metadata` as `key: value` pairs sorted by key, so a line reads the same on every run.
     static func debug(_ message: String, metadata: [String: Any], category: Category = .general) {
         debug(Diagnostics.attach(metadata, to: message), category: category)
@@ -22,7 +22,7 @@ extension MidgarLog {
 }
 
 /// The app's logging helpers on top of ``MidgarLog``: launch, memory warnings, timed setup steps, user actions and errors with context.
-enum Diagnostics {
+nonisolated enum Diagnostics {
     /// The start of a timed step, returned by ``beginActivity(_:)`` and handed back to ``endActivity(_:since:metadata:)``.
     struct Activity {
         fileprivate let start: ContinuousClock.Instant
@@ -30,7 +30,7 @@ enum Diagnostics {
 
     private static let redactedKeyFragments = ["password", "token", "key", "secret", "email", "userId", "appleId"]
 
-    static func logAppLaunch() {
+    @MainActor static func logAppLaunch() {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
         let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
         let device = UIDevice.current.model

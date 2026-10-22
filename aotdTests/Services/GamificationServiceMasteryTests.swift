@@ -1,12 +1,12 @@
 import XCTest
 @testable import aotd
 
-final class GamificationServiceMasteryTests: XCTestCase {
+@MainActor final class GamificationServiceMasteryTests: XCTestCase {
 
     private var testUser: User!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         do {
             testUser = try DatabaseManager.shared.createAnonymousUser()
         } catch {
@@ -14,12 +14,12 @@ final class GamificationServiceMasteryTests: XCTestCase {
         }
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         if let testUser = testUser {
             try? DatabaseManager.shared.deleteUser(testUser.id)
         }
         testUser = nil
-        super.tearDown()
+        try await super.tearDown()
     }
 
     func testPerfectMasteryUnlocksPerfectUnderstanding() throws {

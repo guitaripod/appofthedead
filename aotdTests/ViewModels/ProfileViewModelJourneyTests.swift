@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class ProfileViewModelJourneyTests: XCTestCase {
+@MainActor final class ProfileViewModelJourneyTests: XCTestCase {
 
     private var viewModel: ProfileViewModel!
     private var databaseManager: DatabaseManager!
@@ -9,8 +9,8 @@ final class ProfileViewModelJourneyTests: XCTestCase {
 
     private static let displayNameKey = "profileDisplayName"
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         UserDefaults.standard.removeObject(forKey: Self.displayNameKey)
 
         databaseManager = DatabaseManager(inMemory: true)
@@ -25,12 +25,12 @@ final class ProfileViewModelJourneyTests: XCTestCase {
         viewModel = ProfileViewModel(databaseManager: databaseManager)
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         UserDefaults.standard.removeObject(forKey: Self.displayNameKey)
         viewModel = nil
         databaseManager = nil
         testUser = nil
-        super.tearDown()
+        try await super.tearDown()
     }
 
     private func reload() {

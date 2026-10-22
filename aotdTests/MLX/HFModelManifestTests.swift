@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class HFModelManifestTests: XCTestCase {
+@MainActor final class HFModelManifestTests: XCTestCase {
 
     func testParseFiltersToGlobAndExtractsLFSsha() {
         let entries: [[String: Any]] = [

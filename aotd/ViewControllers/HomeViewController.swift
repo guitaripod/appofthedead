@@ -491,7 +491,7 @@ extension HomeViewController {
     }
 }
 extension HomeViewController {
-    enum Section {
+    nonisolated enum Section {
         case main
     }
 }

@@ -1,20 +1,20 @@
 import XCTest
 @testable import aotd
 
-final class DailyReminderTests: XCTestCase {
+@MainActor final class DailyReminderTests: XCTestCase {
 
     private var defaults: UserDefaults!
     private let suiteName = "DailyReminderTests"
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         defaults = UserDefaults(suiteName: suiteName)
         defaults.removePersistentDomain(forName: suiteName)
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         defaults.removePersistentDomain(forName: suiteName)
-        super.tearDown()
+        try await super.tearDown()
     }
 
     func testDefaultsToNineInTheMorningAndDisabled() {

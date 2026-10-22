@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct UserAchievement: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct UserAchievement: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var achievementId: String
@@ -44,7 +44,7 @@ struct UserAchievement: Codable, FetchableRecord, MutablePersistableRecord {
     }
 }
 
-struct Achievement: Codable {
+nonisolated struct Achievement: Codable {
     let id: String
     let name: String
     let description: String

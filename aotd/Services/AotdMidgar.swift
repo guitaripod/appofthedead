@@ -6,7 +6,7 @@ import MidgarPortal
 /// The composition root of everything App of the Dead shares with the other Midgar apps: the Midgar ID, the
 /// gateway client built on it, the anonymous signals client and the read-only purchase store. One instance lives
 /// for the whole process, so there is one identity and one ledger cache.
-final class AotdMidgar: Sendable {
+nonisolated final class AotdMidgar: Sendable {
     /// The registry slug: the `X-App-ID` of every gateway call and the `app` of the ledger entries this app honours.
     static let appID = "app-of-the-dead"
 

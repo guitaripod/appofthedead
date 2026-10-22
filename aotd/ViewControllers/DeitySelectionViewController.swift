@@ -27,7 +27,7 @@ final class DeitySelectionViewController: UIViewController, ViewLayoutConfigurab
     
     
     
-    private enum Section {
+    private nonisolated enum Section {
         case main
     }
     

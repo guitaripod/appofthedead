@@ -2,7 +2,7 @@ import Foundation
 import MLX
 import MidgarCore
 
-final class MLXModelManager {
+nonisolated final class MLXModelManager: Sendable {
 
     static let shared = MLXModelManager()
 
@@ -43,7 +43,7 @@ final class MLXModelManager {
 
     var supportsSystemPrompts: Bool { true }
 
-    struct DownloadProgress {
+    struct DownloadProgress: Sendable {
         let bytesDownloaded: Int64
         let totalBytes: Int64
         let progress: Float
@@ -68,7 +68,7 @@ final class MLXModelManager {
         try await loadWithFallback { _ in }
     }
 
-    func downloadModel(onProgress: @escaping (DownloadProgress) -> Void) async throws {
+    func downloadModel(onProgress: @escaping @Sendable (DownloadProgress) -> Void) async throws {
         let preferred = activeModel
         try ensureSufficientStorage(for: OnDeviceModelCatalog.smallestInChain())
 
@@ -196,7 +196,7 @@ final class MLXModelManager {
     }
 }
 
-enum MLXError: LocalizedError {
+nonisolated enum MLXError: LocalizedError {
     case modelNotDownloaded
     case modelNotLoaded
 

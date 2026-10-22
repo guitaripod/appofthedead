@@ -16,12 +16,12 @@ private final class MockGameKitInterface: GameKitInterface {
         handler(isAuthenticated ? .authenticated : .failed(nil))
     }
 
-    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping (Error?) -> Void) {
+    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping @MainActor (Error?) -> Void) {
         submittedScores.append((score, leaderboardID))
         completion(nil)
     }
 
-    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping (Error?) -> Void) {
+    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping @MainActor (Error?) -> Void) {
         reportedAchievements.append(reports)
         completion(nil)
     }
@@ -32,7 +32,7 @@ private struct StubStatsProvider: GameCenterStatsProviding {
     func currentSnapshot() -> GameCenterSnapshot? { snapshot }
 }
 
-final class GameCenterManagerTests: XCTestCase {
+@MainActor final class GameCenterManagerTests: XCTestCase {
 
     private func sampleSnapshot() -> GameCenterSnapshot {
         GameCenterSnapshot.make(

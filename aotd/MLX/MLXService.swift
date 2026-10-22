@@ -7,9 +7,14 @@ import MLXHuggingFace
 import HuggingFace
 import Tokenizers
 import UIKit
-import os.log
+import os
 
-final class MLXService {
+/// Loads the on-device language model and streams Oracle replies from it.
+///
+/// `@unchecked Sendable` because every mutable property sits behind a lock: the loaded model and its container
+/// behind `loaded`, the in-flight load, its generation and the progress observers behind `loadStateLock`. The
+/// model cache is an `NSCache`, which is thread-safe.
+nonisolated final class MLXService: @unchecked Sendable {
 
     static let shared = MLXService()
 
@@ -32,9 +37,24 @@ final class MLXService {
         }
     }
 
-    private var modelContainer: ModelContainer?
+    private struct LoadedState {
+        var container: ModelContainer?
+        var model: OnDeviceModel?
+    }
+
+    private let loaded = OSAllocatedUnfairLock(initialState: LoadedState())
     private let modelCache = NSCache<NSString, ModelContainer>()
-    private(set) var loadedModel: OnDeviceModel?
+
+    private var modelContainer: ModelContainer? {
+        get { loaded.withLock { $0.container } }
+        set { loaded.withLock { $0.container = newValue } }
+    }
+
+    private(set) var loadedModel: OnDeviceModel? {
+        get { loaded.withLock { $0.model } }
+        set { loaded.withLock { $0.model = newValue } }
+    }
+
     private struct InFlightLoad { let modelID: String; let generation: Int; let task: Task<Void, Error> }
     private var inFlightLoad: InFlightLoad?
     private var loadGeneration = 0
@@ -306,7 +326,7 @@ final class MLXService {
     }
 }
 
-struct ChatMessage {
+nonisolated struct ChatMessage {
     enum Role {
         case system
         case user
@@ -323,7 +343,7 @@ struct ChatMessage {
 /// answers. They exist only so a runaway generation can't stream indefinitely.
 /// Sized generously (Gemma's context window is 32K) so a complete divine reply
 /// is never truncated mid-sentence, which previously happened at 800/400.
-enum OracleTokenBudget {
+nonisolated enum OracleTokenBudget {
     static let conversation = 2048
     static let explanation = 1024
 }

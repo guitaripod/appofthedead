@@ -1,13 +1,13 @@
 import XCTest
 @testable import aotd
 
-final class MistakeReviewTests: XCTestCase {
+@MainActor final class MistakeReviewTests: XCTestCase {
     
     var databaseManager: DatabaseManager!
     var user: User!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = DatabaseManager(inMemory: true)
@@ -16,10 +16,10 @@ final class MistakeReviewTests: XCTestCase {
         user = try! databaseManager.createAnonymousUser()
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         databaseManager = nil
         user = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testSaveMistake() throws {

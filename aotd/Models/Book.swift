@@ -2,7 +2,7 @@ import Foundation
 import GRDB
 import UIKit
 
-struct Book: Codable, FetchableRecord, PersistableRecord {
+nonisolated struct Book: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var beliefSystemId: String
     var title: String
@@ -86,7 +86,7 @@ struct Book: Codable, FetchableRecord, PersistableRecord {
     }
 }
 
-struct Chapter: Codable {
+nonisolated struct Chapter: Codable {
     var id: String
     var bookId: String
     var chapterNumber: Int
@@ -95,7 +95,7 @@ struct Chapter: Codable {
     var wordCount: Int
 }
 
-struct BookProgress: Codable, FetchableRecord, PersistableRecord {
+nonisolated struct BookProgress: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var userId: String
     var bookId: String
@@ -194,7 +194,7 @@ struct BookProgress: Codable, FetchableRecord, PersistableRecord {
     }
 }
 
-struct Bookmark: Codable {
+nonisolated struct Bookmark: Codable {
     var id: String
     var chapterId: String
     var position: Int
@@ -203,7 +203,7 @@ struct Bookmark: Codable {
 }
 
 
-struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
+nonisolated struct BookHighlight: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var userId: String
     var bookId: String
@@ -295,7 +295,7 @@ struct ReadingTheme {
 }
 
 
-struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
+nonisolated struct BookReadingPreferences: Codable, FetchableRecord, PersistableRecord {
     var id: String
     var userId: String
     var bookId: String

@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct OracleConsultation: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct OracleConsultation: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var deityId: String

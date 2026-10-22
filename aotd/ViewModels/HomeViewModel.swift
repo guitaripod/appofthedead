@@ -5,7 +5,7 @@ import MidgarCore
 
 
 
-struct PathItem: Hashable {
+nonisolated struct PathItem: Hashable {
     let id: String
     let name: String
     let icon: String

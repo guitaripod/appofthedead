@@ -1,6 +1,6 @@
 import Foundation
 
-struct BeliefSystem: Codable, Identifiable {
+nonisolated struct BeliefSystem: Codable, Identifiable {
     let id: String
     let name: String
     let description: String
@@ -11,7 +11,7 @@ struct BeliefSystem: Codable, Identifiable {
     let masteryTest: MasteryTest
 }
 
-struct Lesson: Codable, Identifiable {
+nonisolated struct Lesson: Codable, Identifiable {
     let id: String
     let title: String
     let order: Int
@@ -21,7 +21,7 @@ struct Lesson: Codable, Identifiable {
     let questions: [Question]
 }
 
-struct Question: Codable, Identifiable {
+nonisolated struct Question: Codable, Identifiable {
     let id: String
     let type: QuestionType
     let question: String
@@ -42,7 +42,7 @@ struct Question: Codable, Identifiable {
     }
 }
 
-struct CorrectAnswer: Codable {
+nonisolated struct CorrectAnswer: Codable {
     let value: AnswerValue
     
     init(value: AnswerValue) {
@@ -97,7 +97,7 @@ struct CorrectAnswer: Codable {
     }
 }
 
-struct MasteryTest: Codable, Identifiable {
+nonisolated struct MasteryTest: Codable, Identifiable {
     let id: String
     let title: String
     let requiredScore: Int
@@ -105,7 +105,7 @@ struct MasteryTest: Codable, Identifiable {
     let questions: [Question]
 }
 
-struct Answer: Codable {
+nonisolated struct Answer: Codable {
     let questionId: String
     let userAnswer: String
     let isCorrect: Bool

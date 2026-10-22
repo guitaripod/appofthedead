@@ -1,6 +1,6 @@
 import Foundation
 
-struct HFFile: Sendable, Equatable {
+nonisolated struct HFFile: Sendable, Equatable {
     let path: String
     let size: Int64
     /// The Git-LFS object id, which for HuggingFace LFS files is the SHA-256 of the
@@ -10,7 +10,7 @@ struct HFFile: Sendable, Equatable {
     var isLFS: Bool { sha256 != nil }
 }
 
-struct HFManifest: Sendable {
+nonisolated struct HFManifest: Sendable {
     let repo: String
     let commit: String
     let files: [HFFile]
@@ -26,7 +26,7 @@ struct HFManifest: Sendable {
     }
 }
 
-enum HFModelManifestError: LocalizedError {
+nonisolated enum HFModelManifestError: LocalizedError {
     case badResponse(Int)
     case noCommit
     case emptyManifest
@@ -43,7 +43,7 @@ enum HFModelManifestError: LocalizedError {
 /// Resolves a HuggingFace model repo to a commit-pinned manifest of the files an
 /// MLX model needs (matching mlx-swift-lm's `*.safetensors / *.json / *.jinja` glob),
 /// with exact sizes (for true progress) and SHA-256 (for integrity).
-enum HFModelManifest {
+nonisolated enum HFModelManifest {
     static let keepSuffixes = [".safetensors", ".json", ".jinja"]
 
     static func fetch(repo: String) async throws -> HFManifest {

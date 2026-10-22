@@ -290,10 +290,10 @@ final class SidebarViewController: UIViewController {
     }()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var selectedIndexPath: IndexPath?
-    enum Section {
+    nonisolated enum Section {
         case main
     }
-    struct Item: Hashable {
+    nonisolated struct Item: Hashable {
         let title: String
         let image: UIImage?
         let index: Int

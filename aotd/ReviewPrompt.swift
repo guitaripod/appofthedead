@@ -85,7 +85,7 @@ enum ReviewPrompt {
 /// The ask history the app kept before `MidgarReviewPolicy`: a list of ask dates, and before that a flag with the app
 /// version that had asked. A person who was asked recently must not be asked again the day the policy changes, so
 /// the newest ask becomes the policy's last prompt the first time it runs.
-enum LegacyReviewState {
+nonisolated enum LegacyReviewState {
     static let askDatesKey = "aotd.review.askDates"
     static let legacyPromptedVersionKey = "aotd.review.promptedVersion"
     static let migratedKey = "aotd.review.migratedToMidgar"

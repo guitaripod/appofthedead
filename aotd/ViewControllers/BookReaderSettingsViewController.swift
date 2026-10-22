@@ -26,7 +26,7 @@ final class BookReaderSettingsViewController: UIViewController {
     
     
     
-    enum Section: Int, CaseIterable {
+    nonisolated enum Section: Int, CaseIterable {
         case appearance
         case textLayout
         case readingFeatures
@@ -42,7 +42,7 @@ final class BookReaderSettingsViewController: UIViewController {
         }
     }
     
-    enum Item: Hashable {
+    nonisolated enum Item: Hashable {
         case theme(value: String)
         case fontFamily(value: String)
         case fontSize(value: Double)

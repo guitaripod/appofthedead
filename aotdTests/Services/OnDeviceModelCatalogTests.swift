@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class OnDeviceModelCatalogTests: XCTestCase {
+@MainActor final class OnDeviceModelCatalogTests: XCTestCase {
 
     func testPreferredModelOnHighMemoryDeviceIsGemma4E2B() {
         let model = OnDeviceModelCatalog.preferred(physicalMemory: 8_000_000_000)

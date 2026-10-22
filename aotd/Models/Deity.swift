@@ -1,6 +1,6 @@
 import Foundation
 
-struct Deity: Codable {
+nonisolated struct Deity: Codable {
     let id: String
     let name: String
     let tradition: String

@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var beliefSystemId: String
@@ -89,7 +89,7 @@ struct Mistake: Codable, FetchableRecord, MutablePersistableRecord {
 }
 
 
-struct MistakeSession: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct MistakeSession: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var beliefSystemId: String

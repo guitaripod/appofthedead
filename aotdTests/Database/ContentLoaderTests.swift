@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class ContentLoaderTests: XCTestCase {
+@MainActor final class ContentLoaderTests: XCTestCase {
     var contentLoader: ContentLoader!
     
     override func setUpWithError() throws {

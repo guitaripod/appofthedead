@@ -1,6 +1,6 @@
 import MidgarCore
 
-extension MidgarLog.Category {
+nonisolated extension MidgarLog.Category {
     static let database = MidgarLog.Category("database")
     static let content = MidgarLog.Category("content")
     static let learning = MidgarLog.Category("learning")

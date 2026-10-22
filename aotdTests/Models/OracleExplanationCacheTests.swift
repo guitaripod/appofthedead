@@ -2,7 +2,7 @@ import XCTest
 import GRDB
 @testable import aotd
 
-final class OracleExplanationCacheTests: XCTestCase {
+@MainActor final class OracleExplanationCacheTests: XCTestCase {
     var dbQueue: DatabaseQueue!
 
     override func setUpWithError() throws {

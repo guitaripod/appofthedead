@@ -57,7 +57,7 @@ final class OracleViewModel: ObservableObject {
         }
     }
     
-    struct Deity: Codable, Hashable {
+    nonisolated struct Deity: Codable, Hashable {
         let id: String
         let name: String
         let tradition: String

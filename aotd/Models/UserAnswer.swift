@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct UserAnswer: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct UserAnswer: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var userId: String
     var questionId: String

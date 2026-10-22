@@ -1,13 +1,13 @@
 import XCTest
 @testable import aotd
 
-final class GamificationServiceTests: XCTestCase {
+@MainActor final class GamificationServiceTests: XCTestCase {
     
     var gamificationService: GamificationService!
     var testUser: User!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         
@@ -21,14 +21,14 @@ final class GamificationServiceTests: XCTestCase {
         gamificationService = GamificationService.shared
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         
         if let testUser = testUser {
             try? DatabaseManager.shared.deleteUser(testUser.id)
         }
         testUser = nil
         gamificationService = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     

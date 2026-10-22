@@ -1,7 +1,7 @@
 import CoreHaptics
 import Foundation
 
-struct DeviceUtility {
+nonisolated struct DeviceUtility {
     static var isSimulator: Bool {
         #if targetEnvironment(simulator)
         return true

@@ -2,7 +2,7 @@ import Foundation
 
 /// Every failure mode the on-device LLM stack can surface, with user-facing copy
 /// and a `isRecoverable` hint so the UI can decide between "retry" and "give up".
-enum OnDeviceLLMError: LocalizedError {
+nonisolated enum OnDeviceLLMError: LocalizedError {
     case insufficientStorage(requiredBytes: Int64, availableBytes: Int64)
     case offline
     case downloadFailed(underlying: Error)

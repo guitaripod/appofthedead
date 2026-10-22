@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class BeliefSystemTests: XCTestCase {
+@MainActor final class BeliefSystemTests: XCTestCase {
     
     func testQuestionTypeEnum() throws {
         XCTAssertEqual(Question.QuestionType.multipleChoice.rawValue, "multipleChoice")

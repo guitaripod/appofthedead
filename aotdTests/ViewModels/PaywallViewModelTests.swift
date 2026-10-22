@@ -1,21 +1,21 @@
 import XCTest
 @testable import aotd
 
-final class PaywallViewModelTests: XCTestCase {
+@MainActor final class PaywallViewModelTests: XCTestCase {
 
     private var store: StubStore!
     private var scheduler: StubReminderScheduler!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         store = StubStore()
         scheduler = StubReminderScheduler()
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         store = nil
         scheduler = nil
-        super.tearDown()
+        try await super.tearDown()
     }
 
     private func makeSut(reason: PaywallReason = .generalUpgrade) -> PaywallViewModel {

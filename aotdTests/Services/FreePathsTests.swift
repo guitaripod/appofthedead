@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class FreePathsTests: XCTestCase {
+@MainActor final class FreePathsTests: XCTestCase {
 
     private final class InMemoryClaims: PathGiftClaimStore {
         private(set) var keys: Set<String> = []
@@ -12,8 +12,8 @@ final class FreePathsTests: XCTestCase {
     private var claims: InMemoryClaims!
     private var calendar: Calendar!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         claims = InMemoryClaims()
         calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "America/Mexico_City")!

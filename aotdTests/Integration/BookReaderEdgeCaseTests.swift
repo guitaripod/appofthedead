@@ -1,18 +1,18 @@
 import XCTest
 @testable import aotd
 
-final class BookReaderEdgeCaseTests: XCTestCase {
+@MainActor final class BookReaderEdgeCaseTests: XCTestCase {
     
     var databaseManager: DatabaseManager!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         databaseManager = DatabaseManager(inMemory: true)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         databaseManager = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     

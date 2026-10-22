@@ -13,12 +13,12 @@ struct DemoContext {
 /// offline learner profile and opens the named screen; `AOTD_DEMO_PATH`, `AOTD_DEMO_LESSON`,
 /// `AOTD_DEMO_DEITY` and `AOTD_DEMO_BOOK` pick which record a route shows.
 enum DemoWorld {
-    private static let environment = ProcessInfo.processInfo.environment
+    private nonisolated static let environment = ProcessInfo.processInfo.environment
     private static var questionFlow: QuestionFlowCoordinator?
     private static var pathCoordinator: LearningPathCoordinator?
 
-    static var route: String? { environment["AOTD_DEMO"] }
-    static var isActive: Bool { route != nil }
+    nonisolated static var route: String? { environment["AOTD_DEMO"] }
+    nonisolated static var isActive: Bool { route != nil }
 
     private static var pathId: String { environment["AOTD_DEMO_PATH"] ?? "norse" }
     private static var lessonIndex: Int { Int(environment["AOTD_DEMO_LESSON"] ?? "") ?? 0 }

@@ -1,14 +1,14 @@
 import XCTest
 @testable import aotd
 
-final class BookLibraryViewModelTests: XCTestCase {
+@MainActor final class BookLibraryViewModelTests: XCTestCase {
     
     private var viewModel: BookLibraryViewModel!
     private var databaseManager: DatabaseManager!
     private var contentLoader: ContentLoader!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = try! DatabaseManager(inMemory: true)
@@ -16,19 +16,21 @@ final class BookLibraryViewModelTests: XCTestCase {
         
         var user = User()
         user.id = "test-user"
-        try! databaseManager.dbQueue.write { db in
-            try user.save(db)
+        let seededUser = user
+        try! await databaseManager.dbQueue.write { db in
+            var record = seededUser
+            try record.save(db)
         }
         
         contentLoader = ContentLoader()
         viewModel = BookLibraryViewModel(userId: user.id, databaseManager: databaseManager, contentLoader: contentLoader)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         viewModel = nil
         databaseManager = nil
         contentLoader = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testBookUnlockStatusCheck() {
@@ -153,15 +155,13 @@ final class BookLibraryViewModelTests: XCTestCase {
         viewModel.loadBooks()
         
         
-        waitForExpectations(timeout: 1.0) { error in
-            XCTAssertNil(error)
-            XCTAssertTrue(booksLoaded)
-            
-            
-            XCTAssertEqual(self.viewModel.availableBooks.count, 2)
-            XCTAssertEqual(self.viewModel.availableBooks.first?.beliefSystemId, "judaism", "Unlocked book should be first")
-            XCTAssertEqual(self.viewModel.availableBooks.last?.beliefSystemId, "christianity", "Locked book should be last")
-        }
+        waitForExpectations(timeout: 1.0)
+        XCTAssertTrue(booksLoaded)
+        
+        
+        XCTAssertEqual(self.viewModel.availableBooks.count, 2)
+        XCTAssertEqual(self.viewModel.availableBooks.first?.beliefSystemId, "judaism", "Unlocked book should be first")
+        XCTAssertEqual(self.viewModel.availableBooks.last?.beliefSystemId, "christianity", "Locked book should be last")
     }
     
     func testReadingBooksIncludeUnlockStatus() {
@@ -221,14 +221,12 @@ final class BookLibraryViewModelTests: XCTestCase {
         viewModel.loadBooks()
         
         
-        waitForExpectations(timeout: 1.0) { error in
-            XCTAssertNil(error)
-            
-            XCTAssertEqual(self.viewModel.readingBooks.count, 1)
-            let readingBook = self.viewModel.readingBooks.first
-            XCTAssertNotNil(readingBook)
-            XCTAssertEqual(readingBook?.book.id, book.id)
-            XCTAssertFalse(readingBook?.isUnlocked ?? true, "Reading book for locked path should show as locked")
-        }
+        waitForExpectations(timeout: 1.0)
+        
+        XCTAssertEqual(self.viewModel.readingBooks.count, 1)
+        let readingBook = self.viewModel.readingBooks.first
+        XCTAssertNotNil(readingBook)
+        XCTAssertEqual(readingBook?.book.id, book.id)
+        XCTAssertFalse(readingBook?.isUnlocked ?? true, "Reading book for locked path should show as locked")
     }
 }

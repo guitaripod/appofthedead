@@ -2,7 +2,7 @@ import XCTest
 import GRDB
 @testable import aotd
 
-final class AchievementTests: XCTestCase {
+@MainActor final class AchievementTests: XCTestCase {
     var dbQueue: DatabaseQueue!
     var testUser: User!
     

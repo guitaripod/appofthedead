@@ -21,7 +21,7 @@ final class LiveGameKitInterface: GameKitInterface {
         }
     }
 
-    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping (Error?) -> Void) {
+    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping @MainActor (Error?) -> Void) {
         guard GKLocalPlayer.local.isAuthenticated else {
             Self.onMain { completion(GameKitUnavailableError.notAuthenticated) }
             return
@@ -36,7 +36,7 @@ final class LiveGameKitInterface: GameKitInterface {
         }
     }
 
-    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping (Error?) -> Void) {
+    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping @MainActor (Error?) -> Void) {
         guard GKLocalPlayer.local.isAuthenticated else {
             Self.onMain { completion(GameKitUnavailableError.notAuthenticated) }
             return
@@ -56,11 +56,11 @@ final class LiveGameKitInterface: GameKitInterface {
         }
     }
 
-    private static func onMain(_ work: @escaping () -> Void) {
+    private static func onMain(_ work: @escaping @MainActor @Sendable () -> Void) {
         if Thread.isMainThread {
-            work()
+            MainActor.assumeIsolated { work() }
         } else {
-            DispatchQueue.main.async(execute: work)
+            Task { @MainActor in work() }
         }
     }
 }

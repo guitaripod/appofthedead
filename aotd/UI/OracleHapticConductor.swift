@@ -23,7 +23,7 @@ final class OracleHapticConductor {
         UserDefaults.standard.object(forKey: "StreamingHapticsEnabled") as? Bool ?? true
     }
 
-    deinit { stop() }
+    isolated deinit { stop() }
 
     func start() {
         guard supportsHaptics, enabled, !isRunning else { return }

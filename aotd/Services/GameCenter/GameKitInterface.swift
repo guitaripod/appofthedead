@@ -12,8 +12,8 @@ enum GameCenterAuthEvent {
 protocol GameKitInterface: AnyObject {
     var isAuthenticated: Bool { get }
     func authenticate(_ handler: @escaping (GameCenterAuthEvent) -> Void)
-    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping (Error?) -> Void)
-    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping (Error?) -> Void)
+    func submitScore(_ score: Int, leaderboardID: String, completion: @escaping @MainActor (Error?) -> Void)
+    func reportAchievements(_ reports: [GameCenterAchievementReport], completion: @escaping @MainActor (Error?) -> Void)
 }
 
 protocol GameCenterStatsProviding {

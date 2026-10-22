@@ -1,6 +1,6 @@
 import Foundation
 
-struct PathJourneyItem {
+nonisolated struct PathJourneyItem {
     let id: String
     let name: String
     let iconName: String

@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class BeliefSystemJSONTests: XCTestCase {
+@MainActor final class BeliefSystemJSONTests: XCTestCase {
     
     
     

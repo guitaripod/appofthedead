@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class AdaptiveLayoutManagerTests: XCTestCase {
+@MainActor final class AdaptiveLayoutManagerTests: XCTestCase {
 
     private let manager = AdaptiveLayoutManager.shared
 

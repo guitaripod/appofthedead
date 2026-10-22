@@ -2,12 +2,12 @@ import UIKit
 
 final class DailyReminderViewController: UIViewController {
 
-    private enum Section: Int, CaseIterable {
+    private nonisolated enum Section: Int, CaseIterable {
         case toggle
         case time
     }
 
-    private enum Item: Hashable {
+    private nonisolated enum Item: Hashable {
         case enableToggle
         case timePicker
     }

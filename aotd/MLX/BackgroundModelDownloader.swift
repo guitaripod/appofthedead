@@ -11,7 +11,7 @@ import MidgarCore
 ///
 /// Decoupled from model *load*: this only fetches bytes (background-safe). The Metal
 /// load + inference stay foreground-only (see MLXService).
-final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
+nonisolated final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
 
     static let shared = BackgroundModelDownloader()
     static let sessionIdentifier = "com.appofthedead.modeldownload"
@@ -20,7 +20,21 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
     private let verifyQueue = DispatchQueue(label: "com.appofthedead.modeldownload.verify", qos: .utility)
     private var backgroundCompletion: (() -> Void)?
 
-    private lazy var session: URLSession = {
+    private let sessionLock = NSLock()
+    private var backgroundSession: URLSession?
+
+    /// The one background session, created on first use under its own lock so two callers never create two sessions
+    /// with the same identifier.
+    private var session: URLSession {
+        sessionLock.lock()
+        defer { sessionLock.unlock() }
+        if let backgroundSession { return backgroundSession }
+        let created = makeBackgroundSession()
+        backgroundSession = created
+        return created
+    }
+
+    private func makeBackgroundSession() -> URLSession {
         let config = URLSessionConfiguration.background(withIdentifier: Self.sessionIdentifier)
         config.sessionSendsLaunchEvents = true
         config.isDiscretionary = false
@@ -29,7 +43,7 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
         config.waitsForConnectivity = true
         config.timeoutIntervalForResource = 7 * 24 * 60 * 60
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
-    }()
+    }
 
     private final class Job {
         let repo: String
@@ -334,7 +348,7 @@ final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
     }
 }
 
-extension BackgroundModelDownloader: Downloader {
+nonisolated extension BackgroundModelDownloader: Downloader {
     func download(
         id: String,
         revision: String?,
@@ -346,7 +360,7 @@ extension BackgroundModelDownloader: Downloader {
     }
 }
 
-extension BackgroundModelDownloader: URLSessionDownloadDelegate {
+nonisolated extension BackgroundModelDownloader: URLSessionDownloadDelegate {
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask,
                     didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {

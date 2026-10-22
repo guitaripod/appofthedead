@@ -1,15 +1,15 @@
 import XCTest
 @testable import aotd
 
-final class MistakeReviewIntegrationTest: XCTestCase {
+@MainActor final class MistakeReviewIntegrationTest: XCTestCase {
     
     var databaseManager: DatabaseManager!
     var contentLoader: ContentLoader!
     var user: User!
     var beliefSystem: BeliefSystem!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = DatabaseManager(inMemory: true)
@@ -23,12 +23,12 @@ final class MistakeReviewIntegrationTest: XCTestCase {
         beliefSystem = contentLoader.loadBeliefSystems().first!
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         databaseManager = nil
         contentLoader = nil
         user = nil
         beliefSystem = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testMistakeReviewFlowUpdatesCountProperly() throws {

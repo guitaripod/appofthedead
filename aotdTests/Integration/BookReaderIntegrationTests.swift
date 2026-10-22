@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class BookReaderIntegrationTests: XCTestCase {
+@MainActor final class BookReaderIntegrationTests: XCTestCase {
     
     var databaseManager: DatabaseManager!
     var bookReaderVC: BookReaderViewController!
@@ -9,8 +9,8 @@ final class BookReaderIntegrationTests: XCTestCase {
     var testBook: Book!
     var testUser: User!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = DatabaseManager(inMemory: true)
@@ -40,13 +40,13 @@ final class BookReaderIntegrationTests: XCTestCase {
         bookReaderVC = BookReaderViewController(viewModel: viewModel)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         bookReaderVC = nil
         viewModel = nil
         databaseManager = nil
         testBook = nil
         testUser = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     private func createRealisticBook() -> Book {

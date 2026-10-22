@@ -1,15 +1,15 @@
 import XCTest
 @testable import aotd
 
-final class BaseQuestionViewModelTests: XCTestCase {
+@MainActor final class BaseQuestionViewModelTests: XCTestCase {
     
     private var sut: BaseQuestionViewModel!
     private var mockDelegate: MockQuestionViewModelDelegate!
     private var question: Question!
     private var beliefSystem: BeliefSystem!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         question = Question(
             id: "q1",
@@ -51,12 +51,12 @@ final class BaseQuestionViewModelTests: XCTestCase {
         sut.delegate = mockDelegate
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         sut = nil
         mockDelegate = nil
         question = nil
         beliefSystem = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testQuestionText() {

@@ -1,7 +1,7 @@
 import Foundation
 import GRDB
 
-struct User: Codable, FetchableRecord, MutablePersistableRecord {
+nonisolated struct User: Codable, FetchableRecord, MutablePersistableRecord {
     var id: String
     var totalXP: Int
     var currentLevel: Int

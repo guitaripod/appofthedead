@@ -1,15 +1,15 @@
 import XCTest
 @testable import aotd
 
-final class BookReaderViewModelAdvancedTests: XCTestCase {
+@MainActor final class BookReaderViewModelAdvancedTests: XCTestCase {
     
     var databaseManager: DatabaseManager!
     var sut: BookReaderViewModel!
     var testBook: Book!
     var testUserId: String!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         databaseManager = DatabaseManager(inMemory: true)
@@ -49,12 +49,12 @@ final class BookReaderViewModelAdvancedTests: XCTestCase {
         }
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         sut = nil
         databaseManager = nil
         testBook = nil
         testUserId = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     

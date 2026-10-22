@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class GameCenterSnapshotTests: XCTestCase {
+@MainActor final class GameCenterSnapshotTests: XCTestCase {
 
     private func achievement(_ id: String, progress: Double) -> UserAchievement {
         UserAchievement(userId: "user", achievementId: id, progress: progress)

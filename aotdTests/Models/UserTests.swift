@@ -2,7 +2,7 @@ import XCTest
 import GRDB
 @testable import aotd
 
-final class UserTests: XCTestCase {
+@MainActor final class UserTests: XCTestCase {
     var dbQueue: DatabaseQueue!
     
     override func setUpWithError() throws {

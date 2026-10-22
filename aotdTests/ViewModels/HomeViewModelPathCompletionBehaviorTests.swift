@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class HomeViewModelPathCompletionBehaviorTests: XCTestCase {
+@MainActor final class HomeViewModelPathCompletionBehaviorTests: XCTestCase {
     
     func testHomeViewControllerPathSelectionBehavior() {
         

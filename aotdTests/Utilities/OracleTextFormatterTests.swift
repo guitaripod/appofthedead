@@ -2,7 +2,7 @@ import XCTest
 import UIKit
 @testable import aotd
 
-final class OracleTextFormatterTests: XCTestCase {
+@MainActor final class OracleTextFormatterTests: XCTestCase {
 
     private let font = UIFont.systemFont(ofSize: 16)
     private let color = UIColor.black

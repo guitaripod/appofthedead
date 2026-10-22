@@ -2,25 +2,25 @@ import XCTest
 import GRDB
 @testable import aotd
 
-final class HomeViewModelTests: XCTestCase {
+@MainActor final class HomeViewModelTests: XCTestCase {
     
     var sut: HomeViewModel!
     var mockDatabaseManager: DatabaseManager!
     var mockContentLoader: ContentLoader!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         mockDatabaseManager = DatabaseManager(inMemory: true)
         mockContentLoader = ContentLoader()
         mockDatabaseManager.setContentLoader(mockContentLoader)
         sut = HomeViewModel(databaseManager: mockDatabaseManager, contentLoader: mockContentLoader)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         sut = nil
         mockDatabaseManager = nil
         mockContentLoader = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testLoadDataPopulatesPathItems() {

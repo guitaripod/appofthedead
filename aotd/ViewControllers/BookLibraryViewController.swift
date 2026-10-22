@@ -7,7 +7,7 @@ final class BookLibraryViewController: UIViewController {
     private let viewModel: BookLibraryViewModel
     private var dataSource: UICollectionViewDiffableDataSource<Section, BookItem>!
     
-    private enum Section: CaseIterable {
+    private nonisolated enum Section: CaseIterable {
         case available
         case reading
         case completed
@@ -24,7 +24,7 @@ final class BookLibraryViewController: UIViewController {
         }
     }
     
-    private struct BookItem: Hashable {
+    private nonisolated struct BookItem: Hashable {
         let book: Book
         let progress: BookProgress?
         let isUnlocked: Bool

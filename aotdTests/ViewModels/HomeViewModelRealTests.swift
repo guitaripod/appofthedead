@@ -2,13 +2,13 @@ import XCTest
 import GRDB
 @testable import aotd
 
-final class HomeViewModelRealTests: XCTestCase {
+@MainActor final class HomeViewModelRealTests: XCTestCase {
     
     var viewModel: HomeViewModel!
     var testDatabaseManager: DatabaseManager!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         
         testDatabaseManager = DatabaseManager(inMemory: true)
@@ -17,10 +17,10 @@ final class HomeViewModelRealTests: XCTestCase {
         viewModel = HomeViewModel(databaseManager: testDatabaseManager, contentLoader: contentLoader)
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         viewModel = nil
         testDatabaseManager = nil
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testHomeViewModelLoadsBeliefSystemsAsPathItems() {

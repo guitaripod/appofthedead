@@ -1,7 +1,7 @@
 import XCTest
 @testable import aotd
 
-final class HomeViewModelSortingTests: XCTestCase {
+@MainActor final class HomeViewModelSortingTests: XCTestCase {
     
     func testUnlockedPathsAppearFirst() {
         
