@@ -1,12 +1,18 @@
 import Foundation
 import GRDB
 import MidgarCore
+import os
 
-class DatabaseManager {
+/// The app's SQLite store.
+///
+/// It is used from the main thread and from the background book generation, so it is nonisolated.
+/// `@unchecked Sendable` because `dbQueue` is a GRDB `DatabaseQueue`, which serializes every access, and is assigned
+/// only while `init` runs; the content loader is replaced after launch, so it sits behind a lock.
+nonisolated final class DatabaseManager: @unchecked Sendable {
     static let shared = DatabaseManager()
     
     private(set) var dbQueue: DatabaseQueue!
-    private var contentLoader: ContentLoader?
+    private let contentLoaderLock = OSAllocatedUnfairLock<ContentLoader?>(initialState: nil)
     
     var database: Database? {
         try? dbQueue.read { $0 }
@@ -335,11 +341,11 @@ class DatabaseManager {
     
     
     func setContentLoader(_ loader: ContentLoader) {
-        self.contentLoader = loader
+        contentLoaderLock.withLock { $0 = loader }
     }
     
     func loadBeliefSystems() -> [BeliefSystem] {
-        guard let contentLoader = contentLoader else {
+        guard let contentLoader = contentLoaderLock.withLock({ $0 }) else {
             MidgarLog.notice("ContentLoader not set in DatabaseManager", category: .content)
             return []
         }
@@ -347,7 +353,7 @@ class DatabaseManager {
     }
     
     func loadAchievements() -> [Achievement] {
-        guard let contentLoader = contentLoader else {
+        guard let contentLoader = contentLoaderLock.withLock({ $0 }) else {
             MidgarLog.notice("ContentLoader not set in DatabaseManager", category: .content)
             return []
         }
@@ -953,7 +959,7 @@ class DatabaseManager {
     }
 }
 
-struct UserStatistics {
+nonisolated struct UserStatistics {
     let totalXP: Int
     let currentLevel: Int
     let totalLessonsStarted: Int

@@ -3,7 +3,12 @@ import UIKit
 import UserNotifications
 import MidgarCore
 
-final class NotificationManager: NSObject {
+/// Daily and trial-ending reminders, and the notification center delegate.
+///
+/// It is nonisolated because UserNotifications calls its completion handlers and delegate methods on queues of its
+/// own. `@unchecked Sendable` because it holds only immutable state and `UNUserNotificationCenter` is safe to use
+/// from any thread.
+nonisolated final class NotificationManager: NSObject, @unchecked Sendable {
 
     static let shared = NotificationManager()
 
@@ -26,7 +31,7 @@ final class NotificationManager: NSObject {
         clearBadge()
     }
 
-    func requestAuthorization(completion: @escaping (Bool) -> Void) {
+    func requestAuthorization(completion: @escaping @Sendable (Bool) -> Void) {
         notificationCenter.getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .notDetermined:
@@ -147,6 +152,6 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     }
 }
 
-extension Notification.Name {
+nonisolated extension Notification.Name {
     static let didTapDailyReminder = Notification.Name("didTapDailyReminder")
 }

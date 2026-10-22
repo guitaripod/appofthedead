@@ -48,8 +48,7 @@ final class OracleHapticConductor {
             engine.playsHapticsOnly = true
             engine.isAutoShutdownEnabled = true
             engine.resetHandler = { [weak self] in
-                try? self?.engine?.start()
-                self?.startHum()
+                Task { @MainActor in self?.restartAfterReset() }
             }
             engine.stoppedHandler = { _ in }
             try engine.start()
@@ -58,6 +57,12 @@ final class OracleHapticConductor {
         } catch {
             MidgarLog.error("Haptic engine start failed: \(error.localizedDescription)", category: .ui)
         }
+    }
+
+    /// CoreHaptics calls the reset handler on a queue of its own, so the work hops to the main actor first.
+    private func restartAfterReset() {
+        try? engine?.start()
+        startHum()
     }
 
     private func startHum() {

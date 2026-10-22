@@ -64,8 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BackgroundModelDownloader.shared.ensureSessionAlive()
     }
 
-    @objc private func cloudSyncDataChanged() {
-        DispatchQueue.main.async {
+    /// iCloud posts this notification from a queue of its own, so the handler is nonisolated and hops to the main
+    /// actor before it touches the database.
+    @objc private nonisolated func cloudSyncDataChanged() {
+        Task { @MainActor in
             self.applyCloudProgressToCurrentUser()
         }
     }

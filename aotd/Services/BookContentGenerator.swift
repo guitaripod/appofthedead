@@ -1,7 +1,7 @@
 import Foundation
 import MidgarCore
 
-final class BookContentGenerator {
+nonisolated final class BookContentGenerator: Sendable {
     
     private let databaseManager: DatabaseManager
     private let contentLoader: ContentLoader

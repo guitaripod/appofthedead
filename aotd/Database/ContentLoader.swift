@@ -1,17 +1,26 @@
 import Foundation
 import MidgarCore
+import os
 
-class ContentLoader {
-    private var cachedBeliefSystems: [BeliefSystem]?
-    private var cachedAchievements: [Achievement]?
-    private var cachedDeities: [String: Deity]?
-    
-    struct DeityData: Codable {
+/// Loads the bundled belief systems, achievements and deities and keeps them in memory.
+///
+/// The loader is shared between the main thread and the background book generation, so the three caches sit behind
+/// one lock, which is what makes it `Sendable`.
+nonisolated final class ContentLoader: Sendable {
+    private struct Cache {
+        var beliefSystems: [BeliefSystem]?
+        var achievements: [Achievement]?
+        var deities: [String: Deity]?
+    }
+
+    private let cache = OSAllocatedUnfairLock(initialState: Cache())
+
+    nonisolated struct DeityData: Codable {
         let deities: [String: Deity]
     }
     
     func loadBeliefSystems() -> [BeliefSystem] {
-        if let cached = cachedBeliefSystems {
+        if let cached = cache.withLock({ $0.beliefSystems }) {
             return cached
         }
         
@@ -47,12 +56,13 @@ class ContentLoader {
         
         beliefSystems.sort { $0.id < $1.id }
         
-        cachedBeliefSystems = beliefSystems
+        let loaded = beliefSystems
+        cache.withLock { $0.beliefSystems = loaded }
         return beliefSystems
     }
     
     func loadAchievements() -> [Achievement] {
-        if let cached = cachedAchievements {
+        if let cached = cache.withLock({ $0.achievements }) {
             return cached
         }
         
@@ -67,7 +77,7 @@ class ContentLoader {
         do {
             let decoder = JSONDecoder()
             let achievements = try decoder.decode([Achievement].self, from: jsonData)
-            cachedAchievements = achievements
+            cache.withLock { $0.achievements = achievements }
             return achievements
         } catch {
             Diagnostics.logError(error, context: "ContentLoader.loadAchievements", category: .content)
@@ -76,13 +86,11 @@ class ContentLoader {
     }
     
     func reloadContent() {
-        cachedBeliefSystems = nil
-        cachedAchievements = nil
-        cachedDeities = nil
+        cache.withLock { $0 = Cache() }
     }
     
     func loadDeities() -> [String: Deity] {
-        if let cached = cachedDeities {
+        if let cached = cache.withLock({ $0.deities }) {
             return cached
         }
         
@@ -105,7 +113,7 @@ class ContentLoader {
         do {
             let decoder = JSONDecoder()
             let deityData = try decoder.decode(DeityData.self, from: jsonData)
-            cachedDeities = deityData.deities
+            cache.withLock { $0.deities = deityData.deities }
             return deityData.deities
         } catch {
             Diagnostics.logError(error, context: "ContentLoader.loadDeities", category: .content)

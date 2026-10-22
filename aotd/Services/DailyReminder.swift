@@ -27,7 +27,7 @@ struct DailyReminder {
 
     /// Asks for notification permission if it was never asked, then schedules the reminder at the
     /// stored time. Reports on the main queue whether the reminder is now active.
-    func enable(completion: @escaping (Bool) -> Void) {
+    func enable(completion: @escaping @MainActor @Sendable (Bool) -> Void) {
         NotificationManager.shared.requestAuthorization { granted in
             DispatchQueue.main.async {
                 self.isEnabled = granted

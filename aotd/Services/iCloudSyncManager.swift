@@ -1,10 +1,16 @@
 import Foundation
 import MidgarCore
+import os
 
 
 
 
-class iCloudSyncManager {
+/// Mirrors the learner's level, XP and finished paths to iCloud key-value storage.
+///
+/// `@unchecked Sendable` because `NSUbiquitousKeyValueStore` is safe to use from any thread, the only mutable state
+/// that outlives `init` is the last sync date, which sits behind a lock, and `isObservingChanges` is written once in
+/// `init` and read in `deinit`.
+nonisolated final class iCloudSyncManager: @unchecked Sendable {
     
     static let shared = iCloudSyncManager()
 
@@ -16,14 +22,14 @@ class iCloudSyncManager {
     private let maxSyncInterval: TimeInterval = 300
 
     
-    private var lastSyncDate: Date?
+    private let lastSync = OSAllocatedUnfairLock<Date?>(initialState: nil)
     
     private var isObservingChanges = false
 
     
 
     
-    struct ContinuityData: Codable {
+    nonisolated struct ContinuityData: Codable {
         
         let level: Int
         
@@ -74,7 +80,7 @@ class iCloudSyncManager {
     
     
     func syncProgress(user: User, completedPaths: Set<String>) {
-        if let lastSync = lastSyncDate,
+        if let lastSync = lastSync.withLock({ $0 }),
            Date().timeIntervalSince(lastSync) < maxSyncInterval {
             return
         }
@@ -102,7 +108,7 @@ class iCloudSyncManager {
             keyValueStore.set(data, forKey: syncKey)
             keyValueStore.synchronize()
 
-            lastSyncDate = Date()
+            lastSync.withLock { $0 = Date() }
             MidgarLog.info("Progress synced to iCloud", metadata: [
                 "level": continuityData.level,
                 "xp": continuityData.xp,
@@ -221,6 +227,6 @@ class iCloudSyncManager {
 
 
 
-extension Notification.Name {
+nonisolated extension Notification.Name {
     static let iCloudSyncDataChanged = Notification.Name("iCloudSyncDataChanged")
 }
