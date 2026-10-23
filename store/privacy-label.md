@@ -15,6 +15,7 @@ This replaces the earlier label, "Data Not Collected", which no longer holds onc
 | Data type (Apple) | Linked to the user | Used to track | Purpose | What it is in App of the Dead |
 | --- | --- | --- | --- | --- |
 | Identifiers, User ID | Yes | No | App Functionality | The random Midgar ID: sent as the sign-in token to `api.midgarcorp.cc` to ask the purchase ledger what the ID owns and for "Your Midgar" in the More Apps screen. RevenueCat also holds its own anonymous app user id for the purchase receipt. |
+| Identifiers, Device ID | Yes | No | App Functionality | The app reads no advertising identifier and no vendor identifier. MidgarKit's App Attest key id, per app and per device, stored with the Midgar ID when the ID is created or joined. App Store and TestFlight builds use App Attest's production environment whether or not the app has the App Attest entitlement (Apple, App Attest Environment entitlement), so released builds create it. |
 | Purchases, Purchase History | Yes | No | App Functionality | The App Store transactions of the paths, deity packs, Oracle Wisdom, Ultimate Enlightenment and the Premium subscription. RevenueCat verifies them (it receives the receipt and its anonymous id); the Midgar ledger receives Apple's signed notifications for the app and keeps them linked to the Midgar ID where it can match them. |
 | Usage Data, Product Interaction | No | No | Analytics | The anonymous More Apps events (opened, shown, tapped) sent by MidgarKit with no identifier. |
 
@@ -23,7 +24,6 @@ Everything else is "Data Not Collected".
 ## Data types answered "not collected", and why
 
 - Contact Info, Contacts, User Content, Browsing History, Search History, Sensitive Info, Financial Info, Health & Fitness, Location: none. Oracle questions and answers are generated and kept on the device and never leave it.
-- Identifiers, Device ID: the app reads no advertising identifier and no vendor identifier. This release ships without the App Attest entitlement, so no key id is created yet. Once it is enabled, MidgarKit's App Attest key id is per app and per device and is used only to prove the app is genuine when the Midgar ID is created or joined. If App Review reads it as a Device ID, the fallback is Device ID, App Functionality, linked.
 - Diagnostics: the session log (`Library/Logs/aotd.log`) stays on the device. MetricKit is not collected.
 - Other: the on-device model file is downloaded from Hugging Face, which receives an ordinary file request and the IP address; that is a download, not data the app collects, so it adds no data type.
 
