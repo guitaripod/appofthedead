@@ -1,5 +1,5 @@
 {
-  "originHash" : "d939969b0db1648127a97ebdaed3914514cfcfff9767f16d0b445710fab647b1",
+  "originHash" : "30d068249c90c7116cea8b2b8e538b8143544459e128dab481acc3b69ccfa65b",
   "pins" : [
     {
       "identity" : "eventsource",
@@ -17,15 +17,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "a5a1be26b4513dc7ec360eb56bc08a345bac6649"
-      }
-    },
-    {
-      "identity" : "midgarkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/guitaripod/MidgarKit",
-      "state" : {
-        "revision" : "a63a3fe0579d50976695107347ede3ca5172f601",
-        "version" : "4.3.1"
       }
     },
     {

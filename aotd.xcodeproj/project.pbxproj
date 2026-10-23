@@ -244,7 +244,7 @@
 				2C7C86652E04760E006A9728 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 				D0DA00012E0000000000A001 /* XCRemoteSwiftPackageReference "swift-huggingface" */,
 				D0DA00022E0000000000A002 /* XCRemoteSwiftPackageReference "swift-transformers" */,
-				BFB1D8A49D745AD130377861 /* XCRemoteSwiftPackageReference "MidgarKit" */,
+				BFB1D8A49D745AD130377861 /* XCLocalSwiftPackageReference "../../packages/MidgarKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C9B040F2DEE3F3000085429 /* Products */;
@@ -571,6 +571,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		BFB1D8A49D745AD130377861 /* XCLocalSwiftPackageReference "../../packages/MidgarKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../packages/MidgarKit";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		2C7C86652E04760E006A9728 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -602,14 +609,6 @@
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		BFB1D8A49D745AD130377861 /* XCRemoteSwiftPackageReference "MidgarKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/guitaripod/MidgarKit";
-			requirement = {
-				kind = exactVersion;
-				version = 4.3.1;
 			};
 		};
 		D0DA00012E0000000000A001 /* XCRemoteSwiftPackageReference "swift-huggingface" */ = {
@@ -673,7 +672,7 @@
 		};
 		9B432E63DC5DF5FF2C21962C /* MidgarKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFB1D8A49D745AD130377861 /* XCRemoteSwiftPackageReference "MidgarKit" */;
+			package = BFB1D8A49D745AD130377861 /* XCLocalSwiftPackageReference "../../packages/MidgarKit" */;
 			productName = MidgarKit;
 		};
 		D0DA00032E0000000000A003 /* MLXHuggingFace */ = {
