@@ -54,7 +54,7 @@ Live 1.0.2 (metadata remaster shipped 2026-06-07): free download, 26 approved no
 2. Create the 7-day free-trial intro offer on the annual (all territories).
 3. Apply one-time IAP price changes (ultimate $89.99, paths $3.99) — price changes on non-consumables don't need review and don't touch existing owners.
 4. Subscriptions need review screenshots + notes; they ride the version submission the first time.
-5. CI build (stable runner — this Mac is beta macOS, ITMS-90111) → upload → processingState VALID → attach to 1.1.0.
+5. Build and upload with `midgar ship app-of-the-dead` (see `ops/runbooks/ship-parity.md`) → processingState VALID → attach to 1.1.0.
 6. Metadata + screenshots (no price claims in screenshots), review notes, submit version + both subscriptions together.
 
 ## 3. Follow-ups requiring the human (priority order)
@@ -91,7 +91,7 @@ download→trial D30 6.5% · trial→paid 5–9d 37.4% · iOS D35 download→pai
 - Annual: $39.99 × 175 territories (USA-equalized) + 7-day FREE_TRIAL intro offer × 175. Monthly: $9.99 × 175. Ultimate repriced $19.99 → $89.99; 21 paths $2.99 → $3.99 (immediate, no review needed).
 - Subscription review screenshots: full paywall capture; review notes promise a dismissible paywall — keep it dismissible.
 
-- This Mac runs beta macOS (`26A5353q`) — NEVER archive App Store builds locally (ITMS-90111 post-submission). Use `.github/workflows/testflight.yml` (stable runner, manual signing, beta guard, Metal toolchain step for mlx-swift).
+- Release with `midgar ship app-of-the-dead` (see `ops/runbooks/ship-parity.md`). It archives locally on a stable or point-beta macOS host and in the buildvm guest (stable macOS 27, Xcode 27.1) during a major macOS beta; the GitHub Actions release workflows were removed on 2026-10-23.
 - Signing lives on the app target's Release config only (manual, iphoneos-scoped) — global xcodebuild overrides break RevenueCat SPM targets.
 - Xcode 26.x ships the Metal compiler as a downloadable component; fresh runners need `xcodebuild -downloadComponent MetalToolchain` before building mlx-swift.
 - Intro offers on APPROVED subscriptions go live without app review; Apple applies them automatically at purchase.
