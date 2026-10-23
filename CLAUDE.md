@@ -18,7 +18,7 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - **Content Source**: `aotd.json` contains all learning paths, lessons, and quiz questions
 
 ## Midgar platform
-- **MidgarKit 4.2.0** by URL (exact version, pinned in `aotd.xcodeproj`). The app target links the `MidgarKit` umbrella product.
+- **MidgarKit** from the monorepo's `packages/MidgarKit` by path (local package reference in `aotd.xcodeproj`, decision D15). The app target links the `MidgarKit` umbrella product.
 - **Midgar ID**: `AotdMidgar` (aotd/Services) builds the identity, the gateway client and the read-only ledger store. The keychain group `cc.midgarcorp.shared` is in `aotd/aotd.entitlements`. No App Attest entitlement is needed: App Store and TestFlight builds attest in Apple's production environment regardless, and development builds attest in the sandbox, which the identity service accepts as the development tier.
 - **Commerce**: registry engine `rc-full`. RevenueCat (`StoreManager`) keeps purchasing, restoring and finishing; `MidgarStore` runs in `Mode.readOnly` and only reads the ledger. Do not change the RevenueCat app user id or product ids without the founder.
 - **Review prompt**: `ReviewPrompt` reports lesson completions to `MidgarReviewPolicy`; `LegacyReviewState` carries the old ask history over.
