@@ -45,10 +45,12 @@ import AppOfTheDeadCore
         sut.loadData()
         
         
-        let firstPath = sut.pathItems.first
-        XCTAssertNotNil(firstPath)
-        XCTAssertEqual(firstPath!.id, "judaism", "Judaism should be first as it's unlocked")
-        XCTAssertTrue(firstPath!.isUnlocked, "Judaism should be unlocked")
+        let expectedUnlocked = FreePathExpectation.unlockedIds()
+        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
+        XCTAssertNotNil(judaismPath)
+        XCTAssertTrue(judaismPath!.isUnlocked, "Judaism should be unlocked")
+        XCTAssertEqual(Set(sut.pathItems.filter { $0.isUnlocked }.map { $0.id }), expectedUnlocked)
+        XCTAssertEqual(Set(sut.pathItems.prefix(expectedUnlocked.count).map { $0.id }), expectedUnlocked, "Unlocked paths should come first")
         
         
         let christianityPath = sut.pathItems.first { $0.id == "christianity" }
@@ -81,10 +83,9 @@ import AppOfTheDeadCore
         sut.loadData()
         
         
-        let judaismPath = sut.pathItems.first
+        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
         
         XCTAssertNotNil(judaismPath)
-        XCTAssertEqual(judaismPath!.id, "judaism", "First path should be Judaism")
         XCTAssertEqual(judaismPath!.name, "Judaism")
         XCTAssertEqual(judaismPath!.icon, "star_of_david")
         XCTAssertEqual(judaismPath!.totalXP, 700)
@@ -150,9 +151,9 @@ import AppOfTheDeadCore
         sut.loadData()
         
         
-        let judaismPath = sut.pathItems.first
+        let judaismPath = sut.pathItems.first { $0.id == "judaism" }
         XCTAssertNotNil(judaismPath)
-        XCTAssertEqual(judaismPath!.id, "judaism", "Judaism should still be first")
+        XCTAssertTrue(judaismPath!.isUnlocked, "Judaism should stay unlocked")
         XCTAssertEqual(judaismPath!.currentXP, 50)
         XCTAssertEqual(judaismPath!.progress, 50.0 / 700)
     }
@@ -189,7 +190,8 @@ import AppOfTheDeadCore
         XCTAssertFalse(buddhismPath!.isUnlocked, "Buddhism should still be locked without purchase")
         
         
-        XCTAssertEqual(sut.pathItems.first?.id, "judaism", "Judaism should remain first")
+        let expectedUnlocked = FreePathExpectation.unlockedIds()
+        XCTAssertEqual(Set(sut.pathItems.prefix(expectedUnlocked.count).map { $0.id }), expectedUnlocked, "Only the free paths should stay first")
     }
     
     func testPathItemColorsAreCorrect() {

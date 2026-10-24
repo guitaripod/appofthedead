@@ -17,8 +17,9 @@ import XCTest
         
         let firstPath = viewModel.pathItems.first
         XCTAssertNotNil(firstPath)
-        XCTAssertEqual(firstPath?.id, "judaism", "Judaism should be first as it's the only free path")
-        XCTAssertTrue(firstPath?.isUnlocked ?? false, "Judaism should be unlocked")
+        XCTAssertTrue(FreePathExpectation.unlockedIds().contains(firstPath?.id ?? ""), "A free path should be first")
+        XCTAssertTrue(firstPath?.isUnlocked ?? false, "The first path should be unlocked")
+        XCTAssertTrue(viewModel.pathItems.first { $0.id == "judaism" }?.isUnlocked ?? false, "Judaism should be unlocked")
         
         
         var foundLockedPath = false
@@ -83,8 +84,8 @@ import XCTest
         
         
         let unlockedPaths = viewModel.pathItems.filter { $0.isUnlocked }
-        XCTAssertEqual(unlockedPaths.count, 1, "Only one path should be unlocked by default")
-        XCTAssertEqual(unlockedPaths.first?.id, "judaism", "Judaism should be the only unlocked path")
+        let expectedUnlocked = FreePathExpectation.unlockedIds()
+        XCTAssertEqual(Set(unlockedPaths.map { $0.id }), expectedUnlocked, "Only the free paths should be unlocked by default")
         
         
         let pathIds = viewModel.pathItems.map { $0.id }
@@ -92,7 +93,8 @@ import XCTest
         let christianityIndex = pathIds.firstIndex(of: "christianity") ?? -1
         let islamIndex = pathIds.firstIndex(of: "islam") ?? -1
         
-        XCTAssertEqual(judaismIndex, 0, "Judaism should be first")
+        XCTAssertLessThan(judaismIndex, expectedUnlocked.count, "Judaism should be among the unlocked paths at the top")
+        XCTAssertGreaterThanOrEqual(judaismIndex, 0)
         XCTAssertGreaterThan(christianityIndex, judaismIndex, "Christianity should come after Judaism")
         XCTAssertGreaterThan(islamIndex, christianityIndex, "Islam should come after Christianity")
     }
@@ -123,7 +125,7 @@ import XCTest
         
         
         let unlockedCount = viewModel.pathItems.filter { $0.isUnlocked }.count
-        XCTAssertEqual(unlockedCount, 1, "In-memory database doesn't persist purchases, so only Judaism remains unlocked")
+        XCTAssertEqual(unlockedCount, FreePathExpectation.unlockedIds().count, "In-memory database doesn't persist purchases, so only the free paths remain unlocked")
         
         
         let firstLockedIndex = viewModel.pathItems.firstIndex { !$0.isUnlocked } ?? viewModel.pathItems.count
