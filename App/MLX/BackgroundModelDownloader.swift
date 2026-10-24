@@ -11,7 +11,7 @@ import MidgarCore
 ///
 /// Decoupled from model *load*: this only fetches bytes (background-safe). The Metal
 /// load + inference stay foreground-only (see MLXService).
-nonisolated final class BackgroundModelDownloader: NSObject, @unchecked Sendable {
+nonisolated final class BackgroundModelDownloader: @unchecked Sendable {
 
     static let shared = BackgroundModelDownloader()
     static let sessionIdentifier = "com.appofthedead.modeldownload"
@@ -21,28 +21,25 @@ nonisolated final class BackgroundModelDownloader: NSObject, @unchecked Sendable
     private var backgroundCompletion: (() -> Void)?
 
     private let sessionLock = NSLock()
-    private var backgroundSession: URLSession?
+    private var downloadClient: ModelDownloadClient?
 
-    /// The one background session, created on first use under its own lock so two callers never create two sessions
+    /// The one background download client, created on first use under its own lock so two callers never create two sessions
     /// with the same identifier.
-    private var session: URLSession {
+    private var client: ModelDownloadClient {
         sessionLock.lock()
         defer { sessionLock.unlock() }
-        if let backgroundSession { return backgroundSession }
-        let created = makeBackgroundSession()
-        backgroundSession = created
+        if let downloadClient { return downloadClient }
+        let created = makeDownloadClient()
+        downloadClient = created
         return created
     }
 
-    private func makeBackgroundSession() -> URLSession {
-        let config = URLSessionConfiguration.background(withIdentifier: Self.sessionIdentifier)
-        config.sessionSendsLaunchEvents = true
-        config.isDiscretionary = false
-        config.allowsConstrainedNetworkAccess = false
-        config.allowsCellularAccess = UserDefaults.standard.object(forKey: "OracleAllowCellularDownload") as? Bool ?? true
-        config.waitsForConnectivity = true
-        config.timeoutIntervalForResource = 7 * 24 * 60 * 60
-        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    private func makeDownloadClient() -> ModelDownloadClient {
+        ModelDownloadClient(
+            identifier: Self.sessionIdentifier,
+            allowsCellular: UserDefaults.standard.object(forKey: "OracleAllowCellularDownload") as? Bool ?? true,
+            delegate: self
+        )
     }
 
     private final class Job {
@@ -75,7 +72,7 @@ nonisolated final class BackgroundModelDownloader: NSObject, @unchecked Sendable
 
     // MARK: - App delegate background-event plumbing
 
-    func ensureSessionAlive() { _ = session }
+    func ensureSessionAlive() { _ = client }
 
     func setBackgroundCompletion(_ handler: @escaping () -> Void) {
         lock.lock(); backgroundCompletion = handler; lock.unlock()
@@ -185,22 +182,20 @@ nonisolated final class BackgroundModelDownloader: NSObject, @unchecked Sendable
             return
         }
 
-        session.getAllTasks { [weak self] existing in
+        client.liveDownloads { [weak self] existing in
             guard let self else { return }
-            let liveURLs = Set(existing.compactMap { $0.originalRequest?.url?.absoluteString })
+            let liveURLs = Set(existing.compactMap { $0.url?.absoluteString })
             self.lock.lock()
             for file in toDownload {
                 guard let url = manifest.resolveURL(for: file) else { continue }
                 if liveURLs.contains(url.absoluteString) { continue }
-                let task = self.session.downloadTask(with: url)
-                task.countOfBytesClientExpectsToReceive = file.size
-                job.taskToFile[task.taskIdentifier] = file
-                task.resume()
+                let taskID = self.client.startDownload(from: url, expectedBytes: file.size)
+                job.taskToFile[taskID] = file
             }
             for task in existing {
-                if let urlString = task.originalRequest?.url?.absoluteString,
+                if let urlString = task.url?.absoluteString,
                    let file = toDownload.first(where: { manifest.resolveURL(for: $0)?.absoluteString == urlString }) {
-                    job.taskToFile[task.taskIdentifier] = file
+                    job.taskToFile[task.taskID] = file
                 }
             }
             self.lock.unlock()
@@ -360,24 +355,23 @@ nonisolated extension BackgroundModelDownloader: Downloader {
     }
 }
 
-nonisolated extension BackgroundModelDownloader: URLSessionDownloadDelegate {
+nonisolated extension BackgroundModelDownloader: ModelDownloadClientDelegate {
 
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask,
-                    didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+    func downloadClient(taskID: Int, didWriteTotal totalBytesWritten: Int64) {
         lock.lock()
-        guard let job, job.taskToFile[downloadTask.taskIdentifier] != nil else { lock.unlock(); return }
-        job.inFlightBytes[downloadTask.taskIdentifier] = totalBytesWritten
+        guard let job, job.taskToFile[taskID] != nil else { lock.unlock(); return }
+        job.inFlightBytes[taskID] = totalBytesWritten
         lock.unlock()
         reportProgress(job)
     }
 
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    func downloadClient(taskID: Int, didFinishDownloadingTo location: URL, statusCode: Int?) {
         lock.lock()
-        guard let job, let file = job.taskToFile[downloadTask.taskIdentifier] else { lock.unlock(); return }
+        guard let job, let file = job.taskToFile[taskID] else { lock.unlock(); return }
         let dest = job.dir.appendingPathComponent(file.path)
         lock.unlock()
 
-        if let code = (downloadTask.response as? HTTPURLResponse)?.statusCode, code != 200 {
+        if let code = statusCode, code != 200 {
             MidgarLog.error("Download for \(file.path) returned HTTP \(code)", category: .mlx)
             complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: HFModelManifestError.badResponse(code))))
             return
@@ -392,15 +386,15 @@ nonisolated extension BackgroundModelDownloader: URLSessionDownloadDelegate {
         }
     }
 
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    func downloadClient(taskID: Int, didCompleteWith error: (any Error)?, statusCode: Int?) {
         lock.lock()
-        guard let job, let file = job.taskToFile[task.taskIdentifier] else { lock.unlock(); return }
-        job.inFlightBytes[task.taskIdentifier] = nil
-        job.taskToFile[task.taskIdentifier] = nil
+        guard let job, let file = job.taskToFile[taskID] else { lock.unlock(); return }
+        job.inFlightBytes[taskID] = nil
+        job.taskToFile[taskID] = nil
 
         if let error {
             let nsError = error as NSError
-            let code = (task.response as? HTTPURLResponse)?.statusCode ?? -1
+            let code = statusCode ?? -1
             lock.unlock()
             MidgarLog.error("Download error for \(file.path) http=\(code): \(nsError.localizedDescription)", category: .mlx)
             complete(job: job, result: .failure(OnDeviceLLMError.downloadFailed(underlying: error)))
@@ -420,7 +414,7 @@ nonisolated extension BackgroundModelDownloader: URLSessionDownloadDelegate {
         if remainingEmpty { verifyAndFinish(job: job) }
     }
 
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+    func downloadClientDidFinishBackgroundEvents() {
         lock.lock(); let handler = backgroundCompletion; backgroundCompletion = nil; lock.unlock()
         if let handler { DispatchQueue.main.async { handler() } }
     }

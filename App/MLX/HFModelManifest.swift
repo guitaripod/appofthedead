@@ -45,6 +45,7 @@ nonisolated enum HFModelManifestError: LocalizedError {
 /// with exact sizes (for true progress) and SHA-256 (for integrity).
 nonisolated enum HFModelManifest {
     static let keepSuffixes = [".safetensors", ".json", ".jinja"]
+    private static let client = HuggingFaceClient()
 
     static func fetch(repo: String) async throws -> HFManifest {
         let commit = try await resolveCommit(repo: repo)
@@ -54,20 +55,14 @@ nonisolated enum HFModelManifest {
     }
 
     static func resolveCommit(repo: String) async throws -> String {
-        let url = URL(string: "https://huggingface.co/api/models/\(repo)")!
-        let (data, response) = try await URLSession.shared.data(from: url)
-        let code = (response as? HTTPURLResponse)?.statusCode ?? -1
-        guard code == 200 else { throw HFModelManifestError.badResponse(code) }
+        let data = try await client.modelInfo(repo: repo)
         let object = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         guard let sha = object?["sha"] as? String, !sha.isEmpty else { throw HFModelManifestError.noCommit }
         return sha
     }
 
     static func fetchTree(repo: String, commit: String) async throws -> [HFFile] {
-        let url = URL(string: "https://huggingface.co/api/models/\(repo)/tree/\(commit)?recursive=true&expand=true")!
-        let (data, response) = try await URLSession.shared.data(from: url)
-        let code = (response as? HTTPURLResponse)?.statusCode ?? -1
-        guard code == 200 else { throw HFModelManifestError.badResponse(code) }
+        let data = try await client.modelTree(repo: repo, commit: commit)
         let entries = (try JSONSerialization.jsonObject(with: data) as? [[String: Any]]) ?? []
         return parse(entries: entries)
     }
