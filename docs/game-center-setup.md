@@ -10,7 +10,7 @@ Developer account and must match the IDs below **exactly** — the app submits t
 Developer portal → Identifiers → `com.marcusziade.aotd` → enable **Game Center**.
 Re-generate / re-download the distribution provisioning profile afterward (manual signing flow
 in `~/.config/midgar/OPERATIONS.md`). The `com.apple.developer.game-center` entitlement is already
-in `aotd/aotd.entitlements`.
+in `App/aotd.entitlements`.
 
 ## 2. Leaderboards (classic, all-time)
 
@@ -39,7 +39,7 @@ dashboard. Score format **Best (keep highest)** is what makes the `current_strea
 App Store Connect → **Features → Game Center → Achievements**. Create one achievement per row.
 Each record has a **Reference Name** (private) and an **Achievement ID** (the string the app
 reports against). The **Achievement ID must equal the in-app achievement id** (from
-`aotd/Resources/achievements.json`) so `GameCenterManager.synchronize()` can report progress 1:1
+`Resources/achievements.json`) so `GameCenterManager.synchronize()` can report progress 1:1
 with zero mapping. The app reports `percentComplete` continuously (not just on unlock); Game Center
 stores it as an integer 0–100 (matching the snapshot's rounding). GC's own completion banner is
 suppressed in code (`showsCompletionBanner = false`) because the app shows its own

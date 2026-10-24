@@ -16,13 +16,14 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - **Target**: iOS 18.2+, iPhone only
 - **Scene Management**: Root view controller set programmatically in `SceneDelegate.scene(_:willConnectTo:options:)`
 - **Content Source**: `aotd.json` contains all learning paths, lessons, and quiz questions
+- **Layout**: `App/` (entry point, services, database, MLX, shared UI), `Features/<Feature>/` (view controllers, view models and views per feature), `Core/AppOfTheDeadCore` (Swift package with the content models `BeliefSystem`, `Lesson`, `Question`, `MasteryTest`, `Deity`; tests with `swift test --package-path Core/AppOfTheDeadCore`), `Resources/` (assets, catalogs, content JSON) and `Tests/aotdTests`
 
 ## Midgar platform
 - **MidgarKit** from the monorepo's `packages/MidgarKit` by path (local package reference in `aotd.xcodeproj`, decision D15). The app target links the `MidgarKit` umbrella product.
-- **Midgar ID**: `AotdMidgar` (aotd/Services) builds the identity, the gateway client and the read-only ledger store. The keychain group `cc.midgarcorp.shared` is in `aotd/aotd.entitlements`. No App Attest entitlement is needed: App Store and TestFlight builds attest in Apple's production environment regardless, and development builds attest in the sandbox, which the identity service accepts as the development tier.
+- **Midgar ID**: `AotdMidgar` (App/Services) builds the identity, the gateway client and the read-only ledger store. The keychain group `cc.midgarcorp.shared` is in `App/aotd.entitlements`. No App Attest entitlement is needed: App Store and TestFlight builds attest in Apple's production environment regardless, and development builds attest in the sandbox, which the identity service accepts as the development tier.
 - **Commerce**: registry engine `rc-full`. RevenueCat (`StoreManager`) keeps purchasing, restoring and finishing; `MidgarStore` runs in `Mode.readOnly` and only reads the ledger. Do not change the RevenueCat app user id or product ids without the founder.
 - **Review prompt**: `ReviewPrompt` reports lesson completions to `MidgarReviewPolicy`; `LegacyReviewState` carries the old ask history over.
-- **Privacy**: `aotd/Resources/PrivacyInfo.xcprivacy`, `store/privacy-label.md` and the policy at `web/midgarcorp/src/content/legal/app-of-the-dead/privacy.html` move together.
+- **Privacy**: `Resources/PrivacyInfo.xcprivacy`, `store/privacy-label.md` and the policy at `web/midgarcorp/src/content/legal/app-of-the-dead/privacy.html` move together.
 
 ## Core Features to Implement
 1. **Learning Paths**: Multiple belief system tracks (Judaism, Christianity, Islam, Buddhism, etc.)
@@ -45,25 +46,25 @@ Create "App of the Dead" (aotd) - a native iOS learning app where users explore 
 - Keep view controllers focused - delegate business logic to view models. Use latest UIKit API like diffable datasource etc.
 - Use coordinators for navigation flow between lessons and quizzes
 - Prefer Protocol-Oriented-Programming over Object-Oriented-Programming
-- **Logging**: Use `MidgarLog` (MidgarCore) for all logging, with the categories in `aotd/Utilities/LogCategories.swift` (`.database`, `.content`, `.learning`, `.gamification`, `.gameCenter`, `.purchases`, `.ui`, `.viewModel`, `.mlx`, `.performance`, `.general`); `Diagnostics` adds `logError`, `logUserAction` and timed activities on top. Never use `print()` statements. The file log is `Library/Logs/aotd.log`.
+- **Logging**: Use `MidgarLog` (MidgarCore) for all logging, with the categories in `App/Utilities/LogCategories.swift` (`.database`, `.content`, `.learning`, `.gamification`, `.gameCenter`, `.purchases`, `.ui`, `.viewModel`, `.mlx`, `.performance`, `.general`); `Diagnostics` adds `logError`, `logUserAction` and timed activities on top. Never use `print()` statements. The file log is `Library/Logs/aotd.log`.
 - **Code Style**: Never use comments or MARK statements - code should be self-documenting through clear naming and structure
 
 ## Test Organization
 - **Tests are organized by feature area in the test target** for better discoverability while remaining in the test bundle
-  - Example: `aotd/Models/User.swift` → `aotdTests/Models/UserTests.swift`
-  - Example: `aotd/ViewModels/HomeViewModel.swift` → `aotdTests/ViewModels/HomeViewModelTests.swift`
+  - Example: `App/Models/User.swift` → `Tests/aotdTests/Models/UserTests.swift`
+  - Example: `Features/Home/HomeViewModel.swift` → `Tests/aotdTests/ViewModels/HomeViewModelTests.swift`
 - **Test directory structure mirrors source directory structure**:
-  - `aotdTests/Models/` - Model tests
-  - `aotdTests/Database/` - Database and JSON validation tests
-  - `aotdTests/ViewModels/` - ViewModel tests
-  - `aotdTests/Services/` - Service tests (Auth, Gamification, etc.)
-  - `aotdTests/Integration/` - Integration tests that test flows across multiple components
+  - `Tests/aotdTests/Models/` - Model tests
+  - `Tests/aotdTests/Database/` - Database and JSON validation tests
+  - `Tests/aotdTests/ViewModels/` - ViewModel tests
+  - `Tests/aotdTests/Services/` - Service tests (Auth, Gamification, etc.)
+  - `Tests/aotdTests/Integration/` - Integration tests that test flows across multiple components
 - **Only write tests that provide real value**:
   - Test actual implementations, not stubs
   - Test business logic, data persistence, and complex operations
   - Skip trivial tests that don't add value
 - **When adding tests**:
-  - Place tests in the corresponding directory within aotdTests
+  - Place tests in the corresponding directory within Tests/aotdTests
   - Name tests as `<SourceFileName>Tests.swift`
   - For multiple test files testing the same class, use descriptive suffixes (e.g., `HomeViewModelSortingTests.swift`)
 
