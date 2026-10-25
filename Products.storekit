@@ -1,0 +1,461 @@
+{
+  "identifier" : "8F1F8A4E-2B7D-4C3A-9E5F-AOTD20260610",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "89.99",
+      "familyShareable" : false,
+      "internalID" : "A0000001",
+      "localizations" : [
+        {
+          "description" : "All paths, unlimited Oracle, and exclusive features",
+          "displayName" : "Ultimate Enlightenment",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.ultimate",
+      "referenceName" : "Ultimate Enlightenment",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "A0000002",
+      "localizations" : [
+        {
+          "description" : "Unlimited consultations with all 21 divine guides",
+          "displayName" : "Oracle Wisdom Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.oracle.wisdom",
+      "referenceName" : "Oracle Wisdom Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "A0000003",
+      "localizations" : [
+        {
+          "description" : "deity_egyptian",
+          "displayName" : "Death Masters Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.deities.egyptian",
+      "referenceName" : "Death Masters Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "A0000004",
+      "localizations" : [
+        {
+          "description" : "deity_greek",
+          "displayName" : "Spirit Guides Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.deities.greek",
+      "referenceName" : "Spirit Guides Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "A0000005",
+      "localizations" : [
+        {
+          "description" : "deity_eastern",
+          "displayName" : "Eastern Guardians Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.deities.eastern",
+      "referenceName" : "Eastern Guardians Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000006",
+      "localizations" : [
+        {
+          "description" : "christianity",
+          "displayName" : "Christianity Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.christianity",
+      "referenceName" : "Christianity Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000007",
+      "localizations" : [
+        {
+          "description" : "islam",
+          "displayName" : "Islam Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.islam",
+      "referenceName" : "Islam Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000008",
+      "localizations" : [
+        {
+          "description" : "buddhism",
+          "displayName" : "Buddhism Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.buddhism",
+      "referenceName" : "Buddhism Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000009",
+      "localizations" : [
+        {
+          "description" : "hinduism",
+          "displayName" : "Hinduism Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.hinduism",
+      "referenceName" : "Hinduism Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000010",
+      "localizations" : [
+        {
+          "description" : "egyptian-afterlife",
+          "displayName" : "Ancient Egyptian Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.egyptian",
+      "referenceName" : "Ancient Egyptian Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000011",
+      "localizations" : [
+        {
+          "description" : "greek-underworld",
+          "displayName" : "Greek Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.greek",
+      "referenceName" : "Greek Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000012",
+      "localizations" : [
+        {
+          "description" : "norse",
+          "displayName" : "Norse Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.norse",
+      "referenceName" : "Norse Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000013",
+      "localizations" : [
+        {
+          "description" : "shinto",
+          "displayName" : "Shinto Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.shinto",
+      "referenceName" : "Shinto Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000014",
+      "localizations" : [
+        {
+          "description" : "zoroastrianism",
+          "displayName" : "Zoroastrian Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.zoroastrian",
+      "referenceName" : "Zoroastrian Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000015",
+      "localizations" : [
+        {
+          "description" : "sikhism",
+          "displayName" : "Sikhism Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.sikhism",
+      "referenceName" : "Sikhism Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000016",
+      "localizations" : [
+        {
+          "description" : "aztec-mictlan",
+          "displayName" : "Aztec Mictlan Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.aztecmictlan",
+      "referenceName" : "Aztec Mictlan Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000017",
+      "localizations" : [
+        {
+          "description" : "taoism",
+          "displayName" : "Taoism Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.taoism",
+      "referenceName" : "Taoism Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000018",
+      "localizations" : [
+        {
+          "description" : "mandaeism",
+          "displayName" : "Mandaeism Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.mandaeism",
+      "referenceName" : "Mandaeism Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000019",
+      "localizations" : [
+        {
+          "description" : "wicca",
+          "displayName" : "Wicca Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.wicca",
+      "referenceName" : "Wicca Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000020",
+      "localizations" : [
+        {
+          "description" : "bahai",
+          "displayName" : "Baha'i Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.bahai",
+      "referenceName" : "Baha'i Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000021",
+      "localizations" : [
+        {
+          "description" : "tenrikyo",
+          "displayName" : "Tenrikyo Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.tenrikyo",
+      "referenceName" : "Tenrikyo Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000022",
+      "localizations" : [
+        {
+          "description" : "aboriginal-dreamtime",
+          "displayName" : "Aboriginal Dreamtime Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.aboriginaldreamtime",
+      "referenceName" : "Aboriginal Dreamtime Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000023",
+      "localizations" : [
+        {
+          "description" : "native-american-visions",
+          "displayName" : "Native American Visions Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.nativeamerican",
+      "referenceName" : "Native American Visions Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000024",
+      "localizations" : [
+        {
+          "description" : "anthroposophy",
+          "displayName" : "Anthroposophy Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.anthroposophy",
+      "referenceName" : "Anthroposophy Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000025",
+      "localizations" : [
+        {
+          "description" : "theosophy",
+          "displayName" : "Theosophy Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.theosophy",
+      "referenceName" : "Theosophy Path",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "A0000026",
+      "localizations" : [
+        {
+          "description" : "swedenborgian-visions",
+          "displayName" : "Swedenborgian Visions Path",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.appofthedead.path.swedenborgian",
+      "referenceName" : "Swedenborgian Visions Path",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "B0000001",
+      "localizations" : [],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B0000002",
+          "introductoryOffer" : {
+            "internalID" : "B0000004",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Every path and unlimited Oracle, billed yearly",
+              "displayName" : "Premium Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.appofthedead.premium.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Premium Annual",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "B0000003",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Every path and unlimited Oracle, billed monthly",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.appofthedead.premium.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "B0000001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
