@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C7C86672E04760E006A9728 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 2C7C86662E04760E006A9728 /* RevenueCat */; };
 		2C86AE3D2E015FB9000A71E2 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE3C2E015FB9000A71E2 /* MLX */; };
 		2C86AE3F2E015FB9000A71E2 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE3E2E015FB9000A71E2 /* MLXFFT */; };
 		2C86AE412E015FB9000A71E2 /* MLXLinalg in Frameworks */ = {isa = PBXBuildFile; productRef = 2C86AE402E015FB9000A71E2 /* MLXLinalg */; };
@@ -124,7 +123,6 @@
 				2C86AE3D2E015FB9000A71E2 /* MLX in Frameworks */,
 				2C86AE412E015FB9000A71E2 /* MLXLinalg in Frameworks */,
 				2CA5C5B12DEE412F002AD8E9 /* GRDB in Frameworks */,
-				2C7C86672E04760E006A9728 /* RevenueCat in Frameworks */,
 				2C86AE432E015FB9000A71E2 /* MLXNN in Frameworks */,
 				2C86AE3F2E015FB9000A71E2 /* MLXFFT in Frameworks */,
 				2C9298BA2E01EFFF008FA7C5 /* MLXLMCommon in Frameworks */,
@@ -209,7 +207,6 @@
 				2C86AE422E015FB9000A71E2 /* MLXNN */,
 				2C9298B72E01EFFF008FA7C5 /* MLXLLM */,
 				2C9298B92E01EFFF008FA7C5 /* MLXLMCommon */,
-				2C7C86662E04760E006A9728 /* RevenueCat */,
 				D0DA00032E0000000000A003 /* MLXHuggingFace */,
 				D0DA00052E0000000000A005 /* HuggingFace */,
 				D0DA00072E0000000000A007 /* Tokenizers */,
@@ -260,7 +257,6 @@
 				2CA5C5AF2DEE412F002AD8E9 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */,
 				2C9298B62E01EFFF008FA7C5 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */,
-				2C7C86652E04760E006A9728 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 				D0DA00012E0000000000A001 /* XCRemoteSwiftPackageReference "swift-huggingface" */,
 				D0DA00022E0000000000A002 /* XCRemoteSwiftPackageReference "swift-transformers" */,
 				BFB1D8A49D745AD130377861 /* XCLocalSwiftPackageReference "../../packages/MidgarKit" */,
@@ -603,14 +599,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2C7C86652E04760E006A9728 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.78.0;
-			};
-		};
 		2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ml-explore/mlx-swift.git";
@@ -654,11 +642,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2C7C86662E04760E006A9728 /* RevenueCat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2C7C86652E04760E006A9728 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
-			productName = RevenueCat;
-		};
 		2C86AE3C2E015FB9000A71E2 /* MLX */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2C86AE3B2E015FB9000A71E2 /* XCRemoteSwiftPackageReference "mlx-swift" */;
