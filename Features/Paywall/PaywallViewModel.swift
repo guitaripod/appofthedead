@@ -71,6 +71,7 @@ final class PaywallViewModel {
         case idle
         case purchasing
         case success
+        case pending
         case cancelled
         case failure(Error)
     }
@@ -252,12 +253,14 @@ final class PaywallViewModel {
         store.purchase(productId: productId) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success(true):
+            case .success(.purchased):
                 if schedulingTrialReminder, let trialDays {
                     self.reminderScheduler.scheduleTrialEndingReminder(trialDays: trialDays)
                 }
                 self.onPurchaseStateChanged?(.success)
-            case .success(false):
+            case .success(.pending):
+                self.onPurchaseStateChanged?(.pending)
+            case .success(.cancelled):
                 self.onPurchaseStateChanged?(.cancelled)
             case .failure(let error):
                 self.onPurchaseStateChanged?(.failure(error))

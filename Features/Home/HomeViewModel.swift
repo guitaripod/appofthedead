@@ -204,7 +204,7 @@ final class HomeViewModel {
     
     private func checkIfUnlocked(_ beliefSystem: BeliefSystem) -> Bool {
         
-        if StoreManager.shared.hasPathAccess(beliefSystem.id) {
+        if StoreAccess.shared.hasPathAccess(beliefSystem.id) {
             return true
         }
         

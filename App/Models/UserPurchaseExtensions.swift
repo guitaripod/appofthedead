@@ -1,6 +1,5 @@
 import Foundation
 import GRDB
-import RevenueCat
 
 
 extension User {
@@ -9,7 +8,7 @@ extension User {
     }
     
     func hasUltimateAccess() -> Bool {
-        return hasAccess(to: .ultimateEnlightenment) || StoreManager.shared.hasAllAccess()
+        return hasAccess(to: .ultimateEnlightenment) || StoreAccess.shared.hasAllAccess
     }
     
     func hasOracleAccess() -> Bool {
@@ -41,11 +40,10 @@ extension User {
     
     func canConsultOracle(deityId: String) -> Bool {
 
-        if Purchases.shared.cachedCustomerInfo?.entitlements["oracle_unlimited"]?.isActive == true { return true }
-        if StoreManager.shared.hasAllAccess() { return true }
+        if StoreAccess.shared.hasUnlimitedOracle { return true }
 
 
-        if hasDeityPackAccessFromRevenueCat(for: deityId) { return true }
+        if StoreAccess.shared.hasDeityPack(for: deityId) { return true }
 
 
         if hasOracleAccess() { return true }
@@ -55,13 +53,6 @@ extension User {
         return DatabaseManager.shared.canConsultOracleForFree(userId: id, deityId: deityId)
     }
 
-    private func hasDeityPackAccessFromRevenueCat(for deityId: String) -> Bool {
-        guard let entitlement = ProductIdentifier.deityPack(for: deityId)?.deityPackEntitlement else {
-            return false
-        }
-        return Purchases.shared.cachedCustomerInfo?.entitlements[entitlement]?.isActive == true
-    }
-    
     func getRemainingFreeConsultations(for deityId: String) -> Int {
         let used = getOracleConsultationCount(for: deityId)
         return max(0, 3 - used)

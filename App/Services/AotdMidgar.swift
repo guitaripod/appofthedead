@@ -4,8 +4,8 @@ import MidgarCore
 import MidgarPortal
 
 /// The composition root of everything App of the Dead shares with the other Midgar apps: the Midgar ID, the
-/// gateway client built on it, the anonymous signals client and the read-only purchase store. One instance lives
-/// for the whole process, so there is one identity and one ledger cache.
+/// gateway client built on it, the anonymous signals client and the purchase store. One instance lives for the whole
+/// process, so there is one identity, one store and one ledger cache.
 nonisolated final class AotdMidgar: Sendable {
     /// The registry slug: the `X-App-ID` of every gateway call and the `app` of the ledger entries this app honours.
     static let appID = "app-of-the-dead"
@@ -16,10 +16,6 @@ nonisolated final class AotdMidgar: Sendable {
     /// The log file name, kept from the retired per-app logger so the `ios-device-logs` workflow still finds it.
     static let logFileName = "aotd.log"
 
-    /// Every product the ledger may know about, with the registry's single entitlement for the three that unlock
-    /// the whole app. Path and deity purchases keep their own RevenueCat entitlements and map to nothing here.
-    static let allAccessEntitlement = "ultimate"
-
     static let shared = AotdMidgar()
 
     /// The Midgar ID client. Minted on first launch, attached on every later one, shared through the keychain group.
@@ -28,8 +24,9 @@ nonisolated final class AotdMidgar: Sendable {
     /// The gateway client that carries the Midgar ID's bearer token, for the ledger and the portal's "Your Midgar".
     let account: MidgarHTTPClient
 
-    /// The read-only ledger store, or nil in a test host or a demo capture.
-    let ledger: MidgarStore?
+    /// The purchase engine for everything the app sells: StoreKit 2 with the Midgar ID as `appAccountToken`, and the
+    /// Midgar ledger as the cross-app record. Nil in a test host or a demo capture, which must not reach the ledger.
+    let store: MidgarStore?
 
     private init() {
         let configuration = MidgarHTTPConfiguration(appID: Self.appID)
@@ -37,7 +34,7 @@ nonisolated final class AotdMidgar: Sendable {
         let account = MidgarHTTPClient(configuration: identity.authorizing(configuration))
         self.identity = identity
         self.account = account
-        ledger = Self.reachesMidgarServices ? Self.makeStore(identity: identity, account: account) : nil
+        store = Self.reachesMidgarServices ? Self.makeStore(identity: identity, account: account) : nil
     }
 
     /// The portal configuration of Settings: the authorized client, so "Your Midgar" shows what the person owns in
@@ -60,7 +57,7 @@ nonisolated final class AotdMidgar: Sendable {
         }
         MidgarSignals.configure(configuration: MidgarHTTPConfiguration(appID: Self.appID))
         let identity = identity
-        let ledger = ledger
+        let store = store
         Task {
             do {
                 _ = try await identity.midgarId
@@ -68,36 +65,34 @@ nonisolated final class AotdMidgar: Sendable {
             } catch {
                 MidgarLog.info("Midgar ID not available yet: \(error)", category: .account)
             }
-            await Self.logLedgerEntitlements(of: ledger)
+            await Self.logEntitlements(of: store)
         }
     }
 
-    /// Writes the entitlement names the ledger holds for this Midgar ID, so a support log shows whether the ledger
-    /// knows the person's purchases. Names only, never ids or receipts.
-    private static func logLedgerEntitlements(of ledger: MidgarStore?) async {
-        guard let ledger else { return }
-        await ledger.refresh()
-        let names = await ledger.entitlements.map(\.name).sorted().joined(separator: ", ")
-        MidgarLog.info("Ledger entitlements: \(names.isEmpty ? "none" : names)", category: .commerce)
+    /// Writes the entitlement names the store holds for this person, so a support log shows what the app unlocks.
+    /// Names only, never ids or receipts.
+    private static func logEntitlements(of store: MidgarStore?) async {
+        guard let store else { return }
+        await store.refresh()
+        let names = await store.entitlements.map(\.name).sorted().joined(separator: ", ")
+        MidgarLog.info("Store entitlements: \(names.isEmpty ? "none" : names)", category: .commerce)
     }
 
-    /// The ledger reader. RevenueCat keeps buying, restoring and finishing every purchase (registry engine
-    /// `rc-full`), so the store runs in `Mode.readOnly`: it asks the ledger what the Midgar ID owns and touches no
-    /// transaction. Creating the store starts its foreground refresh, so create it once.
+    /// The purchase store. MidgarCommerce buys, finishes and listens (registry engine `storekit2`). Creating the store
+    /// starts its listeners and foreground refresh, so create it once.
     private static func makeStore(identity: MidgarIdentity, account: MidgarHTTPClient) -> MidgarStore {
-        MidgarStore(configuration: storeConfiguration, identity: identity, http: account)
+        MidgarStore(configuration: storeConfiguration(), identity: identity, http: account)
     }
 
-    static var storeConfiguration: MidgarStoreConfiguration {
+    /// Every product the app sells with the entitlement it grants (`ProductIdentifier.entitlement`, the table the
+    /// registry's `[commerce.entitlements]` repeats), in `Mode.purchases`. `directory` moves the store's files for tests.
+    static func storeConfiguration(directory: URL? = nil) -> MidgarStoreConfiguration {
         MidgarStoreConfiguration(
             appID: appID,
             productIDs: ProductIdentifier.allCases.map(\.rawValue),
-            entitlementsByProduct: [
-                ProductIdentifier.ultimateEnlightenment.rawValue: allAccessEntitlement,
-                ProductIdentifier.premiumAnnual.rawValue: allAccessEntitlement,
-                ProductIdentifier.premiumMonthly.rawValue: allAccessEntitlement
-            ],
-            mode: .readOnly
+            entitlementsByProduct: ProductIdentifier.entitlementsByProduct,
+            mode: .purchases,
+            directory: directory
         )
     }
 

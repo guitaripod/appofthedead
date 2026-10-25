@@ -105,7 +105,7 @@ final class BookLibraryViewModel {
     private func checkIfBookUnlocked(_ book: Book) -> Bool {
         
         
-        if StoreManager.shared.hasPathAccess(book.beliefSystemId) {
+        if StoreAccess.shared.hasPathAccess(book.beliefSystemId) {
             return true
         }
         

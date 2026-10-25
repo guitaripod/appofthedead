@@ -169,15 +169,6 @@ nonisolated enum ProductIdentifier: String, CaseIterable {
         }
     }
 
-    var deityPackEntitlement: String? {
-        switch self {
-        case .egyptianPantheon: return "deity_egyptian"
-        case .greekGuides: return "deity_greek"
-        case .easternWisdom: return "deity_eastern"
-        default: return nil
-        }
-    }
-
     var beliefSystemId: String? {
         switch self {
         case .christianity: return "christianity"

@@ -263,7 +263,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
         returnToHome()
 
-        guard !StoreManager.shared.hasAllAccess() else { return }
+        guard !StoreAccess.shared.hasAllAccess else { return }
 
         let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: beliefSystem.id))
         navigationController.present(paywall, animated: true)
@@ -281,7 +281,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         guard !UserDefaults.standard.bool(forKey: Self.firstLessonPaywallShownKey) else { return }
         UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
 
-        guard !StoreManager.shared.hasAllAccess() else { return }
+        guard !StoreAccess.shared.hasAllAccess else { return }
 
         let paywall = PaywallViewController(reason: .generalUpgrade)
         navigationController.present(paywall, animated: true)

@@ -167,7 +167,7 @@ import XCTest
 
     func testPurchasingTrialAnnualSchedulesReminder() {
         store.plans = Self.fullPlans
-        store.purchaseResult = .success(true)
+        store.purchaseResult = .success(.purchased)
         let sut = makeSut()
         sut.loadProducts()
 
@@ -184,7 +184,7 @@ import XCTest
 
     func testPurchasingMonthlyDoesNotScheduleReminder() {
         store.plans = Self.fullPlans
-        store.purchaseResult = .success(true)
+        store.purchaseResult = .success(.purchased)
         let sut = makeSut()
         sut.loadProducts()
 
@@ -211,8 +211,40 @@ import XCTest
         XCTAssertTrue(scheduler.scheduledTrialDays.isEmpty)
     }
 
+    func testAskToBuyReportsPendingAndSkipsReminder() {
+        store.plans = Self.fullPlans
+        store.purchaseResult = .success(.pending)
+        let sut = makeSut()
+        sut.loadProducts()
+
+        var states: [PaywallViewModel.PurchaseState] = []
+        sut.onPurchaseStateChanged = { states.append($0) }
+        sut.purchaseSelectedPlan()
+
+        guard case .pending = states.last else {
+            return XCTFail("Expected pending state, got \(states)")
+        }
+        XCTAssertTrue(scheduler.scheduledTrialDays.isEmpty)
+    }
+
+    func testCancelledPurchaseReportsCancelledAndSkipsReminder() {
+        store.plans = Self.fullPlans
+        store.purchaseResult = .success(.cancelled)
+        let sut = makeSut()
+        sut.loadProducts()
+
+        var states: [PaywallViewModel.PurchaseState] = []
+        sut.onPurchaseStateChanged = { states.append($0) }
+        sut.purchaseSelectedPlan()
+
+        guard case .cancelled = states.last else {
+            return XCTFail("Expected cancelled state, got \(states)")
+        }
+        XCTAssertTrue(scheduler.scheduledTrialDays.isEmpty)
+    }
+
     func testPurchaseALaCarteBuysContextProduct() {
-        store.purchaseResult = .success(true)
+        store.purchaseResult = .success(.purchased)
         let sut = makeSut(reason: .lockedPath(beliefSystemId: "wicca"))
 
         sut.purchaseALaCarte()
@@ -225,7 +257,7 @@ import XCTest
 private final class StubStore: PaywallProductProviding {
 
     var plans: PremiumPlans = .empty
-    var purchaseResult: Result<Bool, Error> = .success(true)
+    var purchaseResult: Result<PurchaseOutcome, Error> = .success(.purchased)
     var prices: [ProductIdentifier: String] = [:]
     private(set) var purchasedProducts: [ProductIdentifier] = []
 
@@ -241,7 +273,7 @@ private final class StubStore: PaywallProductProviding {
         completion(prices[productId])
     }
 
-    func purchase(productId: ProductIdentifier, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func purchase(productId: ProductIdentifier, completion: @escaping (Result<PurchaseOutcome, Error>) -> Void) {
         purchasedProducts.append(productId)
         completion(purchaseResult)
     }

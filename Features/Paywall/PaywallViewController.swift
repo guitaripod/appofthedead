@@ -481,6 +481,10 @@ class PaywallViewController: UIViewController {
             view.isUserInteractionEnabled = true
             notificationFeedback.notificationOccurred(.success)
             showSuccessAndDismiss()
+        case .pending:
+            purchaseLoadingView?.removeFromSuperview()
+            view.isUserInteractionEnabled = true
+            showPendingApprovalAndDismiss()
         case .cancelled:
             purchaseLoadingView?.removeFromSuperview()
             view.isUserInteractionEnabled = true
@@ -542,10 +546,8 @@ class PaywallViewController: UIViewController {
     }
 
     private func showSuccessAndDismiss() {
-        StoreManager.shared.refreshCustomerInfo { [weak self] in
-            DispatchQueue.main.async {
-                self?.showSuccessAnimation()
-            }
+        StoreManager.shared.refreshEntitlements { [weak self] in
+            self?.showSuccessAnimation()
         }
     }
 
