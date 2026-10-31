@@ -22,14 +22,6 @@
             "territory": "USA",
             "amount": "19.99"
           },
-          "introductoryOffers": [
-            {
-              "mode": "FREE_TRIAL",
-              "duration": "ONE_WEEK",
-              "periods": 1,
-              "territories": "ALL"
-            }
-          ],
           "localizations": {
             "en-US": {
               "name": "Premium Annual",
@@ -53,7 +45,6 @@
             "territory": "USA",
             "amount": "2.99"
           },
-          "introductoryOffers": [],
           "localizations": {
             "en-US": {
               "name": "Premium Monthly",
