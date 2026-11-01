@@ -412,11 +412,7 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "B0000002",
-          "introductoryOffer" : {
-            "internalID" : "B0000004",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "introductoryOffer" : null,
           "localizations" : [
             {
               "description" : "Every path and unlimited Oracle, billed yearly",

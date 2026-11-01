@@ -10,7 +10,7 @@ import UIKit
 
 extension StoreKitSuites {
     /// Buys App of the Dead's products through MidgarStore with the app's own configuration, against `Products.storekit`
-    /// (the file the scheme runs with), so the products, prices, trial and entitlement table the app ships are checked
+    /// (the file the scheme runs with), so the products, prices and entitlement table the app ships are checked
     /// together on a real StoreKit. A test session signs its transactions with Xcode's local certificate, so the store
     /// never reports them to the ledger; the ledger is the gateway stub, which knows the Midgar ID and holds nothing.
     @MainActor
@@ -111,8 +111,7 @@ extension StoreKitSuites {
             #expect(plans["com.appofthedead.premium.monthly"]?.introductoryOffer == nil)
             #expect(plans["com.appofthedead.premium.annual"]?.displayPrice == "19.99")
             #expect(plans["com.appofthedead.premium.annual"]?.recurringSubscriptionPeriod == "P1Y")
-            #expect(plans["com.appofthedead.premium.annual"]?.introductoryOffer?.paymentMode == "free")
-            #expect(plans["com.appofthedead.premium.annual"]?.introductoryOffer?.subscriptionPeriod == "P1W")
+            #expect(plans["com.appofthedead.premium.annual"]?.introductoryOffer == nil)
             #expect(file.products.allSatisfy { $0.type == "NonConsumable" })
             #expect(file.allProducts.allSatisfy { !$0.familyShareable })
             #expect(Set(file.allProducts.map(\.productID)) == Set(ProductIdentifier.allCases.map(\.rawValue)))
@@ -136,7 +135,7 @@ extension StoreKitSuites {
             #expect(configuration.crossAppEntitlements.isEmpty)
         }
 
-        @Test func thePaywallPlansAreWhatStoreKitReportsWithTheTrialOnTheAnnualPlan() async throws {
+        @Test func thePaywallPlansAreWhatStoreKitReportsWithNoTrial() async throws {
             let harness = try await makeHarness()
 
             let plans = await withCheckedContinuation { continuation in
@@ -152,7 +151,7 @@ extension StoreKitSuites {
             #expect(plans.annual?.localizedPrice == (try displayPrice("com.appofthedead.premium.annual")))
             #expect(plans.monthly?.localizedPrice == (try displayPrice("com.appofthedead.premium.monthly")))
             #expect(plans.lifetime?.localizedPrice == (try displayPrice("com.appofthedead.ultimate")))
-            #expect(plans.annual?.trialDays == 7)
+            #expect(plans.annual?.trialDays == nil)
             #expect(plans.annual?.monthlyEquivalentPrice != nil)
             #expect(plans.monthly?.trialDays == nil)
             #expect(plans.monthly?.monthlyEquivalentPrice == nil)
