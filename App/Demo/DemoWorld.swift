@@ -56,7 +56,8 @@ enum DemoWorld {
         let reasons: [String: PaywallReason] = [
             "paywall": .generalUpgrade,
             "paywall-path": .lockedPath(beliefSystemId: "norse"),
-            "paywall-oracle": .oracleLimit(deityId: "anubis", deityName: "Anubis")
+            "paywall-oracle": .oracleLimit(deityId: "anubis", deityName: "Anubis"),
+            "paywall-lesson": .lessonFinished(nextPath: (id: "norse", name: "Norse"))
         ]
         return reasons[route]
     }

@@ -419,12 +419,8 @@ class PaywallViewController: UIViewController {
     private func rebuildTimeline() {
         timelineContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
-        guard let steps = viewModel.timelineSteps else {
-            timelineContainer.isHidden = true
-            return
-        }
-
-        timelineContainer.isHidden = false
+        let steps = viewModel.timelineSteps ?? viewModel.assuranceSteps
+        timelineContainer.isHidden = steps.isEmpty
         for step in steps {
             timelineContainer.addArrangedSubview(
                 createFeatureRow(icon: step.icon, title: step.title, description: step.detail))

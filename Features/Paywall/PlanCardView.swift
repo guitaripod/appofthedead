@@ -55,6 +55,9 @@ final class PlanCardView: UIControl {
         case .freeTrial(let days):
             badgeLabel.text = String(localized: "\(days) DAYS FREE")
             badgeLabel.backgroundColor = PapyrusDesignSystem.Colors.Core.scarabGreen
+        case .savePercent(let percent):
+            badgeLabel.text = String(localized: "SAVE \(percent)%")
+            badgeLabel.backgroundColor = PapyrusDesignSystem.Colors.Core.scarabGreen
         case .ownForever:
             badgeLabel.text = String(localized: "NO SUBSCRIPTION")
             badgeLabel.backgroundColor = PapyrusDesignSystem.Colors.Core.hieroglyphBlue

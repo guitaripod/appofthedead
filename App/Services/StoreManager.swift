@@ -6,6 +6,7 @@ import UIKit
 struct PremiumPlanInfo: Equatable {
     let productId: ProductIdentifier
     let localizedPrice: String
+    let price: Decimal
     let monthlyEquivalentPrice: String?
     let trialDays: Int?
 }
@@ -224,6 +225,7 @@ final class StoreManager {
         PremiumPlanInfo(
             productId: id,
             localizedPrice: product.displayPrice,
+            price: product.price,
             monthlyEquivalentPrice: monthlyEquivalentPrice(for: product, id: id),
             trialDays: trial.flatMap(freeTrialDays(of:))
         )

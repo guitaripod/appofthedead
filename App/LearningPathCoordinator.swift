@@ -15,7 +15,6 @@ final class LearningPathCoordinator {
     private var isPreviewMode = false
     private let reminderOffer = ReminderOffer()
 
-    private static let firstLessonPaywallShownKey = "aotd.didShowFirstLessonPaywall"
     
     init(
         navigationController: UINavigationController,
@@ -215,7 +214,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
 
             currentLessonIndex += 1
 
-            presentFirstLessonPaywallIfNeeded()
+            offerAfterLessonIfDue()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 if let completionSummary {
@@ -260,11 +259,11 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
 
     private func finishPreview() {
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
-        UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
         returnToHome()
 
         guard !StoreAccess.shared.hasAllAccess else { return }
 
+        LessonOffer.policy.noteOffered()
         let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: beliefSystem.id))
         navigationController.present(paywall, animated: true)
     }
@@ -274,17 +273,21 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         exitLearningPath()
     }
 
-    /// Shown exactly once, right after the user's first completed lesson: the value
-    /// moment converts best on Day 0, and the paywall stays dismissible — the next
-    /// lesson is already waiting underneath it.
-    private func presentFirstLessonPaywallIfNeeded() {
-        guard !UserDefaults.standard.bool(forKey: Self.firstLessonPaywallShownKey) else { return }
-        UserDefaults.standard.set(true, forKey: Self.firstLessonPaywallShownKey)
-
-        guard !StoreAccess.shared.hasAllAccess else { return }
-
-        let paywall = PaywallViewController(reason: .generalUpgrade)
+    /// Offers the paywall when ``LessonOffer`` says a finished lesson is the moment: the value moment converts
+    /// best on Day 0, and the paywall stays dismissible, with the next lesson already waiting underneath it.
+    private func offerAfterLessonIfDue() {
+        guard LessonOffer.policy.noteValue(isOwned: StoreAccess.shared.hasAllAccess) else { return }
+        LessonOffer.policy.noteOffered()
+        let paywall = PaywallViewController(reason: .lessonFinished(nextPath: curiousPathToOffer()))
         navigationController.present(paywall, animated: true)
+    }
+
+    /// The path the person picked on the welcome screen, when it is still locked and is not the one they are on.
+    private func curiousPathToOffer() -> (id: String, name: String)? {
+        guard let id = CuriousPath.id, id != beliefSystem.id, !StoreAccess.shared.hasPathAccess(id),
+              let system = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == id })
+        else { return nil }
+        return (system.id, system.name)
     }
     
     private func saveLessonStarted(lesson: Lesson) {

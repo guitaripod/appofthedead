@@ -1,3 +1,4 @@
+import AppOfTheDeadCore
 import UIKit
 
 /// One-time first-run screen: what the app offers in three lines, and a single button that drops
@@ -10,7 +11,14 @@ final class WelcomeViewController: UIViewController {
         let detail: String
     }
 
+    /// The paths offered as answers to "which tradition are you most curious about", in this order.
+    private static let curiosityPathIds = [
+        "norse", "egyptian-afterlife", "greek-underworld", "buddhism",
+        "hinduism", "christianity", "islam", "aztec-mictlan"
+    ]
+
     private let onStart: () -> Void
+    private var curiosityButtons: [(id: String, button: UIButton)] = []
 
     private weak var scrollView: UIScrollView!
     private let contentStack = UIStackView()
@@ -67,6 +75,9 @@ final class WelcomeViewController: UIViewController {
         contentStack.spacing = 28
         contentStack.addArrangedSubview(makeHeader())
         valuePoints.forEach { contentStack.addArrangedSubview(makeRow(for: $0)) }
+        if let curiosity = makeCuriositySection() {
+            contentStack.addArrangedSubview(curiosity)
+        }
         contentStack.addArrangedSubview(makeCaption())
         contentStack.setCustomSpacing(36, after: contentStack.arrangedSubviews[0])
         let scrollView = CenteredScrollView(content: contentStack)
@@ -147,6 +158,81 @@ final class WelcomeViewController: UIViewController {
         stack.alignment = .fill
         stack.spacing = 12
         return stack
+    }
+
+    /// "Which tradition are you most curious about?" with one button per path. The answer is optional and only shapes
+    /// the offer after the first lesson; nil when the content has none of the paths.
+    private func makeCuriositySection() -> UIView? {
+        let systems = DatabaseManager.shared.loadBeliefSystems()
+        let choices = Self.curiosityPathIds.compactMap { id in systems.first { $0.id == id } }
+        guard !choices.isEmpty else { return nil }
+
+        let questionLabel = UILabel()
+        questionLabel.text = String(localized: "Which tradition are you most curious about?")
+        questionLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: .systemFont(ofSize: 17, weight: .semibold))
+        questionLabel.textColor = UIColor.Papyrus.primaryText
+        questionLabel.numberOfLines = 0
+        questionLabel.adjustsFontForContentSizeCategory = true
+        questionLabel.accessibilityTraits = .header
+
+        let grid = UIStackView()
+        grid.axis = .vertical
+        grid.spacing = 10
+        for pair in stride(from: 0, to: choices.count, by: 2) {
+            let row = UIStackView()
+            row.axis = .horizontal
+            row.spacing = 10
+            row.distribution = .fillEqually
+            for system in choices[pair..<min(pair + 2, choices.count)] {
+                let button = makeCuriosityButton(title: system.name, id: system.id)
+                curiosityButtons.append((system.id, button))
+                row.addArrangedSubview(button)
+            }
+            grid.addArrangedSubview(row)
+        }
+
+        let section = UIStackView(arrangedSubviews: [questionLabel, grid])
+        section.axis = .vertical
+        section.spacing = 12
+        refreshCuriosityButtons()
+        return section
+    }
+
+    private func makeCuriosityButton(title: String, id: String) -> UIButton {
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = title
+        configuration.titleLineBreakMode = .byTruncatingTail
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        configuration.background.cornerRadius = 14
+        configuration.background.strokeWidth = 1.5
+        let button = UIButton(configuration: configuration)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.addAction(UIAction { [weak self] _ in
+            UISelectionFeedbackGenerator().selectionChanged()
+            CuriousPath.id = CuriousPath.id == id ? nil : id
+            self?.refreshCuriosityButtons()
+        }, for: .touchUpInside)
+        return button
+    }
+
+    /// Fills the chosen button with gold and outlines the rest, and says which one is chosen to VoiceOver.
+    private func refreshCuriosityButtons() {
+        let chosen = CuriousPath.id
+        for (id, button) in curiosityButtons {
+            let isChosen = id == chosen
+            var configuration = button.configuration ?? .plain()
+            configuration.background.backgroundColor = isChosen ? UIColor.Papyrus.gold : UIColor.Papyrus.gold.withAlphaComponent(0.08)
+            configuration.background.strokeColor = isChosen ? UIColor.Papyrus.gold : UIColor.Papyrus.gold.withAlphaComponent(0.45)
+            configuration.baseForegroundColor = UIColor.Papyrus.primaryText
+            configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
+                var attributes = attributes
+                attributes.font = UIFontMetrics(forTextStyle: .subheadline)
+                    .scaledFont(for: .systemFont(ofSize: 15, weight: isChosen ? .semibold : .regular))
+                return attributes
+            }
+            button.configuration = configuration
+            button.accessibilityTraits = isChosen ? [.button, .selected] : .button
+        }
     }
 
     private func makeRow(for point: ValuePoint) -> UIView {

@@ -26,16 +26,19 @@ import XCTest
         annual: PremiumPlanInfo(
             productId: .premiumAnnual,
             localizedPrice: "$39.99",
+            price: 39.99,
             monthlyEquivalentPrice: "$3.33",
             trialDays: 7),
         monthly: PremiumPlanInfo(
             productId: .premiumMonthly,
             localizedPrice: "$9.99",
+            price: 9.99,
             monthlyEquivalentPrice: nil,
             trialDays: nil),
         lifetime: PremiumPlanInfo(
             productId: .ultimateEnlightenment,
             localizedPrice: "$89.99",
+            price: 89.99,
             monthlyEquivalentPrice: nil,
             trialDays: nil)
     )
@@ -85,16 +88,58 @@ import XCTest
 
     func testTrialIneligibleAnnualShowsSubscribeCTA() {
         store.plans = PremiumPlans(
-            annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", monthlyEquivalentPrice: nil, trialDays: nil),
+            annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", price: 39.99, monthlyEquivalentPrice: nil, trialDays: nil),
             monthly: nil,
             lifetime: nil)
         let sut = makeSut()
 
         sut.loadProducts()
 
-        XCTAssertEqual(sut.ctaTitle, "Subscribe")
+        XCTAssertEqual(sut.ctaTitle, "Unlock All 21 Paths")
         XCTAssertFalse(sut.showsNoPaymentDueNow)
         XCTAssertNil(sut.timelineSteps)
+        XCTAssertEqual(sut.assuranceSteps.map(\.title), ["Unlocks right away", "Cancel anytime", "On all your devices"])
+    }
+
+    func testAnnualWithoutTrialCarriesItsSavingsAgainstMonthly() {
+        store.plans = PremiumPlans(
+            annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", price: 39.99, monthlyEquivalentPrice: "$3.33", trialDays: nil),
+            monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", price: 9.99, monthlyEquivalentPrice: nil, trialDays: nil),
+            lifetime: nil)
+        let sut = makeSut()
+
+        sut.loadProducts()
+
+        XCTAssertEqual(sut.annualSavingsPercent, 66)
+        XCTAssertEqual(sut.planCards.first { $0.plan == .annual }?.badge, .savePercent(66))
+    }
+
+    func testAnnualPricedAboveTwelveMonthsCarriesNoSavings() {
+        store.plans = PremiumPlans(
+            annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$129.99", price: 129.99, monthlyEquivalentPrice: nil, trialDays: nil),
+            monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", price: 9.99, monthlyEquivalentPrice: nil, trialDays: nil),
+            lifetime: nil)
+        let sut = makeSut()
+
+        sut.loadProducts()
+
+        XCTAssertNil(sut.annualSavingsPercent)
+        XCTAssertNil(sut.planCards.first { $0.plan == .annual }?.badge)
+    }
+
+    func testLessonFinishedNamesTheChosenPathAndOffersItAlone() {
+        let sut = makeSut(reason: .lessonFinished(nextPath: (id: "norse", name: "Norse")))
+
+        XCTAssertEqual(sut.reason.title, "Keep the Journey Going")
+        XCTAssertTrue(sut.reason.subtitle.contains("Norse"))
+        XCTAssertEqual(sut.aLaCarteProduct, .norse)
+    }
+
+    func testLessonFinishedWithoutAChoiceOffersNoSinglePath() {
+        let sut = makeSut(reason: .lessonFinished(nextPath: nil))
+
+        XCTAssertNil(sut.aLaCarteProduct)
+        XCTAssertNil(sut.aLaCarteText)
     }
 
     func testSelectingLifetimeUpdatesCTAAndHidesTrialUI() {
@@ -107,7 +152,7 @@ import XCTest
         sut.select(.lifetime)
 
         XCTAssertTrue(selectionChanged)
-        XCTAssertEqual(sut.ctaTitle, "Unlock Lifetime")
+        XCTAssertEqual(sut.ctaTitle, "Unlock Forever")
         XCTAssertFalse(sut.showsNoPaymentDueNow)
         XCTAssertNil(sut.timelineSteps)
         XCTAssertTrue(sut.disclosureText.contains("One-time payment of $89.99"))
@@ -140,13 +185,13 @@ import XCTest
         store.plans = PremiumPlans(
             annual: nil,
             monthly: nil,
-            lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", monthlyEquivalentPrice: nil, trialDays: nil))
+            lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", price: 89.99, monthlyEquivalentPrice: nil, trialDays: nil))
         let sut = makeSut()
 
         sut.loadProducts()
 
         XCTAssertEqual(sut.selectedPlan, .lifetime)
-        XCTAssertEqual(sut.ctaTitle, "Unlock Lifetime")
+        XCTAssertEqual(sut.ctaTitle, "Unlock Forever")
     }
 
     func testALaCarteProductForLockedPath() {

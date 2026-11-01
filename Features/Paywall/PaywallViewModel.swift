@@ -4,6 +4,8 @@ enum PaywallReason {
     case lockedPath(beliefSystemId: String)
     case oracleLimit(deityId: String, deityName: String)
     case generalUpgrade
+    /// Offered after a finished lesson, naming the path the person said they are most curious about, if any.
+    case lessonFinished(nextPath: (id: String, name: String)?)
 
     var title: String {
         switch self {
@@ -13,6 +15,8 @@ enum PaywallReason {
             return String(localized: "Continue the Conversation")
         case .generalUpgrade:
             return String(localized: "Unlock Everything")
+        case .lessonFinished:
+            return String(localized: "Keep the Journey Going")
         }
     }
 
@@ -24,6 +28,11 @@ enum PaywallReason {
             return String(localized: "Unlimited wisdom from all 21 divine guides")
         case .generalUpgrade:
             return String(localized: "All 21 paths, unlimited Oracle, every future addition")
+        case .lessonFinished(let nextPath):
+            if let nextPath {
+                return String(localized: "You finished a lesson. \(nextPath.name) and every other path are one step away.")
+            }
+            return String(localized: "You finished a lesson. All 21 paths are one step away.")
         }
     }
 }
@@ -50,6 +59,7 @@ final class PaywallViewModel {
 
     enum Badge: Equatable {
         case freeTrial(days: Int)
+        case savePercent(Int)
         case ownForever
     }
 
@@ -137,12 +147,21 @@ final class PaywallViewModel {
             if let days = annualTrialDays {
                 return String(localized: "Start My \(days)-Day Free Trial")
             }
-            return String(localized: "Subscribe")
+            return String(localized: "Unlock All 21 Paths")
         case .monthly:
-            return String(localized: "Subscribe")
+            return String(localized: "Unlock All 21 Paths")
         case .lifetime:
-            return String(localized: "Unlock Lifetime")
+            return String(localized: "Unlock Forever")
         }
+    }
+
+    /// How much the annual plan saves against twelve months of the monthly one, in whole percent; nil when it does
+    /// not save or either price is missing.
+    var annualSavingsPercent: Int? {
+        guard let annual = plans.annual?.price, let monthly = plans.monthly?.price, monthly > 0 else { return nil }
+        let year = (monthly as NSDecimalNumber).doubleValue * 12
+        let percent = Int(((year - (annual as NSDecimalNumber).doubleValue) / year * 100).rounded(.down))
+        return percent > 0 ? percent : nil
     }
 
     var showsNoPaymentDueNow: Bool {
@@ -187,9 +206,33 @@ final class PaywallViewModel {
         ]
     }
 
+    /// What the person can count on when they pay without a trial: shown in the trial timeline's place.
+    var assuranceSteps: [TimelineStep] {
+        let keeping = selectedPlan == .lifetime
+            ? TimelineStep(
+                icon: "infinity",
+                title: String(localized: "Yours for good"),
+                detail: String(localized: "One payment, never renews"))
+            : TimelineStep(
+                icon: "arrow.uturn.backward.circle.fill",
+                title: String(localized: "Cancel anytime"),
+                detail: String(localized: "Turn off renewal in Settings whenever you like"))
+        return [
+            TimelineStep(
+                icon: "lock.open.fill",
+                title: String(localized: "Unlocks right away"),
+                detail: String(localized: "All 21 paths and the Oracle open the moment you pay")),
+            keeping,
+            TimelineStep(
+                icon: "arrow.triangle.2.circlepath",
+                title: String(localized: "On all your devices"),
+                detail: String(localized: "Restore with your Apple Account on any iPhone or iPad"))
+        ]
+    }
+
     var features: [(icon: String, title: String, description: String)] {
         switch reason {
-        case .lockedPath:
+        case .lockedPath, .lessonFinished:
             return [
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson, quiz, and achievement")),
                 ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "Consult all 21 divine guides freely")),
@@ -214,6 +257,9 @@ final class PaywallViewModel {
         switch reason {
         case .lockedPath(let beliefSystemId):
             return ProductIdentifier.allCases.first { $0.beliefSystemId == beliefSystemId }
+        case .lessonFinished(let nextPath):
+            guard let id = nextPath?.id else { return nil }
+            return ProductIdentifier.allCases.first { $0.beliefSystemId == id }
         case .oracleLimit(let deityId, _):
             return ProductIdentifier.deityPack(for: deityId)
         case .generalUpgrade:
@@ -227,6 +273,9 @@ final class PaywallViewModel {
         switch reason {
         case .lockedPath:
             return String(localized: "Or unlock just this path for \(price)")
+        case .lessonFinished(let nextPath):
+            guard let nextPath else { return nil }
+            return String(localized: "Or unlock just \(nextPath.name) for \(price)")
         case .oracleLimit:
             return String(localized: "Or get the \(product.displayName) for \(price)")
         case .generalUpgrade:
@@ -278,7 +327,7 @@ final class PaywallViewModel {
                 title: String(localized: "Annual"),
                 billedPrice: String(localized: "\(annual.localizedPrice)/year"),
                 detail: detail,
-                badge: annual.trialDays.map { .freeTrial(days: $0) }))
+                badge: annual.trialDays.map { .freeTrial(days: $0) } ?? annualSavingsPercent.map { .savePercent($0) }))
         }
 
         if let lifetime = plans.lifetime {
@@ -312,9 +361,9 @@ extension PaywallViewModel {
     /// Mirrors the live ASC configuration so screenshot runs render the full
     /// paywall without StoreKit (AOTD_DEMO_PLANS=1).
     static let demoPlans = PremiumPlans(
-        annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", monthlyEquivalentPrice: "$3.33", trialDays: 7),
-        monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", monthlyEquivalentPrice: nil, trialDays: nil),
-        lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", monthlyEquivalentPrice: nil, trialDays: nil)
+        annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", price: 39.99, monthlyEquivalentPrice: "$3.33", trialDays: nil),
+        monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", price: 9.99, monthlyEquivalentPrice: nil, trialDays: nil),
+        lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", price: 89.99, monthlyEquivalentPrice: nil, trialDays: nil)
     )
 }
 #endif
