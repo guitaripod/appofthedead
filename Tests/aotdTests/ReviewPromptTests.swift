@@ -83,7 +83,7 @@ private final class MemoryReviewStorage: MidgarReviewStorage, @unchecked Sendabl
         let storage = MemoryReviewStorage(MidgarReviewState(firstLaunch: clock.addingTimeInterval(-86_400 * 200), sessions: 20))
 
         LegacyReviewState.migrate(from: defaults, into: storage, now: clock)
-        let policy = MidgarReviewPolicy(storage: storage, appVersion: "2.0", clock: { clock })
+        let policy = MidgarReviewPolicy(storage: storage, appVersion: "2.0", clock: { clock }, center: NotificationCenter())
         policy.noteSuccess()
 
         #expect(policy.evaluate() == .hold(.promptedRecently))

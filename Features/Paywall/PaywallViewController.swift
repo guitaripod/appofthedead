@@ -1,6 +1,7 @@
-import UIKit
-import SafariServices
 import AppOfTheDeadCore
+import MidgarCommerce
+import SafariServices
+import UIKit
 
 class PaywallViewController: UIViewController {
 
@@ -29,6 +30,7 @@ class PaywallViewController: UIViewController {
 
     private let selectionFeedback = UISelectionFeedbackGenerator()
     private let notificationFeedback = UINotificationFeedbackGenerator()
+    private var hasNotedShown = false
 
     init(reason: PaywallReason = .generalUpgrade) {
         self.viewModel = PaywallViewModel(reason: reason)
@@ -58,6 +60,18 @@ class PaywallViewController: UIViewController {
         selectionFeedback.prepare()
 
         pathPreviewAnimator = PathPreviewAnimator(containerView: view)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        noteShownOnce()
+    }
+
+    /// Reports the paywall once per presentation, not again when a sheet over it closes.
+    private func noteShownOnce() {
+        guard !hasNotedShown else { return }
+        hasNotedShown = true
+        MidgarPaywallMoments.noteShown(placement: viewModel.reason.placement)
     }
 
     private func setupUI() {

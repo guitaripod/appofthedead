@@ -1,4 +1,5 @@
 import Foundation
+import MidgarCore
 
 enum PaywallReason {
     case lockedPath(beliefSystemId: String)
@@ -6,6 +7,20 @@ enum PaywallReason {
     case generalUpgrade
     /// Offered after a finished lesson, naming the path the person said they are most curious about, if any.
     case lessonFinished(nextPath: (id: String, name: String)?)
+
+    /// Where the paywall came from, as `paywall.view` reports it.
+    var placement: MidgarSignal.Placement {
+        switch self {
+        case .lockedPath:
+            return .feature
+        case .oracleLimit:
+            return .limit
+        case .generalUpgrade:
+            return .settings
+        case .lessonFinished:
+            return .moment
+        }
+    }
 
     var title: String {
         switch self {
