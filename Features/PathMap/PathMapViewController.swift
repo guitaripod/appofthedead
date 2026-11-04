@@ -250,7 +250,7 @@ final class PathMapCanvasView: UIView {
     }
 
     func shake(lessonAt index: Int) {
-        guard nodeViews.indices.contains(index) else { return }
+        guard nodeViews.indices.contains(index), !UIAccessibility.isReduceMotionEnabled else { return }
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.values = [0, -8, 8, -5, 5, 0]
         animation.duration = 0.4

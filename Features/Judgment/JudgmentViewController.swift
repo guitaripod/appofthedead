@@ -107,6 +107,10 @@ final class JudgmentViewController: UIViewController {
     }
 
     private func close() {
+        if case .verdict = viewModel.stage {
+            onFinish(.done)
+            return
+        }
         switch viewModel.entry {
         case .firstRun:
             onFinish(.skipped)
@@ -214,6 +218,7 @@ final class JudgmentViewController: UIViewController {
         let begin = UIButton(type: .system)
         PapyrusDesignSystem.ComponentStyle.applyPapyrusButton(to: begin, style: .primary)
         begin.configuration?.title = String(localized: "Begin the Judgment")
+        begin.configuration?.titleLineBreakMode = .byWordWrapping
         begin.addAction(UIAction { [weak self] _ in
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             self?.viewModel.begin()
@@ -297,7 +302,6 @@ final class JudgmentViewController: UIViewController {
 
     private func makeVerdictPage(_ verdict: Verdict) -> UIView {
         let archetype = verdict.archetype
-        let leading = JudgmentCopy.color(for: verdict.leadingTradition)
         let glyph = GlowingGlyphView(symbol: JudgmentCopy.archetypeSymbol(archetype), color: PapyrusDesignSystem.Colors.Core.goldLeaf, diameter: 104, pointSize: 44)
         glyph.pulse()
         let eyebrow = makeEyebrowLabel(String(localized: "Your soul is"))
@@ -339,8 +343,6 @@ final class JudgmentViewController: UIViewController {
         let ask = UIButton(type: .system)
         PapyrusDesignSystem.ComponentStyle.applyPapyrusButton(to: ask, style: .tertiary)
         ask.configuration?.title = String(localized: "Ask \(guide)")
-        ask.configuration?.image = UIImage(systemName: "bubble.left.and.text.bubble.right")
-        ask.configuration?.imagePadding = 6
         ask.addAction(UIAction { [weak self] _ in
             self?.onFinish(.oracle(deityId: archetype.guideDeityId))
         }, for: .touchUpInside)
@@ -357,8 +359,9 @@ final class JudgmentViewController: UIViewController {
             journey.configuration?.title = String(localized: "Done")
             journey.addAction(UIAction { [weak self] _ in self?.onFinish(.done) }, for: .touchUpInside)
         }
+        [share, ask, journey].forEach { $0.configuration?.titleLineBreakMode = .byWordWrapping }
         let secondary = UIStackView(arrangedSubviews: [ask, journey])
-        secondary.axis = .horizontal
+        secondary.axis = traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? .vertical : .horizontal
         secondary.spacing = 10
         secondary.distribution = .fillEqually
         return makePage(content: stack, footer: [share, secondary], centered: false)
@@ -454,6 +457,7 @@ final class JudgmentViewController: UIViewController {
         let message = "\(viewModel.shareMessage(for: verdict)) \(JudgmentViewModel.appStoreURL.absoluteString)"
         let controller = UIActivityViewController(activityItems: [SoulCardShareItem(image: image), message], applicationActivities: nil)
         controller.popoverPresentationController?.sourceView = source ?? view
+        controller.popoverPresentationController?.sourceRect = (source ?? view).bounds
         controller.completionWithItemsHandler = { activity, completed, _, _ in
             guard completed else { return }
             Diagnostics.logUserAction("soulCardShared", parameters: ["activity": activity?.rawValue ?? "unknown"], category: .learning)

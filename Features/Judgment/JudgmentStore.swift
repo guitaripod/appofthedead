@@ -3,7 +3,8 @@ import MidgarCore
 import AppOfTheDeadCore
 
 /// Keeps the weighed soul. The verdict is derived from it, so a better reading of the rules reaches old verdicts too.
-/// The record is mirrored to iCloud key-value storage, so a new iPhone on the same Apple Account keeps the Soul Card.
+/// The record is mirrored to iCloud key-value storage and read from there first, so every iPhone on the same Apple
+/// Account shows the latest Soul Card.
 nonisolated struct JudgmentStore {
     static let key = "aotd.judgment.soul"
     static let changedNotification = Notification.Name("aotd.judgment.changed")
@@ -17,7 +18,7 @@ nonisolated struct JudgmentStore {
     }
 
     func load() -> SoulRecord? {
-        let data = defaults.data(forKey: Self.key) ?? cloudData()
+        let data = cloudData() ?? defaults.data(forKey: Self.key)
         guard let data else { return nil }
         do {
             return try JSONDecoder().decode(SoulRecord.self, from: data)

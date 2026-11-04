@@ -176,8 +176,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// The first run is the Judgment. Skipping it starts the free Judaism path's first lesson, as 1.x did; finishing it
     /// goes where the verdict points.
     private func presentWelcome(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
+        FirstRunWelcome().markCompleted()
         let judgment = JudgmentViewController(viewModel: JudgmentViewModel(entry: .firstRun)) { [weak self, weak root, weak homeViewModel] outcome in
-            FirstRunWelcome().markCompleted()
             Diagnostics.logUserAction("welcomeFinished", parameters: ["outcome": "\(outcome)"])
             root?.dismiss(animated: true) {
                 GameCenterManager.shared.resumeDeferredAuthentication()
@@ -285,6 +285,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         Diagnostics.logUserAction("openDeepLink", parameters: ["url": url.absoluteString])
+        GameCenterManager.shared.resumeDeferredAuthentication()
         switch link {
         case .path(let beliefSystemId):
             rootContainer?.dismiss(animated: false)

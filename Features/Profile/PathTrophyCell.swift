@@ -84,7 +84,7 @@ final class PathTrophyCell: UICollectionViewCell {
     }
 
     func configure(with item: PathJourneyItem) {
-        let color = UIColor(hex: item.colorHex) ?? UIColor.Papyrus.hieroglyphBlue
+        let color = PapyrusDesignSystem.Colors.tradition(item.colorHex)
         iconImageView.image = IconProvider.beliefSystemIcon(for: item.iconName, color: color)
         iconImageView.tintColor = color
         nameLabel.text = item.name

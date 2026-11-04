@@ -93,7 +93,7 @@ final class PathListCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "lock.fill")
-        imageView.tintColor = UIColor.Papyrus.aged
+        imageView.tintColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
         imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         return imageView
@@ -333,8 +333,8 @@ final class PathListCell: UICollectionViewCell {
             
             
             iconContainerView.backgroundColor = item.color.withAlphaComponent(0.9)
-            iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: .white)
-            iconImageView.tintColor = .white
+            iconImageView.image = IconProvider.beliefSystemIcon(for: item.icon, color: PapyrusDesignSystem.Colors.Core.ink)
+            iconImageView.tintColor = PapyrusDesignSystem.Colors.Core.ink
             iconImageView.isHidden = false
             lockIconImageView.isHidden = true
             infoButton.isHidden = false
@@ -345,7 +345,7 @@ final class PathListCell: UICollectionViewCell {
             nameLabel.textColor = UIColor.Papyrus.tertiaryText
             descriptionLabel.text = String(localized: "Locked")
             progressView.progressTintColor = UIColor.Papyrus.aged
-            chevronImageView.tintColor = UIColor.Papyrus.aged
+            chevronImageView.tintColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
             
             
             iconContainerView.backgroundColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)

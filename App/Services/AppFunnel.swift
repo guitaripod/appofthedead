@@ -1,8 +1,8 @@
 import Foundation
 import MidgarCore
 
-/// The first-run steps 2.0 is judged on: the Judgment finished, a Soul Card shared, the Premium Week opened. Each is
-/// logged, and sent once per install as an anonymous `funnel.step` count.
+/// The first-run steps 2.0 is judged on: the Judgment finished, a Soul Card shared, the Premium Week opened, an Oracle
+/// answer. Each is written to the app's log; none leaves the device.
 enum AppFunnel {
     enum Step: String {
         case judgmentFinished = "judgment_finished"
@@ -11,6 +11,7 @@ enum AppFunnel {
         case oracleAnswered = "oracle_answered"
     }
 
+    // TODO: send these as anonymous funnel.step counts once registry/signals.yaml lists the steps and the privacy policy says so.
     static func note(_ step: Step) {
         MidgarLog.info("Funnel step \(step.rawValue)", category: .general)
     }

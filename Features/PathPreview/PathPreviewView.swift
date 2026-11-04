@@ -97,7 +97,7 @@ class PathPreviewView: UIView {
         
         
         unlockButton.titleLabel?.font = PapyrusDesignSystem.Typography.headline()
-        unlockButton.setTitleColor(.white, for: .normal)
+        unlockButton.setTitleColor(PapyrusDesignSystem.Colors.Core.ink, for: .normal)
         unlockButton.layer.cornerRadius = 12
         unlockButton.addTarget(self, action: #selector(unlockTapped), for: .touchUpInside)
         unlockButton.translatesAutoresizingMaskIntoConstraints = false
