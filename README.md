@@ -2,7 +2,7 @@
 
 [Download on the App Store](https://apps.apple.com/app/id6746733380)
 
-Learn what the world's religions believe about the afterlife, a few minutes at a time. Each tradition is a learning path of short lessons and quizzes (multiple choice, matching, true or false), with XP, streaks, levels and Game Center achievements. The Oracle lets you ask deity guides questions through a language model that runs on the iPhone after a one-time download. The Judaism path is free; other paths, deity packs, unlimited Oracle and an all-access Ultimate unlock or Premium subscription are in-app purchases.
+Where will your soul go? App of the Dead opens with the Judgment: nine questions from guardians of the dead weigh your soul by the rules of six traditions (Egyptian, Greek, Norse, Aztec, Zoroastrian and Buddhist) and hand back a shareable Soul Card. Then learn what the world's religions believe about the afterlife, a few minutes at a time: each of 22 traditions is a path of story-card lessons and quizzes (multiple choice, matching, true or false) on a map of its own, with XP, streaks, a Daily Omen and Game Center achievements. The Oracle lets you ask deities questions through a language model that runs on the iPhone: Apple's on-device model where Apple Intelligence is available, otherwise Gemma 4 after a one-time download. The Judgment opens every path for a week; the Judaism path is free; other paths, deity packs, unlimited Oracle and an all-access Ultimate unlock or Premium subscription are in-app purchases.
 
 ## Layout
 
