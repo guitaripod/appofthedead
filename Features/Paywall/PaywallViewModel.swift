@@ -382,8 +382,8 @@ extension PaywallViewModel {
     /// Mirrors the live ASC configuration so screenshot runs render the full
     /// paywall without StoreKit (AOTD_DEMO_PLANS=1).
     static let demoPlans = PremiumPlans(
-        annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$39.99", price: 39.99, monthlyEquivalentPrice: "$3.33", trialDays: nil),
-        monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$9.99", price: 9.99, monthlyEquivalentPrice: nil, trialDays: nil),
+        annual: PremiumPlanInfo(productId: .premiumAnnual, localizedPrice: "$19.99", price: 19.99, monthlyEquivalentPrice: "$1.67", trialDays: nil),
+        monthly: PremiumPlanInfo(productId: .premiumMonthly, localizedPrice: "$2.99", price: 2.99, monthlyEquivalentPrice: nil, trialDays: nil),
         lifetime: PremiumPlanInfo(productId: .ultimateEnlightenment, localizedPrice: "$89.99", price: 89.99, monthlyEquivalentPrice: nil, trialDays: nil)
     )
 }

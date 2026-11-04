@@ -76,6 +76,12 @@ class PaywallViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = PapyrusDesignSystem.Colors.background
+        let backdrop = UnderworldBackdropView(seed: 41)
+        backdrop.glowCenter = CGPoint(x: 0.5, y: -0.1)
+        backdrop.glowIntensity = 0.3
+        backdrop.frame = view.bounds
+        backdrop.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(backdrop)
 
         setupDismissButton()
         setupBottomBar()

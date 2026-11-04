@@ -371,7 +371,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = PapyrusDesignSystem.Colors.beige
+        view.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
         view.layer.cornerRadius = 12
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.15
@@ -487,7 +487,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
         
         
         if isUnlocked {
-            containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+            containerView.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
             containerView.layer.shadowOpacity = 0.15
             titleLabel.textColor = PapyrusDesignSystem.Colors.primaryText
             statusLabel.textColor = PapyrusDesignSystem.Colors.secondaryText
@@ -547,7 +547,7 @@ private class BookCollectionViewCell: UICollectionViewCell {
         coverImageView.image = nil
         coverImageView.alpha = 1.0
         lockIconImageView.isHidden = true
-        containerView.backgroundColor = PapyrusDesignSystem.Colors.beige
+        containerView.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
         containerView.layer.shadowOpacity = 0.15
         
         setNeedsLayout()
@@ -562,7 +562,7 @@ private class BookSectionHeaderView: UICollectionReusableView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = PapyrusDesignSystem.Typography.title3()
-        label.textColor = PapyrusDesignSystem.Colors.ancientInk
+        label.textColor = PapyrusDesignSystem.Colors.primaryText
         return label
     }()
     

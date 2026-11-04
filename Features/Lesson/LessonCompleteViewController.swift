@@ -74,7 +74,7 @@ final class LessonCompleteViewController: UIViewController {
 
         let titleLabel = UILabel()
         titleLabel.text = String(localized: "Lesson Complete")
-        titleLabel.font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: PapyrusDesignSystem.Typography.title1())
+        titleLabel.font = PapyrusDesignSystem.Typography.serif(28, weight: .bold, textStyle: .largeTitle)
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0

@@ -100,6 +100,7 @@ final class JudgmentViewModel {
         let soul = self.soul
         store.save(soul)
         let verdict = JudgmentEngine.verdict(for: soul)
+        CuriousPath.id = verdict.leadingTradition.pathId
         startedPremiumWeek = premiumWeek.start(ownsAllAccess: ownsAllAccess())
         Diagnostics.logUserAction("judgmentFinished", parameters: [
             "archetype": verdict.archetype.rawValue,
