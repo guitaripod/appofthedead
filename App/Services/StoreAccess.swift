@@ -23,14 +23,16 @@ final class StoreAccess {
     @ObservationIgnored private let cache: EntitlementCache
     @ObservationIgnored private let notifications: NotificationCenter
     @ObservationIgnored private var listener: Task<Void, Never>?
+    @ObservationIgnored private let premiumWeek: PremiumWeekPass
 
     init(
         store: MidgarStore?, cache: EntitlementCache = EntitlementCache(),
-        notifications: NotificationCenter = .default
+        notifications: NotificationCenter = .default, premiumWeek: PremiumWeekPass = .shared
     ) {
         self.store = store
         self.cache = cache
         self.notifications = notifications
+        self.premiumWeek = premiumWeek
         entitlements = cache.names
     }
 
@@ -43,14 +45,24 @@ final class StoreAccess {
         isDemoPremium || entitlements.contains(AotdEntitlement.allAccess)
     }
 
+    /// True while the Premium Week runs: every path and the unlimited Oracle are open, though nothing is owned.
+    var isPremiumWeekActive: Bool {
+        premiumWeek.isActive
+    }
+
+    /// True when everything is open right now, bought or lent by the Premium Week. Offers wait while it holds.
+    var hasEverythingOpen: Bool {
+        hasAllAccess || isPremiumWeekActive
+    }
+
     /// True when the person may consult any deity without a limit.
     var hasUnlimitedOracle: Bool {
-        hasAllAccess || entitlements.contains(AotdEntitlement.oracleUnlimited)
+        hasEverythingOpen || entitlements.contains(AotdEntitlement.oracleUnlimited)
     }
 
     func hasPathAccess(_ beliefSystemId: String) -> Bool {
         if FreePaths.shared.isOpen(beliefSystemId) { return true }
-        if hasAllAccess { return true }
+        if hasEverythingOpen { return true }
         guard let entitlement = ProductIdentifier.pathEntitlement(forBeliefSystem: beliefSystemId) else {
             return false
         }

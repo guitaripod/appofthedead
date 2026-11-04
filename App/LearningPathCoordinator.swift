@@ -261,7 +261,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         UserDefaults.standard.removeObject(forKey: "currentBeliefSystemId")
         returnToHome()
 
-        guard !StoreAccess.shared.hasAllAccess else { return }
+        guard !StoreAccess.shared.hasEverythingOpen else { return }
 
         LessonOffer.policy.noteOffered()
         let paywall = PaywallViewController(reason: .lockedPath(beliefSystemId: beliefSystem.id))
@@ -276,7 +276,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     /// Offers the paywall when ``LessonOffer`` says a finished lesson is the moment: the value moment converts
     /// best on Day 0, and the paywall stays dismissible, with the next lesson already waiting underneath it.
     private func offerAfterLessonIfDue() {
-        guard LessonOffer.policy.noteValue(isOwned: StoreAccess.shared.hasAllAccess) else { return }
+        guard LessonOffer.policy.noteValue(isOwned: StoreAccess.shared.hasEverythingOpen) else { return }
         LessonOffer.policy.noteOffered()
         let paywall = PaywallViewController(reason: .lessonFinished(nextPath: curiousPathToOffer()))
         navigationController.present(paywall, animated: true)

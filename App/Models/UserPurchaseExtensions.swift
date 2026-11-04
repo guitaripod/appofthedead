@@ -16,10 +16,7 @@ extension User {
     }
     
     func hasPathAccess(beliefSystemId: String) -> Bool {
-        
-        if FreePaths.shared.isOpen(beliefSystemId) { return true }
-        
-        
+        if StoreAccess.shared.hasPathAccess(beliefSystemId) { return true }
         if hasUltimateAccess() { return true }
         
         
