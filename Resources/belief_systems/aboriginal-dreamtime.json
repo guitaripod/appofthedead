@@ -10,7 +10,7 @@
       "id": "aboriginal-intro",
       "title": "Aboriginal Dreamtime: Return to the Dreaming",
       "order": 1,
-      "content": "Aboriginal Australian peoples understand death as a return to the Dreaming—the timeless realm where all existence originates and remains. The Dreaming is not a past event, but an eternal 'now.' Creation ancestors continue to walk there, their journeys forming and sustaining the landscape. When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself. [cite: 639, 640, 641, 642]",
+      "content": "Aboriginal Australian peoples understand death as a return to the Dreaming—the timeless realm where all existence originates and remains. The Dreaming is not a past event, but an eternal 'now.' Creation ancestors continue to walk there, their journeys forming and sustaining the landscape. When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself.",
       "keyTerms": [
         "Dreaming",
         "Eternal now",
@@ -31,14 +31,14 @@
             "A form of punishment after death"
           ],
           "correctAnswer": "A timeless realm where all existence originates and remains",
-          "explanation": "Aboriginal Australian peoples understand death as returning to the Dreaming—the timeless realm where all existence originates and remains. [cite: 639]"
+          "explanation": "Aboriginal Australian peoples understand death as returning to the Dreaming—the timeless realm where all existence originates and remains."
         },
         {
           "id": "aboriginal-q1-2",
           "type": "trueFalse",
           "question": "The Dreaming is considered a historical event that concluded long ago.",
           "correctAnswer": "false",
-          "explanation": "The Dreaming isn't past, present, or future but eternal now. [cite: 640]"
+          "explanation": "The Dreaming isn't past, present, or future but eternal now."
         },
         {
           "id": "aboriginal-q1-3",
@@ -51,14 +51,14 @@
             "They only existed before the land was formed"
           ],
           "correctAnswer": "Their journeys formed and continue to sustain it",
-          "explanation": "Creation ancestors continue to walk in the Dreaming, their journeys forming and sustaining the landscape. [cite: 641]"
+          "explanation": "Creation ancestors continue to walk in the Dreaming, their journeys forming and sustaining the landscape."
         },
         {
           "id": "aboriginal-q1-4",
           "type": "trueFalse",
           "question": "Death in Aboriginal belief is an ending rather than a transformation.",
           "correctAnswer": "false",
-          "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself. [cite: 642]"
+          "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself."
         },
         {
           "id": "aboriginal-q1-5",
@@ -71,14 +71,14 @@
             "They are judged and sent to heaven or hell"
           ],
           "correctAnswer": "They merge with ancestral beings and the land",
-          "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself. [cite: 642]"
+          "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and the land itself."
         },
         {
           "id": "aboriginal-q1-6",
           "type": "trueFalse",
           "question": "The Dreaming exists as past, present, and future simultaneously as an eternal 'now'.",
           "correctAnswer": "true",
-          "explanation": "The Dreaming is not a past event, but an eternal 'now.' [cite: 640]"
+          "explanation": "The Dreaming is not a past event, but an eternal 'now.'"
         }
       ]
     },
@@ -86,7 +86,7 @@
       "id": "aboriginal-ceremonies-ghosts",
       "title": "Ceremonies and Spirits",
       "order": 2,
-      "content": "Proper ceremonies are essential to ensure a safe passage for spirits back to the Dreaming. Without them, spirits might become 'mokoi' or 'jarnpa'—dangerous ghosts capable of bringing illness and misfortune to the living. Funeral rites vary significantly among the hundreds of Aboriginal groups but commonly include smoking ceremonies to guide spirits, avoidance taboos around names and possessions, and eventual resolutions that allow the dead full integration into the Dreaming. [cite: 643, 644]",
+      "content": "Proper ceremonies are essential to ensure a safe passage for spirits back to the Dreaming. Without them, spirits might become 'mokoi' or 'jarnpa'—dangerous ghosts capable of bringing illness and misfortune to the living. Funeral rites vary significantly among the hundreds of Aboriginal groups but commonly include smoking ceremonies to guide spirits, avoidance taboos around names and possessions, and eventual resolutions that allow the dead full integration into the Dreaming.",
       "keyTerms": [
         "Mokoi",
         "Jarnpa",
@@ -107,14 +107,14 @@
             "Stars"
           ],
           "correctAnswer": "Mokoi or jarnpa (dangerous ghosts)",
-          "explanation": "Without them, spirits become mokoi or jarnpa—dangerous ghosts bringing illness and misfortune. [cite: 643]"
+          "explanation": "Without them, spirits become mokoi or jarnpa—dangerous ghosts bringing illness and misfortune."
         },
         {
           "id": "aboriginal-q2-2",
           "type": "trueFalse",
           "question": "Funeral rites are identical across all Aboriginal Australian groups.",
           "correctAnswer": "false",
-          "explanation": "Funeral rites vary among hundreds of groups but share common elements. [cite: 644]"
+          "explanation": "Funeral rites vary among hundreds of groups but share common elements."
         },
         {
           "id": "aboriginal-q2-3",
@@ -142,14 +142,14 @@
             "Resolution rituals",
             "Allow full integration into Dreaming"
           ],
-          "explanation": "These ceremonial elements work together to ensure proper spiritual transition. [cite: 644]"
+          "explanation": "These ceremonial elements work together to ensure proper spiritual transition."
         },
         {
           "id": "aboriginal-q2-4",
           "type": "trueFalse",
           "question": "Mokoi and jarnpa are benevolent spirits that protect the living.",
           "correctAnswer": "false",
-          "explanation": "Without proper ceremonies, spirits might become 'mokoi' or 'jarnpa'—dangerous ghosts capable of bringing illness and misfortune to the living. [cite: 643]"
+          "explanation": "Without proper ceremonies, spirits might become 'mokoi' or 'jarnpa'—dangerous ghosts capable of bringing illness and misfortune to the living."
         },
         {
           "id": "aboriginal-q2-5",
@@ -162,14 +162,14 @@
             "To save money on ceremonies"
           ],
           "correctAnswer": "To show respect for the deceased",
-          "explanation": "Avoidance taboos around names and possessions show respect for the deceased. [cite: 644]"
+          "explanation": "Avoidance taboos around names and possessions show respect for the deceased."
         },
         {
           "id": "aboriginal-q2-6",
           "type": "trueFalse",
           "question": "Resolution rituals allow the dead full integration into the Dreaming.",
           "correctAnswer": "true",
-          "explanation": "Eventual resolutions allow the dead full integration into the Dreaming. [cite: 644]"
+          "explanation": "Eventual resolutions allow the dead full integration into the Dreaming."
         }
       ]
     },
@@ -177,7 +177,7 @@
       "id": "aboriginal-integration",
       "title": "Integration into the Land and Ancestors",
       "order": 3,
-      "content": "Once fully integrated, some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species. Other spirits join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. This profound connection underscores that death is not an ending but a transformation, where the individual becomes part of the larger, timeless fabric of the Dreaming and the land itself. [cite: 645, 646]",
+      "content": "Once fully integrated, some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species. Other spirits join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. This profound connection underscores that death is not an ending but a transformation, where the individual becomes part of the larger, timeless fabric of the Dreaming and the land itself.",
       "keyTerms": [
         "Increase sites",
         "Totem species",
@@ -197,14 +197,14 @@
             "Areas where rituals are forbidden"
           ],
           "correctAnswer": "Sites where spirits' essence strengthens totem species",
-          "explanation": "Some spirits enter specific landscape features—rocks, trees, waterholes—becoming increase sites where their essence strengthens their totem species. [cite: 645]"
+          "explanation": "Some spirits enter specific landscape features—rocks, trees, waterholes—becoming increase sites where their essence strengthens their totem species."
         },
         {
           "id": "aboriginal-q3-2",
           "type": "trueFalse",
           "question": "Individual identity is always maintained separately from ancestral beings in the Dreaming.",
           "correctAnswer": "false",
-          "explanation": "Others join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. [cite: 646]"
+          "explanation": "Others join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers."
         },
         {
           "id": "aboriginal-q3-3",
@@ -217,14 +217,14 @@
             "They prevent others from visiting"
           ],
           "correctAnswer": "Their essence strengthens their totem species",
-          "explanation": "Some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species. [cite: 645]"
+          "explanation": "Some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species."
         },
         {
           "id": "aboriginal-q3-4",
           "type": "trueFalse",
           "question": "Death is viewed as an ending in Aboriginal cosmology.",
           "correctAnswer": "false",
-          "explanation": "This profound connection underscores that death is not an ending but a transformation, where the individual becomes part of the larger, timeless fabric of the Dreaming and the land itself. [cite: 646]"
+          "explanation": "This profound connection underscores that death is not an ending but a transformation, where the individual becomes part of the larger, timeless fabric of the Dreaming and the land itself."
         },
         {
           "id": "aboriginal-q3-5",
@@ -237,14 +237,14 @@
             "They become human again immediately"
           ],
           "correctAnswer": "Their identity merges into greater archetypal powers",
-          "explanation": "Other spirits join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers. [cite: 646]"
+          "explanation": "Other spirits join the ancestral beings in their eternal journeys, their individual identity merging into greater archetypal powers."
         },
         {
           "id": "aboriginal-q3-6",
           "type": "trueFalse",
           "question": "Increase sites are places where spirits strengthen their totem species.",
           "correctAnswer": "true",
-          "explanation": "Some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species. [cite: 645]"
+          "explanation": "Some spirits enter specific landscape features, such as rocks, trees, or waterholes, becoming 'increase sites' where their essence strengthens their totem species."
         }
       ]
     },
@@ -252,7 +252,7 @@
       "id": "aboriginal-regional-variations",
       "title": "Regional Variations in Afterlife Beliefs",
       "order": 4,
-      "content": "While the Dreaming is a unifying concept, specific afterlife beliefs vary dramatically across the continent's 250+ language groups. In Arnhem Land, the Yolngu people believe spirits journey to the island of the dead, Burralku, traveling in a canoe pulled by morning star spirits. Central Desert peoples often speak of spirits returning to specific waterholes or rock formations. Coastal groups may envision spirits traveling across the sea to distant lands. These variations reflect deep connections to local landscapes and demonstrate how geography shapes spiritual understanding. Despite differences, all share the fundamental belief that death returns the spirit to the sacred dimension of existence. [cite: 647, 648, 649]",
+      "content": "While the Dreaming is a unifying concept, specific afterlife beliefs vary dramatically across the continent's 250+ language groups. In Arnhem Land, the Yolngu people believe spirits journey to the island of the dead, Burralku, traveling in a canoe pulled by morning star spirits. Central Desert peoples often speak of spirits returning to specific waterholes or rock formations. Coastal groups may envision spirits traveling across the sea to distant lands. These variations reflect deep connections to local landscapes and demonstrate how geography shapes spiritual understanding. Despite differences, all share the fundamental belief that death returns the spirit to the sacred dimension of existence.",
       "keyTerms": [
         "Burralku",
         "Morning star spirits",
@@ -273,14 +273,14 @@
             "A creation ancestor"
           ],
           "correctAnswer": "The island of the dead",
-          "explanation": "The Yolngu people believe spirits journey to Burralku, the island of the dead, traveling in a canoe pulled by morning star spirits. [cite: 647]"
+          "explanation": "The Yolngu people believe spirits journey to Burralku, the island of the dead, traveling in a canoe pulled by morning star spirits."
         },
         {
           "id": "aboriginal-q4-2",
           "type": "trueFalse",
           "question": "All Aboriginal groups share identical specific beliefs about where spirits go after death.",
           "correctAnswer": "false",
-          "explanation": "Specific afterlife beliefs vary dramatically across the continent's 250+ language groups, though all share belief in return to the sacred dimension. [cite: 647]"
+          "explanation": "Specific afterlife beliefs vary dramatically across the continent's 250+ language groups, though all share belief in return to the sacred dimension."
         },
         {
           "id": "aboriginal-q4-3",
@@ -293,14 +293,14 @@
             "Geography determines who can have ceremonies"
           ],
           "correctAnswer": "Different landscapes shape different spiritual understandings",
-          "explanation": "Regional variations reflect deep connections to local landscapes and demonstrate how geography shapes spiritual understanding. [cite: 649]"
+          "explanation": "Regional variations reflect deep connections to local landscapes and demonstrate how geography shapes spiritual understanding."
         },
         {
           "id": "aboriginal-q4-4",
           "type": "trueFalse",
           "question": "Morning star spirits pull the canoe to Burralku in Yolngu belief.",
           "correctAnswer": "true",
-          "explanation": "The Yolngu people believe spirits journey to the island of the dead, Burralku, traveling in a canoe pulled by morning star spirits. [cite: 647]"
+          "explanation": "The Yolngu people believe spirits journey to the island of the dead, Burralku, traveling in a canoe pulled by morning star spirits."
         },
         {
           "id": "aboriginal-q4-5",
@@ -313,14 +313,14 @@
             "Underground caves"
           ],
           "correctAnswer": "Specific waterholes or rock formations",
-          "explanation": "Central Desert peoples often speak of spirits returning to specific waterholes or rock formations. [cite: 648]"
+          "explanation": "Central Desert peoples often speak of spirits returning to specific waterholes or rock formations."
         },
         {
           "id": "aboriginal-q4-6",
           "type": "trueFalse",
           "question": "Despite regional differences, all Aboriginal groups share belief in return to the sacred dimension.",
           "correctAnswer": "true",
-          "explanation": "Despite differences, all share the fundamental belief that death returns the spirit to the sacred dimension of existence. [cite: 649]"
+          "explanation": "Despite differences, all share the fundamental belief that death returns the spirit to the sacred dimension of existence."
         }
       ]
     },
@@ -328,7 +328,7 @@
       "id": "aboriginal-ancestral-kinship",
       "title": "Ancestors, Kinship, and Continuing Relationships",
       "order": 5,
-      "content": "Death does not sever kinship ties in Aboriginal understanding. The deceased remain active members of the family and clan, requiring ongoing acknowledgment and respect. Living relatives maintain relationships through dreams, ceremonies, and recognition of ancestral presence in the land. Ancestors communicate through natural signs—unusual animal behavior, weather patterns, or dreams—guiding and sometimes warning their descendants. The concept of 'sorry business' encompasses not just funeral rites but the ongoing responsibility to honor ancestral connections. Kinship systems determine specific ritual obligations, with maternal and paternal relatives often having distinct ceremonial roles. This continuing relationship emphasizes that death transforms rather than ends social bonds. [cite: 650, 651, 652, 653]",
+      "content": "Death does not sever kinship ties in Aboriginal understanding. The deceased remain active members of the family and clan, requiring ongoing acknowledgment and respect. Living relatives maintain relationships through dreams, ceremonies, and recognition of ancestral presence in the land. Ancestors communicate through natural signs—unusual animal behavior, weather patterns, or dreams—guiding and sometimes warning their descendants. The concept of 'sorry business' encompasses not just funeral rites but the ongoing responsibility to honor ancestral connections. Kinship systems determine specific ritual obligations, with maternal and paternal relatives often having distinct ceremonial roles. This continuing relationship emphasizes that death transforms rather than ends social bonds.",
       "keyTerms": [
         "Sorry business",
         "Kinship obligations",
@@ -349,14 +349,14 @@
             "A type of meditation"
           ],
           "correctAnswer": "Funeral rites and ongoing obligations to honor ancestors",
-          "explanation": "Sorry business encompasses not just funeral rites but the ongoing responsibility to honor ancestral connections. [cite: 652]"
+          "explanation": "Sorry business encompasses not just funeral rites but the ongoing responsibility to honor ancestral connections."
         },
         {
           "id": "aboriginal-q5-2",
           "type": "trueFalse",
           "question": "Ancestors can communicate with living relatives through natural signs and dreams.",
           "correctAnswer": "true",
-          "explanation": "Ancestors communicate through natural signs—unusual animal behavior, weather patterns, or dreams—guiding and sometimes warning descendants. [cite: 651]"
+          "explanation": "Ancestors communicate through natural signs—unusual animal behavior, weather patterns, or dreams—guiding and sometimes warning descendants."
         },
         {
           "id": "aboriginal-q5-3",
@@ -390,14 +390,14 @@
             "Sorry business",
             "Ongoing ancestral honor"
           ],
-          "explanation": "These elements form the complex web of continuing relationships between living and dead. [cite: 650, 651, 652, 653]"
+          "explanation": "These elements form the complex web of continuing relationships between living and dead."
         },
         {
           "id": "aboriginal-q5-4",
           "type": "trueFalse",
           "question": "Death severs all kinship ties in Aboriginal understanding.",
           "correctAnswer": "false",
-          "explanation": "Death does not sever kinship ties in Aboriginal understanding. The deceased remain active members of the family and clan. [cite: 650]"
+          "explanation": "Death does not sever kinship ties in Aboriginal understanding. The deceased remain active members of the family and clan."
         },
         {
           "id": "aboriginal-q5-5",
@@ -410,14 +410,14 @@
             "By avoiding all mention of them"
           ],
           "correctAnswer": "Through dreams, ceremonies, and recognition of ancestral presence",
-          "explanation": "Living relatives maintain relationships through dreams, ceremonies, and recognition of ancestral presence in the land. [cite: 651]"
+          "explanation": "Living relatives maintain relationships through dreams, ceremonies, and recognition of ancestral presence in the land."
         },
         {
           "id": "aboriginal-q5-6",
           "type": "trueFalse",
           "question": "Kinship systems determine specific ritual obligations for maternal and paternal relatives.",
           "correctAnswer": "true",
-          "explanation": "Kinship systems determine specific ritual obligations, with maternal and paternal relatives often having distinct ceremonial roles. [cite: 653]"
+          "explanation": "Kinship systems determine specific ritual obligations, with maternal and paternal relatives often having distinct ceremonial roles."
         }
       ]
     },
@@ -425,7 +425,7 @@
       "id": "aboriginal-sacred-sites",
       "title": "Sacred Sites and Spirit Country",
       "order": 6,
-      "content": "Sacred sites serve as portals between the physical world and the Dreaming, places where the boundary between life and death becomes permeable. These locations—often striking geological features—mark where creation ancestors emerged, performed significant acts, or entered the earth. Uluru, for example, holds numerous sites related to ancestral activities and spiritual transitions. Many sacred sites are 'conception sites' where spirits wait to be born, while others are destinations for the newly deceased. Access to these places is strictly regulated by traditional law, with some sites forbidden to certain genders or uninitiated persons. The destruction or desecration of sacred sites is believed to disturb both ancestral spirits and the cosmic order itself. Understanding and protecting these sites is essential for maintaining the spiritual health of both land and people. [cite: 654, 655, 656, 657]",
+      "content": "Sacred sites serve as portals between the physical world and the Dreaming, places where the boundary between life and death becomes permeable. These locations—often striking geological features—mark where creation ancestors emerged, performed significant acts, or entered the earth. Uluru, for example, holds numerous sites related to ancestral activities and spiritual transitions. Many sacred sites are 'conception sites' where spirits wait to be born, while others are destinations for the newly deceased. Access to these places is strictly regulated by traditional law, with some sites forbidden to certain genders or uninitiated persons. The destruction or desecration of sacred sites is believed to disturb both ancestral spirits and the cosmic order itself. Understanding and protecting these sites is essential for maintaining the spiritual health of both land and people.",
       "keyTerms": [
         "Sacred sites",
         "Conception sites",
@@ -446,14 +446,14 @@
             "Modern ceremonial inventions"
           ],
           "correctAnswer": "Portals between physical world and Dreaming",
-          "explanation": "Sacred sites serve as portals between the physical world and the Dreaming, where the boundary between life and death becomes permeable. [cite: 654]"
+          "explanation": "Sacred sites serve as portals between the physical world and the Dreaming, where the boundary between life and death becomes permeable."
         },
         {
           "id": "aboriginal-q6-2",
           "type": "trueFalse",
           "question": "Anyone can freely access all Aboriginal sacred sites.",
           "correctAnswer": "false",
-          "explanation": "Access to these places is strictly regulated by traditional law, with some sites forbidden to certain genders or uninitiated persons. [cite: 656]"
+          "explanation": "Access to these places is strictly regulated by traditional law, with some sites forbidden to certain genders or uninitiated persons."
         },
         {
           "id": "aboriginal-q6-3",
@@ -466,14 +466,14 @@
             "Sites for planning ceremonies"
           ],
           "correctAnswer": "Locations where spirits wait to be born",
-          "explanation": "Many sacred sites are 'conception sites' where spirits wait to be born. [cite: 655]"
+          "explanation": "Many sacred sites are 'conception sites' where spirits wait to be born."
         },
         {
           "id": "aboriginal-q6-4",
           "type": "trueFalse",
           "question": "Destroying sacred sites is believed to disturb the cosmic order.",
           "correctAnswer": "true",
-          "explanation": "The destruction or desecration of sacred sites is believed to disturb both ancestral spirits and the cosmic order itself. [cite: 657]"
+          "explanation": "The destruction or desecration of sacred sites is believed to disturb both ancestral spirits and the cosmic order itself."
         },
         {
           "id": "aboriginal-q6-5",
@@ -486,14 +486,14 @@
             "Modern buildings"
           ],
           "correctAnswer": "Striking geological features",
-          "explanation": "These locations—often striking geological features—mark where creation ancestors emerged, performed significant acts, or entered the earth. [cite: 655]"
+          "explanation": "These locations—often striking geological features—mark where creation ancestors emerged, performed significant acts, or entered the earth."
         },
         {
           "id": "aboriginal-q6-6",
           "type": "trueFalse",
           "question": "Understanding and protecting sacred sites is essential for spiritual health of land and people.",
           "correctAnswer": "true",
-          "explanation": "Understanding and protecting these sites is essential for maintaining the spiritual health of both land and people. [cite: 657]"
+          "explanation": "Understanding and protecting these sites is essential for maintaining the spiritual health of both land and people."
         }
       ]
     },
@@ -501,7 +501,7 @@
       "id": "aboriginal-time-eternity",
       "title": "Time, Eternity, and the Nature of Existence",
       "order": 7,
-      "content": "Aboriginal concepts of time fundamentally differ from linear Western understanding. The Dreaming exists as an eternal present where past, present, and future converge. Death is not movement from one time to another but a shift in dimensional awareness. Creation events are not historical but eternally occurring—ancestors are simultaneously creating the world and dwelling within it. This cyclical time concept means individuals have always existed in the Dreaming and will always exist there. Life represents a brief emergence into physical form before returning to the eternal dimension. Some groups describe multiple souls or spirit aspects, with different parts having different post-death destinations. This complex temporal philosophy challenges Western notions of mortality and suggests death is merely a change in the mode of eternal existence. [cite: 658, 659, 660, 661]",
+      "content": "Aboriginal concepts of time fundamentally differ from linear Western understanding. The Dreaming exists as an eternal present where past, present, and future converge. Death is not movement from one time to another but a shift in dimensional awareness. Creation events are not historical but eternally occurring—ancestors are simultaneously creating the world and dwelling within it. This cyclical time concept means individuals have always existed in the Dreaming and will always exist there. Life represents a brief emergence into physical form before returning to the eternal dimension. Some groups describe multiple souls or spirit aspects, with different parts having different post-death destinations. This complex temporal philosophy challenges Western notions of mortality and suggests death is merely a change in the mode of eternal existence.",
       "keyTerms": [
         "Eternal present",
         "Cyclical time",
@@ -522,14 +522,14 @@
             "There is no concept of time"
           ],
           "correctAnswer": "Past, present, and future converge in eternal present",
-          "explanation": "The Dreaming exists as an eternal present where past, present, and future converge. [cite: 658]"
+          "explanation": "The Dreaming exists as an eternal present where past, present, and future converge."
         },
         {
           "id": "aboriginal-q7-2",
           "type": "trueFalse",
           "question": "Creation events in Aboriginal belief are historical events that happened once in the past.",
           "correctAnswer": "false",
-          "explanation": "Creation events are not historical but eternally occurring—ancestors are simultaneously creating the world and dwelling within it. [cite: 659]"
+          "explanation": "Creation events are not historical but eternally occurring—ancestors are simultaneously creating the world and dwelling within it."
         },
         {
           "id": "aboriginal-q7-3",
@@ -542,14 +542,14 @@
             "Punishment for wrongdoing"
           ],
           "correctAnswer": "A shift in dimensional awareness",
-          "explanation": "Death is not movement from one time to another but a shift in dimensional awareness. [cite: 659]"
+          "explanation": "Death is not movement from one time to another but a shift in dimensional awareness."
         },
         {
           "id": "aboriginal-q7-4",
           "type": "trueFalse",
           "question": "Some Aboriginal groups believe in multiple souls with different post-death destinations.",
           "correctAnswer": "true",
-          "explanation": "Some groups describe multiple souls or spirit aspects, with different parts having different post-death destinations. [cite: 661]"
+          "explanation": "Some groups describe multiple souls or spirit aspects, with different parts having different post-death destinations."
         },
         {
           "id": "aboriginal-q7-5",
@@ -562,14 +562,14 @@
             "Existence is limited to earthly life"
           ],
           "correctAnswer": "Individuals have always existed and will always exist in the Dreaming",
-          "explanation": "This cyclical time concept means individuals have always existed in the Dreaming and will always exist there. [cite: 660]"
+          "explanation": "This cyclical time concept means individuals have always existed in the Dreaming and will always exist there."
         },
         {
           "id": "aboriginal-q7-6",
           "type": "trueFalse",
           "question": "Life represents a permanent state while death is temporary in Aboriginal belief.",
           "correctAnswer": "false",
-          "explanation": "Life represents a brief emergence into physical form before returning to the eternal dimension. [cite: 660]"
+          "explanation": "Life represents a brief emergence into physical form before returning to the eternal dimension."
         }
       ]
     },
@@ -577,7 +577,7 @@
       "id": "aboriginal-death-rituals",
       "title": "Death Rituals Across Different Groups",
       "order": 8,
-      "content": "Death rituals vary enormously across Aboriginal Australia, reflecting cultural diversity and environmental adaptation. The Tiwi of Bathurst and Melville Islands conduct elaborate Pukumani ceremonies with carved poles and months of ritual obligations. Some Central Desert groups practice secondary burial, where bones are recovered after decomposition and given final rites. Northern coastal peoples may use burial platforms, allowing elements to clean bones before final interment. Mourning practices include cutting hair, covering the body with clay or ash, and self-inflicted wounds to demonstrate grief. The duration of mourning varies from weeks to years, with widows sometimes observing speech taboos. Many groups destroy or redistribute the deceased's possessions, rename places associated with them, and avoid using their name. These diverse practices all serve to properly separate the living from the dead while maintaining appropriate spiritual connections. [cite: 662, 663, 664, 665]",
+      "content": "Death rituals vary enormously across Aboriginal Australia, reflecting cultural diversity and environmental adaptation. The Tiwi of Bathurst and Melville Islands conduct elaborate Pukumani ceremonies with carved poles and months of ritual obligations. Some Central Desert groups practice secondary burial, where bones are recovered after decomposition and given final rites. Northern coastal peoples may use burial platforms, allowing elements to clean bones before final interment. Mourning practices include cutting hair, covering the body with clay or ash, and self-inflicted wounds to demonstrate grief. The duration of mourning varies from weeks to years, with widows sometimes observing speech taboos. Many groups destroy or redistribute the deceased's possessions, rename places associated with them, and avoid using their name. These diverse practices all serve to properly separate the living from the dead while maintaining appropriate spiritual connections.",
       "keyTerms": [
         "Pukumani ceremonies",
         "Secondary burial",
@@ -598,14 +598,14 @@
             "Coming of age ceremonies"
           ],
           "correctAnswer": "Elaborate death rituals of the Tiwi people",
-          "explanation": "The Tiwi of Bathurst and Melville Islands conduct elaborate Pukumani ceremonies with carved poles and months of ritual obligations. [cite: 662]"
+          "explanation": "The Tiwi of Bathurst and Melville Islands conduct elaborate Pukumani ceremonies with carved poles and months of ritual obligations."
         },
         {
           "id": "aboriginal-q8-2",
           "type": "trueFalse",
           "question": "All Aboriginal groups practice identical funeral rituals.",
           "correctAnswer": "false",
-          "explanation": "Death rituals vary enormously across Aboriginal Australia, reflecting cultural diversity and environmental adaptation. [cite: 662]"
+          "explanation": "Death rituals vary enormously across Aboriginal Australia, reflecting cultural diversity and environmental adaptation."
         },
         {
           "id": "aboriginal-q8-3",
@@ -639,14 +639,14 @@
             "Speech taboos",
             "Widows avoid certain words"
           ],
-          "explanation": "These diverse practices all serve to properly separate the living from the dead. [cite: 663, 664, 665]"
+          "explanation": "These diverse practices all serve to properly separate the living from the dead."
         },
         {
           "id": "aboriginal-q8-4",
           "type": "trueFalse",
           "question": "Mourning periods are standardized across all Aboriginal groups.",
           "correctAnswer": "false",
-          "explanation": "The duration of mourning varies from weeks to years, with widows sometimes observing speech taboos. [cite: 665]"
+          "explanation": "The duration of mourning varies from weeks to years, with widows sometimes observing speech taboos."
         },
         {
           "id": "aboriginal-q8-5",
@@ -659,14 +659,14 @@
             "They are buried with the body"
           ],
           "correctAnswer": "They are destroyed or redistributed",
-          "explanation": "Many groups destroy or redistribute the deceased's possessions, rename places associated with them, and avoid using their name. [cite: 665]"
+          "explanation": "Many groups destroy or redistribute the deceased's possessions, rename places associated with them, and avoid using their name."
         },
         {
           "id": "aboriginal-q8-6",
           "type": "trueFalse",
           "question": "Death rituals serve to separate the living from dead while maintaining spiritual connections.",
           "correctAnswer": "true",
-          "explanation": "These diverse practices all serve to properly separate the living from the dead while maintaining appropriate spiritual connections. [cite: 665]"
+          "explanation": "These diverse practices all serve to properly separate the living from the dead while maintaining appropriate spiritual connections."
         }
       ]
     },
@@ -674,7 +674,7 @@
       "id": "aboriginal-land-spirit-identity",
       "title": "The Sacred Triangle: Land, Spirit, and Identity",
       "order": 9,
-      "content": "Aboriginal spirituality inseparably links land, spirit, and personal identity. Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb. This creates an unbreakable bond between individual, ancestral spirits, and particular landscapes. The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory. Death returns spirits to their country, completing the circle of existence. Displacement from traditional lands causes profound spiritual crisis, as it separates people from their ancestors and their own spiritual essence. Modern land rights movements are thus not merely political but deeply spiritual, seeking to maintain these essential connections. The health of land, community, and spirit are understood as one integrated system where damage to any element affects all others. [cite: 666, 667, 668, 669]",
+      "content": "Aboriginal spirituality inseparably links land, spirit, and personal identity. Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb. This creates an unbreakable bond between individual, ancestral spirits, and particular landscapes. The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory. Death returns spirits to their country, completing the circle of existence. Displacement from traditional lands causes profound spiritual crisis, as it separates people from their ancestors and their own spiritual essence. Modern land rights movements are thus not merely political but deeply spiritual, seeking to maintain these essential connections. The health of land, community, and spirit are understood as one integrated system where damage to any element affects all others.",
       "keyTerms": [
         "Conception dreaming",
         "Country",
@@ -695,14 +695,14 @@
             "Modern medical terminology"
           ],
           "correctAnswer": "The location where a spirit entered the mother's womb",
-          "explanation": "Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb. [cite: 666]"
+          "explanation": "Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb."
         },
         {
           "id": "aboriginal-q9-2",
           "type": "trueFalse",
           "question": "The phrase 'country owns you' means humans possess and control territory.",
           "correctAnswer": "false",
-          "explanation": "The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory. [cite: 667]"
+          "explanation": "The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory."
         },
         {
           "id": "aboriginal-q9-3",
@@ -715,14 +715,14 @@
             "Changes in weather patterns"
           ],
           "correctAnswer": "Separation from ancestors and spiritual essence",
-          "explanation": "Displacement from traditional lands causes profound spiritual crisis, as it separates people from their ancestors and their own spiritual essence. [cite: 668]"
+          "explanation": "Displacement from traditional lands causes profound spiritual crisis, as it separates people from their ancestors and their own spiritual essence."
         },
         {
           "id": "aboriginal-q9-4",
           "type": "trueFalse",
           "question": "Land, community, and spirit are viewed as separate, independent systems.",
           "correctAnswer": "false",
-          "explanation": "The health of land, community, and spirit are understood as one integrated system where damage to any element affects all others. [cite: 669]"
+          "explanation": "The health of land, community, and spirit are understood as one integrated system where damage to any element affects all others."
         },
         {
           "id": "aboriginal-q9-5",
@@ -735,14 +735,14 @@
             "They focus solely on economic benefits"
           ],
           "correctAnswer": "They seek to maintain essential spiritual connections",
-          "explanation": "Modern land rights movements are thus not merely political but deeply spiritual, seeking to maintain these essential connections. [cite: 669]"
+          "explanation": "Modern land rights movements are thus not merely political but deeply spiritual, seeking to maintain these essential connections."
         },
         {
           "id": "aboriginal-q9-6",
           "type": "trueFalse",
           "question": "Death returns spirits to their country, completing the circle of existence.",
           "correctAnswer": "true",
-          "explanation": "Death returns spirits to their country, completing the circle of existence. [cite: 668]"
+          "explanation": "Death returns spirits to their country, completing the circle of existence."
         }
       ]
     },
@@ -750,7 +750,7 @@
       "id": "aboriginal-taboos-restrictions",
       "title": "Death Taboos and Spiritual Restrictions",
       "order": 10,
-      "content": "Complex taboo systems surround death in Aboriginal cultures, serving to protect both living and dead from spiritual harm. Name taboos prohibit speaking the deceased's name, sometimes for years or permanently, requiring linguistic workarounds or name changes for living people sharing that name. Image taboos forbid viewing photographs or recordings of the dead, leading to the familiar warning 'this program contains images of deceased persons.' Place taboos may render certain locations temporarily or permanently off-limits. Gender-specific taboos restrict men and women from certain aspects of funeral rites or knowledge about death. These restrictions are not arbitrary but understood as essential for preventing spiritual contamination or angering the deceased's spirit. Breaking taboos can result in illness, misfortune, or spiritual attack. Modern Aboriginal communities navigate maintaining these traditional protections while living in a world that constantly challenges them through media and technology. [cite: 670, 671, 672, 673]",
+      "content": "Complex taboo systems surround death in Aboriginal cultures, serving to protect both living and dead from spiritual harm. Name taboos prohibit speaking the deceased's name, sometimes for years or permanently, requiring linguistic workarounds or name changes for living people sharing that name. Image taboos forbid viewing photographs or recordings of the dead, leading to the familiar warning 'this program contains images of deceased persons.' Place taboos may render certain locations temporarily or permanently off-limits. Gender-specific taboos restrict men and women from certain aspects of funeral rites or knowledge about death. These restrictions are not arbitrary but understood as essential for preventing spiritual contamination or angering the deceased's spirit. Breaking taboos can result in illness, misfortune, or spiritual attack. Modern Aboriginal communities navigate maintaining these traditional protections while living in a world that constantly challenges them through media and technology.",
       "keyTerms": [
         "Name taboos",
         "Image taboos",
@@ -771,14 +771,14 @@
             "To confuse evil spirits"
           ],
           "correctAnswer": "Name taboos protect from spiritual harm",
-          "explanation": "Name taboos prohibit speaking the deceased's name to protect both living and dead from spiritual harm. [cite: 670]"
+          "explanation": "Name taboos prohibit speaking the deceased's name to protect both living and dead from spiritual harm."
         },
         {
           "id": "aboriginal-q10-2",
           "type": "trueFalse",
           "question": "Image taboos only apply to hand-drawn pictures, not photographs or video.",
           "correctAnswer": "false",
-          "explanation": "Image taboos forbid viewing photographs or recordings of the dead, leading to warnings about deceased persons in media. [cite: 671]"
+          "explanation": "Image taboos forbid viewing photographs or recordings of the dead, leading to warnings about deceased persons in media."
         },
         {
           "id": "aboriginal-q10-3",
@@ -791,7 +791,7 @@
             "Automatic forgiveness"
           ],
           "correctAnswer": "Illness, misfortune, or spiritual attack",
-          "explanation": "Breaking taboos can result in illness, misfortune, or spiritual attack. [cite: 673]"
+          "explanation": "Breaking taboos can result in illness, misfortune, or spiritual attack."
         },
         {
           "id": "aboriginal-q10-4",
@@ -825,14 +825,14 @@
             "Gender taboos",
             "Restricted funeral participation"
           ],
-          "explanation": "These taboo systems protect both living and dead from spiritual harm. [cite: 670, 671, 672]"
+          "explanation": "These taboo systems protect both living and dead from spiritual harm."
         },
         {
           "id": "aboriginal-q10-5",
           "type": "trueFalse",
           "question": "Name taboos may require living people to change their names if they share a name with the deceased.",
           "correctAnswer": "true",
-          "explanation": "Name taboos prohibit speaking the deceased's name, sometimes for years or permanently, requiring linguistic workarounds or name changes for living people sharing that name. [cite: 670]"
+          "explanation": "Name taboos prohibit speaking the deceased's name, sometimes for years or permanently, requiring linguistic workarounds or name changes for living people sharing that name."
         },
         {
           "id": "aboriginal-q10-6",
@@ -845,7 +845,7 @@
             "They enforce taboos through legal action"
           ],
           "correctAnswer": "They navigate maintaining protections while living in modern world",
-          "explanation": "Modern Aboriginal communities navigate maintaining these traditional protections while living in a world that constantly challenges them through media and technology. [cite: 673]"
+          "explanation": "Modern Aboriginal communities navigate maintaining these traditional protections while living in a world that constantly challenges them through media and technology."
         }
       ]
     },
@@ -853,7 +853,7 @@
       "id": "aboriginal-elders-knowledge",
       "title": "Elders, Knowledge Keepers, and Sacred Wisdom",
       "order": 11,
-      "content": "Elders hold crucial roles as bridges between the physical and spiritual worlds, possessing knowledge about death, ceremony, and ancestral communication that ensures cultural continuity. Not all older people become Elders—this status requires deep cultural knowledge, spiritual authority, and community recognition. Elders interpret signs from deceased ancestors, lead funeral ceremonies, and decide when mourning periods end. They hold 'inside knowledge' about death's mysteries, revealed gradually through initiation stages. Some Elders specialize as 'clever people' or traditional healers who can communicate directly with spirits and navigate between worlds. The loss of an Elder is particularly devastating as it represents not just personal grief but potential loss of irreplaceable sacred knowledge. Modern challenges include ensuring knowledge transmission as traditional initiation systems face disruption. Young people increasingly seek Elder guidance to understand death and maintain spiritual connections in contemporary contexts. [cite: 674, 675, 676, 677]",
+      "content": "Elders hold crucial roles as bridges between the physical and spiritual worlds, possessing knowledge about death, ceremony, and ancestral communication that ensures cultural continuity. Not all older people become Elders—this status requires deep cultural knowledge, spiritual authority, and community recognition. Elders interpret signs from deceased ancestors, lead funeral ceremonies, and decide when mourning periods end. They hold 'inside knowledge' about death's mysteries, revealed gradually through initiation stages. Some Elders specialize as 'clever people' or traditional healers who can communicate directly with spirits and navigate between worlds. The loss of an Elder is particularly devastating as it represents not just personal grief but potential loss of irreplaceable sacred knowledge. Modern challenges include ensuring knowledge transmission as traditional initiation systems face disruption. Young people increasingly seek Elder guidance to understand death and maintain spiritual connections in contemporary contexts.",
       "keyTerms": [
         "Elders",
         "Inside knowledge",
@@ -874,14 +874,14 @@
             "Wealth and property ownership"
           ],
           "correctAnswer": "Deep cultural knowledge and spiritual authority",
-          "explanation": "Not all older people become Elders—this status requires deep cultural knowledge, spiritual authority, and community recognition. [cite: 674]"
+          "explanation": "Not all older people become Elders—this status requires deep cultural knowledge, spiritual authority, and community recognition."
         },
         {
           "id": "aboriginal-q11-2",
           "type": "trueFalse",
           "question": "All sacred knowledge about death is freely shared with everyone in the community.",
           "correctAnswer": "false",
-          "explanation": "Elders hold 'inside knowledge' about death's mysteries, revealed gradually through initiation stages. [cite: 675]"
+          "explanation": "Elders hold 'inside knowledge' about death's mysteries, revealed gradually through initiation stages."
         },
         {
           "id": "aboriginal-q11-3",
@@ -894,14 +894,14 @@
             "Political leaders"
           ],
           "correctAnswer": "Traditional healers who communicate with spirits",
-          "explanation": "Some Elders specialize as 'clever people' or traditional healers who can communicate directly with spirits and navigate between worlds. [cite: 676]"
+          "explanation": "Some Elders specialize as 'clever people' or traditional healers who can communicate directly with spirits and navigate between worlds."
         },
         {
           "id": "aboriginal-q11-4",
           "type": "trueFalse",
           "question": "The loss of an Elder affects only their immediate family.",
           "correctAnswer": "false",
-          "explanation": "The loss of an Elder is particularly devastating as it represents not just personal grief but potential loss of irreplaceable sacred knowledge. [cite: 677]"
+          "explanation": "The loss of an Elder is particularly devastating as it represents not just personal grief but potential loss of irreplaceable sacred knowledge."
         },
         {
           "id": "aboriginal-q11-5",
@@ -914,14 +914,14 @@
             "Lack of interest from Elders"
           ],
           "correctAnswer": "Traditional initiation systems face disruption",
-          "explanation": "Modern challenges include ensuring knowledge transmission as traditional initiation systems face disruption. [cite: 677]"
+          "explanation": "Modern challenges include ensuring knowledge transmission as traditional initiation systems face disruption."
         },
         {
           "id": "aboriginal-q11-6",
           "type": "trueFalse",
           "question": "Young people increasingly seek Elder guidance to understand death and maintain spiritual connections.",
           "correctAnswer": "true",
-          "explanation": "Young people increasingly seek Elder guidance to understand death and maintain spiritual connections in contemporary contexts. [cite: 677]"
+          "explanation": "Young people increasingly seek Elder guidance to understand death and maintain spiritual connections in contemporary contexts."
         }
       ]
     },
@@ -929,7 +929,7 @@
       "id": "aboriginal-contemporary-challenges",
       "title": "Contemporary Challenges and Adaptations",
       "order": 12,
-      "content": "Modern Aboriginal communities face unique challenges in maintaining traditional death practices while navigating contemporary Australian society. Urban Aboriginal people may struggle to return deceased relatives to country for proper burial, requiring creative adaptations like carrying soil from homeland to urban funerals. Digital age presents dilemmas with social media profiles of deceased persons and online memorialization conflicting with image taboos. Some communities develop protocols for 'digital sorry business,' managing online presence after death. Climate change threatens sacred sites and disrupts seasonal ceremonial cycles. Legal systems often conflict with traditional practices around burial locations and timeframes. Despite challenges, remarkable resilience and innovation characterize contemporary approaches. Communities blend traditional and modern elements, using technology to maintain connections across vast distances while preserving essential spiritual elements. Young Aboriginal people increasingly reclaim traditional knowledge about death, seeing it as crucial for cultural identity and spiritual wellbeing. [cite: 678, 679, 680, 681]",
+      "content": "Modern Aboriginal communities face unique challenges in maintaining traditional death practices while navigating contemporary Australian society. Urban Aboriginal people may struggle to return deceased relatives to country for proper burial, requiring creative adaptations like carrying soil from homeland to urban funerals. Digital age presents dilemmas with social media profiles of deceased persons and online memorialization conflicting with image taboos. Some communities develop protocols for 'digital sorry business,' managing online presence after death. Climate change threatens sacred sites and disrupts seasonal ceremonial cycles. Legal systems often conflict with traditional practices around burial locations and timeframes. Despite challenges, remarkable resilience and innovation characterize contemporary approaches. Communities blend traditional and modern elements, using technology to maintain connections across vast distances while preserving essential spiritual elements. Young Aboriginal people increasingly reclaim traditional knowledge about death, seeing it as crucial for cultural identity and spiritual wellbeing.",
       "keyTerms": [
         "Urban adaptations",
         "Digital sorry business",
@@ -950,14 +950,14 @@
             "Avoid funerals entirely"
           ],
           "correctAnswer": "Carry soil from homeland to urban funerals",
-          "explanation": "Urban Aboriginal people may struggle to return deceased to country, requiring adaptations like carrying soil from homeland to urban funerals. [cite: 678]"
+          "explanation": "Urban Aboriginal people may struggle to return deceased to country, requiring adaptations like carrying soil from homeland to urban funerals."
         },
         {
           "id": "aboriginal-q12-2",
           "type": "trueFalse",
           "question": "Social media and digital memorialization pose no conflicts with traditional Aboriginal death practices.",
           "correctAnswer": "false",
-          "explanation": "Digital age presents dilemmas with social media profiles and online memorialization conflicting with image taboos. [cite: 679]"
+          "explanation": "Digital age presents dilemmas with social media profiles and online memorialization conflicting with image taboos."
         },
         {
           "id": "aboriginal-q12-3",
@@ -970,7 +970,7 @@
             "Digital payment for ceremonies"
           ],
           "correctAnswer": "Managing online presence after death",
-          "explanation": "Some communities develop protocols for 'digital sorry business,' managing online presence after death. [cite: 679]"
+          "explanation": "Some communities develop protocols for 'digital sorry business,' managing online presence after death."
         },
         {
           "id": "aboriginal-q12-4",
@@ -1004,14 +1004,14 @@
             "Urban living",
             "Distance from country"
           ],
-          "explanation": "Modern life presents multiple challenges requiring creative adaptations. [cite: 678, 679, 680]"
+          "explanation": "Modern life presents multiple challenges requiring creative adaptations."
         },
         {
           "id": "aboriginal-q12-5",
           "type": "trueFalse",
           "question": "Young Aboriginal people show increasing interest in traditional knowledge about death.",
           "correctAnswer": "true",
-          "explanation": "Young Aboriginal people increasingly reclaim traditional knowledge about death, seeing it as crucial for cultural identity and spiritual wellbeing. [cite: 681]"
+          "explanation": "Young Aboriginal people increasingly reclaim traditional knowledge about death, seeing it as crucial for cultural identity and spiritual wellbeing."
         },
         {
           "id": "aboriginal-q12-6",
@@ -1024,7 +1024,7 @@
             "By ignoring contemporary challenges"
           ],
           "correctAnswer": "Through technology to maintain connections while preserving spiritual elements",
-          "explanation": "Communities blend traditional and modern elements, using technology to maintain connections across vast distances while preserving essential spiritual elements. [cite: 680]"
+          "explanation": "Communities blend traditional and modern elements, using technology to maintain connections across vast distances while preserving essential spiritual elements."
         }
       ]
     }
@@ -1046,14 +1046,14 @@
           "A mythical dream sequence"
         ],
         "correctAnswer": "An eternal 'now'",
-        "explanation": "The Dreaming isn't past, present, or future but eternal now. [cite: 640]"
+        "explanation": "The Dreaming isn't past, present, or future but eternal now."
       },
       {
         "id": "aboriginal-mt-q2",
         "type": "trueFalse",
         "question": "Proper ceremonies are unimportant for a spirit's safe passage to the Dreaming.",
         "correctAnswer": "false",
-        "explanation": "Proper ceremonies ensure safe passage. Without them, spirits become mokoi or jarnpa—dangerous ghosts. [cite: 643]"
+        "explanation": "Proper ceremonies ensure safe passage. Without them, spirits become mokoi or jarnpa—dangerous ghosts."
       },
       {
         "id": "aboriginal-mt-q3",
@@ -1066,7 +1066,7 @@
           "They are annihilated"
         ],
         "correctAnswer": "They return to the Dreaming and merge with ancestral beings and land",
-        "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and land itself. [cite: 642]"
+        "explanation": "When individuals die, their spirits return to this eternal story-time, merging with ancestral beings and land itself."
       },
       {
         "id": "aboriginal-mt-q4",
@@ -1100,7 +1100,7 @@
           "Smoking ceremonies",
           "Rituals to guide spirits"
         ],
-        "explanation": "These are key elements of Aboriginal Australian beliefs. [cite: 639, 643, 644, 645]"
+        "explanation": "These are key elements of Aboriginal Australian beliefs."
       },
       {
         "id": "aboriginal-mt-q5",
@@ -1113,14 +1113,14 @@
           "Only certain tribes connect to land"
         ],
         "correctAnswer": "Country owns you—land shapes identity",
-        "explanation": "The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory. [cite: 667]"
+        "explanation": "The phrase 'country owns you' expresses how land shapes identity rather than humans possessing territory."
       },
       {
         "id": "aboriginal-mt-q6",
         "type": "trueFalse",
         "question": "Death taboos like avoiding names and images of deceased are arbitrary social customs with no spiritual significance.",
         "correctAnswer": "false",
-        "explanation": "These restrictions are understood as essential for preventing spiritual contamination or angering the deceased's spirit. [cite: 672]"
+        "explanation": "These restrictions are understood as essential for preventing spiritual contamination or angering the deceased's spirit."
       },
       {
         "id": "aboriginal-mt-q7",
@@ -1133,7 +1133,7 @@
           "Exclusively financial responsibilities"
         ],
         "correctAnswer": "Bridge between physical and spiritual worlds with sacred knowledge",
-        "explanation": "Elders hold crucial roles as bridges between physical and spiritual worlds, possessing knowledge about death, ceremony, and ancestral communication. [cite: 674]"
+        "explanation": "Elders hold crucial roles as bridges between physical and spiritual worlds, possessing knowledge about death, ceremony, and ancestral communication."
       },
       {
         "id": "aboriginal-mt-q8",
@@ -1167,14 +1167,14 @@
           "All groups",
           "Return to sacred dimension"
         ],
-        "explanation": "While specific beliefs vary by region, all share fundamental belief in return to sacred dimension. [cite: 647, 648, 649]"
+        "explanation": "While specific beliefs vary by region, all share fundamental belief in return to sacred dimension."
       },
       {
         "id": "aboriginal-mt-q9",
         "type": "trueFalse",
         "question": "Contemporary Aboriginal communities completely abandon traditional death practices in urban settings.",
         "correctAnswer": "false",
-        "explanation": "Communities blend traditional and modern elements, with remarkable resilience and innovation characterizing contemporary approaches. [cite: 680]"
+        "explanation": "Communities blend traditional and modern elements, with remarkable resilience and innovation characterizing contemporary approaches."
       },
       {
         "id": "aboriginal-mt-q10",
@@ -1187,7 +1187,7 @@
           "Modern fertility treatment"
         ],
         "correctAnswer": "Location where spirit entered mother's womb",
-        "explanation": "Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb. [cite: 666]"
+        "explanation": "Each person is connected to specific 'country' through conception dreaming—the location where their spirit entered their mother's womb."
       }
     ]
   }
