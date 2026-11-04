@@ -337,6 +337,12 @@ final class OracleViewController: UIViewController {
         guard !viewModel.isGenerating else {
             return
         }
+        if CompassionGuard.needsCare(text) {
+            messageTextView.text = ""
+            textViewDidChange(messageTextView)
+            viewModel.respondWithCare(to: text)
+            return
+        }
         guard let user = DatabaseManager.shared.fetchUser(),
               let deity = viewModel.selectedDeity else {
             return
@@ -675,6 +681,41 @@ extension OracleViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard viewModel.messages.indices.contains(indexPath.row),
+              viewModel.messages[indexPath.row].kind == .care else { return }
+        UIApplication.shared.open(CompassionGuard.helplineURL)
+    }
+
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard viewModel.messages.indices.contains(indexPath.row) else { return nil }
+        let message = viewModel.messages[indexPath.row]
+        guard !message.isUser, message.kind == .conversation, let deity = message.deity, !message.text.isEmpty else { return nil }
+        let question = viewModel.messages[..<indexPath.row].last(where: { $0.isUser })?.text
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let share = UIAction(title: String(localized: "Share as Card"), image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                self?.shareReply(message.text, question: question, deity: deity, at: indexPath)
+            }
+            let copy = UIAction(title: String(localized: "Copy"), image: UIImage(systemName: "doc.on.doc")) { _ in
+                UIPasteboard.general.string = message.text
+            }
+            return UIMenu(children: [share, copy])
+        }
+    }
+
+    /// Shares a reply as a card with the deity's name and the question it answered.
+    private func shareReply(_ reply: String, question: String?, deity: OracleViewModel.Deity, at indexPath: IndexPath) {
+        let image = OracleQuoteRenderer.render(reply: reply, question: question, deity: deity)
+        let message = String(localized: "I asked \(deity.name) about the afterlife. \(JudgmentViewModel.appStoreURL.absoluteString)")
+        let controller = UIActivityViewController(activityItems: [SoulCardShareItem(image: image), message], applicationActivities: nil)
+        controller.popoverPresentationController?.sourceView = tableView.cellForRow(at: indexPath) ?? view
+        controller.completionWithItemsHandler = { activity, completed, _, _ in
+            guard completed else { return }
+            Diagnostics.logUserAction("oracleReplyShared", parameters: ["deityId": deity.id, "activity": activity?.rawValue ?? "unknown"], category: .viewModel)
+        }
+        present(controller, animated: true)
+    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let viewportBottom = scrollView.bounds.height - scrollView.adjustedContentInset.bottom - scrollView.adjustedContentInset.top
         if scrollView.contentSize.height <= viewportBottom {
@@ -726,7 +767,7 @@ private class ChatMessageCell: UITableViewCell {
         bubbleView.layer.borderWidth = 1
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.numberOfLines = 0
-        messageLabel.font = .systemFont(ofSize: 16)
+        messageLabel.font = PapyrusDesignSystem.Typography.sans(16, textStyle: .callout)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -772,9 +813,26 @@ private class ChatMessageCell: UITableViewCell {
         }
         bubbleLeadingConstraint?.isActive = false
         bubbleTrailingConstraint?.isActive = false
+        if message.kind == .care {
+            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.12)
+            bubbleView.layer.borderColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.6).cgColor
+            messageLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
+            nameLabel.isHidden = true
+            bubbleTopConstraint?.constant = 8
+            bubbleBottomConstraint?.constant = -8
+            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
+            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            bubbleLeadingConstraint?.isActive = true
+            bubbleTrailingConstraint?.isActive = true
+            accessibilityTraits = .link
+            accessibilityHint = String(localized: "Opens findahelpline.com")
+            return
+        }
+        accessibilityTraits = .staticText
+        accessibilityHint = nil
         if message.isUser {
-            bubbleView.backgroundColor = UIColor.Papyrus.hieroglyphBlue
-            bubbleView.layer.borderColor = UIColor.Papyrus.gold.cgColor
+            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.surfaceRaised
+            bubbleView.layer.borderColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.5).cgColor
             messageLabel.textColor = UIColor.Papyrus.beige
             nameLabel.isHidden = true
             bubbleTopConstraint?.constant = 8
@@ -784,8 +842,8 @@ private class ChatMessageCell: UITableViewCell {
             bubbleTrailingConstraint?.isActive = true
             bubbleLeadingConstraint?.isActive = true
         } else {
-            bubbleView.backgroundColor = UIColor.Papyrus.cardBackground
-            bubbleView.layer.borderColor = UIColor.Papyrus.aged.cgColor
+            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
+            bubbleView.layer.borderColor = (message.deity.map { PapyrusDesignSystem.Colors.tradition($0.color) } ?? UIColor.white).withAlphaComponent(0.25).cgColor
             messageLabel.textColor = UIColor.Papyrus.primaryText
             if let deity = message.deity {
                 nameLabel.isHidden = false
@@ -827,13 +885,13 @@ private class ChatMessageCell: UITableViewCell {
     private func showText(of message: OracleViewModel.ChatMessage) {
         if message.isUser {
             messageLabel.attributedText = nil
-            messageLabel.font = .systemFont(ofSize: 16)
+            messageLabel.font = PapyrusDesignSystem.Typography.sans(16, textStyle: .callout)
             messageLabel.textColor = UIColor.Papyrus.beige
             messageLabel.text = message.text
         } else {
             messageLabel.attributedText = OracleTextFormatter.attributedText(
                 from: message.text,
-                font: .systemFont(ofSize: 16),
+                font: PapyrusDesignSystem.Typography.sans(16, textStyle: .callout),
                 color: UIColor.Papyrus.primaryText
             )
         }

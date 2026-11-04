@@ -68,7 +68,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
 
         if renderCachedExplanationIfAvailable() { return }
 
-        if mlxManager.isModelLoaded {
+        if OracleVoice.shared.isReady {
 
             downloadContainerView.isHidden = true
             contentTextView.isHidden = false
@@ -85,7 +85,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private func renderCachedExplanationIfAvailable() -> Bool {
         guard let cached = OracleExplanationCache.cachedResponse(
             kind: .keyword,
-            modelId: mlxManager.activeModel.id,
+            modelId: OracleVoice.shared.modelId,
             deityId: deity.id,
             input: keyword
         ) else { return false }
@@ -255,7 +255,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         
         
-        let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
+        let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         loadingView.setDeityColor(deityColor)
         
         NSLayoutConstraint.activate([
@@ -309,7 +309,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
         downloadContainerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
         downloadContainerView.layer.borderWidth = 1
-        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
+        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         downloadContainerView.layer.borderColor = traitCollection.userInterfaceStyle == .dark
             ? baseColor.withAlphaComponent(0.3).cgColor
             : PapyrusDesignSystem.Colors.aged.cgColor
@@ -453,7 +453,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         streamingTask = Task {
             do {
                 
-                if !mlxService.isModelLoaded {
+                if OracleVoice.shared.engine == .gemma, !mlxService.isModelLoaded {
                     try await mlxService.loadModel { progress in
                         
                     }
@@ -472,7 +472,12 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     repetitionPenalty: 1.1
                 )
                 
-                let stream = try await mlxService.generate(messages: messages, config: config)
+                let stream = OracleVoice.shared.stream(
+                    instructions: messages.first { $0.role == .system }?.content ?? "",
+                    prompt: messages.last { $0.role == .user }?.content ?? "",
+                    temperature: Double(config.temperature),
+                    maxTokens: config.maxTokens
+                )
                 
                 await MainActor.run {
                     self.loadingView.stopAnimating()
@@ -504,7 +509,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 guard !Task.isCancelled else { return }
                 OracleExplanationCache.storeResponse(
                     kind: .keyword,
-                    modelId: mlxManager.activeModel.id,
+                    modelId: OracleVoice.shared.modelId,
                     deityId: deity.id,
                     input: keyword,
                     text: fullText
@@ -581,7 +586,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     private func updateDownloadContainerColors() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
-        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
+        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         
         downloadContainerView.layer.borderColor = isDarkMode
             ? baseColor.withAlphaComponent(0.3).cgColor

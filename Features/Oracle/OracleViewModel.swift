@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import Combine
 import MidgarCore
+import MidgarIntelligence
 import AppOfTheDeadCore
 
 final class OracleViewModel: ObservableObject {
@@ -22,6 +23,8 @@ final class OracleViewModel: ObservableObject {
     
     
     private let modelManager = MLXModelManager.shared
+    private let voice = OracleVoice.shared
+    private let contentLoader = ContentLoader()
     private var cancellables = Set<AnyCancellable>()
     private var generationTask: Task<Void, Never>?
     private var activeGenerationID: UUID?
@@ -43,18 +46,26 @@ final class OracleViewModel: ObservableObject {
     
     
     struct ChatMessage {
+        /// What a message is: a turn of the conversation, or the app stepping out of the persona to offer help.
+        enum Kind {
+            case conversation
+            case care
+        }
+
         let id: UUID
         let text: String
         let isUser: Bool
         let deity: Deity?
         let timestamp: Date
-        
-        init(id: UUID = UUID(), text: String, isUser: Bool, deity: Deity?, timestamp: Date) {
+        let kind: Kind
+
+        init(id: UUID = UUID(), text: String, isUser: Bool, deity: Deity?, timestamp: Date, kind: Kind = .conversation) {
             self.id = id
             self.text = text
             self.isUser = isUser
             self.deity = deity
             self.timestamp = timestamp
+            self.kind = kind
         }
     }
     
@@ -86,13 +97,30 @@ final class OracleViewModel: ObservableObject {
         
         
         
-        isModelLoaded = modelManager.isModelLoaded
-        
+        isModelLoaded = voice.isReady
+
         if seedDemoConversation() { return }
+        askRequestedQuestion()
         
         Task {
             await checkAndAutoLoadModel()
         }
+    }
+
+    /// QA rig: `AOTD_ORACLE_ASK=<question>` asks the deity named by `AOTD_DEMO_DEITY` through the real model on launch,
+    /// so answers can be checked and captured on a device or simulator with Apple Intelligence.
+    private func askRequestedQuestion() {
+        #if DEBUG
+        let environment = ProcessInfo.processInfo.environment
+        guard let question = environment["AOTD_ORACLE_ASK"] else { return }
+        if let id = environment["AOTD_DEMO_DEITY"], let deity = availableDeities.first(where: { $0.id == id }) {
+            selectedDeity = deity
+        }
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1))
+            await self.sendMessage(question)
+        }
+        #endif
     }
 
     /// The screenshot rig fills the chat from a canned conversation and skips the model.
@@ -111,7 +139,21 @@ final class OracleViewModel: ObservableObject {
     
     
     func syncModelLoadedState() {
-        isModelLoaded = modelManager.isModelLoaded
+        isModelLoaded = voice.isReady
+    }
+
+    /// Which model answers on this iPhone.
+    var engine: OracleVoice.Engine {
+        voice.engine
+    }
+
+    /// Answers a message that speaks of self-harm in the app's own voice, with help, instead of the persona's. It is
+    /// not a consultation.
+    @MainActor
+    func respondWithCare(to text: String) {
+        messages.append(ChatMessage(text: text, isUser: true, deity: nil, timestamp: Date()))
+        messages.append(ChatMessage(text: CompassionGuard.message, isUser: false, deity: nil, timestamp: Date(), kind: .care))
+        MidgarLog.notice("Oracle answered a message with care resources", category: .viewModel)
     }
     
     func loadModel() async {
@@ -231,6 +273,7 @@ final class OracleViewModel: ObservableObject {
     
     
     private func checkAndAutoLoadModel() async {
+        guard voice.engine == .gemma else { return }
         
         let wasLoadedBefore = UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce")
         
@@ -383,31 +426,27 @@ final class OracleViewModel: ObservableObject {
         generationID: UUID,
         placeholderTimestamp: Date
     ) async {
+        let history = await MainActor.run { conversationHistory(with: deity, excluding: generationID) }
+        let grounding = OraclePrompt.grounding(deityId: deity.id, question: userMessage, systems: contentLoader.loadBeliefSystems())
+        let instructions = OraclePrompt.instructions(
+            persona: deity.systemPrompt,
+            deityName: deity.name,
+            grounding: grounding,
+            mentionsSelfHarm: OraclePrompt.mentionsSelfHarm(userMessage)
+        )
+        let prompt = OraclePrompt.prompt(question: userMessage, history: history)
         do {
             var streamedResponse = ""
-
-            let generatedText = try await modelManager.generate(
-                prompt: userMessage,
-                systemPrompt: deity.systemPrompt,
-                maxTokens: OracleTokenBudget.conversation,
-                temperature: 0.7,
-                useSystemPrompt: true
-            ) { token in
-                Task { @MainActor in
-                    streamedResponse += token
-                    self.applyStreamedResponse(
-                        streamedResponse,
-                        generationID: generationID,
-                        deity: deity,
-                        timestamp: placeholderTimestamp
-                    )
+            for try await delta in voice.stream(instructions: instructions, prompt: prompt, temperature: 0.7, maxTokens: OracleTokenBudget.conversation) {
+                try Task.checkCancellation()
+                streamedResponse += delta
+                let snapshot = streamedResponse
+                await MainActor.run {
+                    self.applyStreamedResponse(snapshot, generationID: generationID, deity: deity, timestamp: placeholderTimestamp)
                 }
             }
-
             try Task.checkCancellation()
-
-            let finalText = removeThinkTags(from: generatedText)
-
+            let finalText = removeThinkTags(from: streamedResponse)
             await MainActor.run {
                 self.completeGeneration(
                     generationID: generationID,
@@ -418,13 +457,50 @@ final class OracleViewModel: ObservableObject {
             }
         } catch is CancellationError {
             MidgarLog.debug("Oracle generation cancelled for deity \(deity.id)", category: .viewModel)
+        } catch MidgarIntelligenceError.onDeviceRefused {
+            MidgarLog.notice("Oracle model declined a question for \(deity.id)", category: .viewModel)
+            await MainActor.run {
+                self.declineGeneration(generationID: generationID, deity: deity)
+            }
         } catch {
             Diagnostics.logError(error, context: "Oracle generation", category: .mlx)
-
             await MainActor.run {
                 self.failGeneration(generationID: generationID, deity: deity, error: error)
             }
         }
+    }
+
+    /// The finished exchanges with `deity` in this conversation, oldest first, for the model's short memory.
+    @MainActor
+    private func conversationHistory(with deity: Deity, excluding generationID: UUID) -> [OraclePrompt.Turn] {
+        var turns: [OraclePrompt.Turn] = []
+        var pendingQuestion: String?
+        for message in messages where message.id != generationID && message.kind == .conversation {
+            if message.isUser {
+                pendingQuestion = message.text
+            } else if let question = pendingQuestion, message.deity?.id == deity.id, !message.text.isEmpty {
+                turns.append(OraclePrompt.Turn(question: question, answer: message.text))
+                pendingQuestion = nil
+            }
+        }
+        return turns
+    }
+
+    /// The model would not answer. The persona stays silent in character, and nothing is counted.
+    @MainActor
+    private func declineGeneration(generationID: UUID, deity: Deity) {
+        guard activeGenerationID == generationID else { return }
+        updateGeneratedMessage(
+            id: generationID,
+            text: String(localized: "\(deity.name) is silent on this. Ask it another way."),
+            deity: deity,
+            timestamp: Date()
+        )
+        activeGenerationID = nil
+        activeGenerationDeityId = nil
+        activeGenerationDelivered = false
+        generationTask = nil
+        isGenerating = false
     }
 
     @MainActor
@@ -450,6 +526,7 @@ final class OracleViewModel: ObservableObject {
             timestamp: timestamp
         )
         recordSuccessfulConsultation(deityId: deity.id)
+        AppFunnel.note(.oracleAnswered)
         activeGenerationID = nil
         activeGenerationDeityId = nil
         activeGenerationDelivered = false

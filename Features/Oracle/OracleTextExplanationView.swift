@@ -71,7 +71,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         setupUI()
         
         
-        if mlxManager.isModelLoaded {
+        if OracleVoice.shared.isReady {
             
             downloadContainerView.isHidden = true
             responseTextView.isHidden = false
@@ -399,7 +399,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         streamingTask = Task {
             do {
                 
-                if !mlxService.isModelLoaded {
+                if OracleVoice.shared.engine == .gemma, !mlxService.isModelLoaded {
                     try await mlxService.loadModel { progress in
                         
                     }
@@ -430,7 +430,12 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     repetitionPenalty: 1.1
                 )
                 
-                let stream = try await mlxService.generate(messages: messages, config: config)
+                let stream = OracleVoice.shared.stream(
+                    instructions: messages.first { $0.role == .system }?.content ?? "",
+                    prompt: messages.last { $0.role == .user }?.content ?? "",
+                    temperature: Double(config.temperature),
+                    maxTokens: config.maxTokens
+                )
                 
                 await MainActor.run {
                     
