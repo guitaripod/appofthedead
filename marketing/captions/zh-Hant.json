@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "審判", "headline": "你的靈魂將去往何方？", "glow": "#E5BA5C"},
+ "charon": {"kicker": "九問六種來世", "headline": "回答死者的審判官", "glow": "#A98BF0"},
+ "weighing": {"kicker": "兩真理之殿", "headline": "你的心與羽毛相比", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "你的靈魂卡", "headline": "看看朋友們會去哪裡", "glow": "#F07E62"},
+ "oracle": {"kicker": "神諭", "headline": "與眾神對話", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22種來世", "headline": "從瓦爾哈拉到杜阿特", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "故事卡片課程", "headline": "每天五分鐘", "glow": "#E5BA5C"},
+ "home": {"kicker": "每日神兆", "headline": "每天一問，跨越所有信仰", "glow": "#7FA8F5"}
+}

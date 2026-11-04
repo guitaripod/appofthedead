@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "O Julgamento", "headline": "Para onde irá a sua alma?", "glow": "#E5BA5C"},
+ "charon": {"kicker": "Nove perguntas, seis pós-vidas", "headline": "Responda aos juízes dos mortos", "glow": "#A98BF0"},
+ "weighing": {"kicker": "O Salão das Duas Verdades", "headline": "Seu coração contra a pena", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "Seu Cartão da Alma", "headline": "Veja onde seus amigos vão parar", "glow": "#F07E62"},
+ "oracle": {"kicker": "O Oráculo", "headline": "Converse com os deuses", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22 pós-vidas", "headline": "Do Valhalla ao Duat", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "Lições em cartões narrativos", "headline": "Cinco minutos por dia", "glow": "#E5BA5C"},
+ "home": {"kicker": "Um presságio diário", "headline": "Uma pergunta por dia, qualquer fé", "glow": "#7FA8F5"}
+}

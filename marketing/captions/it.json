@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "Il Giudizio", "headline": "Dove andrà la tua anima?", "glow": "#E5BA5C"},
+ "charon": {"kicker": "Nove domande, sei aldilà", "headline": "Rispondi ai giudici dei morti", "glow": "#A98BF0"},
+ "weighing": {"kicker": "La Sala delle Due Verità", "headline": "Il tuo cuore contro la piuma", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "La tua Carta dell'Anima", "headline": "Scopri dove finiranno i tuoi amici", "glow": "#F07E62"},
+ "oracle": {"kicker": "L'Oracolo", "headline": "Parla con gli dèi", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22 aldilà", "headline": "Dal Valhalla al Duat", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "Lezioni a carte storia", "headline": "Cinque minuti al giorno", "glow": "#E5BA5C"},
+ "home": {"kicker": "Un presagio quotidiano", "headline": "Una domanda al giorno, ogni fede", "glow": "#7FA8F5"}
+}

@@ -1,0 +1,42 @@
+{
+ "verdict": {
+  "kicker": "The Judgment",
+  "headline": "Where will your soul go?",
+  "glow": "#E5BA5C"
+ },
+ "charon": {
+  "kicker": "Nine questions, six afterlives",
+  "headline": "Answer to the judges of the dead",
+  "glow": "#A98BF0"
+ },
+ "weighing": {
+  "kicker": "The Hall of Two Truths",
+  "headline": "Your heart against the feather",
+  "glow": "#E5BA5C"
+ },
+ "soulcard": {
+  "kicker": "Your Soul Card",
+  "headline": "See where your friends end up",
+  "glow": "#F07E62"
+ },
+ "oracle": {
+  "kicker": "The Oracle",
+  "headline": "Talk to the gods",
+  "glow": "#D4A574"
+ },
+ "pathmap": {
+  "kicker": "22 afterlives",
+  "headline": "From Valhalla to the Duat",
+  "glow": "#9A7BE6"
+ },
+ "lesson": {
+  "kicker": "Story-card lessons",
+  "headline": "Five minutes a day",
+  "glow": "#E5BA5C"
+ },
+ "home": {
+  "kicker": "A daily omen",
+  "headline": "One question a day from any faith",
+  "glow": "#7FA8F5"
+ }
+}

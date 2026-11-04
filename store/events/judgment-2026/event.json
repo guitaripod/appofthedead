@@ -1,0 +1,101 @@
+{
+  "referenceName": "App of the Dead 2.0 - The Judgment",
+  "badge": "MAJOR_UPDATE",
+  "purpose": "ATTRACT_NEW_USERS",
+  "priority": "HIGH",
+  "primaryLocale": "en-US",
+  "deepLink": "appofthedead://judgment",
+  "purchaseRequirement": "NO_COST_ASSOCIATED",
+  "schedule": {
+    "publishStart": "2026-11-06T00:00:00Z",
+    "eventStart": "2026-11-06T00:00:00Z",
+    "eventEnd": "2026-12-06T23:59:59Z"
+  },
+  "localizations": {
+    "en-US": {
+      "name": "Face the Judgment",
+      "shortDescription": "Six afterlives weigh your soul in two minutes",
+      "longDescription": "Where will your soul go? Answer nine guardians of the dead, get your verdict in six traditions, share your Soul Card."
+    },
+    "de-DE": {
+      "name": "Stelle dich dem Totengericht",
+      "shortDescription": "Sechs Religionen wägen deine Seele in zwei Minuten",
+      "longDescription": "Wohin geht deine Seele? Antworte neun Totenwächtern, erhalte dein Urteil aus sechs Traditionen, teile deine Seelenkarte."
+    },
+    "fr-FR": {
+      "name": "Affrontez le Jugement",
+      "shortDescription": "Six au-delà pèsent votre âme en deux minutes",
+      "longDescription": "Où ira votre âme ? Répondez à neuf gardiens des morts, recevez le verdict de six traditions, partagez votre Carte."
+    },
+    "es-ES": {
+      "name": "Enfréntate al Juicio",
+      "shortDescription": "Seis religiones pesan tu alma en dos minutos",
+      "longDescription": "¿Adónde irá tu alma? Responde a nueve guardianes de la muerte, recibe veredicto de seis tradiciones y comparte tu Carta."
+    },
+    "it": {
+      "name": "Affronta il Giudizio",
+      "shortDescription": "Sei religioni pesano la tua anima in due minuti",
+      "longDescription": "Dove andrà la tua anima? Rispondi a nove custodi dei morti, ricevi il verdetto di sei tradizioni e condividi la Carta."
+    },
+    "ja": {
+      "name": "審判に臨め",
+      "shortDescription": "六つの来世が二分であなたの魂を量る",
+      "longDescription": "あなたの魂はどこへ向かうのか。死者の九人の番人に答え、六つの伝統による判定を受けて、魂のカードを共有しよう。"
+    },
+    "ko": {
+      "name": "심판을 마주하라",
+      "shortDescription": "여섯 종교가 2분 만에 당신의 영혼을 저울질한다",
+      "longDescription": "당신의 영혼은 어디로 갈까요? 죽은 자를 지키는 아홉 수호자에게 답하고, 여섯 전통의 판결을 받아 영혼 카드를 공유하세요."
+    },
+    "pt-BR": {
+      "name": "Enfrente o Julgamento",
+      "shortDescription": "Seis religiões pesam sua alma em dois minutos",
+      "longDescription": "Para onde vai sua alma? Responda a nove guardiões da morte, receba o veredito de seis tradições e compartilhe o Cartão."
+    },
+    "zh-Hans": {
+      "name": "直面审判",
+      "shortDescription": "六种来世在两分钟内称量你的灵魂",
+      "longDescription": "你的灵魂将去往何方？回答九位亡者守护者的提问，获得六种传统的裁决，并分享你的灵魂卡。"
+    },
+    "zh-Hant": {
+      "name": "直面審判",
+      "shortDescription": "六種來世在兩分鐘內秤量你的靈魂",
+      "longDescription": "你的靈魂將前往何方？回答九位亡者守護者的提問，取得六種傳統的裁決，並分享你的靈魂卡。"
+    },
+    "pl": {
+      "name": "Stań przed Sądem",
+      "shortDescription": "Sześć zaświatów waży twoją duszę w dwie minuty",
+      "longDescription": "Dokąd trafi twoja dusza? Odpowiedz dziewięciu strażnikom zmarłych, poznaj werdykt sześciu tradycji i pokaż Kartę Duszy."
+    },
+    "ru": {
+      "name": "Предстань перед Судом",
+      "shortDescription": "Шесть религий взвесят твою душу за две минуты",
+      "longDescription": "Куда отправится твоя душа? Ответь девяти стражам мёртвых, получи приговор шести традиций и поделись своей Картой души."
+    },
+    "tr": {
+      "name": "Yargıyla Yüzleş",
+      "shortDescription": "Altı ahiret inancı iki dakikada ruhunu tartar",
+      "longDescription": "Ruhun nereye gidecek? Dokuz ölüler koruyucusunu yanıtla, altı geleneğin hükmünü öğren ve Ruh Kartını paylaş."
+    },
+    "ar-SA": {
+      "name": "إلى أين تذهب روحك؟",
+      "shortDescription": "ستة معتقدات للحياة الآخرة تزن روحك في دقيقتين",
+      "longDescription": "إلى أين ستذهب روحك؟ أجب تسعة من حراس الموتى، واحصل على الحكم وفق ست تقاليد، وشارك بطاقة روحك."
+    },
+    "id": {
+      "name": "Hadapi Penghakiman",
+      "shortDescription": "Enam alam baka menimbang jiwamu dalam dua menit",
+      "longDescription": "Ke mana jiwamu pergi? Jawab sembilan penjaga orang mati, dapatkan vonis dari enam tradisi, bagikan Kartu Jiwamu."
+    },
+    "th": {
+      "name": "เผชิญการพิพากษา",
+      "shortDescription": "หกภพหลังความตายชั่งวิญญาณของคุณในสองนาที",
+      "longDescription": "วิญญาณของคุณจะไปที่ใด ตอบคำถามผู้พิทักษ์แห่งความตายทั้งเก้า รับคำตัดสินจากหกประเพณี แล้วแชร์การ์ดวิญญาณของคุณ"
+    },
+    "vi": {
+      "name": "Đối diện Phán xét",
+      "shortDescription": "Sáu cõi âm cân linh hồn bạn trong hai phút",
+      "longDescription": "Linh hồn bạn sẽ về đâu? Trả lời chín vị thần giữ người chết, nhận phán quyết sáu truyền thống và chia sẻ Thẻ Linh Hồn."
+    }
+  }
+}
