@@ -17,7 +17,7 @@ This replaces the earlier label, "Data Not Collected", which no longer holds onc
 | Identifiers, User ID | Yes | No | App Functionality | The random Midgar ID: sent as the sign-in token to `api.midgarcorp.cc` to ask the purchase ledger what the ID owns and for "Your Midgar" in the More Apps screen. |
 | Identifiers, Device ID | Yes | No | App Functionality | The app reads no advertising identifier and no vendor identifier. MidgarKit's App Attest key id, per app and per device, stored with the Midgar ID when the ID is created or joined. App Store and TestFlight builds use App Attest's production environment whether or not the app has the App Attest entitlement (Apple, App Attest Environment entitlement), so released builds create it. |
 | Purchases, Purchase History | Yes | No | App Functionality | The App Store transactions of the paths, deity packs, Oracle Wisdom, Ultimate Enlightenment and the Premium subscription. The app buys them through StoreKit 2 with the Midgar ID as the App Store `appAccountToken` and reports each signed transaction to Midgar's purchase ledger, which verifies it from the signed App Store transaction and keeps it linked to the Midgar ID; the ledger also receives Apple's signed notifications for the app. |
-| Usage Data, Product Interaction | No | No | Analytics | The anonymous More Apps events (opened, shown, tapped) sent by MidgarKit with no identifier. |
+| Usage Data, Product Interaction | No | No | Analytics | Anonymous counts sent by MidgarKit with no identifier: the More Apps events (opened, shown, tapped), daily, weekly and monthly active installs, purchase-screen views by placement, and purchases by product. |
 
 Everything else is "Data Not Collected".
 

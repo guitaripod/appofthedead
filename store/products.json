@@ -33,7 +33,7 @@
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
-          "reviewNote": "Premium (annual with 7-day free trial, and monthly) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears once after the user's first completed lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, and from Profile > Upgrade. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears after a finished lesson at most every third lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, once when the in-app Premium Week ends, and from Profile > Upgrade. The Premium Week is not a store trial: finishing the Judgment quiz opens every path for seven days with no purchase, no sign-up and nothing that renews. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
         },
         {
           "productId": "com.appofthedead.premium.monthly",
@@ -56,7 +56,7 @@
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
-          "reviewNote": "Premium (annual with 7-day free trial, and monthly) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears once after the user's first completed lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, and from Profile > Upgrade. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears after a finished lesson at most every third lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, once when the in-app Premium Week ends, and from Profile > Upgrade. The Premium Week is not a store trial: finishing the Judgment quiz opens every path for seven days with no purchase, no sign-up and nothing that renews. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
         }
       ]
     }
