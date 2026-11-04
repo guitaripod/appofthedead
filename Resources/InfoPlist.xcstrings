@@ -1,0 +1,78 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSPhotoLibraryAddUsageDescription": {
+      "comment": "Shown when saving a Soul Card or an Oracle card to Photos.",
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Save your Soul Card and Oracle cards to your photos."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speichere deine Seelenkarte und Orakelkarten in deinen Fotos."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guarda tu tarjeta del alma y tus cartas del Oráculo en tus fotos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer votre carte d'âme et vos cartes de l'Oracle dans vos photos."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva la tua Carta dell'anima e le carte dell'Oracolo nelle tue foto."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ソウルカードとオラクルカードを写真に保存します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사진에 영혼 카드와 오라클 카드를 저장할 수 있게 해 주세요."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zapisz swoją kartę duszy i karty Wyroczni w zdjęciach."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salve seu Cartão da Alma e os cartões do Oráculo nas suas fotos."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将你的灵魂卡与神谕卡存入照片。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將你的靈魂卡與神諭卡儲存到照片圖庫。"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
