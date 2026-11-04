@@ -110,12 +110,15 @@ final class PathMapViewController: UIViewController {
         canvas.configure(nodes: viewModel.nodes, crown: viewModel.crown)
     }
 
+    /// Brings the next lesson into view when it sits below the fold; a path that has barely begun keeps its header.
     private func scrollToFocus(animated: Bool) {
         guard let frame = canvas.focusFrame() else { return }
         let target = canvas.convert(frame, to: scrollView)
-        let offset = max(0, min(target.midY - scrollView.bounds.height * 0.45, scrollView.contentSize.height - scrollView.bounds.height + scrollView.adjustedContentInset.bottom))
-        guard offset > 0 else { return }
-        scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: animated)
+        let visibleHeight = scrollView.bounds.height - scrollView.adjustedContentInset.top - scrollView.adjustedContentInset.bottom
+        guard target.maxY > scrollView.adjustedContentInset.top + visibleHeight * 0.8 else { return }
+        let lowest = scrollView.contentSize.height - scrollView.bounds.height + scrollView.adjustedContentInset.bottom
+        let offset = min(target.midY - scrollView.bounds.height * 0.45, lowest)
+        scrollView.setContentOffset(CGPoint(x: 0, y: max(-scrollView.adjustedContentInset.top, offset)), animated: animated)
     }
 
     private func selectLesson(_ index: Int) {

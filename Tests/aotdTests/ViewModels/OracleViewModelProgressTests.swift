@@ -67,8 +67,8 @@ import XCTest
         let initialLoadedState = viewModel.isModelLoaded
         viewModel.syncModelLoadedState()
         
-        XCTAssertEqual(viewModel.isModelLoaded, MLXModelManager.shared.isModelLoaded,
-                      "After sync, viewModel state should match singleton state")
+        XCTAssertEqual(viewModel.isModelLoaded, OracleVoice.shared.isReady,
+                      "After sync, the view model is ready exactly when the Oracle's voice can answer")
         
         
         XCTAssertEqual(viewModel.downloadProgress, 0.0, accuracy: 0.001,

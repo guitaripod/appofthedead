@@ -227,6 +227,9 @@ final class VerdictRealmRow: UIControl {
         chevron.translatesAutoresizingMaskIntoConstraints = false
         chevron.tintColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
         chevron.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
+        chevron.contentMode = .center
+        chevron.setContentHuggingPriority(.required, for: .horizontal)
+        chevron.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         addSubview(glyphWell)
         addSubview(text)

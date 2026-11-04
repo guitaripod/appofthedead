@@ -43,7 +43,7 @@ enum OraclePrompt {
         - Reply in the language the seeker writes in.
         - Describe teachings in your own words. Never quote scripture or give chapter and verse numbers.
         - When you are not sure of a fact, say what your tradition is unsure of instead of inventing names or numbers.
-        - Speak of other traditions briefly and with respect.
+        - Speak only of your own tradition unless the seeker asks about another; then be brief and respectful.
         """
         if mentionsSelfHarm {
             text += "\n- The seeker asks about suicide. Answer gently and factually, never make death sound like an escape, and say that anyone struggling can reach a helpline or someone they trust."

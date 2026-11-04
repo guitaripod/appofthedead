@@ -72,6 +72,8 @@ enum DemoWorld {
             presentJudgment(scenesAnswered: JudgmentScript.scenes.count, in: context)
         case "judgment-verdict":
             presentJudgment(scenesAnswered: JudgmentScript.scenes.count, finish: true, in: context)
+        case "soul-card":
+            presentSoulCard(in: context)
         case "lesson-complete":
             presentLessonComplete(in: context)
         case "lesson":
@@ -115,6 +117,23 @@ enum DemoWorld {
         if finish {
             viewModel.finishWeighing()
         }
+    }
+
+    /// The Soul Card the demo answers earn, full screen on black, as a photo viewer shows it after saving.
+    private static func presentSoulCard(in context: DemoContext) {
+        var soul = SoulRecord()
+        for (scene, pick) in zip(JudgmentScript.scenes, demoAnswers) {
+            soul.record(scene.answers[pick])
+        }
+        let screen = UIViewController()
+        screen.view.backgroundColor = .black
+        let image = UIImageView(image: SoulCardRenderer.render(JudgmentEngine.verdict(for: soul)))
+        image.contentMode = .scaleAspectFit
+        image.frame = screen.view.bounds
+        image.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        screen.view.addSubview(image)
+        screen.modalPresentationStyle = .fullScreen
+        context.root.present(screen, animated: false)
     }
 
     private static func beliefSystem(_ id: String, in context: DemoContext) -> BeliefSystem? {

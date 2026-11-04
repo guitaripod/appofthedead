@@ -107,8 +107,9 @@ final class OracleViewModel: ObservableObject {
         }
     }
 
-    /// QA rig: `AOTD_ORACLE_ASK=<question>` asks the deity named by `AOTD_DEMO_DEITY` through the real model on launch,
-    /// so answers can be checked and captured on a device or simulator with Apple Intelligence.
+    /// QA rig: `AOTD_ORACLE_ASK=<question>|<question>` asks the deity named by `AOTD_DEMO_DEITY` through the real model on
+    /// launch, one question after another, so answers can be checked and captured on a device or simulator with Apple
+    /// Intelligence.
     private func askRequestedQuestion() {
         #if DEBUG
         let environment = ProcessInfo.processInfo.environment
@@ -118,7 +119,9 @@ final class OracleViewModel: ObservableObject {
         }
         Task { @MainActor in
             try? await Task.sleep(for: .seconds(1))
-            await self.sendMessage(question)
+            for part in question.split(separator: "|") {
+                await self.sendMessage(String(part))
+            }
         }
         #endif
     }
@@ -126,7 +129,8 @@ final class OracleViewModel: ObservableObject {
     /// The screenshot rig fills the chat from a canned conversation and skips the model.
     private func seedDemoConversation() -> Bool {
         #if DEBUG
-        guard let conversation = DemoOracle.conversation(for: availableDeities) else { return false }
+        guard ProcessInfo.processInfo.environment["AOTD_ORACLE_ASK"] == nil,
+              let conversation = DemoOracle.conversation(for: availableDeities) else { return false }
         selectedDeity = conversation.deity
         messages = conversation.messages
         isModelLoaded = true
