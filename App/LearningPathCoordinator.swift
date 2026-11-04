@@ -348,9 +348,11 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     }
 
     /// Offers the paywall when ``LessonOffer`` says a finished lesson is the moment: the value moment converts
-    /// best on Day 0, and the paywall stays dismissible, with the next lesson already waiting underneath it.
+    /// best on Day 0, and the paywall stays dismissible, with the next lesson already waiting underneath it. Lessons
+    /// during the Premium Week are not counted: the policy remembers ownership for good, and the week owns nothing.
     private func offerAfterLessonIfDue() {
-        guard LessonOffer.policy.noteValue(isOwned: StoreAccess.shared.hasEverythingOpen) else { return }
+        guard !StoreAccess.shared.isPremiumWeekActive else { return }
+        guard LessonOffer.policy.noteValue(isOwned: StoreAccess.shared.hasAllAccess) else { return }
         LessonOffer.policy.noteOffered()
         let paywall = PaywallViewController(reason: .lessonFinished(nextPath: curiousPathToOffer()))
         navigationController.present(paywall, animated: true)
@@ -364,9 +366,10 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         return (system.id, system.name)
     }
     
+    /// Marks the lesson in progress, unless it is a replay of a lesson already done: that one stays completed.
     private func saveLessonStarted(lesson: Lesson) {
         FreePaths.shared.recordLessonStarted(in: beliefSystem.id)
-        guard let user = databaseManager.fetchUser() else { return }
+        guard !isReplayMode, let user = databaseManager.fetchUser() else { return }
         
         do {
             try databaseManager.createOrUpdateProgress(

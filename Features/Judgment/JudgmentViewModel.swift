@@ -42,7 +42,7 @@ final class JudgmentViewModel {
         entry: Entry,
         store: JudgmentStore = JudgmentStore(),
         premiumWeek: PremiumWeekPass = .shared,
-        ownsAllAccess: @escaping () -> Bool = { StoreAccess.shared.hasAllAccess }
+        ownsAllAccess: @escaping () -> Bool = { StoreAccess.shared.ownsAnyPurchase }
     ) {
         self.entry = entry
         self.store = store

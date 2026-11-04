@@ -45,6 +45,12 @@ final class StoreAccess {
         isDemoPremium || entitlements.contains(AotdEntitlement.allAccess)
     }
 
+    /// True when the person owns anything at all: any path, pack, Oracle Wisdom, Ultimate or Premium. A buyer never gets
+    /// a Premium Week.
+    var ownsAnyPurchase: Bool {
+        isDemoPremium || !entitlements.isEmpty
+    }
+
     /// True while the Premium Week runs: every path and the unlimited Oracle are open, though nothing is owned.
     var isPremiumWeekActive: Bool {
         premiumWeek.isActive

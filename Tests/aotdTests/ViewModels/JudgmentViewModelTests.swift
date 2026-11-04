@@ -106,6 +106,15 @@ import AppOfTheDeadCore
         XCTAssertEqual(pass.phase, .notStarted)
     }
 
+    func testABuyerOfASinglePathGetsNoPremiumWeekEither() {
+        let access = StoreAccess(store: nil, cache: EntitlementCache(defaults: defaults), notifications: NotificationCenter())
+        XCTAssertFalse(access.ownsAnyPurchase)
+        EntitlementCache(defaults: defaults).record(["path_norse"])
+        let owner = StoreAccess(store: nil, cache: EntitlementCache(defaults: defaults), notifications: NotificationCenter())
+        XCTAssertTrue(owner.ownsAnyPurchase)
+        XCTAssertFalse(owner.hasAllAccess)
+    }
+
     func testReviewOpensOnTheSavedVerdict() {
         let verdict = JudgmentEngine.verdict(for: SoulRecord(scores: [.courage: 5], manner: .battle))
         let (viewModel, _) = makeViewModel(entry: .review(verdict))

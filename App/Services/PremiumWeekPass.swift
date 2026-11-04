@@ -35,39 +35,52 @@ nonisolated struct PremiumWeekStore {
         if usesKeychain { Self.writeKeychainStart(date.timeIntervalSince1970) }
     }
 
+    /// Whether the end was announced. Kept in the keychain beside the start, so a reinstall does not announce it again.
     var endAnnounced: Bool {
-        get { defaults.bool(forKey: Self.announcedKey) }
-        nonmutating set { defaults.set(newValue, forKey: Self.announcedKey) }
+        get { defaults.bool(forKey: Self.announcedKey) || (usesKeychain && Self.keychainValue(account: Self.announcedAccount) != nil) }
+        nonmutating set {
+            defaults.set(newValue, forKey: Self.announcedKey)
+            if usesKeychain && newValue { Self.writeKeychainValue("1", account: Self.announcedAccount) }
+        }
     }
 
-    private static var baseQuery: [String: Any] {
+    private static let announcedAccount = "endAnnounced"
+
+    private static func baseQuery(account: String) -> [String: Any] {
         [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: keychainService,
-            kSecAttrAccount as String: keychainAccount,
+            kSecAttrAccount as String: account,
         ]
     }
 
     private static func keychainStart() -> Double? {
-        var query = baseQuery
+        keychainValue(account: keychainAccount).flatMap(Double.init)
+    }
+
+    private static func keychainValue(account: String) -> String? {
+        var query = baseQuery(account: account)
         query[kSecReturnData as String] = true
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         var result: CFTypeRef?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
-              let data = result as? Data,
-              let text = String(data: data, encoding: .utf8)
+              let data = result as? Data
         else { return nil }
-        return Double(text)
+        return String(data: data, encoding: .utf8)
     }
 
     /// Adds the item once; a start that is already stored is never moved, so a wound clock cannot hand out a later week.
     private static func writeKeychainStart(_ seconds: Double) {
-        var query = baseQuery
-        query[kSecValueData as String] = Data(String(seconds).utf8)
+        writeKeychainValue(String(seconds), account: keychainAccount)
+    }
+
+    private static func writeKeychainValue(_ value: String, account: String) {
+        var query = baseQuery(account: account)
+        query[kSecValueData as String] = Data(value.utf8)
         query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         let status = SecItemAdd(query as CFDictionary, nil)
         if status != errSecSuccess && status != errSecDuplicateItem {
-            MidgarLog.notice("Premium Week start not written to the keychain: \(status)", category: .purchases)
+            MidgarLog.notice("Premium Week \(account) not written to the keychain: \(status)", category: .purchases)
         }
     }
 }
@@ -75,7 +88,16 @@ nonisolated struct PremiumWeekStore {
 /// The person's Premium Week: whether it runs, when it ends, and starting it at the Judgment's verdict. A buyer never
 /// gets one, and a week that has ended never comes back.
 nonisolated final class PremiumWeekPass: @unchecked Sendable {
-    static let shared = PremiumWeekPass(store: .live())
+    static let shared = PremiumWeekPass(store: sharedStore())
+
+    /// The keychain-backed store, except in a unit-test host, where a week left in the simulator's keychain would open
+    /// every path for the tests: there the week starts from a blank, throwaway defaults suite.
+    private static func sharedStore() -> PremiumWeekStore {
+        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil else { return .live() }
+        let suite = "aotd.tests.premiumWeek"
+        UserDefaults.standard.removePersistentDomain(forName: suite)
+        return .local(defaults: UserDefaults(suiteName: suite) ?? .standard)
+    }
     static let changedNotification = Notification.Name("aotd.premiumWeek.changed")
 
     private let store: PremiumWeekStore
