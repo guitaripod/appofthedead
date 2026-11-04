@@ -51,11 +51,10 @@ extension StoreKitSuites {
             let session = try SKTestSession(contentsOf: productsConfigurationURL)
             session.resetToDefaultState()
             session.clearTransactions()
+            try #require(await eventually { await currentEntitlementIDs().isEmpty })
             session.disableDialogs = true
             session.askToBuyEnabled = false
-            for product in earlier {
-                _ = try await session.buyProduct(identifier: product.rawValue)
-            }
+            try await buyEarlier(earlier, in: session)
             session.askToBuyEnabled = askToBuy
             GatewayStub.reset()
             GatewayStub.setDown(gatewayDown)
@@ -76,6 +75,37 @@ extension StoreKitSuites {
             return Harness(
                 store: store, access: access, manager: manager, session: session, notifications: notifications,
                 directory: directory)
+        }
+
+        /// Buys the purchases of an owner from before the move and waits until StoreKit lists all of them. A purchase that a
+        /// late `clearTransactions()` wiped is bought once more.
+        private func buyEarlier(_ earlier: [ProductIdentifier], in session: SKTestSession) async throws {
+            for product in earlier {
+                _ = try await session.buyProduct(identifier: product.rawValue)
+            }
+            guard !(await currentEntitlementsHold(earlier)) else { return }
+            let owned = await currentEntitlementIDs()
+            for product in earlier where !owned.contains(product.rawValue) {
+                _ = try await session.buyProduct(identifier: product.rawValue)
+            }
+            try #require(await currentEntitlementsHold(earlier))
+        }
+
+        /// Waits until StoreKit lists every earlier purchase among its current entitlements: the test session returns from
+        /// `buyProduct` before the last of several purchases reaches `Transaction.currentEntitlements`.
+        private func currentEntitlementsHold(_ products: [ProductIdentifier]) async -> Bool {
+            let wanted = Set(products.map(\.rawValue))
+            return await eventually { wanted.isSubset(of: await currentEntitlementIDs()) }
+        }
+
+        /// The product ids StoreKit currently lists as owned. `clearTransactions()` lands a moment after it returns, so a
+        /// purchase made before it lands is wiped with the rest; the harness waits for this to be empty first.
+        private func currentEntitlementIDs() async -> Set<String> {
+            var found = Set<String>()
+            for await verification in Transaction.currentEntitlements {
+                if case .verified(let transaction) = verification { found.insert(transaction.productID) }
+            }
+            return found
         }
 
         private func midgarIDOfCurrentTransaction(for product: ProductIdentifier) async -> UUID? {
