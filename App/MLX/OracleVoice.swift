@@ -92,6 +92,8 @@ struct ThinkBlockFilter {
         if let open = buffer.range(of: "<think>") {
             guard let close = buffer.range(of: "</think>", range: open.upperBound..<buffer.endIndex) else { return nil }
             visible = String(buffer[..<open.lowerBound]) + String(buffer[close.upperBound...]).trimmingLeadingWhitespace()
+        } else if let partial = Self.partialOpenTag(at: buffer) {
+            visible = String(buffer.dropLast(partial))
         } else {
             visible = buffer
         }
@@ -99,6 +101,17 @@ struct ThinkBlockFilter {
         let delta = String(visible.dropFirst(emitted))
         emitted = visible.count
         return delta
+    }
+}
+
+extension ThinkBlockFilter {
+    /// How many characters at the end of `text` could be the start of `<think>`, held back until the next chunk.
+    static func partialOpenTag(at text: String) -> Int? {
+        let tag = "<think>"
+        for length in stride(from: tag.count - 1, through: 1, by: -1) where text.hasSuffix(String(tag.prefix(length))) {
+            return length
+        }
+        return nil
     }
 }
 

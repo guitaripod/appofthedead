@@ -333,7 +333,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         downloadButton.setTitle(DeviceUtility.isSimulator ? String(localized: "Use Physical Device") : String(localized: "Download Oracle Model"), for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = baseColor
-        downloadButton.setTitleColor(.white, for: .normal)
+        downloadButton.setTitleColor(PapyrusDesignSystem.Colors.Core.ink, for: .normal)
         downloadButton.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.medium
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         downloadButton.isEnabled = !DeviceUtility.isSimulator

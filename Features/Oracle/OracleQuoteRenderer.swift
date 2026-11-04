@@ -6,6 +6,7 @@ enum OracleQuoteRenderer {
 
     static let size = CGSize(width: 1080, height: 1350)
     private static let answerLimit = 420
+    private static let denseAnswerLimit = 190
 
     @MainActor
     static func render(reply: String, question: String?, deity: OracleViewModel.Deity) -> UIImage {
@@ -27,9 +28,10 @@ enum OracleQuoteRenderer {
             .replacingOccurrences(of: "**", with: "")
             .replacingOccurrences(of: "__", with: "")
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        guard plain.count > answerLimit else { return plain }
-        let head = String(plain.prefix(answerLimit))
-        if let end = head.lastIndex(where: { ".!?。！？".contains($0) }), head.distance(from: head.startIndex, to: end) > answerLimit / 2 {
+        let limit = plain.unicodeScalars.contains { $0.value >= 0x2E80 } ? denseAnswerLimit : answerLimit
+        guard plain.count > limit else { return plain }
+        let head = String(plain.prefix(limit))
+        if let end = head.lastIndex(where: { ".!?。！？".contains($0) }), head.distance(from: head.startIndex, to: end) > limit / 2 {
             return String(head[...end])
         }
         return head.trimmingCharacters(in: .whitespaces) + "…"

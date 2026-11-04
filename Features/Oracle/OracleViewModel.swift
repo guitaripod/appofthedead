@@ -50,6 +50,8 @@ final class OracleViewModel: ObservableObject {
         enum Kind {
             case conversation
             case care
+            /// The app speaking for a persona that could not answer; never fed back to the model as its words.
+            case notice
         }
 
         let id: UUID
@@ -451,6 +453,12 @@ final class OracleViewModel: ObservableObject {
             }
             try Task.checkCancellation()
             let finalText = removeThinkTags(from: streamedResponse)
+            guard !finalText.isEmpty else {
+                await MainActor.run {
+                    self.declineGeneration(generationID: generationID, deity: deity, question: userMessage)
+                }
+                return
+            }
             await MainActor.run {
                 self.completeGeneration(
                     generationID: generationID,
@@ -464,7 +472,7 @@ final class OracleViewModel: ObservableObject {
         } catch MidgarIntelligenceError.onDeviceRefused {
             MidgarLog.notice("Oracle model declined a question for \(deity.id)", category: .viewModel)
             await MainActor.run {
-                self.declineGeneration(generationID: generationID, deity: deity)
+                self.declineGeneration(generationID: generationID, deity: deity, question: userMessage)
             }
         } catch {
             Diagnostics.logError(error, context: "Oracle generation", category: .mlx)
@@ -490,16 +498,23 @@ final class OracleViewModel: ObservableObject {
         return turns
     }
 
-    /// The model would not answer. The persona stays silent in character, and nothing is counted.
+    /// The model would not answer. The persona stays silent in character, and nothing is counted; a question that
+    /// touched on suicide gets the app's care and the helpline instead of silence.
     @MainActor
-    private func declineGeneration(generationID: UUID, deity: Deity) {
+    private func declineGeneration(generationID: UUID, deity: Deity, question: String) {
         guard activeGenerationID == generationID else { return }
-        updateGeneratedMessage(
-            id: generationID,
-            text: String(localized: "\(deity.name) is silent on this. Ask it another way."),
-            deity: deity,
-            timestamp: Date()
-        )
+        if OraclePrompt.mentionsSelfHarm(question) {
+            replaceMessage(id: generationID, with: ChatMessage(id: generationID, text: CompassionGuard.message, isUser: false, deity: nil, timestamp: Date(), kind: .care))
+        } else {
+            replaceMessage(id: generationID, with: ChatMessage(
+                id: generationID,
+                text: String(localized: "\(deity.name) is silent on this. Ask it another way."),
+                isUser: false,
+                deity: deity,
+                timestamp: Date(),
+                kind: .notice
+            ))
+        }
         activeGenerationID = nil
         activeGenerationDeityId = nil
         activeGenerationDelivered = false
@@ -541,19 +556,26 @@ final class OracleViewModel: ObservableObject {
     @MainActor
     private func failGeneration(generationID: UUID, deity: Deity, error: Error) {
         guard activeGenerationID == generationID else { return }
-
-        updateGeneratedMessage(
+        replaceMessage(id: generationID, with: ChatMessage(
             id: generationID,
             text: String(localized: "I apologize, but I'm having trouble connecting to the divine realm. Please try again."),
+            isUser: false,
             deity: deity,
-            timestamp: Date()
-        )
+            timestamp: Date(),
+            kind: .notice
+        ))
         modelError = error.localizedDescription
         activeGenerationID = nil
         activeGenerationDeityId = nil
         activeGenerationDelivered = false
         generationTask = nil
         isGenerating = false
+    }
+
+    @MainActor
+    private func replaceMessage(id: UUID, with message: ChatMessage) {
+        guard let index = messages.firstIndex(where: { $0.id == id }) else { return }
+        messages[index] = message
     }
 
     @MainActor

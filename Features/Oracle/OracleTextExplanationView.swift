@@ -297,7 +297,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         downloadButton.setTitle(DeviceUtility.isSimulator ? String(localized: "Use Physical Device") : String(localized: "Download Oracle Model"), for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
         downloadButton.backgroundColor = deity.map { PapyrusDesignSystem.Colors.tradition($0.color) } ?? PapyrusDesignSystem.Colors.goldLeaf
-        downloadButton.setTitleColor(.white, for: .normal)
+        downloadButton.setTitleColor(PapyrusDesignSystem.Colors.Core.ink, for: .normal)
         downloadButton.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.medium
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         downloadButton.isEnabled = !DeviceUtility.isSimulator

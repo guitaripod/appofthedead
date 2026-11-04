@@ -51,13 +51,15 @@ import AppOfTheDeadCore
         XCTAssertTrue(prompt.contains("You: A3"))
         XCTAssertTrue(prompt.hasSuffix("The seeker now says: Q4"))
         XCTAssertEqual(OraclePrompt.prompt(question: "Hello", history: []), "Hello")
+        let wall = String(repeating: "a", count: 5000)
+        XCTAssertLessThanOrEqual(OraclePrompt.prompt(question: wall, history: []).count, OraclePrompt.questionLimit + 1)
     }
 
     func testCompassionGuardCatchesFirstPersonDistressInSeveralLanguages() {
         for message in ["I want to die", "i'm going to kill myself tonight", "Ich will sterben", "quiero morir", "死にたい", "I don’t want to live anymore"] {
             XCTAssertTrue(CompassionGuard.needsCare(message), message)
         }
-        for message in ["What happens to people who die in battle?", "Why did the Greeks bury suicides apart?", "Tell me about Hel"] {
+        for message in ["What happens to people who die in battle?", "Why did the Greeks bury suicides apart?", "Tell me about Hel", "Did Vikings want to die in battle?", "Why do souls end up in Hel?"] {
             XCTAssertFalse(CompassionGuard.needsCare(message), message)
         }
     }
@@ -70,6 +72,10 @@ import AppOfTheDeadCore
         XCTAssertEqual(filter.visibleText(after: " there"), " there")
         var plain = ThinkBlockFilter()
         XCTAssertEqual(plain.visibleText(after: "Hi"), "Hi")
+        var split = ThinkBlockFilter()
+        XCTAssertNil(split.visibleText(after: "<thi"))
+        XCTAssertNil(split.visibleText(after: "nk>plan</think>"))
+        XCTAssertEqual(split.visibleText(after: "Answer"), "Answer")
     }
 
     @MainActor

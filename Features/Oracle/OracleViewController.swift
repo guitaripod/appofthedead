@@ -547,8 +547,8 @@ final class OracleViewController: UIViewController {
             updated.font = .systemFont(ofSize: isCompact ? 14 : 16, weight: .medium)
             return updated
         }
-        config.baseBackgroundColor = UIColor(hex: color)?.withAlphaComponent(0.15)
-        config.baseForegroundColor = UIColor(hex: color) ?? UIColor.Papyrus.primaryText
+        config.baseBackgroundColor = PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.15)
+        config.baseForegroundColor = PapyrusDesignSystem.Colors.tradition(color)
         config.cornerStyle = .medium
         config.contentInsets = NSDirectionalEdgeInsets(
             top: isCompact ? 12 : 16,
@@ -558,7 +558,7 @@ final class OracleViewController: UIViewController {
         )
         button.configuration = config
         button.layer.borderWidth = 1
-        button.layer.borderColor = (UIColor(hex: color) ?? UIColor.Papyrus.aged).cgColor
+        button.layer.borderColor = PapyrusDesignSystem.Colors.tradition(color).cgColor
         button.layer.cornerRadius = isCompact ? 10 : 12
         button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
         return button
@@ -566,14 +566,14 @@ final class OracleViewController: UIViewController {
     private func createCompactPromptButton(with text: String, color: String) -> UIButton {
         let button = UIButton(type: .custom)
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: color)?.withAlphaComponent(0.08)
+        button.backgroundColor = PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.08)
         button.layer.cornerRadius = 8
-        let shimmerView = ShimmerBorderView(color: UIColor(hex: color) ?? UIColor.Papyrus.gold)
+        let shimmerView = ShimmerBorderView(color: PapyrusDesignSystem.Colors.tradition(color))
         shimmerView.translatesAutoresizingMaskIntoConstraints = false
         shimmerView.isUserInteractionEnabled = false
         button.addSubview(shimmerView)
         button.setTitle(text, for: .normal)
-        button.setTitleColor(UIColor(hex: color)?.withAlphaComponent(0.8) ?? UIColor.Papyrus.primaryText.withAlphaComponent(0.8), for: .normal)
+        button.setTitleColor(PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.8), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
         button.titleLabel?.numberOfLines = 2
         button.titleLabel?.lineBreakMode = .byWordWrapping
@@ -709,7 +709,9 @@ extension OracleViewController: UITableViewDelegate {
         let image = OracleQuoteRenderer.render(reply: reply, question: question, deity: deity)
         let message = String(localized: "I asked \(deity.name) about the afterlife. \(JudgmentViewModel.appStoreURL.absoluteString)")
         let controller = UIActivityViewController(activityItems: [SoulCardShareItem(image: image), message], applicationActivities: nil)
-        controller.popoverPresentationController?.sourceView = tableView.cellForRow(at: indexPath) ?? view
+        let anchor = tableView.cellForRow(at: indexPath) ?? view
+        controller.popoverPresentationController?.sourceView = anchor
+        controller.popoverPresentationController?.sourceRect = anchor?.bounds ?? .zero
         controller.completionWithItemsHandler = { activity, completed, _, _ in
             guard completed else { return }
             Diagnostics.logUserAction("oracleReplyShared", parameters: ["deityId": deity.id, "activity": activity?.rawValue ?? "unknown"], category: .viewModel)
