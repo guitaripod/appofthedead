@@ -28,8 +28,42 @@ final class LearningPathCoordinator {
     
     func start() {
         isMasterTest = false
-        currentLessonIndex = findResumePoint()
+        showPathMap()
+    }
+
+    private weak var pathMap: PathMapViewController?
+
+    /// The path's hub: every lesson on a winding map, the next one lit. Lessons start from here and return here.
+    private func showPathMap() {
+        let viewModel = PathMapViewModel(beliefSystem: beliefSystem, databaseManager: databaseManager)
+        let map = PathMapViewController(viewModel: viewModel)
+        map.onLessonSelected = { [weak self] index in self?.beginLesson(at: index) }
+        map.onMasteryTest = { [weak self] in
+            guard let self else { return }
+            self.startMasterTest(for: self.beliefSystem)
+        }
+        map.onClose = { [weak self] in self?.exitLearningPath() }
+        pathMap = map
+        navigationController.pushViewController(map, animated: true)
+    }
+
+    /// Opens the lesson at `index`: a done lesson replays without earning path XP twice, the next one starts.
+    private func beginLesson(at index: Int) {
+        guard beliefSystem.lessons.indices.contains(index) else { return }
+        isMasterTest = false
+        isPreviewMode = false
+        currentLessonIndex = index
+        isReplayMode = index < findResumePoint()
         showNextLesson()
+    }
+
+    /// Back to the map after a lesson, or home when the path was entered without one.
+    private func returnToMap() {
+        guard let pathMap else {
+            returnToHome()
+            return
+        }
+        navigationController.popToViewController(pathMap, animated: true)
     }
 
     func startLearningPath(for beliefSystem: BeliefSystem, replay: Bool = false) {
@@ -151,6 +185,37 @@ final class LearningPathCoordinator {
         questionFlowCoordinator?.start()
     }
     
+    /// After a lesson: back to the map that opened it, or straight on to the next lesson when no map did.
+    private func continueAfterLesson() {
+        if pathMap != nil {
+            returnToMap()
+        } else {
+            currentLessonIndex += 1
+            showNextLesson()
+        }
+    }
+
+    /// Marks the whole path completed once its last lesson is done, unless it is already completed or mastered.
+    private func markPathCompletedIfEveryLessonIsDone() {
+        guard !isReplayMode, findResumePoint() >= beliefSystem.lessons.count,
+              let user = databaseManager.fetchUser() else { return }
+        let existing = try? databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystem.id)
+        guard existing?.status != .completed, existing?.status != .mastered else { return }
+        do {
+            try databaseManager.createOrUpdateProgress(
+                userId: user.id,
+                beliefSystemId: beliefSystem.id,
+                lessonId: nil,
+                status: .completed,
+                score: nil
+            )
+            GamificationService.shared.checkAchievements(for: user.id)
+            NotificationCenter.default.post(name: Notification.Name("UserDataDidUpdate"), object: nil)
+        } catch {
+            Diagnostics.logError(error, context: "Marking belief system as completed", category: .learning)
+        }
+    }
+
     private func completeLearningPath() {
 
         if let user = databaseManager.fetchUser() {
@@ -187,7 +252,16 @@ extension LearningPathCoordinator: LessonViewModelDelegate {
     }
     
     func lessonViewModelDidRequestExit(_ viewModel: LessonViewModel) {
-        exitLearningPath()
+        leaveLesson()
+    }
+
+    /// Closing a lesson or its quiz goes back to the map it came from, or home.
+    private func leaveLesson() {
+        if pathMap != nil {
+            returnToMap()
+        } else {
+            exitLearningPath()
+        }
     }
     
     private func exitLearningPath() {
@@ -211,16 +285,16 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
 
             let completionSummary = reminderOfferSummaryIfEligible(results: results)
             saveLessonCompletion(results: results)
-
-            currentLessonIndex += 1
+            markPathCompletedIfEveryLessonIsDone()
 
             offerAfterLessonIfDue()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                guard let self else { return }
                 if let completionSummary {
-                    self?.showLessonComplete(completionSummary)
+                    self.showLessonComplete(completionSummary)
                 } else {
-                    self?.showNextLesson()
+                    self.continueAfterLesson()
                 }
             }
         }
@@ -251,7 +325,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         MidgarLog.info("Showing lesson complete with reminder offer", category: .learning)
         let viewController = LessonCompleteViewController(
             summary: summary,
-            onContinue: { [weak self] in self?.showNextLesson() },
+            onContinue: { [weak self] in self?.continueAfterLesson() },
             onClose: { [weak self] in self?.exitLearningPath() }
         )
         navigationController.pushViewController(viewController, animated: true)
@@ -270,7 +344,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     
     func questionFlowCoordinatorDidRequestExit(_ coordinator: QuestionFlowCoordinator) {
         questionFlowCoordinator = nil
-        exitLearningPath()
+        leaveLesson()
     }
 
     /// Offers the paywall when ``LessonOffer`` says a finished lesson is the moment: the value moment converts
@@ -390,6 +464,15 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         }
     }
     
+    /// After the mastery test: back to the map that opened it, or home.
+    private func leaveMasteryTest() {
+        if pathMap != nil {
+            returnToMap()
+        } else {
+            exitLearningPath()
+        }
+    }
+
     private func showMasterTestSuccessAlert(score: Int) {
         let alert = UIAlertController(
             title: String(localized: "Congratulations!"),
@@ -398,7 +481,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         )
         
         alert.addAction(UIAlertAction(title: String(localized: "Continue"), style: .default) { [weak self] _ in
-            self?.exitLearningPath()
+            self?.leaveMasteryTest()
         })
         
         navigationController.present(alert, animated: true)
@@ -417,7 +500,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         })
         
         alert.addAction(UIAlertAction(title: String(localized: "Review Path"), style: .default) { [weak self] _ in
-            self?.exitLearningPath()
+            self?.leaveMasteryTest()
         })
         
         navigationController.present(alert, animated: true)

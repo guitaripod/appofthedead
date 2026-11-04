@@ -17,6 +17,15 @@ final class IconProvider {
         }
         
         
+        guard let symbolName = symbolName(for: iconName) else {
+            return UIImage(systemName: "questionmark.circle.fill")
+        }
+        let config = UIImage.SymbolConfiguration(pointSize: 60, weight: .medium)
+        return UIImage(systemName: symbolName, withConfiguration: config)
+    }
+
+    /// The SF Symbol that stands for a tradition's icon name in `aotd.json`, for places that draw symbols only.
+    static func symbolName(for iconName: String) -> String? {
         let symbolMapping: [String: String] = [
             "star_of_david": "star.fill",
             "cross": "cross.fill",
@@ -41,13 +50,7 @@ final class IconProvider {
             "seal_of_theosophy": "seal.fill",
             "eye": "eye.fill"
         ]
-        
-        guard let symbolName = symbolMapping[iconName] else {
-            return UIImage(systemName: "questionmark.circle.fill")
-        }
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 60, weight: .medium)
-        return UIImage(systemName: symbolName, withConfiguration: config)
+        return symbolMapping[iconName]
     }
     
     

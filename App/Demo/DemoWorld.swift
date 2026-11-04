@@ -76,6 +76,10 @@ enum DemoWorld {
             presentLessonComplete(in: context)
         case "lesson":
             pushLesson(in: context)
+        case "path-map":
+            if let system = beliefSystem(pathId, in: context) {
+                context.homeViewModel.onPathSelected?(system)
+            }
         case "quiz-mc":
             startQuiz(of: .multipleChoice, in: context)
         case "quiz-tf":
