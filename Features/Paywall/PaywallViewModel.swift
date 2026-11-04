@@ -7,6 +7,8 @@ enum PaywallReason {
     case generalUpgrade
     /// Offered after a finished lesson, naming the path the person said they are most curious about, if any.
     case lessonFinished(nextPath: (id: String, name: String)?)
+    /// Shown once when the Premium Week has ended.
+    case premiumWeekEnded
 
     /// Where the paywall came from, as `paywall.view` reports it.
     var placement: MidgarSignal.Placement {
@@ -17,7 +19,7 @@ enum PaywallReason {
             return .limit
         case .generalUpgrade:
             return .settings
-        case .lessonFinished:
+        case .lessonFinished, .premiumWeekEnded:
             return .moment
         }
     }
@@ -32,6 +34,8 @@ enum PaywallReason {
             return String(localized: "Unlock Everything")
         case .lessonFinished:
             return String(localized: "Keep the Journey Going")
+        case .premiumWeekEnded:
+            return String(localized: "Your Premium Week Has Ended")
         }
     }
 
@@ -48,6 +52,8 @@ enum PaywallReason {
                 return String(localized: "You finished a lesson. \(nextPath.name) and every other path are one step away.")
             }
             return String(localized: "You finished a lesson. All 21 paths are one step away.")
+        case .premiumWeekEnded:
+            return String(localized: "Keep every path and every god open. Your progress stays exactly where you left it.")
         }
     }
 }
@@ -259,7 +265,7 @@ final class PaywallViewModel {
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson and quiz included")),
                 ("clock.fill", String(localized: "Conversation History"), String(localized: "Revisit past wisdom anytime"))
             ]
-        case .generalUpgrade:
+        case .generalUpgrade, .premiumWeekEnded:
             return [
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "From Valhalla to the Duat")),
                 ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "All 21 divine guides, no limits")),
@@ -277,7 +283,7 @@ final class PaywallViewModel {
             return ProductIdentifier.allCases.first { $0.beliefSystemId == id }
         case .oracleLimit(let deityId, _):
             return ProductIdentifier.deityPack(for: deityId)
-        case .generalUpgrade:
+        case .generalUpgrade, .premiumWeekEnded:
             return nil
         }
     }
@@ -293,7 +299,7 @@ final class PaywallViewModel {
             return String(localized: "Or unlock just \(nextPath.name) for \(price)")
         case .oracleLimit:
             return String(localized: "Or get the \(product.displayName) for \(price)")
-        case .generalUpgrade:
+        case .generalUpgrade, .premiumWeekEnded:
             return nil
         }
     }

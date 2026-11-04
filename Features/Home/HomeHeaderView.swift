@@ -1,246 +1,160 @@
 import UIKit
+import AppOfTheDeadCore
 
+/// The top of Home: the title and the person's standing, the Premium Week countdown, the Judgment, the day's omen,
+/// and the heading over the paths.
 final class HomeHeaderView: UICollectionReusableView {
-    
-    
-    
     weak var delegate: HomeHeaderViewDelegate?
-    
-    private lazy var titleLabel: UILabel = {
+
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = String(localized: "App of the Dead")
-        
-        label.font = PapyrusDesignSystem.Typography.serif(34, weight: .bold)
-        label.textColor = UIColor.Papyrus.primaryText
-        label.layer.shadowColor = UIColor.Papyrus.gold.cgColor
-        label.layer.shadowOffset = CGSize(width: 0, height: 1)
-        label.layer.shadowOpacity = 0.3
-        label.layer.shadowRadius = 2
+        label.font = PapyrusDesignSystem.Typography.serif(34, weight: .bold, textStyle: .largeTitle)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.6
+        label.accessibilityTraits = .header
         return label
     }()
-    
-    private lazy var subtitleLabel: UILabel = {
+
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = String(localized: "Explore afterlife beliefs across cultures")
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = UIColor.Papyrus.secondaryText
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.75
+        label.text = String(localized: "What every culture believes comes after")
+        label.font = PapyrusDesignSystem.Typography.sans(15, weight: .medium, textStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
+        label.numberOfLines = 0
         return label
     }()
-    
-    private lazy var headerStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.spacing = 4
-        stack.alignment = .leading
-        return stack
-    }()
-    
+
     private lazy var profileButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.Papyrus.aged
+        button.backgroundColor = PapyrusDesignSystem.Colors.Core.surfaceRaised
         button.layer.cornerRadius = 20
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor.Papyrus.gold.cgColor
-        button.tintColor = UIColor.Papyrus.primaryText
-        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.6).cgColor
+        button.tintColor = PapyrusDesignSystem.Colors.Core.goldLeaf
+        button.setImage(UIImage(systemName: "person.fill"), for: .normal)
+        button.accessibilityLabel = String(localized: "Profile")
+        button.addAction(UIAction { [weak self] _ in self?.delegate?.profileButtonTapped() }, for: .touchUpInside)
         return button
     }()
-    
-    private lazy var topRowStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [headerStackView, profileButton])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
-        return stack
-    }()
-    
-    private lazy var statsContainer: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.Papyrus.cardBackground
-        view.layer.cornerRadius = 16
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.Papyrus.aged.cgColor
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowRadius = 4
-        return view
-    }()
-    
-    private lazy var xpIconView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
-        imageView.tintColor = UIColor.Papyrus.gold
-        imageView.contentMode = .scaleAspectFit
-        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold)
-        return imageView
-    }()
-    
-    private lazy var xpLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.Papyrus.gold
-        label.text = "0"
-        return label
-    }()
-    
-    private lazy var xpDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(localized: "XP")
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor.Papyrus.secondaryText
-        return label
-    }()
-    
-    private lazy var xpStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [xpIconView, xpLabel, xpDescriptionLabel])
-        stack.axis = .horizontal
-        stack.spacing = 8
-        stack.alignment = .center
-        stack.setCustomSpacing(4, after: xpLabel)
-        return stack
-    }()
-    
-    private lazy var divider: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.Papyrus.separator
-        view.widthAnchor.constraint(equalToConstant: 1.5).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        return view
-    }()
-    
-    private lazy var streakIconView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "flame.fill"))
-        imageView.tintColor = UIColor.Papyrus.tombRed
-        imageView.contentMode = .scaleAspectFit
-        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold)
-        return imageView
-    }()
-    
-    private lazy var streakLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.Papyrus.tombRed
-        label.text = "0"
-        return label
-    }()
-    
-    private lazy var streakDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(localized: "Day Streak")
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor.Papyrus.secondaryText
-        return label
-    }()
-    
-    private lazy var streakStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [streakIconView, streakLabel, streakDescriptionLabel])
-        stack.axis = .horizontal
-        stack.spacing = 8
-        stack.alignment = .center
-        stack.setCustomSpacing(4, after: streakLabel)
-        return stack
-    }()
-    
-    private lazy var statsStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [xpStackView, divider, streakStackView])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.alignment = .center
-        stack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        stack.isLayoutMarginsRelativeArrangement = true
-        return stack
-    }()
-    
-    private lazy var mainStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [topRowStackView, statsContainer])
-        stack.translatesAutoresizingMaskIntoConstraints = false
+
+    private let xpLabel = UILabel()
+    private let streakLabel = UILabel()
+    private let statsRow = UIStackView()
+    private let dynamicStack = UIStackView()
+
+    private lazy var mainStack: UIStackView = {
+        let titles = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        titles.axis = .vertical
+        titles.spacing = 2
+        let top = UIStackView(arrangedSubviews: [titles, profileButton])
+        top.alignment = .center
+        top.spacing = 12
+        let stack = UIStackView(arrangedSubviews: [top, statsRow, dynamicStack])
         stack.axis = .vertical
-        stack.spacing = 10
-        stack.layoutMargins = UIEdgeInsets(top: 6, left: 20, bottom: 8, right: 20)
+        stack.spacing = 14
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.layoutMargins = UIEdgeInsets(top: 8, left: 4, bottom: 12, right: 4)
         stack.isLayoutMarginsRelativeArrangement = true
         return stack
     }()
-    
-    
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        backgroundColor = .clear
+        statsRow.axis = .horizontal
+        statsRow.spacing = 8
+        statsRow.alignment = .center
+        dynamicStack.axis = .vertical
+        dynamicStack.spacing = 14
+        addSubview(mainStack)
+        NSLayoutConstraint.activate([
+            mainStack.topAnchor.constraint(equalTo: topAnchor),
+            mainStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            profileButton.widthAnchor.constraint(equalToConstant: 40),
+            profileButton.heightAnchor.constraint(equalToConstant: 40),
+        ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    private func setupUI() {
-        backgroundColor = UIColor.Papyrus.background
-        
-        addSubview(mainStackView)
-        statsContainer.addSubview(statsStackView)
-        
+
+    func configure(_ dashboard: HomeDashboard) {
+        statsRow.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        statsRow.addArrangedSubview(statPill(symbol: "star.fill", value: "\(dashboard.xp)", caption: String(localized: "XP"), color: PapyrusDesignSystem.Colors.Core.goldLeaf))
+        statsRow.addArrangedSubview(statPill(symbol: "flame.fill", value: "\(dashboard.streak)", caption: String(localized: "Day Streak"), color: UIColor(hex: 0xF07E62)))
+        statsRow.addArrangedSubview(UIView())
+
+        dynamicStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        if let days = dashboard.premiumWeekDaysLeft {
+            let chip = PremiumWeekChip(daysLeft: days)
+            chip.addAction(UIAction { [weak self] _ in self?.delegate?.premiumWeekTapped() }, for: .touchUpInside)
+            let row = UIStackView(arrangedSubviews: [chip, UIView()])
+            dynamicStack.addArrangedSubview(row)
+            dynamicStack.setCustomSpacing(12, after: row)
+        }
+        let judgment = JudgmentHomeCard(verdict: dashboard.verdict)
+        judgment.onOpen = { [weak self] in self?.delegate?.judgmentCardTapped(reviewing: true) }
+        judgment.onRetake = { [weak self] in self?.delegate?.judgmentCardTapped(reviewing: false) }
+        dynamicStack.addArrangedSubview(judgment)
+        if let omen = dashboard.omen {
+            let card = DailyOmenCard(omen: omen, answer: dashboard.omenAnswer)
+            card.onAnswer = { [weak self] choice in self?.delegate?.dailyOmenAnswered(choice, omen: omen) }
+            card.onOpenPath = { [weak self] in self?.delegate?.dailyOmenPathTapped(omen.pathId) }
+            dynamicStack.addArrangedSubview(card)
+        }
+        let pathsHeading = makeEyebrowLabel(String(localized: "Twenty-two paths"), color: PapyrusDesignSystem.Colors.Dynamic.tertiaryText, alignment: .natural)
+        dynamicStack.addArrangedSubview(pathsHeading)
+        dynamicStack.setCustomSpacing(4, after: pathsHeading)
+    }
+
+    private func statPill(symbol: String, value: String, caption: String, color: UIColor) -> UIView {
+        let pill = UIView()
+        pill.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
+        pill.layer.cornerRadius = 16
+        pill.layer.borderWidth = 1
+        pill.layer.borderColor = UIColor.white.withAlphaComponent(0.08).cgColor
+        let icon = UIImageView(image: UIImage(systemName: symbol))
+        icon.tintColor = color
+        icon.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
+        let number = UILabel()
+        number.text = value
+        number.font = PapyrusDesignSystem.Typography.rounded(15, weight: .bold, textStyle: .subheadline)
+        number.adjustsFontForContentSizeCategory = true
+        number.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
+        let label = UILabel()
+        label.text = caption
+        label.font = PapyrusDesignSystem.Typography.sans(12, weight: .medium, textStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
+        let row = UIStackView(arrangedSubviews: [icon, number, label])
+        row.spacing = 5
+        row.alignment = .center
+        row.translatesAutoresizingMaskIntoConstraints = false
+        pill.addSubview(row)
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            statsContainer.heightAnchor.constraint(equalToConstant: 56),
-            
-            profileButton.widthAnchor.constraint(equalToConstant: 40),
-            profileButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            statsStackView.topAnchor.constraint(equalTo: statsContainer.topAnchor),
-            statsStackView.leadingAnchor.constraint(equalTo: statsContainer.leadingAnchor),
-            statsStackView.trailingAnchor.constraint(equalTo: statsContainer.trailingAnchor),
-            statsStackView.bottomAnchor.constraint(equalTo: statsContainer.bottomAnchor)
+            row.topAnchor.constraint(equalTo: pill.topAnchor, constant: 7),
+            row.bottomAnchor.constraint(equalTo: pill.bottomAnchor, constant: -7),
+            row.leadingAnchor.constraint(equalTo: pill.leadingAnchor, constant: 12),
+            row.trailingAnchor.constraint(equalTo: pill.trailingAnchor, constant: -12),
         ])
-    }
-    
-    
-    
-    func configure(xp: Int, streak: Int, isSignedIn: Bool = false, userName: String? = nil) {
-        xpLabel.text = "\(xp)"
-        streakLabel.text = "\(streak)"
-        
-        if isSignedIn {
-            let image = UIImage(systemName: "person.fill")
-            profileButton.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(systemName: "person.badge.plus")
-            profileButton.setImage(image, for: .normal)
-        }
-        
-        if streak > 0 {
-            UIView.animate(withDuration: 0.3) {
-                self.streakIconView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            } completion: { _ in
-                UIView.animate(withDuration: 0.2) {
-                    self.streakIconView.transform = .identity
-                }
-            }
-        }
-    }
-    
-    
-    
-    @objc private func profileButtonTapped() {
-        delegate?.profileButtonTapped()
+        pill.isAccessibilityElement = true
+        pill.accessibilityLabel = "\(value) \(caption)"
+        return pill
     }
 }
 
-
-
 protocol HomeHeaderViewDelegate: AnyObject {
     func profileButtonTapped()
+    func premiumWeekTapped()
+    func judgmentCardTapped(reviewing: Bool)
+    func dailyOmenAnswered(_ choice: String, omen: DailyOmen)
+    func dailyOmenPathTapped(_ pathId: String)
 }

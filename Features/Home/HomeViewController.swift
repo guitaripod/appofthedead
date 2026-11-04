@@ -3,12 +3,13 @@ import MidgarCore
 import AppOfTheDeadCore
 final class HomeViewController: UIViewController {
     let viewModel: HomeViewModel
+    let omenService = DailyOmenService()
     var currentLayoutPreference: ViewLayoutPreference = .grid
     lazy var collectionView: UICollectionView = {
         let layout = createCompositionalLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.Papyrus.background
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         return collectionView
     }()
@@ -45,6 +46,19 @@ final class HomeViewController: UIViewController {
         updateLayoutForCurrentDevice()
         viewModel.loadData()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        announcePremiumWeekEndIfDue()
+    }
+
+    /// Once, after the Premium Week ends for someone who bought nothing, the plans say so.
+    private func announcePremiumWeekEndIfDue() {
+        guard presentedViewController == nil,
+              PremiumWeekPass.shared.takeEndAnnouncement(ownsAllAccess: StoreAccess.shared.hasAllAccess) else { return }
+        Diagnostics.logUserAction("premiumWeekEndAnnounced", category: .purchases)
+        present(PaywallViewController(reason: .premiumWeekEnded), animated: true)
+    }
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass ||
@@ -62,8 +76,17 @@ final class HomeViewController: UIViewController {
     }
     private func setupUI() {
         view.backgroundColor = UIColor.Papyrus.background
+        let backdrop = UnderworldBackdropView(seed: 3)
+        backdrop.translatesAutoresizingMaskIntoConstraints = false
+        backdrop.glowCenter = CGPoint(x: 0.85, y: -0.1)
+        backdrop.glowIntensity = 0.16
+        view.addSubview(backdrop)
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
+            backdrop.topAnchor.constraint(equalTo: view.topAnchor),
+            backdrop.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backdrop.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backdrop.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -77,6 +100,16 @@ final class HomeViewController: UIViewController {
             name: StoreManager.purchaseCompletedNotification,
             object: nil
         )
+        for name in [PremiumWeekPass.changedNotification, JudgmentStore.changedNotification, StoreManager.entitlementsUpdatedNotification] {
+            NotificationCenter.default.addObserver(self, selector: #selector(handleDashboardChange), name: name, object: nil)
+        }
+    }
+
+    @objc private func handleDashboardChange() {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.loadData()
+            self?.updateHeader()
+        }
     }
     @objc private func handlePurchaseCompleted(_ notification: Notification) {
         if let productId = notification.object as? ProductIdentifier,
@@ -221,8 +254,8 @@ final class HomeViewController: UIViewController {
             cell.configure(with: item, preview: preview)
         }
         let headerRegistration = UICollectionView.SupplementaryRegistration<HomeHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            guard let self = self, let user = self.viewModel.currentUser else { return }
-            headerView.configure(xp: user.totalXP, streak: user.currentStreak, isSignedIn: true)
+            guard let self = self else { return }
+            headerView.configure(self.dashboard())
             headerView.delegate = self
         }
         let dataSource = UICollectionViewDiffableDataSource<Section, PathItem>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
@@ -497,6 +530,47 @@ extension HomeViewController {
     }
 }
 extension HomeViewController: HomeHeaderViewDelegate {
+    /// Everything the header shows above the paths, read fresh each time it is configured.
+    func dashboard() -> HomeDashboard {
+        var dashboard = HomeDashboard()
+        if let user = viewModel.currentUser {
+            dashboard.xp = user.totalXP
+            dashboard.streak = user.currentStreak
+        }
+        dashboard.premiumWeekDaysLeft = StoreAccess.shared.hasAllAccess ? nil : PremiumWeekPass.shared.daysLeft
+        dashboard.verdict = JudgmentStore().verdict
+        if let omen = omenService.today() {
+            dashboard.omen = omen
+            dashboard.omenAnswer = omenService.answer(for: omen)
+        }
+        return dashboard
+    }
+
+    func premiumWeekTapped() {
+        Diagnostics.logUserAction("premiumWeekChipTapped")
+        present(PaywallViewController(reason: .generalUpgrade), animated: true)
+    }
+
+    func judgmentCardTapped(reviewing: Bool) {
+        Diagnostics.logUserAction("judgmentCardTapped", parameters: ["reviewing": reviewing])
+        (view.window?.windowScene?.delegate as? SceneDelegate)?.presentJudgment(reviewing: reviewing)
+    }
+
+    func dailyOmenAnswered(_ choice: String, omen: DailyOmen) {
+        let correct = omenService.record(choice, for: omen)
+        if correct {
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } else {
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+        }
+        viewModel.loadData()
+        updateHeader()
+    }
+
+    func dailyOmenPathTapped(_ pathId: String) {
+        openPath(withId: pathId)
+    }
+
     func profileButtonTapped() {
         Diagnostics.logUserAction("profileButtonTapped")
         if let tabBarController = self.tabBarController {
