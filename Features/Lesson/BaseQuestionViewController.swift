@@ -160,11 +160,7 @@ class BaseQuestionViewController: UIViewController {
     }
     
     private func setupQuestionLabel() {
-        if let papyrusFont = UIFont(name: "Papyrus", size: 22) {
-            questionLabel.font = papyrusFont
-        } else {
-            questionLabel.font = .systemFont(ofSize: 22, weight: .semibold)
-        }
+        questionLabel.font = PapyrusDesignSystem.Typography.serif(22, weight: .semibold)
         questionLabel.textColor = UIColor.Papyrus.primaryText
         questionLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(questionLabel)

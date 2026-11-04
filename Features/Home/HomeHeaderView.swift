@@ -10,11 +10,7 @@ final class HomeHeaderView: UICollectionReusableView {
         let label = UILabel()
         label.text = String(localized: "App of the Dead")
         
-        if let papyrusFont = UIFont(name: "Papyrus", size: 34) {
-            label.font = papyrusFont
-        } else {
-            label.font = .systemFont(ofSize: 34, weight: .bold)
-        }
+        label.font = PapyrusDesignSystem.Typography.serif(34, weight: .bold)
         label.textColor = UIColor.Papyrus.primaryText
         label.layer.shadowColor = UIColor.Papyrus.gold.cgColor
         label.layer.shadowOffset = CGSize(width: 0, height: 1)

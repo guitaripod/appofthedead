@@ -23,7 +23,7 @@ extension ProfileViewController {
         avatarWidthConstraint?.constant = 64
         avatarHeightConstraint?.constant = 64
         avatarImageView.layer.cornerRadius = 32
-        nameLabel.font = UIFont(name: "Papyrus", size: 24) ?? .systemFont(ofSize: 24, weight: .bold)
+        nameLabel.font = PapyrusDesignSystem.Typography.serif(24, weight: .bold)
         levelLabel.font = PapyrusDesignSystem.Typography.subheadline(weight: .semibold)
         xpLabel.font = PapyrusDesignSystem.Typography.footnote()
         achievementsHeaderLabel.font = PapyrusDesignSystem.Typography.title2()

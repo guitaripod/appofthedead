@@ -38,11 +38,7 @@ final class PathListCell: UICollectionViewCell {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        if let papyrusFont = UIFont(name: "Papyrus", size: 17) {
-            label.font = papyrusFont
-        } else {
-            label.font = .systemFont(ofSize: 17, weight: .semibold)
-        }
+        label.font = PapyrusDesignSystem.Typography.serif(17, weight: .semibold)
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8

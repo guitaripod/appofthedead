@@ -24,6 +24,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let sceneSetupActivity = Diagnostics.beginActivity("SceneSetup")
         
         self.window = UIWindow(windowScene: windowScene)
+        window?.overrideUserInterfaceStyle = .dark
+        window?.tintColor = UIColor.Papyrus.gold
         
         
         let iconsActivity = Diagnostics.beginActivity("IconProvider.createCustomIcons")

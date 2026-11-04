@@ -45,7 +45,7 @@ class PathCompletionOptionsViewController: UIViewController {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         
-        titleLabel.font = UIFont(name: "Papyrus", size: 22) ?? .systemFont(ofSize: 22, weight: .bold)
+        titleLabel.font = PapyrusDesignSystem.Typography.serif(22, weight: .bold)
         titleLabel.textColor = UIColor.Papyrus.primaryText
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0

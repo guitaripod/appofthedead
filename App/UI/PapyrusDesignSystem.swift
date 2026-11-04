@@ -1,110 +1,34 @@
 import UIKit
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/// The 2.0 "Underworld" look: a night palette lit by gold leaf, New York serif for display type and SF for reading,
+/// every face scaled with Dynamic Type. The app is dark by design, so the dynamic colors resolve to the night palette
+/// in both appearances and the window runs in dark mode for the system chrome.
 enum PapyrusDesignSystem {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     enum Colors {
-        
-        
-        
-        
-        
-        
-        
+
         enum Core {
-            
-            static let beige = UIColor(red: 243/255, green: 237/255, blue: 214/255, alpha: 1.0)
-            
-            
-            static let ancientInk = UIColor(red: 42/255, green: 32/255, blue: 24/255, alpha: 1.0)
-            
-            
-            static let goldLeaf = UIColor(red: 212/255, green: 175/255, blue: 55/255, alpha: 1.0)
-            
-            
-            static let hieroglyphBlue = UIColor(red: 45/255, green: 85/255, blue: 125/255, alpha: 1.0)
-            
-            
-            static let tombRed = UIColor(red: 139/255, green: 35/255, blue: 35/255, alpha: 1.0)
-            
-            
-            static let sandstone = UIColor(red: 226/255, green: 218/255, blue: 196/255, alpha: 1.0)
-            
-            
-            static let aged = UIColor(red: 209/255, green: 196/255, blue: 162/255, alpha: 1.0)
-            
-            
-            static let burnishedGold = UIColor(red: 184/255, green: 134/255, blue: 11/255, alpha: 1.0)
-            
-            
-            static let mysticPurple = UIColor(red: 102/255, green: 51/255, blue: 153/255, alpha: 1.0)
-            
-            
-            static let scarabGreen = UIColor(red: 60/255, green: 110/255, blue: 60/255, alpha: 1.0)
-            
-            
-            
-            
-            static let darkBackground = UIColor(red: 28/255, green: 24/255, blue: 20/255, alpha: 1.0)
-            
-            
-            static let darkCard = UIColor(red: 38/255, green: 34/255, blue: 30/255, alpha: 1.0)
+            static let night = UIColor(hex: 0x0C0A11)
+            static let surface = UIColor(hex: 0x17141F)
+            static let surfaceRaised = UIColor(hex: 0x221E2C)
+            static let parchment = UIColor(hex: 0xF3EAD8)
+            static let ink = UIColor(hex: 0x16110A)
+
+            static let beige = parchment
+            static let ancientInk = ink
+            static let goldLeaf = UIColor(hex: 0xE5BA5C)
+            static let hieroglyphBlue = UIColor(hex: 0x4A78D8)
+            static let tombRed = UIColor(hex: 0xD9564A)
+            static let sandstone = surface
+            static let aged = UIColor(hex: 0x4A4256)
+            static let burnishedGold = UIColor(hex: 0xC4923A)
+            static let mysticPurple = UIColor(hex: 0x9A7BE6)
+            static let scarabGreen = UIColor(hex: 0x4FB683)
+
+            static let darkBackground = night
+            static let darkCard = surface
         }
-        
-        
-        
-        
-        
-        
-        
+
         enum Semantic {
             static let success = Core.scarabGreen
             static let error = Core.tombRed
@@ -112,103 +36,43 @@ enum PapyrusDesignSystem {
             static let info = Core.hieroglyphBlue
             static let disabled = Core.aged.withAlphaComponent(0.6)
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         enum Dynamic {
-            static var background: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ? Core.darkBackground : Core.beige
-                }
-            }
-            
-            static var cardBackground: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ? Core.darkCard : Core.sandstone
-                }
-            }
-            
-            static var primaryText: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ? Core.beige : Core.ancientInk
-                }
-            }
-            
-            static var secondaryText: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ?
-                        Core.aged :
-                        UIColor(red: 92/255, green: 72/255, blue: 54/255, alpha: 1.0)
-                }
-            }
-            
-            static var tertiaryText: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ?
-                        UIColor(red: 162/255, green: 152/255, blue: 134/255, alpha: 1.0) :
-                        UIColor(red: 142/255, green: 122/255, blue: 104/255, alpha: 1.0)
-                }
-            }
-            
-            static var separator: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ?
-                        Core.aged.withAlphaComponent(0.3) :
-                        Core.aged.withAlphaComponent(0.5)
-                }
-            }
-            
-            static var border: UIColor {
-                UIColor { traitCollection in
-                    traitCollection.userInterfaceStyle == .dark ?
-                        Core.aged.withAlphaComponent(0.4) :
-                        Core.aged
-                }
-            }
+            static var background: UIColor { Core.night }
+            static var cardBackground: UIColor { Core.surface }
+            static var raisedBackground: UIColor { Core.surfaceRaised }
+            static var primaryText: UIColor { Core.parchment }
+            static var secondaryText: UIColor { UIColor(hex: 0xBDB19C) }
+            static var tertiaryText: UIColor { UIColor(hex: 0x8C8274) }
+            static var separator: UIColor { UIColor.white.withAlphaComponent(0.08) }
+            static var border: UIColor { UIColor.white.withAlphaComponent(0.11) }
         }
-        
-        
-        
-        
-        
-        
-        
+
         enum Component {
             enum Button {
                 static var primaryBackground: UIColor { Core.goldLeaf }
-                static var primaryForeground: UIColor { Core.ancientInk }
+                static var primaryForeground: UIColor { Core.ink }
                 static var secondaryBackground: UIColor { Core.hieroglyphBlue }
-                static var secondaryForeground: UIColor { Core.beige }
-                static var tertiaryBackground: UIColor { Core.aged }
-                static var tertiaryForeground: UIColor { Core.ancientInk }
+                static var secondaryForeground: UIColor { Core.parchment }
+                static var tertiaryBackground: UIColor { Core.surfaceRaised }
+                static var tertiaryForeground: UIColor { Core.parchment }
                 static var destructiveBackground: UIColor { Core.tombRed }
-                static var destructiveForeground: UIColor { Core.beige }
+                static var destructiveForeground: UIColor { Core.parchment }
                 static var disabledBackground: UIColor { Core.aged }
-                static var disabledForeground: UIColor { Core.beige }
+                static var disabledForeground: UIColor { Dynamic.tertiaryText }
             }
-            
+
             enum Progress {
-                static var track: UIColor { Core.aged.withAlphaComponent(0.3) }
+                static var track: UIColor { UIColor.white.withAlphaComponent(0.09) }
                 static var fill: UIColor { Core.goldLeaf }
             }
-            
+
             enum Card {
                 static var background: UIColor { Dynamic.cardBackground }
                 static var border: UIColor { Dynamic.border }
             }
         }
-        
-        
-        
-        
+
         static let beige = Core.beige
         static let ancientInk = Core.ancientInk
         static let goldLeaf = Core.goldLeaf
@@ -219,165 +83,171 @@ enum PapyrusDesignSystem {
         static let burnishedGold = Core.burnishedGold
         static let mysticPurple = Core.mysticPurple
         static let scarabGreen = Core.scarabGreen
-        
-        static let primaryBackground = Core.beige
-        static let secondaryBackground = Core.sandstone
-        static let tertiaryBackground = Core.aged
-        
-        static let primaryText = Core.ancientInk
-        static let secondaryText = UIColor(red: 92/255, green: 72/255, blue: 54/255, alpha: 1.0)
-        static let tertiaryText = UIColor(red: 142/255, green: 122/255, blue: 104/255, alpha: 1.0)
-        
+
+        static let primaryBackground = Core.night
+        static let secondaryBackground = Core.surface
+        static let tertiaryBackground = Core.surfaceRaised
+
+        static var primaryText: UIColor { Dynamic.primaryText }
+        static var secondaryText: UIColor { Dynamic.secondaryText }
+        static var tertiaryText: UIColor { Dynamic.tertiaryText }
+
         static let success = Semantic.success
         static let error = Semantic.error
         static let warning = Semantic.warning
         static let info = Semantic.info
-        
+
         static var background: UIColor { Dynamic.background }
         static var foreground: UIColor { Dynamic.primaryText }
+
+        /// A tradition's color from `aotd.json`, lifted until it reads on the night background. Several traditions are
+        /// defined as deep inks (Norse is indigo, Shinto a dark red) that disappear on black; the hue is kept and only
+        /// the lightness rises.
+        static func tradition(_ hex: String) -> UIColor {
+            guard let base = UIColor(hex: hex) else { return Core.goldLeaf }
+            return luminous(base)
+        }
+
+        /// Raises the HSB brightness of `color` to at least 0.78 and caps its saturation at 0.72.
+        static func luminous(_ color: UIColor) -> UIColor {
+            var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
+            guard color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) else { return color }
+            return UIColor(hue: hue, saturation: min(saturation, 0.72), brightness: max(brightness, 0.78), alpha: alpha)
+        }
     }
-    
-    
-    
+
     enum Typography {
-        
-        static let papyrusFont = "Papyrus" 
-        static let hieroglyphicFont = "American Typewriter" 
-        
-        // Adaptive size calculation
+
+        /// The maximum growth any face takes under Dynamic Type, so fixed-size chrome keeps its shape at AX sizes.
+        private static let maximumScale: CGFloat = 1.6
+
         private static func adaptiveSize(_ baseSize: CGFloat, for traitCollection: UITraitCollection? = nil) -> CGFloat {
             let traits = traitCollection ?? UITraitCollection.current
-            let layoutManager = AdaptiveLayoutManager.shared
-            let multiplier = layoutManager.fontSizeMultiplier(for: traits)
-            return baseSize * multiplier
+            return baseSize * AdaptiveLayoutManager.shared.fontSizeMultiplier(for: traits)
         }
-        
+
+        /// New York at `size`, scaled with Dynamic Type through `textStyle`.
+        static func serif(_ size: CGFloat, weight: UIFont.Weight = .semibold, textStyle: UIFont.TextStyle = .title2) -> UIFont {
+            let base = UIFont.systemFont(ofSize: size, weight: weight)
+            let descriptor = base.fontDescriptor.withDesign(.serif) ?? base.fontDescriptor
+            return scaled(UIFont(descriptor: descriptor, size: size), textStyle: textStyle, size: size)
+        }
+
+        /// SF at `size`, scaled with Dynamic Type through `textStyle`.
+        static func sans(_ size: CGFloat, weight: UIFont.Weight = .regular, textStyle: UIFont.TextStyle = .body) -> UIFont {
+            scaled(UIFont.systemFont(ofSize: size, weight: weight), textStyle: textStyle, size: size)
+        }
+
+        /// SF Rounded, for numbers and counters.
+        static func rounded(_ size: CGFloat, weight: UIFont.Weight = .bold, textStyle: UIFont.TextStyle = .headline) -> UIFont {
+            let base = UIFont.systemFont(ofSize: size, weight: weight)
+            let descriptor = base.fontDescriptor.withDesign(.rounded) ?? base.fontDescriptor
+            return scaled(UIFont(descriptor: descriptor, size: size), textStyle: textStyle, size: size)
+        }
+
+        private static func scaled(_ font: UIFont, textStyle: UIFont.TextStyle, size: CGFloat) -> UIFont {
+            UIFontMetrics(forTextStyle: textStyle).scaledFont(for: font, maximumPointSize: size * maximumScale)
+        }
+
         static func largeTitle(weight: UIFont.Weight = .bold, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(34, for: traitCollection)
-            if let font = UIFont(name: papyrusFont, size: size) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            serif(adaptiveSize(34, for: traitCollection), weight: weight, textStyle: .largeTitle)
         }
-        
+
         static func title1(weight: UIFont.Weight = .bold, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(28, for: traitCollection)
-            if let font = UIFont(name: papyrusFont, size: size) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            serif(adaptiveSize(28, for: traitCollection), weight: weight, textStyle: .title1)
         }
-        
+
         static func title2(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(22, for: traitCollection)
-            if let font = UIFont(name: papyrusFont, size: size) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            serif(adaptiveSize(22, for: traitCollection), weight: weight, textStyle: .title2)
         }
-        
+
         static func title3(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(20, for: traitCollection)
-            if let font = UIFont(name: papyrusFont, size: size) {
-                return font
-            }
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            serif(adaptiveSize(20, for: traitCollection), weight: weight, textStyle: .title3)
         }
-        
+
         static func headline(weight: UIFont.Weight = .semibold, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(17, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(17, for: traitCollection), weight: weight, textStyle: .headline)
         }
-        
+
         static func body(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(17, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(17, for: traitCollection), weight: weight, textStyle: .body)
         }
-        
+
         static func callout(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(16, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(16, for: traitCollection), weight: weight, textStyle: .callout)
         }
-        
+
         static func subheadline(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(15, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(15, for: traitCollection), weight: weight, textStyle: .subheadline)
         }
-        
+
         static func footnote(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(13, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(13, for: traitCollection), weight: weight, textStyle: .footnote)
         }
-        
+
         static func caption1(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(12, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(12, for: traitCollection), weight: weight, textStyle: .caption1)
         }
-        
+
         static func caption2(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(11, for: traitCollection)
-            return UIFont.systemFont(ofSize: size, weight: weight)
+            sans(adaptiveSize(11, for: traitCollection), weight: weight, textStyle: .caption2)
         }
-        
+
         static func bodyItalic(weight: UIFont.Weight = .regular, for traitCollection: UITraitCollection? = nil) -> UIFont {
-            let size = adaptiveSize(17, for: traitCollection)
-            let descriptor = UIFont.systemFont(ofSize: size, weight: weight).fontDescriptor
-            let italicDescriptor = descriptor.withSymbolicTraits(.traitItalic) ?? descriptor
-            return UIFont(descriptor: italicDescriptor, size: size)
+            let base = UIFont.systemFont(ofSize: adaptiveSize(17, for: traitCollection), weight: weight)
+            let descriptor = base.fontDescriptor.withSymbolicTraits(.traitItalic) ?? base.fontDescriptor
+            return scaled(UIFont(descriptor: descriptor, size: base.pointSize), textStyle: .body, size: base.pointSize)
         }
-        
-        // Backward compatibility - old methods without traitCollection parameter
+
         static func largeTitle(weight: UIFont.Weight = .bold) -> UIFont {
             largeTitle(weight: weight, for: nil)
         }
-        
+
         static func title1(weight: UIFont.Weight = .bold) -> UIFont {
             title1(weight: weight, for: nil)
         }
-        
+
         static func title2(weight: UIFont.Weight = .semibold) -> UIFont {
             title2(weight: weight, for: nil)
         }
-        
+
         static func title3(weight: UIFont.Weight = .semibold) -> UIFont {
             title3(weight: weight, for: nil)
         }
-        
+
         static func headline(weight: UIFont.Weight = .semibold) -> UIFont {
             headline(weight: weight, for: nil)
         }
-        
+
         static func body(weight: UIFont.Weight = .regular) -> UIFont {
             body(weight: weight, for: nil)
         }
-        
+
         static func callout(weight: UIFont.Weight = .regular) -> UIFont {
             callout(weight: weight, for: nil)
         }
-        
+
         static func subheadline(weight: UIFont.Weight = .regular) -> UIFont {
             subheadline(weight: weight, for: nil)
         }
-        
+
         static func footnote(weight: UIFont.Weight = .regular) -> UIFont {
             footnote(weight: weight, for: nil)
         }
-        
+
         static func caption1(weight: UIFont.Weight = .regular) -> UIFont {
             caption1(weight: weight, for: nil)
         }
-        
+
         static func caption2(weight: UIFont.Weight = .regular) -> UIFont {
             caption2(weight: weight, for: nil)
         }
-        
+
         static func bodyItalic(weight: UIFont.Weight = .regular) -> UIFont {
             bodyItalic(weight: weight, for: nil)
         }
     }
-    
-    
-    
+
     enum Spacing {
         static let xxSmall: CGFloat = 4
         static let xSmall: CGFloat = 8
@@ -386,149 +256,101 @@ enum PapyrusDesignSystem {
         static let large: CGFloat = 24
         static let xLarge: CGFloat = 32
         static let xxLarge: CGFloat = 48
-        
-        // iPad-specific spacing
+
         static func adaptive(_ base: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
             let layoutManager = AdaptiveLayoutManager.shared
             if layoutManager.usesTabletLayout(traitCollection) && layoutManager.isRegularWidth(traitCollection) {
-                return base * 1.25  // 25% more spacing on iPad
+                return base * 1.25
             }
             return base
         }
-        
+
         static func xxSmall(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(xxSmall, for: traitCollection)
         }
-        
+
         static func xSmall(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(xSmall, for: traitCollection)
         }
-        
+
         static func small(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(small, for: traitCollection)
         }
-        
+
         static func medium(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(medium, for: traitCollection)
         }
-        
+
         static func large(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(large, for: traitCollection)
         }
-        
+
         static func xLarge(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(xLarge, for: traitCollection)
         }
-        
+
         static func xxLarge(for traitCollection: UITraitCollection) -> CGFloat {
             adaptive(xxLarge, for: traitCollection)
         }
     }
-    
-    
-    
+
     enum CornerRadius {
-        static let small: CGFloat = 8
-        static let medium: CGFloat = 12
-        static let large: CGFloat = 16
-        static let xLarge: CGFloat = 24
-        static let rounded: CGFloat = 9999 
+        static let small: CGFloat = 10
+        static let medium: CGFloat = 14
+        static let large: CGFloat = 20
+        static let xLarge: CGFloat = 28
+        static let rounded: CGFloat = 9999
     }
-    
-    
-    
+
     enum Shadow {
         static func papyrus(color: UIColor = .black) -> (color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
-            return (color: color.cgColor, opacity: 0.15, offset: CGSize(width: 0, height: 2), radius: 8)
+            (color: color.cgColor, opacity: 0.35, offset: CGSize(width: 0, height: 4), radius: 12)
         }
-        
+
         static func elevated(color: UIColor = .black) -> (color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
-            return (color: color.cgColor, opacity: 0.2, offset: CGSize(width: 0, height: 4), radius: 12)
+            (color: color.cgColor, opacity: 0.45, offset: CGSize(width: 0, height: 8), radius: 18)
         }
-        
+
         static func floating(color: UIColor = .black) -> (color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
-            return (color: color.cgColor, opacity: 0.25, offset: CGSize(width: 0, height: 8), radius: 16)
+            (color: color.cgColor, opacity: 0.55, offset: CGSize(width: 0, height: 12), radius: 24)
+        }
+
+        /// A soft halo in `color`, for things that should read as lit from within.
+        static func glow(color: UIColor) -> (color: CGColor, opacity: Float, offset: CGSize, radius: CGFloat) {
+            (color: color.cgColor, opacity: 0.55, offset: .zero, radius: 18)
         }
     }
-    
-    
-    
+
     enum Border {
-        static let width: CGFloat = 1.5
-        static let accentWidth: CGFloat = 2.5
-        
+        static let width: CGFloat = 1
+        static let accentWidth: CGFloat = 1.5
+
         static func ancient(width: CGFloat = Border.width) -> (width: CGFloat, color: CGColor) {
-            return (width: width, color: Colors.Dynamic.border.cgColor)
+            (width: width, color: Colors.Dynamic.border.cgColor)
         }
-        
+
         static func gold(width: CGFloat = Border.accentWidth) -> (width: CGFloat, color: CGColor) {
-            return (width: width, color: Colors.Core.goldLeaf.cgColor)
+            (width: width, color: Colors.Core.goldLeaf.cgColor)
         }
     }
-    
-    
-    
+
     enum Animation {
         static let quick: TimeInterval = 0.2
         static let normal: TimeInterval = 0.3
         static let slow: TimeInterval = 0.5
         static let reveal: TimeInterval = 0.8
-        
         static let springDamping: CGFloat = 0.7
         static let springVelocity: CGFloat = 0.5
     }
-    
-    
-    
-    enum Texture {
-        static func papyrusPattern() -> UIColor {
-            
-            UIColor(patternImage: createPapyrusTexture())
-        }
-        
-        private static func createPapyrusTexture() -> UIImage {
-            let size = CGSize(width: 100, height: 100)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0)
-            
-            
-            Colors.beige.setFill()
-            UIRectFill(CGRect(origin: .zero, size: size))
-            
-            
-            let context = UIGraphicsGetCurrentContext()!
-            context.setStrokeColor(Colors.aged.withAlphaComponent(0.1).cgColor)
-            context.setLineWidth(0.5)
-            
-            
-            for _ in 0..<20 {
-                let startX = CGFloat.random(in: 0...size.width)
-                let startY = CGFloat.random(in: 0...size.height)
-                let endX = startX + CGFloat.random(in: -20...20)
-                let endY = startY + CGFloat.random(in: -20...20)
-                
-                context.move(to: CGPoint(x: startX, y: startY))
-                context.addLine(to: CGPoint(x: endX, y: endY))
-                context.strokePath()
-            }
-            
-            let image = UIGraphicsGetImageFromCurrentImageContext()!
-            UIGraphicsEndImageContext()
-            
-            return image
-        }
-    }
-    
-    
-    
-    enum Glass {
 
+    enum Glass {
         static func effect(interactive: Bool = false) -> UIVisualEffect {
             if #available(iOS 26.0, *) {
                 let glass = UIGlassEffect()
                 glass.isInteractive = interactive
                 return glass
             }
-            return UIBlurEffect(style: .systemThinMaterial)
+            return UIBlurEffect(style: .systemThinMaterialDark)
         }
 
         static func makeCard(cornerRadius: CGFloat = CornerRadius.large, interactive: Bool = false) -> UIVisualEffectView {
@@ -541,15 +363,13 @@ enum PapyrusDesignSystem {
     }
 
     enum ComponentStyle {
-
         static func applyPapyrusCard(to view: UIView, elevated: Bool = false) {
             view.backgroundColor = Colors.Component.Card.background
             view.layer.cornerRadius = CornerRadius.large
-            
+            view.layer.cornerCurve = .continuous
             let border = Border.ancient()
             view.layer.borderWidth = border.width
             view.layer.borderColor = border.color
-            
             if elevated {
                 let shadow = Shadow.elevated()
                 view.layer.shadowColor = shadow.color
@@ -558,11 +378,9 @@ enum PapyrusDesignSystem {
                 view.layer.shadowRadius = shadow.radius
             }
         }
-        
-        
+
         static func applyPapyrusButton(to button: UIButton, style: ButtonStyle = .primary) {
             var config = UIButton.Configuration.filled()
-            
             switch style {
             case .primary:
                 config.baseBackgroundColor = Colors.Component.Button.primaryBackground
@@ -577,34 +395,43 @@ enum PapyrusDesignSystem {
                 config.baseBackgroundColor = Colors.Component.Button.destructiveBackground
                 config.baseForegroundColor = Colors.Component.Button.destructiveForeground
             }
-            
-            config.cornerStyle = .medium
+            config.cornerStyle = .capsule
+            config.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
             config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
                 outgoing.font = Typography.headline(weight: .semibold)
                 return outgoing
             }
-            
             button.configuration = config
         }
-        
+
         enum ButtonStyle {
             case primary, secondary, tertiary, destructive
         }
     }
 }
 
-
+extension UIColor {
+    /// A color from a 0xRRGGBB literal.
+    convenience init(hex: UInt32, alpha: CGFloat = 1) {
+        self.init(
+            red: CGFloat((hex >> 16) & 0xFF) / 255,
+            green: CGFloat((hex >> 8) & 0xFF) / 255,
+            blue: CGFloat(hex & 0xFF) / 255,
+            alpha: alpha
+        )
+    }
+}
 
 extension UIView {
     func applyPapyrusBackground() {
         backgroundColor = PapyrusDesignSystem.Colors.background
     }
-    
+
     func applyPapyrusCard(elevated: Bool = false) {
         PapyrusDesignSystem.ComponentStyle.applyPapyrusCard(to: self, elevated: elevated)
     }
-    
+
     func addPapyrusBorder(style: BorderStyle = .ancient) {
         switch style {
         case .ancient:
@@ -617,16 +444,15 @@ extension UIView {
             layer.borderColor = border.color
         }
     }
-    
+
     enum BorderStyle {
         case ancient, gold
     }
 }
 
-
-
 extension UILabel {
     func applyPapyrusStyle(_ style: TextStyle) {
+        adjustsFontForContentSizeCategory = true
         switch style {
         case .largeTitle:
             font = PapyrusDesignSystem.Typography.largeTitle()
@@ -660,7 +486,7 @@ extension UILabel {
             textColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
         }
     }
-    
+
     enum TextStyle {
         case largeTitle, title1, title2, title3, headline, body, callout, subheadline, footnote, caption
     }

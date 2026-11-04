@@ -189,7 +189,7 @@ final class ProfileViewController: UIViewController {
         xpRingView.accessibilityLabel = String(localized: "Experience progress")
         xpRingView.addSubview(avatarImageView)
 
-        nameLabel.font = UIFont(name: "Papyrus", size: 24) ?? .systemFont(ofSize: 24, weight: .bold)
+        nameLabel.font = PapyrusDesignSystem.Typography.serif(24, weight: .bold)
         nameLabel.textColor = UIColor.Papyrus.primaryText
         nameLabel.numberOfLines = 1
         nameLabel.adjustsFontSizeToFitWidth = true

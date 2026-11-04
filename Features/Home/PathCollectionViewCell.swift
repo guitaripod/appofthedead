@@ -31,11 +31,7 @@ final class PathCollectionViewCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        if let papyrusFont = UIFont(name: "Papyrus", size: 16) {
-            label.font = papyrusFont
-        } else {
-            label.font = .systemFont(ofSize: 16, weight: .semibold)
-        }
+        label.font = PapyrusDesignSystem.Typography.serif(16, weight: .semibold)
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true

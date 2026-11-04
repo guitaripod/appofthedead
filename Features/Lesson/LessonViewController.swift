@@ -132,11 +132,7 @@ final class LessonViewController: UIViewController {
     }
     
     private func setupTitleLabel() {
-        if let papyrusFont = UIFont(name: "Papyrus", size: 30) {
-            lessonTitleLabel.font = papyrusFont
-        } else {
-            lessonTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
-        }
+        lessonTitleLabel.font = PapyrusDesignSystem.Typography.serif(30, weight: .bold)
         lessonTitleLabel.textColor = UIColor.Papyrus.primaryText
         lessonTitleLabel.textAlignment = .left
         lessonTitleLabel.numberOfLines = 0

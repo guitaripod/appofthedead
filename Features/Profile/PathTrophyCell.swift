@@ -34,7 +34,7 @@ final class PathTrophyCell: UICollectionViewCell {
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        nameLabel.font = UIFont(name: "Papyrus", size: 15) ?? .systemFont(ofSize: 15, weight: .semibold)
+        nameLabel.font = PapyrusDesignSystem.Typography.serif(15, weight: .semibold)
         nameLabel.textColor = UIColor.Papyrus.primaryText
         nameLabel.textAlignment = .center
         nameLabel.numberOfLines = 2

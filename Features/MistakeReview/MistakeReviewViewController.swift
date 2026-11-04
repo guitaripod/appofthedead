@@ -48,11 +48,7 @@ final class MistakeReviewViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(localized: "Mistake Review")
-        if let papyrusFont = UIFont(name: "Papyrus", size: 24) {
-            label.font = papyrusFont
-        } else {
-            label.font = .systemFont(ofSize: 24, weight: .bold)
-        }
+        label.font = PapyrusDesignSystem.Typography.serif(24, weight: .bold)
         label.textColor = UIColor.Papyrus.primaryText
         label.textAlignment = .center
         return label
