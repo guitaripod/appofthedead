@@ -3,9 +3,11 @@
 
 Usage: compose_store_shots.py RAW_DIR LOCALE [LOCALE ...]
 
-RAW_DIR holds <device>/<locale>/NN-name.png raw captures (iphone 1320x2868, ipad 2064x2752). Each capture is framed
-with the `frames` CLI (the bezel), then set on a night sky with a glow in the shot's color and a caption from
-marketing/captions/<locale>.json. Output goes to store/shots/<device>/<locale>/NN-name.png, ready for `midgar shots`.
+RAW_DIR holds <device>/<locale>/NN-name.png raw captures (iphone 1320x2868, ipad 2064x2752, duo at any of its four
+slot sizes: 1398x2034, 2034x1398, 2007x2853, 2853x2007). Each capture is framed with the `frames` CLI (the bezel), then
+set on a night sky with a glow in the shot's color and a caption from marketing/captions/<locale>.json. A Duo shot keeps
+its capture's size, so each lands in the App Store slot of its display and orientation. Output goes to
+store/shots/<device>/<locale>/NN-name.png, ready for `midgar shots`.
 """
 
 import json
@@ -24,7 +26,9 @@ OUT = os.path.join(APP, "store", "shots")
 FRAMES = os.path.expanduser("~/.local/bin/frames")
 
 CANVAS = {"iphone": (1320, 2868), "ipad": (2064, 2752)}
-FRAME_COLOR = {"iphone": "Silver", "ipad": "Silver"}
+DUO_SLOTS = {(1398, 2034), (2034, 1398), (2007, 2853), (2853, 2007)}
+FRAME_COLOR = {"iphone": "Silver", "ipad": "Silver", "duo": "Star White"}
+DEVICES = ("iphone", "ipad", "duo")
 NIGHT_TOP = (12, 10, 17)
 NIGHT_BOTTOM = (28, 19, 40)
 GOLD = (229, 186, 92)
@@ -167,14 +171,30 @@ def frame(raw, device):
         return Image.open(info["output"]).convert("RGBA")
 
 
+def canvas_size(raw, device):
+    """The slot a shot fills: fixed for iPhone and iPad, the capture's own size for a Duo display and orientation."""
+    if device != "duo":
+        return CANVAS[device]
+    size = Image.open(raw).size
+    assert size in DUO_SLOTS, (raw, size)
+    return size
+
+
+def caption_sizes(device, width, height):
+    """Kicker and headline point sizes, from the width on phones and tablets and from the short side on a Duo."""
+    if device == "duo":
+        short = min(width, height)
+        return int(short * 0.024), int(short * 0.066)
+    return int(width * (0.031 if device == "iphone" else 0.021)), int(width * (0.088 if device == "iphone" else 0.06))
+
+
 def compose(raw, device, locale, caption, index):
-    width, height = CANVAS[device]
+    width, height = canvas_size(raw, device)
     glow = hex_color(caption.get("glow", "#E5BA5C"))
     canvas = night_sky((width, height), glow, seed=index * 7 + len(locale))
     draw = ImageDraw.Draw(canvas)
     margin = int(width * 0.08)
-    kicker_size = int(width * (0.031 if device == "iphone" else 0.021))
-    headline_size = int(width * (0.088 if device == "iphone" else 0.06))
+    kicker_size, headline_size = caption_sizes(device, width, height)
     kicker = kicker_font(locale, kicker_size)
     y = int(height * 0.055)
     kicker_text = caption["kicker"].upper() if not any(ord(ch) > 0x2E80 for ch in caption["kicker"]) else caption["kicker"]
@@ -196,9 +216,8 @@ def compose(raw, device, locale, caption, index):
     y += int(height * 0.025)
 
     device_image = frame(raw, device)
-    target_width = int(width * (0.9 if device == "iphone" else 0.86))
-    scale = target_width / device_image.width
-    scaled = device_image.resize((target_width, int(device_image.height * scale)), Image.Resampling.LANCZOS)
+    scale = device_scale(device_image, device, width, height, y)
+    scaled = device_image.resize((int(device_image.width * scale), int(device_image.height * scale)), Image.Resampling.LANCZOS)
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     shadow_mask = Image.new("L", canvas.size, 0)
     x = (width - scaled.width) // 2
@@ -209,11 +228,18 @@ def compose(raw, device, locale, caption, index):
     return canvas.convert("RGB")
 
 
+def device_scale(device_image, device, width, height, top):
+    """Phones and tablets fill the width and run off the bottom edge; a landscape Duo fits whole below the caption."""
+    if device == "duo" and width > height:
+        return min(width * 0.86 / device_image.width, (height - top - height * 0.04) / device_image.height)
+    return width * (0.9 if device == "iphone" else 0.86) / device_image.width
+
+
 def main():
     raw_root, locales = sys.argv[1], sys.argv[2:]
     for locale in locales:
         captions = json.load(open(os.path.join(CAPTIONS, f"{locale}.json")))
-        for device in ("iphone", "ipad"):
+        for device in DEVICES:
             source = os.path.join(raw_root, device, locale)
             if not os.path.isdir(source):
                 continue
@@ -227,7 +253,7 @@ def main():
                 if key not in captions:
                     continue
                 image = compose(os.path.join(source, name), device, locale, captions[key], index)
-                assert image.size == CANVAS[device], (name, image.size)
+                assert image.size == canvas_size(os.path.join(source, name), device), (name, image.size)
                 image.save(os.path.join(target, name), optimize=True)
                 print(f"{device}/{locale}/{name}")
 

@@ -126,12 +126,21 @@ enum DemoWorld {
             soul.record(scene.answers[pick])
         }
         let screen = UIViewController()
-        screen.view.backgroundColor = .black
+        let backdrop = UnderworldBackdropView()
+        backdrop.frame = screen.view.bounds
+        backdrop.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        screen.view.addSubview(backdrop)
         let image = UIImageView(image: SoulCardRenderer.render(JudgmentEngine.verdict(for: soul)))
         image.contentMode = .scaleAspectFit
-        image.frame = screen.view.bounds
-        image.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        image.translatesAutoresizingMaskIntoConstraints = false
         screen.view.addSubview(image)
+        let guide = screen.view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            image.topAnchor.constraint(equalTo: guide.topAnchor, constant: 12),
+            image.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -12),
+            image.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 12),
+            image.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -12),
+        ])
         screen.modalPresentationStyle = .fullScreen
         context.root.present(screen, animated: false)
     }
