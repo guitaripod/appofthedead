@@ -32,11 +32,13 @@ PARCHMENT = (243, 234, 216)
 SERIF = "/System/Library/Fonts/NewYork.ttf"
 SANS = "/System/Library/Fonts/SFNS.ttf"
 CJK = {
-    "ja": ("/System/Library/Fonts/ヒラギノ明朝 ProN.ttc", 0),
+    "ja": ("/System/Library/Fonts/ヒラギノ明朝 ProN.ttc", 2),
     "ko": ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 6),
     "zh-Hans": ("/System/Library/Fonts/Supplemental/Songti.ttc", 0),
-    "zh-Hant": ("/System/Library/Fonts/Supplemental/Songti.ttc", 0),
+    "zh-Hant": ("/System/Library/Fonts/Supplemental/Songti.ttc", 2),
 }
+CLOSING = "？！。、，）」』：；?!.,)ぁぃぅぇぉっゃゅょァィゥェォッャュョー"
+PARTICLES = "のはへをにがとでもや、"
 
 
 def font(path, size, variation=None, index=0):
@@ -95,7 +97,7 @@ def night_sky(size, glow, seed, center=(0.5, 0.62), reach=0.75, strength=0.5):
 
 def wrap(draw, text, face, max_width):
     words = text.split(" ")
-    if len(words) == 1 or any(ord(ch) > 0x2E80 for ch in text):
+    if len(words) == 1:
         lines, current = [], ""
         for ch in text:
             if draw.textlength(current + ch, font=face) > max_width and current:
@@ -119,12 +121,36 @@ def balanced(draw, text, face, max_width):
     """Wraps like `wrap`, then evens out a two-line headline so no word is left alone on its line."""
     lines = wrap(draw, text, face, max_width)
     words = text.split(" ")
+    if len(lines) == 2 and len(words) == 1:
+        return balanced_unspaced(draw, text, face, max_width, lines)
     if len(lines) != 2 or len(words) < 3:
         return lines
     best = lines
     best_width = max(draw.textlength(line, font=face) for line in lines)
     for cut in range(1, len(words)):
         first, second = " ".join(words[:cut]), " ".join(words[cut:])
+        widest = max(draw.textlength(first, font=face), draw.textlength(second, font=face))
+        if widest <= max_width and widest < best_width:
+            best, best_width = [first, second], widest
+    return best
+
+
+def balanced_unspaced(draw, text, face, max_width, lines):
+    """Splits an unspaced (Chinese or Japanese) headline near its middle, never opening a line with closing punctuation.
+
+    Japanese breaks after a particle when one fits, so a word like 裁判官 is never cut in two."""
+    cuts = [cut for cut in range(1, len(text)) if text[cut] not in CLOSING]
+    if any(0x3040 <= ord(ch) <= 0x30FF for ch in text):
+        after_particle = [cut for cut in cuts if text[cut - 1] in PARTICLES]
+        return most_even_split(draw, text, face, max_width, after_particle, None) or most_even_split(draw, text, face, max_width, cuts, lines)
+    return most_even_split(draw, text, face, max_width, cuts, lines)
+
+
+def most_even_split(draw, text, face, max_width, cuts, fallback):
+    """Picks the cut whose wider line is narrowest among those that fit `max_width`, or `fallback` when none fits."""
+    best, best_width = fallback, float("inf")
+    for cut in cuts:
+        first, second = text[:cut], text[cut:]
         widest = max(draw.textlength(first, font=face), draw.textlength(second, font=face))
         if widest <= max_width and widest < best_width:
             best, best_width = [first, second], widest
@@ -189,8 +215,6 @@ def main():
         captions = json.load(open(os.path.join(CAPTIONS, f"{locale}.json")))
         for device in ("iphone", "ipad"):
             source = os.path.join(raw_root, device, locale)
-            if not os.path.isdir(source):
-                source = os.path.join(raw_root, device, "en-US")
             if not os.path.isdir(source):
                 continue
             target = os.path.join(OUT, device, locale)
