@@ -129,7 +129,7 @@ public enum Realm: String, CaseIterable, Codable, Sendable {
         }
     }
 
-    /// Whether the realm is a hard fate (a devoured heart, a pit, a corpse shore), which the verdict screen softens.
+    /// Whether the realm is a hard fate (a devoured heart, a pit, a corpse shore); the rules keep these a minority of verdicts.
     public var isGrim: Bool {
         switch self {
         case .ammit, .tartarus, .nastrond, .houseOfLies, .hungryGhosts: return true
