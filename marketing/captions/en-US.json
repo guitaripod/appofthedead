@@ -16,7 +16,7 @@
  },
  "soulcard": {
   "kicker": "Your Soul Card",
-  "headline": "See where your friends end up",
+  "headline": "Dare your friends to face it",
   "glow": "#F07E62"
  },
  "oracle": {
@@ -31,7 +31,7 @@
  },
  "lesson": {
   "kicker": "Story-card lessons",
-  "headline": "Five minutes a day",
+  "headline": "One story at a time",
   "glow": "#E5BA5C"
  },
  "home": {

@@ -2,7 +2,7 @@
  "verdict": {"kicker": "Sąd", "headline": "Dokąd trafi twoja dusza?", "glow": "#E5BA5C"},
  "charon": {"kicker": "Dziewięć pytań, sześć zaświatów", "headline": "Odpowiedz sędziom zmarłych", "glow": "#A98BF0"},
  "weighing": {"kicker": "Sala Dwóch Prawd", "headline": "Twoje serce kontra piórko", "glow": "#E5BA5C"},
- "soulcard": {"kicker": "Twoja Karta Duszy", "headline": "Zobacz, gdzie wylądują przyjaciele", "glow": "#F07E62"},
+ "soulcard": {"kicker": "Twoja Karta Duszy", "headline": "Rzuć wyzwanie przyjaciołom", "glow": "#F07E62"},
  "oracle": {"kicker": "Wyrocznia", "headline": "Porozmawiaj z bogami", "glow": "#D4A574"},
  "pathmap": {"kicker": "22 zaświaty", "headline": "Od Walhalli po Duat", "glow": "#9A7BE6"},
  "lesson": {"kicker": "Lekcje w kartach historii", "headline": "Pięć minut dziennie", "glow": "#E5BA5C"},

@@ -2,7 +2,7 @@
  "verdict": {"kicker": "審判", "headline": "魂はどこへ行く？", "glow": "#E5BA5C"},
  "charon": {"kicker": "9つの問い、6つの来世", "headline": "死者の裁判官に答えよ", "glow": "#A98BF0"},
  "weighing": {"kicker": "二つの真実の間", "headline": "心臓を羽根と量る", "glow": "#E5BA5C"},
- "soulcard": {"kicker": "あなたの魂のカード", "headline": "友人の行く先を見よう", "glow": "#F07E62"},
+ "soulcard": {"kicker": "あなたの魂のカード", "headline": "友人にも挑ませよう", "glow": "#F07E62"},
  "oracle": {"kicker": "オラクル", "headline": "神々と語らおう", "glow": "#D4A574"},
  "pathmap": {"kicker": "22の死後の世界", "headline": "ヴァルハラからドゥアトまで", "glow": "#9A7BE6"},
  "lesson": {"kicker": "ストーリー形式の学習", "headline": "1日5分で学ぶ", "glow": "#E5BA5C"},

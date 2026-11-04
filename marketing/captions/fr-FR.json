@@ -2,7 +2,7 @@
  "verdict": {"kicker": "Le Jugement", "headline": "Où ira ton âme ?", "glow": "#E5BA5C"},
  "charon": {"kicker": "Neuf questions, six au-delà", "headline": "Réponds aux juges des morts", "glow": "#A98BF0"},
  "weighing": {"kicker": "La Salle des deux Vérités", "headline": "Ton cœur contre la plume", "glow": "#E5BA5C"},
- "soulcard": {"kicker": "Ta Carte d'Âme", "headline": "Découvre où finiront tes amis", "glow": "#F07E62"},
+ "soulcard": {"kicker": "Ta Carte d'Âme", "headline": "Défie tes amis", "glow": "#F07E62"},
  "oracle": {"kicker": "L'Oracle", "headline": "Parle aux dieux", "glow": "#D4A574"},
  "pathmap": {"kicker": "22 au-delà", "headline": "Du Walhalla au Douat", "glow": "#9A7BE6"},
  "lesson": {"kicker": "Leçons en cartes-récits", "headline": "Cinq minutes par jour", "glow": "#E5BA5C"},
