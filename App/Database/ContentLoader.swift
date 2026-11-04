@@ -29,9 +29,9 @@ nonisolated final class ContentLoader: Sendable {
         
         
         let beliefSystemIds = [
+            "egyptian-afterlife", "greek-underworld", "norse", "aztec-mictlan",
             "judaism", "christianity", "islam", "hinduism", "buddhism",
-            "sikhism", "egyptian-afterlife", "greek-underworld", "norse",
-            "aztec-mictlan", "zoroastrianism", "shinto", "taoism",
+            "zoroastrianism", "shinto", "taoism", "sikhism",
             "mandaeism", "wicca", "bahai", "tenrikyo", "aboriginal-dreamtime",
             "native-american-visions", "anthroposophy", "theosophy", "swedenborgian-visions"
         ]
@@ -55,7 +55,6 @@ nonisolated final class ContentLoader: Sendable {
         }
         
         
-        beliefSystems.sort { $0.id < $1.id }
         
         let loaded = beliefSystems
         cache.withLock { $0.beliefSystems = loaded }

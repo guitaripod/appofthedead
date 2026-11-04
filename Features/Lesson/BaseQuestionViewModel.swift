@@ -24,7 +24,7 @@ class BaseQuestionViewModel {
     }
     
     var beliefSystemColor: UIColor? {
-        UIColor(hex: beliefSystem.color)
+        PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
     }
     
     var xpReward: Int {

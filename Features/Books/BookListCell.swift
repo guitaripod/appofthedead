@@ -256,8 +256,8 @@ final class BookListCell: UICollectionViewCell {
         
         
         if let beliefSystem = beliefSystem {
-            coverImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf)
-            coverImageView.tintColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+            coverImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: PapyrusDesignSystem.Colors.tradition(beliefSystem.color))
+            coverImageView.tintColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         } else {
             coverImageView.image = UIImage(systemName: "book.closed.fill")
             coverImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf

@@ -154,7 +154,7 @@ final class DeityCollectionListCell: UICollectionViewCell {
         traditionLabel.text = deity.tradition.uppercased()
         
         
-        let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+        let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         traditionLabel.textColor = deityColor.withAlphaComponent(0.8)
         
         

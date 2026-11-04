@@ -56,7 +56,7 @@ class PathCompletionOptionsViewController: UIViewController {
         progressLabel.textAlignment = .center
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        progressView.progressTintColor = UIColor(hex: beliefSystem.color)
+        progressView.progressTintColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
         progressView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -80,7 +80,7 @@ class PathCompletionOptionsViewController: UIViewController {
         masterTestButton.configuration?.image = UIImage(systemName: "crown.fill")
         masterTestButton.configuration?.imagePadding = 8
         masterTestButton.configuration?.baseForegroundColor = .white
-        masterTestButton.configuration?.baseBackgroundColor = UIColor(hex: beliefSystem.color)
+        masterTestButton.configuration?.baseBackgroundColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         masterTestButton.addTarget(self, action: #selector(masterTestTapped), for: .touchUpInside)
         
         masterTestInfoLabel.font = .systemFont(ofSize: 13)

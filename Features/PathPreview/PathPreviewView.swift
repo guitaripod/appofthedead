@@ -239,7 +239,7 @@ class PathPreviewView: UIView {
     
     func configure(with preview: PathPreview, beliefSystem: BeliefSystem, price: String, onUnlock: @escaping (ProductIdentifier) -> Void) {
         self.onUnlockTapped = onUnlock
-        self.pathColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        self.pathColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         
         
         self.productId = ProductIdentifier.allCases.first { $0.beliefSystemId == beliefSystem.id }

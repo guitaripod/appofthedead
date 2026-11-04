@@ -29,7 +29,7 @@ final class MistakeReviewViewController: UIViewController {
         let view = UIProgressView(progressViewStyle: .default)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
-        view.progressTintColor = UIColor(hex: beliefSystem.color) ?? UIColor.Papyrus.gold
+        view.progressTintColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
         return view

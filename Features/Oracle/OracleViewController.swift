@@ -161,7 +161,7 @@ final class OracleViewController: UIViewController {
     }
     private func setupSummon() {
         let summon = OracleSummonView(
-            deityColor: viewModel.selectedDeity.flatMap { UIColor(hex: $0.color) },
+            deityColor: viewModel.selectedDeity.map { PapyrusDesignSystem.Colors.tradition($0.color) },
             isSimulator: DeviceUtility.isSimulator
         )
         summon.translatesAutoresizingMaskIntoConstraints = false
@@ -427,10 +427,10 @@ final class OracleViewController: UIViewController {
         if let iconImage = UIImage(systemName: deity.avatar) {
             let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
             deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
-            deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+            deitySelectionButton.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         } else {
             deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
-            deitySelectionButton.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+            deitySelectionButton.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         }
         updatePromptSuggestions()
     }
@@ -451,10 +451,10 @@ final class OracleViewController: UIViewController {
         containerView.addSubview(headerView)
         let iconSize: CGFloat = 32
         let iconContainerView = UIView()
-        iconContainerView.backgroundColor = UIColor(hex: deity.color)?.withAlphaComponent(0.15) ?? UIColor.Papyrus.gold.withAlphaComponent(0.15)
+        iconContainerView.backgroundColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.15)
         iconContainerView.layer.cornerRadius = iconSize / 2
         iconContainerView.layer.borderWidth = 1
-        iconContainerView.layer.borderColor = (UIColor(hex: deity.color) ?? UIColor.Papyrus.gold).withAlphaComponent(0.3).cgColor
+        iconContainerView.layer.borderColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.3).cgColor
         iconContainerView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(iconContainerView)
         let iconImageView = UIImageView()
@@ -462,7 +462,7 @@ final class OracleViewController: UIViewController {
             let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
             iconImageView.image = iconImage.withConfiguration(config)
         }
-        iconImageView.tintColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+        iconImageView.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconContainerView.addSubview(iconImageView)
         let nameLabel = UILabel()
@@ -624,7 +624,7 @@ final class OracleViewController: UIViewController {
         transitionView.alpha = 0
         view.addSubview(transitionView)
         if let deity = viewModel.selectedDeity {
-            let deityColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+            let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color)
             let circleView = UIView()
             circleView.backgroundColor = deityColor.withAlphaComponent(0.3)
             circleView.layer.cornerRadius = 30
@@ -790,7 +790,7 @@ private class ChatMessageCell: UITableViewCell {
             if let deity = message.deity {
                 nameLabel.isHidden = false
                 nameLabel.text = deity.name
-                nameLabel.textColor = UIColor(hex: deity.color) ?? UIColor.Papyrus.gold
+                nameLabel.textColor = PapyrusDesignSystem.Colors.tradition(deity.color)
                 bubbleTopConstraint?.constant = 28
                 bubbleBottomConstraint?.constant = -8
                 NSLayoutConstraint.activate([

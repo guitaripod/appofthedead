@@ -33,7 +33,7 @@ final class LessonViewModel {
     }
     
     var beliefSystemColor: UIColor? {
-        UIColor(hex: beliefSystem.color)
+        PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
     }
     
     var beliefSystemId: String {

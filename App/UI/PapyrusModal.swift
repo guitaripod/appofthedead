@@ -159,7 +159,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         
         if traitCollection.userInterfaceStyle == .dark {
-            headerView.layer.shadowColor = UIColor(hex: deity.color)?.cgColor ?? UIColor.systemPurple.cgColor
+            headerView.layer.shadowColor = PapyrusDesignSystem.Colors.tradition(deity.color).cgColor
             headerView.layer.shadowOpacity = 0.3
             headerView.layer.shadowOffset = CGSize(width: 0, height: 2)
             headerView.layer.shadowRadius = 8
@@ -255,7 +255,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         
         
-        let deityColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
         loadingView.setDeityColor(deityColor)
         
         NSLayoutConstraint.activate([
@@ -309,7 +309,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         }
         downloadContainerView.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.large
         downloadContainerView.layer.borderWidth = 1
-        let baseColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
         downloadContainerView.layer.borderColor = traitCollection.userInterfaceStyle == .dark
             ? baseColor.withAlphaComponent(0.3).cgColor
             : PapyrusDesignSystem.Colors.aged.cgColor
@@ -532,14 +532,14 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         if isDarkMode {
             
             gradientLayer?.colors = [
-                (UIColor(hex: deity.color)?.withAlphaComponent(0.4) ?? UIColor.clear).cgColor,
-                (UIColor(hex: deity.color)?.withAlphaComponent(0.1) ?? UIColor.clear).cgColor
+                PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.4).cgColor,
+                PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.1).cgColor
             ]
         } else {
             
             gradientLayer?.colors = [
-                (UIColor(hex: deity.color)?.withAlphaComponent(0.15) ?? UIColor.clear).cgColor,
-                (UIColor(hex: deity.color)?.withAlphaComponent(0.05) ?? UIColor.clear).cgColor
+                PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.15).cgColor,
+                PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.05).cgColor
             ]
         }
     }
@@ -549,10 +549,10 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         
         if isDarkMode {
             
-            headerView.layer.borderColor = UIColor(hex: deity.color)?.withAlphaComponent(0.6).cgColor ?? UIColor.systemPurple.cgColor
+            headerView.layer.borderColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.6).cgColor
             headerView.layer.borderWidth = 1.5
         } else {
-            headerView.layer.borderColor = UIColor(hex: deity.color)?.withAlphaComponent(0.3).cgColor ?? PapyrusDesignSystem.Colors.aged.cgColor
+            headerView.layer.borderColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.3).cgColor
             headerView.layer.borderWidth = 1
         }
     }
@@ -561,7 +561,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
         if isDarkMode {
-            headerView.layer.shadowColor = UIColor(hex: deity.color)?.cgColor ?? UIColor.systemPurple.cgColor
+            headerView.layer.shadowColor = PapyrusDesignSystem.Colors.tradition(deity.color).cgColor
             headerView.layer.shadowOpacity = 0.3
             headerView.layer.shadowOffset = CGSize(width: 0, height: 2)
             headerView.layer.shadowRadius = 8
@@ -581,7 +581,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     private func updateDownloadContainerColors() {
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
-        let baseColor = UIColor(hex: deity.color) ?? UIColor.systemPurple
+        let baseColor = PapyrusDesignSystem.Colors.tradition(deity.color) ?? UIColor.systemPurple
         
         downloadContainerView.layer.borderColor = isDarkMode
             ? baseColor.withAlphaComponent(0.3).cgColor

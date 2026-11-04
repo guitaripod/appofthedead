@@ -176,7 +176,7 @@ final class HomeViewModel {
                 id: beliefSystem.id,
                 name: beliefSystem.name,
                 icon: beliefSystem.icon,
-                color: UIColor(hex: beliefSystem.color) ?? .systemGray,
+                color: PapyrusDesignSystem.Colors.tradition(beliefSystem.color),
                 totalXP: beliefSystem.totalXP,
                 currentXP: currentXP,
                 isUnlocked: isUnlocked,

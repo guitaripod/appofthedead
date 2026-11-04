@@ -57,7 +57,7 @@ class PathPreviewViewController: UIViewController {
         
         
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = UIColor(hex: beliefSystem.color)
+        iconImageView.tintColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         
@@ -142,7 +142,7 @@ class PathPreviewViewController: UIViewController {
     
     private func configure() {
         
-        iconImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf, size: 40)
+        iconImageView.image = IconProvider.beliefSystemIcon(for: beliefSystem.icon, color: PapyrusDesignSystem.Colors.tradition(beliefSystem.color), size: 40)
         titleLabel.text = beliefSystem.name
         
         
@@ -203,7 +203,7 @@ class PathPreviewViewController: UIViewController {
         let container = UIView()
         
         let iconView = UIImageView(image: icon)
-        iconView.tintColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        iconView.tintColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         iconView.contentMode = .scaleAspectFit
         iconView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -300,7 +300,7 @@ class PathPreviewViewController: UIViewController {
         let numberLabel = UILabel()
         numberLabel.text = "\(index)."
         numberLabel.font = PapyrusDesignSystem.Typography.body().withSize(14)
-        numberLabel.textColor = UIColor(hex: beliefSystem.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        numberLabel.textColor = PapyrusDesignSystem.Colors.tradition(beliefSystem.color)
         numberLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let topicLabel = UILabel()

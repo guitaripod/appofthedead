@@ -296,7 +296,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         
         downloadButton.setTitle(DeviceUtility.isSimulator ? String(localized: "Use Physical Device") : String(localized: "Download Oracle Model"), for: .normal)
         downloadButton.titleLabel?.font = PapyrusDesignSystem.Typography.body(weight: .semibold)
-        downloadButton.backgroundColor = deity?.color != nil ? UIColor(hex: deity!.color) : PapyrusDesignSystem.Colors.goldLeaf
+        downloadButton.backgroundColor = deity.map { PapyrusDesignSystem.Colors.tradition($0.color) } ?? PapyrusDesignSystem.Colors.goldLeaf
         downloadButton.setTitleColor(.white, for: .normal)
         downloadButton.layer.cornerRadius = PapyrusDesignSystem.CornerRadius.medium
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
@@ -352,7 +352,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         
         if let symbolImage = UIImage(systemName: deity.avatar) {
             deityImageView.image = symbolImage
-            deityImageView.tintColor = UIColor(hex: deity.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+            deityImageView.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         } else {
             deityImageView.image = UIImage(systemName: "sparkle.magnifyingglass")
             deityImageView.tintColor = PapyrusDesignSystem.Colors.goldLeaf
@@ -362,32 +362,32 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         titleLabel.text = String(localized: "\(deity.name)'s Wisdom")
         
         
-        let deityColor = UIColor(hex: deity.color) ?? PapyrusDesignSystem.Colors.goldLeaf
+        let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color)
         loadingView.setDeityColor(deityColor)
         downloadLoadingView.setDeityColor(deityColor)
         updateColors()
     }
     
     private func updateColors() {
-        let deityColor = deity?.color != nil ? UIColor(hex: deity!.color) : PapyrusDesignSystem.Colors.goldLeaf
+        let deityColor = deity.map { PapyrusDesignSystem.Colors.tradition($0.color) } ?? PapyrusDesignSystem.Colors.goldLeaf
         let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
         
         if isDarkMode {
             gradientLayer?.colors = [
-                (deityColor?.withAlphaComponent(0.3) ?? UIColor.clear).cgColor,
-                (deityColor?.withAlphaComponent(0.1) ?? UIColor.clear).cgColor
+                deityColor.withAlphaComponent(0.3).cgColor,
+                deityColor.withAlphaComponent(0.1).cgColor
             ]
         } else {
             gradientLayer?.colors = [
-                (deityColor?.withAlphaComponent(0.15) ?? UIColor.clear).cgColor,
-                (deityColor?.withAlphaComponent(0.05) ?? UIColor.clear).cgColor
+                deityColor.withAlphaComponent(0.15).cgColor,
+                deityColor.withAlphaComponent(0.05).cgColor
             ]
         }
         
         
-        headerView.layer.borderColor = deityColor?.withAlphaComponent(0.3).cgColor ?? PapyrusDesignSystem.Colors.aged.cgColor
-        downloadContainerView.layer.borderColor = deityColor?.withAlphaComponent(0.3).cgColor ?? PapyrusDesignSystem.Colors.aged.cgColor
+        headerView.layer.borderColor = deityColor.withAlphaComponent(0.3).cgColor
+        downloadContainerView.layer.borderColor = deityColor.withAlphaComponent(0.3).cgColor
     }
     
     
