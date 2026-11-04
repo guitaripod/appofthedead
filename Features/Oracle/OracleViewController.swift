@@ -15,6 +15,7 @@ final class OracleViewController: UIViewController {
     private var lastInputContainerTop: CGFloat = 0
     private var typingIndicator: UIActivityIndicatorView?
     private var summonView: OracleSummonView?
+    private let disclosureHeader = OracleDisclosureView()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -40,6 +41,13 @@ final class OracleViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         followInputContainerWhenKeyboardMoves()
+        sizeDisclosureHeader()
+    }
+
+    /// Keeps the AI disclosure above the conversation as wide as the table, which a table header does not do by itself.
+    private func sizeDisclosureHeader() {
+        guard tableView.bounds.width > 0, disclosureHeader.fit(toWidth: tableView.bounds.width) else { return }
+        tableView.tableHeaderView = disclosureHeader
     }
 
     /// The keyboard layout guide moves the input bar; the newest message stays above it.
@@ -79,6 +87,7 @@ final class OracleViewController: UIViewController {
         tableView.contentInsetAdjustmentBehavior = .automatic
         tableView.clipsToBounds = true
         tableView.register(ChatMessageCell.self, forCellReuseIdentifier: "ChatMessageCell")
+        tableView.tableHeaderView = disclosureHeader
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

@@ -27505,6 +27505,70 @@
         }
       }
     },
+    "Written by AI on this iPhone in the voice of each tradition. It can be wrong and is not religious guidance.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Von einer KI auf diesem iPhone in der Stimme jeder Tradition geschrieben. Sie kann sich irren und ist keine religiöse Weisung."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escrito por una IA en este iPhone con la voz de cada tradición. Puede equivocarse y no es una guía religiosa."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écrit par une IA sur cet iPhone, avec la voix de chaque tradition. Elle peut se tromper et ne remplace pas un guide religieux."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scritto da un'IA su questo iPhone con la voce di ogni tradizione. Può sbagliare e non è una guida religiosa."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このiPhone上のAIが各伝統の語り口で書いた回答です。誤りを含むことがあり、宗教的な指導ではありません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 iPhone의 AI가 각 전통의 목소리로 쓴 답입니다. 틀릴 수 있으며 종교적 지도가 아닙니다."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Napisane przez AI na tym iPhonie głosem każdej tradycji. Może się mylić i nie jest wskazówką religijną."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escrito por uma IA neste iPhone com a voz de cada tradição. Pode errar e não é orientação religiosa."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由此 iPhone 上的 AI 以各传统的口吻写成。可能出错，并非宗教指导。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由此 iPhone 上的 AI 以各傳統的口吻寫成。可能出錯，並非宗教指導。"
+          }
+        }
+      }
+    },
     "XP": {
       "localizations": {
         "de": {

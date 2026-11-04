@@ -32,6 +32,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     private let selectedTextContainer = UIView()
     private let selectedTextLabel = UILabel()
     private let responseTextView = UITextView()
+    private let disclosureView = OracleDisclosureView()
     private let loadingView = PapyrusLoadingView(style: .oracle)
     private let saveButton = UIButton(type: .system)
     
@@ -75,11 +76,13 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
             
             downloadContainerView.isHidden = true
             responseTextView.isHidden = false
+            disclosureView.isHidden = false
             startStreamingExplanation()
         } else {
             
             downloadContainerView.isHidden = false
             responseTextView.isHidden = true
+            disclosureView.isHidden = true
             setupDownloadUI()
         }
         
@@ -141,6 +144,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
         contentStackView.addArrangedSubview(headerView)
         contentStackView.addArrangedSubview(selectedTextContainer)
         contentStackView.addArrangedSubview(responseTextView)
+        contentStackView.addArrangedSubview(disclosureView)
         contentStackView.addArrangedSubview(downloadContainerView)
         contentStackView.addArrangedSubview(saveButton)
         

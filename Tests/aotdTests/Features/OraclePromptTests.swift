@@ -56,7 +56,11 @@ import AppOfTheDeadCore
     }
 
     func testCompassionGuardCatchesFirstPersonDistressInSeveralLanguages() {
-        for message in ["I want to die", "i'm going to kill myself tonight", "Ich will sterben", "quiero morir", "死にたい", "I don’t want to live anymore"] {
+        for message in [
+            "I want to die", "i'm going to kill myself tonight", "Ich will sterben", "quiero morir", "死にたい",
+            "I don’t want to live anymore", "I am thinking of harming myself", "I keep hurting myself",
+            "I've been cutting myself again", "Ich will mich verletzen", "quiero hacerme daño", "자해를 했어요",
+        ] {
             XCTAssertTrue(CompassionGuard.needsCare(message), message)
         }
         for message in ["What happens to people who die in battle?", "Why did the Greeks bury suicides apart?", "Tell me about Hel", "Did Vikings want to die in battle?", "Why do souls end up in Hel?"] {

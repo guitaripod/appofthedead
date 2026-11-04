@@ -133,6 +133,7 @@ enum CompassionGuard {
         "i wanna die", "i want to be dead", "i wish i was dead", "i wish i were dead", "i'd rather be dead",
         "don't want to live", "dont want to live", "do not want to live", "don't want to be alive",
         "dont want to be alive", "end it all", "suicidal", "hurt myself", "harm myself", "cut myself",
+        "hurting myself", "harming myself", "cutting myself", "starve myself", "overdose on purpose",
         "better off dead", "no reason to live", "can't go on living", "unalive myself", "i'm going to end it",
         "me suicider", "me tuer", "envie de mourir", "je veux mourir", "mich umbringen", "ich will sterben",
         "nicht mehr leben", "suicidarme", "matarme", "quiero morir", "quitarme la vida", "uccidermi",
@@ -140,7 +141,11 @@ enum CompassionGuard {
         "chcę umrzeć", "死にたい", "自殺したい", "消えたい", "죽고 싶", "자살하고", "我想死", "想自杀", "不想活",
         "想自殺", "хочу умереть", "покончить с собой", "убить себя", "ölmek istiyorum", "kendimi öldür",
         "intihar etmek", "أريد أن أموت", "أقتل نفسي", "الانتحار", "อยากตาย", "ฆ่าตัวตาย", "muốn chết", "tự tử",
-        "ingin mati", "mau mati", "bunuh diri",
+        "ingin mati", "mau mati", "bunuh diri", "mich verletzen", "mir etwas antun", "mich ritzen",
+        "hacerme daño", "lastimarme", "cortarme", "me faire du mal", "me scarifier", "farmi del male", "tagliarmi",
+        "me machucar", "me cortar", "skrzywdzić siebie", "zrobić sobie krzywdę", "pociąć się", "自分を傷つけ",
+        "リストカット", "자해", "伤害自己", "傷害自己", "自残", "自殘", "навредить себе", "порезать себя",
+        "kendime zarar", "إيذاء نفسي", "ทำร้ายตัวเอง", "tự làm hại bản thân", "menyakiti diri",
     ]
 
     static func needsCare(_ message: String) -> Bool {
