@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "Deine Seelenkarte", "headline": "Fordere deine Freunde heraus", "glow": "#F07E62"},
  "oracle": {"kicker": "Das Orakel", "headline": "Sprich mit den Göttern", "glow": "#D4A574"},
  "pathmap": {"kicker": "22 Jenseitswelten", "headline": "Von Walhall bis zum Duat", "glow": "#9A7BE6"},
- "lesson": {"kicker": "Lektionen als Story-Karten", "headline": "Fünf Minuten am Tag", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "Lektionen als Story-Karten", "headline": "Eine Geschichte nach der anderen", "glow": "#E5BA5C"},
  "home": {"kicker": "Ein tägliches Omen", "headline": "Eine Frage am Tag, jeder Glaube", "glow": "#7FA8F5"}
 }

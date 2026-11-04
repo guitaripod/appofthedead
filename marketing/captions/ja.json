@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "あなたの魂のカード", "headline": "友人にも挑ませよう", "glow": "#F07E62"},
  "oracle": {"kicker": "オラクル", "headline": "神々と語らおう", "glow": "#D4A574"},
  "pathmap": {"kicker": "22の死後の世界", "headline": "ヴァルハラからドゥアトまで", "glow": "#9A7BE6"},
- "lesson": {"kicker": "ストーリー形式の学習", "headline": "1日5分で学ぶ", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "ストーリー形式の学習", "headline": "物語をひとつずつ", "glow": "#E5BA5C"},
  "home": {"kicker": "毎日の神託", "headline": "毎日一問、どの信仰からも", "glow": "#7FA8F5"}
 }

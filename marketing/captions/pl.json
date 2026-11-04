@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "Twoja Karta Duszy", "headline": "Rzuć wyzwanie przyjaciołom", "glow": "#F07E62"},
  "oracle": {"kicker": "Wyrocznia", "headline": "Porozmawiaj z bogami", "glow": "#D4A574"},
  "pathmap": {"kicker": "22 zaświaty", "headline": "Od Walhalli po Duat", "glow": "#9A7BE6"},
- "lesson": {"kicker": "Lekcje w kartach historii", "headline": "Pięć minut dziennie", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "Lekcje w kartach historii", "headline": "Jedna historia naraz", "glow": "#E5BA5C"},
  "home": {"kicker": "Codzienny omen", "headline": "Jedno pytanie dziennie, każda wiara", "glow": "#7FA8F5"}
 }

@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "나의 영혼 카드", "headline": "친구에게도 도전장을", "glow": "#F07E62"},
  "oracle": {"kicker": "오라클", "headline": "신들과 대화하세요", "glow": "#D4A574"},
  "pathmap": {"kicker": "22개의 내세", "headline": "발할라에서 두아트까지", "glow": "#9A7BE6"},
- "lesson": {"kicker": "스토리 카드 수업", "headline": "하루 5분이면 충분", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "스토리 카드 수업", "headline": "한 번에 하나의 이야기", "glow": "#E5BA5C"},
  "home": {"kicker": "매일의 징조", "headline": "매일 한 질문, 모든 신앙", "glow": "#7FA8F5"}
 }

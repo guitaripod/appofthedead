@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "你的灵魂卡", "headline": "邀朋友也来接受审判", "glow": "#F07E62"},
  "oracle": {"kicker": "神谕", "headline": "与众神对话", "glow": "#D4A574"},
  "pathmap": {"kicker": "22种来世", "headline": "从瓦尔哈拉到杜阿特", "glow": "#9A7BE6"},
- "lesson": {"kicker": "故事卡片课程", "headline": "每天五分钟", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "故事卡片课程", "headline": "一次一个故事", "glow": "#E5BA5C"},
  "home": {"kicker": "每日神兆", "headline": "每天一问，跨越所有信仰", "glow": "#7FA8F5"}
 }

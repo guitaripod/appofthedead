@@ -5,6 +5,6 @@
  "soulcard": {"kicker": "Ta Carte d'Âme", "headline": "Défie tes amis", "glow": "#F07E62"},
  "oracle": {"kicker": "L'Oracle", "headline": "Parle aux dieux", "glow": "#D4A574"},
  "pathmap": {"kicker": "22 au-delà", "headline": "Du Walhalla au Douat", "glow": "#9A7BE6"},
- "lesson": {"kicker": "Leçons en cartes-récits", "headline": "Cinq minutes par jour", "glow": "#E5BA5C"},
+ "lesson": {"kicker": "Leçons en cartes-récits", "headline": "Une histoire à la fois", "glow": "#E5BA5C"},
  "home": {"kicker": "Un présage quotidien", "headline": "Une question par jour, toute foi", "glow": "#7FA8F5"}
 }
