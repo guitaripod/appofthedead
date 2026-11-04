@@ -19,7 +19,7 @@
     },
     "de-DE": {
       "name": "Stelle dich dem Totengericht",
-      "shortDescription": "Sechs Religionen wägen deine Seele in zwei Minuten",
+      "shortDescription": "Sechs Jenseits wägen deine Seele in zwei Minuten",
       "longDescription": "Wohin geht deine Seele? Antworte neun Totenwächtern, erhalte dein Urteil aus sechs Traditionen, teile deine Seelenkarte."
     },
     "fr-FR": {
@@ -29,12 +29,12 @@
     },
     "es-ES": {
       "name": "Enfréntate al Juicio",
-      "shortDescription": "Seis religiones pesan tu alma en dos minutos",
+      "shortDescription": "Seis más allá pesan tu alma en dos minutos",
       "longDescription": "¿Adónde irá tu alma? Responde a nueve guardianes de la muerte, recibe veredicto de seis tradiciones y comparte tu Carta."
     },
     "it": {
       "name": "Affronta il Giudizio",
-      "shortDescription": "Sei religioni pesano la tua anima in due minuti",
+      "shortDescription": "Sei aldilà pesano la tua anima in due minuti",
       "longDescription": "Dove andrà la tua anima? Rispondi a nove custodi dei morti, ricevi il verdetto di sei tradizioni e condividi la Carta."
     },
     "ja": {
@@ -44,12 +44,12 @@
     },
     "ko": {
       "name": "심판을 마주하라",
-      "shortDescription": "여섯 종교가 2분 만에 당신의 영혼을 저울질한다",
+      "shortDescription": "여섯 내세가 2분 만에 당신의 영혼을 저울질한다",
       "longDescription": "당신의 영혼은 어디로 갈까요? 죽은 자를 지키는 아홉 수호자에게 답하고, 여섯 전통의 판결을 받아 영혼 카드를 공유하세요."
     },
     "pt-BR": {
       "name": "Enfrente o Julgamento",
-      "shortDescription": "Seis religiões pesam sua alma em dois minutos",
+      "shortDescription": "Seis pós-vidas pesam sua alma em dois minutos",
       "longDescription": "Para onde vai sua alma? Responda a nove guardiões da morte, receba o veredito de seis tradições e compartilhe o Cartão."
     },
     "zh-Hans": {
@@ -69,7 +69,7 @@
     },
     "ru": {
       "name": "Предстань перед Судом",
-      "shortDescription": "Шесть религий взвесят твою душу за две минуты",
+      "shortDescription": "Шесть загробных миров взвесят душу за 2 минуты",
       "longDescription": "Куда отправится твоя душа? Ответь девяти стражам мёртвых, получи приговор шести традиций и поделись своей Картой души."
     },
     "tr": {

@@ -33,7 +33,7 @@
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
-          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears after a finished lesson at most every third lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, once when the in-app Premium Week ends, and from Profile > Upgrade. The Premium Week is not a store trial: finishing the Judgment quiz opens every path for seven days with no purchase, no sign-up and nothing that renews. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 paid learning paths and unlimited Oracle chat. The paywall appears after the first finished lesson and then at most every third finished lesson (three offers in all), when a locked path's preview ends, when a locked path or book is tapped, from the Premium Week chip on Home, when the per-deity free Oracle limit is reached, once when the Premium Week ends, and from Profile > View Paths to Ascension. It is always dismissible: the Judaism path and 3 free Oracle consultations per deity remain available without paying. The Premium Week is not a store trial: finishing the Judgment quiz (shown at first launch, and from Home > Face the Judgment) opens every path for seven days for someone who owns nothing, with no purchase, no sign-up and nothing that renews. Single paths, the three deity packs (reached from the Oracle when a deity's free consultations run out), Oracle Wisdom and Ultimate (lifetime) are one-time purchases that work alongside the subscription. The Oracle runs on device: on iPhones with Apple Intelligence it answers at once, on other iPhones it asks for a one-time model download over Wi-Fi. No account or sign-in is required."
         },
         {
           "productId": "com.appofthedead.premium.monthly",
@@ -56,7 +56,7 @@
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
-          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 learning paths and unlimited Oracle chat. The paywall appears after a finished lesson at most every third lesson, when tapping a locked path, when the per-deity free Oracle limit is reached, once when the in-app Premium Week ends, and from Profile > Upgrade. The Premium Week is not a store trial: finishing the Judgment quiz opens every path for seven days with no purchase, no sign-up and nothing that renews. It is always dismissible - the Judaism path and 3 free Oracle consultations per deity remain available without paying. Existing one-time purchases (individual paths, Ultimate lifetime unlock) continue to work alongside the subscription. No account or sign-in is required; all content unlocks on-device."
+          "reviewNote": "Premium (annual and monthly, sold without a trial period) unlocks all 21 paid learning paths and unlimited Oracle chat. The paywall appears after the first finished lesson and then at most every third finished lesson (three offers in all), when a locked path's preview ends, when a locked path or book is tapped, from the Premium Week chip on Home, when the per-deity free Oracle limit is reached, once when the Premium Week ends, and from Profile > View Paths to Ascension. It is always dismissible: the Judaism path and 3 free Oracle consultations per deity remain available without paying. The Premium Week is not a store trial: finishing the Judgment quiz (shown at first launch, and from Home > Face the Judgment) opens every path for seven days for someone who owns nothing, with no purchase, no sign-up and nothing that renews. Single paths, the three deity packs (reached from the Oracle when a deity's free consultations run out), Oracle Wisdom and Ultimate (lifetime) are one-time purchases that work alongside the subscription. The Oracle runs on device: on iPhones with Apple Intelligence it answers at once, on other iPhones it asks for a one-time model download over Wi-Fi. No account or sign-in is required."
         }
       ]
     }
@@ -72,12 +72,12 @@
       },
       "localizations": {
         "en-US": {
-          "name": "Eastern Wisdom Pack",
-          "description": "Premium collection of Asian philosophies"
+          "name": "Eastern Guardians Pack",
+          "description": "Yama, Meng Po and Izanami, keepers of the dead"
         },
         "pl": {
-          "name": "Pakiet: mądrość Wschodu",
-          "description": "Zbiór filozofii Azji w wersji Premium"
+          "name": "Pakiet: strażnicy Wschodu",
+          "description": "Yama, Meng Po i Izanami, strażnicy zmarłych"
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -92,12 +92,12 @@
       },
       "localizations": {
         "en-US": {
-          "name": "Egyptian Pantheon",
-          "description": "Meet the gods of ancient Egyptian afterlife"
+          "name": "Death Masters Pack",
+          "description": "Anubis, Kali and Baron Samedi, masters of death"
         },
         "pl": {
-          "name": "Panteon egipski",
-          "description": "Poznaj bogów egipskich zaświatów"
+          "name": "Pakiet: władcy śmierci",
+          "description": "Anubis, Kali i Baron Samedi, władcy śmierci"
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -112,12 +112,12 @@
       },
       "localizations": {
         "en-US": {
-          "name": "Greek Guides",
-          "description": "Underworld deities Hades Charon & more"
+          "name": "Spirit Guides Pack",
+          "description": "Hermes, Hecate and Pachamama, spirit guides"
         },
         "pl": {
-          "name": "Greccy przewodnicy",
-          "description": "Bóstwa podziemia: Hades, Charon i inni"
+          "name": "Pakiet: duchowi przewodnicy",
+          "description": "Hermes, Hekate i Pachamama jako przewodnicy"
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -133,11 +133,11 @@
       "localizations": {
         "en-US": {
           "name": "Oracle Wisdom Pack",
-          "description": "Mystical insights & prophetic visions"
+          "description": "Unlimited Oracle with all 21 divine guides"
         },
         "pl": {
           "name": "Pakiet: mądrość Wyroczni",
-          "description": "Mistyczne spostrzeżenia i wizje przyszłości"
+          "description": "Wyrocznia bez limitu z 21 przewodnikami"
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -573,11 +573,11 @@
       "localizations": {
         "en-US": {
           "name": "Ultimate Enlightenment",
-          "description": "Unlock all paths & exclusive content"
+          "description": "Every path and unlimited Oracle, for life"
         },
         "pl": {
           "name": "Ultimate: oświecenie",
-          "description": "Wszystkie ścieżki i treści ekskluzywne"
+          "description": "Wszystkie ścieżki i Wyrocznia bez limitu"
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
