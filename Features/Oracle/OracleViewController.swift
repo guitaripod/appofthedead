@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 import Combine
 final class OracleViewController: UIViewController {
     let tableView = UITableView()
@@ -356,6 +357,23 @@ final class OracleViewController: UIViewController {
             await viewModel.loadModel()
         }
     }
+    /// Opens a conversation with the deity at `deityId`, as if it had been chosen from the list, with `draft` waiting
+    /// in the message field for the person to send.
+    func openConversation(withDeityId deityId: String, draft: String? = nil) {
+        loadViewIfNeeded()
+        guard let deity = viewModel.availableDeities.first(where: { $0.id == deityId }) else {
+            MidgarLog.notice("Oracle has no deity \(deityId)", category: .ui)
+            return
+        }
+        if deity.id != viewModel.selectedDeity?.id {
+            viewModel.selectDeity(deity)
+        }
+        if let draft {
+            messageTextView.text = draft
+            textViewDidChange(messageTextView)
+        }
+    }
+
     @objc private func selectDeity() {
         guard !viewModel.availableDeities.isEmpty else {
             return

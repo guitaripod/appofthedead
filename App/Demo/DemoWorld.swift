@@ -64,8 +64,14 @@ enum DemoWorld {
 
     private static func openScreen(_ route: String, in context: DemoContext) {
         switch route {
-        case "welcome":
-            context.root.present(WelcomeViewController(onStart: { context.root.dismiss(animated: true) }), animated: false)
+        case "welcome", "judgment":
+            presentJudgment(scenesAnswered: nil, in: context)
+        case "judgment-scene":
+            presentJudgment(scenesAnswered: Int(environment["AOTD_DEMO_SCENE"] ?? "") ?? 0, in: context)
+        case "judgment-weighing":
+            presentJudgment(scenesAnswered: JudgmentScript.scenes.count, in: context)
+        case "judgment-verdict":
+            presentJudgment(scenesAnswered: JudgmentScript.scenes.count, finish: true, in: context)
         case "lesson-complete":
             presentLessonComplete(in: context)
         case "lesson":
@@ -86,6 +92,24 @@ enum DemoWorld {
             presentDeityPicker(in: context)
         default:
             break
+        }
+    }
+
+    /// The answers the screenshot rig gives, one per scene: a truthful, generous soul who dies in battle, so the verdict
+    /// shows Ra's barque, Fólkvangr and the House of the Sun.
+    private static let demoAnswers = [1, 1, 1, 0, 0, 0, 0, 2, 2]
+
+    private static func presentJudgment(scenesAnswered: Int?, finish: Bool = false, in context: DemoContext) {
+        let viewModel = JudgmentViewModel(entry: .firstRun)
+        let screen = JudgmentViewController(viewModel: viewModel) { _ in context.root.dismiss(animated: true) }
+        context.root.present(screen, animated: false)
+        guard let scenesAnswered else { return }
+        viewModel.begin()
+        for scene in 0..<min(scenesAnswered, demoAnswers.count) {
+            viewModel.choose(answerAt: demoAnswers[scene])
+        }
+        if finish {
+            viewModel.finishWeighing()
         }
     }
 

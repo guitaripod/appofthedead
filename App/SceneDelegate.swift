@@ -9,6 +9,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let databaseManager = DatabaseManager.shared
     private weak var rootContainer: AdaptiveNavigationContainer?
     private weak var homeViewController: HomeViewController?
+    private weak var oracleViewController: OracleViewController?
     
     private struct SessionState {
         static let currentBeliefSystemKey = "currentBeliefSystemId"
@@ -103,6 +104,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
         rootContainer = adaptiveContainer
         self.homeViewController = homeViewController
+        self.oracleViewController = oracleViewController
 
         _ = AchievementNotificationManager.shared
 
@@ -171,23 +173,66 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return user.totalXP > 0 || !databaseManager.fetchProgress(for: user.id).isEmpty
     }
 
-    /// Presents the welcome after the first frame is on screen, then hands the user to the free
-    /// Judaism path's first lesson. If that path can't be found the user simply lands on Home.
+    /// The first run is the Judgment. Skipping it starts the free Judaism path's first lesson, as 1.x did; finishing it
+    /// goes where the verdict points.
     private func presentWelcome(over root: AdaptiveNavigationContainer, homeViewModel: HomeViewModel) {
-        let welcome = WelcomeViewController { [weak root, weak homeViewModel] in
+        let judgment = JudgmentViewController(viewModel: JudgmentViewModel(entry: .firstRun)) { [weak self, weak root, weak homeViewModel] outcome in
             FirstRunWelcome().markCompleted()
-            Diagnostics.logUserAction("welcomeStarted")
+            Diagnostics.logUserAction("welcomeFinished", parameters: ["outcome": "\(outcome)"])
             root?.dismiss(animated: true) {
-                guard let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) else {
-                    MidgarLog.error("Welcome could not find the Judaism path; landing on Home", category: .ui)
-                    GameCenterManager.shared.resumeDeferredAuthentication()
-                    return
+                GameCenterManager.shared.resumeDeferredAuthentication()
+                if outcome == .skipped {
+                    self?.startFreePath(homeViewModel: homeViewModel)
+                } else {
+                    self?.route(outcome)
                 }
-                homeViewModel?.onPathSelected?(judaism)
             }
         }
-        root.present(welcome, animated: false)
-        MidgarLog.info("Presented first-run welcome", category: .ui)
+        root.present(judgment, animated: false)
+        MidgarLog.info("Presented the first-run Judgment", category: .ui)
+    }
+
+    private func startFreePath(homeViewModel: HomeViewModel?) {
+        guard let judaism = DatabaseManager.shared.loadBeliefSystems().first(where: { $0.id == "judaism" }) else {
+            MidgarLog.error("Welcome could not find the Judaism path; landing on Home", category: .ui)
+            return
+        }
+        homeViewModel?.onPathSelected?(judaism)
+    }
+
+    /// Sends the person where they chose to go from the Judgment.
+    func route(_ outcome: JudgmentOutcome) {
+        switch outcome {
+        case .skipped, .done:
+            return
+        case .path(let pathId):
+            rootContainer?.selectViewController(at: 0)
+            homeViewController?.openPath(withId: pathId)
+        case .oracle(let deityId):
+            rootContainer?.selectViewController(at: 2)
+            let draft = JudgmentStore().verdict.map {
+                String(localized: "The Judgment named me \(JudgmentCopy.archetypeName($0.archetype)). What does that say about my soul?")
+            }
+            oracleViewController?.openConversation(withDeityId: deityId, draft: draft)
+        }
+    }
+
+    /// Presents the Judgment from anywhere: on a saved verdict to look at it, or fresh to take it again.
+    func presentJudgment(reviewing: Bool) {
+        guard let root = rootContainer else { return }
+        let entry: JudgmentViewModel.Entry
+        if reviewing, let verdict = JudgmentStore().verdict {
+            entry = .review(verdict)
+        } else {
+            entry = .retake
+        }
+        let judgment = JudgmentViewController(viewModel: JudgmentViewModel(entry: entry)) { [weak self, weak root] outcome in
+            root?.dismiss(animated: true) {
+                self?.route(outcome)
+            }
+        }
+        let presenter = root.presentedViewController ?? root
+        presenter.present(judgment, animated: true)
     }
 
     private func setupNavigationFlow(
@@ -245,6 +290,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             rootContainer?.dismiss(animated: false)
             rootContainer?.selectViewController(at: 0)
             homeViewController?.openPath(withId: beliefSystemId)
+        case .judgment:
+            rootContainer?.dismiss(animated: false)
+            presentJudgment(reviewing: false)
         }
     }
 

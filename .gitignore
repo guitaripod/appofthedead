@@ -16,3 +16,4 @@ testresults.xcresult/
 
 # Build server
 buildServer.json
+.build/
