@@ -3873,6 +3873,70 @@
         }
       }
     },
+    "All 21 paths, unlimited Oracle and every path still to come": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 21 Pfade, das Orakel ohne Limit und jeder kommende Pfad"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los 21 caminos, el Oráculo sin límites y cada camino que llegue"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les 21 voies, l'Oracle illimité et chaque voie à venir"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutti i 21 percorsi, l'Oracolo illimitato e ogni percorso in arrivo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21の道すべて、無制限のオラクル、今後の新しい道も"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21개 경로 전부, 무제한 오라클, 앞으로 나올 경로까지"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wszystkie 21 ścieżek, Wyrocznia bez limitu i każda kolejna ścieżka"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os 21 caminhos, o Oráculo ilimitado e cada caminho que vier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部 21 条路径、无限神谕，以及日后的每条新路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部 21 條路徑、無限神諭，以及日後的每條新路徑"
+          }
+        }
+      }
+    },
     "AWAKENING": {
       "localizations": {
         "de": {
@@ -4637,70 +4701,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "21 條路徑 · 神諭無限暢問"
-          }
-        }
-      }
-    },
-    "All 21 paths, unlimited Oracle, every future addition": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle 21 Pfade, unbegrenztes Orakel, jede künftige Erweiterung"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos los caminos, Oráculo ilimitado y todo lo que añadamos"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toutes les voies, l'Oracle illimité et tout ce qui viendra"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tutti i percorsi, Oracolo illimitato e ogni novità futura"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "すべての道、無制限のオラクル、今後の追加もすべて"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "모든 길, 무제한 오라클, 앞으로 추가될 모든 것"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "21 ścieżek, wyrocznia bez limitu, każda przyszła nowość"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos os caminhos, Oráculo ilimitado e tudo o que vier depois"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "所有路径、无限神谕，以及日后新增的一切"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "所有路徑、無限神諭，以及日後新增的一切"
           }
         }
       }
@@ -8417,70 +8417,6 @@
         }
       }
     },
-    "Conversation History": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesprächsverlauf"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Historial de conversaciones"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Historique des conversations"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cronologia conversazioni"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "会話の履歴"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "대화 기록"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Historia rozmów"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Histórico de conversas"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "对话记录"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "對話紀錄"
-          }
-        }
-      }
-    },
     "Correct!": {
       "localizations": {
         "de": {
@@ -10717,6 +10653,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "每一節課、每一次測驗、每一項成就"
+          }
+        }
+      }
+    },
+    "Every path's achievements within reach": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Erfolge jedes Pfads in Reichweite"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los logros de cada camino a tu alcance"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les succès de chaque voie à votre portée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gli obiettivi di ogni percorso a portata di mano"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべての道の実績を目指せる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 경로의 업적에 도전"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Osiągnięcia każdej ścieżki w zasięgu ręki"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As conquistas de cada caminho ao seu alcance"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每条路径的成就都触手可及"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每條路徑的成就都觸手可及"
           }
         }
       }
@@ -15201,6 +15201,70 @@
         }
       }
     },
+    "New paths included as they arrive": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Pfade inklusive, sobald sie erscheinen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los nuevos caminos, incluidos en cuanto lleguen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les nouvelles voies incluses dès leur arrivée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuovi percorsi inclusi appena arrivano"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新しい道も公開と同時に利用可能"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "새로운 경로도 나오는 대로 포함"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nowe ścieżki w cenie, gdy tylko się pojawią"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novos caminhos incluídos assim que chegarem"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增路径一上线即包含"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增路徑一上線即包含"
+          }
+        }
+      }
+    },
     "NO SUBSCRIPTION": {
       "localizations": {
         "de": {
@@ -15325,70 +15389,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "美洲原住民異象之路"
-          }
-        }
-      }
-    },
-    "New paths and features included": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Neue Pfade und Funktionen inklusive"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nuevos caminos y funciones incluidos"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nouvelles voies et fonctionnalités incluses"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nuovi percorsi e funzioni inclusi"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新しい道や機能も追加料金なし"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "새로운 길과 기능도 포함"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nowe ścieżki i funkcje w cenie"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Novos caminhos e recursos inclusos"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新增路径与功能全包含"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新增路徑與功能全包含"
           }
         }
       }
@@ -16157,70 +16157,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "還差一點"
-          }
-        }
-      }
-    },
-    "Nothing locked, ever": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nie wieder etwas gesperrt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nada bloqueado, nunca"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Plus rien de verrouillé, jamais"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Niente più bloccato, mai"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ロックされるものは何もない"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "잠기는 것은 없습니다"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nic nigdy nie jest zablokowane"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nada bloqueado, nunca"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "永不锁住任何内容"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "永不鎖住任何內容"
           }
         }
       }
@@ -20317,70 +20253,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "重溫路徑"
-          }
-        }
-      }
-    },
-    "Revisit past wisdom anytime": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Frühere Weisheit jederzeit nachlesen"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vuelve a la sabiduría pasada cuando quieras"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retrouvez la sagesse passée à tout moment"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rileggi la saggezza passata quando vuoi"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "過去の叡智をいつでも読み返せる"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "지난 지혜를 언제든 다시 보기"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wracaj do dawnej mądrości, kiedy chcesz"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reveja a sabedoria passada quando quiser"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "随时重温过往的智慧"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隨時重溫過往的智慧"
           }
         }
       }

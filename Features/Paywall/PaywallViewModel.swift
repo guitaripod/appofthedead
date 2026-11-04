@@ -46,7 +46,7 @@ enum PaywallReason {
         case .oracleLimit:
             return String(localized: "Unlimited wisdom from all 21 divine guides")
         case .generalUpgrade:
-            return String(localized: "All 21 paths, unlimited Oracle, every future addition")
+            return String(localized: "All 21 paths, unlimited Oracle and every path still to come")
         case .lessonFinished(let nextPath):
             if let nextPath {
                 return String(localized: "You finished a lesson. \(nextPath.name) and every other path are one step away.")
@@ -257,19 +257,19 @@ final class PaywallViewModel {
             return [
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson, quiz, and achievement")),
                 ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "Consult all 21 divine guides freely")),
-                ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths and features included"))
+                ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .oracleLimit:
             return [
                 ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), String(localized: "No limits with any deity")),
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson and quiz included")),
-                ("clock.fill", String(localized: "Conversation History"), String(localized: "Revisit past wisdom anytime"))
+                ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .generalUpgrade, .premiumWeekEnded:
             return [
                 ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "From Valhalla to the Duat")),
                 ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "All 21 divine guides, no limits")),
-                ("star.fill", String(localized: "Every Achievement"), String(localized: "Nothing locked, ever"))
+                ("star.fill", String(localized: "Every Achievement"), String(localized: "Every path's achievements within reach"))
             ]
         }
     }

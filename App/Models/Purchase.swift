@@ -138,7 +138,7 @@ nonisolated enum ProductIdentifier: String, CaseIterable {
         case .shinto: return "Discover the spirit world and ancestor veneration"
         case .zoroastrian: return "Learn about the Bridge of Judgment and cosmic dualism"
         case .oracleWisdom: return "Unlimited consultations with all 21 divine guides"
-        case .ultimateEnlightenment: return "All paths, unlimited Oracle, and exclusive features"
+        case .ultimateEnlightenment: return "All paths and unlimited Oracle, for life"
         case .premiumAnnual: return "Every path and unlimited Oracle, billed yearly"
         case .premiumMonthly: return "Every path and unlimited Oracle, billed monthly"
         case .egyptianPantheon: return "Consult Anubis, Kali, and Baron Samedi - Masters of Death"
