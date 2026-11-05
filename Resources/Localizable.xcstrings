@@ -16801,6 +16801,70 @@
         }
       }
     },
+    "Or unlimited Oracle with all 21 gods for %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oder unbegrenztes Orakel mit allen 21 Göttern für %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O el Oráculo sin límites con los 21 dioses por %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ou l'Oracle illimité avec les 21 dieux pour %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oppure l'Oracolo illimitato con tutti i 21 dèi per %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "または21柱すべての神々と無制限のオラクルを%@で"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "또는 21명의 신 모두와 무제한 오라클을 %@에"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Albo Wyrocznia bez limitu ze wszystkimi 21 bogami za %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ou o Oráculo ilimitado com os 21 deuses por %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或以 %@ 与全部 21 位神明无限对话"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或以 %@ 與全部 21 位神明無限對話"
+          }
+        }
+      }
+    },
     "Or unlock just this path for %@": {
       "localizations": {
         "de": {

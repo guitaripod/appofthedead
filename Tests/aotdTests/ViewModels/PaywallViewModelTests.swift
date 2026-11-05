@@ -210,6 +210,23 @@ import XCTest
         XCTAssertNil(makeSut(reason: .generalUpgrade).aLaCarteProduct)
     }
 
+    func testOracleLimitAlsoOffersTheOracleWisdomPackAndBuysIt() {
+        store.purchaseResult = .success(.purchased)
+        let sut = makeSut(reason: .oracleLimit(deityId: "anubis", deityName: "Anubis"))
+
+        XCTAssertEqual(sut.oracleWisdomProduct, .oracleWisdom)
+        XCTAssertNotNil(sut.oracleWisdomText)
+        sut.purchaseOracleWisdom()
+
+        XCTAssertEqual(store.purchasedProducts, [.oracleWisdom])
+    }
+
+    func testOnlyTheOracleLimitOffersTheOracleWisdomPack() {
+        for reason: PaywallReason in [.generalUpgrade, .lockedPath(beliefSystemId: "norse"), .premiumWeekEnded] {
+            XCTAssertNil(makeSut(reason: reason).oracleWisdomText)
+        }
+    }
+
     func testPurchasingTrialAnnualSchedulesReminder() {
         store.plans = Self.fullPlans
         store.purchaseResult = .success(.purchased)

@@ -17,6 +17,7 @@ class PaywallViewController: UIViewController {
     private let timelineContainer = UIStackView()
     private let noPaymentLabel = UILabel()
     private let aLaCarteButton = UIButton(type: .system)
+    private let oracleWisdomButton = UIButton(type: .system)
     private let bottomBar = UIVisualEffectView(effect: PapyrusDesignSystem.Glass.effect())
     private let ctaButton = UIButton(type: .system)
     private let disclosureLabel = UILabel()
@@ -356,13 +357,20 @@ class PaywallViewController: UIViewController {
     }
 
     private func setupALaCarteButton() {
-        aLaCarteButton.isHidden = true
-        aLaCarteButton.titleLabel?.font = PapyrusDesignSystem.Typography.subheadline()
-        aLaCarteButton.setTitleColor(PapyrusDesignSystem.Colors.Dynamic.secondaryText, for: .normal)
+        for button in [oracleWisdomButton, aLaCarteButton] {
+            button.isHidden = true
+            button.titleLabel?.font = PapyrusDesignSystem.Typography.subheadline()
+            button.titleLabel?.numberOfLines = 0
+            button.titleLabel?.textAlignment = .center
+            button.setTitleColor(PapyrusDesignSystem.Colors.Dynamic.secondaryText, for: .normal)
+            contentStackView.addArrangedSubview(button)
+        }
         aLaCarteButton.addAction(UIAction { [weak self] _ in
             self?.handleALaCarteTapped()
         }, for: .touchUpInside)
-        contentStackView.addArrangedSubview(aLaCarteButton)
+        oracleWisdomButton.addAction(UIAction { [weak self] _ in
+            self?.viewModel.purchaseOracleWisdom()
+        }, for: .touchUpInside)
     }
 
     private func bindViewModel() {
@@ -448,17 +456,23 @@ class PaywallViewController: UIViewController {
     }
 
     private func refreshALaCarteButton() {
-        guard let text = viewModel.aLaCarteText else {
-            aLaCarteButton.isHidden = true
+        applyOffer(viewModel.aLaCarteText, to: aLaCarteButton)
+        applyOffer(viewModel.oracleWisdomText, to: oracleWisdomButton)
+    }
+
+    /// Shows a one-time purchase as an underlined line under the plans, or hides the button when there is none.
+    private func applyOffer(_ text: String?, to button: UIButton) {
+        guard let text else {
+            button.isHidden = true
             return
         }
-        aLaCarteButton.isHidden = false
+        button.isHidden = false
         let attributed = NSAttributedString(string: text, attributes: [
             .font: PapyrusDesignSystem.Typography.subheadline(),
             .foregroundColor: PapyrusDesignSystem.Colors.Dynamic.secondaryText,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ])
-        aLaCarteButton.setAttributedTitle(attributed, for: .normal)
+        button.setAttributedTitle(attributed, for: .normal)
     }
 
     private func handleALaCarteTapped() {

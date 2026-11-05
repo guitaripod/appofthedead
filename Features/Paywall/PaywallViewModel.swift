@@ -145,7 +145,7 @@ final class PaywallViewModel {
             self.onPlansUpdated?()
         }
 
-        if let product = aLaCarteProduct, store.formattedPrice(for: product) == nil {
+        for product in [aLaCarteProduct, oracleWisdomProduct].compactMap({ $0 }) where store.formattedPrice(for: product) == nil {
             store.fetchAndCachePrice(for: product) { [weak self] _ in
                 self?.onALaCartePriceUpdated?()
             }
@@ -310,6 +310,24 @@ final class PaywallViewModel {
 
     func purchaseALaCarte() {
         guard let product = aLaCarteProduct else { return }
+        purchase(product, schedulingTrialReminder: false)
+    }
+
+    /// The Oracle Wisdom pack, offered beside the deity's own pack when that deity's free consultations run out: every
+    /// god without limits, bought once, for someone who wants the Oracle and not the paths.
+    var oracleWisdomProduct: ProductIdentifier? {
+        guard case .oracleLimit = reason else { return nil }
+        return .oracleWisdom
+    }
+
+    var oracleWisdomText: String? {
+        guard let product = oracleWisdomProduct else { return nil }
+        let price = store.formattedPrice(for: product) ?? "…"
+        return String(localized: "Or unlimited Oracle with all 21 gods for \(price)")
+    }
+
+    func purchaseOracleWisdom() {
+        guard let product = oracleWisdomProduct else { return }
         purchase(product, schedulingTrialReminder: false)
     }
 
