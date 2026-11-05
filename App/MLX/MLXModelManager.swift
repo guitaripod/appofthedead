@@ -152,6 +152,15 @@ nonisolated final class MLXModelManager: Sendable {
         service.unloadModel()
     }
 
+    /// Unloads the model, deletes every downloaded model file and forgets that one was ever loaded, so the next launch
+    /// does not try to load what is gone and the Oracle offers the download again.
+    func removeDownloadedModels() {
+        service.unloadModel()
+        BackgroundModelDownloader.shared.deleteAllModels()
+        UserDefaults.standard.removeObject(forKey: "MLXModelLoadedOnce")
+        MidgarLog.notice("Removed the downloaded on-device models", category: .mlx)
+    }
+
     func handleMemoryPressure() {
         MidgarLog.notice("Memory pressure — unloading on-device model", category: .mlx)
         service.unloadModel()

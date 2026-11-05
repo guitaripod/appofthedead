@@ -320,12 +320,8 @@ final class OracleViewController: UIViewController {
     }
 
     private func checkModelStatus() {
-        Task {
-            if MLXModelManager.shared.isModelLoaded && !viewModel.isModelLoaded {
-                await MainActor.run {
-                    viewModel.syncModelLoadedState()
-                }
-            }
+        if viewModel.isModelLoaded != OracleVoice.shared.isReady {
+            viewModel.syncModelLoadedState()
         }
         if viewModel.isModelLoaded {
             summonView?.isHidden = true

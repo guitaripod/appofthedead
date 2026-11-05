@@ -26,7 +26,7 @@ nonisolated final class MLXService: @unchecked Sendable {
         #endif
     }
 
-    private struct HapticConfig {
+    struct HapticConfig {
         static let tokenInterval = 3
         static let impactIntensity: CGFloat = 0.4
         static let impactStyle: UIImpactFeedbackGenerator.FeedbackStyle = .light
