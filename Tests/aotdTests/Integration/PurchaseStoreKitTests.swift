@@ -333,7 +333,7 @@ extension StoreKitSuites {
             _ = await harness.buy(product)
             #expect(harness.access.entitlements == [product.entitlement])
 
-            let transaction = try #require(harness.session.allTransactions().first)
+            let transaction = try #require(harness.session.allTransactions().first { $0.productIdentifier == product.rawValue })
             try harness.session.refundTransaction(identifier: UInt(transaction.identifier))
 
             #expect(await eventually { harness.access.entitlements.isEmpty })
@@ -361,7 +361,7 @@ extension StoreKitSuites {
             _ = await harness.buy(product)
             #expect(harness.access.hasAllAccess)
 
-            let transaction = try #require(harness.session.allTransactions().first)
+            let transaction = try #require(harness.session.allTransactions().first { $0.productIdentifier == product.rawValue })
             try harness.session.disableAutoRenewForTransaction(identifier: UInt(transaction.identifier))
             try harness.session.expireSubscription(productIdentifier: product.rawValue)
 
@@ -388,7 +388,7 @@ extension StoreKitSuites {
             #expect(harness.access.entitlements.isEmpty)
             #expect(!harness.access.hasPathAccess("norse") || FreePaths.shared.isOpen("norse"))
 
-            let waiting = try #require(harness.session.allTransactions().first)
+            let waiting = try #require(harness.session.allTransactions().first { $0.productIdentifier == ProductIdentifier.norse.rawValue })
             try harness.session.approveAskToBuyTransaction(identifier: UInt(waiting.identifier))
 
             #expect(await eventually { harness.access.entitlements == ["path_norse"] })
