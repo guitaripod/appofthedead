@@ -18,7 +18,6 @@ final class SettingsViewController: UIViewController {
         theme: .aotd
     )
 
-    private static let supportAddress = "support@midgarcorp.cc"
     private static let writeReviewURL = URL(string: "https://apps.apple.com/app/id6746733380?action=write-review")!
     private static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!
 
@@ -160,7 +159,7 @@ final class SettingsViewController: UIViewController {
                 self?.shareApp()
             }
         case .support:
-            return .support(address: Self.supportAddress, subject: "App of the Dead")
+            return .support(subject: "App of the Dead")
         case .usageCounts:
             return .usageCountsDetail { [weak self] in
                 self?.navigationController?.pushViewController(MidgarUsageCountsViewController(theme: .aotd), animated: true)
