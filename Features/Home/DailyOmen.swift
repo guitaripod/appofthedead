@@ -23,7 +23,7 @@ struct DailyOmen: Equatable {
 /// Picks the day's omen and remembers the answer. A right answer earns XP; any answer keeps the streak alive.
 final class DailyOmenService {
     static let xpReward = 10
-    private static let answerKeyPrefix = "aotd.omen.answer."
+    static let answerKeyPrefix = "aotd.omen.answer."
 
     private let beliefSystems: () -> [BeliefSystem]
     private let defaults: UserDefaults

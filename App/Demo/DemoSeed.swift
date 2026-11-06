@@ -213,6 +213,9 @@ enum DemoSeed {
     private static func applyDefaults() {
         let defaults = UserDefaults.standard
         userDefaultsToClear.forEach { defaults.removeObject(forKey: $0) }
+        defaults.dictionaryRepresentation().keys
+            .filter { $0.hasPrefix(DailyOmenService.answerKeyPrefix) }
+            .forEach { defaults.removeObject(forKey: $0) }
         defaults.set(true, forKey: FirstRunWelcome.completedKey)
         defaults.set(true, forKey: ReminderOffer.shownKey)
         defaults.set(true, forKey: DailyReminder.enabledKey)
