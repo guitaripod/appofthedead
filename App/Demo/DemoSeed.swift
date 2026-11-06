@@ -32,7 +32,7 @@ enum DemoSeed {
     private static let achievementProgress: [(id: String, progress: Double)] = [
         ("first_step", 1), ("wisdom_seeker", 1), ("quiz_whiz", 1), ("scholar_of_sheol", 1),
         ("journey_through_duat", 1), ("eternal_student", 1), ("cosmic_explorer", 0.72),
-        ("perfect_understanding", 0.55), ("afterlife_master", 0.4), ("enlightened_one", 0.25)
+        ("perfect_understanding", 0.55), ("afterlife_master", 0.4), ("enlightened_one", 1)
     ]
 
     private static let bookPlan: [(path: String, progress: Double, completed: Bool)] = [
