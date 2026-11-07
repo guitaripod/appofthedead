@@ -1,0 +1,112 @@
+{
+ "name": "aotd-hades",
+ "root": "/mnt/nvme8tb/shorts-work/aotd",
+ "work": "/mnt/nvme8tb/shorts-work/build/aotd-hades",
+ "out": "/mnt/nvme8tb/shorts-work/build/aotd-hades.mp4",
+ "seed": 11,
+ "bpm": 90,
+ "segments": [
+  {
+   "broll": "/mnt/nvme8tb/shorts-work/cast/broll-candle-quiz.mp4",
+   "beats": 4
+  },
+  {
+   "clip": "s5_quiz.mp4",
+   "t0": 0.3,
+   "beats": 1
+  },
+  {
+   "freeze": true,
+   "beats": 5
+  },
+  {
+   "clip": "s5_quiz.mp4",
+   "t0": 4.7,
+   "beats": 4
+  },
+  {
+   "clip": "s4_lesson.mp4",
+   "t0": 5.3,
+   "beats": 4
+  },
+  {
+   "clip": "s3_home.mp4",
+   "t0": 7.2,
+   "beats": 4
+  },
+  {
+   "clip": "s3_home.mp4",
+   "t0": 0.2,
+   "beats": 5
+  }
+ ],
+ "texts": [
+  {
+   "from": 0,
+   "to": 2,
+   "label": "Quick quiz",
+   "title": "Who ruled the\nGreek underworld?"
+  },
+  {
+   "from": 2,
+   "to": 2,
+   "countdown": 3,
+   "y": 1150
+  },
+  {
+   "from": 4,
+   "to": 4,
+   "title": "Hades, with his queen\nPersephone"
+  },
+  {
+   "from": 5,
+   "to": 5,
+   "title": "Twenty-two paths\nthrough the afterlife"
+  },
+  {
+   "from": 6,
+   "to": 6,
+   "label": "Free on the App Store",
+   "title": "App of the Dead"
+  }
+ ],
+ "palette": {
+  "bg_top": "#140e1d",
+  "bg_bottom": "#07060b",
+  "tint": "#c9a37a",
+  "screen_mix": 0.3,
+  "glow": "#d9a441",
+  "glow_strength": 0.2,
+  "bokeh": [
+   "#e3b25a",
+   "#c98a3a",
+   "#9a7be0"
+  ],
+  "bokeh_count": 24
+ },
+ "style": {
+  "label": "#e3b25a",
+  "title": "#f3e9d2",
+  "top": 150,
+  "title_font": {
+   "file": "/usr/share/fonts/noto/NotoSerifDisplay-Medium.ttf"
+  },
+  "title_size": 76,
+  "label_font": {
+   "file": "/usr/share/fonts/Adwaita/AdwaitaSans-Regular.ttf",
+   "variation": "SemiBold"
+  },
+  "label_size": 36
+ },
+ "device": {
+  "color": "Silver",
+  "height": 1100,
+  "center_y": 955,
+  "push": 0.08
+ },
+ "music": {
+  "file": "/mnt/nvme8tb/shorts-work/music/aotd-bed.flac",
+  "start_bar": 2,
+  "fade_out": 1.4
+ }
+}

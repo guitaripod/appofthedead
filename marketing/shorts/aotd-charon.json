@@ -1,0 +1,104 @@
+{
+ "name": "aotd-charon",
+ "root": "/mnt/nvme8tb/shorts-work/aotd",
+ "work": "/mnt/nvme8tb/shorts-work/build/aotd-charon",
+ "out": "/mnt/nvme8tb/shorts-work/build/aotd-charon.mp4",
+ "seed": 5,
+ "bpm": 90,
+ "segments": [
+  {
+   "broll": "/mnt/nvme8tb/shorts-work/cast/broll-lake-charon.mp4",
+   "beats": 6
+  },
+  {
+   "clip": "s1_judgment.mp4",
+   "t0": 9.7,
+   "beats": 4
+  },
+  {
+   "clip": "s1_judgment.mp4",
+   "t0": 12.9,
+   "beats": 6
+  },
+  {
+   "clip": "s2_verdict.mp4",
+   "t0": 9.6,
+   "beats": 4
+  },
+  {
+   "clip": "s3_home.mp4",
+   "t0": 0.2,
+   "beats": 5
+  }
+ ],
+ "texts": [
+  {
+   "from": 0,
+   "to": 0,
+   "label": "Charon, ferryman of the dead",
+   "title": "The fare is one coin.\nYou have exactly one."
+  },
+  {
+   "from": 1,
+   "to": 1,
+   "label": "Rashnu, keeper of the scales",
+   "title": "The truth will\ncost you dearly."
+  },
+  {
+   "from": 2,
+   "to": 2,
+   "label": "The Xolo, guide dog of Mictlan",
+   "title": "In Mictlan, a dog\ncarries you across."
+  },
+  {
+   "from": 3,
+   "to": 3,
+   "title": "Your answers decide\nwhere your soul goes"
+  },
+  {
+   "from": 4,
+   "to": 4,
+   "label": "Free on the App Store",
+   "title": "App of the Dead"
+  }
+ ],
+ "palette": {
+  "bg_top": "#140e1d",
+  "bg_bottom": "#07060b",
+  "tint": "#c9a37a",
+  "screen_mix": 0.3,
+  "glow": "#d9a441",
+  "glow_strength": 0.2,
+  "bokeh": [
+   "#e3b25a",
+   "#c98a3a",
+   "#9a7be0"
+  ],
+  "bokeh_count": 24
+ },
+ "style": {
+  "label": "#e3b25a",
+  "title": "#f3e9d2",
+  "top": 150,
+  "title_font": {
+   "file": "/usr/share/fonts/noto/NotoSerifDisplay-Medium.ttf"
+  },
+  "title_size": 76,
+  "label_font": {
+   "file": "/usr/share/fonts/Adwaita/AdwaitaSans-Regular.ttf",
+   "variation": "SemiBold"
+  },
+  "label_size": 36
+ },
+ "device": {
+  "color": "Silver",
+  "height": 1100,
+  "center_y": 955,
+  "push": 0.08
+ },
+ "music": {
+  "file": "/mnt/nvme8tb/shorts-work/music/aotd-bed.flac",
+  "start_bar": 2,
+  "fade_out": 1.4
+ }
+}

@@ -1,0 +1,114 @@
+{
+ "name": "aotd-judgment",
+ "root": "/mnt/nvme8tb/shorts-work/aotd",
+ "work": "/mnt/nvme8tb/shorts-work/build/aotd-judgment",
+ "out": "/mnt/nvme8tb/shorts-work/build/aotd-judgment.mp4",
+ "seed": 3,
+ "bpm": 90,
+ "segments": [
+  {
+   "broll": "/mnt/nvme8tb/shorts-work/cast/broll-candle61-judgment.mp4",
+   "beats": 5
+  },
+  {
+   "clip": "s1_judgment.mp4",
+   "t0": 7.95,
+   "beats": 4
+  },
+  {
+   "clip": "s1_judgment.mp4",
+   "t0": 10.9,
+   "beats": 2
+  },
+  {
+   "clip": "s1_judgment.mp4",
+   "t0": 12.9,
+   "beats": 2
+  },
+  {
+   "clip": "s2_verdict.mp4",
+   "t0": 4.7,
+   "beats": 4
+  },
+  {
+   "clip": "s2_verdict.mp4",
+   "t0": 8.7,
+   "beats": 4
+  },
+  {
+   "clip": "s3_home.mp4",
+   "t0": 0.2,
+   "beats": 5
+  }
+ ],
+ "texts": [
+  {
+   "from": 0,
+   "to": 0,
+   "label": "The Judgment",
+   "title": "Which afterlife\nwould take you?"
+  },
+  {
+   "from": 2,
+   "to": 3,
+   "title": "Nine questions about\nhow you lived"
+  },
+  {
+   "from": 4,
+   "to": 4,
+   "title": "Then Anubis weighs\nyour heart"
+  },
+  {
+   "from": 5,
+   "to": 5,
+   "delay": 0.9,
+   "label": "The verdict",
+   "title": "Each afterlife\nsends you somewhere"
+  },
+  {
+   "from": 6,
+   "to": 6,
+   "label": "Free on the App Store",
+   "title": "App of the Dead"
+  }
+ ],
+ "palette": {
+  "bg_top": "#140e1d",
+  "bg_bottom": "#07060b",
+  "tint": "#c9a37a",
+  "screen_mix": 0.3,
+  "glow": "#d9a441",
+  "glow_strength": 0.2,
+  "bokeh": [
+   "#e3b25a",
+   "#c98a3a",
+   "#9a7be0"
+  ],
+  "bokeh_count": 24
+ },
+ "style": {
+  "label": "#e3b25a",
+  "title": "#f3e9d2",
+  "top": 150,
+  "title_font": {
+   "file": "/usr/share/fonts/noto/NotoSerifDisplay-Medium.ttf"
+  },
+  "title_size": 76,
+  "label_font": {
+   "file": "/usr/share/fonts/Adwaita/AdwaitaSans-Regular.ttf",
+   "variation": "SemiBold"
+  },
+  "label_size": 36
+ },
+ "device": {
+  "color": "Silver",
+  "height": 1100,
+  "center_y": 955,
+  "push": 0.08
+ },
+ "music": {
+  "file": "/mnt/nvme8tb/shorts-work/music/aotd-bed.flac",
+  "start_bar": 2,
+  "fade_out": 1.4
+ }
+}
