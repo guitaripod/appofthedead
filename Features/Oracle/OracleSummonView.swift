@@ -271,7 +271,7 @@ final class OracleSummonView: UIView {
         cta.translatesAutoresizingMaskIntoConstraints = false
         cta.addTarget(self, action: #selector(awakenTapped), for: .touchUpInside)
 
-        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", sizeGB)) GB?"), for: .normal)
+        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", locale: .current, sizeGB)) GB?"), for: .normal)
         whyButton.titleLabel?.font = PapyrusDesignSystem.Typography.caption1()
         whyButton.setTitleColor(Self.ink.withAlphaComponent(0.55), for: .normal)
         whyButton.contentHorizontalAlignment = .leading
@@ -299,7 +299,7 @@ final class OracleSummonView: UIView {
     func configure(modelName: String, sizeGB: Double) {
         self.modelName = modelName
         self.sizeGB = sizeGB
-        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", sizeGB)) GB?"), for: .normal)
+        whyButton.setTitle(String(localized: "Why ~\(String(format: "%.1f", locale: .current, sizeGB)) GB?"), for: .normal)
     }
 
     func update(progress: Float) {
@@ -318,7 +318,7 @@ final class OracleSummonView: UIView {
             case .idle:
                 self.kicker.attributedText = self.kickerAttributed(String(localized: "THE ORACLE SLEEPS"))
                 self.titleLabel.text = String(localized: "Consult the divine.")
-                self.supporting.text = String(localized: "\(self.modelName) runs entirely on your iPhone. About \(String(format: "%.1f", self.sizeGB)) GB, downloaded once.")
+                self.supporting.text = String(localized: "\(self.modelName) runs entirely on your iPhone. About \(String(format: "%.1f", locale: .current, self.sizeGB)) GB, downloaded once.")
                 self.setHidden([self.progressRow, self.status], true)
                 self.setHidden([self.cta, self.whyButton], false)
             case .downloading:

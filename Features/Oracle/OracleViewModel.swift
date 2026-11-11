@@ -740,7 +740,7 @@ final class OracleViewModel: ObservableObject {
         }
         
         
-        downloadStage = String(format: "%.0f MB / %.1f GB", downloadedMB, totalGB)
+        downloadStage = String(format: "%.0f MB / %.1f GB", locale: .current, downloadedMB, totalGB)
         
         
         if smoothedProgressValue >= 0.99 && lastReportedProgress >= 1.0 {

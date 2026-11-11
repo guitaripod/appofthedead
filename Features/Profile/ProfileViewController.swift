@@ -47,7 +47,7 @@ final class ProfileViewController: UIViewController {
 
     private static let memberSinceFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM yyyy"
+        formatter.setLocalizedDateFormatFromTemplate("MMMyyyy")
         return formatter
     }()
 

@@ -70,6 +70,36 @@
             "state": "translated",
             "value": "將你的靈魂卡與神諭卡儲存到照片圖庫。"
           }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gem dit sjælskort og dine orakelkort i dit fotobibliotek."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tallenna sielukorttisi ja oraakkelikortit kuviisi."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista Sálarkortið þitt og Véfréttarspjöldin í myndasafnið þitt."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lagre Sjelkortet og Orakelkortene i bildene dine."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spara ditt Själskort och dina Orakelkort i Bilder."
+          }
         }
       }
     }

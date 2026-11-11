@@ -46,6 +46,6 @@ nonisolated enum OnDeviceLLMError: LocalizedError {
     }
 
     private static func gb(_ bytes: Int64) -> String {
-        String(format: "%.1f GB", Double(bytes) / 1_073_741_824)
+        String(format: "%.1f GB", locale: .current, Double(bytes) / 1_073_741_824)
     }
 }

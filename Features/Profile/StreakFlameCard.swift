@@ -82,12 +82,12 @@ final class StreakFlameCard: UIView {
 
         if multiplier > 1.0 {
             multiplierBadge.isHidden = false
-            multiplierBadge.setText(String(format: "×%g XP", multiplier))
+            multiplierBadge.setText(String(format: "×%g XP", locale: .current, multiplier))
         } else {
             multiplierBadge.isHidden = true
         }
 
-        let multiplierSpoken = multiplier > 1.0 ? String(localized: ", XP multiplier \(String(format: "%g", multiplier)) times") : ""
+        let multiplierSpoken = multiplier > 1.0 ? String(localized: ", XP multiplier \(String(format: "%g", locale: .current, multiplier)) times") : ""
         accessibilityLabel = String(localized: "\(streakDays) day streak\(multiplierSpoken)")
     }
 

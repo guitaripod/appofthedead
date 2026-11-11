@@ -311,12 +311,12 @@ final class BookReaderSettingsViewController: UIViewController {
                 
             case .lineSpacing(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: String(localized: "Line Spacing"), value: value, min: 1.0, max: 2.5, format: { String(format: "%.1f", $0) }, delegate: self)
+                cell.configure(title: String(localized: "Line Spacing"), value: value, min: 1.0, max: 2.5, format: { String(format: "%.1f", locale: .current, $0) }, delegate: self)
                 return cell
                 
             case .paragraphSpacing(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: String(localized: "Paragraph Spacing"), value: value, min: 1.0, max: 2.0, format: { String(format: "%.1f", $0) }, delegate: self)
+                cell.configure(title: String(localized: "Paragraph Spacing"), value: value, min: 1.0, max: 2.0, format: { String(format: "%.1f", locale: .current, $0) }, delegate: self)
                 return cell
                 
             case .firstLineIndent(let value):
@@ -361,7 +361,7 @@ final class BookReaderSettingsViewController: UIViewController {
                 
             case .ttsSpeed(let value):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderSettingCell
-                cell.configure(title: String(localized: "TTS Speed"), value: value, min: 0.5, max: 2.0, format: { String(format: "%.1fx", $0) }, delegate: self)
+                cell.configure(title: String(localized: "TTS Speed"), value: value, min: 0.5, max: 2.0, format: { String(format: "%.1fx", locale: .current, $0) }, delegate: self)
                 return cell
                 
             case .ttsVoice(let value):

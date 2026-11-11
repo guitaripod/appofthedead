@@ -4,10 +4,22 @@
     {
       "referenceName": "Premium",
       "localizations": {
+        "da": {
+          "name": "Premium"
+        },
         "en-US": {
           "name": "Premium"
         },
+        "fi": {
+          "name": "Premium"
+        },
+        "no": {
+          "name": "Premium"
+        },
         "pl": {
+          "name": "Premium"
+        },
+        "sv": {
           "name": "Premium"
         }
       },
@@ -23,13 +35,29 @@
             "amount": "19.99"
           },
           "localizations": {
+            "da": {
+              "name": "Premium årligt",
+              "description": "Alle veje og ubegrænset orakel, faktureres årligt."
+            },
             "en-US": {
               "name": "Premium Annual",
               "description": "Every path and unlimited Oracle, billed yearly."
             },
+            "fi": {
+              "name": "Premium vuosittain",
+              "description": "Kaikki polut ja rajaton oraakkeli, vuosimaksu."
+            },
+            "no": {
+              "name": "Premium årlig",
+              "description": "Alle veier og ubegrenset orakel, fakturert årlig."
+            },
             "pl": {
               "name": "Premium roczne",
               "description": "Ścieżki i Wyrocznia bez limitu, rocznie."
+            },
+            "sv": {
+              "name": "Premium årligen",
+              "description": "Alla vägar och obegränsat orakel, faktureras årligen."
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
@@ -46,13 +74,29 @@
             "amount": "2.99"
           },
           "localizations": {
+            "da": {
+              "name": "Premium månedligt",
+              "description": "Alle veje og ubegrænset orakel, faktureres månedligt."
+            },
             "en-US": {
               "name": "Premium Monthly",
               "description": "Every path and unlimited Oracle, billed monthly."
             },
+            "fi": {
+              "name": "Premium kuukausittain",
+              "description": "Kaikki polut ja rajaton oraakkeli, kuukausimaksu."
+            },
+            "no": {
+              "name": "Premium månedlig",
+              "description": "Alle veier og ubegrenset orakel, fakturert månedlig."
+            },
             "pl": {
               "name": "Premium miesięczne",
               "description": "Ścieżki i Wyrocznia bez limitu, co miesiąc."
+            },
+            "sv": {
+              "name": "Premium månadsvis",
+              "description": "Alla vägar och obegränsat orakel, faktureras månadsvis."
             }
           },
           "reviewScreenshotMd5": "94e7f88da33bb6252ff6d1fcb64da525",
@@ -71,13 +115,29 @@
         "amount": "1.99"
       },
       "localizations": {
+        "da": {
+          "name": "Pakke: østlige vogtere",
+          "description": "Yama, Meng Po og Izanami, de dødes vogtere."
+        },
         "en-US": {
           "name": "Eastern Guardians Pack",
           "description": "Yama, Meng Po and Izanami, keepers of the dead"
         },
+        "fi": {
+          "name": "Paketti: idän vartijat",
+          "description": "Yama, Meng Po ja Izanami, kuolleiden vartijat."
+        },
+        "no": {
+          "name": "Pakke: østlige voktere",
+          "description": "Yama, Meng Po og Izanami, de dødes voktere."
+        },
         "pl": {
           "name": "Pakiet: strażnicy Wschodu",
           "description": "Yama, Meng Po i Izanami, strażnicy zmarłych"
+        },
+        "sv": {
+          "name": "Paket: östliga väktare",
+          "description": "Yama, Meng Po och Izanami, de dödas väktare."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -91,13 +151,29 @@
         "amount": "1.99"
       },
       "localizations": {
+        "da": {
+          "name": "Pakke: dødens mestre",
+          "description": "Anubis, Kali og Baron Samedi, dødens herrer."
+        },
         "en-US": {
           "name": "Death Masters Pack",
           "description": "Anubis, Kali and Baron Samedi, masters of death"
         },
+        "fi": {
+          "name": "Paketti: kuoleman mestarit",
+          "description": "Anubis, Kali ja Baron Samedi, kuoleman herrat."
+        },
+        "no": {
+          "name": "Pakke: dødens mestere",
+          "description": "Anubis, Kali og Baron Samedi, dødens herskere."
+        },
         "pl": {
           "name": "Pakiet: władcy śmierci",
           "description": "Anubis, Kali i Baron Samedi, władcy śmierci"
+        },
+        "sv": {
+          "name": "Paket: dödens mästare",
+          "description": "Anubis, Kali och Baron Samedi, dödens herrar."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -111,13 +187,29 @@
         "amount": "1.99"
       },
       "localizations": {
+        "da": {
+          "name": "Pakke: åndelige vejledere",
+          "description": "Hermes, Hekate og Pachamama som vejledere."
+        },
         "en-US": {
           "name": "Spirit Guides Pack",
           "description": "Hermes, Hecate and Pachamama, spirit guides"
         },
+        "fi": {
+          "name": "Paketti: henkiset oppaat",
+          "description": "Hermes, Hekate ja Pachamama henkisinä oppaina."
+        },
+        "no": {
+          "name": "Pakke: åndelige veiledere",
+          "description": "Hermes, Hekate og Pachamama som veiledere."
+        },
         "pl": {
           "name": "Pakiet: duchowi przewodnicy",
           "description": "Hermes, Hekate i Pachamama jako przewodnicy"
+        },
+        "sv": {
+          "name": "Paket: andliga vägledare",
+          "description": "Hermes, Hekate och Pachamama som vägledare."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -131,13 +223,29 @@
         "amount": "9.99"
       },
       "localizations": {
+        "da": {
+          "name": "Pakke: orakelvisdom",
+          "description": "Ubegrænset orakel med alle 21 guddommelige vejledere."
+        },
         "en-US": {
           "name": "Oracle Wisdom Pack",
           "description": "Unlimited Oracle with all 21 divine guides"
         },
+        "fi": {
+          "name": "Paketti: oraakkelin viisaus",
+          "description": "Rajaton oraakkeli ja kaikki 21 jumalallista opasta."
+        },
+        "no": {
+          "name": "Pakke: orakelvisdom",
+          "description": "Ubegrenset orakel med alle 21 guddommelige veiledere."
+        },
         "pl": {
           "name": "Pakiet: mądrość Wyroczni",
           "description": "Wyrocznia bez limitu z 21 przewodnikami"
+        },
+        "sv": {
+          "name": "Paket: orakelvisdom",
+          "description": "Obegränsat orakel med alla 21 gudomliga vägledare."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -151,13 +259,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Aboriginernes drømmetidsvej",
+          "description": "Gammel australsk åndelig visdom og fortællinger."
+        },
         "en-US": {
           "name": "Aboriginal Dreamtime Path",
           "description": "Ancient Australian spiritual wisdom & stories"
         },
+        "fi": {
+          "name": "Aborigiinien unelmaajan polku",
+          "description": "Muinainen australialainen henkinen viisaus ja tarinat."
+        },
+        "no": {
+          "name": "Aboriginalenes drømmetidsvei",
+          "description": "Gammel australsk åndelig visdom og fortellinger."
+        },
         "pl": {
           "name": "Ścieżka czasu snu Aborygenów",
           "description": "Duchowa mądrość i legendy Aborygenów"
+        },
+        "sv": {
+          "name": "Aboriginernas drömtidsväg",
+          "description": "Forntida australisk andlig visdom och berättelser."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -171,13 +295,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Antroposofiens vej",
+          "description": "Rudolf Steiners åndsvidenskab og indsigter."
+        },
         "en-US": {
           "name": "Anthroposophy Path",
           "description": "Rudolf Steiner's spiritual science insights"
         },
+        "fi": {
+          "name": "Antroposofian polku",
+          "description": "Rudolf Steinerin henkinen tiede ja oivallukset."
+        },
+        "no": {
+          "name": "Antroposofiens vei",
+          "description": "Rudolf Steiners åndsvitenskap og innsikter."
+        },
         "pl": {
           "name": "Ścieżka antropozofii",
           "description": "Duchowa nauka Rudolfa Steinera"
+        },
+        "sv": {
+          "name": "Antroposofins väg",
+          "description": "Rudolf Steiners andliga vetenskap och insikter."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -191,13 +331,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Aztekisk Mictlan-vej",
+          "description": "Rejs gennem de ni niveauer i Mictlan."
+        },
         "en-US": {
           "name": "Aztec Mictlan Path",
           "description": "Navigate the nine levels of Aztec underworld"
         },
+        "fi": {
+          "name": "Atsteekkien Mictlan-polku",
+          "description": "Matkusta Mictlanin yhdeksän tason läpi."
+        },
+        "no": {
+          "name": "Aztekisk Mictlan-vei",
+          "description": "Reis gjennom de ni nivåene i Mictlan."
+        },
         "pl": {
           "name": "Ścieżka azteckiego Mictlanu",
           "description": "Przejdź dziewięć poziomów Mictlanu"
+        },
+        "sv": {
+          "name": "Aztekisk Mictlan-väg",
+          "description": "Färdas genom de nio nivåerna i Mictlan."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -211,13 +367,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Baha'i-vej",
+          "description": "Religionernes enhed og fortsat åbenbaring."
+        },
         "en-US": {
           "name": "Baha'i Path",
           "description": "Unity of religions & progressive revelation"
         },
+        "fi": {
+          "name": "Baha'i-polku",
+          "description": "Uskontojen yhtenäisyys ja etenevä ilmoitus."
+        },
+        "no": {
+          "name": "Baha'i-vei",
+          "description": "Religionenes enhet og fortsatt åpenbaring."
+        },
         "pl": {
           "name": "Ścieżka bahaizmu",
           "description": "Jedność religii i postępujące objawienie"
+        },
+        "sv": {
+          "name": "Baha'i-väg",
+          "description": "Religionernas enhet och fortskridande uppenbarelse."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -231,13 +403,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Buddhismens vej",
+          "description": "Opnå nirvana gennem oplysning."
+        },
         "en-US": {
           "name": "Buddhism Path",
           "description": "Achieve nirvana through enlightenment"
         },
+        "fi": {
+          "name": "Buddhalaisuuden polku",
+          "description": "Saavuta nirvana valaistumisen kautta."
+        },
+        "no": {
+          "name": "Buddhismens vei",
+          "description": "Oppnå nirvana gjennom opplysning."
+        },
         "pl": {
           "name": "Ścieżka buddyzmu",
           "description": "Osiągnij nirwanę przez oświecenie"
+        },
+        "sv": {
+          "name": "Buddhismens väg",
+          "description": "Nå nirvana genom upplysning."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -251,13 +439,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Kristendommens vej",
+          "description": "Himmel, helvede og rejsen mod evig frelse."
+        },
         "en-US": {
           "name": "Christianity Path",
           "description": "Heaven hell & eternal salvation journey"
         },
+        "fi": {
+          "name": "Kristinuskon polku",
+          "description": "Taivas, helvetti ja matka kohti ikuista pelastusta."
+        },
+        "no": {
+          "name": "Kristendommens vei",
+          "description": "Himmel, helvete og reisen mot evig frelse."
+        },
         "pl": {
           "name": "Ścieżka chrześcijaństwa",
           "description": "Niebo, piekło i droga do zbawienia"
+        },
+        "sv": {
+          "name": "Kristendomens väg",
+          "description": "Himmel, helvete och resan mot evig frälsning."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -271,13 +475,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Oldtidens egyptiske vej",
+          "description": "Rejse gennem pyramiderne til livet efter døden."
+        },
         "en-US": {
           "name": "Ancient Egyptian Path",
           "description": "Journey through pyramids to the afterlife"
         },
+        "fi": {
+          "name": "Muinaisen Egyptin polku",
+          "description": "Matka pyramidien läpi kuoleman jälkeiseen elämään."
+        },
+        "no": {
+          "name": "Oldtidens egyptiske vei",
+          "description": "Reise gjennom pyramidene til livet etter døden."
+        },
         "pl": {
           "name": "Ścieżka starożytnego Egiptu",
           "description": "Podróż przez piramidy do zaświatów"
+        },
+        "sv": {
+          "name": "Forntida egyptisk väg",
+          "description": "Resa genom pyramiderna till livet efter döden."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -291,13 +511,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Græsk vej",
+          "description": "Kryds floden Styx til Elysiske marker."
+        },
         "en-US": {
           "name": "Greek Path",
           "description": "Cross the River Styx to Elysium fields"
         },
+        "fi": {
+          "name": "Kreikkalainen polku",
+          "description": "Ylitä Styx-joki Elysionin kentille."
+        },
+        "no": {
+          "name": "Gresk vei",
+          "description": "Kryss elven Styx til Elysiske marker."
+        },
         "pl": {
           "name": "Ścieżka grecka",
           "description": "Przepłyń Styks do Pól Elizejskich"
+        },
+        "sv": {
+          "name": "Grekisk väg",
+          "description": "Korsa floden Styx till Elysiska fälten."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -311,13 +547,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Hinduismens vej",
+          "description": "Karma, dharma og genfødslens kredsløb."
+        },
         "en-US": {
           "name": "Hinduism Path",
           "description": "Karma dharma & the cycle of rebirth"
         },
+        "fi": {
+          "name": "Hindulaisuuden polku",
+          "description": "Karma, dharma ja jälleensyntymän kierto."
+        },
+        "no": {
+          "name": "Hinduismens vei",
+          "description": "Karma, dharma og gjenfødselens kretsløp."
+        },
         "pl": {
           "name": "Ścieżka hinduizmu",
           "description": "Karma, dharma i koło odrodzeń"
+        },
+        "sv": {
+          "name": "Hinduismens väg",
+          "description": "Karma, dharma och återfödelsens kretslopp."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -331,13 +583,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Islams vej",
+          "description": "Paradishaverne og Sirat-broen."
+        },
         "en-US": {
           "name": "Islam Path",
           "description": "Paradise gardens & the Bridge of Sirat"
         },
+        "fi": {
+          "name": "Islamin polku",
+          "description": "Paratiisin puutarhat ja Siratin silta."
+        },
+        "no": {
+          "name": "Islams vei",
+          "description": "Paradishagene og Sirat-broen."
+        },
         "pl": {
           "name": "Ścieżka islamu",
           "description": "Ogrody raju i Most Sirat"
+        },
+        "sv": {
+          "name": "Islams väg",
+          "description": "Paradisets trädgårdar och Sirat-bron."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -351,13 +619,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Mandæismens vej",
+          "description": "Gnostisk rejse til lysets verden."
+        },
         "en-US": {
           "name": "Mandaeism Path",
           "description": "Gnostic journey to the World of Light"
         },
+        "fi": {
+          "name": "Mandealaisuuden polku",
+          "description": "Gnostinen matka valon maailmaan."
+        },
+        "no": {
+          "name": "Mandeismens vei",
+          "description": "Gnostisk reise til lysets verden."
+        },
         "pl": {
           "name": "Ścieżka mandeizmu",
           "description": "Gnostycka podróż do Świata Światła"
+        },
+        "sv": {
+          "name": "Mandeismens väg",
+          "description": "Gnostisk resa till ljusets värld."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -371,13 +655,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Nordamerikanske urfolks vej",
+          "description": "Syn fra åndeverdenen og forfædrenes visdom."
+        },
         "en-US": {
           "name": "Native American Path",
           "description": "Spirit world visions & ancestor wisdom"
         },
+        "fi": {
+          "name": "Amerikan alkuperäiskansojen polku",
+          "description": "Näkyjä henkimaailmasta ja esi-isien viisaus."
+        },
+        "no": {
+          "name": "Nordamerikanske urfolks vei",
+          "description": "Syn fra åndeverdenen og forfedrenes visdom."
+        },
         "pl": {
           "name": "Ścieżka rdzennych Amerykanów",
           "description": "Wizje świata duchów i mądrość przodków"
+        },
+        "sv": {
+          "name": "Nordamerikanska urfolkens väg",
+          "description": "Visioner från andevärlden och förfädernas visdom."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -391,13 +691,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Nordisk vej",
+          "description": "Valhalla, Ragnarok og vikingernes efterliv."
+        },
         "en-US": {
           "name": "Norse Path",
           "description": "Valhalla Ragnarok & Viking afterlife"
         },
+        "fi": {
+          "name": "Pohjoismainen polku",
+          "description": "Valhalla, Ragnarök ja viikinkien tuonpuoleinen."
+        },
+        "no": {
+          "name": "Nordisk vei",
+          "description": "Valhalla, Ragnarok og vikingenes etterliv."
+        },
         "pl": {
           "name": "Ścieżka nordycka",
           "description": "Walhalla, Ragnarok i zaświaty Wikingów"
+        },
+        "sv": {
+          "name": "Nordisk väg",
+          "description": "Valhall, Ragnarök och vikingarnas efterliv."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -411,13 +727,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Shintoismens vej",
+          "description": "Japanske ånder og forfædredyrkelse."
+        },
         "en-US": {
           "name": "Shinto Path",
           "description": "Japanese spirits & ancestor veneration"
         },
+        "fi": {
+          "name": "Shintolaisuuden polku",
+          "description": "Japanilaiset henget ja esi-isien kunnioitus."
+        },
+        "no": {
+          "name": "Shintoismens vei",
+          "description": "Japanske ånder og forfedrekult."
+        },
         "pl": {
           "name": "Ścieżka shintoizmu",
           "description": "Japońskie duchy i kult przodków"
+        },
+        "sv": {
+          "name": "Shintoismens väg",
+          "description": "Japanska andar och förfädersvördnad."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -431,13 +763,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Sikhismens vej",
+          "description": "Befrielse gennem guddommelig erindring."
+        },
         "en-US": {
           "name": "Sikhism Path",
           "description": "Liberation through divine remembrance"
         },
+        "fi": {
+          "name": "Sikhismin polku",
+          "description": "Vapautuminen jumalallisen muistamisen kautta."
+        },
+        "no": {
+          "name": "Sikhismens vei",
+          "description": "Frigjøring gjennom guddommelig erindring."
+        },
         "pl": {
           "name": "Ścieżka sikhizmu",
           "description": "Wyzwolenie przez pamięć o Bogu"
+        },
+        "sv": {
+          "name": "Sikhismens väg",
+          "description": "Befrielse genom gudomlig åminnelse."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -451,13 +799,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Swedenborgiansk vej",
+          "description": "Emanuel Swedenborgs åbenbaringer om himlen."
+        },
         "en-US": {
           "name": "Swedenborgian Path",
           "description": "Emanuel Swedenborg's heaven revelations"
         },
+        "fi": {
+          "name": "Swedenborgilainen polku",
+          "description": "Emanuel Swedenborgin ilmestykset taivaasta."
+        },
+        "no": {
+          "name": "Swedenborgiansk vei",
+          "description": "Emanuel Swedenborgs åpenbaringer om himmelen."
+        },
         "pl": {
           "name": "Ścieżka Swedenborga",
           "description": "Objawienia nieba Emanuela Swedenborga"
+        },
+        "sv": {
+          "name": "Swedenborgiansk väg",
+          "description": "Emanuel Swedenborgs uppenbarelser om himlen."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -471,13 +835,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Taoismens vej",
+          "description": "Udødelighed gennem balance og harmoni."
+        },
         "en-US": {
           "name": "Taoism Path",
           "description": "Immortality through balance & harmony"
         },
+        "fi": {
+          "name": "Taolaisuuden polku",
+          "description": "Kuolemattomuus tasapainon ja harmonian kautta."
+        },
+        "no": {
+          "name": "Taoismens vei",
+          "description": "Udødelighet gjennom balanse og harmoni."
+        },
         "pl": {
           "name": "Ścieżka taoizmu",
           "description": "Nieśmiertelność przez równowagę i harmonię"
+        },
+        "sv": {
+          "name": "Taoismens väg",
+          "description": "Odödlighet genom balans och harmoni."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -491,13 +871,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Tenrikyo-vej",
+          "description": "Glædeligt liv og tilbagevenden til det guddommelige."
+        },
         "en-US": {
           "name": "Tenrikyo Path",
           "description": "Joyous life & return to divine parent"
         },
+        "fi": {
+          "name": "Tenrikyo-polku",
+          "description": "Iloinen elämä ja paluu jumalalliseen vanhempaan."
+        },
+        "no": {
+          "name": "Tenrikyo-vei",
+          "description": "Gledesfylt liv og tilbakevending til det guddommelige."
+        },
         "pl": {
           "name": "Ścieżka Tenrikyo",
           "description": "Radosne życie i powrót do Boga Rodzica"
+        },
+        "sv": {
+          "name": "Tenrikyo-väg",
+          "description": "Glatt liv och återkomst till den gudomliga föräldern."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -511,13 +907,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Teosofiens vej",
+          "description": "Esoterisk visdom og åndelig udvikling."
+        },
         "en-US": {
           "name": "Theosophy Path",
           "description": "Esoteric wisdom & spiritual evolution"
         },
+        "fi": {
+          "name": "Teosofian polku",
+          "description": "Esoteerinen viisaus ja henkinen kehitys."
+        },
+        "no": {
+          "name": "Teosofiens vei",
+          "description": "Esoterisk visdom og åndelig utvikling."
+        },
         "pl": {
           "name": "Ścieżka teozofii",
           "description": "Ezoteryczna mądrość i duchowa ewolucja"
+        },
+        "sv": {
+          "name": "Teosofins väg",
+          "description": "Esoterisk visdom och andlig utveckling."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -531,13 +943,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Wicca-vej",
+          "description": "Hedensk efterliv og Summerland."
+        },
         "en-US": {
           "name": "Wicca Path",
           "description": "Pagan afterlife & the Summerland realm"
         },
+        "fi": {
+          "name": "Wicca-polku",
+          "description": "Pakanallinen tuonpuoleinen ja Summerland."
+        },
+        "no": {
+          "name": "Wicca-vei",
+          "description": "Hedensk etterliv og Summerland."
+        },
         "pl": {
           "name": "Ścieżka Wicca",
           "description": "Pogańskie zaświaty i kraina Summerland"
+        },
+        "sv": {
+          "name": "Wicca-väg",
+          "description": "Hedniskt efterliv och Summerland."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -551,13 +979,29 @@
         "amount": "3.99"
       },
       "localizations": {
+        "da": {
+          "name": "Zoroastrismens vej",
+          "description": "Godt mod ondt og prøven på Chinvat-broen."
+        },
         "en-US": {
           "name": "Zoroastrian Path",
           "description": "Good vs evil & the Chinvat Bridge test"
         },
+        "fi": {
+          "name": "Zarathustralaisuuden polku",
+          "description": "Hyvä vastaan paha ja Chinvat-sillan koe."
+        },
+        "no": {
+          "name": "Zoroastrismens vei",
+          "description": "Godt mot ondt og prøven på Chinvat-broen."
+        },
         "pl": {
           "name": "Ścieżka zoroastryzmu",
           "description": "Dobro kontra zło i próba Mostu Czinwat"
+        },
+        "sv": {
+          "name": "Zoroastrismens väg",
+          "description": "Gott mot ont och provet på Chinvatbron."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"
@@ -571,13 +1015,29 @@
         "amount": "89.99"
       },
       "localizations": {
+        "da": {
+          "name": "Ultimativ oplysning",
+          "description": "Alle veje og ubegrænset orakel, for livet."
+        },
         "en-US": {
           "name": "Ultimate Enlightenment",
           "description": "Every path and unlimited Oracle, for life"
         },
+        "fi": {
+          "name": "Ylin valaistuminen",
+          "description": "Kaikki polut ja rajaton oraakkeli, elinikäisesti."
+        },
+        "no": {
+          "name": "Ultimat opplysning",
+          "description": "Alle veier og ubegrenset orakel, for livet."
+        },
         "pl": {
           "name": "Ultimate: oświecenie",
           "description": "Wszystkie ścieżki i Wyrocznia bez limitu"
+        },
+        "sv": {
+          "name": "Ultimat upplysning",
+          "description": "Alla vägar och obegränsat orakel, för livet."
         }
       },
       "reviewScreenshotMd5": "306c636604ef0f5d56072efcd5b11923"

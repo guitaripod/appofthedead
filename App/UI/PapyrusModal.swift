@@ -395,7 +395,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                         
                         
                         if self.smoothedProgress == 0 {
-                            self.downloadLoadingView.updateProgress(0, withText: String(format: "0 MB / %.1f GB", 
+                            self.downloadLoadingView.updateProgress(0, withText: String(format: "0 MB / %.1f GB", locale: .current, 
                                                          Double(self.modelSizeBytes) / 1024 / 1024 / 1024))
                         }
                     }
@@ -689,7 +689,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
         let gbTotal = Double(totalBytes) / 1024 / 1024 / 1024
         
         
-        let sizeText = String(format: "%.0f MB / %.1f GB", mbDownloaded, gbTotal)
+        let sizeText = String(format: "%.0f MB / %.1f GB", locale: .current, mbDownloaded, gbTotal)
         downloadLoadingView.updateProgress(smoothedProgress, withText: "\(statusText)\n\(sizeText)")
         
         

@@ -108,7 +108,7 @@ enum OraclePrompt {
     /// Whether a question touches suicide, so the persona is told how to answer it.
     static func mentionsSelfHarm(_ text: String) -> Bool {
         let lowered = text.lowercased()
-        return ["suicid", "self-harm", "self harm", "selbstmord", "suizid", "自殺", "自杀", "자살", "samobój"].contains { lowered.contains($0) }
+        return ["suicid", "self-harm", "self harm", "selbstmord", "suizid", "自殺", "自杀", "자살", "samobój", "självmord", "selvmord", "itsemurha", "sjálfsvíg", "självskad", "selvskad", "itsetuho", "sjálfsskað"].contains { lowered.contains($0) }
     }
 
     private static let stopWords: Set<String> = [
@@ -146,6 +146,16 @@ enum CompassionGuard {
         "me machucar", "me cortar", "skrzywdzić siebie", "zrobić sobie krzywdę", "pociąć się", "自分を傷つけ",
         "リストカット", "자해", "伤害自己", "傷害自己", "自残", "自殘", "навредить себе", "порезать себя",
         "kendime zarar", "إيذاء نفسي", "ทำร้ายตัวเอง", "tự làm hại bản thân", "menyakiti diri",
+        "ta livet av mig", "tar livet av mig", "jag vill dö", "vill inte leva", "självmordstankar", "skada mig själv",
+        "skär mig själv", "jag önskar att jag var död", "begå självmord", "döda mig själv",
+        "tage mit eget liv", "tage livet af mig", "slå mig selv ihjel", "jeg vil dø", "vil ikke leve", "selvmordstanker",
+        "skade mig selv", "skære i mig selv", "begå selvmord", "ville ønske jeg var død",
+        "ta mitt eget liv", "ta livet av meg", "drepe meg selv", "skade meg selv", "kutte meg selv",
+        "skulle ønske jeg var død",
+        "tappaa itseni", "tapan itseni", "haluan kuolla", "en halua elää", "itsemurha-ajatuk", "tehdä itsemurhan",
+        "satuttaa itseäni", "viiltelen itseäni", "viillellä itseäni", "päättää elämäni", "toivon että olisin kuollut",
+        "taka mitt eigið líf", "svipta mig lífi", "mig langar að deyja", "ég vil deyja", "langar ekki að lifa",
+        "vil ekki lifa", "sjálfsvígshugsanir", "meiða mig", "skaða mig", "skera mig", "fremja sjálfsvíg", "ætla að drepa mig",
     ]
 
     static func needsCare(_ message: String) -> Bool {
