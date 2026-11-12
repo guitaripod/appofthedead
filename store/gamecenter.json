@@ -1,7 +1,11 @@
 {
   "app": "6746733380",
   "locales": [
-    "en-US"
+    "en-US",
+    "da",
+    "fi",
+    "no",
+    "sv"
   ],
   "leaderboards": [
     {
@@ -13,6 +17,18 @@
       "localizations": {
         "en-US": {
           "name": "Total Enlightenment"
+        },
+        "da": {
+          "name": "Total oplysning"
+        },
+        "fi": {
+          "name": "Täydellinen valaistuminen"
+        },
+        "no": {
+          "name": "Total opplysning"
+        },
+        "sv": {
+          "name": "Total upplysning"
         }
       }
     },
@@ -25,6 +41,18 @@
       "localizations": {
         "en-US": {
           "name": "Days of Devotion"
+        },
+        "da": {
+          "name": "Hengivenhedens dage"
+        },
+        "fi": {
+          "name": "Omistautumisen päivät"
+        },
+        "no": {
+          "name": "Hengivenhetens dager"
+        },
+        "sv": {
+          "name": "Hängivenhetens dagar"
         }
       }
     },
@@ -37,6 +65,18 @@
       "localizations": {
         "en-US": {
           "name": "Realms Mastered"
+        },
+        "da": {
+          "name": "Mestrede riger"
+        },
+        "fi": {
+          "name": "Hallitut valtakunnat"
+        },
+        "no": {
+          "name": "Riker mestret"
+        },
+        "sv": {
+          "name": "Bemästrade riken"
         }
       }
     },
@@ -49,6 +89,18 @@
       "localizations": {
         "en-US": {
           "name": "Gates Walked"
+        },
+        "da": {
+          "name": "Passerede porte"
+        },
+        "fi": {
+          "name": "Kuljetut portit"
+        },
+        "no": {
+          "name": "Porter passert"
+        },
+        "sv": {
+          "name": "Passerade portar"
         }
       }
     },
@@ -61,6 +113,18 @@
       "localizations": {
         "en-US": {
           "name": "Sacred Knowledge"
+        },
+        "da": {
+          "name": "Hellig viden"
+        },
+        "fi": {
+          "name": "Pyhä tieto"
+        },
+        "no": {
+          "name": "Hellig kunnskap"
+        },
+        "sv": {
+          "name": "Helig kunskap"
         }
       }
     }
@@ -74,7 +138,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "1a324de9-13b4-4b1b-98c5-a8e83fc4ed6a"
+          "da": "3bdc211d-f403-4adc-be38-6a10361f3225",
+          "en-US": "1a324de9-13b4-4b1b-98c5-a8e83fc4ed6a",
+          "fi": "8f9283eb-f8f9-4a28-b153-a48f7a74ec33",
+          "no": "709b1cee-a165-453b-a9cd-91b03260f0bb",
+          "sv": "f19bb158-16bb-42e6-bd10-527d057656b4"
         }
       },
       "localizations": {
@@ -82,6 +150,26 @@
           "name": "First Step",
           "before": "Complete your first lesson.",
           "after": "Complete your first lesson."
+        },
+        "da": {
+          "name": "Første skridt",
+          "before": "Gennemfør din første lektion.",
+          "after": "Gennemfør din første lektion."
+        },
+        "fi": {
+          "name": "Ensimmäinen askel",
+          "before": "Suorita ensimmäinen oppituntisi.",
+          "after": "Suorita ensimmäinen oppituntisi."
+        },
+        "no": {
+          "name": "Første steg",
+          "before": "Fullfør din første leksjon.",
+          "after": "Fullfør din første leksjon."
+        },
+        "sv": {
+          "name": "Första steget",
+          "before": "Slutför din första lektion.",
+          "after": "Slutför din första lektion."
         }
       }
     },
@@ -93,7 +181,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "59bf2957-20ba-4fdf-bd8d-5e79c4631e82"
+          "da": "792e0e9b-13c8-45c1-a888-6e67eda9996f",
+          "en-US": "59bf2957-20ba-4fdf-bd8d-5e79c4631e82",
+          "fi": "e0b3feec-9eed-4b18-abc0-e9826648debe",
+          "no": "4071e7cf-c5b1-47de-b00c-92e10dfa6d77",
+          "sv": "894b234b-ae4a-4a8b-88f2-0437f3c4ff2b"
         }
       },
       "localizations": {
@@ -101,6 +193,26 @@
           "name": "Quiz Whiz",
           "before": "Answer 50 questions correctly.",
           "after": "Answer 50 questions correctly."
+        },
+        "da": {
+          "name": "Quizgeni",
+          "before": "Besvar 50 spørgsmål rigtigt.",
+          "after": "Besvar 50 spørgsmål rigtigt."
+        },
+        "fi": {
+          "name": "Tietovisaneropatti",
+          "before": "Vastaa oikein 50 kysymykseen.",
+          "after": "Vastaa oikein 50 kysymykseen."
+        },
+        "no": {
+          "name": "Quizgeni",
+          "before": "Svar riktig på 50 spørsmål.",
+          "after": "Svar riktig på 50 spørsmål."
+        },
+        "sv": {
+          "name": "Quizgeni",
+          "before": "Svara rätt på 50 frågor.",
+          "after": "Svara rätt på 50 frågor."
         }
       }
     },
@@ -112,7 +224,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "c56641e9-6cb6-4c6d-b952-d3d37774931b"
+          "da": "6bc3d57d-267e-4d89-8ba8-76dba09166f5",
+          "en-US": "c56641e9-6cb6-4c6d-b952-d3d37774931b",
+          "fi": "4f49d375-4314-4f82-9ca3-03dccd62f774",
+          "no": "a6b559c5-eab0-4f58-ae04-615318c80248",
+          "sv": "e2bbf680-cf64-43e2-871c-270e3355f1f6"
         }
       },
       "localizations": {
@@ -120,6 +236,26 @@
           "name": "Enlightened One",
           "before": "Earn 500 total XP.",
           "after": "Earn 500 total XP."
+        },
+        "da": {
+          "name": "Den oplyste",
+          "before": "Optjen i alt 500 XP.",
+          "after": "Optjen i alt 500 XP."
+        },
+        "fi": {
+          "name": "Valaistunut",
+          "before": "Ansaitse yhteensä 500 XP.",
+          "after": "Ansaitse yhteensä 500 XP."
+        },
+        "no": {
+          "name": "Den opplyste",
+          "before": "Tjen totalt 500 XP.",
+          "after": "Tjen totalt 500 XP."
+        },
+        "sv": {
+          "name": "Den upplyste",
+          "before": "Tjäna totalt 500 XP.",
+          "after": "Tjäna totalt 500 XP."
         }
       }
     },
@@ -131,7 +267,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "63495e42-22b1-4311-8a58-2a30fd0f63e5"
+          "da": "de1b0b46-0f8f-40eb-9af0-b30d624c98c4",
+          "en-US": "63495e42-22b1-4311-8a58-2a30fd0f63e5",
+          "fi": "b91fcb2b-1716-4565-9da6-160d5144be40",
+          "no": "b7057f11-5fd7-4572-a520-c101347f6a93",
+          "sv": "f40fd749-bf5b-4ecf-a530-554f24a4aa60"
         }
       },
       "localizations": {
@@ -139,6 +279,26 @@
           "name": "Perfect Understanding",
           "before": "Get 100% on any mastery test.",
           "after": "Get 100% on any mastery test."
+        },
+        "da": {
+          "name": "Fuldkommen forståelse",
+          "before": "Få 100 % i en hvilken som helst mesterprøve.",
+          "after": "Få 100 % i en hvilken som helst mesterprøve."
+        },
+        "fi": {
+          "name": "Täydellinen ymmärrys",
+          "before": "Saa 100 % missä tahansa mestarikokeessa.",
+          "after": "Saa 100 % missä tahansa mestarikokeessa."
+        },
+        "no": {
+          "name": "Fullkommen forståelse",
+          "before": "Få 100 % på en hvilken som helst mesterprøve.",
+          "after": "Få 100 % på en hvilken som helst mesterprøve."
+        },
+        "sv": {
+          "name": "Fullkomlig förståelse",
+          "before": "Få 100 % på valfritt mästarprov.",
+          "after": "Få 100 % på valfritt mästarprov."
         }
       }
     },
@@ -150,7 +310,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "56aaebaf-d43f-4168-8dfc-075c2f862721"
+          "da": "671d2058-8c33-42c5-87be-425ae34d1836",
+          "en-US": "56aaebaf-d43f-4168-8dfc-075c2f862721",
+          "fi": "70c8b37b-b4d3-4fbe-8799-11cabe936986",
+          "no": "6a13a515-c30f-4416-bd43-1a9e4831050d",
+          "sv": "43b08657-8a92-4d5d-8387-084eabec26f3"
         }
       },
       "localizations": {
@@ -158,6 +322,26 @@
           "name": "Scholar of Sheol",
           "before": "Complete the Judaism path.",
           "after": "Complete the Judaism path."
+        },
+        "da": {
+          "name": "Kender af Sheol",
+          "before": "Gennemfør vejen om jødedommen.",
+          "after": "Gennemfør vejen om jødedommen."
+        },
+        "fi": {
+          "name": "Sheolin tuntija",
+          "before": "Suorita juutalaisuuden polku.",
+          "after": "Suorita juutalaisuuden polku."
+        },
+        "no": {
+          "name": "Kjenner av Sheol",
+          "before": "Fullfør veien om jødedommen.",
+          "after": "Fullfør veien om jødedommen."
+        },
+        "sv": {
+          "name": "Kännare av Sheol",
+          "before": "Slutför vägen om judendomen.",
+          "after": "Slutför vägen om judendomen."
         }
       }
     },
@@ -169,7 +353,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "f56fbab3-513e-46cb-8e26-6341a9b74e4c"
+          "da": "69c6ad75-c79a-4c9d-9662-b51ed613112a",
+          "en-US": "f56fbab3-513e-46cb-8e26-6341a9b74e4c",
+          "fi": "8d02d516-fd3a-4058-9ab0-e74f59629deb",
+          "no": "a99680d3-1f5e-4cf3-9eb7-93242d84f0bc",
+          "sv": "6a32e481-7526-4b92-a203-807f39d08b78"
         }
       },
       "localizations": {
@@ -177,6 +365,26 @@
           "name": "Journey Through Duat",
           "before": "Complete the Egyptian Afterlife path.",
           "after": "Complete the Egyptian Afterlife path."
+        },
+        "da": {
+          "name": "Rejsen gennem Duat",
+          "before": "Gennemfør vejen om egypternes liv efter døden.",
+          "after": "Gennemfør vejen om egypternes liv efter døden."
+        },
+        "fi": {
+          "name": "Matka Duatin halki",
+          "before": "Suorita muinaisen Egyptin tuonpuoleisen polku.",
+          "after": "Suorita muinaisen Egyptin tuonpuoleisen polku."
+        },
+        "no": {
+          "name": "Reisen gjennom Duat",
+          "before": "Fullfør veien om egypternes liv etter døden.",
+          "after": "Fullfør veien om egypternes liv etter døden."
+        },
+        "sv": {
+          "name": "Resan genom Duat",
+          "before": "Slutför vägen om egyptiernas liv efter döden.",
+          "after": "Slutför vägen om egyptiernas liv efter döden."
         }
       }
     },
@@ -188,7 +396,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "e2cf1bfe-f1bf-4007-89be-b2918023383f"
+          "da": "fda6efd9-8a9c-4207-80f4-5ecac24e0a70",
+          "en-US": "e2cf1bfe-f1bf-4007-89be-b2918023383f",
+          "fi": "5ae54956-bd78-4a1c-9540-6b387456bf41",
+          "no": "ca2881cb-fbb6-4f09-b8dd-0f97eb4fb847",
+          "sv": "58416a45-c2ce-42aa-932d-916038febbee"
         }
       },
       "localizations": {
@@ -196,6 +408,26 @@
           "name": "Wisdom Seeker",
           "before": "Earn 1000 total XP.",
           "after": "Earn 1000 total XP."
+        },
+        "da": {
+          "name": "Visdomssøger",
+          "before": "Optjen i alt 1.000 XP.",
+          "after": "Optjen i alt 1.000 XP."
+        },
+        "fi": {
+          "name": "Viisauden etsijä",
+          "before": "Ansaitse yhteensä 1 000 XP.",
+          "after": "Ansaitse yhteensä 1 000 XP."
+        },
+        "no": {
+          "name": "Visdomssøker",
+          "before": "Tjen totalt 1 000 XP.",
+          "after": "Tjen totalt 1 000 XP."
+        },
+        "sv": {
+          "name": "Visdomssökare",
+          "before": "Tjäna totalt 1 000 XP.",
+          "after": "Tjäna totalt 1 000 XP."
         }
       }
     },
@@ -207,7 +439,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "3c041b64-feac-40c6-8da9-7389c68b66b5"
+          "da": "b03f754a-232e-4ba8-baf2-d881743eed11",
+          "en-US": "3c041b64-feac-40c6-8da9-7389c68b66b5",
+          "fi": "d37753ad-7801-43cd-b63d-bd407ef198fd",
+          "no": "4a0223f2-dde3-49f3-ae1c-7ab5f73fc521",
+          "sv": "4f4b5411-56d3-49ec-8b49-a5fdea2f892d"
         }
       },
       "localizations": {
@@ -215,6 +451,26 @@
           "name": "Eternal Student",
           "before": "Complete 3 belief system paths.",
           "after": "Complete 3 belief system paths."
+        },
+        "da": {
+          "name": "Evig studerende",
+          "before": "Gennemfør vejene for 3 trossystemer.",
+          "after": "Gennemfør vejene for 3 trossystemer."
+        },
+        "fi": {
+          "name": "Ikuinen opiskelija",
+          "before": "Suorita 3 uskomusjärjestelmän polut.",
+          "after": "Suorita 3 uskomusjärjestelmän polut."
+        },
+        "no": {
+          "name": "Evig student",
+          "before": "Fullfør veiene for 3 trossystemer.",
+          "after": "Fullfør veiene for 3 trossystemer."
+        },
+        "sv": {
+          "name": "Evig student",
+          "before": "Slutför vägarna för 3 trossystem.",
+          "after": "Slutför vägarna för 3 trossystem."
         }
       }
     },
@@ -226,7 +482,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "b1b30e94-74c2-494c-8feb-075099c980ff"
+          "da": "836f63b7-7ea5-46ce-b54d-d7fc76c18573",
+          "en-US": "b1b30e94-74c2-494c-8feb-075099c980ff",
+          "fi": "bf5be5e2-01f9-450a-a4d8-3e9ad2d53705",
+          "no": "fbed70f8-aba6-4195-8caa-82d806861354",
+          "sv": "8f9676a2-3b6b-4ad1-9036-3bedee3a6c48"
         }
       },
       "localizations": {
@@ -234,6 +494,26 @@
           "name": "Cosmic Explorer",
           "before": "Complete 5 belief system paths.",
           "after": "Complete 5 belief system paths."
+        },
+        "da": {
+          "name": "Kosmisk udforsker",
+          "before": "Gennemfør vejene for 5 trossystemer.",
+          "after": "Gennemfør vejene for 5 trossystemer."
+        },
+        "fi": {
+          "name": "Kosminen tutkija",
+          "before": "Suorita 5 uskomusjärjestelmän polut.",
+          "after": "Suorita 5 uskomusjärjestelmän polut."
+        },
+        "no": {
+          "name": "Kosmisk utforsker",
+          "before": "Fullfør veiene for 5 trossystemer.",
+          "after": "Fullfør veiene for 5 trossystemer."
+        },
+        "sv": {
+          "name": "Kosmisk utforskare",
+          "before": "Slutför vägarna för 5 trossystem.",
+          "after": "Slutför vägarna för 5 trossystem."
         }
       }
     },
@@ -245,7 +525,11 @@
       "repeatable": false,
       "image": {
         "remote": {
-          "en-US": "57c1b345-77c3-4c6c-a258-b87dba63ae88"
+          "da": "ee6de2b8-b720-4b58-9898-25a3abea2be1",
+          "en-US": "57c1b345-77c3-4c6c-a258-b87dba63ae88",
+          "fi": "a95b7b23-67db-4d29-b10f-f8c3088403fa",
+          "no": "e80047aa-856b-48f7-bbe4-c44b35bdb2c8",
+          "sv": "d215556f-c4e9-4172-a1b0-6058dedb4a81"
         }
       },
       "localizations": {
@@ -253,6 +537,26 @@
           "name": "Afterlife Master",
           "before": "Complete all belief system paths.",
           "after": "Complete all belief system paths."
+        },
+        "da": {
+          "name": "Mester i livet efter døden",
+          "before": "Gennemfør vejene for alle trossystemer.",
+          "after": "Gennemfør vejene for alle trossystemer."
+        },
+        "fi": {
+          "name": "Tuonpuoleisen mestari",
+          "before": "Suorita kaikkien uskomusjärjestelmien polut.",
+          "after": "Suorita kaikkien uskomusjärjestelmien polut."
+        },
+        "no": {
+          "name": "Mester i livet etter døden",
+          "before": "Fullfør veiene for alle trossystemer.",
+          "after": "Fullfør veiene for alle trossystemer."
+        },
+        "sv": {
+          "name": "Mästare i livet efter döden",
+          "before": "Slutför vägarna för alla trossystem.",
+          "after": "Slutför vägarna för alla trossystem."
         }
       }
     }
