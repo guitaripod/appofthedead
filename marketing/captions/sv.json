@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "Domen", "headline": "Vart tar din själ vägen?", "glow": "#E5BA5C"},
+ "charon": {"kicker": "Nio frågor, sex dödsriken", "headline": "Svara inför de dödas domare", "glow": "#A98BF0"},
+ "weighing": {"kicker": "De två sanningarnas sal", "headline": "Ditt hjärta mot fjädern", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "Ditt själskort", "headline": "Utmana dina vänner", "glow": "#F07E62"},
+ "oracle": {"kicker": "Oraklet", "headline": "Tala med gudarna", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22 dödsriken", "headline": "Från Valhall till Duat", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "Lektioner som berättelsekort", "headline": "En berättelse i taget", "glow": "#E5BA5C"},
+ "home": {"kicker": "Dagens omen", "headline": "En fråga om dagen från varje tro", "glow": "#7FA8F5"}
+}

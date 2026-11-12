@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "Tuomio", "headline": "Minne sielusi päätyy?", "glow": "#E5BA5C"},
+ "charon": {"kicker": "Yhdeksän kysymystä, kuusi tuonpuoleista", "headline": "Vastaa kuolleiden tuomareille", "glow": "#A98BF0"},
+ "weighing": {"kicker": "Kahden totuuden sali", "headline": "Sydämesi sulkaa vastaan", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "Sielukorttisi", "headline": "Haasta ystäväsi", "glow": "#F07E62"},
+ "oracle": {"kicker": "Oraakkeli", "headline": "Puhu jumalille", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22 tuonpuoleista", "headline": "Valhallasta Duatiin", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "Tarinakorttitunnit", "headline": "Yksi tarina kerrallaan", "glow": "#E5BA5C"},
+ "home": {"kicker": "Päivän enne", "headline": "Yksi kysymys päivässä mistä tahansa uskosta", "glow": "#7FA8F5"}
+}

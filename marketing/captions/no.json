@@ -1,0 +1,10 @@
+{
+ "verdict": {"kicker": "Dommen", "headline": "Hvor skal sjelen din?", "glow": "#E5BA5C"},
+ "charon": {"kicker": "Ni spørsmål, seks dødsriker", "headline": "Svar de dødes dommere", "glow": "#A98BF0"},
+ "weighing": {"kicker": "De to sannheters hall", "headline": "Hjertet ditt mot fjæren", "glow": "#E5BA5C"},
+ "soulcard": {"kicker": "Sjelkortet ditt", "headline": "Utfordre vennene dine", "glow": "#F07E62"},
+ "oracle": {"kicker": "Orakelet", "headline": "Snakk med gudene", "glow": "#D4A574"},
+ "pathmap": {"kicker": "22 dødsriker", "headline": "Fra Valhall til Duat", "glow": "#9A7BE6"},
+ "lesson": {"kicker": "Leksjoner som fortellingskort", "headline": "Én fortelling om gangen", "glow": "#E5BA5C"},
+ "home": {"kicker": "Dagens omen", "headline": "Ett spørsmål om dagen fra hver tro", "glow": "#7FA8F5"}
+}
