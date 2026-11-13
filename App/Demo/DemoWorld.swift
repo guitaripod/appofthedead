@@ -44,7 +44,7 @@ enum DemoWorld {
         let root = context.root
         let tabs: [String: Int] = ["profile": 1, "oracle": 2, "library": 3, "settings": 4]
         if let reason = paywallReason(for: route) {
-            root.present(PaywallViewController(reason: reason), animated: false)
+            root.present(PaywallViewController(reason: reason, journey: paywallJourney), animated: false)
         } else if let index = tabs[route] {
             root.selectViewController(at: index)
         } else {
@@ -57,9 +57,24 @@ enum DemoWorld {
             "paywall": .generalUpgrade,
             "paywall-path": .lockedPath(beliefSystemId: "norse"),
             "paywall-oracle": .oracleLimit(deityId: "anubis", deityName: "Anubis"),
-            "paywall-lesson": .lessonFinished(nextPath: (id: "norse", name: "Norse"))
+            "paywall-lesson": .lessonFinished(nextPath: (id: "norse", name: "Norse")),
+            "paywall-week": .premiumWeekEnded
         ]
         return reasons[route]
+    }
+
+    /// Who a demo paywall speaks to. `AOTD_DEMO_JOURNEY=first` is the first day (the demo verdict and one finished
+    /// lesson), `unknown` is someone the app knows nothing about, and anything else is the seeded learner with the
+    /// demo verdict.
+    private static var paywallJourney: PaywallJourney {
+        switch environment["AOTD_DEMO_JOURNEY"] {
+        case "unknown":
+            return .unknown
+        case "first":
+            return PaywallJourney(lessonsFinished: 1).ruled(JudgmentEngine.verdict(for: demoSoul))
+        default:
+            return PaywallJourney.live().ruled(JudgmentEngine.verdict(for: demoSoul))
+        }
     }
 
     private static func openScreen(_ route: String, in context: DemoContext) {
@@ -105,6 +120,15 @@ enum DemoWorld {
     /// shows Ra's barque, Fólkvangr and the House of the Sun.
     private static let demoAnswers = [1, 1, 1, 0, 0, 0, 0, 2, 2]
 
+    /// The soul the demo answers weigh.
+    private static var demoSoul: SoulRecord {
+        var soul = SoulRecord()
+        for (scene, pick) in zip(JudgmentScript.scenes, demoAnswers) {
+            soul.record(scene.answers[pick])
+        }
+        return soul
+    }
+
     private static func presentJudgment(scenesAnswered: Int?, finish: Bool = false, in context: DemoContext) {
         let viewModel = JudgmentViewModel(entry: .firstRun)
         let screen = JudgmentViewController(viewModel: viewModel) { _ in context.root.dismiss(animated: true) }
@@ -121,10 +145,7 @@ enum DemoWorld {
 
     /// The Soul Card the demo answers earn, full screen on black, as a photo viewer shows it after saving.
     private static func presentSoulCard(in context: DemoContext) {
-        var soul = SoulRecord()
-        for (scene, pick) in zip(JudgmentScript.scenes, demoAnswers) {
-            soul.record(scene.answers[pick])
-        }
+        let soul = demoSoul
         let screen = UIViewController()
         let backdrop = UnderworldBackdropView()
         backdrop.frame = screen.view.bounds

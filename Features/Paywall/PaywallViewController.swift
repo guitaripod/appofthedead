@@ -33,8 +33,8 @@ class PaywallViewController: UIViewController {
     private let notificationFeedback = UINotificationFeedbackGenerator()
     private var hasNotedShown = false
 
-    init(reason: PaywallReason = .generalUpgrade) {
-        self.viewModel = PaywallViewModel(reason: reason)
+    init(reason: PaywallReason = .generalUpgrade, journey: PaywallJourney = .live()) {
+        self.viewModel = PaywallViewModel(reason: reason, journey: journey)
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .fullScreen
     }
@@ -253,7 +253,7 @@ class PaywallViewController: UIViewController {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
-        subtitleLabel.text = viewModel.reason.subtitle
+        subtitleLabel.text = viewModel.subtitle
         subtitleLabel.font = PapyrusDesignSystem.Typography.body()
         subtitleLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
         subtitleLabel.textAlignment = .center

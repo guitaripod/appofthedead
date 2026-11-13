@@ -108,6 +108,7 @@ final class PaywallViewModel {
     }
 
     let reason: PaywallReason
+    let journey: PaywallJourney
 
     private let store: PaywallProductProviding
     private let reminderScheduler: TrialReminderScheduling
@@ -122,11 +123,18 @@ final class PaywallViewModel {
     var onALaCartePriceUpdated: (() -> Void)?
 
     init(reason: PaywallReason,
+         journey: PaywallJourney = .unknown,
          store: PaywallProductProviding = StoreManager.shared,
          reminderScheduler: TrialReminderScheduling = NotificationManager.shared) {
         self.reason = reason
+        self.journey = journey
         self.store = store
         self.reminderScheduler = reminderScheduler
+    }
+
+    /// The line under the title: about the person where the app knows enough, the reason's general line otherwise.
+    var subtitle: String {
+        PaywallPersonalCopy.subtitle(for: reason, journey: journey) ?? reason.subtitle
     }
 
     func loadProducts() {
@@ -251,25 +259,29 @@ final class PaywallViewModel {
         ]
     }
 
+    /// The benefits, each told about the person where ``PaywallPersonalCopy`` has a line for them.
     var features: [(icon: String, title: String, description: String)] {
+        let paths = PaywallPersonalCopy.pathsDetail(journey)
+        let oracle = PaywallPersonalCopy.oracleDetail(journey)
         switch reason {
         case .lockedPath, .lessonFinished:
             return [
-                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson, quiz, and achievement")),
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "Consult all 21 divine guides freely")),
+                ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "Every lesson, quiz, and achievement")),
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "Consult all 21 divine guides freely")),
                 ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .oracleLimit:
             return [
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), String(localized: "No limits with any deity")),
-                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "Every lesson and quiz included")),
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), oracle ?? String(localized: "No limits with any deity")),
+                ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "Every lesson and quiz included")),
                 ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .generalUpgrade, .premiumWeekEnded:
             return [
-                ("book.fill", String(localized: "All 21 Learning Paths"), String(localized: "From Valhalla to the Duat")),
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), String(localized: "All 21 divine guides, no limits")),
-                ("star.fill", String(localized: "Every Achievement"), String(localized: "Every path's achievements within reach"))
+                ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "From Valhalla to the Duat")),
+                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "All 21 divine guides, no limits")),
+                ("star.fill", String(localized: "Every Achievement"),
+                 PaywallPersonalCopy.achievementsDetail(journey) ?? String(localized: "Every path's achievements within reach"))
             ]
         }
     }

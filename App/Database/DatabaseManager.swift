@@ -534,6 +534,13 @@ nonisolated final class DatabaseManager: @unchecked Sendable {
         }
     }
     
+    /// Every question the person has asked the Oracle, across all deities.
+    func getTotalOracleConsultations(userId: String) throws -> Int {
+        try dbQueue.read { db in
+            try OracleConsultation.getTotalConsultations(for: userId, in: db)
+        }
+    }
+
     func canConsultOracleForFree(userId: String, deityId: String) -> Bool {
         do {
             return try dbQueue.read { db in

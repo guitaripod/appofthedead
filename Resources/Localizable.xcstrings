@@ -54012,7 +54012,7 @@
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kaikki polut ja jumalat pysyvät auki. Edistymisesi säilyy täsmälleen siinä kohdassa, johon jätit sen."
+            "value": "Pidä kaikki polut ja jumalat auki. Edistymisesi säilyy täsmälleen siinä kohdassa, johon jätit sen."
           }
         },
         "fr": {
@@ -54024,7 +54024,7 @@
         "is": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allar leiðir og allir guðir haldast opnir. Framvinda þín er nákvæmlega þar sem þú skildir hana eftir."
+            "value": "Haltu öllum leiðum og öllum guðum opnum. Framvinda þín er nákvæmlega þar sem þú skildir hana eftir."
           }
         },
         "it": {
@@ -54054,7 +54054,7 @@
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Każda ścieżka i każdy bóg pozostają otwarte. Twoje postępy zostają dokładnie tam, gdzie były."
+            "value": "Zachowaj otwartą każdą ścieżkę i każdego boga. Twoje postępy zostają dokładnie tam, gdzie były."
           }
         },
         "pt-BR": {
@@ -54072,7 +54072,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "所有路径与众神依然为你开放。你的进度会停留在离开时的地方。"
+            "value": "让所有路径与众神继续为你开放。你的进度会停留在离开时的地方。"
           }
         },
         "zh-Hant": {
@@ -66109,6 +66109,1492 @@
           "stringUnit": {
             "state": "translated",
             "value": "瑣羅亞斯德教"
+          }
+        }
+      }
+    },
+    "Your soul's fate in this tradition: %@. This path tells the whole story.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Din sjæls skæbne i denne tradition: %@. Denne vej fortæller hele historien."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Schicksal deiner Seele in dieser Tradition: %@. Dieser Pfad erzählt die ganze Geschichte."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El destino de tu alma en esta tradición: %@. Este camino cuenta toda la historia."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sielusi kohtalo tässä perinteessä: %@. Tämä polku kertoo koko tarinan."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le sort de votre âme dans cette tradition : %@. Cette voie raconte toute l'histoire."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Örlög sálar þinnar í þessari hefð: %@. Þessi leið segir alla söguna."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il destino della tua anima in questa tradizione: %@. Questo percorso racconta tutta la storia."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "この伝統でのあなたの魂の行き先：%@。この道がそのすべてを語ります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 전통에서 당신 영혼의 운명: %@. 이 길이 그 모든 이야기를 들려줘요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skjebnen til sjelen din i denne tradisjonen: %@. Denne veien forteller hele historien."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los twojej duszy w tej tradycji: %@. Ta ścieżka opowiada całą historię."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O destino da sua alma nesta tradição: %@. Este caminho conta a história toda."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Din själs öde i den här traditionen: %@. Den här vägen berättar hela historien."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的灵魂在这一传统中的归宿：%@。这条路径会讲述完整的故事。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的靈魂在這一傳統中的歸宿：%@。這條路徑會講述完整的故事。"
+          }
+        }
+      }
+    },
+    "You have asked the Oracle %lld questions. Ask all 21 guides without limits.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du har stillet oraklet %lld spørgsmål. Spørg alle 21 vejledere uden begrænsninger."
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Du hast dem Orakel %lld Frage gestellt. Befrage alle 21 Führer ohne Limit."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Du hast dem Orakel %lld Fragen gestellt. Befrage alle 21 Führer ohne Limit."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "You have asked the Oracle %lld question. Ask all 21 guides without limits."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "You have asked the Oracle %lld questions. Ask all 21 guides without limits."
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Le has hecho %lld pregunta al Oráculo. Pregunta a las 21 guías sin límites."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Le has hecho %lld preguntas al Oráculo. Pregunta a las 21 guías sin límites."
+                }
+              }
+            }
+          }
+        },
+        "fi": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Olet kysynyt oraakkelilta %lld kysymyksen. Kysy kaikilta 21 oppaalta rajoituksetta."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Olet kysynyt oraakkelilta %lld kysymystä. Kysy kaikilta 21 oppaalta rajoituksetta."
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Vous avez posé %lld question à l'Oracle. Interrogez les 21 guides sans limite."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Vous avez posé %lld questions à l'Oracle. Interrogez les 21 guides sans limite."
+                }
+              }
+            }
+          }
+        },
+        "is": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Þú hefur spurt véfréttina %lld spurningar. Spyrðu alla 21 leiðsögumennina án takmarkana."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Þú hefur spurt véfréttina %lld spurninga. Spyrðu alla 21 leiðsögumennina án takmarkana."
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Hai fatto %lld domanda all'Oracolo. Interroga tutte le 21 guide senza limiti."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Hai fatto %lld domande all'Oracolo. Interroga tutte le 21 guide senza limiti."
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "オラクルに %lld 回質問しました。21柱の導き手すべてに、制限なく尋ねられます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오라클에게 질문을 %lld번 했어요. 21분의 인도자 모두에게 제한 없이 물어보세요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du har stilt orakelet %lld spørsmål. Spør alle 21 veiledere uten grenser."
+          }
+        },
+        "pl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zadałeś Wyroczni %lld pytanie. Pytaj wszystkich 21 przewodników bez ograniczeń."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zadałeś Wyroczni %lld pytania. Pytaj wszystkich 21 przewodników bez ograniczeń."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zadałeś Wyroczni %lld pytań. Pytaj wszystkich 21 przewodników bez ograniczeń."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zadałeś Wyroczni %lld pytań. Pytaj wszystkich 21 przewodników bez ograniczeń."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Você fez %lld pergunta ao Oráculo. Pergunte aos 21 guias sem limites."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Você fez %lld perguntas ao Oráculo. Pergunte aos 21 guias sem limites."
+                }
+              }
+            }
+          }
+        },
+        "sv": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Du har ställt %lld fråga till oraklet. Fråga alla 21 vägledare utan gränser."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Du har ställt %lld frågor till oraklet. Fråga alla 21 vägledare utan gränser."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已向神谕提出 %lld 个问题。无限制地求问全部 21 位向导。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已向神諭提出 %lld 個問題。無限制地求問全部 21 位嚮導。"
+          }
+        }
+      }
+    },
+    "Your %lld finished lessons stay exactly where you left them. Keep every path and every god open.": {
+      "localizations": {
+        "da": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Din %lld gennemførte lektion bliver præcis, hvor du slap. Hold alle veje og alle guder åbne."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Dine %lld gennemførte lektioner bliver præcis, hvor du slap. Hold alle veje og alle guder åbne."
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Deine %lld abgeschlossene Lektion bleibt genau dort, wo du aufgehört hast. Halte jeden Pfad und jeden Gott offen."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Deine %lld abgeschlossenen Lektionen bleiben genau dort, wo du aufgehört hast. Halte jeden Pfad und jeden Gott offen."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Your %lld finished lesson stays exactly where you left it. Keep every path and every god open."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Your %lld finished lessons stay exactly where you left them. Keep every path and every god open."
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Tu %lld lección terminada sigue exactamente donde la dejaste. Mantén abiertos todos los caminos y todos los dioses."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Tus %lld lecciones terminadas siguen exactamente donde las dejaste. Mantén abiertos todos los caminos y todos los dioses."
+                }
+              }
+            }
+          }
+        },
+        "fi": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Suorittamasi %lld oppitunti säilyy täsmälleen siinä, mihin sen jätit. Pidä kaikki polut ja jumalat auki."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Suorittamasi %lld oppituntia säilyvät täsmälleen siinä, mihin ne jätit. Pidä kaikki polut ja jumalat auki."
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Votre %lld leçon terminée reste exactement là où vous l'avez laissée. Gardez ouvertes toutes les voies et tous les dieux."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Vos %lld leçons terminées restent exactement là où vous les avez laissées. Gardez ouvertes toutes les voies et tous les dieux."
+                }
+              }
+            }
+          }
+        },
+        "is": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld kennslustund sem þú laukst er nákvæmlega þar sem þú skildir við hana. Haltu öllum leiðum og öllum guðum opnum."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld kennslustundir sem þú laukst eru nákvæmlega þar sem þú skildir við þær. Haltu öllum leiðum og öllum guðum opnum."
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "La tua %lld lezione completata resta esattamente dove l'hai lasciata. Tieni aperti ogni percorso e ogni dio."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Le tue %lld lezioni completate restano esattamente dove le hai lasciate. Tieni aperti ogni percorso e ogni dio."
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修了した %lld 件のレッスンは、中断したところのまま残ります。すべての道と神々を開いたままにしましょう。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마친 레슨 %lld개는 떠났던 자리 그대로 남아 있어요. 모든 길과 모든 신을 계속 열어 두세요."
+          }
+        },
+        "nb": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Den %lld fullførte leksjonen din er akkurat der du slapp den. Behold hver vei og hver gud åpen."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "De %lld fullførte leksjonene dine er akkurat der du slapp dem. Behold hver vei og hver gud åpen."
+                }
+              }
+            }
+          }
+        },
+        "pl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Twoja %lld ukończona lekcja zostaje dokładnie tam, gdzie była. Zachowaj otwartą każdą ścieżkę i każdego boga."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Twoje %lld ukończone lekcje zostają dokładnie tam, gdzie były. Zachowaj otwartą każdą ścieżkę i każdego boga."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Twoich %lld ukończonych lekcji zostaje dokładnie tam, gdzie były. Zachowaj otwartą każdą ścieżkę i każdego boga."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Twoich %lld ukończonych lekcji zostaje dokładnie tam, gdzie były. Zachowaj otwartą każdą ścieżkę i każdego boga."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Sua %lld lição concluída fica exatamente onde você parou. Mantenha todos os caminhos e todos os deuses abertos."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Suas %lld lições concluídas ficam exatamente onde você parou. Mantenha todos os caminhos e todos os deuses abertos."
+                }
+              }
+            }
+          }
+        },
+        "sv": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Din %lld slutförda lektion finns kvar precis där du lämnade den. Behåll varje väg och varje gud öppen."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Dina %lld slutförda lektioner finns kvar precis där du lämnade dem. Behåll varje väg och varje gud öppen."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你完成的 %lld 节课会停留在离开时的地方。让所有路径与众神继续为你开放。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你完成的 %lld 堂課會停留在你離開的地方。讓所有道路與諸神都保持開啟。"
+          }
+        }
+      }
+    },
+    "Including the six afterlives that judged your soul": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heriblandt de seks efterlivsforestillinger, der dømte din sjæl"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darunter die sechs Jenseitsvorstellungen, die deine Seele gerichtet haben"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incluidas las seis vidas después de la muerte que juzgaron tu alma"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mukana ne kuusi kuoleman jälkeistä elämää, jotka tuomitsivat sielusi"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dont les six vies après la mort qui ont jugé votre âme"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Þar á meðal eftirlífsheimarnir sex sem dæmdu sál þína"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compresi i sei aldilà che hanno giudicato la tua anima"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "あなたの魂を審判した六つの死後の世界も含まれます"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "당신의 영혼을 심판한 여섯 개의 내세도 포함돼요"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inkludert de seks livene etter døden som dømte sjelen din"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "W tym sześć zaświatów, które osądziły twoją duszę"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incluindo as seis vidas após a morte que julgaram a sua alma"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inklusive de sex efterliv som dömde din själ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包括审判了你灵魂的六种死后世界"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包括審判了你靈魂的六種死後世界"
+          }
+        }
+      }
+    },
+    "%@, your guide from the Judgment, and 20 more": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, din vejleder fra Dommen, og 20 andre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, dein Geleit aus dem Totengericht, und 20 weitere"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, tu guía del Juicio, y 20 más"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, oppaasi Tuomiosta, ja 20 muuta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, votre guide du Jugement, et 20 autres"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, leiðsögumaður þinn úr Dómnum, og 20 til viðbótar"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, la tua guida dal Giudizio, e altre 20"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "審判があなたに示した導き手 %@ と、ほか20柱"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "심판이 정해 준 인도자 %@ 외 20분"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, veilederen din fra Dommen, og 20 til"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, twój przewodnik z Sądu, i 20 innych"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, guia que o Julgamento deu a você, e mais 20"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, din vägledare från Domen, och 20 till"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "审判为你选定的向导 %@，以及另外 20 位"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "審判為你選定的嚮導 %@，以及另外 20 位"
+          }
+        }
+      }
+    },
+    "%lld earned so far. Every path holds more.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld opnået indtil nu. Hver vej rummer flere."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld bisher erreicht. Jeder Pfad hält weitere bereit."
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld conseguido hasta ahora. Cada camino guarda más."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld conseguidos hasta ahora. Cada camino guarda más."
+                }
+              }
+            }
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ansaittu tähän mennessä. Jokaisella polulla on lisää."
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld obtenu jusqu'ici. Chaque voie en réserve d'autres."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld obtenus jusqu'ici. Chaque voie en réserve d'autres."
+                }
+              }
+            }
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld afrek hingað til. Hver leið geymir fleiri."
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld ottenuto finora. Ogni percorso ne riserva altri."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld ottenuti finora. Ogni percorso ne riserva altri."
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これまでに %lld 個獲得。どの道にもさらに用意されています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금까지 %lld개 달성. 모든 길에 더 많은 업적이 있어요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld oppnådd så langt. Hver vei har flere."
+          }
+        },
+        "pl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld zdobyte do tej pory. Każda ścieżka kryje kolejne."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld zdobyte do tej pory. Każda ścieżka kryje kolejne."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld zdobytych do tej pory. Każda ścieżka kryje kolejne."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld zdobytych do tej pory. Każda ścieżka kryje kolejne."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld conquistada até agora. Cada caminho guarda mais."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld conquistadas até agora. Cada caminho guarda mais."
+                }
+              }
+            }
+          }
+        },
+        "sv": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld uppnådd hittills. Varje väg rymmer fler."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld uppnådda hittills. Varje väg rymmer fler."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前已获得 %lld 项。每条路径都还有更多。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前已獲得 %lld 項。每條路徑都還有更多。"
+          }
+        }
+      }
+    },
+    "%@ and every other path are one step away.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ og alle andre veje er ét skridt væk."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ und alle anderen Pfade sind nur einen Schritt entfernt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ y todos los demás caminos están a un paso."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ja kaikki muut polut ovat yhden askeleen päässä."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ et tous les autres parcours ne sont plus qu'à un pas."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ og allar aðrar leiðir eru einu skrefi í burtu."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ e tutti gli altri percorsi sono a un passo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ や他のすべての道も、あと一歩です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 및 다른 모든 길도 한 걸음 거리에 있어요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ og alle andre veier er ett steg unna."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ i każda inna ścieżka są o krok stąd."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ e todos os outros caminhos estão a um passo."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ och alla andra vägar är ett steg bort."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 和其他所有路径只需一步即可抵达。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 和其他所有路徑只要一步就能到達。"
+          }
+        }
+      }
+    },
+    "All 21 paths are one step away.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 21 veje er ét skridt væk."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 21 Pfade sind nur einen Schritt entfernt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los 21 caminos están a un paso."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaikki 21 polkua ovat yhden askeleen päässä."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les 21 parcours ne sont plus qu'à un pas."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allar 21 leiðirnar eru einu skrefi í burtu."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutti i 21 percorsi sono a un passo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21の道すべてが、あと一歩です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "21개의 길이 모두 한 걸음 거리에 있어요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle 21 veier er ett steg unna."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wszystkie 21 ścieżek są o krok stąd."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todos os 21 caminhos estão a um passo."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alla 21 vägar är ett steg bort."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部 21 条路径只差一步。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部 21 條路徑只差一步。"
+          }
+        }
+      }
+    },
+    "The Judgment's ruling on your soul: %@. %@ and every other path are one step away.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dommens afgørelse om din sjæl: %1$@. %2$@ og alle andre veje er ét skridt væk."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Urteil des Totengerichts über deine Seele: %1$@. %2$@ und alle anderen Pfade sind nur einen Schritt entfernt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El veredicto del Juicio sobre tu alma: %1$@. %2$@ y todos los demás caminos están a un paso."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuomion ratkaisu sielustasi: %1$@. %2$@ ja kaikki muut polut ovat yhden askeleen päässä."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le verdict du Jugement sur votre âme : %1$@. %2$@ et tous les autres parcours ne sont plus qu'à un pas."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úrskurður Dómsins um sál þína: %1$@. %2$@ og allar aðrar leiðir eru einu skrefi í burtu."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il verdetto del Giudizio sulla tua anima: %1$@. %2$@ e tutti gli altri percorsi sono a un passo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "審判があなたの魂に下した裁定：%1$@。%2$@ や他のすべての道も、あと一歩です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "심판이 당신의 영혼에 내린 판결: %1$@. %2$@ 및 다른 모든 길도 한 걸음 거리에 있어요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dommens avgjørelse om sjelen din: %1$@. %2$@ og alle andre veier er ett steg unna."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wyrok Sądu nad twoją duszą: %1$@. %2$@ i każda inna ścieżka są o krok stąd."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O veredito do Julgamento sobre a sua alma: %1$@. %2$@ e todos os outros caminhos estão a um passo."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Domens utslag om din själ: %1$@. %2$@ och alla andra vägar är ett steg bort."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "审判对你灵魂的裁决：%1$@。%2$@ 和其他所有路径只需一步即可抵达。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "審判對你靈魂的裁決：%1$@。%2$@ 和其他所有路徑只要一步就能到達。"
+          }
+        }
+      }
+    },
+    "%lld lessons finished so far.": {
+      "localizations": {
+        "da": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lektion gennemført indtil nu."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lektioner gennemført indtil nu."
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Bisher %lld Lektion abgeschlossen."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Bisher %lld Lektionen abgeschlossen."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lesson finished so far."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lessons finished so far."
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lección terminada hasta ahora."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lecciones terminadas hasta ahora."
+                }
+              }
+            }
+          }
+        },
+        "fi": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld oppitunti suoritettu tähän mennessä."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld oppituntia suoritettu tähän mennessä."
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld leçon terminée jusqu'ici."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld leçons terminées jusqu'ici."
+                }
+              }
+            }
+          }
+        },
+        "is": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld kennslustund lokið hingað til."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld kennslustundum lokið hingað til."
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lezione completata finora."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lezioni completate finora."
+                }
+              }
+            }
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "これまでに %lld 件のレッスンを修了。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금까지 레슨 %lld개를 마쳤어요."
+          }
+        },
+        "nb": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld leksjon fullført så langt."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld leksjoner fullført så langt."
+                }
+              }
+            }
+          }
+        },
+        "pl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lekcja ukończona do tej pory."
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lekcje ukończone do tej pory."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lekcji ukończonych do tej pory."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lekcji ukończonych do tej pory."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lição concluída até agora."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lições concluídas até agora."
+                }
+              }
+            }
+          }
+        },
+        "sv": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lektion slutförd hittills."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld lektioner slutförda hittills."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前已完成 %lld 节课。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目前已完成 %lld 堂課。"
           }
         }
       }
