@@ -18,6 +18,7 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     private let deityId: String
     private var oracleResponse: String = ""
     private var streamingTask: Task<Void, Never>?
+    private var reveal: OracleStreamReveal?
     private let mlxService = MLXService.shared
     private let mlxManager = MLXModelManager.shared
     private var deity: Deity?
@@ -448,28 +449,16 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                     self.loadingView.isHidden = true
                 }
                 
+                let reveal = self.responseTextView.makeOracleReveal()
+                self.reveal = reveal
                 var fullText = ""
                 for try await chunk in stream {
-                    
                     try Task.checkCancellation()
-                    guard !Task.isCancelled else { break }
-                    
                     fullText += chunk
-                    
-                    await MainActor.run {
-                        self.responseTextView.setOracleText(fullText)
-                        
-                        
-                        if self.responseTextView.contentSize.height > self.responseTextView.bounds.height {
-                            let bottomOffset = CGPoint(
-                                x: 0,
-                                y: self.responseTextView.contentSize.height - self.responseTextView.bounds.size.height + self.responseTextView.contentInset.bottom
-                            )
-                            self.responseTextView.setContentOffset(bottomOffset, animated: false)
-                        }
-                    }
+                    reveal.update(text: fullText, isComplete: false)
                 }
-                
+                try Task.checkCancellation()
+                reveal.update(text: fullText, isComplete: true)
                 self.oracleResponse = fullText
                 
                 await MainActor.run {
@@ -483,6 +472,8 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
                 }
                 
                 await MainActor.run {
+                    self.reveal?.cancel()
+                    self.reveal = nil
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
                     self.responseTextView.setOracleText(String(localized: "The oracle's wisdom could not be reached at this time. Please try again later."))
@@ -593,6 +584,8 @@ final class OracleTextExplanationViewController: UIViewController, UIAdaptivePre
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         streamingTask?.cancel()
         streamingTask = nil
+        reveal?.cancel()
+        reveal = nil
         if let wrapper = wrapperView {
             delegate?.oracleTextExplanationViewDidDismiss(wrapper)
         }

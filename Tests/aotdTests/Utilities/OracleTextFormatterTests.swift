@@ -60,4 +60,41 @@ import UIKit
             XCTAssertEqual(value as? UIColor, color)
         }
     }
+
+    private func renderStreaming(_ text: String) -> NSAttributedString {
+        render(OracleTextFormatter.streamingSafe(text))
+    }
+
+    func testStreamingBoldShowsBoldBeforeItCloses() {
+        let rendered = renderStreaming("Face **the sca")
+        XCTAssertEqual(rendered.string, "Face the sca")
+        XCTAssertTrue(traits(of: rendered, at: "the sca").contains(.traitBold))
+    }
+
+    func testStreamingDropsAMarkerThatOpensNothingYet() {
+        XCTAssertEqual(renderStreaming("Face **").string, "Face ")
+        XCTAssertEqual(renderStreaming("*").string, "")
+    }
+
+    func testStreamingItalicsAndCodeClose() {
+        let italic = renderStreaming("Your *ka")
+        XCTAssertEqual(italic.string, "Your ka")
+        XCTAssertTrue(traits(of: italic, at: "ka").contains(.traitItalic))
+        XCTAssertEqual(renderStreaming("use `co").string, "use co")
+    }
+
+    func testStreamingClosesOnlyTheLastLineAndKeepsBullets() {
+        let rendered = renderStreaming("Done.\n* item with **bo")
+        XCTAssertEqual(rendered.string, "Done.\n• item with bo")
+        XCTAssertTrue(traits(of: rendered, at: "bo").contains(.traitBold))
+    }
+
+    func testStreamingLeavesArithmeticAlone() {
+        XCTAssertEqual(OracleTextFormatter.streamingSafe("5 * 3 = 15 and"), "5 * 3 = 15 and")
+    }
+
+    func testStreamingLeavesFinishedMarkupAlone() {
+        let text = "**Ma'at** weighs *every* heart."
+        XCTAssertEqual(OracleTextFormatter.streamingSafe(text), text)
+    }
 }

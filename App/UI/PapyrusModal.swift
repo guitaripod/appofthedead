@@ -24,6 +24,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     private let keyword: String
     private let mlxService: MLXService
     private var streamingTask: Task<Void, Never>?
+    private var reveal: OracleStreamReveal?
     private let mlxManager = MLXModelManager.shared
     
     
@@ -484,29 +485,17 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     self.loadingView.isHidden = true
                 }
                 
+                let reveal = self.contentTextView.makeOracleReveal()
+                self.reveal = reveal
                 var fullText = ""
                 for try await chunk in stream {
-                    
                     try Task.checkCancellation()
-                    guard !Task.isCancelled else { break }
-                    
                     fullText += chunk
-                    
-                    await MainActor.run {
-                        self.contentTextView.setOracleText(fullText)
-                        
-                        
-                        if self.contentTextView.contentSize.height > self.contentTextView.bounds.height {
-                            let bottomOffset = CGPoint(
-                                x: 0,
-                                y: self.contentTextView.contentSize.height - self.contentTextView.bounds.size.height + self.contentTextView.contentInset.bottom
-                            )
-                            self.contentTextView.setContentOffset(bottomOffset, animated: false)
-                        }
-                    }
+                    reveal.update(text: fullText, isComplete: false)
                 }
 
                 guard !Task.isCancelled else { return }
+                reveal.update(text: fullText, isComplete: true)
                 OracleExplanationCache.storeResponse(
                     kind: .keyword,
                     modelId: OracleVoice.shared.modelId,
@@ -521,6 +510,8 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                 }
 
                 await MainActor.run {
+                    self.reveal?.cancel()
+                    self.reveal = nil
                     self.loadingView.stopAnimating()
                     self.loadingView.isHidden = true
                     self.contentTextView.setOracleText(String(localized: "I apologize, but I cannot channel the divine wisdom at this moment. The connection to the eternal realm seems disrupted. Please try again later."))
@@ -596,9 +587,10 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        
         streamingTask?.cancel()
         streamingTask = nil
+        reveal?.cancel()
+        reveal = nil
     }
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
