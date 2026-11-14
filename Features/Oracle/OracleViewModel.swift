@@ -18,16 +18,15 @@ final class OracleViewModel: ObservableObject {
     @Published var modelError: String?
     @Published var downloadProgress: Float = 0.0
     @Published var downloadStatus: String = ""
-    @Published var downloadStage: String = "" 
-    
-    
-    
+    @Published var downloadStage: String = ""
+    /// The deity reply being written right now, nil when the Oracle is quiet.
+    @Published private(set) var writingMessageID: UUID?
+
     private let modelManager = MLXModelManager.shared
-    private let voice = OracleVoice.shared
+    private let voice: OracleVoicing
     private let contentLoader = ContentLoader()
     private var cancellables = Set<AnyCancellable>()
     private var generationTask: Task<Void, Never>?
-    private var activeGenerationID: UUID?
     private var activeGenerationDeityId: String?
     private var activeGenerationDelivered = false
     
@@ -52,6 +51,8 @@ final class OracleViewModel: ObservableObject {
             case care
             /// The app speaking for a persona that could not answer; never fed back to the model as its words.
             case notice
+            /// The answer failed on the device; the question can be asked again from it.
+            case failure
         }
 
         let id: UUID
@@ -94,11 +95,9 @@ final class OracleViewModel: ObservableObject {
     
     
     
-    init() {
+    init(voice: OracleVoicing = OracleVoice.shared) {
+        self.voice = voice
         loadDeities()
-        
-        
-        
         isModelLoaded = voice.isReady
 
         if seedDemoConversation() { return }
@@ -247,16 +246,56 @@ final class OracleViewModel: ObservableObject {
         await task.value
     }
 
+    /// The conversation is cleared before the answer is stopped, so nothing treats the abandoned reply as finished.
     func selectDeity(_ deity: Deity) {
-
         guard deity.id != selectedDeity?.id else { return }
-
-        cancelActiveGeneration()
-
-        selectedDeity = deity
-
         messages.removeAll()
+        cancelActiveGeneration()
+        selectedDeity = deity
+    }
 
+    /// Clears the conversation with the same deity, stopping an answer that is still being written.
+    func startNewConversation() {
+        messages.removeAll()
+        cancelActiveGeneration()
+    }
+
+    /// Stops the answer being written. What was already written stays as the answer and counts as a consultation;
+    /// a reply that had not begun is taken away.
+    func stopGenerating() {
+        guard let id = writingMessageID, let index = messages.firstIndex(where: { $0.id == id }) else { return }
+        let written = OracleTextFormatter.streamingSafe(messages[index].text.trimmingCharacters(in: .whitespacesAndNewlines))
+        let deity = messages[index].deity
+        generationTask?.cancel()
+        generationTask = nil
+        if written.isEmpty {
+            messages.remove(at: index)
+        } else {
+            messages[index] = ChatMessage(id: id, text: written, isUser: false, deity: deity, timestamp: messages[index].timestamp)
+            if let deityId = activeGenerationDeityId {
+                recordSuccessfulConsultation(deityId: deityId)
+            }
+        }
+        MidgarLog.debug("Oracle answer stopped by the person", metadata: ["written": written.count], category: .viewModel)
+        endGeneration()
+    }
+
+    /// The question a failed answer belongs to, asked again in its place.
+    func retry(failureID: UUID) async {
+        guard !isGenerating,
+              let index = messages.firstIndex(where: { $0.id == failureID && $0.kind == .failure }),
+              index > 0, messages[index - 1].isUser else { return }
+        let question = messages[index - 1].text
+        messages.removeSubrange((index - 1)...index)
+        await sendMessage(question)
+    }
+
+    private func endGeneration() {
+        writingMessageID = nil
+        activeGenerationDeityId = nil
+        activeGenerationDelivered = false
+        generationTask = nil
+        isGenerating = false
     }
 
     /// A cancelled stream the user already read still counts as a consultation,
@@ -266,11 +305,11 @@ final class OracleViewModel: ObservableObject {
            let user = DatabaseManager.shared.fetchUser() {
             user.recordOracleConsultation(deityId: deityId)
         }
+        generationTask?.cancel()
+        writingMessageID = nil
         activeGenerationDeityId = nil
         activeGenerationDelivered = false
-        generationTask?.cancel()
         generationTask = nil
-        activeGenerationID = nil
         if isGenerating {
             isGenerating = false
         }
@@ -341,54 +380,6 @@ final class OracleViewModel: ObservableObject {
         }
     }
     
-    private func addWelcomeMessage() {
-        let welcomeText = "Welcome to the Oracle! Here you can converse with divine beings from various traditions. Select a deity to begin your dialogue."
-        let welcomeMessage = ChatMessage(
-            text: welcomeText,
-            isUser: false,
-            deity: nil,
-            timestamp: Date()
-        )
-        messages.append(welcomeMessage)
-    }
-    
-    private func addDeityGreeting(_ deity: Deity) {
-        let greetings: [String: String] = [
-            "anubis": "I am Anubis, Guardian of the Scales. I have witnessed countless souls on their journey through the afterlife. What wisdom do you seek?",
-            "hermes": "Greetings, mortal! I am Hermes, swift messenger between realms. I traverse both the world of the living and the dead. How may I guide you?",
-            "gabriel": "Peace be upon you. I am Gabriel, herald of divine messages. I bring tidings from the celestial realm. What questions weigh upon your heart?",
-            "yama": "I am Yama, the first to die and thus the guide for all who follow. I maintain the cosmic order between life and death. Speak, and I shall answer.",
-            "mictlantecuhtli": "I am Mictlantecuhtli, Lord of the Bone Palace. In Mictlan, all souls find their rest. What do you wish to know about the journey ahead?",
-            "baron_samedi": "Ah, another soul comes to Baron Samedi! I stand at the crossroads between life and death. What brings you to my domain, child?",
-            "odin": "I am Odin, All-Father, who sacrificed an eye for wisdom. I know the fate of all things. What knowledge do you seek from the halls of Asgard?",
-            "kali": "I am Kali, dancer upon the cremation grounds, destroyer of illusion. Through destruction comes liberation. What veils would you have me tear away?",
-            "azrael": "In the name of the Most Merciful, I am Azrael, the Angel of Death. I separate souls with gentleness and grace. How may I ease your heart?",
-            "meng_po": "Welcome, traveler. I am Meng Po, keeper of the Tea of Oblivion. I have watched countless souls cross the bridge of rebirth. What would you know?",
-            "izanami": "From the shadows of Yomi, I am Izanami. Once I created life, now I rule the realm of death. What brings you to seek the Mother of Shadows?",
-            "waheguru": "Waheguru's light shines through all. I speak with the voice of eternal wisdom. The cycle of birth and death is but illusion. What truth do you seek?",
-            "ahura_mazda": "I am Ahura Mazda, Lord of Wisdom and Light. The battle between truth and lie shapes all destinies. Choose your thoughts, words, and deeds wisely.",
-            "pachamama": "I am Pachamama, the Earth Mother. All that lives returns to me. Death is but transformation in the eternal dance of existence. What do you wish to understand?",
-            "raven": "Caw! I am Raven, the trickster who stole the light. Death? Life? They're all part of the great joke! What riddle shall we unravel together?",
-            "hecate": "By torch-light and moonbeam, I am Hecate of the Crossroads. I hold the keys to all mysteries. Which threshold do you wish to cross?",
-            "michael": "I am Michael, Archangel of this age. I guide souls through the planetary spheres toward spiritual consciousness. What aspect of your journey concerns you?",
-            "sophia": "I am Sophia, Divine Wisdom incarnate. I illuminate the path through all planes of existence. What knowledge of the eternal realms do you seek?",
-            "emanuel": "Welcome to the spiritual world! I am your guide in Swedenborg's vision. Here, your inner state creates your reality. What would you discover?",
-            "oyasama": "With a mother's love, I am Oyasama. Death is but a joyous return home. Let us speak of the Joyous Life and God's loving providence.",
-            "the_eternal": "I AM THAT I AM. Known by countless names, I am the thread connecting all beliefs. In Me, all paths converge. What universal truth calls to you?"
-        ]
-        
-        
-        let greetingText = greetings[deity.id] ?? "I am \(deity.name), \(deity.role) of the \(deity.tradition) tradition. I am here to guide you. What would you like to know?"
-        
-        let message = ChatMessage(
-            text: greetingText,
-            isUser: false,
-            deity: deity,
-            timestamp: Date()
-        )
-        messages.append(message)
-    }
-    
     @MainActor
     private func startGeneration(for text: String) -> Task<Void, Never>? {
         guard !isGenerating, let deity = selectedDeity else { return nil }
@@ -408,11 +399,11 @@ final class OracleViewModel: ObservableObject {
         )
 
         isGenerating = true
-        activeGenerationID = placeholderMessage.id
         activeGenerationDeityId = deity.id
         activeGenerationDelivered = false
         messages.append(userMessage)
         messages.append(placeholderMessage)
+        writingMessageID = placeholderMessage.id
 
         let task = Task {
             await self.runGeneration(
@@ -502,7 +493,7 @@ final class OracleViewModel: ObservableObject {
     /// touched on suicide gets the app's care and the helpline instead of silence.
     @MainActor
     private func declineGeneration(generationID: UUID, deity: Deity, question: String) {
-        guard activeGenerationID == generationID else { return }
+        guard writingMessageID == generationID else { return }
         if OraclePrompt.mentionsSelfHarm(question) {
             replaceMessage(id: generationID, with: ChatMessage(id: generationID, text: CompassionGuard.message, isUser: false, deity: nil, timestamp: Date(), kind: .care))
         } else {
@@ -515,16 +506,12 @@ final class OracleViewModel: ObservableObject {
                 kind: .notice
             ))
         }
-        activeGenerationID = nil
-        activeGenerationDeityId = nil
-        activeGenerationDelivered = false
-        generationTask = nil
-        isGenerating = false
+        endGeneration()
     }
 
     @MainActor
     private func applyStreamedResponse(_ rawResponse: String, generationID: UUID, deity: Deity, timestamp: Date) {
-        guard activeGenerationID == generationID else { return }
+        guard writingMessageID == generationID else { return }
         guard !rawResponse.contains("<think>") || rawResponse.contains("</think>") else { return }
 
         let cleanedResponse = removeThinkTags(from: rawResponse)
@@ -536,7 +523,7 @@ final class OracleViewModel: ObservableObject {
 
     @MainActor
     private func completeGeneration(generationID: UUID, deity: Deity, timestamp: Date, finalText: String) {
-        guard activeGenerationID == generationID else { return }
+        guard writingMessageID == generationID else { return }
 
         updateGeneratedMessage(
             id: generationID,
@@ -546,30 +533,21 @@ final class OracleViewModel: ObservableObject {
         )
         recordSuccessfulConsultation(deityId: deity.id)
         AppFunnel.note(.oracleAnswered)
-        activeGenerationID = nil
-        activeGenerationDeityId = nil
-        activeGenerationDelivered = false
-        generationTask = nil
-        isGenerating = false
+        endGeneration()
     }
 
     @MainActor
     private func failGeneration(generationID: UUID, deity: Deity, error: Error) {
-        guard activeGenerationID == generationID else { return }
+        guard writingMessageID == generationID else { return }
         replaceMessage(id: generationID, with: ChatMessage(
             id: generationID,
-            text: String(localized: "I apologize, but I'm having trouble connecting to the divine realm. Please try again."),
+            text: String(localized: "\(deity.name) could not answer just now."),
             isUser: false,
             deity: deity,
             timestamp: Date(),
-            kind: .notice
+            kind: .failure
         ))
-        modelError = error.localizedDescription
-        activeGenerationID = nil
-        activeGenerationDeityId = nil
-        activeGenerationDelivered = false
-        generationTask = nil
-        isGenerating = false
+        endGeneration()
     }
 
     @MainActor
@@ -612,39 +590,6 @@ final class OracleViewModel: ObservableObject {
         }
         
         return text
-    }
-    
-    
-    
-    private func smoothProgress(current: Float, last: Float) -> Float {
-        
-        if current <= last {
-            return min(last + 0.001, 0.99) 
-        }
-        
-        
-        let maxJump: Float = 0.05 
-        let diff = current - last
-        
-        if diff > maxJump {
-            return last + maxJump
-        }
-        
-        return current
-    }
-    
-    private func formatTime(_ seconds: TimeInterval) -> String {
-        if seconds < 60 {
-            return "\(Int(seconds))s"
-        } else if seconds < 3600 {
-            let minutes = Int(seconds / 60)
-            let secs = Int(seconds.truncatingRemainder(dividingBy: 60))
-            return secs > 0 ? "\(minutes)m \(secs)s" : "\(minutes)m"
-        } else {
-            let hours = Int(seconds / 3600)
-            let minutes = Int((seconds.truncatingRemainder(dividingBy: 3600)) / 60)
-            return minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
-        }
     }
     
     

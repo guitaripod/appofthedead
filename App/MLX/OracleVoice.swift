@@ -2,9 +2,16 @@ import Foundation
 import MidgarCore
 import MidgarIntelligence
 
+/// What the Oracle's conversation needs from the model that answers, so a test can stand in for it.
+protocol OracleVoicing: AnyObject {
+    var engine: OracleVoice.Engine { get }
+    var isReady: Bool { get }
+    func stream(instructions: String, prompt: String, temperature: Double, maxTokens: Int) -> AsyncThrowingStream<String, Error>
+}
+
 /// Who speaks for the Oracle. On an iPhone with Apple Intelligence it is Apple's on-device model: no download, private,
 /// ready on the first tap. Elsewhere it is Gemma 4, downloaded once. Both run on the device; nothing leaves it.
-final class OracleVoice {
+final class OracleVoice: OracleVoicing {
     static let shared = OracleVoice()
 
     enum Engine: String {

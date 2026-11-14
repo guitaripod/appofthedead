@@ -1,173 +1,234 @@
 import UIKit
 import MidgarCore
 import Combine
+
+/// The Oracle: a conversation with one deity at a time in a readable column over the deity's glow. An empty
+/// conversation offers questions to begin with; answers are written out smoothly as the on-device model produces them,
+/// and the conversation follows the newest words unless the person has scrolled back to read.
 final class OracleViewController: UIViewController {
-    let tableView = UITableView()
-    private var displayedMessageCount = 0
-    private var isUserNearBottom = true
-    let inputContainerView = UIView()
-    let messageTextView = UITextView()
-    let sendButton = UIButton(type: .system)
-    private let deitySelectionButton = UIButton(type: .system)
-    var promptSuggestionsView = UIView()
     private let viewModel = OracleViewModel()
     private var cancellables = Set<AnyCancellable>()
-    private var lastInputContainerTop: CGFloat = 0
-    private var typingIndicator: UIActivityIndicatorView?
-    private var summonView: OracleSummonView?
+    private let backdrop = UnderworldBackdropView(seed: 41)
+    private let tableView = UITableView(frame: .zero, style: .plain)
+    private lazy var dataSource = makeDataSource()
+    private let welcomeView = OracleWelcomeView()
+    private let composer = OracleComposerView()
+    private let composerScrim = OracleComposerScrim()
+    private let jumpButton = UIButton(type: .custom)
     private let disclosureHeader = OracleDisclosureView()
+    private let headerContainer = UIView()
+    private let titleControl = OracleDeityTitleView()
+    private lazy var newConversationItem = UIBarButtonItem(
+        title: String(localized: "New Conversation"),
+        image: UIImage(systemName: "square.and.pencil"),
+        primaryAction: UIAction { [weak self] _ in self?.startNewConversation() }
+    )
+    private var summonView: OracleSummonView?
+    private let hapticConductor = OracleHapticConductor()
+    private var messagesByID: [UUID: OracleViewModel.ChatMessage] = [:]
+    private var reveal: OracleStreamReveal?
+    private var revealMessageID: UUID?
+    private var isModelReady = false
+    private var isPinnedToBottom = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        view.backgroundColor = PapyrusDesignSystem.Colors.Core.night
+        setupBackdrop()
+        setupTableView()
+        setupWelcome()
+        setupComposer()
+        setupJumpButton()
+        setupNavigationItem()
+        setupSummon()
         setupBindings()
-        updateLayoutForIPad()
         checkModelStatus()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleMemoryWarning),
-            name: UIApplication.didReceiveMemoryWarningNotification,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(handleMemoryWarning), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
     }
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        title = String(localized: "Oracle")
         checkModelStatus()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !composer.textView.isFirstResponder {
+            becomeFirstResponder()
+        }
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        followInputContainerWhenKeyboardMoves()
+        keepConversationClearOfComposer()
         sizeDisclosureHeader()
     }
 
-    /// Keeps the AI disclosure above the conversation as wide as the table, which a table header does not do by itself.
+    /// The AI disclosure heads the conversation inside the safe area, clear of an iPad sidebar floating over the table.
     private func sizeDisclosureHeader() {
-        guard tableView.bounds.width > 0, disclosureHeader.fit(toWidth: tableView.bounds.width) else { return }
-        tableView.tableHeaderView = disclosureHeader
+        let insets = tableView.safeAreaInsets
+        let width = tableView.bounds.width - insets.left - insets.right
+        guard width > 0 else { return }
+        disclosureHeader.fit(toWidth: width)
+        disclosureHeader.frame.origin.x = insets.left
+        let frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: disclosureHeader.frame.height)
+        guard headerContainer.frame != frame || tableView.tableHeaderView !== headerContainer else { return }
+        headerContainer.frame = frame
+        tableView.tableHeaderView = headerContainer
     }
 
-    /// The keyboard layout guide moves the input bar; the newest message stays above it.
-    private func followInputContainerWhenKeyboardMoves() {
-        let top = inputContainerView.frame.minY
-        defer { lastInputContainerTop = top }
-        guard lastInputContainerTop != 0, top < lastInputContainerTop else { return }
-        scrollToBottom()
+    override var canBecomeFirstResponder: Bool {
+        true
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            inputContainerView.layer.shadowColor = traitCollection.userInterfaceStyle == .dark ?
-                UIColor.white.cgColor : UIColor.black.cgColor
-            inputContainerView.layer.shadowOpacity = traitCollection.userInterfaceStyle == .dark ? 0.05 : 0.1
-            messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
+    override var keyCommands: [UIKeyCommand]? {
+        let newConversation = UIKeyCommand(title: String(localized: "New Conversation"), action: #selector(startNewConversationFromKeyboard), input: "n", modifierFlags: .command)
+        let stop = UIKeyCommand(title: String(localized: "Stop Answering"), action: #selector(stopFromKeyboard), input: UIKeyCommand.inputEscape)
+        stop.wantsPriorityOverSystemBehavior = true
+        return [newConversation, stop]
+    }
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        switch action {
+        case #selector(stopFromKeyboard):
+            return viewModel.isGenerating && composer.textView.markedTextRange == nil
+        case #selector(startNewConversationFromKeyboard):
+            return !messagesByID.isEmpty
+        default:
+            return super.canPerformAction(action, withSender: sender)
         }
     }
-    private func setupUI() {
-        view.backgroundColor = UIColor.Papyrus.background
-        setupTableView()
-        setupInputContainer()
-        setupPromptSuggestions()
-        setupConstraints()
-        setupSummon()
-        updateDeityButton()
-    }
-    private func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor.Papyrus.background
-        tableView.keyboardDismissMode = .interactive
-        tableView.alwaysBounceHorizontal = false
-        tableView.showsHorizontalScrollIndicator = false
-        tableView.contentInsetAdjustmentBehavior = .automatic
-        tableView.clipsToBounds = true
-        tableView.register(ChatMessageCell.self, forCellReuseIdentifier: "ChatMessageCell")
-        tableView.tableHeaderView = disclosureHeader
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false 
-        tableView.addGestureRecognizer(tapGesture)
-    }
-    private func setupInputContainer() {
-        inputContainerView.backgroundColor = UIColor.Papyrus.cardBackground
-        inputContainerView.layer.borderWidth = 1
-        inputContainerView.layer.borderColor = UIColor.Papyrus.separator.cgColor
-        inputContainerView.layer.shadowColor = UITraitCollection.current.userInterfaceStyle == .dark ?
-            UIColor.white.cgColor : UIColor.black.cgColor
-        inputContainerView.layer.shadowOpacity = UITraitCollection.current.userInterfaceStyle == .dark ? 0.05 : 0.1
-        inputContainerView.layer.shadowOffset = CGSize(width: 0, height: -2)
-        inputContainerView.layer.shadowRadius = 4
-        inputContainerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(inputContainerView)
-        deitySelectionButton.tintColor = UIColor.Papyrus.gold
-        deitySelectionButton.addTarget(self, action: #selector(selectDeity), for: .touchUpInside)
-        deitySelectionButton.translatesAutoresizingMaskIntoConstraints = false
-        inputContainerView.addSubview(deitySelectionButton)
-        messageTextView.font = .systemFont(ofSize: 16)
-        messageTextView.layer.cornerRadius = 18
-        messageTextView.layer.borderColor = UIColor.Papyrus.separator.cgColor
-        messageTextView.backgroundColor = UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark ?
-                PapyrusDesignSystem.Colors.Core.darkCard :
-                PapyrusDesignSystem.Colors.Core.beige
+
+    /// Opens a conversation with the deity at `deityId`, as if it had been chosen from the list, with `draft` waiting
+    /// in the message field for the person to send.
+    func openConversation(withDeityId deityId: String, draft: String? = nil) {
+        loadViewIfNeeded()
+        guard let deity = viewModel.availableDeities.first(where: { $0.id == deityId }) else {
+            MidgarLog.notice("Oracle has no deity \(deityId)", category: .ui)
+            return
         }
-        messageTextView.textColor = UIColor.Papyrus.primaryText
-        messageTextView.layer.borderWidth = 1
-        messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-        messageTextView.isScrollEnabled = false
-        messageTextView.delegate = self
-        messageTextView.keyboardAppearance = .dark 
-        messageTextView.translatesAutoresizingMaskIntoConstraints = false
-        inputContainerView.addSubview(messageTextView)
-        sendButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
-        sendButton.tintColor = UIColor.Papyrus.gold
-        sendButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
-        sendButton.translatesAutoresizingMaskIntoConstraints = false
-        inputContainerView.addSubview(sendButton)
+        if deity.id != viewModel.selectedDeity?.id {
+            viewModel.selectDeity(deity)
+        }
+        if let draft {
+            composer.setText(draft)
+        }
     }
-    private func setupPromptSuggestions() {
-        promptSuggestionsView.backgroundColor = UIColor.Papyrus.background
-        promptSuggestionsView.translatesAutoresizingMaskIntoConstraints = false
-        promptSuggestionsView.isHidden = true
-        view.addSubview(promptSuggestionsView)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        promptSuggestionsView.addGestureRecognizer(tapGesture)
-    }
-    private func setupConstraints() {
+
+    private func setupBackdrop() {
+        backdrop.glowCenter = CGPoint(x: 0.5, y: 1.08)
+        backdrop.glowIntensity = 0.2
+        backdrop.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backdrop)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor),
-            inputContainerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            inputContainerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            inputContainerView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
-            deitySelectionButton.leadingAnchor.constraint(equalTo: inputContainerView.leadingAnchor, constant: 12),
-            deitySelectionButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
-            deitySelectionButton.widthAnchor.constraint(equalToConstant: 36),
-            deitySelectionButton.heightAnchor.constraint(equalToConstant: 36),
-            messageTextView.leadingAnchor.constraint(equalTo: deitySelectionButton.trailingAnchor, constant: 8),
-            messageTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8),
-            messageTextView.topAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: 12),
-            messageTextView.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
-            messageTextView.heightAnchor.constraint(greaterThanOrEqualToConstant: 36),
-            messageTextView.heightAnchor.constraint(lessThanOrEqualToConstant: 120),
-            sendButton.trailingAnchor.constraint(equalTo: inputContainerView.trailingAnchor, constant: -12),
-            sendButton.bottomAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: -12),
-            sendButton.widthAnchor.constraint(equalToConstant: 36),
-            sendButton.heightAnchor.constraint(equalToConstant: 36),
-            promptSuggestionsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            promptSuggestionsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            promptSuggestionsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            promptSuggestionsView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor)
+            backdrop.topAnchor.constraint(equalTo: view.topAnchor),
+            backdrop.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backdrop.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backdrop.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
+
+    private func setupTableView() {
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.keyboardDismissMode = .interactive
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.alwaysBounceHorizontal = false
+        tableView.allowsSelection = true
+        tableView.estimatedRowHeight = 140
+        tableView.delegate = self
+        tableView.register(OracleMessageCell.self, forCellReuseIdentifier: OracleMessageCell.reuseIdentifier)
+        headerContainer.addSubview(disclosureHeader)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+
+    private func setupWelcome() {
+        welcomeView.translatesAutoresizingMaskIntoConstraints = false
+        welcomeView.onPrompt = { [weak self] prompt in self?.send(prompt) }
+        welcomeView.onChangeGuide = { [weak self] in self?.selectDeity() }
+        view.addSubview(welcomeView)
+    }
+
+    private func setupComposer() {
+        composerScrim.translatesAutoresizingMaskIntoConstraints = false
+        composerScrim.isUserInteractionEnabled = false
+        view.addSubview(composerScrim)
+        composer.translatesAutoresizingMaskIntoConstraints = false
+        composer.onSend = { [weak self] in
+            guard let self else { return }
+            send(composer.question, fromComposer: true)
+        }
+        composer.onStop = { [weak self] in self?.viewModel.stopGenerating() }
+        composer.onChooseDeity = { [weak self] in self?.selectDeity() }
+        view.addSubview(composer)
+
+        let guide = view.safeAreaLayoutGuide
+        let preferredWidth = composer.widthAnchor.constraint(equalTo: guide.widthAnchor, constant: -24)
+        preferredWidth.priority = .init(999)
+        NSLayoutConstraint.activate([
+            composer.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+            composer.widthAnchor.constraint(lessThanOrEqualToConstant: OracleMessageCell.columnWidth),
+            composer.leadingAnchor.constraint(greaterThanOrEqualTo: guide.leadingAnchor, constant: 12),
+            preferredWidth,
+            composer.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -10),
+            composerScrim.topAnchor.constraint(equalTo: composer.topAnchor, constant: -28),
+            composerScrim.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            composerScrim.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            composerScrim.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            welcomeView.topAnchor.constraint(equalTo: guide.topAnchor),
+            welcomeView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            welcomeView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            welcomeView.bottomAnchor.constraint(equalTo: composer.topAnchor, constant: -4),
+        ])
+    }
+
+    private func setupJumpButton() {
+        var configuration = UIButton.Configuration.filled()
+        configuration.image = UIImage(systemName: "arrow.down")
+        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)
+        configuration.cornerStyle = .capsule
+        configuration.baseBackgroundColor = PapyrusDesignSystem.Colors.Core.surfaceRaised
+        configuration.baseForegroundColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
+        configuration.background.strokeColor = UIColor.white.withAlphaComponent(0.12)
+        configuration.background.strokeWidth = 1
+        jumpButton.configuration = configuration
+        jumpButton.accessibilityLabel = String(localized: "Show latest")
+        jumpButton.alpha = 0
+        jumpButton.isHidden = true
+        jumpButton.translatesAutoresizingMaskIntoConstraints = false
+        jumpButton.addAction(UIAction { [weak self] _ in
+            guard let self else { return }
+            isPinnedToBottom = true
+            scrollToBottom(animated: true)
+        }, for: .touchUpInside)
+        view.addSubview(jumpButton)
+        NSLayoutConstraint.activate([
+            jumpButton.centerXAnchor.constraint(equalTo: composer.centerXAnchor),
+            jumpButton.bottomAnchor.constraint(equalTo: composer.topAnchor, constant: -12),
+            jumpButton.widthAnchor.constraint(equalToConstant: 40),
+            jumpButton.heightAnchor.constraint(equalToConstant: 40),
+        ])
+    }
+
+    private func setupNavigationItem() {
+        navigationItem.largeTitleDisplayMode = .never
+        title = String(localized: "Oracle")
+        titleControl.translatesAutoresizingMaskIntoConstraints = false
+        titleControl.addAction(UIAction { [weak self] _ in self?.selectDeity() }, for: .touchUpInside)
+        navigationItem.titleView = titleControl
+        newConversationItem.tintColor = PapyrusDesignSystem.Colors.Dynamic.secondaryText
+        newConversationItem.accessibilityLabel = String(localized: "New Conversation")
+        navigationItem.rightBarButtonItem = newConversationItem
+    }
+
     private func setupSummon() {
         let summon = OracleSummonView(
             deityColor: viewModel.selectedDeity.map { PapyrusDesignSystem.Colors.tradition($0.color) },
@@ -190,36 +251,45 @@ final class OracleViewController: UIViewController {
             alert.addAction(PapyrusAlert.Action(title: String(localized: "Understood"), style: .default))
             alert.present(from: self)
         }
-        view.insertSubview(summon, belowSubview: promptSuggestionsView)
+        view.addSubview(summon)
         NSLayoutConstraint.activate([
             summon.topAnchor.constraint(equalTo: view.topAnchor),
             summon.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             summon.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            summon.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            summon.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
         summonView = summon
     }
+
+    /// The conversation, the writing reply and the deity follow the view model as it changes, in the same turn, so a
+    /// reply is never drawn from a stale copy of the conversation.
     private func setupBindings() {
         viewModel.$messages
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] messages in
-                self?.applyMessages(messages)
-            }
+            .sink { [weak self] messages in self?.apply(messages) }
+            .store(in: &cancellables)
+        viewModel.$writingMessageID
+            .sink { [weak self] id in self?.writingMessageChanged(to: id) }
+            .store(in: &cancellables)
+        viewModel.$isGenerating
+            .sink { [weak self] isGenerating in self?.composer.setGenerating(isGenerating) }
             .store(in: &cancellables)
         viewModel.$selectedDeity
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.updateDeityButton()
-            }
+            .sink { [weak self] deity in self?.deityChanged(to: deity) }
             .store(in: &cancellables)
+        viewModel.$isModelLoaded
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoaded in self?.modelLoadedChanged(isLoaded) }
+            .store(in: &cancellables)
+        bindModelDownload()
+    }
+
+    private func bindModelDownload() {
         viewModel.$isModelLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                guard let self else { return }
-                if isLoading {
-                    self.summonView?.apply(MLXModelManager.shared.isModelDownloadedSync ? .preparing : .downloading)
-                    self.hapticConductor.start()
-                }
+                guard let self, isLoading else { return }
+                summonView?.apply(MLXModelManager.shared.isModelDownloadedSync ? .preparing : .downloading)
+                hapticConductor.start()
             }
             .store(in: &cancellables)
         viewModel.$downloadProgress
@@ -232,67 +302,56 @@ final class OracleViewController: UIViewController {
         viewModel.$downloadStatus
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
-                guard let self else { return }
                 if status.contains("Loading Oracle model") {
-                    self.summonView?.apply(.preparing)
+                    self?.summonView?.apply(.preparing)
                 } else if !status.isEmpty {
-                    self.summonView?.setStatus(status)
+                    self?.summonView?.setStatus(status)
                 }
             }
             .store(in: &cancellables)
         viewModel.$downloadStage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] stage in
-                guard let self, !stage.isEmpty else { return }
-                self.summonView?.setStatus(stage)
-            }
-            .store(in: &cancellables)
-        viewModel.$selectedDeity
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] deity in
-                guard let hex = deity?.color, let color = UIColor(hex: hex) else { return }
-                self?.summonView?.setDeity(color: color)
-            }
-            .store(in: &cancellables)
-        viewModel.$isModelLoaded
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isLoaded in
-                guard let self else { return }
-                self.inputContainerView.isHidden = !isLoaded
-                self.tableView.isHidden = !isLoaded
-                self.updatePromptSuggestions()
-                if isLoaded {
-                    self.summonView?.update(progress: 1)
-                    self.hapticConductor.complete()
-                    self.dismissSummon()
-                } else {
-                    self.showSummon()
-                }
-            }
-            .store(in: &cancellables)
-        viewModel.$isGenerating
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isGenerating in
-                self?.sendButton.isEnabled = !isGenerating
-                self?.messageTextView.isEditable = !isGenerating
+                guard !stage.isEmpty else { return }
+                self?.summonView?.setStatus(stage)
             }
             .store(in: &cancellables)
         viewModel.$modelError
             .compactMap { $0 }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] error in
-                let alert = PapyrusAlert(
-                    title: String(localized: "Oracle Error"),
-                    message: error,
-                    style: .alert
-                )
-                alert.addAction(PapyrusAlert.Action(title: String(localized: "OK"), style: .default))
-                alert.present(from: self!)
-            }
+            .sink { [weak self] error in self?.showModelError(error) }
             .store(in: &cancellables)
     }
 
-    private let hapticConductor = OracleHapticConductor()
+    private func showModelError(_ message: String) {
+        let alert = PapyrusAlert(title: String(localized: "Oracle Error"), message: message, style: .alert)
+        alert.addAction(PapyrusAlert.Action(title: String(localized: "OK"), style: .default))
+        alert.present(from: self)
+    }
+
+    private func modelLoadedChanged(_ isLoaded: Bool) {
+        isModelReady = isLoaded
+        if isLoaded {
+            summonView?.update(progress: 1)
+            hapticConductor.complete()
+            dismissSummon()
+        } else {
+            showSummon()
+        }
+        renderVisibility()
+    }
+
+    private func deityChanged(to deity: OracleViewModel.Deity?) {
+        guard let deity else { return }
+        let accent = PapyrusDesignSystem.Colors.tradition(deity.color)
+        titleControl.configure(deity: deity)
+        composer.setDeity(deity)
+        welcomeView.configure(deity: deity)
+        UIView.animate(withDuration: 0.4) {
+            self.backdrop.glowColor = accent
+        }
+        summonView?.setDeity(color: accent)
+    }
 
     private func showSummon() {
         summonView?.isHidden = false
@@ -323,652 +382,399 @@ final class OracleViewController: UIViewController {
         if viewModel.isModelLoaded != OracleVoice.shared.isReady {
             viewModel.syncModelLoadedState()
         }
-        if viewModel.isModelLoaded {
+        isModelReady = viewModel.isModelLoaded
+        if isModelReady {
             summonView?.isHidden = true
-            inputContainerView.isHidden = false
-            tableView.isHidden = false
         } else {
             showSummon()
-            inputContainerView.isHidden = true
-            tableView.isHidden = true
         }
-        updatePromptSuggestions()
+        renderVisibility()
     }
-    @objc func sendMessage() {
-        guard let text = messageTextView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !text.isEmpty else {
+
+    /// One place decides what shows: the summoning while the model is away, otherwise the welcome for an empty
+    /// conversation or the conversation itself, with the composer under both.
+    private func renderVisibility() {
+        let hasMessages = !messagesByID.isEmpty
+        composer.isHidden = !isModelReady
+        composerScrim.isHidden = !isModelReady
+        tableView.isHidden = !isModelReady || !hasMessages
+        welcomeView.isHidden = !isModelReady || hasMessages
+        newConversationItem.isEnabled = hasMessages
+        updateJumpButton()
+    }
+
+    /// Asks `text`; the composer is emptied only when the question came from it, so a suggested question leaves a
+    /// draft alone.
+    private func send(_ text: String, fromComposer: Bool = false) {
+        let question = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !question.isEmpty, !viewModel.isGenerating else { return }
+        if CompassionGuard.needsCare(question) {
+            if fromComposer {
+                composer.clear()
+            }
+            isPinnedToBottom = true
+            viewModel.respondWithCare(to: question)
             return
         }
-        guard !viewModel.isGenerating else {
-            return
+        guard let deity = viewModel.selectedDeity, mayConsult(deity) else { return }
+        if fromComposer {
+            composer.clear()
         }
-        if CompassionGuard.needsCare(text) {
-            messageTextView.text = ""
-            textViewDidChange(messageTextView)
-            viewModel.respondWithCare(to: text)
-            return
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        isPinnedToBottom = true
+        Diagnostics.logUserAction("oracleQuestionSent", parameters: ["deityId": deity.id], category: .viewModel)
+        Task { await viewModel.sendMessage(question) }
+    }
+
+    private func retry(_ failureID: UUID) {
+        guard !viewModel.isGenerating, let deity = viewModel.selectedDeity, mayConsult(deity) else { return }
+        isPinnedToBottom = true
+        Task { await viewModel.retry(failureID: failureID) }
+    }
+
+    /// Whether the person may ask `deity` now; past the free limit it shows the plans instead.
+    private func mayConsult(_ deity: OracleViewModel.Deity) -> Bool {
+        guard let user = DatabaseManager.shared.fetchUser() else {
+            MidgarLog.error("Oracle cannot ask: no user record", category: .viewModel)
+            return false
         }
-        guard let user = DatabaseManager.shared.fetchUser(),
-              let deity = viewModel.selectedDeity else {
-            return
+        guard user.canConsultOracle(deityId: deity.id) else {
+            present(PaywallViewController(reason: .oracleLimit(deityId: deity.id, deityName: deity.name)), animated: true)
+            return false
         }
-        if !user.canConsultOracle(deityId: deity.id) {
-            let paywall = PaywallViewController(reason: .oracleLimit(deityId: deity.id, deityName: deity.name))
-            present(paywall, animated: true)
-            return
-        }
-        messageTextView.text = ""
-        textViewDidChange(messageTextView)
-        Task {
-            await viewModel.sendMessage(text)
+        return true
+    }
+
+    private func startNewConversation() {
+        guard !messagesByID.isEmpty else { return }
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        UIView.transition(with: view, duration: 0.25, options: [.transitionCrossDissolve, .allowUserInteraction]) {
+            self.viewModel.startNewConversation()
         }
     }
-    @objc private func downloadModel() {
-        Task {
-            await viewModel.loadModel()
-        }
+
+    @objc private func startNewConversationFromKeyboard() {
+        startNewConversation()
     }
-    /// Opens a conversation with the deity at `deityId`, as if it had been chosen from the list, with `draft` waiting
-    /// in the message field for the person to send.
-    func openConversation(withDeityId deityId: String, draft: String? = nil) {
-        loadViewIfNeeded()
-        guard let deity = viewModel.availableDeities.first(where: { $0.id == deityId }) else {
-            MidgarLog.notice("Oracle has no deity \(deityId)", category: .ui)
-            return
-        }
-        if deity.id != viewModel.selectedDeity?.id {
-            viewModel.selectDeity(deity)
-        }
-        if let draft {
-            messageTextView.text = draft
-            textViewDidChange(messageTextView)
-        }
+
+    @objc private func stopFromKeyboard() {
+        viewModel.stopGenerating()
     }
 
     @objc private func selectDeity() {
-        guard !viewModel.availableDeities.isEmpty else {
-            return
-        }
-        let deitiesArray = viewModel.availableDeities.map { deity in
-            return OracleViewModel.Deity(
-                id: deity.id,
-                name: deity.name,
-                tradition: deity.tradition,
-                role: deity.role,
-                avatar: deity.avatar,
-                color: deity.color,
-                systemPrompt: deity.systemPrompt,
-                suggestedPrompts: deity.suggestedPrompts
-            )
-        }
-        let currentDeityCopy = deitiesArray.first { $0.id == viewModel.selectedDeity?.id }
-        let deitySelector = DeitySelectionViewController(
-            deities: deitiesArray,
-            currentDeity: currentDeityCopy
-        ) { [weak self] selectedDeity in
-            guard let self = self else { return }
-            if let originalDeity = self.viewModel.availableDeities.first(where: { $0.id == selectedDeity.id }) {
-                self.animateDeityTransition {
-                    self.viewModel.selectDeity(originalDeity)
-                }
+        guard !viewModel.availableDeities.isEmpty, presentedViewController == nil else { return }
+        let picker = DeitySelectionViewController(deities: viewModel.availableDeities, currentDeity: viewModel.selectedDeity) { [weak self] chosen in
+            guard let self, let deity = viewModel.availableDeities.first(where: { $0.id == chosen.id }), deity.id != viewModel.selectedDeity?.id else { return }
+            UIView.transition(with: view, duration: 0.3, options: [.transitionCrossDissolve, .allowUserInteraction]) {
+                self.viewModel.selectDeity(deity)
             }
         }
-        if self.presentedViewController == nil {
-            self.present(deitySelector, animated: true)
-        }
+        present(picker, animated: true)
     }
+
     @objc private func handleMemoryWarning() {
         URLCache.shared.removeAllCachedResponses()
-        tableView.reloadData()
-        let memoryStatus = MLXModelManager.shared.checkMemoryStatus()
-        let availableMB = memoryStatus.availableMemory / 1024 / 1024
-        if !viewModel.isGenerating && viewModel.isModelLoaded {
-            MLXModelManager.shared.handleMemoryPressure()
-            if availableMB < 500 {
+        guard !viewModel.isGenerating, viewModel.isModelLoaded else { return }
+        MLXModelManager.shared.handleMemoryPressure()
+    }
+}
+
+extension OracleViewController {
+    private func makeDataSource() -> UITableViewDiffableDataSource<Int, UUID> {
+        let source = UITableViewDiffableDataSource<Int, UUID>(tableView: tableView) { [weak self] tableView, indexPath, id in
+            let cell = tableView.dequeueReusableCell(withIdentifier: OracleMessageCell.reuseIdentifier, for: indexPath)
+            if let cell = cell as? OracleMessageCell {
+                self?.configure(cell, for: id)
             }
+            return cell
+        }
+        source.defaultRowAnimation = .fade
+        return source
+    }
+
+    private func configure(_ cell: OracleMessageCell, for id: UUID) {
+        guard let message = messagesByID[id] else { return }
+        let isWriting = id == revealMessageID
+        cell.configure(text: isWriting ? "" : message.text, role: role(for: message), isWriting: isWriting)
+        if isWriting, let reveal {
+            cell.showRevealedText(reveal.visibleText)
+        }
+        cell.onRetry = message.kind == .failure ? { [weak self] in self?.retry(id) } : nil
+    }
+
+    private func role(for message: OracleViewModel.ChatMessage) -> OracleMessageCell.Role {
+        switch message.kind {
+        case .care:
+            return .care
+        case .notice:
+            return .notice(message.deity)
+        case .failure:
+            return .failure(message.deity)
+        case .conversation:
+            return message.isUser ? .question : .answer(message.deity)
         }
     }
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
+
+    /// Brings the table in step with the conversation: new turns are inserted, replaced ones redrawn, and the reply
+    /// being written is handed to the reveal rather than redrawn on every word.
+    private func apply(_ messages: [OracleViewModel.ChatMessage]) {
+        let previousIDs = dataSource.snapshot().numberOfSections > 0 ? dataSource.snapshot().itemIdentifiers : []
+        var changed: [UUID] = []
+        var next: [UUID: OracleViewModel.ChatMessage] = [:]
+        for message in messages {
+            next[message.id] = message
+            if let old = messagesByID[message.id], old.text != message.text || old.kind != message.kind {
+                changed.append(message.id)
+                if old.kind != message.kind, message.kind == .failure || message.kind == .notice {
+                    announce(message.text)
+                }
+            }
+        }
+        messagesByID = next
+        if let id = revealMessageID {
+            if let message = next[id], message.kind == .conversation {
+                reveal?.update(text: message.text, isComplete: viewModel.writingMessageID != id)
+                changed.removeAll { $0 == id }
+            } else {
+                endReveal()
+            }
+        }
+        let ids = messages.map(\.id)
+        let reconfigure = changed.filter { previousIDs.contains($0) }
+        if ids != previousIDs || !reconfigure.isEmpty {
+            var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
+            snapshot.appendSections([0])
+            snapshot.appendItems(ids)
+            snapshot.reconfigureItems(reconfigure)
+            let appended = ids.count > previousIDs.count && Array(ids.prefix(previousIDs.count)) == previousIDs
+            dataSource.apply(snapshot, animatingDifferences: appended && view.window != nil && !previousIDs.isEmpty)
+            if appended && isPinnedToBottom {
+                scrollToBottom(animated: !previousIDs.isEmpty)
+            }
+        }
+        renderVisibility()
     }
-    private func updateDeityButton() {
-        guard let deity = viewModel.selectedDeity else {
+
+    private func writingMessageChanged(to id: UUID?) {
+        if let id {
+            beginReveal(of: id)
             return
         }
-        if let iconImage = UIImage(systemName: deity.avatar) {
-            let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
-            deitySelectionButton.setImage(iconImage.withConfiguration(config), for: .normal)
-            deitySelectionButton.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
+        guard let current = revealMessageID else { return }
+        if let message = messagesByID[current], message.kind == .conversation, !message.text.isEmpty {
+            reveal?.update(text: message.text, isComplete: true)
         } else {
-            deitySelectionButton.setImage(UIImage(systemName: "person.circle.fill"), for: .normal)
-            deitySelectionButton.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
-        }
-        updatePromptSuggestions()
-    }
-    private func updatePromptSuggestions() {
-        promptSuggestionsView.subviews.forEach { $0.removeFromSuperview() }
-        let hasRealMessages = viewModel.messages.filter { !$0.text.isEmpty && $0.isUser }.count > 0
-        let shouldShowPrompts = !hasRealMessages && viewModel.selectedDeity != nil && viewModel.isModelLoaded
-        promptSuggestionsView.isHidden = !shouldShowPrompts
-        if viewModel.isModelLoaded {
-            tableView.isHidden = shouldShowPrompts
-        }
-        guard shouldShowPrompts, let deity = viewModel.selectedDeity else { return }
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        promptSuggestionsView.addSubview(containerView)
-        let headerView = UIView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(headerView)
-        let iconSize: CGFloat = 32
-        let iconContainerView = UIView()
-        iconContainerView.backgroundColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.15)
-        iconContainerView.layer.cornerRadius = iconSize / 2
-        iconContainerView.layer.borderWidth = 1
-        iconContainerView.layer.borderColor = PapyrusDesignSystem.Colors.tradition(deity.color).withAlphaComponent(0.3).cgColor
-        iconContainerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addSubview(iconContainerView)
-        let iconImageView = UIImageView()
-        if let iconImage = UIImage(systemName: deity.avatar) {
-            let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
-            iconImageView.image = iconImage.withConfiguration(config)
-        }
-        iconImageView.tintColor = PapyrusDesignSystem.Colors.tradition(deity.color)
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        iconContainerView.addSubview(iconImageView)
-        let nameLabel = UILabel()
-        nameLabel.text = deity.name
-        nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-        nameLabel.textColor = UIColor.Papyrus.primaryText
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addSubview(nameLabel)
-        let gridContainer = UIView()
-        gridContainer.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(gridContainer)
-        if let prompts = deity.suggestedPrompts {
-            let columns = 2
-            let spacing: CGFloat = 8
-            let buttonHeight: CGFloat = 48
-            for (index, prompt) in prompts.prefix(4).enumerated() {
-                let row = index / columns
-                let col = index % columns
-                let button = createCompactPromptButton(with: prompt, color: deity.color)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                gridContainer.addSubview(button)
-                let isLeftColumn = col == 0
-                let isTopRow = row == 0
-                let isBottomRow = row == 1
-                var constraints: [NSLayoutConstraint] = [
-                    button.heightAnchor.constraint(equalToConstant: buttonHeight)
-                ]
-                if isLeftColumn {
-                    constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.leadingAnchor))
-                    constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: -spacing/2))
-                } else {
-                    constraints.append(button.leadingAnchor.constraint(equalTo: gridContainer.centerXAnchor, constant: spacing/2))
-                    constraints.append(button.trailingAnchor.constraint(equalTo: gridContainer.trailingAnchor))
-                }
-                if isTopRow {
-                    constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor))
-                } else {
-                    constraints.append(button.topAnchor.constraint(equalTo: gridContainer.topAnchor, constant: buttonHeight + spacing))
-                }
-                if isBottomRow {
-                    constraints.append(button.bottomAnchor.constraint(equalTo: gridContainer.bottomAnchor))
-                }
-                NSLayoutConstraint.activate(constraints)
-            }
-        }
-        let centerYOffset: CGFloat = 0
-        NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: promptSuggestionsView.leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: promptSuggestionsView.trailingAnchor, constant: -16),
-            containerView.centerYAnchor.constraint(equalTo: promptSuggestionsView.centerYAnchor, constant: centerYOffset),
-            headerView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            headerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: iconSize),
-            iconContainerView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            iconContainerView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            iconContainerView.widthAnchor.constraint(equalToConstant: iconSize),
-            iconContainerView.heightAnchor.constraint(equalToConstant: iconSize),
-            iconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
-            iconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: iconContainerView.trailingAnchor, constant: 8),
-            nameLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            gridContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 16),
-            gridContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            gridContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            gridContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            gridContainer.heightAnchor.constraint(equalToConstant: 104) 
-        ])
-    }
-    private func createPromptButton(with text: String, color: String, isCompact: Bool = false) -> UIButton {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.filled()
-        config.title = text
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var updated = incoming
-            updated.font = .systemFont(ofSize: isCompact ? 14 : 16, weight: .medium)
-            return updated
-        }
-        config.baseBackgroundColor = PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.15)
-        config.baseForegroundColor = PapyrusDesignSystem.Colors.tradition(color)
-        config.cornerStyle = .medium
-        config.contentInsets = NSDirectionalEdgeInsets(
-            top: isCompact ? 12 : 16,
-            leading: isCompact ? 16 : 20,
-            bottom: isCompact ? 12 : 16,
-            trailing: isCompact ? 16 : 20
-        )
-        button.configuration = config
-        button.layer.borderWidth = 1
-        button.layer.borderColor = PapyrusDesignSystem.Colors.tradition(color).cgColor
-        button.layer.cornerRadius = isCompact ? 10 : 12
-        button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
-        return button
-    }
-    private func createCompactPromptButton(with text: String, color: String) -> UIButton {
-        let button = UIButton(type: .custom)
-        button.clipsToBounds = true
-        button.backgroundColor = PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.08)
-        button.layer.cornerRadius = 8
-        let shimmerView = ShimmerBorderView(color: PapyrusDesignSystem.Colors.tradition(color))
-        shimmerView.translatesAutoresizingMaskIntoConstraints = false
-        shimmerView.isUserInteractionEnabled = false
-        button.addSubview(shimmerView)
-        button.setTitle(text, for: .normal)
-        button.setTitleColor(PapyrusDesignSystem.Colors.tradition(color).withAlphaComponent(0.8), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
-        button.titleLabel?.numberOfLines = 2
-        button.titleLabel?.lineBreakMode = .byWordWrapping
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.minimumScaleFactor = 0.9
-        NSLayoutConstraint.activate([
-            shimmerView.topAnchor.constraint(equalTo: button.topAnchor),
-            shimmerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
-            shimmerView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
-            shimmerView.bottomAnchor.constraint(equalTo: button.bottomAnchor)
-        ])
-        button.addTarget(self, action: #selector(promptButtonTapped(_:)), for: .touchUpInside)
-        return button
-    }
-    @objc private func promptButtonTapped(_ sender: UIButton) {
-        guard let prompt = sender.titleLabel?.text else { return }
-        let impact = UIImpactFeedbackGenerator(style: .light)
-        impact.impactOccurred()
-        messageTextView.text = prompt
-        textViewDidChange(messageTextView)
-        sendMessage()
-    }
-    /// Structural changes (a message added/removed) reload + force-scroll once; per-token
-    /// streaming updates patch only the last cell in place (no reloadData, so the user can
-    /// still scroll) and pin to the latest text only if they were already near the bottom.
-    private func applyMessages(_ messages: [OracleViewModel.ChatMessage]) {
-        if messages.count != displayedMessageCount {
-            displayedMessageCount = messages.count
-            tableView.reloadData()
-            updatePromptSuggestions()
-            DispatchQueue.main.async { [weak self] in
-                self?.scrollToBottom(animated: false, force: true)
-            }
-        } else if let last = messages.indices.last {
-            let indexPath = IndexPath(row: last, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) as? ChatMessageCell {
-                cell.updateStreamingText(messages[last])
-                UIView.performWithoutAnimation { tableView.performBatchUpdates(nil) }
-            }
-            scrollToBottom(animated: false, force: false)
+            endReveal()
         }
     }
 
-    private func scrollToBottom(animated: Bool = true, force: Bool = false) {
-        guard viewModel.messages.count > 0 else { return }
-        guard force || isUserNearBottom else { return }
-        let indexPath = IndexPath(row: viewModel.messages.count - 1, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+    private func beginReveal(of id: UUID) {
+        endReveal()
+        let reveal = OracleStreamReveal(format: OracleMessageCell.answerText)
+        reveal.onUpdate = { [weak self] text in self?.showRevealed(text) }
+        reveal.onFinish = { [weak self] in self?.revealFinished() }
+        self.reveal = reveal
+        revealMessageID = id
+        reconfigureRow(id)
     }
-    private func animateDeityTransition(completion: @escaping () -> Void) {
-        let transitionView = UIView(frame: view.bounds)
-        transitionView.backgroundColor = UIColor.Papyrus.background
-        transitionView.alpha = 0
-        view.addSubview(transitionView)
-        if let deity = viewModel.selectedDeity {
-            let deityColor = PapyrusDesignSystem.Colors.tradition(deity.color)
-            let circleView = UIView()
-            circleView.backgroundColor = deityColor.withAlphaComponent(0.3)
-            circleView.layer.cornerRadius = 30
-            circleView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-            let buttonCenter = view.convert(deitySelectionButton.center, from: deitySelectionButton.superview)
-            circleView.center = buttonCenter
-            transitionView.addSubview(circleView)
-            UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut], animations: {
-                circleView.transform = CGAffineTransform(scaleX: 20, y: 20)
-                circleView.alpha = 0.1
-            })
+
+    /// Stops the reveal and draws the message as it stands.
+    private func endReveal() {
+        guard let id = revealMessageID else { return }
+        reveal?.cancel()
+        reveal = nil
+        revealMessageID = nil
+        reconfigureRow(id)
+    }
+
+    private func revealFinished() {
+        guard let id = revealMessageID else { return }
+        reveal = nil
+        revealMessageID = nil
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 0.55)
+        if let text = messagesByID[id]?.text {
+            announce(OracleMessageCell.answerText(text).string)
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.reconfigureRow(id)
+        }
+    }
+
+    /// Reads `text` to a VoiceOver user after what is already being spoken.
+    private func announce(_ text: String) {
+        guard UIAccessibility.isVoiceOverRunning, !text.isEmpty else { return }
+        UIAccessibility.post(notification: .announcement, argument: NSAttributedString(string: text, attributes: [.accessibilitySpeechQueueAnnouncement: true]))
+    }
+
+    private func reconfigureRow(_ id: UUID) {
+        var snapshot = dataSource.snapshot()
+        guard snapshot.indexOfItem(id) != nil else { return }
+        snapshot.reconfigureItems([id])
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
+    /// Draws the newest revealed text; when it takes another line the row grows and the conversation follows it.
+    private func showRevealed(_ text: NSAttributedString) {
+        guard let id = revealMessageID, let indexPath = dataSource.indexPath(for: id),
+              let cell = tableView.cellForRow(at: indexPath) as? OracleMessageCell else { return }
+        guard cell.showRevealedText(text) else { return }
+        UIView.performWithoutAnimation {
+            tableView.performBatchUpdates(nil)
+        }
+        if isPinnedToBottom {
+            scrollToBottom(animated: true)
+        }
+    }
+
+    /// The bottom of the conversation clears the composer and the keyboard; a reader at the bottom stays there.
+    private func keepConversationClearOfComposer() {
+        let covered = max(0, view.bounds.maxY - composer.frame.minY + 12)
+        let inset = max(0, covered - view.safeAreaInsets.bottom)
+        if abs(tableView.contentInset.bottom - inset) > 0.5 {
+            tableView.contentInset.bottom = inset
+            tableView.verticalScrollIndicatorInsets.bottom = inset
+        }
+        guard isPinnedToBottom, !tableView.isTracking, !tableView.isDecelerating, distanceFromBottom > 1 else { return }
+        scrollToBottom(animated: false)
+    }
+
+    private var bottomOffset: CGPoint {
+        let inset = tableView.adjustedContentInset
+        let y = max(-inset.top, tableView.contentSize.height - tableView.bounds.height + inset.bottom)
+        return CGPoint(x: tableView.contentOffset.x, y: y)
+    }
+
+    private var distanceFromBottom: CGFloat {
+        bottomOffset.y - tableView.contentOffset.y
+    }
+
+    /// A short glide for a line or two; a longer way goes to the last row, which measures the rows it passes instead
+    /// of trusting their estimated heights.
+    private func scrollToBottom(animated: Bool) {
+        let rows = tableView.numberOfSections > 0 ? tableView.numberOfRows(inSection: 0) : 0
+        guard rows > 0, tableView.bounds.height > 0 else { return }
+        tableView.layoutIfNeeded()
+        let target = bottomOffset
+        let distance = abs(target.y - tableView.contentOffset.y)
+        guard distance > 0.5 else { return }
+        let animates = animated && !UIAccessibility.isReduceMotionEnabled
+        if !animates || distance > tableView.bounds.height / 2 {
+            tableView.scrollToRow(at: IndexPath(row: rows - 1, section: 0), at: .bottom, animated: animates)
+        } else {
+            UIView.animate(withDuration: 0.22, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .beginFromCurrentState]) {
+                self.tableView.contentOffset = target
+            }
+        }
+    }
+
+    private func updateJumpButton() {
+        let shows = !tableView.isHidden && distanceFromBottom > 160
+        guard shows == jumpButton.isHidden else { return }
+        if shows {
+            jumpButton.isHidden = false
         }
         UIView.animate(withDuration: 0.2, animations: {
-            transitionView.alpha = 1.0
-            self.tableView.alpha = 0.3
-            self.promptSuggestionsView.alpha = 0.3
-        }) { _ in
-            completion()
-            UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseInOut], animations: {
-                transitionView.alpha = 0
-                self.tableView.alpha = 1.0
-                self.promptSuggestionsView.alpha = 1.0
-            }) { _ in
-                transitionView.removeFromSuperview()
-                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {
-                    self.deitySelectionButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                }) { _ in
-                    UIView.animate(withDuration: 0.2) {
-                        self.deitySelectionButton.transform = .identity
-                    }
-                }
+            self.jumpButton.alpha = shows ? 1 : 0
+            self.jumpButton.transform = shows ? .identity : CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { _ in
+            if !shows && self.jumpButton.alpha == 0 {
+                self.jumpButton.isHidden = true
             }
-        }
-    }
-}
-extension OracleViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.messages.count
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatMessageCell", for: indexPath) as! ChatMessageCell
-        let message = viewModel.messages[indexPath.row]
-        cell.configure(with: message)
-        return cell
-    }
-}
-extension OracleViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard viewModel.messages.indices.contains(indexPath.row),
-              viewModel.messages[indexPath.row].kind == .care else { return }
-        UIApplication.shared.open(CompassionGuard.helplineURL)
-    }
-
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard viewModel.messages.indices.contains(indexPath.row) else { return nil }
-        let message = viewModel.messages[indexPath.row]
-        guard !message.isUser, message.kind == .conversation, let deity = message.deity, !message.text.isEmpty else { return nil }
-        let question = viewModel.messages[..<indexPath.row].last(where: { $0.isUser })?.text
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
-            let share = UIAction(title: String(localized: "Share as Card"), image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                self?.shareReply(message.text, question: question, deity: deity, at: indexPath)
-            }
-            let copy = UIAction(title: String(localized: "Copy"), image: UIImage(systemName: "doc.on.doc")) { _ in
-                UIPasteboard.general.string = message.text
-            }
-            return UIMenu(children: [share, copy])
-        }
+            self.updateJumpButton()
+        })
     }
 
     /// Shares a reply as a card with the deity's name and the question it answered.
-    private func shareReply(_ reply: String, question: String?, deity: OracleViewModel.Deity, at indexPath: IndexPath) {
-        let image = OracleQuoteRenderer.render(reply: reply, question: question, deity: deity)
-        let message = String(localized: "I asked \(deity.name) about the afterlife. \(JudgmentViewModel.appStoreURL.absoluteString)")
-        let controller = UIActivityViewController(activityItems: [SoulCardShareItem(image: image), message], applicationActivities: nil)
-        let anchor = tableView.cellForRow(at: indexPath) ?? view
-        controller.popoverPresentationController?.sourceView = anchor
-        controller.popoverPresentationController?.sourceRect = anchor?.bounds ?? .zero
+    private func shareReply(_ message: OracleViewModel.ChatMessage, deity: OracleViewModel.Deity, from cell: UIView) {
+        let ids = dataSource.snapshot().itemIdentifiers
+        let question = ids.firstIndex(of: message.id).flatMap { index in
+            ids[..<index].reversed().compactMap { messagesByID[$0] }.first(where: \.isUser)?.text
+        }
+        let image = OracleQuoteRenderer.render(reply: message.text, question: question, deity: deity)
+        let text = String(localized: "I asked \(deity.name) about the afterlife. \(JudgmentViewModel.appStoreURL.absoluteString)")
+        let controller = UIActivityViewController(activityItems: [SoulCardShareItem(image: image), text], applicationActivities: nil)
+        controller.popoverPresentationController?.sourceView = cell
+        controller.popoverPresentationController?.sourceRect = cell.bounds
         controller.completionWithItemsHandler = { activity, completed, _, _ in
             guard completed else { return }
             Diagnostics.logUserAction("oracleReplyShared", parameters: ["deityId": deity.id, "activity": activity?.rawValue ?? "unknown"], category: .viewModel)
         }
         present(controller, animated: true)
     }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let viewportBottom = scrollView.bounds.height - scrollView.adjustedContentInset.bottom - scrollView.adjustedContentInset.top
-        if scrollView.contentSize.height <= viewportBottom {
-            isUserNearBottom = true
-            return
-        }
-        let maxOffsetY = scrollView.contentSize.height - scrollView.bounds.height + scrollView.adjustedContentInset.bottom
-        isUserNearBottom = (maxOffsetY - scrollView.contentOffset.y) < 120
-    }
 }
-extension OracleViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let hasText = !textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        sendButton.isEnabled = hasText
-        sendButton.alpha = hasText ? 1.0 : 0.5
-        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .infinity))
-        textView.isScrollEnabled = size.height > 120
+
+extension OracleViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        dataSource.itemIdentifier(for: indexPath).flatMap { messagesByID[$0] }?.kind == .care
     }
-}
-private class ChatMessageCell: UITableViewCell {
-    private let bubbleView = UIView()
-    private let messageLabel = UILabel()
-    private let nameLabel = UILabel()
-    private let typingIndicator = UIActivityIndicatorView(style: .medium)
-    private var bubbleTopConstraint: NSLayoutConstraint?
-    private var bubbleLeadingConstraint: NSLayoutConstraint?
-    private var bubbleTrailingConstraint: NSLayoutConstraint?
-    private var bubbleBottomConstraint: NSLayoutConstraint?
-    private lazy var typingIndicatorSizeConstraints = [
-        bubbleView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
-        bubbleView.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
-    ]
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let id = dataSource.itemIdentifier(for: indexPath), messagesByID[id]?.kind == .care else { return }
+        UIApplication.shared.open(CompassionGuard.helplineURL)
     }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    private func setupUI() {
-        selectionStyle = .none
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(bubbleView)
-        bubbleView.addSubview(messageLabel)
-        bubbleView.addSubview(typingIndicator)
-        bubbleView.layer.cornerRadius = 16
-        bubbleView.layer.borderWidth = 1
-        bubbleView.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.numberOfLines = 0
-        messageLabel.font = PapyrusDesignSystem.Typography.sans(16, textStyle: .callout)
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .systemFont(ofSize: 12, weight: .bold)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        typingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        typingIndicator.hidesWhenStopped = true
-        typingIndicator.color = UIColor.Papyrus.aged
-        setupConstraints()
-    }
-    private func setupConstraints() {
-        bubbleTopConstraint = bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
-        bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-        bubbleBottomConstraint = bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
-        NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 7),
-            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 13),
-            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -13),
-            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -7),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 14),
-            bubbleView.widthAnchor.constraint(lessThanOrEqualToConstant: 720),
-            bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.88),
-            typingIndicator.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor),
-            typingIndicator.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor)
-        ])
-        bubbleTopConstraint?.priority = UILayoutPriority(999)
-        bubbleBottomConstraint?.priority = UILayoutPriority(999)
-        NSLayoutConstraint.activate([
-            bubbleTopConstraint!,
-            bubbleBottomConstraint!
-        ])
-    }
-    func configure(with message: OracleViewModel.ChatMessage) {
-        if !message.isUser && message.text.isEmpty {
-            messageLabel.text = " "
-            messageLabel.isHidden = true
-            typingIndicator.startAnimating()
-            NSLayoutConstraint.activate(typingIndicatorSizeConstraints)
-        } else {
-            showText(of: message)
-            messageLabel.isHidden = false
-            typingIndicator.stopAnimating()
-            NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
-        }
-        bubbleLeadingConstraint?.isActive = false
-        bubbleTrailingConstraint?.isActive = false
-        if message.kind == .care {
-            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.12)
-            bubbleView.layer.borderColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.6).cgColor
-            messageLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
-            nameLabel.isHidden = true
-            bubbleTopConstraint?.constant = 8
-            bubbleBottomConstraint?.constant = -8
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            bubbleLeadingConstraint?.isActive = true
-            bubbleTrailingConstraint?.isActive = true
-            accessibilityTraits = .link
-            accessibilityHint = String(localized: "Opens findahelpline.com")
-            return
-        }
-        accessibilityTraits = .staticText
-        accessibilityHint = nil
-        if message.isUser {
-            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.surfaceRaised
-            bubbleView.layer.borderColor = PapyrusDesignSystem.Colors.Core.goldLeaf.withAlphaComponent(0.5).cgColor
-            messageLabel.textColor = UIColor.Papyrus.beige
-            nameLabel.isHidden = true
-            bubbleTopConstraint?.constant = 8
-            bubbleBottomConstraint?.constant = -8
-            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 40)
-            bubbleTrailingConstraint?.isActive = true
-            bubbleLeadingConstraint?.isActive = true
-        } else {
-            bubbleView.backgroundColor = PapyrusDesignSystem.Colors.Core.surface
-            bubbleView.layer.borderColor = (message.deity.map { PapyrusDesignSystem.Colors.tradition($0.color) } ?? UIColor.white).withAlphaComponent(0.25).cgColor
-            messageLabel.textColor = UIColor.Papyrus.primaryText
-            if let deity = message.deity {
-                nameLabel.isHidden = false
-                nameLabel.text = deity.name
-                nameLabel.textColor = PapyrusDesignSystem.Colors.tradition(deity.color)
-                bubbleTopConstraint?.constant = 28
-                bubbleBottomConstraint?.constant = -8
-                NSLayoutConstraint.activate([
-                    nameLabel.bottomAnchor.constraint(equalTo: bubbleView.topAnchor, constant: -4)
-                ])
-            } else {
-                nameLabel.isHidden = true
-                bubbleTopConstraint?.constant = 8
-                bubbleBottomConstraint?.constant = -8
+
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let id = dataSource.itemIdentifier(for: indexPath), id != revealMessageID,
+              let message = messagesByID[id], !message.text.isEmpty, message.kind != .care else { return nil }
+        return UIContextMenuConfiguration(identifier: id.uuidString as NSString, previewProvider: nil) { [weak self] _ in
+            var actions: [UIMenuElement] = [
+                UIAction(title: String(localized: "Copy"), image: UIImage(systemName: "doc.on.doc")) { _ in
+                    UIPasteboard.general.string = message.text
+                },
+            ]
+            if !message.isUser, message.kind == .conversation, let deity = message.deity {
+                actions.insert(UIAction(title: String(localized: "Share as Card"), image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
+                    guard let self, let indexPath = dataSource.indexPath(for: id), let cell = tableView.cellForRow(at: indexPath) else { return }
+                    shareReply(message, deity: deity, from: cell)
+                }, at: 0)
             }
-            bubbleLeadingConstraint = bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-            bubbleTrailingConstraint = bubbleView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -40)
-            bubbleLeadingConstraint?.isActive = true
-            bubbleTrailingConstraint?.isActive = true
-        }
-    }
-    func updateStreamingText(_ message: OracleViewModel.ChatMessage) {
-        if !message.isUser && message.text.isEmpty {
-            messageLabel.isHidden = true
-            typingIndicator.startAnimating()
-            NSLayoutConstraint.activate(typingIndicatorSizeConstraints)
-        } else {
-            if messageLabel.isHidden {
-                messageLabel.isHidden = false
-                typingIndicator.stopAnimating()
-                NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
-            }
-            showText(of: message)
+            return UIMenu(children: actions)
         }
     }
 
-    /// User messages stay plain; deity replies render the model's Markdown so emphasis shows as
-    /// bold and italics rather than asterisks.
-    private func showText(of message: OracleViewModel.ChatMessage) {
-        if message.isUser {
-            messageLabel.attributedText = nil
-            messageLabel.font = PapyrusDesignSystem.Typography.sans(16, textStyle: .callout)
-            messageLabel.textColor = UIColor.Papyrus.beige
-            messageLabel.text = message.text
-        } else {
-            messageLabel.attributedText = OracleTextFormatter.attributedText(
-                from: message.text,
-                font: PapyrusDesignSystem.Typography.sans(16, textStyle: .callout),
-                color: UIColor.Papyrus.primaryText
-            )
-        }
+    func tableView(_ tableView: UITableView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        bubblePreview(for: configuration)
     }
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        NSLayoutConstraint.deactivate(contentView.constraints.filter { constraint in
-            (constraint.firstItem === nameLabel || constraint.secondItem === nameLabel) &&
-            constraint.firstAttribute == .bottom
-        })
-        NSLayoutConstraint.deactivate(typingIndicatorSizeConstraints)
-        typingIndicator.stopAnimating()
-        messageLabel.isHidden = false
+
+    func tableView(_ tableView: UITableView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        bubblePreview(for: configuration)
+    }
+
+    /// Lifts only the message's bubble for its menu, not the whole width of the row.
+    private func bubblePreview(for configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard let identifier = configuration.identifier as? NSString, let id = UUID(uuidString: identifier as String),
+              let indexPath = dataSource.indexPath(for: id),
+              let cell = tableView.cellForRow(at: indexPath) as? OracleMessageCell else { return nil }
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(roundedRect: cell.bubbleView.bounds, cornerRadius: 20)
+        return UITargetedPreview(view: cell.bubbleView, parameters: parameters)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.isTracking || scrollView.isDecelerating {
+            isPinnedToBottom = distanceFromBottom < 48
+        }
+        updateJumpButton()
     }
 }
-private class ShimmerBorderView: UIView {
-    private let borderLayer = CAShapeLayer()
-    private let shimmerLayer = CAShapeLayer()
-    private let animationDuration: TimeInterval = 3.0
-    private let deityColor: UIColor
-    init(color: UIColor) {
-        self.deityColor = color
-        super.init(frame: .zero)
-        setupLayers()
+
+/// Darkens the conversation as it slides under the composer, so the field always reads against the night.
+final class OracleComposerScrim: UIView {
+    override class var layerClass: AnyClass {
+        CAGradientLayer.self
     }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        guard let gradient = layer as? CAGradientLayer else { return }
+        let night = PapyrusDesignSystem.Colors.Core.night
+        gradient.colors = [night.withAlphaComponent(0).cgColor, night.withAlphaComponent(0.82).cgColor, night.withAlphaComponent(0.94).cgColor]
+        gradient.locations = [0, 0.4, 1]
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updatePaths()
-        startAnimation()
-    }
-    private func setupLayers() {
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.strokeColor = deityColor.withAlphaComponent(0.15).cgColor
-        borderLayer.lineWidth = 1
-        layer.addSublayer(borderLayer)
-        shimmerLayer.fillColor = UIColor.clear.cgColor
-        shimmerLayer.strokeColor = deityColor.cgColor
-        shimmerLayer.lineWidth = 1.5
-        shimmerLayer.lineCap = .round
-        shimmerLayer.strokeEnd = 0.0
-        layer.addSublayer(shimmerLayer)
-    }
-    private func updatePaths() {
-        let rect = bounds
-        let cornerRadius: CGFloat = 8
-        let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
-        borderLayer.path = path.cgPath
-        shimmerLayer.path = path.cgPath
-        borderLayer.frame = rect
-        shimmerLayer.frame = rect
-    }
-    private func startAnimation() {
-        shimmerLayer.removeAllAnimations()
-        let strokeEndAnimation = CAKeyframeAnimation(keyPath: "strokeEnd")
-        strokeEndAnimation.values = [0.0, 0.3, 1.0, 1.0]
-        strokeEndAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
-        let strokeStartAnimation = CAKeyframeAnimation(keyPath: "strokeStart")
-        strokeStartAnimation.values = [0.0, 0.0, 0.7, 1.0]
-        strokeStartAnimation.keyTimes = [0.0, 0.3, 0.6, 1.0]
-        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
-        opacityAnimation.values = [0.0, 1.0, 1.0, 0.0]
-        opacityAnimation.keyTimes = [0.0, 0.2, 0.8, 1.0]
-        let animationGroup = CAAnimationGroup()
-        animationGroup.animations = [strokeEndAnimation, strokeStartAnimation, opacityAnimation]
-        animationGroup.duration = animationDuration
-        animationGroup.repeatCount = .infinity
-        animationGroup.isRemovedOnCompletion = false
-        shimmerLayer.add(animationGroup, forKey: "shimmerAnimation")
     }
 }
