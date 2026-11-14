@@ -166,7 +166,7 @@ final class AdaptiveNavigationContainer: UIViewController {
         splitVC.preferredSplitBehavior = .tile
         splitVC.presentsWithGesture = true
         applySidebarWidths(to: splitVC)
-        if adaptiveLayoutManager.isIPad {
+        if needsOwnSidebarToggle {
             addSidebarToggleButtons(to: splitVC)
         }
         splitVC.view.backgroundColor = PapyrusDesignSystem.Colors.background
@@ -179,6 +179,16 @@ final class AdaptiveNavigationContainer: UIViewController {
         self.sidebarViewController = sidebar
         self.embeddedTabBarController = nil
     }
+    /// From iPadOS 26 the split view draws its own sidebar toggle in the bar; adding ours put an empty second button
+    /// beside the title of every section.
+    private var needsOwnSidebarToggle: Bool {
+        guard adaptiveLayoutManager.isIPad else { return false }
+        if #available(iOS 26.0, *) {
+            return false
+        }
+        return true
+    }
+
     /// iPad keeps its tuned sidebar widths. Everywhere else the system sizes the columns, which is
     /// what lets a folding iPhone rebalance them around the fold.
     private func applySidebarWidths(to splitViewController: UISplitViewController) {
@@ -263,7 +273,7 @@ extension AdaptiveNavigationContainer: SidebarViewControllerDelegate {
             selectedIndex = index
             let selectedNavController = viewControllers[index]
             embeddedSplitViewController?.setViewController(selectedNavController, for: .secondary)
-            if adaptiveLayoutManager.isIPad, let rootVC = selectedNavController.viewControllers.first {
+            if needsOwnSidebarToggle, let rootVC = selectedNavController.viewControllers.first {
                 rootVC.navigationItem.leftBarButtonItem = embeddedSplitViewController?.displayModeButtonItem
                 rootVC.navigationItem.leftItemsSupplementBackButton = true
             }
