@@ -9,6 +9,7 @@ final class LearningPathCoordinator {
     private let contentLoader: ContentLoader
     private var currentLessonIndex = 0
     private var questionFlowCoordinator: QuestionFlowCoordinator?
+    private var mistakeReview: MistakeReviewCoordinator?
     private let databaseManager = DatabaseManager.shared
     private var isReplayMode = false
     private var isMasterTest = false
@@ -87,19 +88,20 @@ final class LearningPathCoordinator {
     }
 
     func startMasterTest(for beliefSystem: BeliefSystem) {
+        startMasterTest(for: beliefSystem, replacing: nil)
+    }
+
+    /// Starts the mastery test; a retry from the results replaces them so the stack never holds a finished test.
+    private func startMasterTest(for beliefSystem: BeliefSystem, replacing screen: UIViewController?) {
         isMasterTest = true
-        
-        let masteryTest = beliefSystem.masteryTest
-        
-        
-        questionFlowCoordinator = QuestionFlowCoordinator(
+        let flow = QuestionFlowCoordinator(
             navigationController: navigationController,
-            questions: masteryTest.questions,
+            questions: beliefSystem.masteryTest.questions,
             beliefSystem: beliefSystem
         )
-        
-        questionFlowCoordinator?.delegate = self
-        questionFlowCoordinator?.start()
+        flow.delegate = self
+        questionFlowCoordinator = flow
+        flow.start(replacing: screen)
     }
     
     func startReviewMissedQuestions(for beliefSystem: BeliefSystem) {
@@ -273,62 +275,106 @@ extension LearningPathCoordinator: LessonViewModelDelegate {
 
 extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     func questionFlowCoordinatorDidComplete(_ coordinator: QuestionFlowCoordinator, results: [QuestionResult]) {
+        let session = coordinator.session
         questionFlowCoordinator = nil
-        
         if isMasterTest {
-            handleMasterTestCompletion(results: results)
+            finishMasteryTest(results: results, session: session)
         } else if isPreviewMode {
-
-            saveLessonCompletion(results: results)
-            finishPreview()
-        } else {
-
-            let completionSummary = reminderOfferSummaryIfEligible(results: results)
-            saveLessonCompletion(results: results)
-            markPathCompletedIfEveryLessonIsDone()
-
-            offerAfterLessonIfDue()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                guard let self else { return }
-                if let completionSummary {
-                    self.showLessonComplete(completionSummary)
-                } else {
-                    self.continueAfterLesson()
-                }
+            let lessonXP = saveLessonCompletion(results: results)
+            showLessonResults(results, lessonXP: lessonXP, reminder: nil, session: session) { [weak self] in
+                self?.finishPreview()
             }
+        } else {
+            let offersReminder = isReminderOfferDue()
+            let lessonXP = saveLessonCompletion(results: results)
+            markPathCompletedIfEveryLessonIsDone()
+            let screen = showLessonResults(results, lessonXP: lessonXP, reminder: offersReminder ? DailyReminder.shared : nil, session: session) { [weak self] in
+                self?.continueAfterLesson()
+            }
+            if offersReminder {
+                reminderOffer.markShown()
+                MidgarLog.info("Showing lesson results with reminder offer", category: .learning)
+            }
+            screen.onFirstAppear = { [weak self] in self?.offerAfterLessonIfDue() }
         }
     }
 
-    /// The first completed lesson earns a calm completion screen carrying the reminder opt-in.
-    /// It sits in the navigation stack, so a paywall presented at the same moment simply covers
-    /// it and the card is waiting once the paywall is dismissed.
-    private func reminderOfferSummaryIfEligible(results: [QuestionResult]) -> LessonCompleteViewController.Summary? {
-        guard !isReplayMode,
-              currentLessonIndex < beliefSystem.lessons.count,
-              reminderOffer.shouldPresent(
+    /// The first completed lesson's results carry the daily reminder opt-in. A paywall presented over the results
+    /// simply covers them, and the card is waiting once it is dismissed.
+    private func isReminderOfferDue() -> Bool {
+        !isReplayMode
+            && currentLessonIndex < beliefSystem.lessons.count
+            && reminderOffer.shouldPresent(
                 priorSuccesses: ReviewPrompt.recordedSuccessCount,
                 reminderEnabled: DailyReminder.shared.isEnabled
-              ) else { return nil }
-
-        let lesson = beliefSystem.lessons[currentLessonIndex]
-        return LessonCompleteViewController.Summary(
-            lessonTitle: lesson.title,
-            correctAnswers: results.filter { $0.wasCorrect }.count,
-            totalQuestions: results.count,
-            xpReward: lesson.xpReward
-        )
+            )
     }
 
-    private func showLessonComplete(_ summary: LessonCompleteViewController.Summary) {
-        reminderOffer.markShown()
-        MidgarLog.info("Showing lesson complete with reminder offer", category: .learning)
-        let viewController = LessonCompleteViewController(
-            summary: summary,
-            onContinue: { [weak self] in self?.continueAfterLesson() },
-            onClose: { [weak self] in self?.exitLearningPath() }
-        )
-        navigationController.pushViewController(viewController, animated: true)
+    /// Shows a finished lesson's results in place of its quiz and lesson; `onContinue` is where Continue goes.
+    @discardableResult
+    private func showLessonResults(
+        _ results: [QuestionResult],
+        lessonXP: Int,
+        reminder: DailyReminder?,
+        session: UIViewController?,
+        onContinue: @escaping () -> Void
+    ) -> QuizResultsViewController {
+        let title = beliefSystem.lessons.indices.contains(currentLessonIndex) ? beliefSystem.lessons[currentLessonIndex].title : beliefSystem.name
+        let summary = QuizResultsViewModel(kind: .lesson(title: title), beliefSystem: beliefSystem, results: results, bonusXP: lessonXP)
+        var actions = [QuizResultsViewController.Action(title: String(localized: "Continue"), symbol: nil, style: .primary, handler: onContinue)]
+        if let practice = practiceAction(for: results, then: onContinue) {
+            actions.append(practice)
+        }
+        let screen = QuizResultsViewController(viewModel: summary, actions: actions, reminder: reminder)
+        screen.onClose = onContinue
+        replaceQuiz(session, with: screen)
+        return screen
+    }
+
+    /// Practice Mistakes, when the session missed questions that are waiting in review: it reviews just those now.
+    private func practiceAction(for results: [QuestionResult], then finish: @escaping () -> Void) -> QuizResultsViewController.Action? {
+        let mistakes = pendingMistakes(missedIn: results)
+        guard !mistakes.isEmpty else { return nil }
+        let title = String(localized: "Practice Mistakes (\(mistakes.count))")
+        return QuizResultsViewController.Action(title: title, symbol: "arrow.counterclockwise", style: .secondary) { [weak self] in
+            self?.practice(mistakes, then: finish)
+        }
+    }
+
+    private func pendingMistakes(missedIn results: [QuestionResult]) -> [Mistake] {
+        let missed = Set(results.filter { !$0.wasCorrect }.map(\.question.id))
+        guard !missed.isEmpty, let user = databaseManager.fetchUser(),
+              let mistakes = try? databaseManager.getMistakes(userId: user.id, beliefSystemId: beliefSystem.id) else { return [] }
+        return mistakes.filter { missed.contains($0.questionId) }
+    }
+
+    private func practice(_ mistakes: [Mistake], then finish: @escaping () -> Void) {
+        guard let user = databaseManager.fetchUser() else { return }
+        do {
+            let session = try databaseManager.startMistakeSession(userId: user.id, beliefSystemId: beliefSystem.id)
+            let review = MistakeReviewCoordinator(navigationController: navigationController, beliefSystem: beliefSystem, mistakes: mistakes, session: session)
+            review.onFinish = { [weak self] _ in
+                self?.mistakeReview = nil
+                finish()
+            }
+            mistakeReview = review
+            review.start()
+        } catch {
+            Diagnostics.logError(error, context: "Starting mistake practice", category: .learning)
+        }
+    }
+
+    /// Puts `screen` where the finished quiz was, dropping the lesson it came from, so back never returns to either.
+    private func replaceQuiz(_ session: UIViewController?, with screen: UIViewController) {
+        var stack = navigationController.viewControllers
+        if let session, let position = stack.firstIndex(of: session) {
+            stack.removeSubrange(position...)
+            if position > 0, stack[position - 1] is LessonViewController {
+                stack.remove(at: position - 1)
+            }
+        }
+        stack.append(screen)
+        navigationController.setViewControllers(stack, animated: true)
     }
 
     private func finishPreview() {
@@ -384,9 +430,11 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         }
     }
     
-    private func saveLessonCompletion(results: [QuestionResult]) {
+    /// Marks the lesson completed with its score and awards its XP; returns the XP awarded.
+    @discardableResult
+    private func saveLessonCompletion(results: [QuestionResult]) -> Int {
         guard let user = databaseManager.fetchUser(),
-              currentLessonIndex < beliefSystem.lessons.count else { return }
+              currentLessonIndex < beliefSystem.lessons.count else { return 0 }
         
         let lesson = beliefSystem.lessons[currentLessonIndex]
         let correctAnswers = results.filter { $0.wasCorrect }.count
@@ -414,59 +462,73 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                     ReviewPrompt.recordSuccess(in: navigation.view.window?.windowScene)
                 }
             }
+            return lesson.xpReward
         } catch {
             Diagnostics.logError(error, context: "Saving lesson completion", category: .learning)
+            return 0
         }
     }
     
-    private func handleMasterTestCompletion(results: [QuestionResult]) {
-        guard let user = databaseManager.fetchUser() else { return }
-        
+    /// Scores the mastery test, saves a pass with its best score and the first mastery's XP, and shows the results.
+    private func finishMasteryTest(results: [QuestionResult], session: UIViewController?) {
         let masteryTest = beliefSystem.masteryTest
-        
         let correctAnswers = results.filter { $0.wasCorrect }.count
-        let totalQuestions = results.count
-        let score = totalQuestions > 0 ? Int((Double(correctAnswers) / Double(totalQuestions)) * 100) : 0
-        
-        
-        let requiredScore = masteryTest.requiredScore
-        let passed = score >= requiredScore
-        
-        do {
-            if passed {
-                let existingProgress = try databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystem.id)
-                let isFirstMastery = existingProgress?.status != .mastered
-                let bestScore = isFirstMastery ? score : max(score, existingProgress?.score ?? 0)
-
-                try databaseManager.createOrUpdateProgress(
-                    userId: user.id,
-                    beliefSystemId: beliefSystem.id,
-                    lessonId: nil,
-                    status: .mastered,
-                    score: bestScore
-                )
-
-                if isFirstMastery {
-                    GamificationService.shared.awardXP(
-                        to: user.id,
-                        amount: masteryTest.xpReward,
-                        reason: "Mastery test passed",
-                        beliefSystemId: beliefSystem.id
-                    )
-                } else {
-                    GamificationService.shared.checkAchievements(for: user.id)
-                }
-
-                showMasterTestSuccessAlert(score: score)
-            } else {
-                
-                showMasterTestFailureAlert(score: score, requiredScore: requiredScore)
+        let score = results.isEmpty ? 0 : Int((Double(correctAnswers) / Double(results.count)) * 100)
+        let passed = score >= masteryTest.requiredScore
+        let masteryXP = passed ? saveMastery(score: score) : 0
+        let summary = QuizResultsViewModel(kind: .mastery(requiredScore: masteryTest.requiredScore), beliefSystem: beliefSystem, results: results, bonusXP: masteryXP)
+        let leave: () -> Void = { [weak self] in self?.leaveMasteryTest() }
+        var actions: [QuizResultsViewController.Action] = []
+        if passed {
+            actions.append(.init(title: String(localized: "Continue"), symbol: nil, style: .primary, handler: leave))
+            if let practice = practiceAction(for: results, then: leave) {
+                actions.append(practice)
             }
+        }
+        let screen = QuizResultsViewController(viewModel: summary, actions: [], reminder: nil)
+        if !passed {
+            actions.append(.init(title: String(localized: "Try Again"), symbol: "arrow.clockwise", style: .primary) { [weak self, weak screen] in
+                guard let self else { return }
+                self.startMasterTest(for: self.beliefSystem, replacing: screen)
+            })
+            actions.append(.init(title: String(localized: "Back to Path"), symbol: nil, style: .secondary, handler: leave))
+        }
+        screen.setActions(actions)
+        screen.onClose = leave
+        replaceQuiz(session, with: screen)
+    }
+
+    /// Records a passed mastery test, keeping the best score, and returns the XP the first mastery awards.
+    private func saveMastery(score: Int) -> Int {
+        guard let user = databaseManager.fetchUser() else { return 0 }
+        let masteryTest = beliefSystem.masteryTest
+        do {
+            let existingProgress = try databaseManager.getProgress(userId: user.id, beliefSystemId: beliefSystem.id)
+            let isFirstMastery = existingProgress?.status != .mastered
+            let bestScore = isFirstMastery ? score : max(score, existingProgress?.score ?? 0)
+            try databaseManager.createOrUpdateProgress(
+                userId: user.id,
+                beliefSystemId: beliefSystem.id,
+                lessonId: nil,
+                status: .mastered,
+                score: bestScore
+            )
+            if isFirstMastery {
+                GamificationService.shared.awardXP(
+                    to: user.id,
+                    amount: masteryTest.xpReward,
+                    reason: "Mastery test passed",
+                    beliefSystemId: beliefSystem.id
+                )
+                return masteryTest.xpReward
+            }
+            GamificationService.shared.checkAchievements(for: user.id)
         } catch {
             Diagnostics.logError(error, context: "Saving master test completion", category: .learning)
         }
+        return 0
     }
-    
+
     /// After the mastery test: back to the map that opened it, or home.
     private func leaveMasteryTest() {
         if pathMap != nil {
@@ -474,38 +536,5 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         } else {
             exitLearningPath()
         }
-    }
-
-    private func showMasterTestSuccessAlert(score: Int) {
-        let alert = UIAlertController(
-            title: String(localized: "Congratulations!"),
-            message: String(localized: "You've mastered \(beliefSystem.name) with a score of \(score)%!"),
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: String(localized: "Continue"), style: .default) { [weak self] _ in
-            self?.leaveMasteryTest()
-        })
-        
-        navigationController.present(alert, animated: true)
-    }
-    
-    private func showMasterTestFailureAlert(score: Int, requiredScore: Int) {
-        let alert = UIAlertController(
-            title: String(localized: "Almost There!"),
-            message: String(localized: "You scored \(score)%, but need \(requiredScore)% to pass the master test."),
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.startMasterTest(for: self.beliefSystem)
-        })
-        
-        alert.addAction(UIAlertAction(title: String(localized: "Review Path"), style: .default) { [weak self] _ in
-            self?.leaveMasteryTest()
-        })
-        
-        navigationController.present(alert, animated: true)
     }
 }

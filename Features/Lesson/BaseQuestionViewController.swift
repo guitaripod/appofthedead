@@ -1,121 +1,180 @@
 import UIKit
 
+/// One question inside a quiz session: the question in serif under its position, a hint, and the answers a subclass
+/// adds to `answersStack`. The session owns the Check button and the feedback; a question only says when an answer
+/// is ready and, when asked, checks it and marks its answers right or wrong.
 class BaseQuestionViewController: UIViewController {
-    
+
     let viewModel: BaseQuestionViewModel
-    
-    let progressView = UIProgressView(progressViewStyle: .default)
-    let questionNumberLabel = UILabel()
-    let questionLabel = UILabel()
-    let contentStackView = UIStackView()
-    
-    var submitButton: UIButton?
-    private let contentScrollView = UIScrollView()
-    private var contentScrollBottomConstraint: NSLayoutConstraint?
+    let answersStack = UIStackView()
+
+    /// Called whenever an answer becomes ready to check, or stops being ready.
+    var onReadinessChange: ((Bool) -> Void)?
+
+    private(set) var isReadyToCheck = false
+    private(set) var isChecked = false
+
+    private let scrollView = UIScrollView()
+    private let contentStack = UIStackView()
+    private let eyebrowLabel = UILabel()
+    private let questionLabel = UILabel()
+    private let hintLabel = UILabel()
     private let foldClearance = UIView()
     private let foldClearanceHeight: NSLayoutConstraint
-    var hideProgressView = false
-    var hideQuestionNumber = false
-    
+
+    var accent: UIColor {
+        viewModel.beliefSystemColor ?? PapyrusDesignSystem.Colors.Core.goldLeaf
+    }
+
+    /// A short instruction under the question, such as "Choose one answer".
+    var hintText: String? { nil }
+
+    /// The view to bring into sight once the answer is checked, usually the right answer.
+    var revealFocusView: UIView? { nil }
+
     init(viewModel: BaseQuestionViewModel) {
         self.viewModel = viewModel
         self.foldClearanceHeight = foldClearance.heightAnchor.constraint(equalToConstant: 0)
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBaseUI()
-        setupNavigationBar()
-        configureWithViewModel()
-    }
-    
-    private func setupNavigationBar() {
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.largeTitleDisplayMode = .never
-        navigationItem.hidesBackButton = true
-        
-        let backButton = UIBarButtonItem(
-            image: UIImage(systemName: "xmark"),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-        backButton.tintColor = UIColor.Papyrus.primaryText
-        navigationItem.leftBarButtonItem = backButton
-        
-    }
-    
-    private func setupBaseUI() {
-        view.backgroundColor = UIColor.Papyrus.background
-        
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.axis = .vertical
-        contentStackView.spacing = 24
-        contentStackView.alignment = .fill
-        
-        setupProgressView()
-        setupQuestionNumberLabel()
-        setupQuestionLabel()
-        setupFoldClearance()
-        
-        if scrollsContent {
-            embedContentInScrollView()
-        } else {
-            embedContentDirectly()
-        }
-    }
-
-    /// Questions whose answers can outgrow a short window scroll them above the submit button.
-    /// A screen that scrolls its own answer area opts out.
-    var scrollsContent: Bool { true }
-
-    private func embedContentDirectly() {
-        view.addSubview(contentStackView)
-        NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
-        ])
-    }
-
-    private func embedContentInScrollView() {
-        contentScrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentScrollView.alwaysBounceVertical = false
-        contentScrollView.showsVerticalScrollIndicator = false
-        view.addSubview(contentScrollView)
-        contentScrollView.addSubview(contentStackView)
-        let bottom = contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        contentScrollBottomConstraint = bottom
-        NSLayoutConstraint.activate([
-            contentScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bottom,
-            contentStackView.topAnchor.constraint(equalTo: contentScrollView.contentLayoutGuide.topAnchor, constant: 20),
-            contentStackView.bottomAnchor.constraint(equalTo: contentScrollView.contentLayoutGuide.bottomAnchor, constant: -20),
-            contentStackView.leadingAnchor.constraint(equalTo: contentScrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-            contentStackView.trailingAnchor.constraint(equalTo: contentScrollView.frameLayoutGuide.trailingAnchor, constant: -20)
-        ])
-    }
-    
-    private func setupFoldClearance() {
-        foldClearance.translatesAutoresizingMaskIntoConstraints = false
-        foldClearanceHeight.isActive = true
-        foldClearance.isHidden = true
-        contentStackView.addArrangedSubview(foldClearance)
+        view.backgroundColor = .clear
+        setupScrollView()
+        setupHeader()
+        setupAnswersStack()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         keepAnswersBelowFold()
     }
+
+    private func setupScrollView() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.keyboardDismissMode = .interactive
+        view.addSubview(scrollView)
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 12
+        scrollView.addSubview(contentStack)
+        let preferredWidth = contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -48)
+        preferredWidth.priority = .required - 1
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -24),
+            contentStack.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
+            contentStack.widthAnchor.constraint(lessThanOrEqualToConstant: 600),
+            contentStack.widthAnchor.constraint(lessThanOrEqualTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40),
+            preferredWidth,
+        ])
+    }
+
+    private func setupHeader() {
+        eyebrowLabel.attributedText = NSAttributedString(string: viewModel.positionText.uppercased(with: .current), attributes: [
+            .kern: 1.6,
+            .font: PapyrusDesignSystem.Typography.sans(12, weight: .semibold, textStyle: .caption1),
+            .foregroundColor: accent,
+        ])
+        eyebrowLabel.adjustsFontForContentSizeCategory = true
+        eyebrowLabel.numberOfLines = 0
+        questionLabel.attributedText = QuizText.styled(
+            viewModel.questionText,
+            font: PapyrusDesignSystem.Typography.serif(25, weight: .semibold, textStyle: .title2),
+            color: PapyrusDesignSystem.Colors.Dynamic.primaryText
+        )
+        questionLabel.adjustsFontForContentSizeCategory = true
+        questionLabel.numberOfLines = 0
+        questionLabel.accessibilityTraits = .header
+        hintLabel.text = hintText
+        hintLabel.font = PapyrusDesignSystem.Typography.sans(15, weight: .regular, textStyle: .subheadline)
+        hintLabel.adjustsFontForContentSizeCategory = true
+        hintLabel.textColor = PapyrusDesignSystem.Colors.Dynamic.tertiaryText
+        hintLabel.numberOfLines = 0
+        hintLabel.isHidden = hintText == nil
+        [eyebrowLabel, questionLabel, hintLabel].forEach(contentStack.addArrangedSubview)
+        contentStack.setCustomSpacing(10, after: eyebrowLabel)
+        contentStack.setCustomSpacing(8, after: questionLabel)
+        foldClearance.translatesAutoresizingMaskIntoConstraints = false
+        foldClearanceHeight.isActive = true
+        foldClearance.isHidden = true
+        contentStack.addArrangedSubview(foldClearance)
+    }
+
+    private func setupAnswersStack() {
+        answersStack.axis = .vertical
+        answersStack.spacing = 12
+        contentStack.addArrangedSubview(answersStack)
+        contentStack.setCustomSpacing(26, after: hintLabel)
+        contentStack.setCustomSpacing(26, after: foldClearance)
+    }
+
+    /// Marks whether an answer is ready to check and tells the session.
+    func setReadyToCheck(_ ready: Bool) {
+        guard ready != isReadyToCheck else { return }
+        isReadyToCheck = ready
+        onReadinessChange?(ready)
+    }
+
+    /// Checks the chosen answer once, marks the answers, and returns what the check showed.
+    func submit() -> QuestionOutcome? {
+        guard isReadyToCheck, !isChecked, let outcome = checkSelectedAnswer() else { return nil }
+        isChecked = true
+        return outcome
+    }
+
+    /// Subclasses check their answer here, mark their answers and describe the result.
+    func checkSelectedAnswer() -> QuestionOutcome? {
+        nil
+    }
+
+    /// Picks an answer from a hardware key; returns whether the key meant something here.
+    func handleKeyInput(_ input: String) -> Bool {
+        false
+    }
+
+    /// Leaves room under the answers for the feedback panel and brings the right answer into sight.
+    func setBottomObstruction(_ height: CGFloat, animated: Bool) {
+        scrollView.contentInset.bottom = height
+        scrollView.verticalScrollIndicatorInsets.bottom = height
+        guard height > 0, let focus = revealFocusView else { return }
+        view.layoutIfNeeded()
+        let target = focus.convert(focus.bounds, to: scrollView).insetBy(dx: 0, dy: -16)
+        guard let offset = offsetRevealing(target) else { return }
+        scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: offset), animated: animated && !UIAccessibility.isReduceMotionEnabled)
+    }
+
+    /// The vertical offset that shows `target` above the bottom inset, or nil when it is already in sight.
+    /// `scrollRectToVisible` would ignore the inset and leave the answer under the feedback panel.
+    private func offsetRevealing(_ target: CGRect) -> CGFloat? {
+        let insets = scrollView.adjustedContentInset
+        let visibleTop = scrollView.contentOffset.y + insets.top
+        let visibleBottom = scrollView.contentOffset.y + scrollView.bounds.height - insets.bottom
+        guard target.maxY > visibleBottom || target.minY < visibleTop else { return nil }
+        let lowest = -insets.top
+        let highest = max(lowest, scrollView.contentSize.height - scrollView.bounds.height + insets.bottom)
+        let showingBottom = target.maxY - (scrollView.bounds.height - insets.bottom)
+        let showingTop = target.minY - insets.top
+        let visibleHeight = scrollView.bounds.height - insets.top - insets.bottom
+        let wanted = target.height > visibleHeight ? showingTop : showingBottom
+        return min(max(wanted, lowest), highest)
+    }
+
+    #if DEBUG
+    /// Screenshot rig: chooses the right answer, or a wrong one.
+    func demoChooseAnswer(correctly: Bool) {}
+    #endif
 
     /// With the device half open and the fold running across the screen, the question stays in the
     /// upper half and every answer control sits in the lower half, so no control crosses the fold.
@@ -129,134 +188,20 @@ class BaseQuestionViewController: UIViewController {
 
     private func requiredFoldClearance() -> CGFloat {
         guard let fold = FoldRegion.activeFrame(in: view), fold.width > fold.height else { return 0 }
-        let questionBottom = questionLabel.convert(questionLabel.bounds, to: view).maxY
-        let answersTop = questionBottom + contentStackView.spacing * 2
+        let questionBottom = hintLabel.convert(hintLabel.bounds, to: view).maxY
+        let answersTop = questionBottom + contentStack.spacing * 2
         return max(0, fold.maxY - answersTop)
     }
 
-    private func setupProgressView() {
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.addArrangedSubview(progressView)
-        
-        NSLayoutConstraint.activate([
-            progressView.heightAnchor.constraint(equalToConstant: 8)
-        ])
-        
-        
-        if hideProgressView {
-            progressView.isHidden = true
+    /// Lays answer cards out side by side, or one above the other when the text is very large.
+    func makeAdaptiveRow(_ views: [UIView]) -> UIStackView {
+        let row = UIStackView(arrangedSubviews: views)
+        row.spacing = 12
+        row.distribution = .fillEqually
+        row.axis = traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? .vertical : .horizontal
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: BaseQuestionViewController, _) in
+            row.axis = controller.traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? .vertical : .horizontal
         }
-    }
-    
-    private func setupQuestionNumberLabel() {
-        questionNumberLabel.font = .systemFont(ofSize: 14, weight: .semibold)
-        questionNumberLabel.textColor = UIColor.Papyrus.secondaryText
-        contentStackView.addArrangedSubview(questionNumberLabel)
-        
-        
-        if hideQuestionNumber {
-            questionNumberLabel.isHidden = true
-        }
-    }
-    
-    private func setupQuestionLabel() {
-        questionLabel.font = PapyrusDesignSystem.Typography.serif(22, weight: .semibold)
-        questionLabel.textColor = UIColor.Papyrus.primaryText
-        questionLabel.numberOfLines = 0
-        contentStackView.addArrangedSubview(questionLabel)
-    }
-    
-    func setupSubmitButton() {
-        let button = UIButton(type: .system)
-        button.setTitle(String(localized: "Check Answer"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor.Papyrus.aged
-        button.setTitleColor(UIColor.Papyrus.beige, for: .normal)
-        button.layer.cornerRadius = 16
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOffset = CGSize(width: 0, height: 2)
-        button.layer.shadowOpacity = 0.15
-        button.layer.shadowRadius = 4
-        button.isEnabled = false
-        button.addTarget(self, action: #selector(submitAnswer), for: .touchUpInside)
-        
-        submitButton = button
-        
-        view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            button.heightAnchor.constraint(equalToConstant: 56)
-        ])
-        contentScrollBottomConstraint?.isActive = false
-        contentScrollBottomConstraint = contentScrollView.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -16)
-        contentScrollBottomConstraint?.isActive = scrollsContent
-    }
-    
-    private func configureWithViewModel() {
-        questionNumberLabel.text = String(localized: "Question \(viewModel.currentQuestionIndex + 1) of \(viewModel.totalQuestions)")
-        questionLabel.text = viewModel.questionText
-        progressView.progress = viewModel.progress
-        progressView.trackTintColor = UIColor.Papyrus.aged.withAlphaComponent(0.3)
-        
-        if let color = viewModel.beliefSystemColor {
-            progressView.progressTintColor = color
-        }
-    }
-    
-    func enableSubmitButton(_ enabled: Bool) {
-        submitButton?.isEnabled = enabled
-        submitButton?.backgroundColor = enabled ? PapyrusDesignSystem.Colors.Component.Button.primaryBackground : PapyrusDesignSystem.Colors.Component.Button.disabledBackground
-        submitButton?.setTitleColor(enabled ? PapyrusDesignSystem.Colors.Component.Button.primaryForeground : PapyrusDesignSystem.Colors.Component.Button.disabledForeground, for: .normal)
-    }
-    
-    @objc func submitAnswer() {
-        
-    }
-    
-    @objc private func backButtonTapped() {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        viewModel.exitQuiz()
-    }
-    
-    func showFeedback(isCorrect: Bool, explanation: String, completion: @escaping () -> Void) {
-        UIImpactFeedbackGenerator(style: isCorrect ? .medium : .heavy).impactOccurred()
-        
-        let feedbackView = QuestionFeedbackView(
-            isCorrect: isCorrect,
-            explanation: explanation,
-            xpReward: isCorrect ? viewModel.xpReward : 0
-        )
-        
-        feedbackView.translatesAutoresizingMaskIntoConstraints = false
-        feedbackView.alpha = 0
-        feedbackView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        
-        view.addSubview(feedbackView)
-        
-        NSLayoutConstraint.activate([
-            feedbackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            feedbackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            feedbackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 40),
-            feedbackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -40)
-        ])
-        
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: [], animations: {
-            feedbackView.alpha = 1
-            feedbackView.transform = .identity
-        }) { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                UIView.animate(withDuration: 0.3, animations: {
-                    feedbackView.alpha = 0
-                    feedbackView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                }) { _ in
-                    feedbackView.removeFromSuperview()
-                    completion()
-                }
-            }
-        }
+        return row
     }
 }

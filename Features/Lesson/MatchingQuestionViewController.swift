@@ -1,156 +1,108 @@
 import UIKit
 
+/// A matching question: tap an item in one column, then its partner in the other. Each pair takes a color of its own;
+/// once checked, right pairs turn green and each wrong one red, with the partner it belongs with written under it.
 final class MatchingQuestionViewController: BaseQuestionViewController {
 
-    private let instructionLabel = UILabel()
-    private let columnsScrollView = UIScrollView()
-    private let columnsStackView = UIStackView()
-    private let leftColumnStackView = UIStackView()
-    private let rightColumnStackView = UIStackView()
-    private var leftButtons: [UIButton] = []
-    private var rightButtons: [UIButton] = []
-
+    private var leftCards: [QuizOptionCard] = []
+    private var rightCards: [QuizOptionCard] = []
     private var selectedLeftIndex: Int?
     private var selectedRightIndex: Int?
     private var matchedRightByLeft: [Int: Int] = [:]
 
     private static let pairPalette: [UIColor] = [
-        UIColor.Papyrus.gold,
-        UIColor.Papyrus.hieroglyphBlue,
-        UIColor.Papyrus.mysticPurple,
-        UIColor.Papyrus.scarabGreen,
-        UIColor.Papyrus.burnishedGold
+        PapyrusDesignSystem.Colors.Core.goldLeaf,
+        PapyrusDesignSystem.Colors.Core.hieroglyphBlue,
+        PapyrusDesignSystem.Colors.Core.mysticPurple,
+        UIColor(hex: 0x4FB6B0),
+        PapyrusDesignSystem.Colors.Core.burnishedGold,
     ]
 
     private var matchingViewModel: MatchingQuestionViewModel {
         viewModel as! MatchingQuestionViewModel
     }
 
-    override var scrollsContent: Bool { false }
+    override var hintText: String? {
+        String(localized: "Tap an item, then tap its match")
+    }
+
+    override var revealFocusView: UIView? {
+        leftCards.first { $0.mark == .incorrect } ?? leftCards.last
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSubmitButton()
-        setupMatchingUI()
+        setupColumns()
     }
 
-    private func setupMatchingUI() {
-        instructionLabel.text = String(localized: "Tap an item, then tap its match")
-        instructionLabel.font = .systemFont(ofSize: 14, weight: .medium)
-        instructionLabel.textColor = UIColor.Papyrus.secondaryText
-        contentStackView.addArrangedSubview(instructionLabel)
-
-        columnsScrollView.translatesAutoresizingMaskIntoConstraints = false
-        columnsScrollView.showsVerticalScrollIndicator = false
-        columnsScrollView.alwaysBounceVertical = false
-        view.addSubview(columnsScrollView)
-
-        columnsStackView.translatesAutoresizingMaskIntoConstraints = false
-        columnsStackView.axis = .horizontal
-        columnsStackView.spacing = 12
-        columnsStackView.alignment = .top
-        columnsStackView.distribution = .fillEqually
-        columnsScrollView.addSubview(columnsStackView)
-
-        for columnStackView in [leftColumnStackView, rightColumnStackView] {
-            columnStackView.axis = .vertical
-            columnStackView.spacing = 12
-            columnStackView.alignment = .fill
-            columnsStackView.addArrangedSubview(columnStackView)
+    private func setupColumns() {
+        let leftColumn = UIStackView()
+        let rightColumn = UIStackView()
+        for column in [leftColumn, rightColumn] {
+            column.axis = .vertical
+            column.spacing = 10
         }
-
         for (index, item) in matchingViewModel.leftItems.enumerated() {
-            let button = createItemButton(title: item, tag: index, action: #selector(leftItemTapped(_:)))
-            leftButtons.append(button)
-            leftColumnStackView.addArrangedSubview(button)
+            let card = makeCard(title: item) { [weak self] in self?.leftTapped(index) }
+            leftCards.append(card)
+            leftColumn.addArrangedSubview(card)
         }
-
         for (index, item) in matchingViewModel.rightItems.enumerated() {
-            let button = createItemButton(title: item, tag: index, action: #selector(rightItemTapped(_:)))
-            rightButtons.append(button)
-            rightColumnStackView.addArrangedSubview(button)
+            let card = makeCard(title: item) { [weak self] in self?.rightTapped(index) }
+            rightCards.append(card)
+            rightColumn.addArrangedSubview(card)
         }
-
-        guard let submitButton else { return }
-        NSLayoutConstraint.activate([
-            columnsScrollView.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 24),
-            columnsScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            columnsScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            columnsScrollView.bottomAnchor.constraint(equalTo: submitButton.topAnchor, constant: -16),
-            columnsStackView.topAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.topAnchor),
-            columnsStackView.leadingAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.leadingAnchor),
-            columnsStackView.trailingAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.trailingAnchor),
-            columnsStackView.bottomAnchor.constraint(equalTo: columnsScrollView.contentLayoutGuide.bottomAnchor),
-            columnsStackView.widthAnchor.constraint(equalTo: columnsScrollView.frameLayoutGuide.widthAnchor)
-        ])
+        let columns = UIStackView(arrangedSubviews: [leftColumn, rightColumn])
+        columns.axis = .horizontal
+        columns.alignment = .top
+        columns.distribution = .fillEqually
+        columns.spacing = 12
+        answersStack.addArrangedSubview(columns)
     }
 
-    private func createItemButton(title: String, tag: Int, action: Selector) -> UIButton {
-        let button = UIButton(type: .system)
-        button.tag = tag
-        button.titleLabel?.numberOfLines = 0
-        button.titleLabel?.lineBreakMode = .byWordWrapping
-
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = title
-        configuration.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        configuration.baseForegroundColor = UIColor.Papyrus.primaryText
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 12, bottom: 14, trailing: 12)
-        configuration.cornerStyle = .large
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            return outgoing
-        }
-        button.configuration = configuration
-
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = UIColor.clear.cgColor
-        button.layer.cornerRadius = 12
-
-        button.accessibilityHint = String(localized: "Tap to select, then tap an item in the other column to form a pair")
-        button.addTarget(self, action: action, for: .touchUpInside)
-        return button
+    private func makeCard(title: String, action: @escaping () -> Void) -> QuizOptionCard {
+        let card = QuizOptionCard(title: title, badge: .none, accent: accent, layout: .compact)
+        card.accessibilityHint = String(localized: "Tap to select, then tap an item in the other column to form a pair")
+        card.addAction(UIAction { _ in action() }, for: .touchUpInside)
+        return card
     }
 
-    @objc private func leftItemTapped(_ sender: UIButton) {
+    private func leftTapped(_ index: Int) {
+        guard !isChecked else { return }
         UISelectionFeedbackGenerator().selectionChanged()
-        let index = sender.tag
-
         if selectedLeftIndex == index {
             selectedLeftIndex = nil
-            refreshButtonStyles()
+            refreshCards()
             return
         }
-
         matchedRightByLeft.removeValue(forKey: index)
         selectedLeftIndex = index
-
         if let rightIndex = selectedRightIndex {
             formMatch(leftIndex: index, rightIndex: rightIndex)
         }
-        refreshButtonStyles()
+        refreshCards()
     }
 
-    @objc private func rightItemTapped(_ sender: UIButton) {
+    private func rightTapped(_ index: Int) {
+        guard !isChecked else { return }
         UISelectionFeedbackGenerator().selectionChanged()
-        let index = sender.tag
-
         if selectedRightIndex == index {
             selectedRightIndex = nil
-            refreshButtonStyles()
+            refreshCards()
             return
         }
-
-        if let pairedLeft = matchedRightByLeft.first(where: { $0.value == index })?.key {
+        if let pairedLeft = leftIndex(pairedWith: index) {
             matchedRightByLeft.removeValue(forKey: pairedLeft)
         }
         selectedRightIndex = index
-
         if let leftIndex = selectedLeftIndex {
             formMatch(leftIndex: leftIndex, rightIndex: index)
         }
-        refreshButtonStyles()
+        refreshCards()
+    }
+
+    private func leftIndex(pairedWith rightIndex: Int) -> Int? {
+        matchedRightByLeft.first { $0.value == rightIndex }?.key
     }
 
     private func formMatch(leftIndex: Int, rightIndex: Int) {
@@ -160,86 +112,74 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
-    private func refreshButtonStyles() {
-        for (index, button) in leftButtons.enumerated() {
-            if let rightIndex = matchedRightByLeft[index] {
-                style(button, selected: selectedLeftIndex == index, pairColor: pairColor(forLeftIndex: index))
-                button.accessibilityValue = String(localized: "Matched with \(matchingViewModel.rightItems[rightIndex])")
+    private func refreshCards() {
+        for (index, card) in leftCards.enumerated() {
+            if selectedLeftIndex == index {
+                card.apply(.selected, animated: true)
+            } else if let rightIndex = matchedRightByLeft[index] {
+                card.apply(.paired(pairColor(forLeftIndex: index)), animated: true)
+                card.accessibilityValue = String(localized: "Matched with \(matchingViewModel.rightItems[rightIndex])")
             } else {
-                style(button, selected: selectedLeftIndex == index, pairColor: nil)
-                button.accessibilityValue = nil
+                card.apply(.idle, animated: true)
             }
         }
-        for (index, button) in rightButtons.enumerated() {
-            if let pairedLeft = matchedRightByLeft.first(where: { $0.value == index })?.key {
-                style(button, selected: selectedRightIndex == index, pairColor: pairColor(forLeftIndex: pairedLeft))
-                button.accessibilityValue = String(localized: "Matched with \(matchingViewModel.leftItems[pairedLeft])")
+        for (index, card) in rightCards.enumerated() {
+            if selectedRightIndex == index {
+                card.apply(.selected, animated: true)
+            } else if let pairedLeft = leftIndex(pairedWith: index) {
+                card.apply(.paired(pairColor(forLeftIndex: pairedLeft)), animated: true)
+                card.accessibilityValue = String(localized: "Matched with \(matchingViewModel.leftItems[pairedLeft])")
             } else {
-                style(button, selected: selectedRightIndex == index, pairColor: nil)
-                button.accessibilityValue = nil
+                card.apply(.idle, animated: true)
             }
         }
-        enableSubmitButton(matchedRightByLeft.count == matchingViewModel.leftItems.count)
+        setReadyToCheck(matchedRightByLeft.count == matchingViewModel.leftItems.count)
     }
 
     private func pairColor(forLeftIndex index: Int) -> UIColor {
         Self.pairPalette[index % Self.pairPalette.count]
     }
 
-    private func style(_ button: UIButton, selected: Bool, pairColor: UIColor?) {
-        var configuration = button.configuration
-        if selected {
-            configuration?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
-            button.layer.borderColor = UIColor.Papyrus.gold.cgColor
-        } else if let pairColor {
-            configuration?.baseBackgroundColor = pairColor.withAlphaComponent(0.22)
-            button.layer.borderColor = pairColor.cgColor
-        } else {
-            configuration?.baseBackgroundColor = UIColor.Papyrus.cardBackground
-            button.layer.borderColor = UIColor.clear.cgColor
-        }
-        configuration?.baseForegroundColor = UIColor.Papyrus.primaryText
-        button.configuration = configuration
-    }
-
-    override func submitAnswer() {
-        let matches = matchedRightByLeft.map { leftIndex, rightIndex in
+    override func checkSelectedAnswer() -> QuestionOutcome? {
+        let matches = matchedRightByLeft.sorted { $0.key < $1.key }.map { leftIndex, rightIndex in
             MatchingQuestionViewModel.Match(
                 left: matchingViewModel.leftItems[leftIndex],
                 right: matchingViewModel.rightItems[rightIndex]
             )
         }
-        let (isCorrect, explanation) = matchingViewModel.checkMatches(matches)
-
-        submitButton?.isEnabled = false
-        leftButtons.forEach { $0.isEnabled = false }
-        rightButtons.forEach { $0.isEnabled = false }
-
-        showMatchFeedback()
-
-        showFeedback(isCorrect: isCorrect, explanation: explanation) { [weak self] in
-            guard let self else { return }
-            self.viewModel.delegate?.questionViewModel(self.viewModel, didAnswerCorrectly: isCorrect)
-        }
+        let outcome = matchingViewModel.outcome(for: matches)
+        markPairs()
+        return outcome
     }
 
-    private func showMatchFeedback() {
+    /// Right pairs turn green; a wrong pair turns red and its left item names the partner it belongs with.
+    private func markPairs() {
+        (leftCards + rightCards).forEach { $0.isEnabled = false }
         for (leftIndex, rightIndex) in matchedRightByLeft {
-            let match = MatchingQuestionViewModel.Match(
-                left: matchingViewModel.leftItems[leftIndex],
-                right: matchingViewModel.rightItems[rightIndex]
-            )
+            let left = matchingViewModel.leftItems[leftIndex]
+            let match = MatchingQuestionViewModel.Match(left: left, right: matchingViewModel.rightItems[rightIndex])
             let isCorrect = matchingViewModel.isMatchCorrect(match)
-            let feedbackColor = isCorrect ? UIColor.Papyrus.scarabGreen : UIColor.Papyrus.tombRed
-            for button in [leftButtons[leftIndex], rightButtons[rightIndex]] {
-                var configuration = button.configuration
-                configuration?.baseBackgroundColor = feedbackColor.withAlphaComponent(0.3)
-                configuration?.image = UIImage(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                configuration?.imagePlacement = .trailing
-                configuration?.imagePadding = 6
-                button.configuration = configuration
-                button.layer.borderColor = feedbackColor.cgColor
+            leftCards[leftIndex].apply(isCorrect ? .correct : .incorrect, animated: true)
+            rightCards[rightIndex].apply(isCorrect ? .correct : .incorrect, animated: true)
+            if !isCorrect, let partner = matchingViewModel.correctPartner(for: left) {
+                leftCards[leftIndex].subtitle = String(localized: "Belongs with \(partner)")
+                leftCards[leftIndex].shake()
             }
         }
     }
+
+    #if DEBUG
+    override func demoChooseAnswer(correctly: Bool) {
+        for (leftIndex, left) in matchingViewModel.leftItems.enumerated() {
+            guard let partner = matchingViewModel.correctPartner(for: left),
+                  let rightIndex = matchingViewModel.rightItems.firstIndex(of: partner) else { continue }
+            matchedRightByLeft[leftIndex] = rightIndex
+        }
+        if !correctly, matchedRightByLeft.count > 1, let first = matchedRightByLeft[0], let second = matchedRightByLeft[1] {
+            matchedRightByLeft[0] = second
+            matchedRightByLeft[1] = first
+        }
+        refreshCards()
+    }
+    #endif
 }

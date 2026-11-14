@@ -112,6 +112,41 @@ import AppOfTheDeadCore
         let (isCorrect2, _) = viewModel.checkAnswer("Green")
         XCTAssertFalse(isCorrect2)
     }
+
+    func testOutcomeRecordsTheGivenAndTheRightAnswer() {
+        let outcome = sut.outcome(for: "London")
+        XCTAssertFalse(outcome.isCorrect)
+        XCTAssertEqual(outcome.givenAnswer, "London")
+        XCTAssertEqual(outcome.correctAnswer, "Paris")
+        XCTAssertEqual(outcome.explanation, "Paris is the capital of France")
+        XCTAssertEqual(sut.submittedAnswer, "London")
+    }
+
+    func testSubmittedAnswerTextIsEmptyBeforeACheck() {
+        XCTAssertNil(sut.submittedAnswer)
+        XCTAssertEqual(sut.submittedAnswerText, "")
+    }
+
+    func testTrueFalseAnswersReadAsWords() {
+        let statement = Question(
+            id: "q3",
+            type: .trueFalse,
+            question: "Paris is in France.",
+            options: nil,
+            pairs: nil,
+            correctAnswer: CorrectAnswer(value: .string("true")),
+            explanation: "It is."
+        )
+        let viewModel = BaseQuestionViewModel(question: statement, beliefSystem: beliefSystem, currentQuestionIndex: 0, totalQuestions: 1)
+        let outcome = viewModel.outcome(for: "false")
+        XCTAssertFalse(outcome.isCorrect)
+        XCTAssertEqual(outcome.givenAnswer, String(localized: "False"))
+        XCTAssertEqual(outcome.correctAnswer, String(localized: "True"))
+    }
+
+    func testPositionTextCountsFromOne() {
+        XCTAssertEqual(sut.positionText, String(localized: "Question \(3) of \(10)"))
+    }
 }
 
 private class MockQuestionViewModelDelegate: QuestionViewModelDelegate {

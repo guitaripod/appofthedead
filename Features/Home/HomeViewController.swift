@@ -4,6 +4,7 @@ import AppOfTheDeadCore
 final class HomeViewController: UIViewController {
     let viewModel: HomeViewModel
     let omenService = DailyOmenService()
+    var mistakeReviewCoordinator: MistakeReviewCoordinator?
     var currentLayoutPreference: ViewLayoutPreference = .grid
     lazy var collectionView: UICollectionView = {
         let layout = createCompositionalLayout()
@@ -500,16 +501,7 @@ extension HomeViewController {
                 return
             }
             let session = try DatabaseManager.shared.startMistakeSession(userId: user.id, beliefSystemId: item.id)
-            let mistakeReviewVC = MistakeReviewViewController(
-                beliefSystem: beliefSystem,
-                mistakes: mistakes,
-                session: session,
-                contentLoader: viewModel.contentLoader
-            )
-            mistakeReviewVC.delegate = self
-            let navController = UINavigationController(rootViewController: mistakeReviewVC)
-            navController.modalPresentationStyle = .fullScreen
-            present(navController, animated: true)
+            presentMistakeReview(of: beliefSystem, mistakes: mistakes, session: session)
             MidgarLog.info("Started mistake review", metadata: [
                 "beliefSystemId": item.id,
                 "mistakeCount": mistakes.count
@@ -578,24 +570,27 @@ extension HomeViewController: HomeHeaderViewDelegate {
         }
     }
 }
-extension HomeViewController: MistakeReviewViewControllerDelegate {
-    func mistakeReviewCompleted(correctCount: Int, totalCount: Int, xpEarned: Int) {
+extension HomeViewController {
+    /// Runs a mistake review full screen; its own results close it, and the paths refresh behind it.
+    func presentMistakeReview(of beliefSystem: BeliefSystem, mistakes: [Mistake], session: MistakeSession) {
+        let navigation = UINavigationController()
+        navigation.modalPresentationStyle = .fullScreen
+        let review = MistakeReviewCoordinator(navigationController: navigation, beliefSystem: beliefSystem, mistakes: mistakes, session: session)
+        review.onFinish = { [weak self, weak navigation] _ in
+            self?.mistakeReviewCoordinator = nil
+            navigation?.presentingViewController?.dismiss(animated: true)
+            self?.refreshAfterMistakeReview()
+        }
+        mistakeReviewCoordinator = review
+        review.start()
+        present(navigation, animated: true)
+    }
+
+    private func refreshAfterMistakeReview() {
         viewModel.loadData()
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
             self?.updateHeader()
-        }
-        let accuracy = Int((Double(correctCount) / Double(totalCount)) * 100)
-        PapyrusAlert.showSimpleAlert(
-            title: String(localized: "Review Complete!"),
-            message: String(localized: "You got \(correctCount) out of \(totalCount) correct (\(accuracy)%). Earned \(xpEarned) XP!"),
-            from: self
-        )
-    }
-    func mistakeReviewCancelled() {
-        viewModel.loadData()
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
         }
     }
 }

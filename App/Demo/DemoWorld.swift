@@ -90,7 +90,7 @@ enum DemoWorld {
         case "soul-card":
             presentSoulCard(in: context)
         case "lesson-complete":
-            presentLessonComplete(in: context)
+            pushResults(.firstLesson, in: context)
         case "lesson":
             pushLesson(in: context)
         case "path-map":
@@ -103,6 +103,14 @@ enum DemoWorld {
             startQuiz(of: .trueFalse, in: context)
         case "quiz-match":
             startQuiz(of: .matching, in: context)
+        case "quiz-wrong":
+            startQuiz(of: .multipleChoice, answering: false, in: context)
+        case "quiz-results":
+            pushResults(.lesson, in: context)
+        case "mastery-pass":
+            pushResults(.masteryPassed, in: context)
+        case "mastery-fail":
+            pushResults(.masteryFailed, in: context)
         case "path-complete":
             presentPathCompletion(in: context)
         case "mistakes":
@@ -170,15 +178,71 @@ enum DemoWorld {
         context.contentLoader.loadBeliefSystems().first { $0.id == id }
     }
 
-    private static func presentLessonComplete(in context: DemoContext) {
-        let summary = LessonCompleteViewController.Summary(
-            lessonTitle: "Judaism: The Sanctity of This Life",
-            correctAnswers: 5,
-            totalQuestions: 6,
-            xpReward: 86
-        )
-        let screen = LessonCompleteViewController(summary: summary, onContinue: {}, onClose: {})
-        context.root.present(UINavigationController(rootViewController: screen), animated: false)
+    enum ResultsScene {
+        case firstLesson
+        case lesson
+        case masteryPassed
+        case masteryFailed
+    }
+
+    /// Results built from real questions of the demo path: every third answer wrong, or all but two wrong for a failed
+    /// mastery test, each wrong one with a plausible wrong answer.
+    private static func pushResults(_ scene: ResultsScene, in context: DemoContext) {
+        guard let system = beliefSystem(pathId, in: context) else { return }
+        let isMastery = scene == .masteryPassed || scene == .masteryFailed
+        let lessonPosition = min(lessonIndex, max(system.lessons.count - 1, 0))
+        let questions = isMastery ? system.masteryTest.questions : system.lessons[lessonPosition].questions
+        let results = questions.enumerated().map { offset, question in
+            let correct: Bool
+            switch scene {
+            case .masteryFailed: correct = offset < 2
+            case .masteryPassed: correct = offset != 1
+            case .lesson, .firstLesson: correct = offset % 3 != 1
+            }
+            return demoResult(for: question, in: system, index: offset, total: questions.count, correctly: correct)
+        }
+        let kind: QuizResultsViewModel.Kind = isMastery
+            ? .mastery(requiredScore: system.masteryTest.requiredScore)
+            : .lesson(title: system.lessons[lessonPosition].title)
+        let bonus = isMastery ? (scene == .masteryPassed ? system.masteryTest.xpReward : 0) : system.lessons[lessonPosition].xpReward
+        let summary = QuizResultsViewModel(kind: kind, beliefSystem: system, results: results, bonusXP: bonus)
+        let back: () -> Void = { context.homeNavigation.popToRootViewController(animated: true) }
+        var actions: [QuizResultsViewController.Action] = []
+        if scene == .masteryFailed {
+            actions.append(.init(title: String(localized: "Try Again"), symbol: "arrow.clockwise", style: .primary, handler: back))
+            actions.append(.init(title: String(localized: "Back to Path"), symbol: nil, style: .secondary, handler: back))
+        } else {
+            actions.append(.init(title: String(localized: "Continue"), symbol: nil, style: .primary, handler: back))
+            if summary.mistakeCount > 0 {
+                actions.append(.init(title: String(localized: "Practice Mistakes (\(summary.mistakeCount))"), symbol: "arrow.counterclockwise", style: .secondary, handler: back))
+            }
+        }
+        let screen = QuizResultsViewController(viewModel: summary, actions: actions, reminder: scene == .firstLesson ? DailyReminder.shared : nil)
+        screen.onClose = back
+        context.homeNavigation.pushViewController(screen, animated: false)
+    }
+
+    private static func demoResult(for question: Question, in system: BeliefSystem, index: Int, total: Int, correctly: Bool) -> QuestionResult {
+        let outcome: QuestionOutcome
+        switch question.type {
+        case .multipleChoice:
+            let viewModel = MultipleChoiceViewModel(question: question, beliefSystem: system, currentQuestionIndex: index, totalQuestions: total)
+            let right = viewModel.correctAnswerText
+            let answer = correctly ? right : (viewModel.options.first { $0 != right } ?? right)
+            outcome = viewModel.outcome(for: answer)
+        case .trueFalse:
+            let viewModel = BaseQuestionViewModel(question: question, beliefSystem: system, currentQuestionIndex: index, totalQuestions: total)
+            var right = "true"
+            if case .string(let answer) = question.correctAnswer.value { right = answer.lowercased() }
+            outcome = viewModel.outcome(for: correctly ? right : (right == "true" ? "false" : "true"))
+        case .matching:
+            let viewModel = MatchingQuestionViewModel(question: question, beliefSystem: system, currentQuestionIndex: index, totalQuestions: total)
+            var rights = viewModel.leftItems.map { viewModel.correctPartner(for: $0) ?? "" }
+            if !correctly, rights.count > 1 { rights.swapAt(0, 1) }
+            let matches = zip(viewModel.leftItems, rights).map { MatchingQuestionViewModel.Match(left: $0, right: $1) }
+            outcome = viewModel.outcome(for: matches)
+        }
+        return QuestionResult(question: question, outcome: outcome, xpEarned: outcome.isCorrect ? 10 : 0)
     }
 
     private static func pushLesson(in context: DemoContext) {
@@ -192,21 +256,45 @@ enum DemoWorld {
         context.homeNavigation.pushViewController(LessonViewController(viewModel: viewModel), animated: false)
     }
 
-    private static func startQuiz(of type: Question.QuestionType, in context: DemoContext) {
+    /// Opens a quiz at its first question of `type`, or at `AOTD_DEMO_QUESTION` when it names one. `answering` (or
+    /// `AOTD_DEMO_ANSWER=right|wrong`) checks an answer so the feedback panel is open.
+    private static func startQuiz(of type: Question.QuestionType, answering: Bool? = nil, in context: DemoContext) {
+        guard let quiz = demoQuizQuestions(of: type, in: context) else { return }
+        let flow = QuestionFlowCoordinator(
+            navigationController: context.homeNavigation,
+            questions: quiz.questions,
+            beliefSystem: quiz.system,
+            startingAt: quiz.start
+        )
+        questionFlow = flow
+        flow.start()
+        let requested = environment["AOTD_DEMO_ANSWER"].map { $0 == "right" } ?? answering
+        guard let correctly = requested else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            flow.demoAnswerCurrentQuestion(correctly: correctly)
+        }
+    }
+
+    private static func demoQuizQuestions(of type: Question.QuestionType, in context: DemoContext) -> (system: BeliefSystem, questions: [Question], start: Int)? {
+        if let questionId = environment["AOTD_DEMO_QUESTION"] {
+            for system in context.contentLoader.loadBeliefSystems() {
+                for lesson in system.lessons {
+                    if let start = lesson.questions.firstIndex(where: { $0.id == questionId }) {
+                        return (system, lesson.questions, start)
+                    }
+                }
+                if let start = system.masteryTest.questions.firstIndex(where: { $0.id == questionId }) {
+                    return (system, system.masteryTest.questions, start)
+                }
+            }
+        }
         let preferredPath = type == .matching ? "aboriginal-dreamtime" : pathId
         guard let system = beliefSystem(preferredPath, in: context),
               let lesson = system.lessons.dropFirst(type == .matching ? 0 : lessonIndex).first(where: { lesson in
                   lesson.questions.contains { $0.type == type }
               }),
-              let start = lesson.questions.firstIndex(where: { $0.type == type }) else { return }
-        let flow = QuestionFlowCoordinator(
-            navigationController: context.homeNavigation,
-            questions: lesson.questions,
-            beliefSystem: system,
-            startingAt: start
-        )
-        questionFlow = flow
-        flow.start()
+              let start = lesson.questions.firstIndex(where: { $0.type == type }) else { return nil }
+        return (system, lesson.questions, start)
     }
 
     private static func presentPathCompletion(in context: DemoContext) {
@@ -231,16 +319,9 @@ enum DemoWorld {
               let user = database.fetchUser(),
               let mistakes = try? database.getMistakes(userId: user.id, beliefSystemId: system.id),
               !mistakes.isEmpty,
-              let session = try? database.startMistakeSession(userId: user.id, beliefSystemId: system.id) else { return }
-        let review = MistakeReviewViewController(
-            beliefSystem: system,
-            mistakes: mistakes,
-            session: session,
-            contentLoader: context.contentLoader
-        )
-        let navigation = UINavigationController(rootViewController: review)
-        navigation.modalPresentationStyle = .fullScreen
-        context.root.present(navigation, animated: false)
+              let session = try? database.startMistakeSession(userId: user.id, beliefSystemId: system.id),
+              let home = context.homeNavigation.viewControllers.first as? HomeViewController else { return }
+        home.presentMistakeReview(of: system, mistakes: mistakes, session: session)
     }
 
     private static func presentReader(in context: DemoContext) {

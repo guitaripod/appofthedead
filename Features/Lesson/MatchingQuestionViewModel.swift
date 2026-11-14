@@ -12,6 +12,7 @@ final class MatchingQuestionViewModel: BaseQuestionViewModel {
     let rightItems: [String]
 
     private let correctRightByLeft: [String: String]
+    private var submittedMatches: [Match]?
 
     init(
         question: Question,
@@ -39,9 +40,40 @@ final class MatchingQuestionViewModel: BaseQuestionViewModel {
         correctRightByLeft[match.left] == match.right
     }
 
+    /// The item of the right column that belongs with `left`.
+    func correctPartner(for left: String) -> String? {
+        correctRightByLeft[left]
+    }
+
     func checkMatches(_ matches: [Match]) -> (isCorrect: Bool, explanation: String) {
+        submittedMatches = matches
         let isCorrect = matches.count == leftItems.count && matches.allSatisfy(isMatchCorrect)
         return (isCorrect, question.explanation)
+    }
+
+    /// Checks `matches` and describes the result, one pair per line in the order of the left column.
+    func outcome(for matches: [Match]) -> QuestionOutcome {
+        let (isCorrect, explanation) = checkMatches(matches)
+        return QuestionOutcome(
+            isCorrect: isCorrect,
+            explanation: explanation,
+            givenAnswer: submittedAnswerText,
+            correctAnswer: correctAnswerText
+        )
+    }
+
+    override var correctAnswerText: String {
+        Self.lines(leftItems.compactMap { left in correctRightByLeft[left].map { Match(left: left, right: $0) } })
+    }
+
+    override var submittedAnswerText: String {
+        guard let submittedMatches else { return "" }
+        let ordered = leftItems.compactMap { left in submittedMatches.first { $0.left == left } }
+        return Self.lines(ordered)
+    }
+
+    private static func lines(_ matches: [Match]) -> String {
+        matches.map { "\($0.left) → \($0.right)" }.joined(separator: "\n")
     }
 
     /// A presented right column identical to the solved order would let users pass

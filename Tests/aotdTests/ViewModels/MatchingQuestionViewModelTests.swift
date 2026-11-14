@@ -114,6 +114,33 @@ import AppOfTheDeadCore
         XCTAssertFalse(result.isCorrect)
     }
 
+    func testCorrectPartnerNamesTheRightItem() {
+        let sut = makeViewModel()
+        XCTAssertEqual(sut.correctPartner(for: "Avoidance taboos"), "Respect for the deceased")
+        XCTAssertNil(sut.correctPartner(for: "Unknown"))
+    }
+
+    func testOutcomeWritesGivenAndRightPairsInLeftColumnOrder() {
+        let sut = makeViewModel()
+        let outcome = sut.outcome(for: [
+            .init(left: "Resolution rituals", right: "Allow full integration"),
+            .init(left: "Smoking ceremonies", right: "Respect for the deceased"),
+            .init(left: "Avoidance taboos", right: "Guide spirits safely")
+        ])
+        XCTAssertFalse(outcome.isCorrect)
+        XCTAssertEqual(outcome.givenAnswer, """
+        Smoking ceremonies → Respect for the deceased
+        Avoidance taboos → Guide spirits safely
+        Resolution rituals → Allow full integration
+        """)
+        XCTAssertEqual(outcome.correctAnswer, """
+        Smoking ceremonies → Guide spirits safely
+        Avoidance taboos → Respect for the deceased
+        Resolution rituals → Allow full integration
+        """)
+        XCTAssertEqual(outcome.explanation, "These elements work together.")
+    }
+
     func testSinglePairQuestionKeepsOnlyOrdering() {
         question = Question(
             id: "q-single",

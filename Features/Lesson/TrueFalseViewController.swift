@@ -1,117 +1,83 @@
 import UIKit
 
+/// A true-or-false statement answered with two large cards side by side.
 final class TrueFalseViewController: BaseQuestionViewController {
-    
-    private let buttonsStackView = UIStackView()
-    private var trueButton: UIButton!
-    private var falseButton: UIButton!
+
+    private lazy var trueCard = QuizOptionCard(title: String(localized: "True"), badge: .symbol("checkmark"), accent: accent, layout: .tile)
+    private lazy var falseCard = QuizOptionCard(title: String(localized: "False"), badge: .symbol("xmark"), accent: accent, layout: .tile)
     private var selectedAnswer: String?
-    
+
+    override var hintText: String? {
+        String(localized: "True or false?")
+    }
+
+    override var revealFocusView: UIView? {
+        [trueCard, falseCard].first { $0.mark == .correct }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTrueFalseButtons()
-        setupSubmitButton()
+        trueCard.addAction(UIAction { [weak self] _ in self?.select("true") }, for: .touchUpInside)
+        falseCard.addAction(UIAction { [weak self] _ in self?.select("false") }, for: .touchUpInside)
+        answersStack.addArrangedSubview(makeAdaptiveRow([trueCard, falseCard]))
     }
-    
-    private func setupTrueFalseButtons() {
-        buttonsStackView.axis = .horizontal
-        buttonsStackView.spacing = 16
-        buttonsStackView.distribution = .fillEqually
-        contentStackView.addArrangedSubview(buttonsStackView)
-        
-        trueButton = createTrueFalseButton(title: String(localized: "True"), isTrue: true)
-        falseButton = createTrueFalseButton(title: String(localized: "False"), isTrue: false)
-        
-        buttonsStackView.addArrangedSubview(trueButton)
-        buttonsStackView.addArrangedSubview(falseButton)
+
+    private func card(for answer: String) -> QuizOptionCard {
+        answer == "true" ? trueCard : falseCard
     }
-    
-    private func createTrueFalseButton(title: String, isTrue: Bool) -> UIButton {
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        
-        let configuration = UIButton.Configuration.filled()
-        var updatedConfiguration = configuration
-        updatedConfiguration.title = title
-        updatedConfiguration.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        updatedConfiguration.baseForegroundColor = UIColor.Papyrus.primaryText
-        updatedConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 24, trailing: 0)
-        updatedConfiguration.cornerStyle = .large
-        
-        button.configuration = updatedConfiguration
-        button.addTarget(self, action: #selector(trueFalseSelected(_:)), for: .touchUpInside)
-        button.tag = isTrue ? 1 : 0
-        
-        NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 80)
-        ])
-        
-        return button
+
+    private func select(_ answer: String) {
+        guard !isChecked else { return }
+        if selectedAnswer != answer {
+            UISelectionFeedbackGenerator().selectionChanged()
+        }
+        selectedAnswer = answer
+        trueCard.apply(answer == "true" ? .selected : .idle, animated: true)
+        falseCard.apply(answer == "false" ? .selected : .idle, animated: true)
+        setReadyToCheck(true)
     }
-    
-    @objc private func trueFalseSelected(_ sender: UIButton) {
-        UISelectionFeedbackGenerator().selectionChanged()
-        
-        selectedAnswer = sender.tag == 1 ? "true" : "false"
-        
-        let selectedButton = sender
-        let otherButton = sender == trueButton ? falseButton : trueButton
-        
-        var selectedConfig = selectedButton.configuration
-        selectedConfig?.baseBackgroundColor = UIColor.Papyrus.gold.withAlphaComponent(0.2)
-        selectedConfig?.baseForegroundColor = UIColor.Papyrus.primaryText
-        selectedButton.configuration = selectedConfig
-        
-        var otherConfig = otherButton?.configuration
-        otherConfig?.baseBackgroundColor = UIColor.Papyrus.cardBackground
-        otherConfig?.baseForegroundColor = UIColor.Papyrus.primaryText
-        otherButton?.configuration = otherConfig
-        
-        enableSubmitButton(true)
+
+    override func checkSelectedAnswer() -> QuestionOutcome? {
+        guard let selectedAnswer else { return nil }
+        let outcome = viewModel.outcome(for: selectedAnswer)
+        let chosen = card(for: selectedAnswer)
+        let other = chosen === trueCard ? falseCard : trueCard
+        [trueCard, falseCard].forEach { $0.isEnabled = false }
+        if outcome.isCorrect {
+            chosen.apply(.correct, animated: true)
+            chosen.pop()
+            other.apply(.dimmed, animated: true)
+        } else {
+            chosen.apply(.incorrect, animated: true)
+            chosen.shake()
+            other.apply(.correct, animated: true)
+        }
+        return outcome
     }
-    
-    override func submitAnswer() {
-        guard let selectedAnswer = selectedAnswer else { return }
-        
-        let (isCorrect, explanation) = viewModel.checkAnswer(selectedAnswer)
-        
-        submitButton?.isEnabled = false
-        trueButton.isEnabled = false
-        falseButton.isEnabled = false
-        
-        showAnswerFeedback(selectedAnswer: selectedAnswer, isCorrect: isCorrect)
-        
-        showFeedback(isCorrect: isCorrect, explanation: explanation) { [weak self] in
-            self?.viewModel.delegate?.questionViewModel(self!.viewModel, didAnswerCorrectly: isCorrect)
+
+    override func handleKeyInput(_ input: String) -> Bool {
+        guard !isChecked else { return false }
+        switch input.lowercased() {
+        case "t", "1":
+            select("true")
+            return true
+        case "f", "2":
+            select("false")
+            return true
+        default:
+            return false
         }
     }
-    
-    private func showAnswerFeedback(selectedAnswer: String, isCorrect: Bool) {
-        let correctAnswer: String
-        switch viewModel.question.correctAnswer.value {
-        case .string(let answer):
-            correctAnswer = answer
-        case .array(let answers):
-            correctAnswer = answers.first ?? ""
+
+    #if DEBUG
+    override func demoChooseAnswer(correctly: Bool) {
+        let isTrue: Bool
+        if case .string(let answer) = viewModel.question.correctAnswer.value {
+            isTrue = answer.lowercased() == "true"
+        } else {
+            isTrue = true
         }
-        
-        for button in [trueButton!, falseButton!] {
-            let buttonAnswer = button.tag == 1 ? "true" : "false"
-            var config = button.configuration
-            
-            if buttonAnswer == correctAnswer {
-                config?.baseBackgroundColor = UIColor.Papyrus.scarabGreen.withAlphaComponent(0.3)
-                config?.baseForegroundColor = UIColor.Papyrus.beige
-                config?.image = UIImage(systemName: "checkmark.circle.fill")
-                config?.imagePlacement = .trailing
-            } else if buttonAnswer == selectedAnswer && !isCorrect {
-                config?.baseBackgroundColor = UIColor.Papyrus.tombRed.withAlphaComponent(0.3)
-                config?.baseForegroundColor = UIColor.Papyrus.beige
-                config?.image = UIImage(systemName: "xmark.circle.fill")
-                config?.imagePlacement = .trailing
-            }
-            
-            button.configuration = config
-        }
+        select(isTrue == correctly ? "true" : "false")
     }
+    #endif
 }
