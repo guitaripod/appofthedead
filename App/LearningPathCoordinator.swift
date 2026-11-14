@@ -150,7 +150,7 @@ final class LearningPathCoordinator {
         }
     }
     
-    private func showNextLesson() {
+    private func showNextLesson(replacingFinishedScreens: Bool = false) {
         guard currentLessonIndex < beliefSystem.lessons.count else {
             completeLearningPath()
             return
@@ -170,8 +170,12 @@ final class LearningPathCoordinator {
         
         let lessonViewController = LessonViewController(viewModel: lessonViewModel)
         lessonViewModel.delegate = self
-        
-        navigationController.pushViewController(lessonViewController, animated: true)
+
+        if replacingFinishedScreens, let root = navigationController.viewControllers.first {
+            navigationController.setViewControllers([root, lessonViewController], animated: true)
+        } else {
+            navigationController.pushViewController(lessonViewController, animated: true)
+        }
     }
     
     private func showQuizForCurrentLesson() {
@@ -187,13 +191,14 @@ final class LearningPathCoordinator {
         questionFlowCoordinator?.start()
     }
     
-    /// After a lesson: back to the map that opened it, or straight on to the next lesson when no map did.
+    /// After a lesson: back to the map that opened it, or straight on to the next lesson when no map did, in place of
+    /// the finished lesson's screens so back never returns to a result that would move on again.
     private func continueAfterLesson() {
         if pathMap != nil {
             returnToMap()
         } else {
             currentLessonIndex += 1
-            showNextLesson()
+            showNextLesson(replacingFinishedScreens: true)
         }
     }
 
@@ -281,16 +286,20 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             finishMasteryTest(results: results, session: session)
         } else if isPreviewMode {
             let lessonXP = saveLessonCompletion(results: results)
-            showLessonResults(results, lessonXP: lessonXP, reminder: nil, session: session) { [weak self] in
-                self?.finishPreview()
-            }
+            let finish: () -> Void = { [weak self] in self?.finishPreview() }
+            showLessonResults(results, lessonXP: lessonXP, reminder: nil, session: session, onClose: finish, onContinue: finish)
         } else {
             let offersReminder = isReminderOfferDue()
             let lessonXP = saveLessonCompletion(results: results)
             markPathCompletedIfEveryLessonIsDone()
-            let screen = showLessonResults(results, lessonXP: lessonXP, reminder: offersReminder ? DailyReminder.shared : nil, session: session) { [weak self] in
-                self?.continueAfterLesson()
-            }
+            let screen = showLessonResults(
+                results,
+                lessonXP: lessonXP,
+                reminder: offersReminder ? DailyReminder.shared : nil,
+                session: session,
+                onClose: { [weak self] in self?.leaveLesson() },
+                onContinue: { [weak self] in self?.continueAfterLesson() }
+            )
             if offersReminder {
                 reminderOffer.markShown()
                 MidgarLog.info("Showing lesson results with reminder offer", category: .learning)
@@ -310,13 +319,15 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             )
     }
 
-    /// Shows a finished lesson's results in place of its quiz and lesson; `onContinue` is where Continue goes.
+    /// Shows a finished lesson's results in place of its quiz and lesson; `onContinue` is where Continue goes and
+    /// `onClose` where the close button goes.
     @discardableResult
     private func showLessonResults(
         _ results: [QuestionResult],
         lessonXP: Int,
         reminder: DailyReminder?,
         session: UIViewController?,
+        onClose: @escaping () -> Void,
         onContinue: @escaping () -> Void
     ) -> QuizResultsViewController {
         let title = beliefSystem.lessons.indices.contains(currentLessonIndex) ? beliefSystem.lessons[currentLessonIndex].title : beliefSystem.name
@@ -326,7 +337,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
             actions.append(practice)
         }
         let screen = QuizResultsViewController(viewModel: summary, actions: actions, reminder: reminder)
-        screen.onClose = onContinue
+        screen.onClose = onClose
         replaceQuiz(session, with: screen)
         return screen
     }
@@ -353,9 +364,14 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         do {
             let session = try databaseManager.startMistakeSession(userId: user.id, beliefSystemId: beliefSystem.id)
             let review = MistakeReviewCoordinator(navigationController: navigationController, beliefSystem: beliefSystem, mistakes: mistakes, session: session)
-            review.onFinish = { [weak self] _ in
+            guard review.hasQuestions else { return }
+            review.onFinish = { [weak self] completed in
                 self?.mistakeReview = nil
-                finish()
+                if completed {
+                    finish()
+                } else {
+                    self?.navigationController.popViewController(animated: true)
+                }
             }
             mistakeReview = review
             review.start()
@@ -439,7 +455,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
         let lesson = beliefSystem.lessons[currentLessonIndex]
         let correctAnswers = results.filter { $0.wasCorrect }.count
         let totalQuestions = results.count
-        let score = totalQuestions > 0 ? Int((Double(correctAnswers) / Double(totalQuestions)) * 100) : 0
+        let score = totalQuestions > 0 ? QuizResultsViewModel.percent(correct: correctAnswers, of: totalQuestions) : 0
 
         do {
             try databaseManager.createOrUpdateProgress(
@@ -473,7 +489,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
     private func finishMasteryTest(results: [QuestionResult], session: UIViewController?) {
         let masteryTest = beliefSystem.masteryTest
         let correctAnswers = results.filter { $0.wasCorrect }.count
-        let score = results.isEmpty ? 0 : Int((Double(correctAnswers) / Double(results.count)) * 100)
+        let score = QuizResultsViewModel.percent(correct: correctAnswers, of: results.count)
         let passed = score >= masteryTest.requiredScore
         let masteryXP = passed ? saveMastery(score: score) : 0
         let summary = QuizResultsViewModel(kind: .mastery(requiredScore: masteryTest.requiredScore), beliefSystem: beliefSystem, results: results, bonusXP: masteryXP)

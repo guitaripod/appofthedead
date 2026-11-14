@@ -114,6 +114,7 @@ extension QuestionFlowCoordinator: QuizSessionViewControllerDelegate {
     }
 
     func quizSessionDidContinue(_ session: QuizSessionViewController) {
+        guard currentQuestionIndex < questions.count else { return }
         currentQuestionIndex += 1
         guard currentQuestionIndex < questions.count else {
             delegate?.questionFlowCoordinatorDidComplete(self, results: results)

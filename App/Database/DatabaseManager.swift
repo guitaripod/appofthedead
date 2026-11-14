@@ -564,7 +564,11 @@ nonisolated final class DatabaseManager: @unchecked Sendable {
                 .filter(Column("mastered") == false)
                 .fetchOne(db)
             
-            if existingMistake == nil {
+            if var existing = existingMistake {
+                existing.incorrectAnswer = incorrectAnswer
+                existing.markReviewed(wasCorrect: false)
+                try existing.update(db)
+            } else {
                 var mistake = Mistake(
                     userId: userId,
                     beliefSystemId: beliefSystemId,

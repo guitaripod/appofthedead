@@ -54,10 +54,16 @@ struct QuizResultsViewModel {
         }
     }
 
-    /// The share of right answers in whole percent, rounded down as the mastery test has always scored.
+    /// The share of right answers in whole percent; the mastery test passes on the same number.
     var score: Int {
         guard totalCount > 0 else { return 100 }
-        return Int((Double(correctCount) / Double(totalCount)) * 100)
+        return Self.percent(correct: correctCount, of: totalCount)
+    }
+
+    /// `correct` out of `total` in whole percent, rounded to the nearest, so four of six reads 67%.
+    static func percent(correct: Int, of total: Int) -> Int {
+        guard total > 0 else { return 0 }
+        return Int((Double(correct) / Double(total) * 100).rounded())
     }
 
     var fraction: Double {

@@ -28,6 +28,7 @@ final class QuizSessionViewController: UIViewController {
     private var feedbackShown: NSLayoutConstraint?
     private(set) var currentQuestion: BaseQuestionViewController?
     private var isShowingFeedback = false
+    private var hasContinued = false
     private var isAwaitingVerdict = false
     private var answeredCount = 0
     private var totalCount = 1
@@ -174,6 +175,7 @@ final class QuizSessionViewController: UIViewController {
         let previous = currentQuestion
         currentQuestion = question
         isAwaitingVerdict = false
+        hasContinued = false
         question.onReadinessChange = { [weak self] ready in self?.checkButton.isEnabled = ready }
         addChild(question)
         question.view.translatesAutoresizingMaskIntoConstraints = false
@@ -280,8 +282,10 @@ final class QuizSessionViewController: UIViewController {
         }
     }
 
+    /// Continue counts once per answer, so a quick second tap or Return cannot skip a question or finish twice.
     private func continueTapped() {
-        guard isShowingFeedback else { return }
+        guard isShowingFeedback, !hasContinued else { return }
+        hasContinued = true
         delegate?.quizSessionDidContinue(self)
     }
 

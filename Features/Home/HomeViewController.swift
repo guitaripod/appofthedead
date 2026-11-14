@@ -576,6 +576,15 @@ extension HomeViewController {
         let navigation = UINavigationController()
         navigation.modalPresentationStyle = .fullScreen
         let review = MistakeReviewCoordinator(navigationController: navigation, beliefSystem: beliefSystem, mistakes: mistakes, session: session)
+        guard review.hasQuestions else {
+            try? DatabaseManager.shared.completeMistakeSession(sessionId: session.id, correctCount: 0, xpEarned: 0)
+            PapyrusAlert.showSimpleAlert(
+                title: String(localized: "No Mistakes"),
+                message: String(localized: "Great job! You haven't made any mistakes in this path."),
+                from: self
+            )
+            return
+        }
         review.onFinish = { [weak self, weak navigation] _ in
             self?.mistakeReviewCoordinator = nil
             navigation?.presentingViewController?.dismiss(animated: true)

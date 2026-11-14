@@ -81,6 +81,21 @@ import XCTest
         XCTAssertEqual(count, 0)
     }
     
+    func testMissingAQuestionAgainBringsItsMistakeBackWithTheNewAnswer() throws {
+        try databaseManager.saveMistake(userId: user.id, beliefSystemId: "norse", questionId: "q7", incorrectAnswer: "Wealth", correctAnswer: "Manner of death")
+        let first = try XCTUnwrap(databaseManager.getMistakes(userId: user.id, beliefSystemId: "norse").first)
+        try databaseManager.updateMistakeReview(mistakeId: first.id, wasCorrect: true)
+        XCTAssertTrue(try databaseManager.getMistakes(userId: user.id, beliefSystemId: "norse").isEmpty)
+
+        try databaseManager.saveMistake(userId: user.id, beliefSystemId: "norse", questionId: "q7", incorrectAnswer: "Devotion", correctAnswer: "Manner of death")
+
+        let due = try databaseManager.getMistakes(userId: user.id, beliefSystemId: "norse")
+        XCTAssertEqual(due.count, 1)
+        XCTAssertEqual(due.first?.id, first.id)
+        XCTAssertEqual(due.first?.incorrectAnswer, "Devotion")
+        XCTAssertEqual(due.first?.reviewCount, 0)
+    }
+
     func testMistakeReviewResetsOnIncorrect() throws {
         
         let beliefSystemId = "judaism"

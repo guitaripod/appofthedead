@@ -122,6 +122,7 @@ extension MistakeReviewCoordinator: QuizSessionViewControllerDelegate {
     }
 
     func quizSessionDidContinue(_ session: QuizSessionViewController) {
+        guard index < questions.count else { return }
         index += 1
         guard index < questions.count else {
             complete()

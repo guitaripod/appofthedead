@@ -50,8 +50,8 @@ import AppOfTheDeadCore
         XCTAssertEqual(sut.correctCount, 2)
         XCTAssertEqual(sut.totalCount, 3)
         XCTAssertEqual(sut.mistakeCount, 1)
-        XCTAssertEqual(sut.score, 66)
-        XCTAssertEqual(sut.scoreText, "66%")
+        XCTAssertEqual(sut.score, 67)
+        XCTAssertEqual(sut.scoreText, "67%")
         XCTAssertEqual(sut.correctValue, "2/3")
         XCTAssertEqual(sut.fraction, 2.0 / 3.0, accuracy: 0.0001)
     }

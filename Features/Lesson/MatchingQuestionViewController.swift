@@ -52,11 +52,8 @@ final class MatchingQuestionViewController: BaseQuestionViewController {
             rightCards.append(card)
             rightColumn.addArrangedSubview(card)
         }
-        let columns = UIStackView(arrangedSubviews: [leftColumn, rightColumn])
-        columns.axis = .horizontal
+        let columns = makeAdaptiveRow([leftColumn, rightColumn])
         columns.alignment = .top
-        columns.distribution = .fillEqually
-        columns.spacing = 12
         answersStack.addArrangedSubview(columns)
     }
 
