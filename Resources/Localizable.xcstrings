@@ -941,418 +941,6 @@
         }
       }
     },
-    "%@ • %lld mistakes": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ • %lld fejl"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg fejl"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg fejl"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg Fehler"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg Fehler"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg error"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg errores"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg virhe"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg virhettä"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg erreur"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg erreurs"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg villa"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg villur"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg errore"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg errori"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "間違い%arg件"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "오답 %arg개"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg feil"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg feil"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "few": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg błędy"
-                    }
-                  },
-                  "many": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg błędów"
-                    }
-                  },
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg błąd"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg błędu"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg erro"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg erros"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg misstag"
-                    }
-                  },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg misstag"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg 道错题"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ • %#@count@"
-          },
-          "substitutions": {
-            "count": {
-              "argNum": 2,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg 道錯題"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "%@'s Wisdom": {
       "localizations": {
         "da": {
@@ -4605,100 +4193,6 @@
         }
       }
     },
-    "%lld of %lld correct": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld af %lld rigtige"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld von %2$lld richtig"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld de %2$lld correctas"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld / %lld oikein"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld sur %2$lld correctes"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld af %lld rétt"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld su %2$lld corrette"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$lld問中%1$lld問正解"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$lld문제 중 %1$lld개 정답"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld av %lld riktige"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld z %2$lld poprawnych"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld de %2$lld corretas"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld av %lld rätt"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "答对 %1$lld / %2$lld 题"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "答對 %1$lld / %2$lld 題"
-          }
-        }
-      }
-    },
     "%lld%% Complete": {
       "localizations": {
         "da": {
@@ -7331,100 +6825,6 @@
         }
       }
     },
-    "Almost There!": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Næsten fremme!"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fast geschafft!"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Casi!"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Melkein perillä!"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Presque !"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Næstum því!"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ci sei quasi!"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "あと少し！"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "거의 다 왔어요!"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nesten der!"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Już prawie!"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quase lá!"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nästan framme!"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "就差一点！"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "就差一點！"
-          }
-        }
-      }
-    },
     "Almost done!": {
       "localizations": {
         "da": {
@@ -7891,6 +7291,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "無名求道者"
+          }
+        }
+      }
+    },
+    "Answer:": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svar:"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antwort:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Respuesta:"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oikea vastaus:"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réponse :"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétt svar:"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risposta:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正解："
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정답:"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svar:"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odpowiedź:"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resposta:"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svar:"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正确答案："
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正確答案："
           }
         }
       }
@@ -9775,6 +9269,100 @@
         }
       }
     },
+    "Back to Path": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tilbage til Vej"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurück zum Pfad"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver al Camino"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takaisin polulle"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour à la Voie"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aftur á Leið"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Torna al Percorso"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "道へ戻る"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "길로 돌아가기"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tilbake til Vei"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wróć do Ścieżki"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voltar ao Caminho"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tillbaka till Väg"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回路径"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回路徑"
+          }
+        }
+      }
+    },
     "Baha'i Path": {
       "localizations": {
         "da": {
@@ -10053,6 +9641,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "開啟你的第一條路徑，走過杜阿特之門。"
+          }
+        }
+      }
+    },
+    "Belongs with %@": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hører sammen med %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gehört zu %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Va con %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kuuluu kohteeseen %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Va avec %@"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passar með %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Va con %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@とペア"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@와 짝입니다"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hører sammen med %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasuje do: %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combina com %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hör ihop med %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应与%@配对"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應與%@配對"
           }
         }
       }
@@ -11655,6 +11337,100 @@
         }
       }
     },
+    "Check or Continue": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrollér eller fortsæt"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfen oder weiter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobar o continuar"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarkista tai jatka"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier ou continuer"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Athuga eða halda áfram"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica o continua"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認または続ける"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "확인 또는 계속"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sjekk eller fortsett"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprawdź lub kontynuuj"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificar ou continuar"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrollera eller fortsätt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查或继续"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢查或繼續"
+          }
+        }
+      }
+    },
     "Choose Your Divine Guide": {
       "localizations": {
         "da": {
@@ -11839,6 +11615,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇其他嚮導"
+          }
+        }
+      }
+    },
+    "Choose one answer": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vælg ét svar"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle eine Antwort"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige una respuesta"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitse yksi vastaus"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez une réponse"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veldu eitt svar"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli una risposta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答えを1つ選ぶ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "답 하나를 고르세요"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velg ett svar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz jedną odpowiedź"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha uma resposta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Välj ett svar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择一个答案"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選擇一個答案"
           }
         }
       }
@@ -12497,100 +12367,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "確認"
-          }
-        }
-      }
-    },
-    "Congratulations!": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tillykke!"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Glückwunsch!"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Enhorabuena!"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Onnittelut!"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Félicitations !"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Til hamingju!"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Complimenti!"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "おめでとうございます！"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "축하합니다!"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gratulerer!"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gratulacje!"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parabéns!"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grattis!"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "恭喜！"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "恭喜！"
           }
         }
       }
@@ -13437,6 +13213,194 @@
           "stringUnit": {
             "state": "translated",
             "value": "繼續你穿越死後世界的旅程。來看看今天的課程吧！"
+          }
+        }
+      }
+    },
+    "Correct": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rigtige"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richtig"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correctas"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oikein"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correctes"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétt"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrette"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正解"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정답"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riktige"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poprawne"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corretas"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rätt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答对"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答對"
+          }
+        }
+      }
+    },
+    "Correct answer": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rigtigt svar"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richtige Antwort"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Respuesta correcta"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oikea vastaus"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bonne réponse"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétt svar"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risposta corretta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正解の選択肢"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정답"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riktig svar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poprawna odpowiedź"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resposta correta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rätt svar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正确答案"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正確答案"
           }
         }
       }
@@ -18611,6 +18575,100 @@
         }
       }
     },
+    "Flawless": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fejlfri"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Makellos"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impecable"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Virheetön"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans faute"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gallalaust"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impeccabile"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完璧"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "완벽"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feilfri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bezbłędnie"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impecável"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Felfritt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完美无瑕"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完美無瑕"
+          }
+        }
+      }
+    },
     "Font Family": {
       "localizations": {
         "da": {
@@ -19547,6 +19605,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gemma-användarvillkor"
+          }
+        }
+      }
+    },
+    "Good effort": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Godt forsøg"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gute Arbeit"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buen esfuerzo"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyvä yritys"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bel effort"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gott átak"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buono sforzo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "よく頑張りました"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노력이 보여요"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Godt forsøk"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niezła robota"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bom esforço"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bra ansträngning"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "值得鼓励"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "值得鼓勵"
           }
         }
       }
@@ -20491,100 +20643,6 @@
         }
       }
     },
-    "How do I prepare for death?": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvordan forbereder jeg mig på døden?"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wie bereite ich mich auf den Tod vor?"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Cómo me preparo para la muerte?"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Miten valmistaudun kuolemaan?"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comment se préparer à la mort ?"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvernig undirbý ég mig fyrir dauðann?"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Come mi preparo alla morte?"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "死にどう備えればよいですか？"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "죽음을 어떻게 준비해야 하나요?"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvordan forbereder jeg meg på døden?"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jak przygotować się na śmierć?"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Como me preparo para a morte?"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hur förbereder jag mig för döden?"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "我该如何为死亡做准备？"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "我該如何為死亡做準備？"
-          }
-        }
-      }
-    },
     "How shall the scrolls record you?": {
       "localizations": {
         "da": {
@@ -20867,100 +20925,6 @@
         }
       }
     },
-    "I apologize, but I'm having trouble connecting to the divine realm. Please try again.": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beklager, men jeg har svært ved at oprette forbindelse til det guddommelige rige. Prøv igen."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verzeih, die Verbindung zum göttlichen Reich will gerade nicht gelingen. Bitte versuche es erneut."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Perdona, me cuesta conectar con el reino divino. Inténtalo de nuevo."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pahoittelen, mutta jumalalliseen valtakuntaan ei saada yhteyttä. Yritä uudelleen."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pardonnez-moi, je peine à joindre le royaume divin. Veuillez réessayer."
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Því miður á ég erfitt með að tengjast guðdómlega ríkinu. Reyndu aftur."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Perdonami, ho difficoltà a raggiungere il regno divino. Riprova."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "申し訳ありません。神聖な領域につながりにくくなっています。もう一度お試しください。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "죄송합니다. 신성한 세계와 연결하는 데 어려움이 있습니다. 다시 시도해 주세요."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Beklager, jeg har problemer med å koble meg til det guddommelige riket. Prøv igjen."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Przepraszam, mam problem z połączeniem z boskim królestwem. Spróbuj ponownie."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Perdoe-me, estou com dificuldade para alcançar o reino divino. Tente novamente."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jag beklagar, men jag har svårt att nå det gudomliga riket. Försök igen."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "抱歉，我与神圣之境的连接遇到了阻碍。请再试一次。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "抱歉，我與神聖之境的連結遇到了阻礙。請再試一次。"
-          }
-        }
-      }
-    },
     "I'm learning about %@ in App of the Dead!": {
       "localizations": {
         "da": {
@@ -21145,6 +21109,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "進行中"
+          }
+        }
+      }
+    },
+    "Incorrect": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forkert"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Falsch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incorrecta"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Väärin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incorrecte"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rangt"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Errata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不正解"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오답"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feil"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niepoprawna"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incorreta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fel"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答错"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "答錯"
           }
         }
       }
@@ -21615,6 +21673,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "繼續探索每條路徑與神諭，也可隨時在「設定」中取消。不會有意外扣款。"
+          }
+        }
+      }
+    },
+    "Keep going": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bliv ved"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mach weiter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sigue así"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jatka eteenpäin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persévérez"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haltu áfram"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua così"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだまだ続けよう"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "계속 나아가요"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortsett"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie poddawaj się"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue assim"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fortsätt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续前行"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續前行"
           }
         }
       }
@@ -22183,12 +22335,12 @@
         }
       }
     },
-    "Lesson Complete": {
+    "Lesson complete": {
       "localizations": {
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lektion fuldført"
+            "value": "Lektion gennemført"
           }
         },
         "de": {
@@ -22260,7 +22412,7 @@
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lektionen är klar"
+            "value": "Lektion klar"
           }
         },
         "zh-Hans": {
@@ -24063,6 +24215,100 @@
         }
       }
     },
+    "Mastery test": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesterprøve"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meisterprüfung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba de maestría"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mestarikoe"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Épreuve de maîtrise"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meistarapróf"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prova di maestria"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "マスターテスト"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마스터 시험"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesterprøve"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test mistrzowski"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prova de maestria"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mästarprov"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大师测验"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大師測驗"
+          }
+        }
+      }
+    },
     "Matched with %@": {
       "localizations": {
         "da": {
@@ -24533,7 +24779,7 @@
         }
       }
     },
-    "Mistake Review": {
+    "Mistake review": {
       "localizations": {
         "da": {
           "stringUnit": {
@@ -26597,6 +26843,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "還差一點"
+          }
+        }
+      }
+    },
+    "Not yet": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endnu ikke"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch nicht"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía no"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei vielä"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekki enn"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non ancora"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "まだ届かず"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아직이에요"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ikke ennå"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeszcze nie"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ainda não"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inte ännu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未通过"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未通過"
           }
         }
       }
@@ -29139,6 +29479,100 @@
         }
       }
     },
+    "Passing takes %lld%%. Review what you missed and try again.": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestået kræver %lld %%. Gennemgå det, du missede, og prøv igen."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Bestehen braucht es %lld %%. Wiederhole, was du verpasst hast, und versuche es erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para aprobar se necesita un %lld %%. Repasa lo que fallaste e inténtalo de nuevo."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hyväksyminen vaatii %lld %%. Kertaa virheesi ja yritä uudelleen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il faut %lld %% pour réussir. Révisez les erreurs et réessayez."
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Til að standast þarf %lld%%. Farðu yfir það sem þú misstir og reyndu aftur."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per superare servono %lld%%. Ripassa ciò che hai sbagliato e riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "合格には%lld%%が必要です。間違えた箇所を復習して、もう一度挑戦しましょう。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "합격 기준은 %lld%%입니다. 틀린 부분을 복습하고 다시 도전하세요."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du må få %lld %% for å bestå. Gå gjennom det du bommet på, og prøv igjen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do zaliczenia potrzeba %lld %%. Powtórz to, co pominąłeś, i spróbuj ponownie."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para passar é preciso %lld%%. Revise o que você errou e tente de novo."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "För godkänt krävs %lld %%. Gå igenom det du missade och försök igen."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "及格线为%lld%%。复习错题后再试一次。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "及格線為%lld%%。複習錯題後再試一次。"
+          }
+        }
+      }
+    },
     "Path completed": {
       "localizations": {
         "da": {
@@ -29699,6 +30133,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "再練一次"
+          }
+        }
+      }
+    },
+    "Practice Mistakes (%lld)": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Øv fejl (%lld)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehler üben (%lld)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Practicar errores (%lld)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harjoittele virheitä (%lld)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S'entraîner sur les erreurs (%lld)"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Æfa villur (%lld)"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esercitati sugli errori (%lld)"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "間違いを練習（%lld）"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오답 연습 (%lld)"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Øv på feil (%lld)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ćwicz błędy (%lld)"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Praticar erros (%lld)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öva på misstag (%lld)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "练习错题（%lld）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "練習錯題（%lld）"
           }
         }
       }
@@ -31203,6 +31731,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "Köpen är kopplade till ditt Apple-konto och kan återställas på valfri iPhone eller iPad med Återställ köp."
+          }
+        }
+      }
+    },
+    "Question %lld": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spørgsmål %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frage %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pregunta %lld"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kysymys %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Question %lld"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spurning %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Domanda %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "問題 %lld"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "문제 %lld"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spørsmål %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pytanie %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pergunta %lld"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fråga %lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 題"
           }
         }
       }
@@ -33557,100 +34179,6 @@
         }
       }
     },
-    "Review Complete!": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gennemgang fuldført!"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wiederholung abgeschlossen!"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Repaso completado!"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kertaus valmis!"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Révision terminée !"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yfirferð lokið!"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ripasso completato!"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "復習が完了しました！"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "복습 완료!"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gjennomgang fullført!"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Powtórka ukończona!"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisão concluída!"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Repetitionen är klar!"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "复习完成！"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "複習完成！"
-          }
-        }
-      }
-    },
     "Review Mistakes (%lld)": {
       "localizations": {
         "da": {
@@ -33745,96 +34273,96 @@
         }
       }
     },
-    "Review Path": {
+    "Review answers": {
       "localizations": {
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gennemgå vej"
+            "value": "Gennemgå svar"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pfad wiederholen"
+            "value": "Antworten wiederholen"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Repasar el camino"
+            "value": "Repasar respuestas"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kertaa polku"
+            "value": "Kertaa vastaukset"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revoir la voie"
+            "value": "Revoir les réponses"
           }
         },
         "is": {
           "stringUnit": {
             "state": "translated",
-            "value": "Endurskoða leið"
+            "value": "Yfirfara svör"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rivedi il percorso"
+            "value": "Ripassa le risposte"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "道を復習"
+            "value": "回答を復習"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "길 복습"
+            "value": "답안 복습"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gjennomgå vei"
+            "value": "Gjennomgå svar"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Powtórz ścieżkę"
+            "value": "Powtórz odpowiedzi"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revisar caminho"
+            "value": "Revisar respostas"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Repetera väg"
+            "value": "Granska svar"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "重温路径"
+            "value": "复习答案"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "重溫路徑"
+            "value": "複習答案"
           }
         }
       }
@@ -34305,6 +34833,194 @@
           "stringUnit": {
             "state": "translated",
             "value": "已儲存！"
+          }
+        }
+      }
+    },
+    "Score": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergebnis"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puntuación"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistemäärä"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stig"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punteggio"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スコア"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "점수"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poeng"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wynik"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pontuação"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poäng"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "得分"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "得分"
+          }
+        }
+      }
+    },
+    "Score %lld percent. %lld of %lld correct": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld procent. %lld af %lld rigtige"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergebnis %lld Prozent. %lld von %lld richtig"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puntuación del %lld por ciento. %lld de %lld correctas"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistemäärä %lld prosenttia. %lld / %lld oikein"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score de %lld pour cent. %lld sur %lld correctes"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stig %lld prósent. %lld af %lld rétt"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punteggio %lld percento. %lld su %lld corrette"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スコア %1$lld パーセント。%3$lld問中%2$lld問正解"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "점수 %1$lld퍼센트. %3$lld문제 중 %2$lld문제 정답"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poeng %lld prosent. %lld av %lld riktige"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wynik %lld procent. %lld z %lld poprawnych"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pontuação de %lld por cento. %lld de %lld corretas"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poäng %lld procent. %lld av %lld rätt"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "得分百分之%1$lld。%3$lld 题中答对 %2$lld 题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "得分百分之%1$lld。%3$lld 題中答對 %2$lld 題"
           }
         }
       }
@@ -34869,6 +35585,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "Visa abonnemang"
+          }
+        }
+      }
+    },
+    "See Results": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se resultatet"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ergebnisse ansehen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultados"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Katso tulokset"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les résultats"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sjá niðurstöður"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vedi i risultati"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "結果を見る"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "결과 보기"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se resultatet"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zobacz wyniki"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver resultados"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visa resultat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看结果"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看結果"
           }
         }
       }
@@ -35997,6 +36807,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "顯示最新"
+          }
+        }
+      }
+    },
+    "Shows or hides the explanation": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viser eller skjuler forklaringen"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt oder verbirgt die Erklärung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra u oculta la explicación"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Näyttää tai piilottaa selityksen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affiche ou masque l'explication"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sýnir eða felur skýringuna"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra o nasconde la spiegazione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "解説を表示または非表示にします"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "해설을 표시하거나 숨깁니다"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viser eller skjuler forklaringen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pokazuje lub ukrywa wyjaśnienie"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra ou oculta a explicação"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visar eller döljer förklaringen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示或隐藏解释"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示或隱藏解釋"
           }
         }
       }
@@ -37541,100 +38445,6 @@
         }
       }
     },
-    "Suggested Questions": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Foreslåede spørgsmål"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fragevorschläge"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preguntas sugeridas"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ehdotetut kysymykset"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Questions suggérées"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tillögur að spurningum"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Domande suggerite"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "質問の候補"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "추천 질문"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Foreslåtte spørsmål"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sugerowane pytania"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Perguntas sugeridas"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Föreslagna frågor"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "推荐提问"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "推薦提問"
-          }
-        }
-      }
-    },
     "Summon The Eternal": {
       "localizations": {
         "da": {
@@ -38571,194 +39381,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "點一下以選取，再點一下另一欄中的項目即可配對"
-          }
-        }
-      }
-    },
-    "Tell me about reincarnation": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fortæl mig om reinkarnation"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erzähl mir von der Reinkarnation"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Háblame de la reencarnación"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kerro jälleensyntymästä"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parle-moi de la réincarnation"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Segðu mér frá endurholdgun"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parlami della reincarnazione"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "輪廻について教えてください"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "환생에 대해 알려주세요"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fortell meg om reinkarnasjon"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opowiedz mi o reinkarnacji"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fale sobre a reencarnação"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Berätta om reinkarnation"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "跟我讲讲轮回"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "跟我說說輪迴"
-          }
-        }
-      }
-    },
-    "Tell me about the afterlife journey": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fortæl mig om rejsen i livet efter døden"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erzähl mir von der Reise ins Jenseits"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Háblame del viaje al más allá"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kerro kuoleman jälkeisestä matkasta"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parle-moi du voyage dans l'au-delà"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Segðu mér frá ferðinni um lífið eftir dauðann"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parlami del viaggio nell'aldilà"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "死後の旅について教えてください"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "사후 여정에 대해 알려주세요"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fortell meg om reisen gjennom livet etter døden"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opowiedz mi o podróży przez zaświaty"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fale sobre a jornada após a morte"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Berätta om resan genom livet efter döden"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "跟我讲讲死后的旅程"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "跟我說說死後的旅程"
           }
         }
       }
@@ -42147,6 +42769,100 @@
         }
       }
     },
+    "True or false?": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sandt eller falsk?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wahr oder falsch?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Verdadero o falso?"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totta vai tarua?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vrai ou faux ?"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satt eða ósatt?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vero o falso?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正しいか誤りか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "참인가 거짓인가?"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sant eller usant?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prawda czy fałsz?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verdadeiro ou falso?"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sant eller falskt?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对还是错？"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對還是錯？"
+          }
+        }
+      }
+    },
     "Try Again": {
       "localizations": {
         "da": {
@@ -44591,284 +45307,96 @@
         }
       }
     },
-    "What are the different realms?": {
+    "Well done": {
       "localizations": {
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hvilke riger findes der?"
+            "value": "Flot klaret"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Welche Reiche gibt es?"
+            "value": "Gut gemacht"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¿Cuáles son los distintos reinos?"
+            "value": "Muy bien"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mitkä ovat eri valtakunnat?"
+            "value": "Hienoa"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quels sont les différents royaumes ?"
+            "value": "Bien joué"
           }
         },
         "is": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hvaða ríki eru til?"
+            "value": "Vel gert"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quali sono i vari regni?"
+            "value": "Ben fatto"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "どのような領域がありますか？"
+            "value": "よくできました"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "어떤 세계들이 있나요?"
+            "value": "잘했어요"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hva er de forskjellige rikene?"
+            "value": "Godt jobbet"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Jakie są różne krainy?"
+            "value": "Dobra robota"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quais são os diferentes reinos?"
+            "value": "Muito bem"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vilka är de olika riken?"
+            "value": "Väl gjort"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "有哪些不同的国度？"
+            "value": "做得好"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "有哪些不同的國度？"
-          }
-        }
-      }
-    },
-    "What happens after death?": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvad sker der efter døden?"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Was geschieht nach dem Tod?"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Qué ocurre después de la muerte?"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mitä tapahtuu kuoleman jälkeen?"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Que se passe-t-il après la mort ?"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvað gerist eftir dauðann?"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Che cosa succede dopo la morte?"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "死んだあと何が起こりますか？"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "죽으면 어떻게 되나요?"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hva skjer etter døden?"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Co dzieje się po śmierci?"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O que acontece depois da morte?"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vad händer efter döden?"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人死后会发生什么？"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人死後會發生什麼事？"
-          }
-        }
-      }
-    },
-    "What is the meaning of life?": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hvad er meningen med livet?"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Was ist der Sinn des Lebens?"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Cuál es el sentido de la vida?"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mikä on elämän tarkoitus?"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quel est le sens de la vie ?"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hver er tilgangur lífsins?"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Qual è il senso della vita?"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人生の意味とは何ですか？"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "삶의 의미는 무엇인가요?"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hva er meningen med livet?"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jaki jest sens życia?"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Qual é o sentido da vida?"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vad är livets mening?"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "生命的意义是什么？"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "生命的意義是什麼？"
+            "value": "做得好"
           }
         }
       }
@@ -45719,190 +46247,190 @@
         }
       }
     },
-    "You": {
+    "XP earned": {
       "localizations": {
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du"
+            "value": "XP tjent"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du"
+            "value": "XP verdient"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tú"
+            "value": "XP ganados"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sinä"
+            "value": "XP ansaittu"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vous"
+            "value": "XP gagnés"
           }
         },
         "is": {
           "stringUnit": {
             "state": "translated",
-            "value": "Þú"
+            "value": "XP unnið"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu"
+            "value": "XP guadagnati"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "あなた"
+            "value": "獲得 XP"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "나"
+            "value": "획득 XP"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du"
+            "value": "XP opptjent"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ty"
+            "value": "Zdobyte XP"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Você"
+            "value": "XP ganhos"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du"
+            "value": "XP intjänat"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "你"
+            "value": "获得 XP"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "你"
+            "value": "獲得 XP"
           }
         }
       }
     },
-    "You got %lld out of %lld correct (%lld%%). Earned %lld XP!": {
+    "You have mastered %@.": {
       "localizations": {
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du fik %lld ud af %lld rigtige (%lld%%). Du optjente %lld XP!"
+            "value": "Du har mestret %@."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$lld von %2$lld richtig (%3$lld%%). %4$lld XP verdient!"
+            "value": "Du hast %@ gemeistert."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Has acertado %1$lld de %2$lld (%3$lld%%). ¡%4$lld XP ganados!"
+            "value": "Has dominado %@."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vastasit oikein %lld/%lld (%lld %%). Ansaitsit %lld XP!"
+            "value": "Olet hallinnut %@-polun."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$lld bonnes réponses sur %2$lld (%3$lld%%). %4$lld XP gagnés !"
+            "value": "Vous avez maîtrisé %@."
           }
         },
         "is": {
           "stringUnit": {
             "state": "translated",
-            "value": "Þú svaraðir %lld af %lld rétt (%lld%%) og aflaðir %lld XP!"
+            "value": "Þú hefur tileinkað þér %@."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hai indovinato %1$lld su %2$lld (%3$lld%%). %4$lld XP guadagnati!"
+            "value": "Hai padroneggiato %@."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "%2$lld問中%1$lld問正解（%3$lld%%）。%4$lld XP を獲得しました！"
+            "value": "%@の道を極めました。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "%2$lld문제 중 %1$lld문제를 맞혔습니다(%3$lld%%). %4$lld XP 획득!"
+            "value": "%@을(를) 완전히 익혔습니다."
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du fikk %lld av %lld riktige (%lld%%). Tjente %lld XP!"
+            "value": "Du har mestret %@."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Masz %1$lld z %2$lld poprawnych (%3$lld%%). Zdobyto %4$lld XP!"
+            "value": "Opanowałeś %@."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Você acertou %1$lld de %2$lld (%3$lld%%). Ganhou %4$lld XP!"
+            "value": "Você dominou %@."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du fick %lld av %lld rätt (%lld %%). Du tjänade %lld XP!"
+            "value": "Du har behärskat %@."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "你答对了 %2$lld 题中的 %1$lld 题（%3$lld%%），获得 %4$lld XP！"
+            "value": "你已精通%@。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "你答對了 %2$lld 題中的 %1$lld 題（%3$lld%%），獲得 %4$lld XP！"
+            "value": "你已精通%@。"
           }
         }
       }
@@ -46001,100 +46529,6 @@
         }
       }
     },
-    "You scored %lld%%, but need %lld%% to pass the master test.": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du fik %lld%%, men skal have %lld%% for at bestå mesterprøven."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du hast %1$lld%% erreicht, brauchst aber %2$lld%% für die Meisterprüfung."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Has sacado un %1$lld%%, pero necesitas un %2$lld%% para superar la prueba de maestría."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sait %lld %%, mutta tarvitset %lld %% läpäistäksesi mestarikokeen."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vous avez obtenu %1$lld%%, mais il faut %2$lld%% pour réussir l'épreuve de maîtrise."
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Þú fékkst %lld%%, en þarft %lld%% til að standast meistaraprófið."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hai totalizzato il %1$lld%%, ma ti serve il %2$lld%% per superare la prova di maestria."
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "スコアは%1$lld%%でした。マスターテストの合格には%2$lld%%が必要です。"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld%%를 받았지만 마스터 시험을 통과하려면 %2$lld%%가 필요합니다."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du fikk %lld%%, men trenger %lld%% for å bestå mesterprøven."
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wynik: %1$lld%%, a do zdania testu mistrzowskiego potrzeba %2$lld%%."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Você fez %1$lld%%, mas precisa de %2$lld%% para passar na prova de maestria."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du fick %lld %%, men behöver %lld %% för att klara mästarprovet."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你得了 %1$lld%%，但通过大师测验需要 %2$lld%%。"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你得了 %1$lld%%，但通過大師測驗需要 %2$lld%%。"
-          }
-        }
-      }
-    },
     "You're all set": {
       "localizations": {
         "da": {
@@ -46185,100 +46619,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "設定完成"
-          }
-        }
-      }
-    },
-    "You've mastered %@ with a score of %lld%%!": {
-      "localizations": {
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du har mestret %@ med et resultat på %lld%%!"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du hast %1$@ mit %2$lld%% gemeistert!"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Has dominado %1$@ con un %2$lld%%!"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Olet hallinnut polun %@ tuloksella %lld %%!"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vous avez maîtrisé %1$@ avec un score de %2$lld%% !"
-          }
-        },
-        "is": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Þú hefur náð tökum á %@ með %lld%% árangri!"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hai padroneggiato %1$@ con il %2$lld%%!"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@を%2$lld%%で制覇しました！"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@을(를) %2$lld%%로 통달했습니다!"
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du har mestret %@ med et resultat på %lld%%!"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opanowano %1$@ z wynikiem %2$lld%%!"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Você dominou %1$@ com %2$lld%%!"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du har bemästrat %@ med %lld %%!"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你以 %2$lld%% 的成绩精通了%1$@！"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你以 %2$lld%% 的成績精通了%1$@！"
           }
         }
       }
@@ -46655,6 +46995,194 @@
           "stringUnit": {
             "state": "translated",
             "value": "你的求道者名稱"
+          }
+        }
+      }
+    },
+    "Your answer, incorrect": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dit svar, forkert"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Antwort, falsch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu respuesta, incorrecta"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vastauksesi, väärin"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre réponse, incorrecte"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svarið þitt, rangt"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La tua risposta, errata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "あなたの答え、不正解"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 답, 오답"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt svar, feil"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twoja odpowiedź, niepoprawna"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sua resposta, incorreta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt svar, fel"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的答案，错误"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的答案，錯誤"
+          }
+        }
+      }
+    },
+    "Your answer:": {
+      "localizations": {
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dit svar:"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Antwort:"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu respuesta:"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sinun vastauksesi:"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre réponse :"
+          }
+        },
+        "is": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svarið þitt:"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La tua risposta:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "あなたの答え："
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 답:"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt svar:"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twoja odpowiedź:"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sua resposta:"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt svar:"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的答案："
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的答案："
           }
         }
       }
