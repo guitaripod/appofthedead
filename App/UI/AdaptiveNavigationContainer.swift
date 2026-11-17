@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 private enum LayoutConstants {
     static let sidebarHeaderHeight: CGFloat = 120
