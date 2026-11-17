@@ -3,7 +3,7 @@ import Testing
 
 @testable import aotd
 
-struct GenerativeFeatureVisibilityTests {
+@MainActor struct GenerativeFeatureVisibilityTests {
     @Test func hidesTheOracleAndModelWrittenTextWithoutOnDeviceGeneration() {
         let visibility = GenerativeFeatureVisibility(onDeviceGeneration: false)
         #expect(!visibility.showsOracle)
