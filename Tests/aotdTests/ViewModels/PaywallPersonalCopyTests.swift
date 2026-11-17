@@ -89,7 +89,7 @@ import XCTest
         XCTAssertNil(PaywallPersonalCopy.subtitle(for: .generalUpgrade, journey: below))
         XCTAssertEqual(
             PaywallPersonalCopy.subtitle(for: .generalUpgrade, journey: at),
-            "3 lessons finished so far.\n\(PaywallReason.generalUpgrade.subtitle)")
+            "3 lessons finished so far.\n\(PaywallReason.generalUpgrade.subtitle())")
     }
 
     func testTheOracleLimitCountsTheQuestionsAsked() {
