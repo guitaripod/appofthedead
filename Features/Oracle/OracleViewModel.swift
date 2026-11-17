@@ -318,7 +318,7 @@ final class OracleViewModel: ObservableObject {
     
     
     private func checkAndAutoLoadModel() async {
-        guard voice.engine == .gemma else { return }
+        guard voice.engine == .gemma, GenerativeFeatureVisibility.current.showsOracle else { return }
         
         let wasLoadedBefore = UserDefaults.standard.bool(forKey: "MLXModelLoadedOnce")
         

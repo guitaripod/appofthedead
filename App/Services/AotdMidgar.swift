@@ -43,6 +43,16 @@ nonisolated final class AotdMidgar: Sendable {
         MidgarPortal.MidgarConfig(placement: "settings", account: account)
     }
 
+    /// Reads the storefront and the gateway's model answer, so generative features follow the account's region. Runs in
+    /// the background and asks no one in a test host or a demo capture. Call at launch and on each return to the foreground.
+    func refreshModelRegion() {
+        guard Self.reachesMidgarServices else { return }
+        let account = account
+        Task {
+            await MidgarModelRegion.shared.refresh(client: account)
+        }
+    }
+
     /// Opens the log file. Call first thing at launch so nothing before the rest of the setup is lost.
     static func configureLogging() {
         MidgarLog.configure(fileName: logFileName)

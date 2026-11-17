@@ -126,7 +126,9 @@ class PathPreviewView: UIView {
         ultimateLabel.textColor = .label
         
         let ultimateSubtitle = UILabel()
-        ultimateSubtitle.text = String(localized: "All 21 paths • Unlimited Oracle")
+        ultimateSubtitle.text = GenerativeFeatureVisibility.current.showsOracle
+            ? String(localized: "All 21 paths • Unlimited Oracle")
+            : String(localized: "All 21 Learning Paths")
         ultimateSubtitle.font = PapyrusDesignSystem.Typography.caption1()
         ultimateSubtitle.textColor = .secondaryLabel
         
@@ -152,7 +154,9 @@ class PathPreviewView: UIView {
         
         
         ultimateContainer.isAccessibilityElement = true
-        ultimateContainer.accessibilityLabel = String(localized: "Unlock Everything: All 21 paths and unlimited Oracle access")
+        ultimateContainer.accessibilityLabel = GenerativeFeatureVisibility.current.showsOracle
+            ? String(localized: "Unlock Everything: All 21 paths and unlimited Oracle access")
+            : String(localized: "Unlock All 21 Paths")
         ultimateContainer.accessibilityHint = String(localized: "Purchase the ultimate enlightenment package")
         ultimateContainer.accessibilityTraits = .button
         

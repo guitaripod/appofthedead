@@ -209,6 +209,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             rootContainer?.selectViewController(at: 0)
             homeViewController?.openPath(withId: pathId)
         case .oracle(let deityId):
+            guard GenerativeFeatureVisibility.current.showsOracle else { return }
             rootContainer?.selectViewController(at: 2)
             let draft = JudgmentStore().verdict.map {
                 String(localized: "The Judgment named me \(JudgmentCopy.archetypeName($0.archetype)). What does that say about my soul?")
@@ -305,6 +306,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         MidgarLog.info("Scene will enter foreground", category: .ui)
         GameCenterManager.shared.synchronize()
+        AotdMidgar.shared.refreshModelRegion()
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {

@@ -79,6 +79,7 @@ final class SettingsViewModel {
         state.oracleVoice = oracleVoice()
         state.modelBytesOnDisk = BackgroundModelDownloader.diskUsageBytes()
         state.supportsHaptics = DeviceUtility.supportsTapticEngine
+        state.generative = .current
         return state
     }
 

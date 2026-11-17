@@ -71,6 +71,7 @@ final class SettingsViewController: UIViewController {
             StoreManager.entitlementsUpdatedNotification,
             PremiumWeekPass.changedNotification,
             JudgmentStore.changedNotification,
+            MidgarModelRegion.didChangeNotification,
         ]
         for name in names {
             NotificationCenter.default.addObserver(self, selector: #selector(stateChanged), name: name, object: nil)
@@ -82,7 +83,7 @@ final class SettingsViewController: UIViewController {
     }
 
     private func render() {
-        membershipCard.configure(viewModel.state.membership)
+        membershipCard.configure(viewModel.state.membership, generative: viewModel.state.generative)
         list.sections = viewModel.sections.map(section)
     }
 
@@ -106,7 +107,7 @@ final class SettingsViewController: UIViewController {
         case .membership:
             return String(localized: "Purchases belong to your Apple Account and come back on any iPhone or iPad with Restore Purchases.")
         case .oracle:
-            return OracleDisclosureView.text
+            return viewModel.state.generative.showsOracle ? OracleDisclosureView.text : nil
         case .spread:
             return String(localized: "A rating helps the next curious soul find App of the Dead.")
         case .account:

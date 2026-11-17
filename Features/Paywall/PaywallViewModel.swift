@@ -39,13 +39,14 @@ enum PaywallReason {
         }
     }
 
-    var subtitle: String {
+    func subtitle(showsOracle: Bool = true) -> String {
         switch self {
         case .lockedPath:
             return String(localized: "Every path, every deity, every lesson — one membership")
         case .oracleLimit:
             return String(localized: "Unlimited wisdom from all 21 divine guides")
         case .generalUpgrade:
+            guard showsOracle else { return String(localized: "Every path, every deity, every lesson — one membership") }
             return String(localized: "All 21 paths, unlimited Oracle and every path still to come")
         case .lessonFinished(let nextPath):
             if let nextPath {
@@ -109,6 +110,7 @@ final class PaywallViewModel {
 
     let reason: PaywallReason
     let journey: PaywallJourney
+    let generative: GenerativeFeatureVisibility
 
     private let store: PaywallProductProviding
     private let reminderScheduler: TrialReminderScheduling
@@ -124,17 +126,20 @@ final class PaywallViewModel {
 
     init(reason: PaywallReason,
          journey: PaywallJourney = .unknown,
+         generative: GenerativeFeatureVisibility = .current,
          store: PaywallProductProviding = StoreManager.shared,
          reminderScheduler: TrialReminderScheduling = NotificationManager.shared) {
         self.reason = reason
         self.journey = journey
+        self.generative = generative
         self.store = store
         self.reminderScheduler = reminderScheduler
     }
 
     /// The line under the title: about the person where the app knows enough, the reason's general line otherwise.
     var subtitle: String {
-        PaywallPersonalCopy.subtitle(for: reason, journey: journey) ?? reason.subtitle
+        PaywallPersonalCopy.subtitle(for: reason, journey: journey, showsOracle: generative.showsOracle)
+            ?? reason.subtitle(showsOracle: generative.showsOracle)
     }
 
     func loadProducts() {
@@ -223,7 +228,9 @@ final class PaywallViewModel {
             TimelineStep(
                 icon: "lock.open.fill",
                 title: String(localized: "Today"),
-                detail: String(localized: "Unlock all 21 paths and unlimited Oracle instantly")),
+                detail: generative.showsOracle
+                    ? String(localized: "Unlock all 21 paths and unlimited Oracle instantly")
+                    : String(localized: "Unlock All 21 Paths")),
             TimelineStep(
                 icon: "bell.fill",
                 title: String(localized: "Day \(reminderDay)"),
@@ -250,7 +257,9 @@ final class PaywallViewModel {
             TimelineStep(
                 icon: "lock.open.fill",
                 title: String(localized: "Unlocks right away"),
-                detail: String(localized: "All 21 paths and the Oracle open the moment you pay")),
+                detail: generative.showsOracle
+                    ? String(localized: "All 21 paths and the Oracle open the moment you pay")
+                    : String(localized: "Unlock All 21 Paths")),
             keeping,
             TimelineStep(
                 icon: "arrow.triangle.2.circlepath",
@@ -263,27 +272,35 @@ final class PaywallViewModel {
     var features: [(icon: String, title: String, description: String)] {
         let paths = PaywallPersonalCopy.pathsDetail(journey)
         let oracle = PaywallPersonalCopy.oracleDetail(journey)
+        let rows: [(icon: String, title: String, description: String)?]
         switch reason {
         case .lockedPath, .lessonFinished:
-            return [
+            rows = [
                 ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "Every lesson, quiz, and achievement")),
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "Consult all 21 divine guides freely")),
+                generative.showsOracle
+                    ? ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "Consult all 21 divine guides freely"))
+                    : nil,
                 ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .oracleLimit:
-            return [
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), oracle ?? String(localized: "No limits with any deity")),
+            rows = [
+                generative.showsOracle
+                    ? ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Consultations"), oracle ?? String(localized: "No limits with any deity"))
+                    : nil,
                 ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "Every lesson and quiz included")),
                 ("sparkles", String(localized: "Everything We Add Next"), String(localized: "New paths included as they arrive"))
             ]
         case .generalUpgrade, .premiumWeekEnded:
-            return [
+            rows = [
                 ("book.fill", String(localized: "All 21 Learning Paths"), paths ?? String(localized: "From Valhalla to the Duat")),
-                ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "All 21 divine guides, no limits")),
+                generative.showsOracle
+                    ? ("bubble.left.and.bubble.right.fill", String(localized: "Unlimited Oracle"), oracle ?? String(localized: "All 21 divine guides, no limits"))
+                    : nil,
                 ("star.fill", String(localized: "Every Achievement"),
                  PaywallPersonalCopy.achievementsDetail(journey) ?? String(localized: "Every path's achievements within reach"))
             ]
         }
+        return rows.compactMap { $0 }
     }
 
     var aLaCarteProduct: ProductIdentifier? {
@@ -328,7 +345,7 @@ final class PaywallViewModel {
     /// The Oracle Wisdom pack, offered beside the deity's own pack when that deity's free consultations run out: every
     /// god without limits, bought once, for someone who wants the Oracle and not the paths.
     var oracleWisdomProduct: ProductIdentifier? {
-        guard case .oracleLimit = reason else { return nil }
+        guard generative.showsOracle, case .oracleLimit = reason else { return nil }
         return .oracleWisdom
     }
 

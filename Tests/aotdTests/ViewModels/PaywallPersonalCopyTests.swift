@@ -23,7 +23,7 @@ import XCTest
     func testSomeoneUnknownKeepsEveryGeneralLine() {
         for reason in Self.everyReason {
             XCTAssertNil(PaywallPersonalCopy.subtitle(for: reason, journey: .unknown))
-            XCTAssertEqual(PaywallViewModel(reason: reason, journey: .unknown).subtitle, reason.subtitle)
+            XCTAssertEqual(PaywallViewModel(reason: reason, journey: .unknown).subtitle, reason.subtitle())
         }
         XCTAssertNil(PaywallPersonalCopy.pathsDetail(.unknown))
         XCTAssertNil(PaywallPersonalCopy.oracleDetail(.unknown))

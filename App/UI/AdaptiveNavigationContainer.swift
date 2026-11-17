@@ -37,6 +37,12 @@ final class AdaptiveNavigationContainer: UIViewController {
             settingsNavigationController
         ]
     }
+    private var visibleSectionIndices: [Int] {
+        GenerativeFeatureVisibility.current.showsOracle ? [0, 1, 2, 3, 4] : [0, 1, 3, 4]
+    }
+    private var visibleNavigationControllers: [UINavigationController] {
+        visibleSectionIndices.map { navigationControllers[$0] }
+    }
     init(
         homeNav: UINavigationController,
         profileNav: UINavigationController,
@@ -54,9 +60,35 @@ final class AdaptiveNavigationContainer: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(modelRegionChanged),
+            name: MidgarModelRegion.didChangeNotification,
+            object: nil
+        )
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         rebuildNavigationIfLayoutChanged()
+    }
+
+    @objc private func modelRegionChanged() {
+        DispatchQueue.main.async { [weak self] in
+            self?.rebuildForVisibleSections()
+        }
+    }
+
+    /// The Oracle section comes and goes with the region, so the arrangement is rebuilt when it flips; a section that
+    /// left is replaced by Learn.
+    private func rebuildForVisibleSections() {
+        guard let split = isSplitLayout else { return }
+        if !visibleSectionIndices.contains(selectedIndex) {
+            selectedIndex = 0
+        }
+        applyLayout(split: split)
     }
     /// The arrangement follows the width this window has right now, so a fold, a rotation or a
     /// resized window can swap the tab bar for the sidebar and back. The selected section and the
@@ -138,13 +170,7 @@ final class AdaptiveNavigationContainer: UIViewController {
             image: UIImage(systemName: "gearshape.fill"),
             selectedImage: UIImage(systemName: "gearshape.fill")
         )
-        tabBar.viewControllers = [
-            homeNavigationController,
-            profileNavigationController,
-            oracleNavigationController,
-            libraryNavigationController,
-            settingsNavigationController
-        ]
+        tabBar.viewControllers = visibleNavigationControllers
         tabBar.delegate = self
         configureTabBarAppearance(tabBar.tabBar)
         addChild(tabBar)
@@ -159,6 +185,7 @@ final class AdaptiveNavigationContainer: UIViewController {
     private func setupSplitViewController() {
         let splitVC = UISplitViewController(style: .doubleColumn)
         let sidebar = SidebarViewController()
+        sidebar.sectionIndices = visibleSectionIndices
         sidebar.delegate = self
         splitVC.setViewController(sidebar, for: .primary)
         splitVC.setViewController(homeNavigationController, for: .secondary)
@@ -244,12 +271,13 @@ final class AdaptiveNavigationContainer: UIViewController {
     }
     func selectViewController(at index: Int) {
         guard navigationControllers.indices.contains(index) else { return }
-        selectedIndex = index
+        let target = visibleSectionIndices.contains(index) ? index : 0
+        selectedIndex = target
         if let tabBar = embeddedTabBarController {
-            tabBar.selectedIndex = index
+            tabBar.selectedIndex = visibleSectionIndices.firstIndex(of: target) ?? 0
         } else if let sidebar = sidebarViewController {
-            sidebar.selectItem(at: index)
-            embeddedSplitViewController?.setViewController(navigationControllers[index], for: .secondary)
+            sidebar.selectItem(at: target)
+            embeddedSplitViewController?.setViewController(navigationControllers[target], for: .secondary)
         }
     }
 }
@@ -300,6 +328,8 @@ final class SidebarViewController: UIViewController {
     }()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var selectedIndexPath: IndexPath?
+    private var items: [Item] = []
+    var sectionIndices: [Int] = [0, 1, 2, 3, 4]
     nonisolated enum Section {
         case main
     }
@@ -395,13 +425,14 @@ final class SidebarViewController: UIViewController {
     private func applyInitialSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        let items = [
+        let allItems = [
             Item(title: String(localized: "Learn"), image: UIImage(systemName: "book.fill"), index: 0),
             Item(title: String(localized: "Profile"), image: UIImage(systemName: "person.circle.fill"), index: 1),
             Item(title: String(localized: "Oracle"), image: UIImage(systemName: "bubble.left.and.exclamationmark.bubble.right.fill"), index: 2),
             Item(title: String(localized: "Library"), image: UIImage(systemName: "books.vertical"), index: 3),
             Item(title: String(localized: "Settings"), image: UIImage(systemName: "gearshape.fill"), index: 4)
         ]
+        items = allItems.filter { sectionIndices.contains($0.index) }
         snapshot.appendItems(items)
         dataSource?.apply(snapshot, animatingDifferences: false)
         if let firstItem = items.first {
@@ -416,7 +447,8 @@ final class SidebarViewController: UIViewController {
     }
     func selectItem(at index: Int) {
         loadViewIfNeeded()
-        let indexPath = IndexPath(item: index, section: 0)
+        guard let row = items.firstIndex(where: { $0.index == index }) else { return }
+        let indexPath = IndexPath(item: row, section: 0)
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         selectedIndexPath = indexPath
     }

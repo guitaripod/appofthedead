@@ -40,8 +40,8 @@ final class BookReaderTextSelectionHandler: NSObject {
         let addNoteItem = UIMenuItem(title: String(localized: "Add Note"), action: #selector(addNote))
         let shareItem = UIMenuItem(title: String(localized: "Share"), action: #selector(share))
         
-        customMenuItems = [
-            askOracleItem,
+        let oracleItems = GenerativeFeatureVisibility.current.showsModelWrittenText ? [askOracleItem] : []
+        customMenuItems = oracleItems + [
             highlightYellowItem,
             highlightBlueItem,
             highlightGreenItem,
@@ -239,6 +239,10 @@ class BookReaderTextView: UITextView {
             #selector(share)
         ]
         
+        if action == #selector(askOracle), !GenerativeFeatureVisibility.current.showsModelWrittenText {
+            return false
+        }
+
         if customActions.contains(action) {
             return selectedRange.length > 0
         }

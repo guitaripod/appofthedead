@@ -225,7 +225,7 @@ final class LessonViewController: UIViewController {
         stack.addArrangedSubview(makeEyebrowLabel(String(localized: "Key terms"), color: accent, alignment: .natural))
         let title = makeSerifLabel(String(localized: "Words to carry with you"), size: 28, weight: .bold, alignment: .natural)
         stack.addArrangedSubview(title)
-        if deity != nil {
+        if explainsTerms {
             stack.addArrangedSubview(makeBodyLabel(String(localized: "Tap a term and the Oracle explains it."), size: 15, alignment: .natural))
         }
         stack.setCustomSpacing(20, after: stack.arrangedSubviews.last!)
@@ -243,7 +243,7 @@ final class LessonViewController: UIViewController {
         configuration.title = term
         configuration.baseBackgroundColor = PapyrusDesignSystem.Colors.Core.surface
         configuration.baseForegroundColor = PapyrusDesignSystem.Colors.Dynamic.primaryText
-        configuration.image = deity == nil ? nil : UIImage(systemName: "sparkles")
+        configuration.image = explainsTerms ? UIImage(systemName: "sparkles") : nil
         configuration.imagePlacement = .trailing
         configuration.imageColorTransformer = UIConfigurationColorTransformer { [accent] _ in accent }
         configuration.cornerStyle = .large
@@ -259,12 +259,16 @@ final class LessonViewController: UIViewController {
         button.layer.borderColor = accent.withAlphaComponent(0.25).cgColor
         button.layer.cornerRadius = 12
         button.addAction(UIAction { [weak self] _ in self?.explain(term) }, for: .touchUpInside)
-        button.isEnabled = deity != nil
+        button.isEnabled = explainsTerms
         return button
     }
 
+    private var explainsTerms: Bool {
+        deity != nil && GenerativeFeatureVisibility.current.showsModelWrittenText
+    }
+
     private func explain(_ term: String) {
-        guard let deity else { return }
+        guard explainsTerms, let deity else { return }
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         present(PapyrusModal(deity: deity, keyword: term, mlxService: mlxService), animated: true)
     }

@@ -370,7 +370,9 @@ final class ProfileViewController: UIViewController {
         titleLabel.textAlignment = .center
 
         let descriptionLabel = UILabel()
-        descriptionLabel.text = String(localized: "Unlock every path, unlimited Oracle, and the full Hall of Mastery")
+        descriptionLabel.text = GenerativeFeatureVisibility.current.showsOracle
+            ? String(localized: "Unlock every path, unlimited Oracle, and the full Hall of Mastery")
+            : String(localized: "Unlock All 21 Paths")
         descriptionLabel.font = PapyrusDesignSystem.Typography.footnote()
         descriptionLabel.textColor = UIColor.Papyrus.secondaryText
         descriptionLabel.textAlignment = .center

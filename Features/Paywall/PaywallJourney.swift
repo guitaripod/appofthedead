@@ -59,7 +59,7 @@ enum PaywallPersonalCopy {
     /// Questions asked before the Oracle limit counts them: one deity's whole free allowance.
     static let questionsWorthCounting = 3
 
-    static func subtitle(for reason: PaywallReason, journey: PaywallJourney) -> String? {
+    static func subtitle(for reason: PaywallReason, journey: PaywallJourney, showsOracle: Bool = true) -> String? {
         switch reason {
         case .lockedPath(let beliefSystemId):
             return fate(inPath: beliefSystemId, journey: journey).map {
@@ -71,7 +71,7 @@ enum PaywallPersonalCopy {
             guard journey.oracleQuestions >= questionsWorthCounting else { return nil }
             return String(localized: "You have asked the Oracle \(journey.oracleQuestions) questions. Ask all 21 guides without limits.")
         case .generalUpgrade:
-            return lessonCount(journey).map { "\($0)\n\(reason.subtitle)" }
+            return lessonCount(journey).map { "\($0)\n\(reason.subtitle(showsOracle: showsOracle))" }
         case .premiumWeekEnded:
             guard journey.lessonsFinished >= lessonsWorthKeeping else { return nil }
             return String(localized: "Your \(journey.lessonsFinished) finished lessons stay exactly where you left them. Keep every path and every god open.")

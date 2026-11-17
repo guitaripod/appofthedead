@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         StoreManager.shared.start()
         Diagnostics.endActivity("StoreManager.start", since: storeActivity)
         AotdMidgar.shared.start()
+        AotdMidgar.shared.refreshModelRegion()
         ReviewPrompt.beginSession()
         
         

@@ -22,6 +22,7 @@ struct SettingsState: Equatable {
     var oracleVoice: OracleVoiceState = .notDownloaded
     var modelBytesOnDisk: Int64 = 0
     var supportsHaptics = false
+    var generative = GenerativeFeatureVisibility(onDeviceGeneration: true)
 }
 
 /// One row of Settings, independent of how it is drawn.
@@ -73,7 +74,7 @@ enum SettingsLayout {
             SettingsSectionModel(kind: .spread, items: [.rate, .share, .support]),
             SettingsSectionModel(kind: .about, items: [.usageCounts, .licenses, .privacyPolicy, .termsOfUse, .version]),
             SettingsSectionModel(kind: .account, items: [.deleteMidgarID]),
-        ]
+        ].filter { !$0.items.isEmpty }
     }
 
     /// A subscriber manages billing here; everyone can restore. The upsell itself lives in the card above the list.
@@ -82,13 +83,16 @@ enum SettingsLayout {
     }
 
     /// A downloaded model can be removed even when Apple Intelligence now answers, which frees the gigabytes an older
-    /// install left behind. Streaming haptics only exist for the downloaded model.
+    /// install left behind, and even where the Oracle is withdrawn. Voice and streaming haptics only exist with the Oracle.
     private static func oracleItems(for state: SettingsState) -> [SettingsItem] {
-        var items: [SettingsItem] = [.oracleVoice(state.oracleVoice)]
+        var items: [SettingsItem] = []
+        if state.generative.showsOracle {
+            items.append(.oracleVoice(state.oracleVoice))
+        }
         if state.modelBytesOnDisk > 0 {
             items.append(.removeModel(bytes: state.modelBytesOnDisk))
         }
-        if state.supportsHaptics && state.oracleVoice != .appleIntelligence {
+        if state.generative.showsOracle && state.supportsHaptics && state.oracleVoice != .appleIntelligence {
             items.append(.streamingHaptics)
         }
         return items

@@ -6,6 +6,7 @@ final class SettingsMembershipCard: UIView {
 
     private let card = DashboardCardView(accent: PapyrusDesignSystem.Colors.Core.goldLeaf)
     private var membership: SettingsState.Membership?
+    private var generative: GenerativeFeatureVisibility?
 
     init() {
         super.init(frame: .zero)
@@ -23,9 +24,10 @@ final class SettingsMembershipCard: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(_ membership: SettingsState.Membership) {
-        guard membership != self.membership else { return }
+    func configure(_ membership: SettingsState.Membership, generative: GenerativeFeatureVisibility) {
+        guard membership != self.membership || generative != self.generative else { return }
         self.membership = membership
+        self.generative = generative
         card.content.arrangedSubviews.forEach { $0.removeFromSuperview() }
         switch membership {
         case .free:
@@ -33,7 +35,9 @@ final class SettingsMembershipCard: UIView {
                 symbol: "sparkles",
                 eyebrow: String(localized: "App of the Dead Premium"),
                 title: String(localized: "Open Every Path"),
-                body: String(localized: "All 21 paths, unlimited Oracle and every path still to come"),
+                body: generative.showsOracle
+                    ? String(localized: "All 21 paths, unlimited Oracle and every path still to come")
+                    : String(localized: "Every path, every deity, every lesson — one membership"),
                 showsPlans: true
             )
         case .premiumWeek(let daysLeft):
@@ -49,7 +53,9 @@ final class SettingsMembershipCard: UIView {
                 symbol: "crown.fill",
                 eyebrow: String(localized: "App of the Dead Premium"),
                 title: String(localized: "Everything Is Open"),
-                body: String(localized: "Every path and the Oracle without limits are yours. Thank you for keeping a one-person studio going."),
+                body: generative.showsOracle
+                    ? String(localized: "Every path and the Oracle without limits are yours. Thank you for keeping a one-person studio going.")
+                    : String(localized: "Every path, every deity, every lesson — one membership"),
                 showsPlans: false
             )
         }

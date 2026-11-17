@@ -360,7 +360,7 @@ final class JudgmentViewController: UIViewController {
             journey.addAction(UIAction { [weak self] _ in self?.onFinish(.done) }, for: .touchUpInside)
         }
         [share, ask, journey].forEach { $0.configuration?.titleLineBreakMode = .byWordWrapping }
-        let secondary = UIStackView(arrangedSubviews: [ask, journey])
+        let secondary = UIStackView(arrangedSubviews: GenerativeFeatureVisibility.current.showsOracle ? [ask, journey] : [journey])
         secondary.axis = traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? .vertical : .horizontal
         secondary.spacing = 10
         secondary.distribution = .fillEqually

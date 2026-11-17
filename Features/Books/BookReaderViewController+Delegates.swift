@@ -92,7 +92,9 @@ extension BookReaderViewController: BookReaderTextSelectionDelegate {
     func textSelectionHandler(_ handler: BookReaderTextSelectionHandler, didSelectAction action: TextSelectionAction, text: String, range: NSRange) {
         switch action {
         case .askOracle:
-            showOracleExplanation(for: text, range: range)
+            if GenerativeFeatureVisibility.current.showsModelWrittenText {
+                showOracleExplanation(for: text, range: range)
+            }
             
         case .highlight(let color):
             saveHighlight(text: text, range: range, color: color)

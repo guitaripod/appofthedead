@@ -131,7 +131,7 @@ import XCTest
         let sut = makeSut(reason: .lessonFinished(nextPath: (id: "norse", name: "Norse")))
 
         XCTAssertEqual(sut.reason.title, "Keep the Journey Going")
-        XCTAssertTrue(sut.reason.subtitle.contains("Norse"))
+        XCTAssertTrue(sut.reason.subtitle().contains("Norse"))
         XCTAssertEqual(sut.aLaCarteProduct, .norse)
     }
 
