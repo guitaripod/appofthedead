@@ -1,4 +1,5 @@
 import UIKit
+import MidgarCore
 
 final class ProfileViewController: UIViewController {
 
@@ -76,6 +77,11 @@ final class ProfileViewController: UIViewController {
             name: Notification.Name("UserDataDidUpdate"),
             object: nil
         )
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MidgarSignals.noteScreen("profile")
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

@@ -54,6 +54,7 @@ final class OracleViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        MidgarSignals.noteScreen("oracle", feature: true)
         if !composer.textView.isFirstResponder {
             becomeFirstResponder()
         }

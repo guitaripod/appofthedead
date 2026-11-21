@@ -46,6 +46,7 @@ final class MistakeReviewCoordinator {
 
     /// Opens the review as the navigation controller's root when it has none yet, or pushes it.
     func start() {
+        MidgarSignals.noteScreen("mistake_review", feature: true)
         guard hasQuestions else {
             onFinish?(false)
             return

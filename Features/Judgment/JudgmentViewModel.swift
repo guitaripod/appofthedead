@@ -61,6 +61,7 @@ final class JudgmentViewModel {
         guard stage == .intro else { return }
         picks = []
         stage = .scene(0)
+        MidgarSignals.noteFeature("judgment")
         Diagnostics.logUserAction("judgmentBegan", category: .learning)
     }
 

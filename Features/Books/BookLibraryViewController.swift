@@ -1,5 +1,6 @@
 import UIKit
 import AppOfTheDeadCore
+import MidgarCore
 
 final class BookLibraryViewController: UIViewController {
     
@@ -110,6 +111,11 @@ final class BookLibraryViewController: UIViewController {
         configureDataSource()
         bindViewModel()
         viewModel.loadBooks()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MidgarSignals.noteScreen("books", feature: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

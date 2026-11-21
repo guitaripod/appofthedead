@@ -465,6 +465,7 @@ extension LearningPathCoordinator: QuestionFlowCoordinatorDelegate {
                 status: .completed,
                 score: score
             )
+            MidgarSignals.noteValue()
 
             GamificationService.shared.awardXP(
                 to: user.id,

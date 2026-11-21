@@ -72,6 +72,11 @@ final class JudgmentViewController: UIViewController {
         Diagnostics.logViewControllerLifecycle("JudgmentViewController", event: "viewDidLoad")
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MidgarSignals.noteScreen("judgment")
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         foldAvoiding.update(in: view)
