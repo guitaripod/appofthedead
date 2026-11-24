@@ -138,10 +138,16 @@ final class HomeViewController: UIViewController {
     /// Refreshes the header from the current dashboard without rebuilding a single path row: the stats, the verdict and
     /// the day's omen change far more often than the list does.
     private func updateHeader() {
-        for case let header as HomeHeaderView in collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader) {
+        let visible = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)
+        for case let header as HomeHeaderView in visible {
             header.configure(dashboard())
         }
-        collectionView.collectionViewLayout.invalidateLayout()
+        guard !visible.isEmpty else { return }
+        let context = UICollectionViewLayoutInvalidationContext()
+        context.invalidateSupplementaryElements(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            at: [IndexPath(item: 0, section: 0)])
+        collectionView.collectionViewLayout.invalidateLayout(with: context)
     }
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
