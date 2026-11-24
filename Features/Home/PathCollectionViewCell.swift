@@ -243,8 +243,6 @@ final class PathCollectionViewCell: UICollectionViewCell {
         default:
             statusBadge.isHidden = true
         }
-        setNeedsLayout()
-        layoutIfNeeded()
         if let preview = preview, item.isUnlocked {
             let topicsText = preview.keyTopics.prefix(2).joined(separator: " • ")
             previewLabel.text = topicsText

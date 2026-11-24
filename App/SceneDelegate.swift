@@ -321,13 +321,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         contentLoader: ContentLoader
     ) {
         #if DEBUG
-        DemoWorld.present(DemoContext(
+        let context = DemoContext(
             root: root,
             homeNavigation: homeNavigation,
             oracleNavigation: oracleNavigation,
             homeViewModel: homeViewModel,
             contentLoader: contentLoader
-        ))
+        )
+        if DemoWalk.isRequested {
+            DemoWalk.start(context: context)
+        } else {
+            DemoWorld.present(context)
+        }
         #endif
     }
 

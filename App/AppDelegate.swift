@@ -1,5 +1,6 @@
 import UIKit
 import MidgarCore
+import MidgarKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,6 +11,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         AotdMidgar.configureLogging()
         Diagnostics.logAppLaunch()
+
+        #if DEBUG
+        MidgarFrameWatch.shared.startIfRequested()
+        #endif
 
         NotificationManager.shared.clearBadge()
 

@@ -360,10 +360,21 @@ nonisolated final class DatabaseManager: @unchecked Sendable {
         }
         return contentLoader.loadAchievements()
     }
+
+    /// The deity an Oracle conversation speaks with, from the shared loader's cache rather than a fresh decode of the
+    /// prompt bundle on every lesson.
+    func getDeityForBeliefSystem(_ beliefSystemId: String) -> Deity? {
+        contentLoaderLock.withLock { $0 }?.getDeityForBeliefSystem(beliefSystemId)
+    }
+
+    func loadPathPreviews() -> [String: PathPreview] {
+        contentLoaderLock.withLock { $0 }?.loadPathPreviews() ?? [:]
+    }
     
     
     
     private func runMigrations(_ db: Database) throws {
+        try createReviewIndexes(db)
         
         let progressColumns = try db.columns(in: "progress")
         if !progressColumns.contains(where: { $0.name == "earnedXP" }) {
@@ -489,6 +500,19 @@ nonisolated final class DatabaseManager: @unchecked Sendable {
         }
     }
     
+    /// Indexes the review queries read: the due-mistake count per path and the per-question mistake lookup both filter on
+    /// the same four columns.
+    private func createReviewIndexes(_ db: Database) throws {
+        try db.execute(sql: """
+            CREATE INDEX IF NOT EXISTS mistakes_review_due
+            ON mistakes(userId, beliefSystemId, mastered, nextReview)
+            """)
+        try db.execute(sql: """
+            CREATE INDEX IF NOT EXISTS mistakes_question
+            ON mistakes(userId, questionId, mastered)
+            """)
+    }
+
     func getBeliefSystem(by id: String) -> BeliefSystem? {
         return loadBeliefSystems().first { $0.id == id }
     }
@@ -606,6 +630,20 @@ nonisolated final class DatabaseManager: @unchecked Sendable {
                 .filter(Column("mastered") == false)
                 .filter(Column("nextReview") <= Date())
                 .fetchCount(db)
+        }
+    }
+
+    /// How many mistakes are due for review in each belief system, counted in one grouped pass over the table instead of
+    /// a scan per path.
+    func getMistakeCounts(userId: String) throws -> [String: Int] {
+        try dbQueue.read { db in
+            let rows = try Row.fetchAll(db, sql: """
+                SELECT beliefSystemId, COUNT(*) AS dueCount
+                FROM mistakes
+                WHERE userId = ? AND mastered = 0 AND nextReview <= ?
+                GROUP BY beliefSystemId
+                """, arguments: [userId, Date()])
+            return Dictionary(uniqueKeysWithValues: rows.map { ($0["beliefSystemId"] as String, $0["dueCount"] as Int) })
         }
     }
     

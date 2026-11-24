@@ -6,7 +6,6 @@ import AppOfTheDeadCore
 /// quiz. Tap the right of a card or swipe to go on, the left or swipe back to return.
 final class LessonViewController: UIViewController {
     private let viewModel: LessonViewModel
-    private let contentLoader = ContentLoader()
     private let mlxService = MLXService.shared
     private var deity: Deity?
     private let backdrop = UnderworldBackdropView(seed: 17)
@@ -46,7 +45,7 @@ final class LessonViewController: UIViewController {
         setupNavigationBar()
         setupLayout()
         setupGestures()
-        deity = contentLoader.getDeityForBeliefSystem(viewModel.beliefSystemId)
+        deity = DatabaseManager.shared.getDeityForBeliefSystem(viewModel.beliefSystemId)
         show(index: 0, forward: true, animated: false)
     }
 

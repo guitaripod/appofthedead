@@ -170,6 +170,7 @@ final class PathMapCanvasView: UIView {
     private var nodeViews: [PathMapNodeView] = []
     private var crownView: PathMapNodeView?
     private var nodes: [PathMapViewModel.Node] = []
+    private var crown: PathMapViewModel.CrownState?
     private let spacing: CGFloat = 132
     private let topInset: CGFloat = 56
 
@@ -199,7 +200,9 @@ final class PathMapCanvasView: UIView {
     }
 
     func configure(nodes: [PathMapViewModel.Node], crown: PathMapViewModel.CrownState) {
+        guard nodes != self.nodes || crown != self.crown else { return }
         self.nodes = nodes
+        self.crown = crown
         nodeViews.forEach { $0.removeFromSuperview() }
         crownView?.removeFromSuperview()
         nodeViews = nodes.map { node in
@@ -393,6 +396,7 @@ final class PathMapNodeView: UIControl {
         bounds = CGRect(x: 0, y: 0, width: width, height: height)
         let circleTop = badgeHeight > 0 ? badgeHeight + 6 : 0
         circle.frame = CGRect(x: (width - diameter) / 2, y: circleTop, width: diameter, height: diameter)
+        circle.layer.shadowPath = UIBezierPath(ovalIn: circle.bounds).cgPath
         icon.frame = circle.bounds
         if badgeHeight > 0 {
             let badgeWidth = badge.intrinsicContentSize.width + 20

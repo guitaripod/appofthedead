@@ -414,6 +414,16 @@ final class PathListCell: UICollectionViewCell {
     
     
     
+    /// The container's shadow follows its rounded bounds, so scrolling the list never asks the render server to work the
+    /// silhouette out again.
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        containerView.layer.shadowPath = UIBezierPath(
+            roundedRect: containerView.bounds,
+            cornerRadius: containerView.layer.cornerRadius
+        ).cgPath
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         iconImageView.image = nil

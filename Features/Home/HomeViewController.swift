@@ -6,6 +6,8 @@ final class HomeViewController: UIViewController {
     let omenService = DailyOmenService()
     var mistakeReviewCoordinator: MistakeReviewCoordinator?
     var currentLayoutPreference: ViewLayoutPreference = .grid
+    private var cachedOmen: DailyOmen?
+    private var cachedOmenDay: Date?
     lazy var collectionView: UICollectionView = {
         let layout = createCompositionalLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -32,7 +34,6 @@ final class HomeViewController: UIViewController {
         setupUI()
         bindViewModel()
         setupNotifications()
-        viewModel.loadData()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -134,9 +135,13 @@ final class HomeViewController: UIViewController {
             }
         }
     }
+    /// Refreshes the header from the current dashboard without rebuilding a single path row: the stats, the verdict and
+    /// the day's omen change far more often than the list does.
     private func updateHeader() {
-        let snapshot = collectionDataSource.snapshot()
-        collectionDataSource.applySnapshotUsingReloadData(snapshot)
+        for case let header as HomeHeaderView in collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader) {
+            header.configure(dashboard())
+        }
+        collectionView.collectionViewLayout.invalidateLayout()
     }
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
@@ -278,7 +283,7 @@ final class HomeViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, PathItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.pathItems)
-        collectionDataSource.applySnapshotUsingReloadData(snapshot)
+        collectionDataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 extension HomeViewController: UICollectionViewDelegate {
@@ -532,11 +537,21 @@ extension HomeViewController: HomeHeaderViewDelegate {
         }
         dashboard.premiumWeekDaysLeft = StoreAccess.shared.hasAllAccess ? nil : PremiumWeekPass.shared.daysLeft
         dashboard.verdict = JudgmentStore().verdict
-        if let omen = omenService.today() {
+        if let omen = todayOmen() {
             dashboard.omen = omen
             dashboard.omenAnswer = omenService.answer(for: omen)
         }
         return dashboard
+    }
+
+    /// The day's omen, chosen once a day: picking it walks every question in the app, and the header asks for it on every
+    /// configure.
+    private func todayOmen() -> DailyOmen? {
+        let today = Calendar.autoupdatingCurrent.startOfDay(for: Date())
+        if cachedOmenDay == today { return cachedOmen }
+        cachedOmen = omenService.today()
+        cachedOmenDay = today
+        return cachedOmen
     }
 
     func premiumWeekTapped() {
@@ -599,7 +614,6 @@ extension HomeViewController {
     private func refreshAfterMistakeReview() {
         viewModel.loadData()
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
             self?.updateHeader()
         }
     }

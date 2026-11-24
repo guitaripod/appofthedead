@@ -32,22 +32,21 @@ extension BookReaderViewController {
         highlightViews.forEach { $0.removeFromSuperview() }
         highlightViews.removeAll()
         
-        
-        guard let attributedText = textView.attributedText else { return }
-        let mutableText = NSMutableAttributedString(attributedString: attributedText)
-        
+        guard !currentHighlights.isEmpty else { return }
+        let storage = textView.textStorage
+        let length = storage.length
+        storage.beginEditing()
         for highlight in currentHighlights {
             let range = NSRange(location: highlight.startPosition, length: highlight.endPosition - highlight.startPosition)
             
             
-            guard range.location + range.length <= mutableText.length else { continue }
+            guard range.location + range.length <= length else { continue }
             
             
             let color = UIColor(hex: highlight.color) ?? UIColor(hex: viewModel.preferences.highlightColor) ?? UIColor.yellow.withAlphaComponent(0.3)
-            mutableText.addAttribute(.backgroundColor, value: color, range: range)
+            storage.addAttribute(.backgroundColor, value: color, range: range)
         }
-        
-        textView.attributedText = mutableText
+        storage.endEditing()
     }
     
     func saveHighlight(text: String, range: NSRange, color: UIColor, note: String? = nil, oracleConsultationId: String? = nil) {

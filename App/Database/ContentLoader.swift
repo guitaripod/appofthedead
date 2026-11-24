@@ -12,6 +12,7 @@ nonisolated final class ContentLoader: Sendable {
         var beliefSystems: [BeliefSystem]?
         var achievements: [Achievement]?
         var deities: [String: Deity]?
+        var pathPreviews: [String: PathPreview]?
     }
 
     private let cache = OSAllocatedUnfairLock(initialState: Cache())
@@ -126,5 +127,20 @@ nonisolated final class ContentLoader: Sendable {
         
         
         return deities["the_eternal"] ?? deities["anubis"] 
+    }
+
+    /// The path previews the Home cards show, decoded once and kept with the rest of the bundle content.
+    func loadPathPreviews() -> [String: PathPreview] {
+        if let cached = cache.withLock({ $0.pathPreviews }) {
+            return cached
+        }
+        guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let previews = try? JSONDecoder().decode([String: PathPreview].self, from: data) else {
+            MidgarLog.error("Failed to load path previews", category: .content)
+            return [:]
+        }
+        cache.withLock { $0.pathPreviews = previews }
+        return previews
     }
 }

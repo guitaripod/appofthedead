@@ -31,6 +31,7 @@ final class HomeViewModel {
     private var user: User?
     private(set) var userProgress: [String: Progress] = [:]
     private(set) var pathPreviews: [String: PathPreview] = [:]
+    private var mistakeCounts: [String: Int] = [:]
     
     var onDataUpdate: (() -> Void)?
     var onUserDataUpdate: ((User) -> Void)?
@@ -61,6 +62,7 @@ final class HomeViewModel {
         loadBeliefSystems()
         loadUserProgress()
         loadPathPreviews()
+        loadMistakeCounts()
         updatePathItems()
     }
     
@@ -149,29 +151,28 @@ final class HomeViewModel {
     }
     
     private func loadPathPreviews() {
-        guard let url = Bundle.main.url(forResource: "path_previews", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let previews = try? JSONDecoder().decode([String: PathPreview].self, from: data) else {
-            MidgarLog.error("Failed to load path previews", category: .content)
+        pathPreviews = contentLoader.loadPathPreviews()
+    }
+
+    /// One grouped count for every path, so a load reads the mistakes table once instead of once per path.
+    private func loadMistakeCounts() {
+        guard let userId = user?.id else {
+            mistakeCounts = [:]
             return
         }
-        pathPreviews = previews
+        mistakeCounts = (try? databaseManager.getMistakeCounts(userId: userId)) ?? [:]
     }
-    
+
     private func updatePathItems() {
+        let order = Dictionary(uniqueKeysWithValues: beliefSystems.enumerated().map { ($1.id, $0) })
         pathItems = beliefSystems.map { beliefSystem in
             let progress = userProgress[beliefSystem.id]
             let currentXP = progress?.earnedXP ?? 0
             let isUnlocked = checkIfUnlocked(beliefSystem)
             let progressPercentage = min(1.0, Float(currentXP) / Float(beliefSystem.totalXP))
             let status = progress?.status ?? .notStarted
-            
-            
-            var mistakeCount = 0
-            if let userId = user?.id {
-                mistakeCount = (try? databaseManager.getMistakeCount(userId: userId, beliefSystemId: beliefSystem.id)) ?? 0
-            }
-            
+            let mistakeCount = mistakeCounts[beliefSystem.id] ?? 0
+
             return PathItem(
                 id: beliefSystem.id,
                 name: beliefSystem.name,
@@ -190,9 +191,8 @@ final class HomeViewModel {
         pathItems.sort { item1, item2 in
             
             if item1.isUnlocked == item2.isUnlocked {
-                
-                let index1 = beliefSystems.firstIndex { $0.id == item1.id } ?? Int.max
-                let index2 = beliefSystems.firstIndex { $0.id == item2.id } ?? Int.max
+                let index1 = order[item1.id] ?? Int.max
+                let index2 = order[item2.id] ?? Int.max
                 return index1 < index2
             }
             
