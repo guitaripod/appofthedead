@@ -279,6 +279,7 @@ final class SettingsViewController: UIViewController {
         case .appleIntelligence: return String(localized: "Apple Intelligence")
         case .downloaded(let modelName): return modelName
         case .notDownloaded: return String(localized: "Not Downloaded")
+        case .unsupported: return String(localized: "Needs a newer device")
         }
     }
 }

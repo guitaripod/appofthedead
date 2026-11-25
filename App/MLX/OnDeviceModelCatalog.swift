@@ -41,18 +41,31 @@ nonisolated enum OnDeviceModelCatalog {
         minimumPhysicalMemoryBytes: 7_000_000_000
     )
 
+    /// Reported physical memory is the RAM the device ships with minus what the
+    /// system reserves (an iPhone with 6 GB reports about 5.7 GB), so the floors
+    /// are set below the sticker size of the smallest device that runs the model.
     static let gemma3_text_4b = OnDeviceModel(
         id: "gemma-3-text-4b-it-4bit",
         displayName: "Gemma 3 (4B)",
         configuration: ModelConfiguration(id: "mlx-community/gemma-3-text-4b-it-4bit"),
         approximateDownloadBytes: 2_560_000_000,
+        minimumPhysicalMemoryBytes: 5_500_000_000
+    )
+
+    /// The floor of the catalog: the only model a 3–4 GB iPhone (XS, XR, SE,
+    /// 11, 12, 13) can page in without the system killing the app mid-answer.
+    static let gemma3_1b = OnDeviceModel(
+        id: "gemma-3-1b-it-qat-4bit",
+        displayName: "Gemma 3 (1B)",
+        configuration: LLMRegistry.gemma3_1B_qat_4bit,
+        approximateDownloadBytes: 800_000_000,
         minimumPhysicalMemoryBytes: 0
     )
 
     /// Ordered best → safest. The first entry whose `minimumPhysicalMemoryBytes`
     /// the device satisfies is the preferred model; everything after it is a
     /// fallback the runtime can descend to on failure.
-    static let all: [OnDeviceModel] = [gemma4_e2b, gemma3_text_4b]
+    static let all: [OnDeviceModel] = [gemma4_e2b, gemma3_text_4b, gemma3_1b]
 
     static var physicalMemoryBytes: UInt64 {
         ProcessInfo.processInfo.physicalMemory
@@ -60,13 +73,29 @@ nonisolated enum OnDeviceModelCatalog {
 
     /// The preferred model for this device — the heaviest entry it can run.
     static func preferred(physicalMemory: UInt64 = physicalMemoryBytes) -> OnDeviceModel {
-        all.first { physicalMemory >= $0.minimumPhysicalMemoryBytes } ?? gemma3_text_4b
+        all.first { physicalMemory >= $0.minimumPhysicalMemoryBytes } ?? gemma3_1b
     }
 
     /// The fallback chain starting at `model` and descending to safer models.
     static func fallbackChain(from model: OnDeviceModel) -> [OnDeviceModel] {
-        guard let index = all.firstIndex(of: model) else { return [model, gemma3_text_4b] }
+        guard let index = all.firstIndex(of: model) else { return [model, gemma3_1b] }
         return Array(all[index...])
+    }
+
+    /// The chain to try for this device: what it succeeded with last time when that
+    /// model still fits, else the preferred one. A model left over from a heavier
+    /// device is dropped rather than retried on every launch.
+    static func deviceChain(
+        lastLoadedID: String?,
+        physicalMemory: UInt64 = physicalMemoryBytes
+    ) -> [OnDeviceModel] {
+        let chain = fallbackChain(from: preferred(physicalMemory: physicalMemory))
+        guard let lastLoadedID,
+              let last = model(withID: lastLoadedID),
+              chain.contains(last) else {
+            return chain
+        }
+        return fallbackChain(from: last)
     }
 
     static func model(withID id: String) -> OnDeviceModel? {
@@ -77,6 +106,6 @@ nonisolated enum OnDeviceModelCatalog {
     /// *any* model can fit before refusing the download outright.
     static func smallestInChain(physicalMemory: UInt64 = physicalMemoryBytes) -> OnDeviceModel {
         fallbackChain(from: preferred(physicalMemory: physicalMemory))
-            .min { $0.approximateDownloadBytes < $1.approximateDownloadBytes } ?? gemma3_text_4b
+            .min { $0.approximateDownloadBytes < $1.approximateDownloadBytes } ?? gemma3_1b
     }
 }

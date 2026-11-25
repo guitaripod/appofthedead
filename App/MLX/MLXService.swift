@@ -63,6 +63,28 @@ nonisolated final class MLXService: @unchecked Sendable {
 
     static var defaultModel: OnDeviceModel { OnDeviceModelCatalog.preferred() }
 
+    /// What a model needs resident before it can answer: its weights paged in,
+    /// the tokenizer, and the buffers a reply allocates on top. Under this the
+    /// system jetsams the process mid-load instead of letting the load fail.
+    static func requiredMemoryBytes(for model: OnDeviceModel) -> Int64 {
+        Int64(Double(model.approximateDownloadBytes) * 1.05) + 168 * 1_048_576
+    }
+
+    /// Bytes this process may still allocate before the system kills it for
+    /// memory; zero where the system does not report a limit.
+    func availableMemoryBytes() -> Int64 {
+        Int64(os_proc_available_memory())
+    }
+
+    /// Whether the model fits in the memory the app can still take right now.
+    func hasMemoryHeadroom(for model: OnDeviceModel) -> Bool {
+        let available = availableMemoryBytes()
+        return available <= 0 || available >= Self.requiredMemoryBytes(for: model)
+    }
+
+    static func megabytes(_ bytes: Int64) -> Int64 { bytes / 1_048_576 }
+
+
     var isModelLoaded: Bool {
         if DeviceUtility.isSimulator {
             return loadedModel != nil
@@ -141,6 +163,17 @@ nonisolated final class MLXService: @unchecked Sendable {
             self.modelContainer = cached
             self.loadedModel = model
             return
+        }
+
+        guard hasMemoryHeadroom(for: model) else {
+            MidgarLog.notice(
+                "Refusing \(model.id): needs \(Self.megabytes(Self.requiredMemoryBytes(for: model)))MB, \(Self.megabytes(availableMemoryBytes()))MB available",
+                category: .mlx
+            )
+            throw OnDeviceLLMError.insufficientMemory(
+                requiredBytes: Self.requiredMemoryBytes(for: model),
+                availableBytes: availableMemoryBytes()
+            )
         }
 
         let container: ModelContainer

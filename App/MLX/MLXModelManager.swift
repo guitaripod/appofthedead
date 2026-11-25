@@ -20,11 +20,21 @@ nonisolated final class MLXModelManager: Sendable {
     /// succeeded last time, else the heaviest catalog entry the device can handle.
     var activeModel: OnDeviceModel {
         if let loaded = service.loadedModel { return loaded }
-        if let lastID = UserDefaults.standard.string(forKey: Self.lastLoadedModelKey),
-           let last = OnDeviceModelCatalog.model(withID: lastID) {
-            return last
-        }
-        return OnDeviceModelCatalog.preferred()
+        if let forcedModel { return forcedModel }
+        return OnDeviceModelCatalog.deviceChain(
+            lastLoadedID: UserDefaults.standard.string(forKey: Self.lastLoadedModelKey)
+        ).first ?? OnDeviceModelCatalog.preferred()
+    }
+
+    /// QA rig: `AOTD_ORACLE_MODEL=<catalog id>` runs the named model on a device it would
+    /// not pick by itself, so a model meant for a smaller iPhone can be checked on any
+    /// capable hardware.
+    private var forcedModel: OnDeviceModel? {
+        #if DEBUG
+        ProcessInfo.processInfo.environment["AOTD_ORACLE_MODEL"].flatMap(OnDeviceModelCatalog.model(withID:))
+        #else
+        nil
+        #endif
     }
 
     var isModelDownloaded: Bool {
@@ -40,6 +50,10 @@ nonisolated final class MLXModelManager: Sendable {
     }
 
     var isModelLoaded: Bool { service.isModelLoaded }
+
+    /// Whether this device can run the on-device model at all. False on A12/A13 iPhones,
+    /// where MLX's bfloat16 kernels do not compile.
+    var isSupportedOnThisDevice: Bool { OnDeviceCapability.supportsMetalLanguageModels }
 
     var supportsSystemPrompts: Bool { true }
 
@@ -69,6 +83,7 @@ nonisolated final class MLXModelManager: Sendable {
     }
 
     func downloadModel(onProgress: @escaping @Sendable (DownloadProgress) -> Void) async throws {
+        guard isSupportedOnThisDevice else { throw OnDeviceLLMError.deviceNotSupported }
         let preferred = activeModel
         try ensureSufficientStorage(for: OnDeviceModelCatalog.smallestInChain())
 
@@ -89,8 +104,18 @@ nonisolated final class MLXModelManager: Sendable {
     /// burning through the chain on an offline error would be pointless.
     private func loadWithFallback(progressHandler: @escaping @Sendable (Foundation.Progress) -> Void) async throws {
         guard !isModelLoaded else { return }
+        guard isSupportedOnThisDevice else {
+            MidgarLog.notice("Oracle refused: this GPU cannot compile MLX's kernels", category: .mlx)
+            throw OnDeviceLLMError.deviceNotSupported
+        }
 
-        for model in resolvedChain() {
+        let chain = resolvedChain()
+        MidgarLog.info(
+            "Oracle device | physical: \(MLXService.megabytes(Int64(ProcessInfo.processInfo.physicalMemory)))MB, available: \(MLXService.megabytes(service.availableMemoryBytes()))MB, model: \(chain.first?.id ?? "-")",
+            category: .mlx
+        )
+
+        for model in chain {
             do {
                 try await service.loadModel(model, progressHandler: progressHandler)
                 let actual = service.loadedModel ?? model
@@ -116,11 +141,12 @@ nonisolated final class MLXModelManager: Sendable {
     /// to a smaller model doesn't re-attempt (and re-fail the sanity probe on) the
     /// heavier one on every launch.
     private func resolvedChain() -> [OnDeviceModel] {
-        if let lastID = UserDefaults.standard.string(forKey: Self.lastLoadedModelKey),
-           let last = OnDeviceModelCatalog.model(withID: lastID) {
-            return OnDeviceModelCatalog.fallbackChain(from: last)
+        if let forcedModel {
+            return OnDeviceModelCatalog.fallbackChain(from: forcedModel)
         }
-        return OnDeviceModelCatalog.fallbackChain(from: OnDeviceModelCatalog.preferred())
+        return OnDeviceModelCatalog.deviceChain(
+            lastLoadedID: UserDefaults.standard.string(forKey: Self.lastLoadedModelKey)
+        )
     }
 
     func generate(

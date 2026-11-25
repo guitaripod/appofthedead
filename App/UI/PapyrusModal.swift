@@ -435,7 +435,7 @@ class PapyrusModal: UIViewController, UIAdaptivePresentationControllerDelegate {
                     
                     let alert = UIAlertController(
                         title: String(localized: "Download Failed"),
-                        message: String(localized: "Unable to download the Oracle model. Please check your internet connection and try again."),
+                        message: (error as? LocalizedError)?.errorDescription ?? String(localized: "Unable to download the Oracle model. Please check your internet connection and try again."),
                         preferredStyle: .alert
                     )
                     alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))

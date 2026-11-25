@@ -54,6 +54,14 @@ final class SettingsViewModelTests: XCTestCase {
         XCTAssertFalse(items(state, in: .oracle).contains(.streamingHaptics))
     }
 
+    func testAnUnsupportedDeviceIsToldSoAndOfferedNoHaptics() {
+        var state = SettingsState()
+        state.oracleVoice = .unsupported
+        state.supportsHaptics = true
+
+        XCTAssertEqual(items(state, in: .oracle), [.oracleVoice(.unsupported)])
+    }
+
     func testNothingOnDiskOffersNoRemoval() {
         XCTAssertEqual(items(SettingsState(), in: .oracle), [.oracleVoice(.notDownloaded)])
     }

@@ -100,6 +100,7 @@ final class SettingsViewModel {
             return .appleIntelligence
         case .gemma:
             let manager = MLXModelManager.shared
+            guard manager.isSupportedOnThisDevice else { return .unsupported }
             return manager.isModelDownloadedSync ? .downloaded(modelName: manager.activeModel.displayName) : .notDownloaded
         }
     }

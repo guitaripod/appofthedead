@@ -12,6 +12,7 @@ struct SettingsState: Equatable {
         case appleIntelligence
         case downloaded(modelName: String)
         case notDownloaded
+        case unsupported
     }
 
     var membership: Membership = .free
@@ -92,7 +93,7 @@ enum SettingsLayout {
         if state.modelBytesOnDisk > 0 {
             items.append(.removeModel(bytes: state.modelBytesOnDisk))
         }
-        if state.generative.showsOracle && state.supportsHaptics && state.oracleVoice != .appleIntelligence {
+        if state.generative.showsOracle && state.supportsHaptics && state.oracleVoice != .appleIntelligence && state.oracleVoice != .unsupported {
             items.append(.streamingHaptics)
         }
         return items

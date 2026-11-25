@@ -24,6 +24,7 @@ final class OracleViewController: UIViewController {
         primaryAction: UIAction { [weak self] _ in self?.startNewConversation() }
     )
     private var summonView: OracleSummonView?
+    private var unavailableView: OracleUnavailableView?
     private let hapticConductor = OracleHapticConductor()
     private var messagesByID: [UUID: OracleViewModel.ChatMessage] = [:]
     private var reveal: OracleStreamReveal?
@@ -355,6 +356,10 @@ final class OracleViewController: UIViewController {
     }
 
     private func showSummon() {
+        guard MLXModelManager.shared.isSupportedOnThisDevice else {
+            showUnavailable()
+            return
+        }
         summonView?.isHidden = false
         summonView?.alpha = 1
         summonView?.resume()
@@ -386,10 +391,33 @@ final class OracleViewController: UIViewController {
         isModelReady = viewModel.isModelLoaded
         if isModelReady {
             summonView?.isHidden = true
+            unavailableView?.isHidden = true
         } else {
             showSummon()
         }
         renderVisibility()
+    }
+
+    /// A device whose GPU cannot run the model gets the reason instead of a download that
+    /// would fail after 800 MB.
+    private func showUnavailable() {
+        let unavailable: OracleUnavailableView
+        if let unavailableView {
+            unavailable = unavailableView
+        } else {
+            unavailable = OracleUnavailableView()
+            unavailable.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(unavailable)
+            NSLayoutConstraint.activate([
+                unavailable.topAnchor.constraint(equalTo: view.topAnchor),
+                unavailable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                unavailable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                unavailable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            ])
+            unavailableView = unavailable
+        }
+        summonView?.isHidden = true
+        unavailable.isHidden = false
     }
 
     /// One place decides what shows: the summoning while the model is away, otherwise the welcome for an empty
