@@ -62,7 +62,7 @@ final class OracleAwakeningView: MTKView {
         applyThermalState()
 
         NotificationCenter.default.addObserver(
-            self, selector: #selector(applyThermalState),
+            self, selector: #selector(thermalStateDidChange),
             name: ProcessInfo.thermalStateDidChangeNotification, object: nil
         )
         NotificationCenter.default.addObserver(
@@ -94,7 +94,14 @@ final class OracleAwakeningView: MTKView {
     @objc func pauseRendering() { isPaused = true }
     @objc func resumeRendering() { isPaused = false }
 
-    @objc private func applyThermalState() {
+    /// The thermal notification arrives on a background queue, so it hops to the main actor
+    /// before touching the frame rate and intensity. Calling `applyThermalState` straight
+    /// from the notification trapped on the queue assertion.
+    @objc nonisolated private func thermalStateDidChange() {
+        Task { @MainActor [weak self] in self?.applyThermalState() }
+    }
+
+    private func applyThermalState() {
         switch ProcessInfo.processInfo.thermalState {
         case .serious: preferredFramesPerSecond = 20; intensity = 0.9
         case .critical: preferredFramesPerSecond = 12; intensity = 0.8
